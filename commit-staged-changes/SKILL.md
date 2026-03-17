@@ -12,10 +12,13 @@ allowed-tools:
 
 Check staged content before committing.
 
-Run:
+Run each command as a **separate** Bash tool call (do NOT combine them with `&&` or `echo`):
 
 ```bash
 git diff --cached --name-status
+```
+
+```bash
 git diff --cached
 ```
 

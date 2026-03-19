@@ -7,10 +7,14 @@ description: Generate git commit message from staged changes without creating a 
 
 Inspect staged changes and produce a commit message.
 
-Run:
+Run each command as a **separate** Bash tool call.
+Do not combine commands with `&&`, `;`, pipes, redirection, wrapper `echo` lines, or other shell glue unless a shell feature is truly required.
 
 ```bash
 git diff --cached --name-status
+```
+
+```bash
 git diff --cached
 ```
 

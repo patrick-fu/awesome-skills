@@ -12,7 +12,8 @@ allowed-tools:
 
 Check staged content before committing.
 
-Run each command as a **separate** Bash tool call (do NOT combine them with `&&` or `echo`):
+Run each command as a **separate** Bash tool call.
+Do not combine commands with `&&`, `;`, pipes, redirection, wrapper `echo` lines, or other shell glue unless a shell feature is truly required.
 
 ```bash
 git diff --cached --name-status
@@ -37,7 +38,7 @@ Keep the body factual and implementation-focused.
 
 Commit only staged changes. Do not stage additional files unless the user explicitly asks.
 
-Run:
+Run this as a single Bash tool call:
 
 ```bash
 git commit

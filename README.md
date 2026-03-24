@@ -20,6 +20,20 @@ Use this skill when an idea needs to be turned into a concrete execution plan. I
 
 Use this skill when you want a high-quality commit message for staged changes but do not want to create the commit yet. It inspects the staged diff and outputs commit message text only.
 
+## Usage
+
+Install the published skills:
+
+```bash
+npx skills add patrick-fu/awesome-skills
+```
+
+Update skills:
+
+```bash
+npx skills update
+```
+
 ## Sync Model
 
 This public repository is generated automatically from a private source repository. Public changes should be made in the source repository, not directly here.

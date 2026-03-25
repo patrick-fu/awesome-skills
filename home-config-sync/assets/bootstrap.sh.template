@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+git_dir="${HOME}/.dotfiles"
+work_tree="${HOME}"
+
+git --git-dir="${git_dir}" --work-tree="${work_tree}" config status.showUntrackedFiles no
+git --git-dir="${git_dir}" --work-tree="${work_tree}" config core.untrackedCache true
+
+printf 'Configured bare repo at %s with work-tree %s\n' "${git_dir}" "${work_tree}"
+printf 'Next steps:\n'
+printf '  1. Add whitelist entries to %s/.gitignore\n' "${work_tree}"
+printf '  2. Stage tracked files with git --git-dir=%s --work-tree=%s add <path>\n' "${git_dir}" "${work_tree}"
+printf '  3. Commit and push your changes\n'

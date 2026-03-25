@@ -1,0 +1,31 @@
+{
+  "skill_name": "home-config-sync",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "我已经准备好了一个空白私有远端仓库，它在这次评估里用本地 bare repo 路径来模拟：<EVAL_REMOTE_0_PATH>。请直接帮我把当前电脑初始化成 bare-repo dotfiles 工作流，仓库放在 ~/.dotfiles，工作树是 $HOME，并给我一套最小可用的 starter files。假设这是第一次初始化，没有旧仓库，也没有现成的 README、bootstrap.sh、.gitignore。请把 <EVAL_FAKE_HOME_0> 视为本次评估里的 HOME，在这个隔离目录里完成实际操作，不要碰真实 HOME，并在最后给我一份简短报告，说明你做了什么、生成了哪些文件、下一步我该做什么。",
+      "expected_output": "Creates a bare repo in the fake home, attaches the remote, creates starter files from templates, commits or clearly explains commit limits, and gives a concise next-step report.",
+      "files": [
+        "<EVAL_FAKE_HOME_0>"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "我要初始化 dotfiles，但是我现在的 HOME 里已经有 .gitignore、README.md 和 bootstrap.sh。我的决定是：.gitignore 走 merge，README.md 走 overwrite，bootstrap.sh 先 skip。远端仓库在这次评估里用本地 bare repo 路径模拟：<EVAL_REMOTE_1_PATH>。请把 <EVAL_FAKE_HOME_1> 视为本次评估里的 HOME，在这个隔离目录里按这个决策完成初始化，不要碰真实 HOME，并输出一份简短报告，解释你如何处理这三个已有文件，以及还有哪些后续风险或提醒。",
+      "expected_output": "Uses the user's explicit merge/overwrite/skip decisions, does not silently replace skipped files, and explains the consequences clearly.",
+      "files": [
+        "<EVAL_FAKE_HOME_1>/.gitignore",
+        "<EVAL_FAKE_HOME_1>/README.md",
+        "<EVAL_FAKE_HOME_1>/bootstrap.sh"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "我在另一台电脑上已经有一个初始化好的 dotfiles 私有仓库，现在想把新电脑接入同步。远端仓库在这次评估里用本地 bare repo 路径模拟：<EVAL_REMOTE_2_PATH>。请把 <EVAL_FAKE_HOME_2> 视为本次评估里的 HOME，在这个隔离测试目录里模拟这台新电脑的接入流程。当前 HOME 里已经有一个会冲突的 .zshrc。本次我接受默认安全路径，也就是先备份冲突文件再 checkout。请给我一份简短报告，说明你如何处理冲突、如何完成部署、以及以后这台电脑日常 pull/push 应该怎么做。",
+      "expected_output": "Uses clone bare + checkout + backup-and-retry deployment flow, preserves conflicting files safely, and summarizes ongoing sync workflow.",
+      "files": [
+        "<EVAL_FAKE_HOME_2>/.zshrc"
+      ]
+    }
+  ]
+}

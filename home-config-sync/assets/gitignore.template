@@ -1,0 +1,6 @@
+# Whitelist-based dotfiles bare repo
+*
+!*/
+!.gitignore
+!README.md
+!bootstrap.sh

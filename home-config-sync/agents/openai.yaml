@@ -1,0 +1,7 @@
+interface:
+  display_name: "Home Config Sync"
+  short_description: "Initialize and operate a generic bare-repo dotfiles setup under ~/.dotfiles."
+  default_prompt: "Use $home-config-sync only when the user explicitly wants to initialize, manage, or sync a bare-repo dotfiles workflow under ~/.dotfiles with work-tree=$HOME. Support first-time setup from an empty private remote repo, starter-file bootstrapping, deployment onto another machine, ongoing pull/merge/push maintenance, and safe conflict handling. The default initialization starter-file scope is exactly .gitignore, bootstrap.sh, and README.md; do not invent extra shell config files or helper wrappers unless the user explicitly asks. If .gitignore, bootstrap.sh, or README.md already exist during initialization, ask the user per file whether to merge, overwrite, or skip, and interpret those decisions against the local file versus the starter template even when the remote repo is empty. When the user already provided a remote URL, initialization should normally finish with the first push unless push fails or the user explicitly wants to defer it."
+
+policy:
+  allow_implicit_invocation: false

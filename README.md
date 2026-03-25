@@ -20,6 +20,10 @@ Use this skill when an idea needs to be turned into a concrete execution plan. I
 
 Use this skill when you want a high-quality commit message for staged changes but do not want to create the commit yet. It inspects the staged diff and outputs commit message text only.
 
+### `home-config-sync`
+
+Use this skill when you want to initialize, deploy, or maintain a personal bare-repo dotfiles workflow under `~/.dotfiles` with work-tree set to `$HOME`. It covers first-time setup from an empty private remote, starter-file handling, multi-machine sync, pull and merge safety, and ongoing push workflow.
+
 ## Usage
 
 Install the published skills:

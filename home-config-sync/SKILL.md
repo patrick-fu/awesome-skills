@@ -63,14 +63,22 @@ Keep these rules:
 - Do not use `git stash -u` by default in this repo. The work tree is the whole home directory and `-u` can sweep huge unrelated caches into stash.
 - If local tracked edits block `pull`, stash tracked files only, pull, then re-apply and resolve conflicts.
 - If `stash apply` stages files automatically, restore them back to unstaged unless the user explicitly wants them staged.
+- Treat GUI-discoverable mode as a reversible operational mode, not a one-time migration. The user may enable it, disable it, and re-enable it repeatedly.
+- When the user starts using this skill for interactive repo management, ask whether they want GUI-discoverable mode enabled so Git GUI tools can detect and manage the dotfiles repo more easily.
+- If the user wants GUI-discoverable mode:
+  - load the GUI mode flow from the reference
+  - use the bundled scripts under `${CLAUDE_SKILL_DIR}/scripts/`
+- If the user does not want GUI-discoverable mode, or wants to turn it back off mid-session, run the `exit` flow.
+- Before switching GUI mode, inspect current mode first and explain whether the repo is already enabled, already disabled, or needs a state change.
 
 Workflow:
 
-1. Confirm whether the user wants first-time initialization, deployment on another machine, inspection, local update, pull/merge, or push.
+1. Confirm whether the user wants first-time initialization, deployment on another machine, inspection, local update, pull/merge, push, or GUI mode enter/exit.
 2. Load [references/dotfiles-operations.md](./references/dotfiles-operations.md).
 3. If the task is first-time initialization or starter-file refresh, also load the relevant template files from `assets/`.
-4. Follow the matching command flow, but keep default execution at one command per Bash call. Only preserve complex shell syntax when it is truly necessary.
-5. Re-check `status` and explain the final repo state clearly, including the next safe step for the user.
+4. If the task involves GUI mode, use the bundled scripts from `${CLAUDE_SKILL_DIR}/scripts/`.
+5. Follow the matching command flow, but keep default execution at one command per Bash call. Only preserve complex shell syntax when it is truly necessary.
+6. Re-check `status` and explain the final repo state clearly, including the next safe step for the user.
 
 Use the reference file for:
 
@@ -81,4 +89,5 @@ Use the reference file for:
 - Day-to-day update workflow
 - Pull and merge workflow with or without local edits
 - Push workflow
+- GUI-discoverable mode enter / exit / inspect flow
 - Safety notes for a whole-home work tree

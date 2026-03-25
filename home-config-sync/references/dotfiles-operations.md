@@ -19,6 +19,154 @@ alias dotgit='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 
 This skill should prefer the explicit command form even if the alias exists.
 
+## GUI-Discoverable Mode
+
+Some users want the dotfiles repo to become temporarily discoverable by Git GUI tools. In this mode:
+
+- `$HOME/.git` becomes a gitfile that points at `$HOME/.dotfiles`
+- `core.bare` becomes `false`
+- `core.worktree` becomes `..`
+
+When GUI-discoverable mode is disabled again:
+
+- `$HOME/.git` is removed if and only if it points at `$HOME/.dotfiles`
+- `core.worktree` is unset
+- `core.bare` returns to `true`
+
+This is a reversible mode switch. Treat it as safe to turn on, turn off, and turn on again, as long as the repo-state checks pass.
+
+Preferred operational pattern:
+
+- First inspect whether GUI mode is currently enabled, currently disabled, or in an unexpected state.
+- Ask the user whether they want it enabled when they are using this skill interactively for ongoing repo management.
+- Use the bundled scripts from `${CLAUDE_SKILL_DIR}/scripts/` so the skill owns the full flow and does not depend on user-local helper paths.
+- Treat `${CLAUDE_SKILL_DIR}` as the script root when invoking those bundled scripts.
+
+### Inspect GUI Mode State
+
+Relevant paths and values:
+
+- repo dir: `$HOME/.dotfiles`
+- gitfile path: `$HOME/.git`
+- expected gitfile content: `gitdir: $HOME/.dotfiles`
+
+Preferred script entrypoint:
+
+```bash
+bash "${CLAUDE_SKILL_DIR}/scripts/dotfiles-gui-status.sh"
+```
+
+Equivalent checks:
+
+```bash
+ls -ld "$HOME/.dotfiles"
+```
+
+```bash
+ls -ld "$HOME/.git"
+```
+
+```bash
+git --git-dir="$HOME/.dotfiles" config --get core.bare
+```
+
+```bash
+git --git-dir="$HOME/.dotfiles" config --get core.worktree
+```
+
+Interpretation:
+
+- Enabled:
+  - `$HOME/.git` is a file that points to `$HOME/.dotfiles`
+  - `core.bare=false`
+  - `core.worktree=..`
+- Disabled:
+  - `$HOME/.git` does not exist
+  - `core.bare=true`
+  - `core.worktree` is unset
+- Unexpected:
+  - `$HOME/.git` is a directory
+  - `$HOME/.git` points somewhere else
+  - repo config is partially switched
+
+If the state is unexpected, stop and explain why before changing anything.
+
+### Enter GUI-Discoverable Mode
+
+Preferred script entrypoint:
+
+```bash
+bash "${CLAUDE_SKILL_DIR}/scripts/dotfiles-gui-enter.sh"
+```
+
+Equivalent steps:
+
+1. Confirm the repo exists and `$HOME/.git` is not a conflicting directory.
+2. If `$HOME/.git` already exists as a file, confirm it already points to `$HOME/.dotfiles`; otherwise stop.
+3. Set:
+
+```bash
+git --git-dir="$HOME/.dotfiles" config core.bare false
+```
+
+```bash
+git --git-dir="$HOME/.dotfiles" config core.worktree ..
+```
+
+4. Write the gitfile:
+
+```bash
+printf 'gitdir: %s\n' "$HOME/.dotfiles" > "$HOME/.git"
+```
+
+5. Verify with:
+
+```bash
+git -C "$HOME" status --short --branch
+```
+
+### Exit GUI-Discoverable Mode
+
+Preferred script entrypoint:
+
+```bash
+bash "${CLAUDE_SKILL_DIR}/scripts/dotfiles-gui-exit.sh"
+```
+
+Equivalent steps:
+
+1. Confirm `$HOME/.git` is a file and points to `$HOME/.dotfiles`; otherwise stop.
+2. Remove the gitfile:
+
+```bash
+rm "$HOME/.git"
+```
+
+3. Unset the worktree:
+
+```bash
+git --git-dir="$HOME/.dotfiles" config --unset core.worktree
+```
+
+4. Restore bare mode:
+
+```bash
+git --git-dir="$HOME/.dotfiles" config core.bare true
+```
+
+5. Verify with:
+
+```bash
+git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" status --short --branch
+```
+
+### GUI Mode Safety Notes
+
+- Never remove `$HOME/.git` unless it is a file and its content points exactly to `$HOME/.dotfiles`.
+- Never overwrite a real `$HOME/.git` directory.
+- Never partially switch modes without checking the resulting state.
+- Explain clearly whether the repo is now GUI-discoverable or back in normal bare-repo mode.
+
 ## Starter Files
 
 The public workflow ships with three starter files:

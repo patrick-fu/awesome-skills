@@ -1,0 +1,23 @@
+{
+  "skill_name": "coding-agent-review-method",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want an external coding agent to review my staged changes, but I haven't decided whether to use Cursor or Claude Code yet. Help me run the review.",
+      "expected_output": "The skill should stop and ask the user which coding agent to use, because this methodology cannot execute without an explicitly named coding agent.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Use Cursor to review this branch diff. I only care about regression risk, concurrency issues, and whether anything obvious was already checked in the previous review pass.",
+      "expected_output": "The skill should structure the review method around scope locking, background, already-reviewed facts, findings-first output, unique review artifacts, and consulting Cursor's own operating guide for the concrete invocation details.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use my team's custom coding agent wrapper to review these three files. Keep it review-only, do not patch anything, and make sure the run can be repeated safely in parallel with another review worker.",
+      "expected_output": "The skill should require a dedicated coding-agent operating guide, preserve the review-only boundary, require unique per-run artifacts and run ids, and return a methodology that separates review execution from any later patch/build/test phase.",
+      "files": []
+    }
+  ]
+}

@@ -9,6 +9,18 @@ Use the Claude Code CLI command `claude` for delegated coding work.
 
 This skill is for **Claude Code only**. Do not generalize it to Cursor, Codex, Pi, or other coding agents.
 
+Treat `claude` as the **default launcher**, not the only launcher.
+If the user explicitly provides a wrapper, alias-like command name, shell function entrypoint, or absolute path for Claude Code, use that user-declared command instead of hardcoding bare `claude`.
+
+Examples:
+
+```bash
+/path/to/bin/claude --print "Your task"
+claude-xxx-yyy --print "Your task"
+```
+
+Keep the rest of the invocation pattern the same unless the user's wrapper requires something different.
+
 For exact flags and current behavior, prefer the local CLI help over memory:
 
 ```bash
@@ -36,6 +48,7 @@ claude --permission-mode bypassPermissions --print "Add request retry logic to t
 ```
 
 `--print` keeps the run non-interactive and is the default choice for orchestration.
+Apply the same rule when the launcher is a wrapper, for example `claude-xxx-yyy --print ...`.
 
 ### Use interactive terminal mode when live collaboration matters
 
@@ -142,6 +155,8 @@ claude --permission-mode bypassPermissions --print "Implement the approved featu
 
 Why this matters: Claude Code should wake up inside the intended repository, with the correct files and repo rules in scope.
 
+If the user gave a custom launcher, run that launcher in the intended repository instead of replacing it with bare `claude`.
+
 If the task needs access to sibling directories, add them explicitly:
 
 ```bash
@@ -233,11 +248,12 @@ Treat these as **intentional overrides**, not the default path.
 ## Rules
 
 1. Use this skill only when the user explicitly wants **Claude Code** or `claude`.
-2. Prefer `--print` for automation, one-shot runs, and non-interactive execution.
-3. Use interactive terminal mode only when a live session is actually useful.
-4. If the user specifies a model, pass it through with `--model <id>`.
-5. If the user does not specify a model, let Claude Code use the current configured default.
-6. For read-only tasks, encode that in the prompt and tighten permissions or tool access as needed.
-7. Do not silently escalate to `--dangerously-skip-permissions`.
-8. Do not silently create worktrees or tmux sessions.
-9. If you run Claude Code as a long task in the background, choose a host-specific monitoring approach outside this skill.
+2. Treat bare `claude` as the default launcher only. If the user specifies a wrapper, alias-style command, or explicit path, use that command.
+3. Prefer `--print` for automation, one-shot runs, and non-interactive execution.
+4. Use interactive terminal mode only when a live session is actually useful.
+5. If the user specifies a model, pass it through with `--model <id>`.
+6. If the user does not specify a model, let Claude Code use the current configured default.
+7. For read-only tasks, encode that in the prompt and tighten permissions or tool access as needed.
+8. Do not silently escalate to `--dangerously-skip-permissions`.
+9. Do not silently create worktrees or tmux sessions.
+10. If you run Claude Code as a long task in the background, choose a host-specific monitoring approach outside this skill.

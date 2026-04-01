@@ -30,6 +30,12 @@ agent --print --trust "Add request retry logic to the API client"
 `--print` keeps the run non-interactive and works well for orchestration.
 `--trust` avoids workspace trust prompts in headless mode.
 
+Headless runs can take a **long** time.
+This is especially true for review tasks, where Cursor may spend a long time gathering and reading context before it prints anything useful or exits.
+If it appears quiet for a while, do **not** assume it is stuck and do **not** kill it just because there is no visible output yet.
+Once you start a headless run, trust it to finish by itself and wait for the process to exit cleanly before taking the next action.
+Do not babysit it with frequent checks or impatient polling in the middle.
+
 ### Use PTY when interaction is the point
 
 Use interactive terminal mode when you want to watch a live session, steer it in real time, or use Cursor like a terminal-first coding assistant:
@@ -163,6 +169,10 @@ cd /path/to/project
 nohup agent --print --trust "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/cursor-agent.log 2>&1 &
 ```
 
+When a headless background run is in flight, the correct default is still patience.
+Do not keep intervening, do not repeatedly check whether it is "still doing something", and do not terminate it early just because it has been running for a long time.
+Wait for the run to finish naturally, then inspect the final result.
+
 ### Resume previous Cursor sessions
 
 If the user wants to continue prior Cursor work, use the built-in session commands:
@@ -203,4 +213,7 @@ Treat these as **intentional overrides**, not the default happy path.
 5. If the user does not specify a model, let Cursor CLI use the **current selected model**.
 6. Use `--mode plan` and `--mode ask` only for read-only planning or explanation tasks.
 7. Do not silently escalate to `--force` or `--yolo`.
-8. If you run Cursor CLI as a long task in the background, choose a host-specific monitoring approach outside this skill.
+8. Headless runs, especially reviews, may take a long time with little or no visible output. This is normal.
+9. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
+10. After starting a headless run, wait for it to exit cleanly before taking the next action.
+11. If you run Cursor CLI as a long task in the background, choose a host-specific monitoring approach outside this skill.

@@ -50,6 +50,12 @@ claude --permission-mode bypassPermissions --print "Add request retry logic to t
 `--print` keeps the run non-interactive and is the default choice for orchestration.
 Apply the same rule when the launcher is a wrapper, for example `claude-xxx-yyy --print ...`.
 
+Headless runs can take a **long** time.
+This is especially true for review tasks, where Claude Code may spend a long time reading context before it prints anything useful or exits.
+If it appears quiet for a while, do **not** assume it is stuck and do **not** kill it just because there is no visible output yet.
+Once you start a headless run, trust it to finish by itself and wait for the process to exit cleanly before taking the next action.
+Do not babysit it with frequent checks or impatient polling in the middle.
+
 ### Use interactive terminal mode when live collaboration matters
 
 Use interactive mode when you want to watch the session, answer follow-up questions in real time, or steer the agent while it works:
@@ -194,6 +200,10 @@ cd /path/to/project
 nohup claude --permission-mode bypassPermissions --print "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/claude-code-agent.log 2>&1 &
 ```
 
+When a headless background run is in flight, the correct default is still patience.
+Do not keep intervening, do not repeatedly check whether it is "still doing something", and do not terminate it early just because it has been running for a long time.
+Wait for the run to finish naturally, then inspect the final result.
+
 ### Resume previous Claude Code sessions
 
 If the user wants to continue prior Claude Code work, use the built-in session commands:
@@ -256,4 +266,7 @@ Treat these as **intentional overrides**, not the default path.
 7. For read-only tasks, encode that in the prompt and tighten permissions or tool access as needed.
 8. Do not silently escalate to `--dangerously-skip-permissions`.
 9. Do not silently create worktrees or tmux sessions.
-10. If you run Claude Code as a long task in the background, choose a host-specific monitoring approach outside this skill.
+10. Headless runs, especially reviews, may take a long time with little or no visible output. This is normal.
+11. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
+12. After starting a headless run, wait for it to exit cleanly before taking the next action.
+13. If you run Claude Code as a long task in the background, choose a host-specific monitoring approach outside this skill.

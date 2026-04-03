@@ -1,96 +1,92 @@
 ---
 name: explore-and-plan
-description: Use this skill whenever you are asked to create a plan, implementation plan, technical plan, project plan, or any kind of actionable proposal. This includes when the user says "make a plan", "write a plan", "plan this out", "design a solution", "draft an approach", or when you are operating in Plan Mode. Also use this skill when the user proposes a new idea, wants to compare approaches, says "what do you think about X", "I'm thinking of building Y", "how should I approach this", "brainstorm", "let's think about this", or is in an exploratory mindset before execution. This skill covers the full arc from open exploration to finalized, executable plan — use it whether the user is still thinking or ready to commit.
+description: >
+  Turn a chosen or mostly chosen direction into an executable plan with no meaningful TBDs.
+  Use this whenever the user asks for a plan, implementation plan, technical plan, project plan,
+  rollout plan, or any other actionable proposal. Also use it when the user knows roughly what
+  they want and needs it broken into concrete, ordered steps. If the request is still mainly
+  exploratory, has too many unresolved choices, or is really asking to brainstorm, hand off to
+  the brainstorm skill first and return once the direction is clear enough to plan.
 ---
 
-# From Idea to Executable Plan
+# Explore And Plan
 
-This skill governs the full thinking arc: from early exploration and brainstorming, through decision-making, to a finalized plan that can be executed without further clarification.
+The job of this skill is not to explore forever. It is to produce a plan that someone can execute without needing to rediscover the intent, architecture, or missing decisions.
 
-The key insight: **thinking and planning are not separate activities — they're one continuous flow.** Brainstorming that never converges is wasted effort. Planning that skips exploration produces brittle plans full of blind spots. This skill treats them as phases of a single process.
+## Check Readiness
 
-## Reading the Room
+Before writing a plan, decide whether the request is actually ready for planning.
 
-Before doing anything, figure out where the user is in their thinking:
+Use this skill when the user has a chosen or nearly chosen direction and wants it turned into concrete execution steps.
 
-**Still exploring** — They're tossing around ideas, comparing options, not yet committed to a direction. Signals: "what do you think about", "I'm considering", "what are the tradeoffs", "how should I approach", open-ended questions, multiple options on the table.
+If the request is still open-ended, mostly about comparing ideas, or missing core product or technical decisions, do not fake a plan. Hand off to `brainstorm` first, let the exploration converge, then come back and write the plan.
 
-**Direction chosen, need a plan** — They know what they want, they need it broken down into executable steps. Signals: "make a plan", "plan this out", "how do I implement", a clear specification, Plan Mode.
+Some requests land in between. In that case, resolve the last important unknowns quickly, then move into planning. Do not let the conversation drift back into broad ideation once the remaining questions are small and specific.
 
-**Somewhere in between** — They have a rough direction but haven't resolved key decisions yet. This is the most common case.
+## Scope The Plan
 
-Match your response to where they are. Don't force someone who's exploring into a rigid plan. Don't let someone who needs a plan stay in endless discussion. And when they're in between, help them close the gaps so you can deliver something actionable.
+Before breaking work into steps, check whether the request is actually one plan or several different plans hiding inside one prompt.
 
-## Phase 1: Explore (When Needed)
+If it spans multiple loosely coupled surfaces, phases, or subsystems, say so and split it into clear parts or stages before detailing execution. Do not write one giant blended plan if the work would be clearer as separate tracks.
 
-When the user is still in exploration mode, your job is to help them think — but with a bias toward convergence. Every round of exploration should narrow the space, not expand it.
+Choose a planning scope that is coherent enough for one executor to follow without constantly switching mental models.
 
-**What good exploration looks like:**
+## Map The Change Surface
 
-- Surface the real tradeoffs between options, not just list pros and cons. Help the user understand what they'd be giving up with each choice.
-- Proactively identify decisions that will need to be made. Don't wait for the user to discover them during implementation.
-- Dig into edge cases and constraints early. These often eliminate options or force a direction, which is valuable.
-- Pressure-test assumptions. If the user says "I'll just use X," ask yourself whether X actually fits the constraints. If it doesn't, say so.
+Before listing steps, identify what the plan will touch:
+- files, modules, or systems likely to change
+- important existing behavior that must be preserved or replaced
+- interfaces, dependencies, and ownership boundaries
+- the expected end state
 
-**What bad exploration looks like:**
+This map does not need to be long, but it should anchor the plan in the real codebase or system rather than in abstractions.
 
-- Presenting five options without a recommendation, leaving the user no closer to a decision.
-- Endlessly expanding scope ("you could also consider...") without helping narrow things down.
-- Being so neutral that you're not useful. If you have a clear recommendation, make it — and explain why.
+## Resolve Remaining Decisions
 
-When you see enough clarity to start converging, say so. Don't wait for permission. Something like: "I think we have enough to lock in a direction — here's what I'd recommend and why." The user can always push back.
+Do not push unresolved choices into the body of the plan.
 
-## Phase 2: Converge
+If there is still an `if`, `or`, `maybe`, `consider`, `possibly`, `depending on`, or `TBD` that matters to execution, resolve it before presenting the plan. Ask the user only when the decision cannot be made responsibly from context.
 
-This is the bridge between thinking and planning. The goal is to lock down every open decision so the plan can be written with zero ambiguity.
+Good plans commit to a path, state the reasoning briefly, and make exclusions explicit so the executor does not expand scope during implementation.
 
-Go through each decision point that surfaced during exploration (or that you identify from the requirements) and resolve it. This means:
+## Write The Plan
 
-- **Commit to a specific choice**, not "option A or B." If you need the user's input to decide, ask now — don't defer it into the plan.
-- **State the reasoning briefly.** Just enough so an executor won't second-guess the choice. One or two sentences, not a paragraph.
-- **Identify what you're not doing** and why. Explicit exclusions prevent scope creep during execution.
+The plan should be self-contained, concrete, and ordered.
 
-If the user arrived already knowing what they want (skipping Phase 1), you still need to do this convergence work — just internally. Scan the requirements for any implicit decisions, ambiguities, or edge cases that haven't been addressed. Resolve them, and surface anything you can't resolve on your own.
+Include the context an executor needs:
+- what exists now that matters
+- what will change
+- why key choices were made
+- what done looks like
 
-The convergence phase is done when you can answer "yes" to: **Could I now write a plan with zero uses of "if", "or", "consider", "possibly", "depending on", or "TBD"?**
+Write steps that are specific enough to execute. A good step names the surface it changes, the action to take, non-obvious implementation details, and how to verify correctness when verification is not obvious.
 
-## Phase 3: The Plan
+Keep the order dependency-aware. Each step should set up the next one cleanly.
 
-Now write the plan. The quality bar here is non-negotiable, regardless of format:
+Format follows function. A small fix may only need a short numbered list. A larger feature may need sections, phases, or an architecture preface. Use the lightest structure that makes the plan unambiguous.
 
-### Every decision is already made
+## Avoid Placeholder Plans
 
-The plan contains no deferred choices. No "if X, then A; otherwise B" unless it describes genuinely runtime-conditional behavior (error handling, feature flags, etc.). No "consider using", "you might want to", "depending on your needs." Every fork in the road has a chosen path.
+Do not write steps that only sound concrete.
 
-Phrases that signal an unfinished plan: "if", "or", "possibly", "consider", "depending on", "TBD", "to be determined", "we could either", "optionally." If you catch yourself writing any of these, stop and resolve the decision before continuing.
+These are warning signs:
+- "add validation" without saying what is validated or where
+- "handle edge cases" without naming the edge cases
+- "update the UI accordingly" without describing the change
+- "write tests for the above" without tying tests to behavior
+- "refactor as needed" without naming the target structure
+- "do something similar in the other module" without identifying the module
 
-### Context is self-contained
+If a step could not be executed by someone new to the task, it is still a placeholder.
 
-The plan carries everything an executor needs. Imagine handing it to someone who has access to the codebase but was not part of this conversation. They should be able to start working without asking "but wait, what about...?"
+## Self-Review
 
-Include:
-- **Why** key decisions were made (briefly — prevent second-guessing, not a history lesson).
-- **What exists** that the plan touches (file paths, function names, current behavior).
-- **What done looks like** — the expected end state, so the executor can verify completion.
+Before presenting the plan, check:
+- Is the request actually ready for planning, or should it still be in `brainstorm`?
+- Does each requirement map to a concrete step or explicit exclusion?
+- Have I identified the real change surface instead of writing a generic plan?
+- Is there any point where the executor would still need to make a design decision?
+- Are there filler steps that sound plausible but do not actually tell someone what to do?
+- If someone follows this in order, will they arrive at the intended end state without needing more context?
 
-### Steps are concrete and ordered
-
-Each step describes a specific action with enough detail to execute. The granularity should match the complexity — a config change gets one line, a new module gets structured detail.
-
-Steps should specify what file(s) to change, what the change does, non-obvious implementation details, and how to verify correctness when it's not obvious. Order them so dependencies are respected.
-
-### Format follows function
-
-There is no mandatory template. A small bugfix might be five numbered steps. A large feature might use sections with substeps. A system design might need an architecture overview before diving into steps. Use whatever structure makes the plan clearest for the specific task.
-
-## Self-Check
-
-Before presenting your output, ask yourself:
-
-- If someone picked this up cold, could they start executing right now?
-- Is there any point where they'd need to make a judgment call I haven't made for them?
-- Have I resolved every "if/or/maybe" into a concrete decision?
-- Did I skip exploring any area that could bite the executor later?
-- If they follow the steps in order, will they arrive at the correct end state?
-
-If any answer is unsatisfying, you're not done yet.
+If any answer is no, the plan is not done.

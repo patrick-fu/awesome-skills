@@ -1,0 +1,49 @@
+{
+  "skill_name": "brainstorm",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我在想要不要给我们内部工具做一个“AI 工作台”，让 PM、设计和工程都能在里面提需求、看方案、追状态。现在脑子里挺散的，你先别给我落实现，先帮我想清楚这个东西到底应该解决什么问题、第一阶段该做什么。",
+      "expected_output": "The skill should stay in exploration mode, ask focused clarifying questions instead of writing a plan, and help narrow the problem toward a smaller first-stage goal rather than expanding into a broad product spec.",
+      "files": [],
+      "expectations": [
+        "The response does not jump straight into implementation or a step-by-step plan",
+        "The response asks a small number of high-value clarifying questions",
+        "The response helps shrink the scope toward a first meaningful slice"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "我们在讨论一个 onboarding flow，到底应该做成单页分段展开，还是做成 4 步 wizard。我感觉光说不太容易统一认知。你先帮我 brainstorm，必要的话可以用可视化辅助，但不要直接做正式设计稿。",
+      "expected_output": "The skill should recognize that this is a visual comparison problem, propose lightweight visual aids as an optional branch, and keep the visual output in low-to-medium-fidelity brainstorming territory rather than drifting into polished implementation.",
+      "files": [],
+      "expectations": [
+        "The response proposes visual aids because the decision is easier to compare visually",
+        "The response keeps the visual branch lightweight and decision-oriented",
+        "The response brings the discussion back to choosing between the competing directions"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "我想做一个支持 Web、iOS、Android、后台管理、审批流、通知中心、埋点分析、权限系统的活动平台。你先帮我 brainstorm 一下怎么搞。",
+      "expected_output": "The skill should recognize that the request is too large to brainstorm as one undifferentiated problem, reduce it to the first key subproblem, and avoid pretending to resolve the whole platform in one pass.",
+      "files": [],
+      "expectations": [
+        "The response identifies that the request spans multiple large surfaces",
+        "The response narrows the discussion to one key subproblem or first decision",
+        "The response avoids expanding into a giant all-at-once solution"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "我们已经基本确定要做一个面向客服的摘要助手，范围先只做工单详情页内嵌卡片，输入就是当前工单内容和最近 20 条交互记录。现在我还想听你帮我最后收一收边界和风险，收完我就去要 implementation plan。",
+      "expected_output": "The skill should use the remaining conversation to pressure-test assumptions and clarify boundaries, then summarize the converged direction and naturally hand off toward explore-and-plan instead of continuing endless ideation.",
+      "files": [],
+      "expectations": [
+        "The response focuses on final boundary and risk clarification rather than reopening the whole concept",
+        "The response helps converge rather than endlessly generating new options",
+        "The response ends in a state that naturally hands off to planning"
+      ]
+    }
+  ]
+}

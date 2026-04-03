@@ -1,0 +1,49 @@
+{
+  "skill_name": "explore-and-plan",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "方向已经定了：我们要在现有的 React 管理后台里增加一个“批量标签编辑”能力，只支持表格页已勾选的记录，不做跨页全选。请给我一份 implementation plan，要能直接照着干，包含会改到的页面、状态管理、接口层和验收方式。",
+      "expected_output": "The skill should produce a concrete implementation plan with the change surface mapped out, decisions already made, and ordered execution steps tied to the relevant UI, state, API, and verification surfaces.",
+      "files": [],
+      "expectations": [
+        "The response writes a real implementation plan rather than continuing broad ideation",
+        "The response identifies the main change surface before or while listing steps",
+        "The response avoids meaningful TBDs and placeholder wording"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "帮我做个 technical plan。我想做一个 AI 知识助手，但是到底是做成 Slack bot、网页、浏览器插件还是都做，我也没想清楚；RAG 要不要上、数据范围多大、用户是谁也还在想。",
+      "expected_output": "The skill should recognize that the request is not ready for planning, refuse to fake a detailed plan, and hand off to brainstorm to resolve the open product and architecture decisions first.",
+      "files": [],
+      "expectations": [
+        "The response identifies that the request is still exploratory",
+        "The response does not produce a fake detailed execution plan",
+        "The response explicitly routes the work back toward brainstorming first"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "请给我一个 rollout plan：我们要把旧的权限中心拆掉，换成新的角色权限系统，同时迁移后台 UI、API、数据模型、审计日志和管理员操作流程。需要能让不同同学分工执行。",
+      "expected_output": "The skill should detect that the request spans multiple coupled but distinct surfaces, split the plan into coherent parts or phases, and avoid flattening everything into one blended checklist.",
+      "files": [],
+      "expectations": [
+        "The response scopes the work into clear phases, tracks, or subplans",
+        "The response keeps the plan coherent for execution ownership",
+        "The response does not collapse the entire migration into a generic single list"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "给我出一份改造计划，把现在这个搜索页体验做顺一点。包括筛选、排序、空状态、错误态、性能、埋点这些都考虑进去。要尽量完整。",
+      "expected_output": "The skill should avoid placeholder planning language, define what surfaces must change, and translate the broad ask into concrete plan items instead of vague lines like 'optimize UX' or 'handle edge cases.'",
+      "files": [],
+      "expectations": [
+        "The response avoids filler phrases such as vague 'optimize' or 'handle edge cases' steps",
+        "The response maps requirements to concrete execution surfaces",
+        "The response makes the plan actionable for someone new to the task"
+      ]
+    }
+  ]
+}

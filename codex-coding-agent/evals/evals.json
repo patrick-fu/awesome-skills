@@ -1,0 +1,29 @@
+{
+  "skill_name": "codex-coding-agent",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use Codex to implement the approved API pagination changes in this repo. Keep it non-interactive if possible and give me a final summary of the changed files.",
+      "expected_output": "The skill should route the task to Codex CLI, prefer `codex exec` for non-interactive execution, preserve the current repository as the working context, and avoid inventing a model if the user did not specify one.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I want Codex to review my current uncommitted changes for bugs, regressions, and missing validation.",
+      "expected_output": "The skill should prefer the dedicated review flow with `codex review --uncommitted` rather than treating the task as a generic coding prompt.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Resume the last Codex session in this repo and continue the refactor, but keep this safe and don't relax sandbox or approval behavior unless I explicitly ask.",
+      "expected_output": "The skill should use a Codex resume flow such as `codex resume --last` or `codex exec resume --last`, preserve the user's safety constraints, and avoid silently escalating to dangerous execution flags.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Use Codex to review this branch, but I need the result captured to a file and I also want the run pinned to a specific model for the rest of my automation pipeline.",
+      "expected_output": "The skill should recognize that the orchestrator needs review-specific automation features and prefer a flow like `codex exec review` instead of the simpler top-level `codex review` command.",
+      "files": []
+    }
+  ]
+}

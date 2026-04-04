@@ -13,6 +13,8 @@ Your job is to:
 - resolve the review target, review scope, and review intent
 - require the user to name the coding agent when they have not done so
 - prepare high-context review inputs that a chosen coding agent can consume
+- treat the user-supplied diff, range, patch, commit, or file list as the primary review scope
+- require bounded impact tracing into the minimum necessary related context when local risk depends on callers, references, consumers, contracts, compatibility assumptions, or adjacent upstream/downstream behavior
 - keep review-only work separate from implementation, build, and test workflows
 - require unique per-run artifacts and a clear findings-first output contract
 - direct the executor to consult the chosen coding agent's own operating guide for invocation details
@@ -74,11 +76,14 @@ Resolve these from the conversation first. If one is missing and you can infer i
 6. `review run id`
    A unique identifier for this exact review invocation.
 
+7. `impact focus`
+   The likely affected callers, references, consumers, contracts, compatibility assumptions, or integration seams worth tracing beyond the edited lines.
+
 ## Core review method
 
 ### 1. Lock the scope before delegation
 
-Narrow the review surface before involving the external coding agent.
+Lock the user-supplied diff, range, patch, commit, or file list as the primary review scope before involving the external coding agent.
 
 Prefer:
 - the exact staged diff
@@ -88,7 +93,22 @@ Prefer:
 
 Avoid sending the external coding agent on a whole-repository exploration when the user gave a narrower surface.
 
-### 2. Preserve the user's real context
+### 2. Follow bounded impact traces by default
+
+Do not stop at the edited lines when the risk depends on nearby usage or integration seams.
+
+The delegated coding agent should proactively inspect the minimum necessary related context needed to evaluate impact and chained risk. Prefer tracing:
+- touched symbols and their definitions
+- direct callers or call sites
+- references and consumers
+- implemented, inherited, or overridden contracts
+- compatibility assumptions relied on elsewhere
+- adjacent configuration, flags, schemas, serialization boundaries, or immediate upstream/downstream behavior
+
+This is bounded impact tracing, not repo-wide exploration.
+Stop once additional context no longer changes the risk assessment materially.
+
+### 3. Preserve the user's real context
 
 Every review run should carry:
 - the change intent
@@ -96,10 +116,11 @@ Every review run should carry:
 - the concrete review scope
 - what is already known or already checked
 - the focus areas that matter for this change
+- the likely impact edges worth tracing, such as callers, consumers, contracts, compatibility assumptions, or adjacent module boundaries
 
 Do not make the external coding agent rediscover basic context that the user already gave you.
 
-### 3. Enforce review-only boundaries
+### 4. Enforce review-only boundaries
 
 The review run must stay review-only unless the user explicitly broadened the task.
 
@@ -110,8 +131,9 @@ The external coding agent must be told:
 - do not drift into implementation planning unless the user asked for that
 
 Keep review, patching, build validation, and testing as separate phases.
+Review-only does not forbid bounded code-reading needed to assess impact; it forbids editing, building, testing, and implementation work.
 
-### 4. Require findings-first output
+### 5. Require findings-first output
 
 The external coding agent should lead with actionable findings.
 
@@ -120,9 +142,11 @@ The preferred structure is:
 - then any clarifying notes
 - explicitly state when there are no clear findings
 
+Each finding should explain the local issue and, when relevant, the impacted caller, consumer, contract, compatibility assumption, or propagation path that makes the issue meaningful.
+
 This keeps the result usable inside larger closeout workflows.
 
-### 5. Isolate every review run
+### 6. Isolate every review run
 
 Every review run must have a unique `<review-run-id>`.
 
@@ -139,7 +163,7 @@ Every run should use unique artifacts derived from that id, such as:
 
 Do not reuse artifacts across concurrent runs or repeated passes on the same branch.
 
-### 6. Delegate to a dedicated review sub-agent
+### 7. Delegate to a dedicated review sub-agent
 
 When the host framework supports sub-agents, delegate the review execution to a dedicated coding-agent sub-agent for that run.
 
@@ -197,6 +221,8 @@ The prompt should include:
 - background
 - already-reviewed facts
 - focus areas
+- the rule that the supplied diff or range is the primary scope
+- explicit impact targets such as callers, references, consumers, contracts, compatibility assumptions, and likely blast-radius edges
 - review-only constraints
 - the required findings-first output behavior
 
@@ -216,10 +242,11 @@ If the external coding agent fails immediately:
 - distinguish between invocation failure and a genuine review result
 
 If the external coding agent returns weak or generic review fluff:
-- tighten the scope
+- tighten the primary scope when the reviewed surface was still vague
 - add the exact files or diff range
 - add already-reviewed facts
-- restate the findings-first contract
+- explicitly name the symbols, callers, references, consumers, contracts, or compatibility assumptions that should be checked
+- restate the findings-first and bounded impact-tracing contract
 - rerun once with fresh artifacts
 
 If the external coding agent tries to edit files or broaden the task:
@@ -232,13 +259,16 @@ Good context:
 - change intent
 - expected behavior
 - affected files
+- touched symbols and likely callers, references, or consumers
 - known risky areas
+- compatibility or contract assumptions that may matter
 - validation already completed
 - the user's explicit concerns
 
 Bad context:
 - huge unrelated repository history
 - broad instructions like `review everything`
+- open-ended prompts that invite repo-wide wandering without a concrete impact hypothesis
 - long raw logs with no diagnosis
 - irrelevant domain guidance
 
@@ -266,6 +296,8 @@ If the external coding agent reported no issues, say so plainly and mention any 
 - Do not silently choose the coding agent when the user did not specify one.
 - Do not confuse this methodology skill with a concrete execution guide.
 - Do not let the external coding agent free-roam the repository when the user gave a narrow scope.
+- Do not stop at the edited lines when nearby callers, consumers, references, or contracts materially affect risk.
+- Do not follow impact traces indefinitely; stop once added context no longer changes the risk assessment materially.
 - Do not reuse artifacts across review runs.
 - Do not treat an invocation failure as `No clear findings`.
 - Do not mix code review and code edits in the same external review run unless the user explicitly asked for both.
@@ -282,8 +314,9 @@ Use Cursor to review these files for regression risk and lifecycle issues. Build
 
 What you do:
 - confirm the coding agent is `Cursor`
-- narrow the scope to the exact files or diff
-- prepare a prompt file with background, already-reviewed facts, focus areas, and review-only constraints
+- lock the primary scope to the exact files or diff
+- prepare a prompt file with background, already-reviewed facts, focus areas, likely impact edges, and review-only constraints
+- tell the review agent to inspect the minimum necessary callers, references, consumers, contracts, and nearby integration seams needed to judge blast radius
 - consult Cursor's own operating guide for execution details
 - delegate the review run to a dedicated coding-agent sub-agent when the host framework supports it
 - return findings in a findings-first structure

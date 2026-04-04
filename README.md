@@ -18,7 +18,7 @@ Use this skill when the user explicitly wants Codex CLI to do delegated coding w
 
 ### `coding-agent-review-method`
 
-Use this skill when code review should be performed by a specific external coding agent rather than by the current host agent. It provides a reusable findings-first review methodology, requires the user to name the review agent when needed, and keeps review orchestration separate from patching, building, and testing.
+Use this skill when code review should be performed by a specific external coding agent rather than by the current host agent. It provides a reusable findings-first review methodology that keeps the diff or range as primary scope while requiring bounded impact tracing across relevant callers, references, consumers, contracts, and blast-radius edges, requires the user to name the review agent when needed, and keeps review orchestration separate from patching, building, and testing.
 
 ### `commit-staged-changes`
 

@@ -103,6 +103,8 @@ When the user wants analysis, explanation, or planning without edits:
 2. Tighten permissions with `--permission-mode` when appropriate.
 3. Restrict tools when needed with `--allowed-tools`, `--disallowed-tools`, or `--tools`.
 
+For read-only review work, bounded code-reading across callers, references, consumers, and contracts is allowed when needed to assess impact. Restrict file modification, not necessary inspection.
+
 Example:
 
 ```bash
@@ -188,7 +190,7 @@ Use Claude Code when the user explicitly wants Claude Code to perform the review
 
 ```bash
 cd /path/to/project
-claude --permission-mode bypassPermissions --print "Review the current git diff for bugs, regressions, and missing validation"
+claude --permission-mode bypassPermissions --print "Review the current git diff for correctness, regression risk, compatibility issues, and blast radius. Treat the diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not modify files or start build/test work."
 ```
 
 If the review target should be isolated, prepare that checkout first, then run `claude` inside that review directory.
@@ -222,12 +224,12 @@ Use these only when resuming existing Claude Code context is actually useful.
 Claude Code can target a configured agent or inject custom agents for the current run:
 
 ```bash
-claude --agent reviewer --print "Review the current diff"
+claude --agent reviewer --print "Review the current diff as primary scope and inspect the minimum necessary impact chain around touched symbols, callers, references, consumers, contracts, and nearby integration seams."
 
-claude --agents '{"reviewer":{"description":"Reviews code","prompt":"You are a strict code reviewer."}}' \
+claude --agents '{"reviewer":{"description":"Reviews code","prompt":"You are a strict code reviewer who treats the supplied diff as primary scope and follows bounded impact traces through relevant callers, references, consumers, contracts, and immediate upstream/downstream behavior without editing files."}}' \
   --agent reviewer \
   --print \
-  "Review the current diff"
+  "Review the current diff as primary scope and inspect the minimum necessary impact chain around touched symbols, callers, references, consumers, contracts, and nearby integration seams."
 ```
 
 Use these only when the user explicitly wants a specific sub-agent persona or the workflow already defines one.
@@ -264,9 +266,10 @@ Treat these as **intentional overrides**, not the default path.
 5. If the user specifies a model, pass it through with `--model <id>`.
 6. If the user does not specify a model, let Claude Code use the current configured default.
 7. For read-only tasks, encode that in the prompt and tighten permissions or tool access as needed.
-8. Do not silently escalate to `--dangerously-skip-permissions`.
-9. Do not silently create worktrees or tmux sessions.
-10. Headless runs, especially reviews, may take a long time with little or no visible output. This is normal.
-11. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
-12. After starting a headless run, wait for it to exit cleanly before taking the next action.
-13. If you run Claude Code as a long task in the background, choose a host-specific monitoring approach outside this skill.
+8. For code review tasks, keep the diff or range as primary scope while explicitly requiring bounded impact tracing rather than narrow local inspection or repo-wide wandering.
+9. Do not silently escalate to `--dangerously-skip-permissions`.
+10. Do not silently create worktrees or tmux sessions.
+11. Headless runs, especially reviews, may take a long time with little or no visible output. This is normal.
+12. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
+13. After starting a headless run, wait for it to exit cleanly before taking the next action.
+14. If you run Claude Code as a long task in the background, choose a host-specific monitoring approach outside this skill.

@@ -1,6 +1,14 @@
 ---
 name: codex-coding-agent
-description: 'Delegate coding tasks specifically to Codex CLI (`codex`) from another host agent or automation harness. Use this only when the user explicitly wants Codex or `codex` to do the work, such as building features, reviewing diffs, refactoring a codebase, continuing a prior Codex session, or running a longer coding task through Codex. Do not use for simple one-line edits you can do directly, for ordinary read-only code inspection that the current agent can answer itself, or when the user did not ask to use Codex.'
+description: >-
+  Delegate coding tasks specifically to Codex CLI (`codex`) from another
+  host agent or automation harness. Use this only when the user explicitly
+  wants Codex or `codex` to do the work, such as building features,
+  reviewing diffs, refactoring a codebase, continuing a prior Codex
+  session, or running a longer coding task through Codex. Do not use for
+  simple one-line edits you can do directly, for ordinary read-only code
+  inspection that the current agent can answer itself, or when the user
+  did not ask to use Codex.
 ---
 
 # Codex Coding Agent

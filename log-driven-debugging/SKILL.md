@@ -1,12 +1,14 @@
 ---
 name: log-driven-debugging
-description: >
-  Debug complex or unclear problems by instrumenting code with targeted logs, having the user rerun
-  the scenario, and then analyzing the returned logs to locate the real failure point. Use this whenever
-  the issue is hard to reason about statically, reproduction exists but the root cause is unclear, the
-  user says things like "add some logs", "instrument this", "let me run it and send you the logs",
-  "help me locate where it goes wrong", or any time a tricky bug needs a structured log-first diagnosis
-  loop instead of guessing from code alone.
+description: >-
+  Debug complex or unclear problems by instrumenting code with targeted
+  logs, having the user rerun the scenario, and then analyzing the
+  returned logs to locate the real failure point. Use this whenever the
+  issue is hard to reason about statically, reproduction exists but the
+  root cause is unclear, the user says things like "add some logs",
+  "instrument this", "let me run it and send you the logs", "help me
+  locate where it goes wrong", or any time a tricky bug needs a structured
+  log-first diagnosis loop instead of guessing from code alone.
 ---
 
 When the bug is slippery, stop guessing and build observability.

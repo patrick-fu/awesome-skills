@@ -1,6 +1,8 @@
 ---
 name: generate-commit-message
-description: Generate git commit message from staged changes without creating a commit.
+description: >-
+  Generate git commit message from staged changes without creating a
+  commit.
 ---
 
 # Generate Commit Message Only

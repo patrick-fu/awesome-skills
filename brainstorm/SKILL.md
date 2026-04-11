@@ -1,12 +1,14 @@
 ---
 name: brainstorm
-description: >
-  Explore ideas, clarify goals, and help the user narrow down directions before planning or coding.
-  Use this whenever the user proposes a new feature or idea, asks "what do you think about X",
-  says "I'm thinking of building Y", wants to compare approaches, asks how to approach a problem,
-  or seems to be exploring rather than ready to execute. Also use it when the user says
-  "brainstorm", "let's think about this", "what's the best way to...", or any time the right
-  next step is to clarify the problem and converge on a direction, not to write code yet.
+description: >-
+  Explore ideas, clarify goals, and help the user narrow down directions
+  before planning or coding. Use this whenever the user proposes a new
+  feature or idea, asks "what do you think about X", says "I'm thinking of
+  building Y", wants to compare approaches, asks how to approach a
+  problem, or seems to be exploring rather than ready to execute. Also use
+  it when the user says "brainstorm", "let's think about this", "what's
+  the best way to...", or any time the right next step is to clarify the
+  problem and converge on a direction, not to write code yet.
 ---
 
 # Brainstorm

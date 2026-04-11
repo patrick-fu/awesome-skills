@@ -1,6 +1,13 @@
 ---
 name: claude-code-coding-agent
-description: 'Delegate coding tasks specifically to Claude Code CLI (`claude`) via background process or headless print mode. Use this only when the user explicitly wants Claude Code or `claude`, such as building features, reviewing diffs, refactoring a codebase, or running a longer coding task in the background with Claude Code. Do not use for simple one-line edits you can do directly, for read-only code inspection without delegation, or when the user did not ask to use Claude Code.'
+description: >-
+  Delegate coding tasks specifically to Claude Code CLI (`claude`) via
+  background process or headless print mode. Use this only when the user
+  explicitly wants Claude Code or `claude`, such as building features,
+  reviewing diffs, refactoring a codebase, or running a longer coding task
+  in the background with Claude Code. Do not use for simple one-line edits
+  you can do directly, for read-only code inspection without delegation,
+  or when the user did not ask to use Claude Code.
 ---
 
 # Claude Code Coding Agent

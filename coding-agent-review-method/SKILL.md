@@ -1,15 +1,6 @@
 ---
 name: coding-agent-review-method
-description: >-
-  Methodology for orchestrating an external code review through a
-  delegated coding-agent sub-agent. Use this whenever the user wants a
-  code review performed by a specific coding agent rather than by the
-  primary agent, wants to review a diff, patch, staged changes, PR, MR, or
-  specific files through an external coding agent, or needs a rigorous
-  findings-first review workflow that stays separate from patching,
-  building, and testing. This skill is methods-only: it does not define
-  how to invoke any specific coding agent, so when the user has not named
-  the coding agent you must ask which one to use.
+description: "Methodology for orchestrating an external code review through a delegated coding-agent sub-agent. Use this whenever the user wants a code review performed by a specific coding agent rather than by the primary agent, wants to review a diff, patch, staged changes, PR, MR, or specific files through an external coding agent, or needs a rigorous findings-first review workflow that stays separate from patching, building, and testing. This skill is methods-only: it does not define how to invoke any specific coding agent, so when the user has not named the coding agent you must ask which one to use."
 ---
 
 # Coding Agent Review Method

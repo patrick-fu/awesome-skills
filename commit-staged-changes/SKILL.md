@@ -1,6 +1,6 @@
 ---
 name: commit-staged-changes
-description: Create Git commits for already staged changes.
+description: "This skill should be used when creating Git commits from already staged changes, including writing a compliant commit message and committing only the staged diff."
 allowed-tools:
   - Bash(git diff*)
   - Bash(git commit*)

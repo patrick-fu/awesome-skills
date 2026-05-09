@@ -1,8 +1,6 @@
 ---
 name: generate-commit-message
-description: >-
-  Generate git commit message from staged changes without creating a
-  commit.
+description: "This skill should be used when generating a Git commit message from staged changes without creating a commit, including requests to draft, suggest, or refine a commit message for the current staged diff."
 ---
 
 # Generate Commit Message Only

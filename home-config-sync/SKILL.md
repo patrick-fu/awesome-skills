@@ -1,14 +1,6 @@
 ---
 name: home-config-sync
-description: >-
-  Initialize and operate a generic personal dotfiles bare repo under
-  ~/.dotfiles with work-tree=$HOME: guide the user to create an empty
-  private remote repo, bootstrap local starter files, push the first
-  commit, deploy onto another machine, update whitelist-managed files,
-  pull remote changes into local home config, resolve stash and merge
-  flows, and push local updates. Use when the user explicitly invokes
-  $home-config-sync or explicitly asks to initialize, manage, or sync a
-  bare-repo dotfiles setup.
+description: "Initialize and operate a generic personal dotfiles bare repo under ~/.dotfiles with work-tree=$HOME: guide the user to create an empty private remote repo, bootstrap local starter files, push the first commit, deploy onto another machine, update whitelist-managed files, pull remote changes into local home config, resolve stash and merge flows, and push local updates. Use when the user explicitly invokes $home-config-sync or explicitly asks to initialize, manage, or sync a bare-repo dotfiles setup."
 allowed-tools:
   - Read
   - Edit

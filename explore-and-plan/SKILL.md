@@ -1,14 +1,6 @@
 ---
 name: explore-and-plan
-description: >-
-  Turn a chosen or mostly chosen direction into an executable plan with no
-  meaningful TBDs. Use this whenever the user asks for a plan,
-  implementation plan, technical plan, project plan, rollout plan, or any
-  other actionable proposal. Also use it when the user knows roughly what
-  they want and needs it broken into concrete, ordered steps. If the
-  request is still mainly exploratory, has too many unresolved choices, or
-  is really asking to brainstorm, hand off to the brainstorm skill first
-  and return once the direction is clear enough to plan.
+description: "Turn a chosen or mostly chosen direction into an executable plan with no meaningful TBDs. Use this whenever the user asks for a plan, implementation plan, technical plan, project plan, rollout plan, or any other actionable proposal. Also use it when the user knows roughly what they want and needs it broken into concrete, ordered steps. If the request is still mainly exploratory, has too many unresolved choices, or is really asking to brainstorm, hand off to the brainstorm skill first and return once the direction is clear enough to plan."
 ---
 
 # Explore And Plan

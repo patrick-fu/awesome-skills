@@ -32,6 +32,10 @@ Use this skill when the user explicitly wants Cursor CLI to do delegated coding 
 
 Use this skill when an idea needs to be turned into a concrete execution plan. It drives the work from exploration to convergence to a plan with no unresolved decisions or placeholders.
 
+### `faster-learning-coach`
+
+Use this skill when the user's real goal is to learn, master, practice, review, or prepare for a topic rather than receive a finished answer. It turns the assistant into a learning coach that clarifies the goal, selects a learning mode, uses active practice, requires teach-back, and schedules review so the user can apply the concept independently.
+
 ### `generate-commit-message`
 
 Use this skill when you want a high-quality commit message for staged changes but do not want to create the commit yet. It inspects the staged diff and outputs commit message text only.

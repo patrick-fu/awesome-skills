@@ -1,5 +1,7 @@
 # Awesome Skills
 
+**[中文说明](README.zh-CN.md)**
+
 This repository contains a small set of reusable agent skills extracted from a larger private workspace and published as a standalone public collection.
 
 ## Included Skills

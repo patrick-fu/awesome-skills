@@ -42,6 +42,10 @@ Use this skill when the user's real goal is to learn, master, practice, review, 
 
 Use this skill when you want a high-quality commit message for staged changes but do not want to create the commit yet. It inspects the staged diff and outputs commit message text only.
 
+### `goal`
+
+Use this skill when vague, risky, or multi-step work needs to become a copy-ready Codex `/goal` contract before execution starts. It defines the outcome, verification evidence, constraints, write boundaries, iteration policy, completion proof, and pause conditions so the agent knows how to proceed, when to stop, and when to ask.
+
 ### `home-config-sync`
 
 Use this skill when you want to initialize, deploy, or maintain a personal bare-repo dotfiles workflow under `~/.dotfiles` with work-tree set to `$HOME`. It covers first-time setup from an empty private remote, starter-file handling, multi-machine sync, pull and merge safety, and ongoing push workflow.

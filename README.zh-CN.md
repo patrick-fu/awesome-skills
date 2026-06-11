@@ -42,6 +42,10 @@
 
 当你想基于 staged changes 生成高质量 commit message，但暂时不想真正创建 commit 时使用这个 Skill。它会检查 staged diff，并只输出 commit message 文本。
 
+### `goal`
+
+当模糊、高风险或多步骤任务需要在执行前转化为可直接复制的 Codex `/goal` 合同时使用这个 Skill。它会明确目标结果、验证证据、约束、写入边界、迭代策略、完成证明和暂停条件，让 Agent 知道如何推进、何时停止、何时询问。
+
 ### `home-config-sync`
 
 当你想初始化、部署或维护一个位于 `~/.dotfiles`、work-tree 指向 `$HOME` 的个人 bare-repo dotfiles 工作流时使用这个 Skill。它覆盖从空私有远端开始的首次 setup、starter 文件处理、多机器同步、pull/merge 安全性，以及日常 push 流程。

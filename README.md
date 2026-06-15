@@ -54,6 +54,10 @@ Use this skill when you want to initialize, deploy, or maintain a personal bare-
 
 Use this skill when a bug is hard to reason about statically and one targeted rerun with better logs will collapse the search space. It requires a user-provided log prefix, guides deliberate instrumentation, and structures the follow-up analysis around the first proven divergence in the returned logs.
 
+### `parallel-goals-for-a-task`
+
+Use this skill when a task should be converted into a filled build brief, a concrete top-level goal, independent parallel subagent goals, and a synthesized final result. It defines when to ask versus infer, how to dispatch non-overlapping agent work, how to fall back when multi-agent tools are unavailable, and how the main agent should verify and reconcile results.
+
 ## Usage
 
 Install the published skills:

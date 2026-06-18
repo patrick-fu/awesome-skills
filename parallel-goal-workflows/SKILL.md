@@ -1,6 +1,6 @@
 ---
 name: parallel-goal-workflows
-description: "Guides lead agents when users ask for subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition. It favors orchestrator-first delegation: start an orchestrator subagent whenever possible, then have the lead observe status instead of doing parallel task work, while preserving context, patience, review signals, and final acceptance."
+description: "Guides lead agents when users ask for subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition. It favors orchestrator-first delegation: start an orchestrator subagent whenever possible, then have the lead use long waits or callback-style observation instead of polling or doing parallel task work."
 ---
 
 # Parallel Goal Workflows
@@ -21,6 +21,9 @@ evidence, and boundaries to move independently without forcing a rigid script.
 - Once the orchestrator is running, the lead should stop doing task work in
   parallel. The lead monitors status, relays user input, handles liveness, and
   waits for the orchestrator's result.
+- Prefer long waits over frequent polling. If the platform has a wait or
+  callback-style interface, use it to block until the orchestrator returns or a
+  meaningful timeout expires.
 - Treat direct peer-worker dispatch as the exception. Use it when the user asks
   the lead to dispatch specific workers directly, nested delegation is not
   available, or an orchestrator would add no useful ownership.
@@ -74,8 +77,8 @@ orchestrator is active.
 
 Useful lead actions during observation mode:
 
-- wait for the orchestrator
-- request a status update after a wait timeout
+- wait for the orchestrator with the longest reasonable wait window
+- request a status update only after a meaningful wait timeout
 - relay user clarifications or new constraints to the orchestrator
 - replace a clearly failed or unresponsive orchestrator with a narrower
   orchestrator goal
@@ -89,6 +92,22 @@ These are not useful lead actions during observation mode:
   for
 - spawning peer workers that bypass the orchestrator
 - treating a wait timeout as permission to take over
+
+## Long Waits Over Polling
+
+Observation mode should feel closer to callback than polling. The lead should
+prefer one long wait over many short checks because idle gaps invite the lead
+to start doing delegated work.
+
+Use status checks sparingly:
+
+- after a meaningful wait timeout
+- when the user asks for status
+- when an external signal suggests the orchestrator is blocked or failed
+- before replacing an orchestrator
+
+Do not use short polling loops as a way to stay busy. If the orchestrator is
+still running, the lead should usually keep waiting.
 
 ## Goal Packet
 
@@ -146,9 +165,9 @@ blocker cannot be resolved by narrowing or reassigning work.]
 2. Start with an orchestrator subagent whenever delegation is available.
 3. Let the orchestrator decide whether to create downstream goals for workers,
    reviewers, repair agents, or no further agents.
-4. While the orchestrator runs, observe instead of working in parallel: wait,
-   request status, relay user input, or replace a failed orchestrator with a
-   narrower orchestrator goal.
+4. While the orchestrator runs, observe instead of working in parallel: use a
+   long wait, request status only after a meaningful timeout, relay user input,
+   or replace a failed orchestrator with a narrower orchestrator goal.
 5. Let the orchestrator route important results through independent review when
    the cost of being wrong is meaningful.
 6. Accept the work only after the orchestrator's reported evidence matches the

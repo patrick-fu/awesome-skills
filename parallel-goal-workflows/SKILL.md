@@ -1,6 +1,6 @@
 ---
 name: parallel-goal-workflows
-description: "Guides lead agents when users ask for subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition. It favors orchestrator-first delegation: start an orchestrator subagent whenever possible, let it decide downstream goals, and keep the lead focused on context, patience, review signals, and final acceptance."
+description: "Guides lead agents when users ask for subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition. It favors orchestrator-first delegation: start an orchestrator subagent whenever possible, then have the lead observe status instead of doing parallel task work, while preserving context, patience, review signals, and final acceptance."
 ---
 
 # Parallel Goal Workflows
@@ -18,6 +18,9 @@ evidence, and boundaries to move independently without forcing a rigid script.
   whenever possible. Let that agent own workflow shaping, decide whether
   downstream workers are needed, route review or repair, and return an
   acceptance-ready report.
+- Once the orchestrator is running, the lead should stop doing task work in
+  parallel. The lead monitors status, relays user input, handles liveness, and
+  waits for the orchestrator's result.
 - Treat direct peer-worker dispatch as the exception. Use it when the user asks
   the lead to dispatch specific workers directly, nested delegation is not
   available, or an orchestrator would add no useful ownership.
@@ -37,8 +40,8 @@ evidence, and boundaries to move independently without forcing a rigid script.
   grounding matters. A fresh reviewer usually catches different failures than
   the worker who produced the result.
 - The lead agent owns final acceptance and the user-facing answer, but should
-  avoid becoming the hidden executor unless the user asks for direct execution
-  or delegation is unavailable.
+  avoid becoming the hidden executor or hidden parallel worker unless the user
+  asks for direct execution or delegation is unavailable.
 - If delegation is not useful or not available, either produce copy-ready goals
   for the user or proceed directly with the smallest honest workflow; disclose
   that fallback instead of pretending a multi-agent workflow happened.
@@ -61,6 +64,31 @@ Use the orientation to prepare an orchestrator goal first when delegation is
 available. Do not overbuild the downstream tree: the orchestrator can keep the
 workflow small, use peer workers only when useful, or report that direct
 execution is the honest fallback.
+
+## Lead Observation Mode
+
+After spawning an orchestrator, the lead agent shifts into observation mode.
+This is the main guardrail: the lead should not keep researching, editing,
+reviewing, repairing, or spawning workers for the same task while the
+orchestrator is active.
+
+Useful lead actions during observation mode:
+
+- wait for the orchestrator
+- request a status update after a wait timeout
+- relay user clarifications or new constraints to the orchestrator
+- replace a clearly failed or unresponsive orchestrator with a narrower
+  orchestrator goal
+- do final acceptance after the orchestrator returns
+
+These are not useful lead actions during observation mode:
+
+- reading files or sources to solve the same delegated work
+- implementing, editing, or committing the delegated work
+- running a parallel review or repair path that the orchestrator did not ask
+  for
+- spawning peer workers that bypass the orchestrator
+- treating a wait timeout as permission to take over
 
 ## Goal Packet
 
@@ -118,12 +146,13 @@ blocker cannot be resolved by narrowing or reassigning work.]
 2. Start with an orchestrator subagent whenever delegation is available.
 3. Let the orchestrator decide whether to create downstream goals for workers,
    reviewers, repair agents, or no further agents.
-4. While agents run, manage liveness: wait, request status, narrow scope, or
-   spawn a recovery/review agent before taking over concrete execution.
-5. Route important results through an independent review goal when the cost of
-   being wrong is meaningful.
-6. Accept the work only after the reported evidence matches the user goal and
-   any required checks pass.
+4. While the orchestrator runs, observe instead of working in parallel: wait,
+   request status, relay user input, or replace a failed orchestrator with a
+   narrower orchestrator goal.
+5. Let the orchestrator route important results through independent review when
+   the cost of being wrong is meaningful.
+6. Accept the work only after the orchestrator's reported evidence matches the
+   user goal and any required checks pass.
 
 ## Synthesis
 
@@ -136,8 +165,9 @@ Synthesize results without flattening disagreement:
   review support for the task's risk level.
 - Keep the final integration as small as the goal allows. Avoid unrelated
   cleanup, speculative abstractions, or extra workflow artifacts.
-- When an agent result is shallow, stale, or unsupported, prefer a narrower
-  follow-up goal or independent review before the lead agent takes over.
+- When an agent result is shallow, stale, or unsupported, prefer asking the
+  orchestrator for a narrower follow-up goal or independent review before
+  accepting the work.
 
 ## Final Response
 

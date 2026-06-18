@@ -54,9 +54,9 @@
 
 当一个 bug 很难靠静态阅读推理清楚，而一次带有高质量日志的重跑能显著缩小搜索空间时使用这个 Skill。它要求用户提供日志前缀，指导有目的地加日志，并在用户返回日志后围绕第一个被证明的分歧点做分析。
 
-### `parallel-goals-for-a-task`
+### `parallel-goal-workflows`
 
-当一个任务需要被转化为填好的 build brief、清晰的顶层 goal、彼此独立的并行 subagent goals，并最终由主 Agent 综合结果时使用这个 Skill。它定义了何时询问、何时推断，如何分派不重叠的 Agent 工作，缺少 multi-agent 工具时如何降级，以及主 Agent 如何验证和调和结果。
+当 subagent、parallel agents、multi-agent execution、delegated workflows 或 goal decomposition 需要通过灵活目标而不是刚性脚本来协调时使用这个 Skill。它帮助 Lead Agent 提供充分的委派上下文、耐心等待、按需使用嵌套委派、把重要工作交给独立 review，并在不过度控制工作的前提下完成最终验收。
 
 ## 使用方式
 

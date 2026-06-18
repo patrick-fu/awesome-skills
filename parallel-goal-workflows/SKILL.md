@@ -111,9 +111,10 @@ choose to spawn its own subagents when that helps its goal. Do not encourage
 extra nesting for its own sake, and do not forbid it. The harness can enforce
 its own depth and concurrency limits.
 
-If a workflow needs nested subagents but the environment appears limited to
-direct child agents, or if multi-agent tools seem unavailable, read
-`references/codex-nested-subagents.md` before changing the workflow design.
+If you are running inside Codex and a workflow needs nested subagents but the
+environment appears limited to direct child agents, or if Codex multi-agent
+tools seem unavailable, read `references/codex-nested-subagents.md` before
+changing the workflow design.
 
 ## Delegation Context
 

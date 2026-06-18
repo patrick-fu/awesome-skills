@@ -1,6 +1,6 @@
 ---
 name: parallel-goal-workflows
-description: "Guides lead agents when users ask for subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition. It favors orchestrator-owned workflows: the lead starts an orchestrator, waits with callback-style patience, and reports back while the orchestrator delegates worker, review, acceptance, and repair goals."
+description: "Guides lead agents when users ask for subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition. It favors orchestrator-owned workflows: the lead starts an orchestrator, holds a conversation-level boundary goal, waits with callback-style patience, and reports back while the orchestrator delegates worker, review, acceptance, and repair goals."
 ---
 
 # Parallel Goal Workflows
@@ -32,6 +32,21 @@ conversation-level handoff.
 ## Lead Agent
 
 The lead agent is the entry point and reporting layer.
+
+The lead should also hold its own goal. This goal is not "do the task" and is
+not task-level acceptance. It is a conversation-level boundary goal:
+
+```text
+/goal Hold the delegated workflow boundary until the orchestrator returns an
+acceptance-ready report, then relay it to the user without doing task-level
+work.
+```
+
+Waiting is part of that goal. The lead is actively preserving the workflow
+boundary, carrying user-facing communication, and preventing idle time from
+turning back into direct execution. If the orchestrator's report is missing
+obvious pieces, the lead asks the orchestrator for a narrower follow-up instead
+of filling the gap itself.
 
 Lead responsibilities:
 
@@ -113,6 +128,14 @@ learned from the repo, source material, logs, or user environment.
 
 ## Goal Packets
 
+For the lead, keep the packet lightweight and conversation-level:
+
+```text
+/goal Hold the delegated workflow boundary until the orchestrator returns an
+acceptance-ready report, then relay it to the user without doing task-level
+work.
+```
+
 For the orchestrator:
 
 ```text
@@ -162,7 +185,7 @@ needed.]
 
 Observation mode should feel closer to callback than polling.
 
-After starting the orchestrator:
+After setting the lead goal and starting the orchestrator:
 
 1. Use the longest reasonable wait window.
 2. Do not fill idle time with delegated task work.

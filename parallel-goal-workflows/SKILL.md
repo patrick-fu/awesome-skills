@@ -14,6 +14,9 @@ evidence, and boundaries to move independently without forcing a rigid script.
 - Bias the lead agent toward orchestration when the user asks for subagents,
   parallel agents, multi-agent work, workflow coordination, or goal
   decomposition.
+- Translate the user's request into a compact workflow brief before dispatching
+  agents. A good brief names the outcome, scope, constraints, evidence, and
+  expected final artifact.
 - Give every subagent a clear outcome-focused goal. If `/goal` is available,
   use it or ask the subagent to create one before execution.
 - Provide rich context: why the work matters, what evidence counts, what must
@@ -31,6 +34,34 @@ evidence, and boundaries to move independently without forcing a rigid script.
 - The lead agent owns final acceptance and the user-facing answer, but should
   avoid becoming the hidden executor unless the user asks for direct execution
   or delegation is unavailable.
+- If delegation is not useful or not available, either produce copy-ready goals
+  for the user or proceed directly with the smallest honest workflow; disclose
+  that fallback instead of pretending a multi-agent workflow happened.
+
+## Workflow Brief
+
+Start with a short brief before spawning agents:
+
+```text
+Outcome:
+[The concrete result the user wants, not just the activity.]
+
+Scope:
+[The files, systems, topics, or decisions included and excluded.]
+
+Constraints:
+[User preferences, repository rules, safety limits, style, data, and policies.]
+
+Evidence:
+[What logs, tests, diffs, sources, screenshots, reviews, or artifacts will prove
+the work is done.]
+
+Final artifact:
+[The answer, patch, document, commit, report, or handoff expected at the end.]
+```
+
+Use the brief to decide whether the task needs peer subagents, a coordinator,
+or direct execution. Do not overbuild a workflow when one focused goal is enough.
 
 ## Goal Packet
 
@@ -94,6 +125,20 @@ blocker cannot be resolved by narrowing or reassigning work.]
    being wrong is meaningful.
 6. Accept the work only after the reported evidence matches the user goal and
    any required checks pass.
+
+## Synthesis
+
+Synthesize results without flattening disagreement:
+
+- Compare agent outputs against the workflow brief and evidence requirements.
+- Resolve conflicts explicitly; do not blend incompatible recommendations into
+  a vague compromise.
+- Accept only claims that come with enough source grounding, test evidence, or
+  review support for the task's risk level.
+- Keep the final integration as small as the goal allows. Avoid unrelated
+  cleanup, speculative abstractions, or extra workflow artifacts.
+- When an agent result is shallow, stale, or unsupported, prefer a narrower
+  follow-up goal or independent review before the lead agent takes over.
 
 ## Final Response
 

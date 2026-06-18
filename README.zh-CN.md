@@ -56,7 +56,7 @@
 
 ### `parallel-goal-workflows`
 
-当 subagent、parallel agents、multi-agent execution、delegated workflows 或 goal decomposition 需要通过灵活目标而不是刚性脚本来协调时使用这个 Skill。它帮助 Lead Agent 尽可能先启动一个 Orchestrator subagent，然后只观察状态而不并行做任务工作，让 Orchestrator 负责下游 goals、review 路由和 repair 决策。
+当 subagent、parallel agents、multi-agent execution、delegated workflows 或 goal decomposition 需要通过灵活目标而不是刚性脚本来协调时使用这个 Skill。它帮助 Lead Agent 尽可能先启动一个 Orchestrator subagent，然后使用长等待或 callback 式观察，避免频繁 polling 或并行做任务工作，让 Orchestrator 负责下游 goals、review 路由和 repair 决策。
 
 ## 使用方式
 

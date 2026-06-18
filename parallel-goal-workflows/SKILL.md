@@ -14,9 +14,8 @@ evidence, and boundaries to move independently without forcing a rigid script.
 - Bias the lead agent toward orchestration when the user asks for subagents,
   parallel agents, multi-agent work, workflow coordination, or goal
   decomposition.
-- Translate the user's request into a compact workflow brief before dispatching
-  agents. A good brief names the outcome, scope, constraints, evidence, and
-  expected final artifact.
+- Orient agents before dispatching them. A few useful sentences are often
+  better than a rigid form.
 - Give every subagent a clear outcome-focused goal. If `/goal` is available,
   use it or ask the subagent to create one before execution.
 - Provide rich context: why the work matters, what evidence counts, what must
@@ -38,30 +37,23 @@ evidence, and boundaries to move independently without forcing a rigid script.
   for the user or proceed directly with the smallest honest workflow; disclose
   that fallback instead of pretending a multi-agent workflow happened.
 
-## Workflow Brief
+## Delegation Context
 
-Start with a short brief before spawning agents:
+Before spawning agents, give them enough orientation to act independently. This
+can be a paragraph, not a form. Useful context may include:
 
-```text
-Outcome:
-[The concrete result the user wants, not just the activity.]
+- what the user is trying to achieve
+- why the work matters
+- what would make the result good enough to accept
+- known preferences, constraints, or nearby work
+- evidence, artifacts, or review signals that would help the lead trust the
+  result
 
-Scope:
-[The files, systems, topics, or decisions included and excluded.]
-
-Constraints:
-[User preferences, repository rules, safety limits, style, data, and policies.]
-
-Evidence:
-[What logs, tests, diffs, sources, screenshots, reviews, or artifacts will prove
-the work is done.]
-
-Final artifact:
-[The answer, patch, document, commit, report, or handoff expected at the end.]
-```
-
-Use the brief to decide whether the task needs peer subagents, a coordinator,
-or direct execution. Do not overbuild a workflow when one focused goal is enough.
+Keep the context alive and flexible. Do not freeze every boundary before the
+agents have learned from the repo, source material, logs, or user environment.
+Use the orientation to choose whether the task needs peer subagents, a
+coordinator, or direct execution, and do not overbuild a workflow when one
+focused goal is enough.
 
 ## Goal Packet
 
@@ -130,7 +122,7 @@ blocker cannot be resolved by narrowing or reassigning work.]
 
 Synthesize results without flattening disagreement:
 
-- Compare agent outputs against the workflow brief and evidence requirements.
+- Compare agent outputs against the delegation context and evidence needs.
 - Resolve conflicts explicitly; do not blend incompatible recommendations into
   a vague compromise.
 - Accept only claims that come with enough source grounding, test evidence, or

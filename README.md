@@ -56,7 +56,7 @@ Use this skill when a bug is hard to reason about statically and one targeted re
 
 ### `parallel-goal-workflows`
 
-Use this skill when subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition should be coordinated through flexible goals rather than rigid scripts. It helps the lead agent start with an orchestrator subagent whenever possible, then observe status instead of doing parallel task work while the orchestrator owns downstream goals, review routing, and repair decisions.
+Use this skill when subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition should be coordinated through flexible goals rather than rigid scripts. It helps the lead agent start with an orchestrator subagent whenever possible, then use long-wait or callback-style observation instead of polling or doing parallel task work while the orchestrator owns downstream goals, review routing, and repair decisions.
 
 ## Usage
 

@@ -1,6 +1,6 @@
 ---
 name: parallel-goal-workflows
-description: "Guides lead agents when users ask for subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition. It favors flexible workflow orchestration around clear subagent goals, rich context, patient waiting, optional nested delegation, independent review, and final acceptance without over-controlling the work."
+description: "Guides lead agents when users ask for subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition. It favors orchestrator-first delegation: start an orchestrator subagent whenever possible, let it decide downstream goals, and keep the lead focused on context, patience, review signals, and final acceptance."
 ---
 
 # Parallel Goal Workflows
@@ -14,6 +14,13 @@ evidence, and boundaries to move independently without forcing a rigid script.
 - Bias the lead agent toward orchestration when the user asks for subagents,
   parallel agents, multi-agent work, workflow coordination, or goal
   decomposition.
+- When delegation is in scope, prefer starting with an orchestrator subagent
+  whenever possible. Let that agent own workflow shaping, decide whether
+  downstream workers are needed, route review or repair, and return an
+  acceptance-ready report.
+- Treat direct peer-worker dispatch as the exception. Use it when the user asks
+  the lead to dispatch specific workers directly, nested delegation is not
+  available, or an orchestrator would add no useful ownership.
 - Orient agents before dispatching them. A few useful sentences are often
   better than a rigid form.
 - Give every subagent a clear outcome-focused goal. If `/goal` is available,
@@ -22,11 +29,10 @@ evidence, and boundaries to move independently without forcing a rigid script.
   stay unchanged, and when the agent should pause.
 - Prefer patient coordination over impatient takeover. A wait timeout means the
   wait window expired, not that the subagent failed.
-- Use nested delegation when it reduces lead-agent micromanagement. A
-  coordinator subagent can own a broad workflow and create downstream goals for
-  research, execution, review, and repair.
-- Keep nesting optional. Simple tasks may need only one or two peer subagents;
-  broad tasks may benefit from a coordinator plus specialized workers.
+- Nested delegation is the preferred shape for delegated workflows, not because
+  it adds ceremony, but because it keeps the lead from becoming the hidden
+  scheduler. The orchestrator may still decide that no downstream workers are
+  needed.
 - Treat review as its own goal when quality, safety, history, or source
   grounding matters. A fresh reviewer usually catches different failures than
   the worker who produced the result.
@@ -51,9 +57,10 @@ can be a paragraph, not a form. Useful context may include:
 
 Keep the context alive and flexible. Do not freeze every boundary before the
 agents have learned from the repo, source material, logs, or user environment.
-Use the orientation to choose whether the task needs peer subagents, a
-coordinator, or direct execution, and do not overbuild a workflow when one
-focused goal is enough.
+Use the orientation to prepare an orchestrator goal first when delegation is
+available. Do not overbuild the downstream tree: the orchestrator can keep the
+workflow small, use peer workers only when useful, or report that direct
+execution is the honest fallback.
 
 ## Goal Packet
 
@@ -79,12 +86,12 @@ Pause if:
 user judgment are needed.]
 ```
 
-For a coordinator subagent, make the goal about running the workflow rather
-than doing all work personally:
+For an orchestrator subagent, make the goal about owning the coordination,
+not doing all work personally:
 
 ```text
-/goal Run this delegated workflow to completion and return an acceptance-ready
-report.
+/goal Orchestrate this delegated workflow to completion and return an
+acceptance-ready report.
 
 Context:
 [Top-level objective, user constraints, repository rules, and quality bar.]
@@ -94,7 +101,7 @@ Deliverable:
 risks, and final recommendation.]
 
 Boundaries:
-[What the coordinator may assign, what it may edit, and what must remain
+[What the orchestrator may assign, what it may edit, and what must remain
 outside scope.]
 
 Verification:
@@ -108,9 +115,9 @@ blocker cannot be resolved by narrowing or reassigning work.]
 ## Coordination Rhythm
 
 1. Clarify the top-level outcome and acceptance evidence.
-2. Choose the lightest useful agent shape: peer subagents for independent
-   slices, or a coordinator subagent for multi-stage work.
-3. Dispatch goal packets with enough context for independent action.
+2. Start with an orchestrator subagent whenever delegation is available.
+3. Let the orchestrator decide whether to create downstream goals for workers,
+   reviewers, repair agents, or no further agents.
 4. While agents run, manage liveness: wait, request status, narrow scope, or
    spawn a recovery/review agent before taking over concrete execution.
 5. Route important results through an independent review goal when the cost of

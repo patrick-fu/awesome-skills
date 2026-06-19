@@ -1,6 +1,6 @@
 ---
 name: parallel-goal-workflows
-description: "Guides lead agents when users ask for subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition. It favors orchestrator-owned workflows: the lead starts an orchestrator, holds a conversation-level boundary goal, waits with callback-style patience, and reports back while the orchestrator delegates worker, review, acceptance, and repair goals."
+description: "This skill should be used only when the user explicitly asks to use `parallel-goal-workflows` or clearly requests a lead agent to delegate to an orchestrator that manages workers, review, acceptance, and repair while the lead only waits and reports. This is a deliberate high-overhead workflow pattern, not a default response to ordinary subagent, parallel work, coding, research, review, or goal-decomposition requests."
 ---
 
 # Parallel Goal Workflows

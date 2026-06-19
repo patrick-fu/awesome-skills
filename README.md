@@ -6,6 +6,10 @@ This repository contains a small set of reusable agent skills extracted from a l
 
 ## Included Skills
 
+### `aero-mint-glass-html-design`
+
+Use this skill when a frontend surface should follow the Aero Mint Glass visual style: airy mint-cyan light, translucent white glass panels, soft rounded geometry, restrained shadows, clean typography, soft 3D focal imagery, and quiet motion.
+
 ### `brainstorm`
 
 Use this skill when the right next step is conversation rather than execution. It pushes the assistant to ask clarifying questions first, uncover hidden assumptions, and guide the user toward a clearer problem statement before proposing solutions.
@@ -42,10 +46,6 @@ Use this skill when the user's real goal is to learn, master, practice, review, 
 
 Use this skill when you want a high-quality commit message for staged changes but do not want to create the commit yet. It inspects the staged diff and outputs commit message text only.
 
-### `goal`
-
-Use this skill when vague, risky, or multi-step work needs to become a copy-ready Codex `/goal` contract before execution starts. It defines the outcome, verification evidence, constraints, write boundaries, iteration policy, completion proof, and pause conditions so the agent knows how to proceed, when to stop, and when to ask.
-
 ### `home-config-sync`
 
 Use this skill when you want to initialize, deploy, or maintain a personal bare-repo dotfiles workflow under `~/.dotfiles` with work-tree set to `$HOME`. It covers first-time setup from an empty private remote, starter-file handling, multi-machine sync, pull and merge safety, and ongoing push workflow.
@@ -57,6 +57,14 @@ Use this skill when a bug is hard to reason about statically and one targeted re
 ### `parallel-goal-workflows`
 
 Use this skill when subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition should be coordinated through flexible goals rather than rigid scripts. It helps the lead agent start an orchestrator, wait in observation mode, and report back while the orchestrator owns worker goals, independent review, acceptance or verification, repair routing, and the final workflow report.
+
+### `write-unit-test`
+
+Use this skill when writing, reviewing, or improving unit tests for production business code. It favors behavior-focused tests, realistic fixtures, stable assertions, and maintainable coverage over implementation-detail checks.
+
+### `x-twitter-reader`
+
+Use this skill when you need to acquire original content from X/Twitter posts, reply threads, long-form Articles, media references, linked URLs, author metadata, or engagement metrics before summarizing, translating, archiving, or quoting that content.
 
 ## Usage
 

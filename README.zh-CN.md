@@ -4,6 +4,18 @@
 
 这个仓库是从一个更大的私有工作区中抽取出来的可复用 Agent Skills 集合，并作为独立的公开集合发布。
 
+## 🚀 推荐 Workflow
+
+✨ **Parallel Goal Workflows** 已经独立到专门仓库：[`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)。
+
+当 Lead Agent 需要把任务交给 Orchestrator，并由 Orchestrator 管理 worker goals、独立 review、acceptance、repair 和最终报告时，使用这个 workflow。
+
+安装这个独立 workflow：
+
+```bash
+npx skills add patrick-fu/parallel-goal-workflows
+```
+
 ## 包含的 Skills
 
 ### `aero-mint-glass-html-design`
@@ -54,10 +66,6 @@
 
 当一个 bug 很难靠静态阅读推理清楚，而一次带有高质量日志的重跑能显著缩小搜索空间时使用这个 Skill。它要求用户提供日志前缀，指导有目的地加日志，并在用户返回日志后围绕第一个被证明的分歧点做分析。
 
-### `parallel-goal-workflows`
-
-当 subagent、parallel agents、multi-agent execution、delegated workflows 或 goal decomposition 需要通过灵活目标而不是刚性脚本来协调时使用这个 Skill。它帮助 Lead Agent 启动 Orchestrator、进入观察等待模式并最终汇报；由 Orchestrator 负责 worker goals、独立 review、acceptance 或 verification、repair 路由和最终 workflow 报告。
-
 ### `write-unit-test`
 
 当需要为生产业务代码编写、审查或改进单元测试时使用这个 Skill。它强调以行为为中心的测试设计、真实可信的 fixture、稳定断言和可维护覆盖，而不是只检查实现细节。
@@ -68,7 +76,7 @@
 
 ## 使用方式
 
-安装公开发布的 skills：
+安装当前 Awesome Skills 集合：
 
 ```bash
 npx skills add patrick-fu/awesome-skills

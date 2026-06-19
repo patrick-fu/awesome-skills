@@ -10,6 +10,11 @@ than direct lead-agent execution. The point is context, not control: give agents
 enough intent and boundaries to act well, then let the workflow owner run the
 workflow.
 
+Use the host's native goal mode when it can attach a goal to the relevant
+thread, session, or spawned agent. When the host does not expose per-subagent
+goal mode, still launch the agent with a goal-shaped delegation packet so the
+completion condition, evidence needs, and pause conditions stay explicit.
+
 ## Core Shape
 
 Prefer this ownership model whenever delegation is in scope:
@@ -93,6 +98,8 @@ acceptance out of the lead's hands.
 ## Downstream Agents
 
 Every downstream agent should receive a goal, not a vague chore.
+Review, Acceptance, Repair, and Synthesis agents are downstream agents too; do
+not reserve goals only for implementation workers.
 
 Common roles:
 
@@ -132,6 +139,11 @@ Keep the context flexible. Do not freeze every boundary before agents have
 learned from the repo, source material, logs, or user environment.
 
 ## Goal Packets
+
+Prefer native `/goal` when the runtime supports it for the session or spawned
+agent being started. If native goal mode is unavailable for nested subagents,
+put the same packet in the delegation message and treat it as the agent's
+completion contract.
 
 For the lead, keep the packet lightweight and conversation-level:
 
@@ -218,6 +230,19 @@ Orchestrator
   -> Final report
 ```
 
+Map-reduce:
+
+```text
+Orchestrator
+  -> Map Agent A for slice A
+  -> Map Agent B for slice B
+  -> Map Agent C for slice C
+  -> Reduce / Synthesis
+  -> Review
+  -> Acceptance
+  -> Final report
+```
+
 Pipeline:
 
 ```text
@@ -225,6 +250,18 @@ Research
   -> Modeling
   -> Worker
   -> Review
+  -> Acceptance
+  -> Final report
+```
+
+Rolling waves:
+
+```text
+Orchestrator
+  -> Wave 1: broad exploration goals
+  -> Orchestrator narrows scope from evidence
+  -> Wave 2: targeted worker / reviewer goals
+  -> optional Wave 3: repair or verification goals
   -> Acceptance
   -> Final report
 ```

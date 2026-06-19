@@ -1,151 +1,110 @@
 ---
 name: parallel-goal-workflows
-description: "This skill should be used only when the user explicitly asks to use `parallel-goal-workflows` or clearly requests a lead agent to delegate to an orchestrator that manages workers, review, acceptance, and repair while the lead only waits and reports. This is a deliberate high-overhead workflow pattern, not a default response to ordinary subagent, parallel work, coding, research, review, or goal-decomposition requests."
+description: "Guides deliberate high-overhead multi-agent workflows only when the user explicitly requests `parallel-goal-workflows` or asks for a lead agent to delegate workflow ownership to an orchestrator while the lead waits and reports. It is not a default for ordinary subagent, parallel work, coding, research, review, or goal-decomposition requests."
 ---
 
 # Parallel Goal Workflows
 
-Use this skill when a task should be handled through delegated goals rather
-than direct lead-agent execution. The point is context, not control: give agents
-enough intent and boundaries to act well, then let the workflow owner run the
-workflow.
+Use this skill for delegated goal workflows where the lead agent should not
+become the hidden worker. The point is context, not control: give the workflow
+owner enough intent, evidence needs, and boundaries to adapt.
 
-Use the host's native goal mode when it can attach a goal to the relevant
-thread, session, or spawned agent. When the host does not expose per-subagent
-goal mode, still launch the agent with a goal-shaped delegation packet so the
-completion condition, evidence needs, and pause conditions stay explicit.
+Use native goal mode when the host can attach goals to sessions, threads, or
+spawned agents. If native per-subagent goals are unavailable, put the same
+goal-shaped packet in the delegation message.
 
-## Core Shape
+## Execution Boundary
 
-Prefer this ownership model whenever delegation is in scope:
+Use this ownership model:
 
 ```text
 Lead Agent
   -> Orchestrator Agent
-       -> Worker / Research / Evidence Agents
-       -> Review Agent
-       -> Acceptance or Verification Agent
-       -> Repair Agent when needed
-       -> Orchestrator final report
+       -> Worker / Review / Acceptance / Repair / Synthesis agents as needed
+       -> Acceptance-ready report
   -> Lead user-facing handoff
 ```
 
-The lead does not need to be the hidden worker, reviewer, or verifier. The
-orchestrator owns task-level workflow acceptance. The lead owns only the
-conversation-level handoff.
+The high-trigger threshold is defined in the frontmatter description. Once this
+skill is active, preserve the lead/orchestrator boundary rather than returning
+to direct lead-agent execution.
 
 ## Lead Agent
 
-The lead agent is the entry point and reporting layer.
+The lead owns the user conversation and the workflow boundary, not task-level
+execution.
 
-The lead should also hold its own goal. This goal is not "do the task" and is
-not task-level acceptance. It is a conversation-level boundary goal:
+Set the lead boundary goal from `Goal Packets` before starting the
+orchestrator.
 
-```text
-/goal Hold the delegated workflow boundary until the orchestrator returns an
-acceptance-ready report, then relay it to the user without doing task-level
-work.
-```
+Do:
 
-Waiting is part of that goal. The lead is actively preserving the workflow
-boundary, carrying user-facing communication, and preventing idle time from
-turning back into direct execution. If the orchestrator's report is missing
-obvious pieces, the lead asks the orchestrator for a narrower follow-up instead
-of filling the gap itself.
-
-Lead responsibilities:
-
-- understand the user's goal, constraints, and any important context
-- start an orchestrator subagent whenever delegated work is in scope
-- give the orchestrator enough orientation to act independently
+- collect the user's goal, constraints, preferences, and relevant project rules
+- start an orchestrator whenever this workflow is in scope
+- give the orchestrator enough context to act independently
 - wait with the longest reasonable wait window or callback-style interface
-- relay user clarifications or new constraints to the orchestrator
-- replace a clearly failed or unresponsive orchestrator with a narrower
-  orchestrator goal when needed
+- relay user clarifications to the orchestrator
 - report the orchestrator's final report to the user
 
-Lead non-responsibilities after the orchestrator starts:
+After the orchestrator starts, do not:
 
-- do not research, edit, implement, review, repair, or verify the same task
-- do not spawn peer workers that bypass the orchestrator
-- do not run a separate review or acceptance path unless the orchestrator asks
-  for help
-- do not treat a wait timeout as permission to take over
-- do not re-open the content to perform task-level acceptance; check the report
-  shape and surface its risks instead
+- research, edit, implement, review, repair, or verify the same task
+- spawn peer workers that bypass the orchestrator
+- run a separate acceptance path unless the orchestrator asks for help
+- treat a wait timeout as permission to take over
+- fill report gaps yourself; ask the orchestrator for a narrower follow-up
 
 ## Orchestrator Agent
 
-The orchestrator owns the workflow. Its job is to decide the shape of the work,
-not necessarily to do all work personally.
+The orchestrator owns task-level workflow acceptance. It decides the simplest
+shape that satisfies the work, review, repair, and verification needs.
 
-Orchestrator responsibilities:
+Do:
 
 - turn the lead's context into downstream goals
-- decide whether the workflow needs workers, reviewers, acceptance agents, or
-  no further agents
-- collect worker outputs and resolve conflicts explicitly
+- decide whether workers, reviewers, acceptance agents, repair agents, or
+  synthesis agents are needed
+- collect outputs and resolve conflicts explicitly
 - route important work through independent review
-- run repair loops when review fails
-- ask an acceptance or verification agent to check the final result when useful
-- make the final task-level acceptance decision
+- run repair loops when review or acceptance fails
+- make the final task-level judgment
 - return an acceptance-ready report for the lead to relay
 
-The orchestrator may keep the workflow very small. Starting with an
-orchestrator is not ceremony; it keeps scheduling, review, repair, and
-acceptance out of the lead's hands.
+The orchestrator may keep the workflow small. It may also choose fan-out,
+fan-in, rolling waves, or nested delegation when the task warrants it.
 
 ## Downstream Agents
 
-Every downstream agent should receive a goal, not a vague chore.
-Review, Acceptance, Repair, and Synthesis agents are downstream agents too; do
-not reserve goals only for implementation workers.
+Every downstream agent should receive a goal, not a vague chore. Review,
+Acceptance, Repair, and Synthesis agents need goals too.
 
 Common roles:
 
-- Worker Agent: produces the artifact, patch, research, extraction, or other
+- Worker Agent: produces the patch, artifact, extraction, research, or other
   concrete work.
 - Review Agent: independently checks worker output for bugs, unsupported
   claims, missed constraints, regression risk, or weak evidence.
 - Acceptance / Verification Agent: checks whether the reviewed result satisfies
-  the user goal, constraints, and evidence needs.
-- Repair Agent: fixes a narrow problem found by review or acceptance.
-- Synthesis Agent: merges several evidence or worker streams without hiding
+  the user goal and evidence needs.
+- Repair Agent: fixes a narrow issue found by review or acceptance.
+- Synthesis Agent: merges multiple work or evidence streams without hiding
   disagreement.
 
-Do not over-regulate worker agents. A worker, reviewer, or acceptance agent may
-choose to spawn its own subagents when that helps its goal. Do not encourage
-extra nesting for its own sake, and do not forbid it. The harness can enforce
-its own depth and concurrency limits.
+Do not over-regulate workers. A worker, reviewer, or acceptance agent may spawn
+its own subagents when that helps its goal. Do not encourage extra nesting for
+its own sake, and do not forbid it; the harness can enforce depth and
+concurrency limits.
 
-If you are running inside Codex and a workflow needs nested subagents but the
-environment appears limited to direct child agents, or if Codex multi-agent
-tools seem unavailable, read `references/codex-nested-subagents.md` before
-changing the workflow design.
-
-## Delegation Context
-
-Before spawning the orchestrator, provide enough orientation for independent
-work. This can be a paragraph rather than a form. Useful context may include:
-
-- what the user is trying to achieve
-- why the work matters
-- known preferences, constraints, and repository or project rules
-- what would make the result good enough to accept
-- evidence, artifacts, or review signals that would make the final report
-  trustworthy
-
-Keep the context flexible. Do not freeze every boundary before agents have
-learned from the repo, source material, logs, or user environment.
+If you are running inside Codex and nested subagents are needed but unavailable,
+or Codex multi-agent tools seem unavailable, read
+`references/codex-nested-subagents.md` before changing the workflow design.
 
 ## Goal Packets
 
-Prefer native `/goal` when the runtime supports it for the session or spawned
-agent being started. If native goal mode is unavailable for nested subagents,
-put the same packet in the delegation message and treat it as the agent's
-completion contract.
+Keep packets compact. They should describe the outcome, relevant context,
+boundaries, evidence needs, and pause conditions.
 
-For the lead, keep the packet lightweight and conversation-level:
+For the lead:
 
 ```text
 /goal Hold the delegated workflow boundary until the orchestrator returns an
@@ -176,7 +135,7 @@ Pause if:
 repeated blocker is required.]
 ```
 
-For downstream agents, keep packets smaller:
+For downstream agents:
 
 ```text
 /goal [one concrete outcome]
@@ -200,7 +159,7 @@ needed.]
 
 ## Observation Rhythm
 
-Observation mode should feel closer to callback than polling.
+Observation should feel closer to callback than polling.
 
 After setting the lead goal and starting the orchestrator:
 
@@ -209,92 +168,6 @@ After setting the lead goal and starting the orchestrator:
 3. Ask for status only after a meaningful timeout, when the user asks, when an
    external signal suggests failure, or before replacing the orchestrator.
 4. If the orchestrator is still running and not clearly blocked, keep waiting.
-
-This patience matters because short polling creates gaps that invite the lead
-to become a hidden worker.
-
-## Workflow Patterns
-
-Use these as patterns, not scripts.
-
-Fan-out / fan-in:
-
-```text
-Orchestrator
-  -> Worker A
-  -> Worker B
-  -> Worker C
-  -> Synthesis
-  -> Review
-  -> Acceptance
-  -> Final report
-```
-
-Map-reduce:
-
-```text
-Orchestrator
-  -> Map Agent A for slice A
-  -> Map Agent B for slice B
-  -> Map Agent C for slice C
-  -> Reduce / Synthesis
-  -> Review
-  -> Acceptance
-  -> Final report
-```
-
-Pipeline:
-
-```text
-Research
-  -> Modeling
-  -> Worker
-  -> Review
-  -> Acceptance
-  -> Final report
-```
-
-Rolling waves:
-
-```text
-Orchestrator
-  -> Wave 1: broad exploration goals
-  -> Orchestrator narrows scope from evidence
-  -> Wave 2: targeted worker / reviewer goals
-  -> optional Wave 3: repair or verification goals
-  -> Acceptance
-  -> Final report
-```
-
-Review / repair loop:
-
-```text
-Worker
-  -> Review
-     -> pass: Acceptance
-     -> fail: Repair -> Review
-  -> Final report
-```
-
-Minimal orchestrated workflow:
-
-```text
-Orchestrator
-  -> decides no downstream worker is needed
-  -> does minimal coordination or validation
-  -> Final report
-```
-
-Nested worker workflow:
-
-```text
-Orchestrator
-  -> Worker
-       -> optional sub-worker chosen by Worker
-  -> Review
-  -> Acceptance
-  -> Final report
-```
 
 ## Final Handoff
 
@@ -307,6 +180,6 @@ The orchestrator's final report should tell the lead:
 - what remains risky or unresolved
 - what the lead should tell the user
 
-The lead should relay that report plainly. If the report is missing obvious
-pieces, ask the orchestrator for a narrower follow-up instead of silently doing
-the missing task-level work.
+The lead should relay that report plainly. If obvious pieces are missing, ask
+the orchestrator for a narrower follow-up instead of doing the missing
+task-level work.

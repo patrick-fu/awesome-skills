@@ -6,6 +6,10 @@
 
 ## 包含的 Skills
 
+### `aero-mint-glass-html-design`
+
+当前端界面需要采用 Aero Mint Glass 视觉风格时使用这个 Skill：薄荷青色空气感、半透明白色玻璃面板、柔和圆角、克制阴影、干净字体、软 3D 焦点视觉和安静动效。
+
 ### `brainstorm`
 
 当正确的下一步是对话而不是执行时使用这个 Skill。它会推动助手先提澄清问题，暴露隐藏假设，并在提出方案前帮助用户把问题收敛得更清楚。
@@ -42,10 +46,6 @@
 
 当你想基于 staged changes 生成高质量 commit message，但暂时不想真正创建 commit 时使用这个 Skill。它会检查 staged diff，并只输出 commit message 文本。
 
-### `goal`
-
-当模糊、高风险或多步骤任务需要在执行前转化为可直接复制的 Codex `/goal` 合同时使用这个 Skill。它会明确目标结果、验证证据、约束、写入边界、迭代策略、完成证明和暂停条件，让 Agent 知道如何推进、何时停止、何时询问。
-
 ### `home-config-sync`
 
 当你想初始化、部署或维护一个位于 `~/.dotfiles`、work-tree 指向 `$HOME` 的个人 bare-repo dotfiles 工作流时使用这个 Skill。它覆盖从空私有远端开始的首次 setup、starter 文件处理、多机器同步、pull/merge 安全性，以及日常 push 流程。
@@ -57,6 +57,14 @@
 ### `parallel-goal-workflows`
 
 当 subagent、parallel agents、multi-agent execution、delegated workflows 或 goal decomposition 需要通过灵活目标而不是刚性脚本来协调时使用这个 Skill。它帮助 Lead Agent 启动 Orchestrator、进入观察等待模式并最终汇报；由 Orchestrator 负责 worker goals、独立 review、acceptance 或 verification、repair 路由和最终 workflow 报告。
+
+### `write-unit-test`
+
+当需要为生产业务代码编写、审查或改进单元测试时使用这个 Skill。它强调以行为为中心的测试设计、真实可信的 fixture、稳定断言和可维护覆盖，而不是只检查实现细节。
+
+### `x-twitter-reader`
+
+当需要先获取 X/Twitter 帖子、回复线程、长文 Article、媒体引用、外链、作者元数据或互动指标的原始内容，再进行总结、翻译、归档或引用时使用这个 Skill。
 
 ## 使用方式
 

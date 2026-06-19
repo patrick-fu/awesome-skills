@@ -4,6 +4,18 @@
 
 This repository contains a small set of reusable agent skills extracted from a larger private workspace and published as a standalone public collection.
 
+## 🚀 Featured Workflow
+
+✨ **Parallel Goal Workflows** now lives in its own repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows).
+
+Use it when a lead agent should delegate to an orchestrator that manages worker goals, independent review, acceptance, repair, and the final workflow report.
+
+Install the standalone workflow:
+
+```bash
+npx skills add patrick-fu/parallel-goal-workflows
+```
+
 ## Included Skills
 
 ### `aero-mint-glass-html-design`
@@ -54,10 +66,6 @@ Use this skill when you want to initialize, deploy, or maintain a personal bare-
 
 Use this skill when a bug is hard to reason about statically and one targeted rerun with better logs will collapse the search space. It requires a user-provided log prefix, guides deliberate instrumentation, and structures the follow-up analysis around the first proven divergence in the returned logs.
 
-### `parallel-goal-workflows`
-
-Use this skill when subagents, parallel agents, multi-agent execution, delegated workflows, or goal decomposition should be coordinated through flexible goals rather than rigid scripts. It helps the lead agent start an orchestrator, wait in observation mode, and report back while the orchestrator owns worker goals, independent review, acceptance or verification, repair routing, and the final workflow report.
-
 ### `write-unit-test`
 
 Use this skill when writing, reviewing, or improving unit tests for production business code. It favors behavior-focused tests, realistic fixtures, stable assertions, and maintainable coverage over implementation-detail checks.
@@ -68,7 +76,7 @@ Use this skill when you need to acquire original content from X/Twitter posts, r
 
 ## Usage
 
-Install the published skills:
+Install this Awesome Skills collection:
 
 ```bash
 npx skills add patrick-fu/awesome-skills

@@ -98,8 +98,10 @@ Goal: [synthesized user goal; do not paste the raw user prompt].
 Context: [constraints, project rules, evidence needs, and relevant facts only].
 Boundary: delegate local goals as needed; keep ownership of the original user
 goal and final judgment.
+Observation: Long silence is acceptable; report at meaningful milestones, when
+blocked or needing human input, and on completion.
 Deliverable: final judgment, evidence, review/repair notes, remaining risks,
-and a concise report the Main Agent can relay.
+unhandled items, and a concise report the Main Agent can relay.
 Pause if: [approval, credentials, destructive action, or user judgment needed].
 ```
 
@@ -125,18 +127,24 @@ Pause if: [approval, credentials, destructive action, or ownership conflict].
 
 After starting the Workflow Owner:
 
-1. Use the longest reasonable wait window.
-2. Do not fill idle time with delegated task work.
-3. Ask for status only after a meaningful timeout, when the user asks, when an
-   external signal suggests failure, or before replacing a clearly blocked
-   Workflow Owner.
-4. If the Workflow Owner is still running and not clearly blocked, keep waiting.
+1. Observe workflow state, not output volume. Silence is normal progress unless
+   paired with evidence of failure.
+2. Treat `running` as a wait state. Do not fill idle time with delegated task
+   work.
+3. Ask for status only when the user asks, the Workflow Owner reports
+   `blocked` or `needs-human`, an external signal proves failure, or a
+   user-visible decision needs current state.
+4. Reclaim or replace ownership only on `blocked` with evidence, `needs-human`,
+   an explicit user request, or a failed/dead session. Never reclaim because of
+   silence or timeout alone.
+5. Relay `done` reports plainly. If the report has gaps, ask the Workflow Owner
+   for a focused follow-up instead of doing the missing task-level work.
 
 ## Final Handoff
 
 The Workflow Owner's final report should tell the Main Agent what ran, what
 changed or was produced, what review and acceptance happened, what evidence
-supports completion, and what remains risky or unresolved.
+supports completion, and what remains risky, unresolved, or unhandled.
 
 The Main Agent should relay that report plainly. If obvious pieces are missing,
 ask the Workflow Owner for a narrower follow-up instead of doing the missing

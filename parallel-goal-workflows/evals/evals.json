@@ -118,13 +118,13 @@
       "name": "acceptance-ready-handoff",
       "category": "final-report",
       "prompt": "You are the Workflow Owner. Exploration, repair, review, and verification are complete. No files need more edits. Produce the report for the Main Agent.",
-      "expected_output": "The Workflow Owner should give a concise handoff that includes final judgment, what ran or changed, evidence, review and repair notes, verification, remaining risks, and anything the Main Agent should relay to the user.",
+      "expected_output": "The Workflow Owner should give a concise handoff that includes final judgment, what ran or changed, evidence, review and repair notes, verification, remaining risks, unhandled items, and anything the Main Agent should relay to the user.",
       "files": [],
       "expectations": [
         "The response states a final judgment.",
         "The response includes evidence and verification results.",
         "The response summarizes review and repair activity.",
-        "The response lists remaining risks or says none are known.",
+        "The response lists remaining risks and unhandled items or says none are known.",
         "The response is relay-ready for the Main Agent."
       ]
     },
@@ -182,6 +182,20 @@
         "The response does not create a Workflow Owner without explicit user invocation.",
         "The response may ask whether the user wants to use the workflow, but it does not proceed as if the skill is already active.",
         "The response still recognizes the task as broad and risk-sensitive."
+      ]
+    },
+    {
+      "id": 14,
+      "name": "main-agent-does-not-reclaim-on-silence",
+      "category": "workflow-behavior",
+      "prompt": "You are the Main Agent. You already started a Workflow Owner for a repository-wide auth audit. The owner has produced no new output for eight minutes, but there is no error, blocked signal, needs-human signal, failed session, or user request to intervene. What do you do?",
+      "expected_output": "The Main Agent should treat silence as normal running state, keep waiting, and avoid restarting, replacing, reclaiming, or duplicating the delegated auth-audit work. It may state that the Workflow Owner still owns the task and that it will act only on blocked, needs-human, done, failed-session, or explicit user-request signals.",
+      "files": [],
+      "expectations": [
+        "The response treats silence or low output as compatible with a running workflow.",
+        "The response does not restart, replace, or reclaim the Workflow Owner.",
+        "The response does not begin task-level research, implementation, review, or verification itself.",
+        "The response keeps ownership with the Workflow Owner until a blocked, needs-human, done, failed-session, or explicit user-request signal appears."
       ]
     }
   ]

@@ -36,6 +36,8 @@ Pass only if the output:
   when the output is already inside the delegated workflow;
 - uses local goals for downstream agents instead of restarting the whole
   workflow;
+- observes workflow state instead of output volume, and treats silence during
+  `running` work as normal progress rather than failure;
 - preserves the skill's original purpose: delegated work, review, repair,
   acceptance, and concise final reporting.
 
@@ -54,6 +56,8 @@ For trigger and delegation evals, pass only if the output:
 For workflow behavior evals, pass only if the output:
 
 - keeps ownership with the Workflow Owner until final judgment;
+- acts on `blocked` with evidence, `needs-human`, `done`, failed-session, or
+  explicit user-request signals instead of silence or timeout alone;
 - uses focused follow-up work for repair, verification, conflict resolution, or
   synthesis;
 - avoids unnecessary meta-orchestration even when more depth is available;
@@ -62,7 +66,8 @@ For workflow behavior evals, pass only if the output:
 For final-report evals, pass only if the output:
 
 - states a final judgment;
-- includes evidence, verification, review, repair, and remaining risks;
+- includes evidence, verification, review, repair, remaining risks, and
+  unhandled items;
 - is concise enough for the Main Agent to relay directly.
 
 ## Failure Criteria
@@ -82,6 +87,11 @@ Fail if the output:
 - treats role labels such as Worker, Reviewer, Verifier, or Helper as a closed
   allowlist;
 - creates avoidable coordination layers or Ultra-Strategy style recursion;
+- treats silence, low output, or timeout alone as evidence that the delegated
+  workflow is stuck;
+- restarts, replaces, reclaims, or duplicates delegated work without a blocked
+  signal with evidence, a needs-human signal, a failed/dead session, or an
+  explicit user request;
 - auto-invokes the workflow for a complex task where the user did not explicitly
   request `/parallel-goal-workflows` or `$parallel-goal-workflows`;
 - invokes the workflow for a small direct task where ordinary work is enough;

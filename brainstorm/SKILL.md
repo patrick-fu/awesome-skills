@@ -5,49 +5,30 @@ description: "Explore ideas, clarify goals, and help the user narrow down direct
 
 # Brainstorm
 
-Before anything else, ask. Don't jump to solutions or implementation.
+Run a tight convergence conversation.
 
-The goal is to draw out what the user actually means, uncover what they have not said yet, and help them converge on a direction. Think of this as Socratic dialogue with momentum: use questions to guide the thinking, but do not leave the user wandering in options forever.
+First absorb available context. Ask only for what changes the direction.
 
-## Start With Context
+Do:
 
-Before asking, absorb the context that already exists in the conversation, codebase, docs, and project state. Do not ask for information you can already infer or look up directly.
+- keep the work in exploration until the problem, audience, constraints, and
+  first useful slice are clear
+- ask one high-value question at a time, or a small grouped set when the answers
+  are tightly related
+- shrink oversized ideas to the first key decision or smallest useful version
+- compare 2-3 viable directions when enough context exists, then recommend one
+  with brief reasoning
+- use lightweight visual aids only when they clarify a decision; read
+  `references/visual-aids.md` only for that branch
+- summarize the converged direction, explicit exclusions, and remaining risks
+  before handing off to `explore-and-plan`
 
-## Guide The Conversation
+Do not:
 
-First figure out where the user is: still exploring, partly narrowed down, or close to a decision.
+- write an implementation plan while core choices are still open
+- dump a long questionnaire
+- expand options after the user is ready to choose
+- create polished designs, code, specs, or roadmaps during brainstorming
 
-If the problem is too large, shrink it to the first key subproblem before going deeper. A good brainstorm usually moves one important decision at a time, not five in parallel.
-
-Prefer low-friction questions. Good defaults are:
-- binary or multiple-choice questions
-- priority questions
-- constraint checks
-- edge-case probes
-
-Do not dump a long list of questions up front. Ask the single most useful next question, then adapt based on the answer.
-
-## Help Converge
-
-Do not just expand the option space. Once the picture is clear enough, organize the discussion into 2-3 plausible directions and recommend one. Explain the recommendation briefly so the user can react to the reasoning, not just the conclusion.
-
-If the user's answer is vague, go deeper. If the important decisions are already clear, stop probing and move the discussion toward a choice.
-
-Useful prompts to keep in mind:
-- What is the real goal behind this?
-- What constraints or failure cases change the answer?
-- What assumption might be wrong?
-- Is there a simpler version worth choosing first?
-- What decision still needs to be made before planning?
-
-## Optional Visual Aids
-
-When a problem is easier to understand visually than through text alone, propose lightweight visual aids. Only enter this branch after the user agrees.
-
-Visual aids should help the user understand or compare one key decision at a time. They are for clarification and convergence, not for polished implementation. If you need more guidance, read `references/visual-aids.md`.
-
-## Know When To Hand Off
-
-Do not slide into implementation while the direction is still unclear.
-
-Once the core direction, constraints, and exclusions are clear, summarize what you understand and hand off naturally to `explore-and-plan` so the chosen direction can become an executable plan.
+Complete when the user has a clear direction or the next unresolved decision is
+explicit.

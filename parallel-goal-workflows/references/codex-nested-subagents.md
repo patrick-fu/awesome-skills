@@ -10,10 +10,6 @@ Official sources:
 
 ## Configuration
 
-`parallel-goal-workflows` can use a deeper tree, but depth is capacity, not a
-strategy instruction. The skill still has one global strategy owner: the
-Orchestrator.
-
 ```toml
 [agents]
 max_threads = 50
@@ -30,21 +26,27 @@ spawning deeper helpers. Use `5` when the workflow needs room for patterns such
 as:
 
 ```text
-Lead -> Orchestrator -> Worker -> Helper -> Verifier -> Repair
+Lead -> Workflow Owner -> Researcher -> Verifier -> Repair helper
 ```
 
-## Guardrail
+`max_threads` caps concurrent open agent threads. Raise it only when the
+workflow has a concrete fan-out need.
 
-Do not fix Ultra-Strategy by lowering depth. Fix it in the delegation packet:
+## Delegation Packet
+
+Depth gives capacity; the packet gives shape. When nested helpers are used,
+include:
 
 ```text
-Global strategy owner: the Orchestrator.
-Boundary: delegate local helper work only; do not create another global
-Orchestrator or re-invoke parallel-goal-workflows.
+Local goal: [narrow task].
+Context: [facts needed for this local goal].
+Boundary: [owned files, systems, decisions, and areas to avoid].
+Deliverable: [result, evidence, verification, risks, or decision].
+Pause if: [approval, credentials, destructive action, or ownership conflict].
 ```
 
-If an agent tries to spawn another Orchestrator for the same user goal, collapse
-that plan into local goals under the current Orchestrator.
+If a child agent starts solving a broader task than it was assigned, restate the
+local goal and boundary before adding more depth.
 
 ## Quick Checks
 

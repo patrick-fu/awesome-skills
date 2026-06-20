@@ -26,7 +26,7 @@ spawning deeper helpers. Use `5` when the workflow needs room for patterns such
 as:
 
 ```text
-Lead -> Workflow Owner -> Researcher -> Verifier -> Repair helper
+Main Agent -> Workflow Owner -> Researcher -> Verifier -> Repair helper
 ```
 
 `max_threads` caps concurrent open agent threads. Raise it only when the

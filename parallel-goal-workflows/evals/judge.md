@@ -22,6 +22,8 @@ Return JSON:
 
 Pass only if the output:
 
+- uses this workflow only after explicit user invocation such as
+  `/parallel-goal-workflows` or `$parallel-goal-workflows`;
 - recognizes the current agent's role from the delegation context;
 - keeps the Main Agent separate from the Workflow Owner;
 - does not create or start another Workflow Owner for the same user goal;
@@ -41,10 +43,12 @@ Pass only if the output:
 
 For trigger and delegation evals, pass only if the output:
 
-- uses the workflow for complex, cross-cutting, high-overhead work;
-- avoids the workflow for small direct edits or ordinary single-agent tasks;
-- starts one Workflow Owner for the original user goal when delegation is
-  appropriate;
+- uses the workflow for complex, cross-cutting, high-overhead work only when
+  the user explicitly invoked it;
+- avoids the workflow for small direct edits, ordinary single-agent tasks, or
+  complex tasks where the user did not explicitly invoke this skill;
+- starts one Workflow Owner for the original user goal after explicit
+  invocation;
 - keeps the Main Agent out of task-level work after handoff.
 
 For workflow behavior evals, pass only if the output:
@@ -78,6 +82,8 @@ Fail if the output:
 - treats role labels such as Worker, Reviewer, Verifier, or Helper as a closed
   allowlist;
 - creates avoidable coordination layers or Ultra-Strategy style recursion;
+- auto-invokes the workflow for a complex task where the user did not explicitly
+  request `/parallel-goal-workflows` or `$parallel-goal-workflows`;
 - invokes the workflow for a small direct task where ordinary work is enough;
 - accepts incomplete work despite unresolved repair, review, or verification
   gaps;

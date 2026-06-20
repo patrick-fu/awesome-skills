@@ -8,9 +8,9 @@ This repository contains a small set of reusable agent skills extracted from a l
 
 ✨ **Parallel Goal Workflows** now lives in its own repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows).
 
-Use it when a Main Agent should translate a broad request into a task contract,
-start one Workflow Owner, and let that owner manage worker goals, independent
-review, acceptance, repair, and the final workflow report.
+Invoke it explicitly when a Main Agent should translate a broad request into a
+task contract, start one Workflow Owner, and let that owner manage worker goals,
+independent review, acceptance, repair, and the final workflow report.
 
 Install the standalone workflow:
 

@@ -3,7 +3,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "方向已经定了：我们要在现有的 React 管理后台里增加一个“批量标签编辑”能力，只支持表格页已勾选的记录，不做跨页全选。请给我一份 implementation plan，要能直接照着干，包含会改到的页面、状态管理、接口层和验收方式。",
+      "prompt": "The direction is settled: we need to add a bulk tag editing capability to the existing React admin dashboard. It should only support records selected on the current table page, with no cross-page select-all. Please give me an implementation plan that can be followed directly, including the pages, state management, API layer, and acceptance approach that will change.",
       "expected_output": "The skill should produce a concrete implementation plan with the change surface mapped out, decisions already made, and ordered execution steps tied to the relevant UI, state, API, and verification surfaces.",
       "files": [],
       "expectations": [
@@ -14,7 +14,7 @@
     },
     {
       "id": 2,
-      "prompt": "帮我做个 technical plan。我想做一个 AI 知识助手，但是到底是做成 Slack bot、网页、浏览器插件还是都做，我也没想清楚；RAG 要不要上、数据范围多大、用户是谁也还在想。",
+      "prompt": "Help me make a technical plan. I want to build an AI knowledge assistant, but I have not decided whether it should be a Slack bot, a web app, a browser extension, or all of them. I also have not decided whether to use RAG, how large the data scope is, or who the users are.",
       "expected_output": "The skill should recognize that the request is not ready for planning, refuse to fake a detailed plan, and hand off to brainstorm to resolve the open product and architecture decisions first.",
       "files": [],
       "expectations": [
@@ -25,7 +25,7 @@
     },
     {
       "id": 3,
-      "prompt": "请给我一个 rollout plan：我们要把旧的权限中心拆掉，换成新的角色权限系统，同时迁移后台 UI、API、数据模型、审计日志和管理员操作流程。需要能让不同同学分工执行。",
+      "prompt": "Please give me a rollout plan: we need to remove the old permission center and replace it with a new role-based permission system, while also migrating the admin UI, APIs, data model, audit logs, and administrator operation flows. The plan needs to support splitting work across different people.",
       "expected_output": "The skill should detect that the request spans multiple coupled but distinct surfaces, split the plan into coherent parts or phases, and avoid flattening everything into one blended checklist.",
       "files": [],
       "expectations": [
@@ -36,7 +36,7 @@
     },
     {
       "id": 4,
-      "prompt": "给我出一份改造计划，把现在这个搜索页体验做顺一点。包括筛选、排序、空状态、错误态、性能、埋点这些都考虑进去。要尽量完整。",
+      "prompt": "Give me a refactor plan to make the current search page experience smoother. Include filtering, sorting, empty states, error states, performance, and analytics tracking. Please make it as complete as practical.",
       "expected_output": "The skill should avoid placeholder planning language, define what surfaces must change, and translate the broad ask into concrete plan items instead of vague lines like 'optimize UX' or 'handle edge cases.'",
       "files": [],
       "expectations": [

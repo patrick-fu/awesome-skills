@@ -28,9 +28,10 @@ Main Agent
   -> Main Agent user-facing handoff
 ```
 
-The Main Agent is the user-facing session and owns the final handoff. The
-Workflow Owner owns task-level decomposition, execution coordination, review,
-repair, acceptance, and final judgment.
+The Main Agent is the user-facing session. It interprets the raw user request,
+turns it into a clean task contract, starts one Workflow Owner, then observes
+and relays. The Workflow Owner owns task-level decomposition, execution
+coordination, review, repair, acceptance, and final judgment.
 
 Workflow ownership is assigned once for the original user goal. Downstream
 agents may own narrower local goals, but they should not restart the whole
@@ -47,10 +48,10 @@ Do:
 
 - collect the user's goal, constraints, preferences, project rules, and evidence
   needs
-- translate the user's raw request into one clean task packet, excluding
+- translate the user's raw request into one clear task contract, excluding
   slash-command text, `$parallel-goal-workflows`, and instructions to read or
   invoke this skill
-- start one Workflow Owner with that compiled packet
+- start one Workflow Owner with that compiled contract
 - wait with callback-style patience
 - relay user clarifications to the Workflow Owner
 - relay the final report to the user

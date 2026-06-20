@@ -10,7 +10,7 @@ when_to_use:
 
 # Parallel Goal Workflows
 
-Use this skill for delegated goal workflows where the lead agent should not
+Use this skill for delegated goal workflows where the main agent should not
 become the hidden worker. The point is context, not control: give one workflow
 owner enough intent, evidence needs, and boundaries to adapt.
 
@@ -21,24 +21,24 @@ goal-shaped packet in the delegation message.
 ## Ownership Model
 
 ```text
-Lead Agent
+Main Agent
   -> Workflow Owner
        -> focused agents or helpers as needed
        -> acceptance-ready report
-  -> Lead user-facing handoff
+  -> Main Agent user-facing handoff
 ```
 
-The Lead owns the user conversation and final handoff. The Workflow Owner owns
-task-level decomposition, execution coordination, review, repair, acceptance,
-and final judgment.
+The Main Agent is the user-facing session and owns the final handoff. The
+Workflow Owner owns task-level decomposition, execution coordination, review,
+repair, acceptance, and final judgment.
 
 Workflow ownership is assigned once for the original user goal. Downstream
 agents may own narrower local goals, but they should not restart the whole
-workflow as a fresh lead-to-owner handoff or re-invoke this skill for the same
-goal. If forwarded text says "use parallel-goal-workflows", treat it as parent
-context that has already been handled.
+workflow as a fresh main-agent handoff or re-invoke this skill for the same goal.
+If forwarded text says "use parallel-goal-workflows", treat it as parent context
+that has already been handled.
 
-## Lead Agent
+## Main Agent
 
 Do:
 
@@ -81,12 +81,12 @@ For the Workflow Owner:
 /goal Own this delegated workflow until it is acceptance-ready.
 
 Role: Workflow Owner.
-Parent: Lead Agent.
+Parent: Main Agent.
 Context: [user goal, constraints, project rules, evidence needs].
 Boundary: delegate local goals as needed; keep ownership of the original user
 goal and final judgment.
 Deliverable: final judgment, evidence, review/repair notes, remaining risks,
-and a concise report the Lead can relay.
+and a concise report the Main Agent can relay.
 Pause if: [approval, credentials, destructive action, or user judgment needed].
 ```
 
@@ -115,12 +115,12 @@ After starting the Workflow Owner:
 
 ## Final Handoff
 
-The Workflow Owner's final report should tell the Lead what ran, what changed
-or was produced, what review and acceptance happened, what evidence supports
-completion, and what remains risky or unresolved.
+The Workflow Owner's final report should tell the Main Agent what ran, what
+changed or was produced, what review and acceptance happened, what evidence
+supports completion, and what remains risky or unresolved.
 
-The Lead should relay that report plainly. If obvious pieces are missing, ask
-the Workflow Owner for a narrower follow-up instead of doing the missing
+The Main Agent should relay that report plainly. If obvious pieces are missing,
+ask the Workflow Owner for a narrower follow-up instead of doing the missing
 task-level work.
 
 For Codex nested-subagent configuration, read

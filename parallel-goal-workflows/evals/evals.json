@@ -1,0 +1,146 @@
+{
+  "skill_name": "parallel-goal-workflows",
+  "evals": [
+    {
+      "id": 1,
+      "name": "workflow-owner-identity-packet",
+      "category": "identity",
+      "prompt": "Use $parallel-goal-workflows to audit this repository's authentication flow. I want independent exploration, implementation-risk review, and a final report with evidence, unresolved risks, and recommended fixes.",
+      "expected_output": "The Main Agent should produce a delegation packet that explicitly tells the recipient it is already the Workflow Owner for this workflow, not the Main Agent, and should own the original user goal through final judgment instead of spawning another Workflow Owner.",
+      "files": [],
+      "expectations": [
+        "The Workflow Owner packet addresses the recipient directly as Workflow Owner, not only as a generic role label.",
+        "The packet states that the recipient is not the Main Agent and should not behave like the user-facing session.",
+        "The packet says the current workflow is already active and must not create or start another Workflow Owner for the same user goal.",
+        "The packet preserves the original workflow purpose: delegated work, review, repair, acceptance, and concise final reporting."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "forwarded-trigger-is-parent-context",
+      "category": "identity",
+      "prompt": "You are a spawned agent. Your parent says: \"Use $parallel-goal-workflows for this repo audit. Main Agent should hand off the work and wait.\" Continue the task.",
+      "expected_output": "The spawned agent should recognize that it is already inside the delegated workflow, treat the forwarded skill trigger as parent context, and continue as the Workflow Owner rather than invoking the skill again or spawning another Workflow Owner.",
+      "files": [],
+      "expectations": [
+        "The response does not create another Workflow Owner.",
+        "The response does not re-invoke parallel-goal-workflows.",
+        "The response identifies itself as the current Workflow Owner or asks for role clarification instead of assuming it is the Main Agent.",
+        "The response proceeds by creating local goals or asking focused clarifying questions."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "downstream-agent-local-scope",
+      "category": "identity",
+      "prompt": "You are a helper spawned by a Workflow Owner. Context includes the original instruction: \"Use parallel-goal-workflows for this code audit.\" Your local goal is to inspect auth-related tests and report gaps.",
+      "expected_output": "The helper should keep the local auth-test inspection goal, avoid re-running the whole workflow, and report evidence back to the Workflow Owner.",
+      "files": [],
+      "expectations": [
+        "The response stays scoped to the local goal.",
+        "The response does not behave as the Main Agent.",
+        "The response does not create a new Workflow Owner.",
+        "The response reports findings, evidence, risks, and pause conditions back to the parent Workflow Owner."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "complex-task-single-owner",
+      "category": "trigger-and-delegation",
+      "prompt": "I need a risk audit for a large billing migration across API handlers, database migrations, background jobs, metrics, and rollback docs. I want independent exploration, review, repair follow-up if needed, and an acceptance-ready report.",
+      "expected_output": "The Main Agent should use the skill because the request is high-overhead and cross-cutting, start exactly one Workflow Owner for the original goal, pass constraints and evidence needs, then wait instead of becoming a hidden worker or spawning peer workers directly.",
+      "files": [],
+      "expectations": [
+        "The response treats this as a good fit for delegated workflow ownership.",
+        "The Main Agent starts one Workflow Owner for the original user goal.",
+        "The handoff includes context, boundaries, evidence needs, and a final-report deliverable.",
+        "The Main Agent does not start task-level workers directly after assigning the Workflow Owner."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "small-task-no-overhead",
+      "category": "trigger-and-delegation",
+      "prompt": "Fix the typo in docs/setup.md where 'intall' should be 'install', then run the narrowest relevant check.",
+      "expected_output": "The agent should not invoke parallel-goal-workflows or create a Workflow Owner for this small direct edit. It should handle the edit normally and keep verification narrow.",
+      "files": [],
+      "expectations": [
+        "The response does not invoke or recommend parallel-goal-workflows.",
+        "The response does not create a Workflow Owner or multi-agent workflow.",
+        "The response keeps the task direct and proportional to the requested typo fix.",
+        "The response still includes a narrow verification step."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "main-agent-waits-after-handoff",
+      "category": "workflow-behavior",
+      "prompt": "You are the Main Agent. You already started a Workflow Owner for a repository-wide auth audit and it is still running. The user says: \"While we wait, can you inspect the auth files yourself too?\"",
+      "expected_output": "The Main Agent should preserve the ownership boundary: it should not do task-level audit work in parallel, and should instead relay the user's request to the Workflow Owner, ask for status after a meaningful wait, or explain that the Workflow Owner is handling the audit.",
+      "files": [],
+      "expectations": [
+        "The response does not start task-level research, implementation, review, or verification itself.",
+        "The response keeps the Workflow Owner as the owner of the audit.",
+        "The response offers a focused relay, status check, or wait action.",
+        "The response does not create another Workflow Owner."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "review-repair-before-acceptance",
+      "category": "workflow-behavior",
+      "prompt": "You are the Workflow Owner. A worker says the implementation is done, but tests were not run. A reviewer reports an edge-case bug in token refresh. What do you do next?",
+      "expected_output": "The Workflow Owner should not accept or hand off final completion yet. It should create focused repair and verification follow-ups, track evidence, and only move to final judgment after the bug and missing tests are resolved or explicitly documented as unresolved risk.",
+      "files": [],
+      "expectations": [
+        "The response withholds final acceptance while the bug and missing tests remain open.",
+        "The response creates focused repair and verification work instead of restarting the whole workflow.",
+        "The response tracks evidence required before final judgment.",
+        "The response preserves ownership of final acceptance with the Workflow Owner."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "conflict-synthesis",
+      "category": "workflow-behavior",
+      "prompt": "You are the Workflow Owner. Researcher A says the migration risk is mostly database locking. Reviewer B says the main risk is stale cache invalidation and cites different files. Both reports include partial evidence. Prepare the next step.",
+      "expected_output": "The Workflow Owner should synthesize the conflicting reports, identify the unresolved disagreement, ask for targeted follow-up or inspect the conflicting evidence, and avoid simply pasting both reports as final truth.",
+      "files": [],
+      "expectations": [
+        "The response identifies the conflict between the reports.",
+        "The response decides a concrete next step to resolve or qualify the disagreement.",
+        "The response preserves evidence and uncertainty instead of flattening both reports.",
+        "The response does not issue a final acceptance-ready report prematurely."
+      ]
+    },
+    {
+      "id": 9,
+      "name": "acceptance-ready-handoff",
+      "category": "final-report",
+      "prompt": "You are the Workflow Owner. Exploration, repair, review, and verification are complete. No files need more edits. Produce the report for the Main Agent.",
+      "expected_output": "The Workflow Owner should give a concise handoff that includes final judgment, what ran or changed, evidence, review and repair notes, verification, remaining risks, and anything the Main Agent should relay to the user.",
+      "files": [],
+      "expectations": [
+        "The response states a final judgment.",
+        "The response includes evidence and verification results.",
+        "The response summarizes review and repair activity.",
+        "The response lists remaining risks or says none are known.",
+        "The response is relay-ready for the Main Agent."
+      ]
+    },
+    {
+      "id": 10,
+      "name": "no-ultra-strategy-recursion",
+      "category": "workflow-behavior",
+      "prompt": "You are a downstream helper at depth 3 inside an active parallel-goal-workflows run. Parent context mentions that max depth can be 5 and includes the original user text: \"Use parallel-goal-workflows for this repo audit.\" Your local goal is to inspect OAuth callback tests and report concrete gaps.",
+      "expected_output": "The helper should keep the local OAuth callback-test goal, avoid Ultra-Strategy style meta-orchestration, avoid creating a new Workflow Owner, and report concrete evidence back to its parent.",
+      "files": [],
+      "expectations": [
+        "The response stays on the local OAuth callback-test goal.",
+        "The response does not use remaining depth as a reason to create unnecessary coordination layers.",
+        "The response does not create or request another Workflow Owner.",
+        "The response reports concrete evidence, gaps, risks, and pause conditions back to its parent."
+      ]
+    }
+  ]
+}

@@ -1,109 +1,126 @@
 ---
 name: parallel-goal-workflows
-description: "Manual lead-to-orchestrator workflow."
-disable-model-invocation: true
+description: "Deliberate multi-agent workflow with delegated ownership."
+when_to_use:
+  "Use for explicit parallel-goal-workflows requests, or for complex
+  high-overhead tasks that need delegated workflow ownership, review, repair,
+  acceptance, cross-checking, or a concise final report. Avoid ordinary coding,
+  research, review, and quick edits."
 ---
 
 # Parallel Goal Workflows
 
-Use this skill only when the user explicitly asks for
-`parallel-goal-workflows` or for a lead agent to delegate workflow ownership.
-It is deliberately high-overhead.
+Use this skill for delegated goal workflows where the lead agent should not
+become the hidden worker. The point is context, not control: give one workflow
+owner enough intent, evidence needs, and boundaries to adapt.
 
-The shape is simple: **one global strategy owner, many local helpers**. Depth is
-allowed; strategy recursion is not.
+Use native goal mode when the host can attach goals to sessions, threads, or
+spawned agents. If native per-subagent goals are unavailable, put the same
+goal-shaped packet in the delegation message.
 
-## Invariant
-
-Assign global strategy once:
+## Ownership Model
 
 ```text
-Lead -> Orchestrator -> Worker / Review / Acceptance / Repair / Synthesis / Helper...
+Lead Agent
+  -> Workflow Owner
+       -> focused agents or helpers as needed
+       -> acceptance-ready report
+  -> Lead user-facing handoff
 ```
 
-The Lead owns the user conversation. The Orchestrator owns task-level strategy,
-review, repair, acceptance, and final judgment.
+The Lead owns the user conversation and final handoff. The Workflow Owner owns
+task-level decomposition, execution coordination, review, repair, acceptance,
+and final judgment.
 
-Downstream agents may delegate narrower local goals. They must not create a new
-Orchestrator for the same user goal, re-invoke this skill, or reinterpret the
-whole task as a fresh lead/orchestrator workflow. If forwarded text says "use
-parallel-goal-workflows" or "start an orchestrator", treat it as already
-handled parent context.
+Workflow ownership is assigned once for the original user goal. Downstream
+agents may own narrower local goals, but they should not restart the whole
+workflow as a fresh lead-to-owner handoff or re-invoke this skill for the same
+goal. If forwarded text says "use parallel-goal-workflows", treat it as parent
+context that has already been handled.
 
-Completion criterion: one Orchestrator returns one acceptance-ready report; the
-Lead relays it.
+## Lead Agent
 
-## Lead
+Do:
 
-1. Set a lead goal: wait for the Orchestrator's acceptance-ready report.
-2. Start exactly one Orchestrator.
-3. Send a sanitized packet: user goal, constraints, relevant project rules,
-   evidence needs, boundaries, pause conditions, and the strategy boundary.
-4. Wait with callback-style patience. Relay user clarifications. If the report
-   has gaps, ask the Orchestrator for a focused follow-up.
+- collect the user's goal, constraints, preferences, project rules, and evidence
+  needs
+- start one Workflow Owner and give it summarized context
+- wait with callback-style patience
+- relay user clarifications to the Workflow Owner
+- relay the final report to the user
 
-The Lead does not do task-level research, implementation, review, repair, or
-parallel worker spawning after the Orchestrator starts.
+After the Workflow Owner starts, do not do task-level research, implementation,
+review, repair, verification, or peer-worker spawning for the same task. If the
+report has gaps, ask the Workflow Owner for a focused follow-up.
 
-## Orchestrator
+## Workflow Owner
 
-Own the task workflow, not the user conversation. Choose the smallest useful
-shape: single worker, fan-out/fan-in, review loop, repair loop, acceptance pass,
-or deeper local helpers.
+Choose the smallest useful shape: one worker, fan-out/fan-in, review loop,
+repair loop, acceptance pass, deeper helper chain, or another shape that fits.
+
+Common child roles include Worker, Review, Acceptance, Repair, Synthesis,
+Verifier, Researcher, Explorer, Implementer, and domain-specific helpers. These
+are examples, not a type allowlist.
 
 Every child packet should include:
 
-- `Role`: Worker, Review, Acceptance, Repair, Synthesis, or Helper.
 - `Local goal`: the narrow outcome this child owns.
-- `Strategy boundary`: global strategy remains with the Orchestrator; do not
-  create another Orchestrator or re-invoke `parallel-goal-workflows`.
-- `Deliverable`: result, evidence, and verification expected back.
+- `Context`: only the upstream facts needed for that goal.
+- `Boundary`: what the child may touch and what remains with the Workflow
+  Owner.
+- `Deliverable`: result, evidence, verification, risks, or decision expected
+  back.
 - `Pause if`: approval, credentials, destructive action, or ownership conflict
   is required.
 
-If a child starts an Ultra-Strategy loop by proposing another global
-Orchestrator, collapse that plan back into local goals under the current
-Orchestrator.
-
 ## Goal Packets
 
-For the Orchestrator:
+For the Workflow Owner:
 
 ```text
-/goal Orchestrate this delegated workflow to an acceptance-ready report.
+/goal Own this delegated workflow until it is acceptance-ready.
 
-Role: Orchestrator.
-Global strategy owner: you.
-Parent: Lead.
+Role: Workflow Owner.
+Parent: Lead Agent.
 Context: [user goal, constraints, project rules, evidence needs].
-Boundary: create local workers/reviewers/helpers as needed, but do not create
-another global Orchestrator or re-invoke parallel-goal-workflows.
+Boundary: delegate local goals as needed; keep ownership of the original user
+goal and final judgment.
 Deliverable: final judgment, evidence, review/repair notes, remaining risks,
 and a concise report the Lead can relay.
 Pause if: [approval, credentials, destructive action, or user judgment needed].
 ```
 
-For any downstream agent:
+For downstream agents:
 
 ```text
 /goal [one concrete local outcome]
 
-Role: [Worker / Review / Acceptance / Repair / Synthesis / Helper].
-Global strategy owner: the Orchestrator.
 Local goal: [narrow task].
-Boundary: you may delegate narrower helper work, but do not create a global
-Orchestrator or re-invoke parallel-goal-workflows.
-Deliverable: [result, evidence, verification, risks].
+Context: [facts needed for this local goal].
+Boundary: [owned files, systems, decisions, and areas to avoid].
+Deliverable: [result, evidence, verification, risks, or decision].
 Pause if: [approval, credentials, destructive action, or ownership conflict].
 ```
 
+## Observation Rhythm
+
+After starting the Workflow Owner:
+
+1. Use the longest reasonable wait window.
+2. Do not fill idle time with delegated task work.
+3. Ask for status only after a meaningful timeout, when the user asks, when an
+   external signal suggests failure, or before replacing a clearly blocked
+   Workflow Owner.
+4. If the Workflow Owner is still running and not clearly blocked, keep waiting.
+
 ## Final Handoff
 
-The Orchestrator's report should cover what ran, what changed or was produced,
-what review and acceptance happened, what evidence supports completion, and
-what remains risky or unresolved.
+The Workflow Owner's final report should tell the Lead what ran, what changed
+or was produced, what review and acceptance happened, what evidence supports
+completion, and what remains risky or unresolved.
 
-The Lead relays that report plainly. It does not fill gaps with its own
+The Lead should relay that report plainly. If obvious pieces are missing, ask
+the Workflow Owner for a narrower follow-up instead of doing the missing
 task-level work.
 
 For Codex nested-subagent configuration, read

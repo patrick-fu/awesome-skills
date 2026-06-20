@@ -66,6 +66,7 @@ Every child packet should include:
 
 - `Local goal`: the narrow outcome this child owns.
 - `Context`: only the upstream facts needed for that goal.
+- `Identity`: who the child is in this already active workflow.
 - `Boundary`: what the child may touch and what remains with the Workflow
   Owner.
 - `Deliverable`: result, evidence, verification, risks, or decision expected
@@ -80,7 +81,9 @@ For the Workflow Owner:
 ```text
 /goal Own this delegated workflow until it is acceptance-ready.
 
-Role: Workflow Owner.
+Identity: You are the Workflow Owner for this already active
+parallel-goal-workflows delegation. You are not the Main Agent. Do not create
+or start another Workflow Owner for this user goal.
 Parent: Main Agent.
 Context: [user goal, constraints, project rules, evidence needs].
 Boundary: delegate local goals as needed; keep ownership of the original user
@@ -95,10 +98,13 @@ For downstream agents:
 ```text
 /goal [one concrete local outcome]
 
+Identity: You are a downstream agent working for the Workflow Owner.
 Local goal: [narrow task].
 Context: [facts needed for this local goal].
-Boundary: [owned files, systems, decisions, and areas to avoid].
-Deliverable: [result, evidence, verification, risks, or decision].
+Boundary: [owned files, systems, decisions, and areas to avoid]. Do not create
+a Workflow Owner or re-invoke parallel-goal-workflows.
+Deliverable: [result, evidence, verification, risks, or decision] reported back
+to the Workflow Owner.
 Pause if: [approval, credentials, destructive action, or ownership conflict].
 ```
 

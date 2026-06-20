@@ -1,0 +1,7 @@
+interface:
+  display_name: "Parallel Goal Workflows"
+  short_description: "Run a manual lead-to-orchestrator workflow."
+  default_prompt: "Use $parallel-goal-workflows to delegate one complex task from Lead to Orchestrator. Keep one global strategy owner; use nested helpers only for local goals."
+
+policy:
+  allow_implicit_invocation: false

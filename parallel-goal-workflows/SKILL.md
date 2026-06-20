@@ -38,13 +38,19 @@ workflow as a fresh main-agent handoff or re-invoke this skill for the same goal
 If forwarded text says "use parallel-goal-workflows", treat it as parent context
 that has already been handled.
 
+Only the Main Agent reads this skill. Workflow Owner and downstream agents get
+compiled task packets, not this SKILL.md and not the user's raw prompt.
+
 ## Main Agent
 
 Do:
 
 - collect the user's goal, constraints, preferences, project rules, and evidence
   needs
-- start one Workflow Owner and give it summarized context
+- translate the user's raw request into one clean task packet, excluding
+  slash-command text, `$parallel-goal-workflows`, and instructions to read or
+  invoke this skill
+- start one Workflow Owner with that compiled packet
 - wait with callback-style patience
 - relay user clarifications to the Workflow Owner
 - relay the final report to the user
@@ -61,6 +67,11 @@ repair loop, acceptance pass, deeper helper chain, or another shape that fits.
 Common child roles include Worker, Review, Acceptance, Repair, Synthesis,
 Verifier, Researcher, Explorer, Implementer, and domain-specific helpers. These
 are examples, not a type allowlist.
+
+Child packets are task contracts, not forwarded transcripts. Rewrite upstream
+context into the local goal, facts, boundaries, and deliverable. Do not paste the
+user's original wording, slash commands, `$parallel-goal-workflows`, or
+instructions to read or invoke this skill into downstream packets.
 
 Every child packet should include:
 
@@ -81,11 +92,16 @@ For the Workflow Owner:
 ```text
 /goal Own this delegated workflow until it is acceptance-ready.
 
-Identity: You are the Workflow Owner for this already active
-parallel-goal-workflows delegation. You are not the Main Agent. Do not create
-or start another Workflow Owner for this user goal.
+ROLE: WORKFLOW OWNER
+YOU ARE NOT THE MAIN AGENT.
+DO NOT READ, LOAD, INVOKE, OR FOLLOW parallel-goal-workflows.
+THIS PACKET IS YOUR COMPLETE OPERATING CONTRACT FOR THIS TASK.
+
+Identity: You are the Workflow Owner for this already active delegated
+workflow. Do not create or start another Workflow Owner for this user goal.
 Parent: Main Agent.
-Context: [user goal, constraints, project rules, evidence needs].
+Goal: [synthesized user goal; do not paste the raw user prompt].
+Context: [constraints, project rules, evidence needs, and relevant facts only].
 Boundary: delegate local goals as needed; keep ownership of the original user
 goal and final judgment.
 Deliverable: final judgment, evidence, review/repair notes, remaining risks,
@@ -98,9 +114,16 @@ For downstream agents:
 ```text
 /goal [one concrete local outcome]
 
+ROLE: DOWNSTREAM AGENT
+YOU ARE NOT THE MAIN AGENT.
+YOU ARE NOT THE WORKFLOW OWNER.
+DO NOT READ, LOAD, INVOKE, OR FOLLOW parallel-goal-workflows.
+THIS PACKET IS YOUR COMPLETE OPERATING CONTRACT FOR THIS LOCAL TASK.
+
 Identity: You are a downstream agent working for the Workflow Owner.
 Local goal: [narrow task].
-Context: [facts needed for this local goal].
+Context: [facts needed for this local goal; do not paste the raw user prompt,
+slash commands, skill triggers, or Main Agent-only instructions].
 Boundary: [owned files, systems, decisions, and areas to avoid]. Do not create
 a Workflow Owner or re-invoke parallel-goal-workflows.
 Deliverable: [result, evidence, verification, risks, or decision] reported back

@@ -25,6 +25,11 @@ Pass only if the output:
 - recognizes the current agent's role from the delegation context;
 - keeps the Main Agent separate from the Workflow Owner;
 - does not create or start another Workflow Owner for the same user goal;
+- treats delegation packets as compiled task contracts, not forwarded user
+  transcripts;
+- excludes raw user wording, slash-command syntax, skill triggers, and
+  instructions to read or invoke `parallel-goal-workflows` from downstream
+  packets;
 - treats forwarded `parallel-goal-workflows` trigger text as parent context
   when the output is already inside the delegated workflow;
 - uses local goals for downstream agents instead of restarting the whole
@@ -65,6 +70,11 @@ Fail if the output:
   user goal;
 - re-invokes `parallel-goal-workflows` from inside the already delegated
   workflow;
+- forwards the user's raw prompt, `$parallel-goal-workflows`, slash-command
+  syntax, or Main Agent-only instructions into a Workflow Owner or worker
+  packet;
+- tells a Workflow Owner or downstream worker to read, load, invoke, or follow
+  the skill body;
 - treats role labels such as Worker, Reviewer, Verifier, or Helper as a closed
   allowlist;
 - creates avoidable coordination layers or Ultra-Strategy style recursion;

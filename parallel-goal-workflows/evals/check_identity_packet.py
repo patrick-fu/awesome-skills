@@ -35,10 +35,15 @@ def main() -> int:
 
     checks = [
         (owner_packet, "You are the Workflow Owner", "direct Workflow Owner identity"),
-        (owner_packet, "You are not the Main Agent", "not-Main-Agent identity boundary"),
+        (owner_packet, "YOU ARE NOT THE MAIN AGENT", "not-Main-Agent identity boundary"),
+        (owner_packet, "DO NOT READ, LOAD, INVOKE, OR FOLLOW parallel-goal-workflows", "owner no-skill-invocation boundary"),
         (owner_packet, "Do not create or start another Workflow Owner", "no recursive Workflow Owner"),
+        (owner_packet, "do not paste the raw user prompt", "owner no raw prompt forwarding"),
         (owner_packet, "already active", "forwarded trigger already handled"),
         (downstream_packet, "You are a downstream agent", "direct downstream identity"),
+        (downstream_packet, "YOU ARE NOT THE WORKFLOW OWNER", "downstream not-owner boundary"),
+        (downstream_packet, "DO NOT READ, LOAD, INVOKE, OR FOLLOW parallel-goal-workflows", "downstream no-skill-invocation boundary"),
+        (downstream_packet, "do not paste the raw user prompt", "downstream no raw prompt forwarding"),
         (downstream_packet, "Do not create a Workflow Owner", "downstream no-owner boundary"),
     ]
 

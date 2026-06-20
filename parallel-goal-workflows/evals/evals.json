@@ -141,6 +141,34 @@
         "The response does not create or request another Workflow Owner.",
         "The response reports concrete evidence, gaps, risks, and pause conditions back to its parent."
       ]
+    },
+    {
+      "id": 11,
+      "name": "owner-prompt-sanitizes-original-request",
+      "category": "identity",
+      "prompt": "Use $parallel-goal-workflows. I want you, the Main Agent, to audit our auth system. Please spawn someone who can use this same workflow, read the skill, split it up, and keep going until the whole repo is covered. Produce the Workflow Owner delegation packet.",
+      "expected_output": "The Main Agent should translate the user's raw request into a clean Workflow Owner task contract. The packet should not forward the raw skill trigger, should not tell the recipient to read or invoke the skill, and should make the recipient's Workflow Owner identity explicit.",
+      "files": [],
+      "expectations": [
+        "The packet identifies the recipient as the Workflow Owner and states that it is not the Main Agent.",
+        "The packet does not include `$parallel-goal-workflows`, slash-command syntax, or instructions to use/read/invoke the skill.",
+        "The packet does not paste the user's original wording as the task body.",
+        "The packet preserves the user's intent as synthesized goal, context, boundary, deliverable, evidence, and pause conditions."
+      ]
+    },
+    {
+      "id": 12,
+      "name": "worker-prompt-sanitizes-parent-context",
+      "category": "identity",
+      "prompt": "You are the Workflow Owner creating a worker packet. Parent context includes the original user request: \"Use $parallel-goal-workflows to audit our auth system and have the Main Agent wait.\" The worker's local goal is to inspect OAuth callback tests and report concrete gaps.",
+      "expected_output": "The Workflow Owner should create a local worker task contract, not forward the original user request. The worker packet should identify the recipient as a worker, exclude the skill trigger and Main Agent instructions, and keep the scope on OAuth callback-test evidence.",
+      "files": [],
+      "expectations": [
+        "The packet identifies the recipient as a worker or downstream agent under the Workflow Owner.",
+        "The packet does not include `$parallel-goal-workflows`, slash-command syntax, or instructions to use/read/invoke the skill.",
+        "The packet does not forward Main Agent-only instructions to the worker.",
+        "The packet keeps the local goal on OAuth callback-test evidence, gaps, risks, and pause conditions."
+      ]
     }
   ]
 }

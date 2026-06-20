@@ -45,13 +45,13 @@
     },
     {
       "id": 4,
-      "name": "complex-task-single-owner",
+      "name": "explicit-complex-task-single-owner",
       "category": "trigger-and-delegation",
-      "prompt": "I need a risk audit for a large billing migration across API handlers, database migrations, background jobs, metrics, and rollback docs. I want independent exploration, review, repair follow-up if needed, and an acceptance-ready report.",
-      "expected_output": "The Main Agent should use the skill because the request is high-overhead and cross-cutting, start exactly one Workflow Owner for the original goal, pass constraints and evidence needs, then wait instead of becoming a hidden worker or spawning peer workers directly.",
+      "prompt": "Use $parallel-goal-workflows for a risk audit of a large billing migration across API handlers, database migrations, background jobs, metrics, and rollback docs. I want independent exploration, review, repair follow-up if needed, and an acceptance-ready report.",
+      "expected_output": "Because the user explicitly invoked the skill, the Main Agent should start exactly one Workflow Owner for the original goal, pass constraints and evidence needs, then wait instead of becoming a hidden worker or spawning peer workers directly.",
       "files": [],
       "expectations": [
-        "The response treats this as a good fit for delegated workflow ownership.",
+        "The response treats the explicit skill invocation as a user request for delegated workflow ownership.",
         "The Main Agent starts one Workflow Owner for the original user goal.",
         "The handoff includes context, boundaries, evidence needs, and a final-report deliverable.",
         "The Main Agent does not start task-level workers directly after assigning the Workflow Owner."
@@ -168,6 +168,20 @@
         "The packet does not include `$parallel-goal-workflows`, slash-command syntax, or instructions to use/read/invoke the skill.",
         "The packet does not forward Main Agent-only instructions to the worker.",
         "The packet keeps the local goal on OAuth callback-test evidence, gaps, risks, and pause conditions."
+      ]
+    },
+    {
+      "id": 13,
+      "name": "non-explicit-complex-task-no-auto-invoke",
+      "category": "trigger-and-delegation",
+      "prompt": "I need a risk audit for a large billing migration across API handlers, database migrations, background jobs, metrics, and rollback docs. I want independent exploration, review, repair follow-up if needed, and an acceptance-ready report.",
+      "expected_output": "Because the user did not explicitly invoke parallel-goal-workflows, the agent should not automatically start this skill or create a Workflow Owner. It may handle the task normally or ask whether the user wants to use the workflow.",
+      "files": [],
+      "expectations": [
+        "The response does not invoke parallel-goal-workflows on its own.",
+        "The response does not create a Workflow Owner without explicit user invocation.",
+        "The response may ask whether the user wants to use the workflow, but it does not proceed as if the skill is already active.",
+        "The response still recognizes the task as broad and risk-sensitive."
       ]
     }
   ]

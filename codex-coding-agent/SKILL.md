@@ -79,11 +79,11 @@ Once you start a headless run, trust it to finish by itself and wait for the pro
 
 ### Prefer `codex review` for repo review flows
 
-Use `codex review` when the task is explicitly a code review of a repo state, branch diff, commit, or uncommitted changes:
+Use `codex review` when the task is explicitly a code review of a repo state, branch diff, commit, or uncommitted changes. Keep the run review-only and findings-first:
 
 ```bash
 cd /path/to/project
-codex review --uncommitted "Review the current changes for bugs, regressions, compatibility issues, and hidden blast radius. Treat the supplied changes as primary scope, then inspect only the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only."
+codex review --uncommitted "Review the current changes for bugs, regressions, compatibility issues, and hidden blast radius. Treat the supplied changes as primary scope, then inspect only the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
 ```
 
 This is usually a better fit than a generic `codex exec` prompt when the job is clearly "review code" rather than "work on code".
@@ -92,7 +92,7 @@ If the surrounding harness needs review-specific machine integration features su
 
 ```bash
 cd /path/to/project
-codex exec review --base origin/main --json -o /tmp/codex-review.txt "Review this branch for regressions, compatibility issues, and blast radius. Treat the branch diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, and immediate upstream/downstream paths needed to assess impact. Stay review-only."
+codex exec review --base origin/main --json -o /tmp/codex-review.txt "Review this branch for regressions, compatibility issues, and blast radius. Treat the branch diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
 ```
 
 Use the simpler top-level `codex review` when you only need a straightforward human-readable review run.
@@ -240,13 +240,13 @@ Use Codex when the user explicitly wants Codex to perform the review.
 ```bash
 # Review staged, unstaged, and untracked changes
 cd /path/to/project
-codex review --uncommitted "Review the current changes for bugs, regressions, compatibility issues, and blast radius. Treat the current changes as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only."
+codex review --uncommitted "Review the current changes for bugs, regressions, compatibility issues, and blast radius. Treat the current changes as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
 
 # Review against a base branch
-codex review --base origin/main "Review this branch diff for regression risk, compatibility issues, and blast radius. Treat the branch diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, and immediate upstream/downstream paths needed to assess impact. Stay review-only."
+codex review --base origin/main "Review this branch diff for regression risk, compatibility issues, and blast radius. Treat the branch diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
 
 # Review a specific commit
-codex review --commit abc1234 "Review this commit for correctness, regression risk, compatibility issues, and blast radius. Treat the commit as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only."
+codex review --commit abc1234 "Review this commit for correctness, regression risk, compatibility issues, and blast radius. Treat the commit as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
 ```
 
 If the review target should be isolated, prepare that checkout first, then run Codex inside that isolated review directory.
@@ -325,13 +325,14 @@ Treat these as **intentional overrides**, not the default happy path.
 3. Treat bare `codex` as the default launcher only. If the user specifies a wrapper, alias-style command, or explicit path, use that command.
 4. Prefer `codex exec` for automation and `codex review` for repository review tasks.
 5. For repository review tasks, keep the diff or range as primary scope while explicitly requiring bounded impact tracing instead of narrow local inspection or uncontrolled repo-wide exploration.
-6. When the host harness needs review-specific output capture or explicit model control, prefer `codex exec review` over top-level `codex review`.
-7. Use interactive `codex`, `codex resume`, or `codex fork` only when live collaboration or prior session context is actually useful.
-8. If the user specifies a model or profile, pass it through. If the user does not, let Codex use the current configured default.
-9. For read-only tasks, encode that in the prompt and prefer `--sandbox read-only` where that command supports it.
-10. Remember that Codex expects a Git repository by default. For scratch work, prefer a temporary Git repo over automatic repo-check bypass.
-11. Do not silently escalate to `--dangerously-bypass-approvals-and-sandbox`.
-12. Headless runs, especially reviews and refactors, may take a long time with little or no visible output. This is normal.
-13. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
-14. If the surrounding harness differentiates PTY from plain pipes, allocate PTY for interactive terminal sessions and prefer non-interactive subcommands for automation.
-15. Use `-o` or `--json` only when the surrounding workflow genuinely benefits from a stable artifact or machine-readable event stream.
+6. Repository review tasks must stay review-only, avoid build/test/patch work unless the user asks for it, and lead with actionable findings or an explicit "no clear findings" statement.
+7. When the host harness needs review-specific output capture or explicit model control, prefer `codex exec review` over top-level `codex review`.
+8. Use interactive `codex`, `codex resume`, or `codex fork` only when live collaboration or prior session context is actually useful.
+9. If the user specifies a model or profile, pass it through. If the user does not, let Codex use the current configured default.
+10. For read-only tasks, encode that in the prompt and prefer `--sandbox read-only` where that command supports it.
+11. Remember that Codex expects a Git repository by default. For scratch work, prefer a temporary Git repo over automatic repo-check bypass.
+12. Do not silently escalate to `--dangerously-bypass-approvals-and-sandbox`.
+13. Headless runs, especially reviews and refactors, may take a long time with little or no visible output. This is normal.
+14. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
+15. If the surrounding harness differentiates PTY from plain pipes, allocate PTY for interactive terminal sessions and prefer non-interactive subcommands for automation.
+16. Use `-o` or `--json` only when the surrounding workflow genuinely benefits from a stable artifact or machine-readable event stream.

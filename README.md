@@ -36,10 +36,6 @@ Use this skill when the user explicitly selects Claude Code CLI as the external 
 
 Use this skill when the user explicitly selects Codex CLI as the external coding executor through another host agent or automation harness. It covers `codex exec` for non-interactive execution, `codex review` for review flows, interactive resume and fork flows, Git repo expectations, and safe handling of sandbox and approval controls.
 
-### `coding-agent-review-method`
-
-Use this skill only when code review should be performed by an external coding agent rather than by the current host agent. It provides a reusable findings-first review methodology that keeps the diff or range as primary scope while requiring bounded impact tracing across relevant callers, references, consumers, contracts, and blast-radius edges, requires the user to name the external review agent when needed, and keeps review orchestration separate from patching, building, and testing.
-
 ### `commit-staged-changes`
 
 Use this skill when changes are already staged and the task is to create a commit. It enforces a clean review of staged content and a factual English commit message without staging extra files implicitly.

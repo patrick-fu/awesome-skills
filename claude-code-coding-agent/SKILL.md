@@ -1,6 +1,10 @@
 ---
 name: claude-code-coding-agent
-description: "Delegate coding tasks specifically to Claude Code CLI (`claude`) via background process or headless print mode. Use this only when the user explicitly wants Claude Code or `claude`, such as building features, reviewing diffs, refactoring a codebase, or running a longer coding task in the background with Claude Code. Do not use for simple one-line edits you can do directly, for read-only code inspection without delegation, or when the user did not ask to use Claude Code."
+description: >-
+  Claude Code CLI operating guide. Use only when the user explicitly asks to run
+  Claude Code (`claude`) as the external coding executor, or when an
+  orchestration/review skill has already selected Claude Code. Do not use for
+  generic coding tasks, built-in subagents, or unspecified delegation.
 ---
 
 # Claude Code Coding Agent

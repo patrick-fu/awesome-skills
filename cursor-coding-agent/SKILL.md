@@ -1,187 +1,85 @@
 ---
 name: cursor-coding-agent
 description: >-
-  Cursor CLI operating guide for the `agent` command. Use only when the user
-  explicitly asks to run Cursor CLI as the external coding executor, or when an
-  orchestration/review skill has already selected Cursor CLI. Do not trigger on
-  generic agent, subagent, or delegation wording.
+  Cursor CLI operating guide for external host agents using the Cursor CLI
+  command (`agent`). Use only when the user explicitly asks to run Cursor CLI as
+  the external coding executor, or when the current orchestration/review
+  workflow explicitly selects Cursor CLI by name. Do not trigger on generic
+  agent, subagent, or unspecified delegation wording.
 ---
 
 # Cursor Coding Agent
 
-Use the Cursor CLI command `agent` for delegated coding work.
+Use Cursor CLI (`agent`) as an external coding executor after Cursor CLI has been explicitly selected.
 
-This skill is for **Cursor CLI only**. Do not generalize it to Codex, Claude Code, Pi, or other coding agents.
+This skill is for Cursor CLI only.
+Because `agent` is also a generic word, treat it as the Cursor CLI launcher only when the user names Cursor CLI, provides a Cursor-specific launcher, or the active orchestration explicitly selects Cursor CLI.
+
+## Launcher
+
+Treat `agent` as the default Cursor CLI launcher, not as a generic agent label.
+If the user provides a wrapper, alias-style command name, shell function entrypoint, or absolute path for Cursor CLI, use that command and keep the rest of the invocation pattern unless the wrapper requires otherwise.
+
+```bash
+/path/to/bin/agent --print --trust "Your task"
+cursor-agent --print --trust "Your task"
+```
+
+Prefer local CLI help over memory for exact flags and current behavior:
+
+```bash
+agent --help
+agent models
+```
 
 ## Execution Modes
 
-Cursor CLI supports two practical execution styles:
+Choose the mode deliberately:
 
-1. **Headless mode** with `--print --trust`
-2. **Interactive terminal mode** without `--print`
+1. `agent --print --trust` for non-interactive implementation, investigation, and automation.
+2. `agent --print --trust --mode ask` for review-only repository review.
+3. `agent` without `--print` for interactive terminal sessions.
 
-Use the right one for the task instead of treating them as interchangeable.
+### Automation
 
-### Prefer headless mode for automation
-
-Use `--print --trust` when you want one-shot execution, script-friendly output, or a background task that should run without an interactive TTY:
+Use `--print --trust` when the task should run once, return a final answer, or run under a script without an interactive terminal:
 
 ```bash
 cd /path/to/project
 agent --print --trust "Add request retry logic to the API client"
 ```
 
-`--print` keeps the run non-interactive and works well for orchestration.
-`--trust` avoids workspace trust prompts in headless mode.
+`--print` keeps the run non-interactive. `--trust` avoids workspace trust prompts in headless mode; it is not permission to add stronger execution flags.
 
-Headless runs can take a **long** time.
-This is especially true for review tasks, where Cursor may spend a long time gathering and reading context before it prints anything useful or exits.
-If it appears quiet for a while, do **not** assume it is stuck and do **not** kill it just because there is no visible output yet.
-Once you start a headless run, trust it to finish by itself and wait for the process to exit cleanly before taking the next action.
-Do not babysit it with frequent checks or impatient polling in the middle.
+### Review
 
-### Use PTY when interaction is the point
+Use Cursor CLI for review only when Cursor CLI has been explicitly selected. Prefer `--mode ask` so the review stays read-only:
 
-Use interactive terminal mode when you want to watch a live session, steer it in real time, or use Cursor like a terminal-first coding assistant:
+```bash
+cd /path/to/project
+agent --print --trust --mode ask "$REVIEW_PROMPT"
+```
+
+In these examples, `$REVIEW_PROMPT` is a placeholder for the prompt text below; pass that text using the quoting or argument style your host harness expects.
+
+Define `REVIEW_PROMPT` with this contract, adapted to the selected target:
+
+```text
+Review the current git diff for correctness, regression risk, compatibility issues, and hidden blast radius. Treat the supplied changes as primary scope, then inspect only the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings.
+```
+
+If the review target should be isolated, prepare that checkout first and run Cursor CLI inside the isolated review directory.
+
+### Interactive Terminal
+
+Use interactive mode when live collaboration, follow-up answers, or hands-on steering matters:
 
 ```bash
 cd /path/to/project
 agent "Help me debug the flaky sync job"
 ```
 
-## Model Selection
-
-Cursor CLI supports explicit model selection:
-
-```bash
-agent --model gpt-5.4-medium --print --trust "Your task"
-```
-
-If the user explicitly names a model, pass it through with `--model <id>`.
-
-If the user does **not** specify a model, do **not** invent one. Let Cursor CLI use the model currently selected in that workspace/account configuration.
-
-To inspect available models:
-
-```bash
-agent models
-```
-
-## Read-Only Modes
-
-Cursor CLI also supports read-only execution modes. Use them when the user wants planning or explanation rather than file edits.
-
-For read-only review work, bounded code-reading across callers, references, consumers, contracts, and compatibility assumptions is allowed when needed to assess impact. Restrict mutation, not necessary inspection.
-
-### Plan mode
-
-Use `--mode plan` for analysis and implementation planning without edits:
-
-```bash
-cd /path/to/project
-agent --print --trust --mode plan "Analyze the migration risk and propose a rollout plan"
-```
-
-### Ask mode
-
-Use `--mode ask` for Q&A style help, explanations, or investigation without changes:
-
-```bash
-cd /path/to/project
-agent --print --trust --mode ask "Explain how the caching layer works in this repo"
-```
-
-Do not use `plan` or `ask` for tasks that are supposed to modify code.
-
-## Output Formats
-
-When using `--print`, choose an output format that matches the caller:
-
-```bash
-# Human-readable
-agent --print --trust --output-format text "Your task"
-
-# Machine-readable
-agent --print --trust --output-format json "Your task"
-
-# Streaming structured events
-agent --print --trust --output-format stream-json "Your task"
-```
-
-Use `text` by default unless a script or downstream parser clearly benefits from `json` or `stream-json`.
-
-## Quick Start
-
-### One-shot coding task
-
-```bash
-cd /path/to/project
-agent --print --trust "Add input validation to the signup form"
-```
-
-### One-shot planning task
-
-```bash
-cd /path/to/project
-agent --print --trust --mode plan "Compare two approaches for splitting the monolith service"
-```
-
-### Interactive debugging
-
-```bash
-cd /path/to/project
-agent "Investigate why this build script hangs locally"
-```
-
-## Working Directory
-
-Run Cursor CLI inside the intended repository or workspace:
-
-```bash
-cd /path/to/project
-agent --print --trust "Implement the approved feature and summarize the changed files"
-```
-
-Why this matters: Cursor should wake up inside the intended repository, with the correct local files and repo rules in scope.
-
-## Common Task Patterns
-
-### Building or implementing
-
-```bash
-# Default behavior: use current selected model
-cd /path/to/project
-agent --print --trust "Build the admin export flow described in README-notes.md"
-
-# Explicit model when the user asks for one
-agent --model gpt-5.4-medium --print --trust "Implement the approved API pagination changes"
-```
-
-### Reviewing a diff or PR checkout
-
-Use Cursor CLI when the user explicitly wants Cursor to perform the review. Keep the run review-only and findings-first.
-
-```bash
-cd /path/to/project
-agent --print --trust --mode ask "Review the current git diff for correctness, regression risk, compatibility assumptions, and blast radius. Treat the diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, and immediate upstream/downstream links needed to assess impact. Stay review-only and do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
-```
-
-If the review target should be isolated, prepare that checkout first, then run `agent` inside that review directory.
-
-### Background long task
-
-```bash
-cd /path/to/project
-nohup agent --print --trust "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/cursor-agent.log 2>&1 &
-```
-
-When a headless background run is in flight, the correct default is still patience.
-Do not keep intervening, do not repeatedly check whether it is "still doing something", and do not terminate it early just because it has been running for a long time.
-Wait for the run to finish naturally, then inspect the final result.
-
-### Resume previous Cursor sessions
-
-If the user wants to continue prior Cursor work, use the built-in session commands:
+Use built-in session commands only when continuing existing Cursor context is useful:
 
 ```bash
 agent ls
@@ -190,38 +88,97 @@ agent --resume <chatId>
 agent --continue
 ```
 
-Use these only when resuming existing Cursor context is actually useful.
+## Host Harness
 
-## Approval and Sandbox Flags
-
-Cursor CLI exposes stronger-execution flags:
+Run Cursor CLI from the intended repository or workspace so repo rules, files, and Git state are in scope:
 
 ```bash
-agent --force ...
-agent --yolo ...
-agent --sandbox enabled ...
-agent --sandbox disabled ...
-agent --approve-mcps ...
+cd /path/to/project
+agent --print --trust "Implement the approved feature and summarize the changed files"
 ```
 
-Treat these as **intentional overrides**, not the default happy path.
+Headless Cursor CLI runs can be quiet for a long time, especially reviews and repo-wide refactors.
+After starting a headless run, wait for the process to exit cleanly before taking the next action; do not kill or repeatedly poll it just because no output has appeared yet.
 
-- Use them only when the user explicitly wants that behavior or the task clearly requires it.
-- Do not silently add `--force` or `--yolo`.
-- Do not change sandbox behavior unless there is a concrete reason.
+## Model Selection
 
-## Rules
+Pass through model choices only when the user or surrounding workflow specifies them:
 
-1. Use this skill only when the user explicitly wants **Cursor CLI** or `agent`.
-2. Prefer `--print --trust` for automation, one-shot runs, and non-interactive execution.
-3. Use interactive terminal mode only when a live session is actually useful.
-4. If the user specifies a model, pass it through with `--model <id>`.
-5. If the user does not specify a model, let Cursor CLI use the **current selected model**.
-6. Use `--mode plan` and `--mode ask` only for read-only planning or explanation tasks.
-7. For code review tasks, keep the diff or range as primary scope while explicitly requiring bounded impact tracing rather than narrow local inspection or repo-wide wandering.
-8. Code review tasks must stay review-only, avoid build/test/patch work unless the user asks for it, and lead with actionable findings or an explicit "no clear findings" statement.
-9. Do not silently escalate to `--force` or `--yolo`.
-10. Headless runs, especially reviews, may take a long time with little or no visible output. This is normal.
-11. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
-12. After starting a headless run, wait for it to exit cleanly before taking the next action.
-13. If you run Cursor CLI as a long task in the background, choose a host-specific monitoring approach outside this skill.
+```bash
+agent --model gpt-5.4-medium --print --trust "Your task"
+```
+
+If no model is specified, let Cursor CLI use the model currently selected in that workspace or account configuration.
+
+Inspect available models when needed:
+
+```bash
+agent models
+```
+
+## Read-Only and Output Formats
+
+Use Cursor read-only modes when the user wants planning, explanation, or review instead of file edits:
+
+```bash
+cd /path/to/project
+agent --print --trust --mode plan "Analyze the migration risk and propose a rollout plan"
+agent --print --trust --mode ask "Explain how the caching layer works in this repo"
+```
+
+Do not use `--mode plan` or `--mode ask` for tasks that are supposed to modify code.
+
+Use text output by default. Choose structured output only when the caller benefits from it:
+
+```bash
+agent --print --trust --output-format text "Your task"
+agent --print --trust --output-format json "Your task"
+agent --print --trust --output-format stream-json "Your task"
+```
+
+## Common Patterns
+
+### Implementation
+
+```bash
+cd /path/to/project
+agent --print --trust "Build the admin export flow described in README-notes.md"
+```
+
+### Planning or Explanation
+
+```bash
+cd /path/to/project
+agent --print --trust --mode plan "Compare two approaches for splitting the monolith service"
+agent --print --trust --mode ask "Explain why the sync job hangs"
+```
+
+### Review
+
+```bash
+cd /path/to/project
+agent --print --trust --mode ask "$REVIEW_PROMPT"
+```
+
+### Background Run
+
+```bash
+cd /path/to/project
+nohup agent --print --trust "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/cursor-agent.log 2>&1 &
+```
+
+Apply the headless patience rule after starting the background process: wait for completion, then inspect the final result.
+
+## Safety Rules
+
+1. Use this skill only when the user, wrapper, or active orchestration explicitly selects Cursor CLI.
+2. Do not trigger it from generic `agent`, subagent, delegation, or unspecified coding-task wording.
+3. Treat bare `agent` as the default Cursor CLI launcher only; preserve user-provided wrappers, aliases, shell entrypoints, and explicit paths.
+4. Prefer `--print --trust` for automation, one-shot runs, and non-interactive execution.
+5. Use interactive terminal mode only when live collaboration or prior Cursor context is useful.
+6. Pass through explicit model choices; do not invent them.
+7. Use `--mode plan` and `--mode ask` only for read-only planning, explanation, or review.
+8. For review, treat the diff/range as primary scope, require bounded impact tracing, stay review-only, and lead with actionable findings or "no clear findings".
+9. Do not silently add `--force`, `--yolo`, `--sandbox disabled`, or `--approve-mcps`.
+10. Do not change sandbox behavior unless the user explicitly wants that behavior or the task clearly requires it.
+11. Headless runs may be quiet for a long time; wait for clean exit instead of killing or repeatedly polling them.

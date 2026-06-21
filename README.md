@@ -30,15 +30,15 @@ Use this skill when the right next step is conversation rather than execution. I
 
 ### `claude-code-coding-agent`
 
-Use this skill when the user explicitly wants Claude Code CLI to do delegated coding work. It covers headless `--print` runs, interactive sessions, model and effort pass-through, constrained read-only runs, and long-running background execution patterns.
+Use this skill when the user explicitly selects Claude Code CLI as the external coding executor. It covers headless `--print` runs, interactive sessions, model and effort pass-through, constrained read-only runs, and long-running background execution patterns.
 
 ### `codex-coding-agent`
 
-Use this skill when the user explicitly wants Codex CLI to do delegated coding work through another host agent or automation harness. It covers `codex exec` for non-interactive execution, `codex review` for review flows, interactive resume and fork flows, Git repo expectations, and safe handling of sandbox and approval controls.
+Use this skill when the user explicitly selects Codex CLI as the external coding executor through another host agent or automation harness. It covers `codex exec` for non-interactive execution, `codex review` for review flows, interactive resume and fork flows, Git repo expectations, and safe handling of sandbox and approval controls.
 
 ### `coding-agent-review-method`
 
-Use this skill when code review should be performed by a specific external coding agent rather than by the current host agent. It provides a reusable findings-first review methodology that keeps the diff or range as primary scope while requiring bounded impact tracing across relevant callers, references, consumers, contracts, and blast-radius edges, requires the user to name the review agent when needed, and keeps review orchestration separate from patching, building, and testing.
+Use this skill only when code review should be performed by an external coding agent rather than by the current host agent. It provides a reusable findings-first review methodology that keeps the diff or range as primary scope while requiring bounded impact tracing across relevant callers, references, consumers, contracts, and blast-radius edges, requires the user to name the external review agent when needed, and keeps review orchestration separate from patching, building, and testing.
 
 ### `commit-staged-changes`
 
@@ -46,7 +46,7 @@ Use this skill when changes are already staged and the task is to create a commi
 
 ### `cursor-coding-agent`
 
-Use this skill when the user explicitly wants Cursor CLI to do delegated coding work. It covers headless `--print --trust` runs, interactive sessions, explicit model pass-through, read-only `plan` and `ask` modes, and safe handling of stronger execution flags.
+Use this skill when the user explicitly selects Cursor CLI as the external coding executor. It covers headless `--print --trust` runs, interactive sessions, explicit model pass-through, read-only `plan` and `ask` modes, and safe handling of stronger execution flags.
 
 ### `explore-and-plan`
 

@@ -29,15 +29,15 @@ npx skills add patrick-fu/parallel-goal-workflows
 
 ### `claude-code-coding-agent`
 
-当用户明确希望把编码任务委托给 Claude Code CLI 时使用这个 Skill。它覆盖 headless `--print` 执行、交互式会话、模型和推理强度透传、受限只读运行，以及长时间后台执行模式。
+当用户明确选择 Claude Code CLI 作为外部编码执行器时使用这个 Skill。它覆盖 headless `--print` 执行、交互式会话、模型和推理强度透传、受限只读运行，以及长时间后台执行模式。
 
 ### `codex-coding-agent`
 
-当用户明确希望由另一个宿主 Agent 或自动化流程调用 Codex CLI 来执行编码任务时使用这个 Skill。它覆盖 `codex exec` 非交互执行、`codex review` 代码审查流程、交互式 resume/fork 流程、Git 仓库预期，以及 sandbox 和 approval 控制的安全处理。
+当用户明确选择由另一个宿主 Agent 或自动化流程调用 Codex CLI 作为外部编码执行器时使用这个 Skill。它覆盖 `codex exec` 非交互执行、`codex review` 代码审查流程、交互式 resume/fork 流程、Git 仓库预期，以及 sandbox 和 approval 控制的安全处理。
 
 ### `coding-agent-review-method`
 
-当代码审查需要由指定的外部 Coding Agent 完成，而不是由当前宿主 Agent 直接完成时使用这个 Skill。它提供一套可复用的 findings-first 审查方法：以 diff 或范围为主审查对象，同时要求沿相关调用方、引用、消费者、契约和影响边界做有界追踪；必要时要求用户指定审查 Agent，并把审查编排和补丁、构建、测试工作分开。
+仅当代码审查需要由外部 Coding Agent 完成，而不是由当前宿主 Agent 直接完成时使用这个 Skill。它提供一套可复用的 findings-first 审查方法：以 diff 或范围为主审查对象，同时要求沿相关调用方、引用、消费者、契约和影响边界做有界追踪；必要时要求用户指定外部审查 Agent，并把审查编排和补丁、构建、测试工作分开。
 
 ### `commit-staged-changes`
 
@@ -45,7 +45,7 @@ npx skills add patrick-fu/parallel-goal-workflows
 
 ### `cursor-coding-agent`
 
-当用户明确希望把编码任务委托给 Cursor CLI 时使用这个 Skill。它覆盖 headless `--print --trust` 执行、交互式会话、显式模型透传、只读 `plan` 和 `ask` 模式，以及更强执行参数的安全处理。
+当用户明确选择 Cursor CLI 作为外部编码执行器时使用这个 Skill。它覆盖 headless `--print --trust` 执行、交互式会话、显式模型透传、只读 `plan` 和 `ask` 模式，以及更强执行参数的安全处理。
 
 ### `explore-and-plan`
 

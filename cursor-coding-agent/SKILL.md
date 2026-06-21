@@ -1,6 +1,10 @@
 ---
 name: cursor-coding-agent
-description: "Delegate coding tasks specifically to Cursor CLI (`agent`) via background process. Use this only when the user explicitly wants Cursor CLI or `agent` to do the work, such as building features, reviewing diffs, refactoring a codebase, or running a longer coding task in the background with Cursor. Do not use for simple one-line edits you can do directly, for read-only code inspection without delegation, or when the user did not ask to use Cursor CLI."
+description: >-
+  Cursor CLI operating guide for the `agent` command. Use only when the user
+  explicitly asks to run Cursor CLI as the external coding executor, or when an
+  orchestration/review skill has already selected Cursor CLI. Do not trigger on
+  generic agent, subagent, or delegation wording.
 ---
 
 # Cursor Coding Agent

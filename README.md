@@ -30,11 +30,11 @@ Use this skill when the right next step is conversation rather than execution. I
 
 ### `claude-code-coding-agent`
 
-Use this skill when the user explicitly selects Claude Code CLI as the external coding executor. It covers headless `--print` runs, interactive sessions, model and effort pass-through, constrained read-only runs, and long-running background execution patterns.
+Use this skill when the user or an active orchestration/review workflow explicitly selects Claude Code CLI as the external coding executor. It covers headless `--print` runs, interactive sessions, model and effort pass-through, constrained read-only runs, review-only prompts, and long-running background execution patterns. It is not for generic subagents, ordinary Claude chat, or unspecified delegation.
 
 ### `codex-coding-agent`
 
-Use this skill when the user explicitly selects Codex CLI as the external coding executor through another host agent or automation harness. It covers `codex exec` for non-interactive execution, `codex review` for review flows, interactive resume and fork flows, Git repo expectations, and safe handling of sandbox and approval controls.
+Use this skill when the user or an active orchestration/review workflow explicitly selects Codex CLI as the external coding executor through another host agent or automation harness. It covers `codex exec` for non-interactive execution, `codex review` for review flows, interactive resume and fork flows, Git repo expectations, and safe handling of sandbox and approval controls. It is not for built-in subagents, ordinary Codex chat, or unspecified delegation.
 
 ### `commit-staged-changes`
 
@@ -42,7 +42,7 @@ Use this skill when changes are already staged and the task is to create a commi
 
 ### `cursor-coding-agent`
 
-Use this skill when the user explicitly selects Cursor CLI as the external coding executor. It covers headless `--print --trust` runs, interactive sessions, explicit model pass-through, read-only `plan` and `ask` modes, and safe handling of stronger execution flags.
+Use this skill when the user or an active orchestration/review workflow explicitly selects Cursor CLI as the external coding executor. It covers headless `--print --trust` runs, interactive sessions, explicit model pass-through, read-only `plan` and `ask` modes, review-only prompts, and safe handling of stronger execution flags. The `agent` command here means Cursor CLI, not a generic agent or subagent.
 
 ### `explore-and-plan`
 

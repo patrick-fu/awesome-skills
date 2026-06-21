@@ -1,0 +1,113 @@
+{
+  "skill_name": "claude-code-coding-agent",
+  "evals": [
+    {
+      "id": 1,
+      "name": "claude-headless-implementation",
+      "category": "positive-execution",
+      "prompt": "Use Claude Code to implement the approved API pagination changes in this repo. Keep it headless and summarize the changed files.",
+      "expected_output": "The skill should route the task to Claude Code CLI, prefer `claude --print`, and avoid adding elevated permission flags unless explicitly allowed.",
+      "files": [],
+      "expectations": [
+        "The response uses or recommends `claude --print` for the headless implementation run.",
+        "The response runs from the intended repository or workspace.",
+        "The response does not invent a model or effort value.",
+        "The response does not silently add `--permission-mode bypassPermissions` or `--dangerously-skip-permissions`."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "claude-review-diff",
+      "category": "positive-review",
+      "prompt": "Use Claude Code to review the current git diff for bugs, compatibility issues, and hidden blast radius. Do not edit files.",
+      "expected_output": "The skill should use a headless Claude Code review prompt that is review-only and findings-first.",
+      "files": [],
+      "expectations": [
+        "The response uses or recommends `claude --print` for the review run.",
+        "The review prompt treats the diff as primary scope.",
+        "The review prompt requires bounded impact tracing through callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths.",
+        "The review prompt says not to edit files or start build/test work."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "claude-model-effort-pass-through",
+      "category": "positive-options",
+      "prompt": "Run Claude Code with sonnet and high effort to investigate this regression and patch it if needed.",
+      "expected_output": "The skill should pass through the requested model and effort without inventing unrelated defaults.",
+      "files": [],
+      "expectations": [
+        "The response includes `--model sonnet`.",
+        "The response includes `--effort high`.",
+        "The response uses `--print` if the run is headless or automated.",
+        "The response does not add unrelated permission or tool flags unless justified by the prompt."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "claude-read-only-explanation",
+      "category": "positive-read-only",
+      "prompt": "Use Claude Code to explain how the caching layer works in this repo. It should be read-only and must not edit files.",
+      "expected_output": "The skill should use a headless, no-edit Claude Code run and may restrict tools or permissions.",
+      "files": [],
+      "expectations": [
+        "The response encodes the read-only/no-edit constraint in the prompt.",
+        "The response uses `claude --print` for the headless run.",
+        "The response may use allowed/disallowed tool flags to tighten the run.",
+        "The response does not use Cursor `--mode ask` or `--mode plan`."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "generic-subagent-no-claude",
+      "category": "negative-trigger",
+      "prompt": "Please use a subagent to inspect the auth tests and report back. I do not care which built-in helper you use.",
+      "expected_output": "The skill should not trigger because the user asked for a generic or built-in subagent, not Claude Code CLI.",
+      "files": [],
+      "expectations": [
+        "The response does not introduce `claude --print` or other Claude Code CLI commands.",
+        "The response treats the request as generic delegation rather than Claude Code selection.",
+        "The response may ask which external executor to use if external execution is required."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "wrong-executor-codex",
+      "category": "negative-trigger",
+      "prompt": "Run Codex on this repo to implement the UI copy update. Keep it non-interactive.",
+      "expected_output": "The Claude Code skill should not activate because the user selected Codex CLI, not Claude Code.",
+      "files": [],
+      "expectations": [
+        "The response does not use `claude` commands.",
+        "The response recognizes that Codex CLI is the selected executor.",
+        "The response does not substitute Claude Code for the named executor."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "ordinary-claude-chat-no-cli",
+      "category": "negative-trigger",
+      "prompt": "In this Claude conversation, explain the tradeoffs of headless coding agents. Do not run the Claude Code CLI.",
+      "expected_output": "The skill should not turn ordinary Claude chat context into a Claude Code CLI launch.",
+      "files": [],
+      "expectations": [
+        "The response does not launch or recommend `claude --print`.",
+        "The response respects the instruction not to run Claude Code CLI.",
+        "The response treats the task as normal explanation."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "unspecified-external-agent-no-claude",
+      "category": "negative-trigger",
+      "prompt": "Delegate this migration risk audit to an external coding agent. Pick whatever is convenient.",
+      "expected_output": "The skill should not assume Claude Code merely because the user asked for an unspecified external coding agent.",
+      "files": [],
+      "expectations": [
+        "The response does not default to `claude` without an explicit selection.",
+        "The response asks for executor choice or uses a separate orchestration policy outside this skill.",
+        "The response does not present Claude Code-specific flags as if Claude Code had already been chosen."
+      ]
+    }
+  ]
+}

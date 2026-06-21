@@ -2,32 +2,30 @@
 name: codex-coding-agent
 description: >-
   Codex CLI operating guide for external host agents. Use only when the user
-  explicitly asks to run the local Codex CLI (`codex`) as the external coding
-  executor, or when an orchestration/review skill has already selected Codex
-  CLI. Do not use for built-in subagents, ordinary Codex chat, or unspecified
-  delegation.
+  explicitly asks to run local Codex CLI (`codex`) as the external coding
+  executor, or when the current orchestration/review workflow explicitly selects
+  Codex CLI by name. Do not use for built-in subagents, ordinary Codex chat,
+  generic agent delegation, or unspecified coding tasks.
 ---
 
 # Codex Coding Agent
 
-Use the Codex CLI command `codex` for delegated coding work.
+Use Codex CLI (`codex`) as an external coding executor after Codex has been explicitly selected.
 
-This skill is for **external orchestrators** such as Claude Code, Cursor, or similar agents that need to launch Codex as a subordinate coding agent.
-It is **not** a self-referential skill for Codex itself.
+This skill is for external host agents such as Claude Code, Cursor, or automation harnesses that need to launch Codex as a subordinate coding agent.
+It is not a self-referential skill for Codex itself, and it should not turn generic "use an agent/subagent" wording into a Codex launch.
+
+## Launcher
 
 Treat `codex` as the default launcher, not the only launcher.
-If the user explicitly provides a wrapper, alias-like command name, shell function entrypoint, or absolute path for Codex, use that user-declared command instead of hardcoding bare `codex`.
-
-Examples:
+If the user provides a wrapper, alias-style command name, shell function entrypoint, or absolute path for Codex, use that command and keep the rest of the invocation pattern unless the wrapper requires otherwise.
 
 ```bash
 /path/to/bin/codex exec "Your task"
 codex-prod exec "Your task"
 ```
 
-Keep the rest of the invocation pattern the same unless the user's wrapper requires something different.
-
-For exact flags and current behavior, prefer the local CLI help over memory:
+Prefer local CLI help over memory for exact flags and current behavior:
 
 ```bash
 codex --help
@@ -38,104 +36,81 @@ codex resume --help
 
 ## Execution Modes
 
-Codex supports three practical execution styles that matter for orchestration:
+Choose the mode deliberately:
 
-1. Non-interactive execution with `codex exec`
-2. Non-interactive repository review with `codex review`
-3. Interactive terminal execution with `codex`, `codex resume`, or `codex fork`
+1. `codex exec` for non-interactive implementation, investigation, and automation.
+2. `codex review` for repository review of a diff, branch, commit, or working tree.
+3. `codex`, `codex resume`, or `codex fork` for interactive terminal sessions.
 
-Use the right mode for the task instead of treating them as interchangeable.
+### Automation
 
-## Host Harness Expectations
-
-This skill is written for another agent that is launching Codex through a shell, task runner, or automation harness.
-
-That host should choose the execution style deliberately:
-
-- prefer plain non-interactive process execution for `codex exec` and `codex review`
-- allocate a PTY only for truly interactive terminal flows such as `codex`, `codex resume`, or `codex fork`
-- keep the working directory focused so Codex wakes up in the exact repository it should operate on
-
-Do not default everything to PTY just because Codex also has an interactive terminal mode.
-For automation, the non-interactive subcommands are usually the cleaner and more stable integration surface.
-
-### Prefer `codex exec` for automation
-
-Use `codex exec` when you want one-shot execution, script-friendly behavior, or a background task that should run without an interactive terminal session:
+Use `codex exec` when the task should run once, return a final answer, or run under a script without an interactive terminal:
 
 ```bash
 cd /path/to/project
 codex exec "Add request retry logic to the API client"
 ```
 
-`codex exec` is the default choice for orchestration.
+Allocate a PTY only for interactive terminal flows. For `codex exec` and `codex review`, prefer plain non-interactive process execution.
 
-If the host automation framework distinguishes plain pipes from PTY/TTY allocation, `codex exec` is the safest default because it is designed for non-interactive use.
+### Review
 
-Headless runs can take a **long** time.
-This is especially true for review-like prompts or repo-wide refactors, where Codex may spend a long time gathering context before it emits the final answer.
-If it appears quiet for a while, do **not** assume it is stuck and do **not** kill it just because there is no visible output yet.
-Once you start a headless run, trust it to finish by itself and wait for the process to exit cleanly before taking the next action.
-
-### Prefer `codex review` for repo review flows
-
-Use `codex review` when the task is explicitly a code review of a repo state, branch diff, commit, or uncommitted changes. Keep the run review-only and findings-first:
+Use `codex review` when the task is explicitly code review rather than code modification:
 
 ```bash
 cd /path/to/project
-codex review --uncommitted "Review the current changes for bugs, regressions, compatibility issues, and hidden blast radius. Treat the supplied changes as primary scope, then inspect only the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
+codex review --uncommitted "$REVIEW_PROMPT"
 ```
 
-This is usually a better fit than a generic `codex exec` prompt when the job is clearly "review code" rather than "work on code".
+In these examples, `$REVIEW_PROMPT` is a placeholder for the prompt text below; pass that text using the quoting or argument style your host harness expects.
 
-If the surrounding harness needs review-specific machine integration features such as `--model`, `--json`, `-o`, `--full-auto`, or `--ephemeral`, prefer `codex exec review` instead of the top-level `codex review` entrypoint:
+Use `codex exec review` instead of top-level `codex review` when the host workflow needs review-specific automation features such as `--model`, `--json`, `-o`, `--full-auto`, or `--ephemeral`:
 
 ```bash
 cd /path/to/project
-codex exec review --base origin/main --json -o /tmp/codex-review.txt "Review this branch for regressions, compatibility issues, and blast radius. Treat the branch diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
+codex exec review --base origin/main --json -o /tmp/codex-review.txt "$REVIEW_PROMPT"
 ```
 
-Use the simpler top-level `codex review` when you only need a straightforward human-readable review run.
+Define `REVIEW_PROMPT` with this contract, adapted to the selected target:
 
-### Use interactive terminal mode when live steering matters
+```text
+Review the current changes for bugs, regressions, compatibility issues, and hidden blast radius. Treat the supplied changes as primary scope, then inspect only the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings.
+```
 
-Use interactive mode when you want to watch the session, answer follow-up questions in real time, or continue earlier Codex context:
+If the review target should be isolated, prepare that checkout first and run Codex inside the isolated review directory. Do not mutate the user's main working tree just to conduct a review.
+
+### Interactive Terminal
+
+Use interactive mode when live steering, follow-up answers, or previous session context matters:
 
 ```bash
 cd /path/to/project
 codex "Help me debug the flaky sync job"
 ```
 
-If the host execution harness distinguishes between plain pipes and PTY/TTY sessions, allocate a PTY for interactive `codex`, `codex resume`, and `codex fork` runs.
-Those flows are terminal-native and should not be forced into a fake non-interactive pattern unless the harness explicitly supports it.
-
-## Model Selection
-
-Codex supports explicit model selection:
+Use built-in session commands only when continuing or branching existing Codex context is actually useful:
 
 ```bash
-codex exec --model gpt-5.4 "Your task"
+codex resume --last
+codex resume <session-id>
+codex exec resume --last "Continue the refactor and finish the remaining cleanup"
+codex fork --last
+codex fork <session-id> "Try a different approach without altering the original thread"
 ```
 
-If the user explicitly names a model, pass it through with `--model <id>`.
+## Host Harness
 
-If the user does **not** specify a model, do **not** invent one. Let Codex use the current configured default or profile settings.
-
-If the workflow already relies on a Codex profile, pass that through with `--profile <name>` instead of re-encoding all defaults manually.
-
-## Working Directory and Repo Expectations
-
-Run Codex inside the intended repository or workspace:
+Run Codex from the intended repository or workspace so repo rules, files, and Git state are in scope:
 
 ```bash
 cd /path/to/project
 codex exec "Implement the approved feature and summarize the changed files"
 ```
 
-Why this matters: Codex should wake up inside the intended repository, with the correct files and repo rules in scope.
+Headless Codex runs can be quiet for a long time, especially reviews and repo-wide refactors.
+After starting a headless run, wait for the process to exit cleanly before taking the next action; do not kill or repeatedly poll it just because no output has appeared yet.
 
-Codex expects a Git repository by default.
-For scratch or throwaway work outside an existing repo, prefer creating a temporary Git repository rather than weakening the repo check automatically:
+Codex expects a Git repository by default. For scratch work, prefer a temporary Git repository over bypassing the repo check:
 
 ```bash
 SCRATCH="$(mktemp -d)"
@@ -146,153 +121,74 @@ codex exec "Prototype a parser and explain the approach"
 
 Use `--skip-git-repo-check` only when the user explicitly wants that behavior or when the repo check itself is the only blocker and bypassing it is a conscious choice.
 
-If the task needs access to sibling directories, add them explicitly:
+If the task needs sibling directories, add them explicitly:
 
 ```bash
 codex exec --add-dir ../shared-lib "Update the app and shared library together"
 ```
 
-## Read-Only and Constrained Runs
+## Model and Profile Selection
 
-Codex does **not** expose Cursor-style `--mode plan` or `--mode ask`.
+Pass through model and profile choices only when the user or surrounding workflow specifies them:
 
-When the user wants analysis, explanation, or planning without edits:
+```bash
+codex exec --model gpt-5.4 "Your task"
+codex exec --profile production "Your task"
+```
 
-1. Say so explicitly in the prompt.
-2. Prefer `--sandbox read-only` for `codex exec` when the task should not modify files.
-3. Use `--ephemeral` when you want the run to avoid persisting session state.
+If no model or profile is specified, let Codex use its configured default.
 
-For read-only review work, bounded code-reading across callers, references, consumers, contracts, and compatibility assumptions is allowed when needed to assess impact. Restrict mutation, not necessary inspection.
+## Read-Only and Output Capture
 
-Example:
+Codex does not expose Cursor-style `--mode plan` or `--mode ask`.
+For analysis, explanation, or planning without edits, say so in the prompt and prefer read-only sandboxing when supported:
 
 ```bash
 cd /path/to/project
 codex exec --sandbox read-only --ephemeral "Explain how the caching layer works in this repo. Do not modify files."
 ```
 
-## Output Capture
-
-When Codex is launched by another agent or harness, choose an output capture mode that matches the caller:
+Use plain stdout by default. Add output capture only when the caller benefits from it:
 
 ```bash
-# Write the final assistant message to a file
 codex exec -o /tmp/codex-last.txt "Your task"
-
-# Emit JSONL events for a downstream parser
 codex exec --json "Your task"
 ```
 
-Use plain stdout by default unless the surrounding workflow clearly benefits from:
+## Common Patterns
 
-- `-o <file>` for a stable final-answer artifact
-- `--json` for machine-readable event streams
-
-## Quick Start
-
-### One-shot coding task
+### Implementation
 
 ```bash
 cd /path/to/project
-codex exec "Add input validation to the signup form"
+codex exec "Build the admin export flow described in README-notes.md"
 ```
 
-### One-shot coding task with low-friction execution
+Use `--full-auto` only when the user or workflow clearly wants low-friction automated execution inside the workspace:
 
 ```bash
-cd /path/to/project
 codex exec --full-auto "Implement the approved API pagination changes"
 ```
 
-Use `--full-auto` only when the user or workflow clearly wants low-friction automated execution inside the workspace.
-
-### Interactive debugging
+### Review Targets
 
 ```bash
 cd /path/to/project
-codex "Investigate why this build script hangs locally"
+codex review --uncommitted "$REVIEW_PROMPT"
+codex review --base origin/main "$REVIEW_PROMPT"
+codex review --commit abc1234 "$REVIEW_PROMPT"
 ```
 
-### Repo review
-
-```bash
-cd /path/to/project
-codex review --base origin/main "Review this branch for bugs, regressions, and risk"
-```
-
-## Common Task Patterns
-
-### Building or implementing
-
-```bash
-# Default behavior: use current configured model
-cd /path/to/project
-codex exec "Build the admin export flow described in README-notes.md"
-
-# Explicit model when the user asks for one
-codex exec --model gpt-5.4 "Implement the approved API pagination changes"
-```
-
-### Reviewing a diff or working tree
-
-Use Codex when the user explicitly wants Codex to perform the review.
-
-```bash
-# Review staged, unstaged, and untracked changes
-cd /path/to/project
-codex review --uncommitted "Review the current changes for bugs, regressions, compatibility issues, and blast radius. Treat the current changes as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
-
-# Review against a base branch
-codex review --base origin/main "Review this branch diff for regression risk, compatibility issues, and blast radius. Treat the branch diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
-
-# Review a specific commit
-codex review --commit abc1234 "Review this commit for correctness, regression risk, compatibility issues, and blast radius. Treat the commit as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
-```
-
-If the review target should be isolated, prepare that checkout first, then run Codex inside that isolated review directory.
-Do not surprise the user by mutating their main working tree just to conduct a review.
-
-For PR or MR review, prefer an isolated checkout in a temporary directory or other disposable review location when the host workflow allows it.
-The point is separation, not any specific Git mechanism.
-
-### Background long task
+### Background Run
 
 ```bash
 cd /path/to/project
 nohup codex exec --full-auto -o /tmp/codex-last.txt "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/codex-agent.log 2>&1 &
 ```
 
-When a headless background run is in flight, the correct default is still patience.
-Do not keep intervening, do not repeatedly check whether it is "still doing something", and do not terminate it early just because it has been running for a long time.
-Wait for the run to finish naturally, then inspect the final result.
+Apply the headless patience rule after starting the background process: wait for completion, then inspect the final result.
 
-### Resume or fork previous Codex sessions
-
-If the user wants to continue prior Codex work, use the built-in session commands:
-
-```bash
-codex resume --last
-codex resume <session-id>
-codex exec resume --last "Continue the refactor and finish the remaining cleanup"
-codex fork --last
-codex fork <session-id> "Try a different approach without altering the original thread"
-```
-
-Use these only when resuming or branching existing Codex context is actually useful.
-
-## Scratch and Temporary Work
-
-When another agent wants Codex to solve a one-off task outside an existing repository, the safest pattern is:
-
-1. create a temporary directory
-2. initialize a temporary Git repository there
-3. run `codex exec` in that directory
-4. collect the output
-5. clean up afterward if the workflow does not need to persist the artifact
-
-This is usually better than weakening repo expectations globally.
-
-### Image-aware implementation prompts
+### Image-Aware Work
 
 If the user gives screenshots, mockups, or design captures, attach them explicitly:
 
@@ -300,39 +196,17 @@ If the user gives screenshots, mockups, or design captures, attach them explicit
 codex exec -i ./mockup.png "Implement this UI in the current project"
 ```
 
-## Sandbox and Approval Flags
+## Safety Rules
 
-Codex exposes stronger-execution controls:
-
-```bash
-codex exec --full-auto ...
-codex exec --dangerously-bypass-approvals-and-sandbox ...
-codex --sandbox read-only ...
-codex --sandbox workspace-write ...
-codex --ask-for-approval on-request ...
-```
-
-Treat these as **intentional overrides**, not the default happy path.
-
-- Use them only when the user explicitly wants that behavior or the task clearly requires it.
-- Do not silently add `--dangerously-bypass-approvals-and-sandbox`.
-- Do not silently relax sandboxing or approval behavior just to make a run "easier".
-
-## Rules
-
-1. Use this skill only when the user explicitly wants **Codex** or `codex`.
-2. This skill is for an external host agent launching Codex, not for Codex recursively invoking itself.
-3. Treat bare `codex` as the default launcher only. If the user specifies a wrapper, alias-style command, or explicit path, use that command.
-4. Prefer `codex exec` for automation and `codex review` for repository review tasks.
-5. For repository review tasks, keep the diff or range as primary scope while explicitly requiring bounded impact tracing instead of narrow local inspection or uncontrolled repo-wide exploration.
-6. Repository review tasks must stay review-only, avoid build/test/patch work unless the user asks for it, and lead with actionable findings or an explicit "no clear findings" statement.
-7. When the host harness needs review-specific output capture or explicit model control, prefer `codex exec review` over top-level `codex review`.
-8. Use interactive `codex`, `codex resume`, or `codex fork` only when live collaboration or prior session context is actually useful.
-9. If the user specifies a model or profile, pass it through. If the user does not, let Codex use the current configured default.
-10. For read-only tasks, encode that in the prompt and prefer `--sandbox read-only` where that command supports it.
-11. Remember that Codex expects a Git repository by default. For scratch work, prefer a temporary Git repo over automatic repo-check bypass.
-12. Do not silently escalate to `--dangerously-bypass-approvals-and-sandbox`.
-13. Headless runs, especially reviews and refactors, may take a long time with little or no visible output. This is normal.
-14. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
-15. If the surrounding harness differentiates PTY from plain pipes, allocate PTY for interactive terminal sessions and prefer non-interactive subcommands for automation.
-16. Use `-o` or `--json` only when the surrounding workflow genuinely benefits from a stable artifact or machine-readable event stream.
+1. Use this skill only when the user, wrapper, or active orchestration explicitly selects Codex CLI.
+2. Do not use it for built-in subagents, ordinary Codex chat, generic agent delegation, or unspecified coding tasks.
+3. Treat bare `codex` as the default launcher only; preserve user-provided wrappers, aliases, shell entrypoints, and explicit paths.
+4. Prefer `codex exec` for automation and `codex review` for review-only repository review.
+5. For review, treat the diff/range as primary scope, require bounded impact tracing, stay review-only, and lead with actionable findings or "no clear findings".
+6. Use `codex exec review` when review needs machine-readable output, output files, explicit model control, or other `exec`-only harness features.
+7. Use interactive `codex`, `codex resume`, or `codex fork` only when live collaboration or prior Codex context is useful.
+8. Pass through explicit model/profile choices; do not invent them.
+9. For read-only tasks, encode the no-edit constraint in the prompt and prefer `--sandbox read-only` where supported.
+10. For scratch work, prefer a temporary Git repo over automatic repo-check bypass.
+11. Do not silently add `--dangerously-bypass-approvals-and-sandbox`, relax sandboxing, or weaken approval behavior.
+12. Headless runs may be quiet for a long time; wait for clean exit instead of killing or repeatedly polling them.

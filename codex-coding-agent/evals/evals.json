@@ -3,27 +3,111 @@
   "evals": [
     {
       "id": 1,
+      "name": "codex-headless-implementation",
+      "category": "positive-execution",
       "prompt": "Use Codex to implement the approved API pagination changes in this repo. Keep it non-interactive if possible and give me a final summary of the changed files.",
-      "expected_output": "The skill should route the task to Codex CLI, prefer `codex exec` for non-interactive execution, preserve the current repository as the working context, and avoid inventing a model if the user did not specify one.",
-      "files": []
+      "expected_output": "The skill should route the task to Codex CLI, prefer `codex exec`, run in the current repository, and avoid inventing a model.",
+      "files": [],
+      "expectations": [
+        "The response uses or recommends `codex exec` for the non-interactive implementation run.",
+        "The response keeps the intended repository or workspace as the working directory.",
+        "The response does not add `--model` unless the user specified a model.",
+        "The response does not add dangerous sandbox or approval bypass flags."
+      ]
     },
     {
       "id": 2,
+      "name": "codex-review-uncommitted",
+      "category": "positive-review",
       "prompt": "I want Codex to review my current uncommitted changes for bugs, regressions, and missing validation.",
-      "expected_output": "The skill should prefer the dedicated review flow with `codex review --uncommitted` rather than treating the task as a generic coding prompt.",
-      "files": []
+      "expected_output": "The skill should prefer the dedicated review flow with `codex review --uncommitted` and keep the run review-only.",
+      "files": [],
+      "expectations": [
+        "The response uses or recommends `codex review --uncommitted` rather than a generic implementation prompt.",
+        "The review prompt treats the current changes as primary scope.",
+        "The review prompt requires bounded impact tracing through callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths.",
+        "The review prompt says to stay review-only and lead with actionable findings or no clear findings."
+      ]
     },
     {
       "id": 3,
+      "name": "codex-resume-with-safety",
+      "category": "positive-session",
       "prompt": "Resume the last Codex session in this repo and continue the refactor, but keep this safe and don't relax sandbox or approval behavior unless I explicitly ask.",
-      "expected_output": "The skill should use a Codex resume flow such as `codex resume --last` or `codex exec resume --last`, preserve the user's safety constraints, and avoid silently escalating to dangerous execution flags.",
-      "files": []
+      "expected_output": "The skill should use a Codex resume flow, preserve the user's safety constraints, and avoid silently escalating permissions.",
+      "files": [],
+      "expectations": [
+        "The response uses a Codex resume flow such as `codex resume --last` or `codex exec resume --last`.",
+        "The response keeps the work in the intended repository.",
+        "The response does not add `--dangerously-bypass-approvals-and-sandbox`.",
+        "The response preserves the user's request not to relax sandbox or approval behavior."
+      ]
     },
     {
       "id": 4,
+      "name": "codex-exec-review-automation",
+      "category": "positive-review",
       "prompt": "Use Codex to review this branch, but I need the result captured to a file and I also want the run pinned to a specific model for the rest of my automation pipeline.",
-      "expected_output": "The skill should recognize that the orchestrator needs review-specific automation features and prefer a flow like `codex exec review` instead of the simpler top-level `codex review` command.",
-      "files": []
+      "expected_output": "The skill should choose `codex exec review` because the review needs output capture and explicit model control.",
+      "files": [],
+      "expectations": [
+        "The response prefers `codex exec review` over top-level `codex review` for this automation case.",
+        "The response includes an output capture mechanism such as `-o <file>`.",
+        "The response passes through an explicit model only if the model id is supplied or requested as a parameter.",
+        "The review remains review-only and findings-first."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "generic-subagent-no-codex",
+      "category": "negative-trigger",
+      "prompt": "Please use a subagent to inspect the auth tests and report back. I do not care which built-in helper you use.",
+      "expected_output": "The skill should not trigger because the user asked for a generic or built-in subagent, not Codex CLI.",
+      "files": [],
+      "expectations": [
+        "The response does not introduce `codex`, `codex exec`, or `codex review`.",
+        "The response treats the request as generic delegation rather than Codex CLI selection.",
+        "The response may ask which external executor to use if external execution is required."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "ordinary-codex-chat-no-cli",
+      "category": "negative-trigger",
+      "prompt": "In this Codex chat, explain how the local caching layer works. Do not launch any external CLI.",
+      "expected_output": "The skill should not turn ordinary Codex chat context into a recursive Codex CLI launch.",
+      "files": [],
+      "expectations": [
+        "The response does not launch or recommend `codex exec`.",
+        "The response respects the instruction not to launch an external CLI.",
+        "The response treats the task as normal in-session analysis."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "wrong-executor-claude-code",
+      "category": "negative-trigger",
+      "prompt": "Run Claude Code on this repo to implement the UI copy update. Keep it headless.",
+      "expected_output": "The Codex skill should not activate because the user selected Claude Code, not Codex CLI.",
+      "files": [],
+      "expectations": [
+        "The response does not use `codex` commands.",
+        "The response recognizes that Claude Code is the selected executor.",
+        "The response does not substitute Codex for the named executor."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "unspecified-external-agent-no-codex",
+      "category": "negative-trigger",
+      "prompt": "Delegate this migration risk audit to an external coding agent. Pick whatever is convenient.",
+      "expected_output": "The skill should not assume Codex CLI merely because the user asked for an unspecified external coding agent.",
+      "files": [],
+      "expectations": [
+        "The response does not default to `codex` without an explicit selection.",
+        "The response asks for executor choice or uses a separate orchestration policy outside this skill.",
+        "The response does not present Codex-specific safety rules as if Codex had already been chosen."
+      ]
     }
   ]
 }

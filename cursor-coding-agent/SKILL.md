@@ -159,11 +159,11 @@ agent --model gpt-5.4-medium --print --trust "Implement the approved API paginat
 
 ### Reviewing a diff or PR checkout
 
-Use Cursor CLI when the user explicitly wants Cursor to perform the review.
+Use Cursor CLI when the user explicitly wants Cursor to perform the review. Keep the run review-only and findings-first.
 
 ```bash
 cd /path/to/project
-agent --print --trust --mode ask "Review the current git diff for correctness, regression risk, compatibility assumptions, and blast radius. Treat the diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, and immediate upstream/downstream links needed to assess impact. Stay review-only and do not edit files or start build/test work."
+agent --print --trust --mode ask "Review the current git diff for correctness, regression risk, compatibility assumptions, and blast radius. Treat the diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, and immediate upstream/downstream links needed to assess impact. Stay review-only and do not edit files or start build/test work. Lead with actionable findings, or say there are no clear findings."
 ```
 
 If the review target should be isolated, prepare that checkout first, then run `agent` inside that review directory.
@@ -219,8 +219,9 @@ Treat these as **intentional overrides**, not the default happy path.
 5. If the user does not specify a model, let Cursor CLI use the **current selected model**.
 6. Use `--mode plan` and `--mode ask` only for read-only planning or explanation tasks.
 7. For code review tasks, keep the diff or range as primary scope while explicitly requiring bounded impact tracing rather than narrow local inspection or repo-wide wandering.
-8. Do not silently escalate to `--force` or `--yolo`.
-9. Headless runs, especially reviews, may take a long time with little or no visible output. This is normal.
-10. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
-11. After starting a headless run, wait for it to exit cleanly before taking the next action.
-12. If you run Cursor CLI as a long task in the background, choose a host-specific monitoring approach outside this skill.
+8. Code review tasks must stay review-only, avoid build/test/patch work unless the user asks for it, and lead with actionable findings or an explicit "no clear findings" statement.
+9. Do not silently escalate to `--force` or `--yolo`.
+10. Headless runs, especially reviews, may take a long time with little or no visible output. This is normal.
+11. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
+12. After starting a headless run, wait for it to exit cleanly before taking the next action.
+13. If you run Cursor CLI as a long task in the background, choose a host-specific monitoring approach outside this skill.

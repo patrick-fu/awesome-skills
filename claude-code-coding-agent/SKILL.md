@@ -50,11 +50,12 @@ cd /path/to/project
 claude --print "Add request retry logic to the API client"
 ```
 
-For unattended implementation where the user or workflow has already allowed low-friction editing, add `--permission-mode bypassPermissions` explicitly:
+Only add `--permission-mode bypassPermissions` when the user or workflow explicitly names that permission mode, asks to bypass normal permission prompts, or otherwise makes low-friction permission bypass a stated requirement.
+Do not infer it from words like approved, headless, non-interactive, unattended, or background.
 
 ```bash
 cd /path/to/project
-claude --permission-mode bypassPermissions --print "Implement the approved API pagination changes"
+claude --permission-mode bypassPermissions --print "Run the approved change with bypassPermissions as requested"
 ```
 
 Do not treat `--permission-mode bypassPermissions` as implicit. It is a deliberate host workflow choice, separate from the stronger `--dangerously-skip-permissions` flag.
@@ -156,7 +157,7 @@ claude --print "Build the admin export flow described in README-notes.md"
 Add `--permission-mode bypassPermissions` only when unattended write access is an explicit choice:
 
 ```bash
-claude --permission-mode bypassPermissions --print "Implement the approved API pagination changes"
+claude --permission-mode bypassPermissions --print "Run this change with bypassPermissions as requested"
 ```
 
 ### Review
@@ -170,10 +171,11 @@ claude --print "$REVIEW_PROMPT"
 
 ```bash
 cd /path/to/project
-nohup claude --permission-mode bypassPermissions --print "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/claude-code-agent.log 2>&1 &
+nohup claude --print "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/claude-code-agent.log 2>&1 &
 ```
 
 Apply the headless patience rule after starting the background process: wait for completion, then inspect the final result.
+Add `--permission-mode bypassPermissions` to a background run only when the user or workflow explicitly chose that permission mode.
 
 ### Named Agents
 
@@ -195,7 +197,7 @@ For ad hoc injected agents, keep the injected prompt bounded to the selected rol
 6. Pass through explicit model, fallback model, and effort choices; do not invent them.
 7. For read-only tasks, encode the no-edit constraint in the prompt and tighten permissions or tool access where appropriate.
 8. For review, treat the diff/range as primary scope, require bounded impact tracing, stay review-only, and lead with actionable findings or "no clear findings".
-9. Do not silently add `--permission-mode bypassPermissions`; use it only when unattended editing is an explicit workflow choice.
+9. Do not silently add `--permission-mode bypassPermissions`; approved, headless, unattended, or background execution is not enough. Use it only when permission bypass is an explicit workflow choice.
 10. Do not silently escalate to `--dangerously-skip-permissions`.
 11. Do not silently create worktrees or tmux sessions.
 12. Use `--bare` only when a stripped-down run with fewer ambient integrations is intentional.

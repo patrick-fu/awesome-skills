@@ -29,11 +29,11 @@ npx skills add patrick-fu/parallel-goal-workflows
 
 ### `claude-code-coding-agent`
 
-当用户明确选择 Claude Code CLI 作为外部编码执行器时使用这个 Skill。它覆盖 headless `--print` 执行、交互式会话、模型和推理强度透传、受限只读运行，以及长时间后台执行模式。
+当用户或当前 orchestration/review workflow 明确选择 Claude Code CLI 作为外部编码执行器时使用这个 Skill。它覆盖 headless `--print` 执行、交互式会话、模型和推理强度透传、受限只读运行、review-only prompt，以及长时间后台执行模式。它不用于 generic subagent、普通 Claude chat 或未指定执行器的 delegation。
 
 ### `codex-coding-agent`
 
-当用户明确选择由另一个宿主 Agent 或自动化流程调用 Codex CLI 作为外部编码执行器时使用这个 Skill。它覆盖 `codex exec` 非交互执行、`codex review` 代码审查流程、交互式 resume/fork 流程、Git 仓库预期，以及 sandbox 和 approval 控制的安全处理。
+当用户或当前 orchestration/review workflow 明确选择由另一个宿主 Agent 或自动化流程调用 Codex CLI 作为外部编码执行器时使用这个 Skill。它覆盖 `codex exec` 非交互执行、`codex review` 代码审查流程、交互式 resume/fork 流程、Git 仓库预期，以及 sandbox 和 approval 控制的安全处理。它不用于内置 subagent、普通 Codex chat 或未指定执行器的 delegation。
 
 ### `commit-staged-changes`
 
@@ -41,7 +41,7 @@ npx skills add patrick-fu/parallel-goal-workflows
 
 ### `cursor-coding-agent`
 
-当用户明确选择 Cursor CLI 作为外部编码执行器时使用这个 Skill。它覆盖 headless `--print --trust` 执行、交互式会话、显式模型透传、只读 `plan` 和 `ask` 模式，以及更强执行参数的安全处理。
+当用户或当前 orchestration/review workflow 明确选择 Cursor CLI 作为外部编码执行器时使用这个 Skill。它覆盖 headless `--print --trust` 执行、交互式会话、显式模型透传、只读 `plan` 和 `ask` 模式、review-only prompt，以及更强执行参数的安全处理。这里的 `agent` 命令指 Cursor CLI，不是泛称 agent 或 subagent。
 
 ### `explore-and-plan`
 

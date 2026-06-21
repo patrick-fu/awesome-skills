@@ -1,31 +1,31 @@
 ---
 name: claude-code-coding-agent
 description: >-
-  Claude Code CLI operating guide. Use only when the user explicitly asks to run
-  Claude Code (`claude`) as the external coding executor, or when an
-  orchestration/review skill has already selected Claude Code. Do not use for
-  generic coding tasks, built-in subagents, or unspecified delegation.
+  Claude Code CLI operating guide for external host agents. Use only when the
+  user explicitly asks to run Claude Code CLI (`claude`) as the external coding
+  executor, or when the current orchestration/review workflow explicitly selects
+  Claude Code by name. Do not use for generic coding tasks, built-in subagents,
+  ordinary Claude chat, or unspecified delegation.
 ---
 
 # Claude Code Coding Agent
 
-Use the Claude Code CLI command `claude` for delegated coding work.
+Use Claude Code CLI (`claude`) as an external coding executor after Claude Code has been explicitly selected.
 
-This skill is for **Claude Code only**. Do not generalize it to Cursor, Codex, Pi, or other coding agents.
+This skill is for external host agents or automation harnesses launching Claude Code.
+It is not a generic coding-agent guide, and it should not turn generic "use an agent/subagent" wording into a Claude Code launch.
 
-Treat `claude` as the **default launcher**, not the only launcher.
-If the user explicitly provides a wrapper, alias-like command name, shell function entrypoint, or absolute path for Claude Code, use that user-declared command instead of hardcoding bare `claude`.
+## Launcher
 
-Examples:
+Treat `claude` as the default launcher, not the only launcher.
+If the user provides a wrapper, alias-style command name, shell function entrypoint, or absolute path for Claude Code, use that command and keep the rest of the invocation pattern unless the wrapper requires otherwise.
 
 ```bash
 /path/to/bin/claude --print "Your task"
-claude-xxx-yyy --print "Your task"
+claude-prod --print "Your task"
 ```
 
-Keep the rest of the invocation pattern the same unless the user's wrapper requires something different.
-
-For exact flags and current behavior, prefer the local CLI help over memory:
+Prefer local CLI help over memory for exact flags and current behavior:
 
 ```bash
 claude --help
@@ -35,184 +35,59 @@ claude auth --help
 
 ## Execution Modes
 
-Claude Code supports two practical execution styles:
+Choose the mode deliberately:
 
-1. **Headless mode** with `--print`
-2. **Interactive terminal mode** without `--print`
+1. `claude --print` for non-interactive implementation, investigation, and automation.
+2. `claude --print` plus a review prompt contract for review-only repository review.
+3. `claude` without `--print` for interactive terminal sessions.
 
-Use the right one for the task instead of treating them as interchangeable.
+### Automation
 
-### Prefer headless mode for automation
-
-Use `--print` when you want one-shot execution, script-friendly output, or a background task that should run without an interactive TTY:
+Use `--print` when the task should run once, return a final answer, or run under a script without an interactive terminal:
 
 ```bash
 cd /path/to/project
-claude --permission-mode bypassPermissions --print "Add request retry logic to the API client"
+claude --print "Add request retry logic to the API client"
 ```
 
-`--print` keeps the run non-interactive and is the default choice for orchestration.
-Apply the same rule when the launcher is a wrapper, for example `claude-xxx-yyy --print ...`.
+For unattended implementation where the user or workflow has already allowed low-friction editing, add `--permission-mode bypassPermissions` explicitly:
 
-Headless runs can take a **long** time.
-This is especially true for review tasks, where Claude Code may spend a long time reading context before it prints anything useful or exits.
-If it appears quiet for a while, do **not** assume it is stuck and do **not** kill it just because there is no visible output yet.
-Once you start a headless run, trust it to finish by itself and wait for the process to exit cleanly before taking the next action.
-Do not babysit it with frequent checks or impatient polling in the middle.
+```bash
+cd /path/to/project
+claude --permission-mode bypassPermissions --print "Implement the approved API pagination changes"
+```
 
-### Use interactive terminal mode when live collaboration matters
+Do not treat `--permission-mode bypassPermissions` as implicit. It is a deliberate host workflow choice, separate from the stronger `--dangerously-skip-permissions` flag.
 
-Use interactive mode when you want to watch the session, answer follow-up questions in real time, or steer the agent while it works:
+### Review
+
+Use Claude Code for review only when Claude Code has been explicitly selected. Keep the run review-only and findings-first:
+
+```bash
+cd /path/to/project
+claude --print "$REVIEW_PROMPT"
+```
+
+In these examples, `$REVIEW_PROMPT` is a placeholder for the prompt text below; pass that text using the quoting or argument style your host harness expects.
+
+Define `REVIEW_PROMPT` with this contract, adapted to the selected target:
+
+```text
+Review the current git diff for correctness, regression risk, compatibility issues, and hidden blast radius. Treat the supplied changes as primary scope, then inspect only the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not modify files or start build/test work. Lead with actionable findings, or say there are no clear findings.
+```
+
+If the review target should be isolated, prepare that checkout first and run Claude Code inside the isolated review directory.
+
+### Interactive Terminal
+
+Use interactive mode when live collaboration, follow-up answers, or hands-on steering matters:
 
 ```bash
 cd /path/to/project
 claude "Help me debug the flaky sync job"
 ```
 
-## Model Selection
-
-Claude Code supports explicit model selection:
-
-```bash
-claude --model sonnet --permission-mode bypassPermissions --print "Your task"
-```
-
-If the user explicitly names a model, pass it through with `--model <id>`.
-
-If the user does **not** specify a model, do **not** invent one. Let Claude Code use the current configured default.
-
-If the user wants overload fallback in headless mode, Claude Code also supports:
-
-```bash
-claude --print --fallback-model sonnet "Your task"
-```
-
-## Effort Control
-
-Claude Code supports explicit effort selection:
-
-```bash
-claude --effort high --permission-mode bypassPermissions --print "Investigate the regression and patch it"
-```
-
-Use `--effort <low|medium|high|max>` only when the user asks for a specific effort level or when the orchestration clearly benefits from it.
-
-## Read-Only and Constrained Runs
-
-Claude Code does **not** expose Cursor-style `--mode ask` or `--mode plan`.
-
-When the user wants analysis, explanation, or planning without edits:
-
-1. Say so explicitly in the prompt.
-2. Tighten permissions with `--permission-mode` when appropriate.
-3. Restrict tools when needed with `--allowed-tools`, `--disallowed-tools`, or `--tools`.
-
-For read-only review work, bounded code-reading across callers, references, consumers, and contracts is allowed when needed to assess impact. Restrict file modification, not necessary inspection.
-
-Example:
-
-```bash
-cd /path/to/project
-claude --print --allowed-tools Read,Grep,Glob "Explain how the caching layer works in this repo. Do not modify files."
-```
-
-## Output Formats
-
-When using `--print`, choose an output format that matches the caller:
-
-```bash
-# Human-readable
-claude --print --output-format text "Your task"
-
-# Machine-readable
-claude --print --output-format json "Your task"
-
-# Streaming structured events
-claude --print --output-format stream-json "Your task"
-```
-
-Use `text` by default unless a script or downstream parser clearly benefits from `json` or `stream-json`.
-
-## Quick Start
-
-### One-shot coding task
-
-```bash
-cd /path/to/project
-claude --permission-mode bypassPermissions --print "Add input validation to the signup form"
-```
-
-### Interactive debugging
-
-```bash
-cd /path/to/project
-claude "Investigate why this build script hangs locally"
-```
-
-### Structured machine-readable run
-
-```bash
-cd /path/to/project
-claude --permission-mode bypassPermissions --print --output-format json "Summarize the changed files and their purpose"
-```
-
-## Working Directory
-
-Run Claude Code inside the intended repository or workspace:
-
-```bash
-cd /path/to/project
-claude --permission-mode bypassPermissions --print "Implement the approved feature and summarize the changed files"
-```
-
-Why this matters: Claude Code should wake up inside the intended repository, with the correct files and repo rules in scope.
-
-If the user gave a custom launcher, run that launcher in the intended repository instead of replacing it with bare `claude`.
-
-If the task needs access to sibling directories, add them explicitly:
-
-```bash
-claude --add-dir ../shared-lib --permission-mode bypassPermissions --print "Update the app and shared library together"
-```
-
-## Common Task Patterns
-
-### Building or implementing
-
-```bash
-# Default behavior: use current configured model
-cd /path/to/project
-claude --permission-mode bypassPermissions --print "Build the admin export flow described in README-notes.md"
-
-# Explicit model when the user asks for one
-claude --model sonnet --permission-mode bypassPermissions --print "Implement the approved API pagination changes"
-```
-
-### Reviewing a diff or PR checkout
-
-Use Claude Code when the user explicitly wants Claude Code to perform the review. Keep the run review-only and findings-first.
-
-```bash
-cd /path/to/project
-claude --permission-mode bypassPermissions --print "Review the current git diff for correctness, regression risk, compatibility issues, and blast radius. Treat the diff as primary scope, then inspect the minimum necessary callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths needed to assess impact. Stay review-only; do not modify files or start build/test work. Lead with actionable findings, or say there are no clear findings."
-```
-
-If the review target should be isolated, prepare that checkout first, then run `claude` inside that review directory.
-
-### Background long task
-
-```bash
-cd /path/to/project
-nohup claude --permission-mode bypassPermissions --print "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/claude-code-agent.log 2>&1 &
-```
-
-When a headless background run is in flight, the correct default is still patience.
-Do not keep intervening, do not repeatedly check whether it is "still doing something", and do not terminate it early just because it has been running for a long time.
-Wait for the run to finish naturally, then inspect the final result.
-
-### Resume previous Claude Code sessions
-
-If the user wants to continue prior Claude Code work, use the built-in session commands:
+Use built-in session commands only when continuing existing Claude Code context is useful:
 
 ```bash
 claude --continue
@@ -221,60 +96,107 @@ claude --resume <session-id>
 claude --resume <session-id> --fork-session
 ```
 
-Use these only when resuming existing Claude Code context is actually useful.
+## Host Harness
 
-### Use named or custom agents
-
-Claude Code can target a configured agent or inject custom agents for the current run:
+Run Claude Code from the intended repository or workspace so repo rules, files, and Git state are in scope:
 
 ```bash
-claude --agent reviewer --print "Review the current diff as primary scope and inspect the minimum necessary impact chain around touched symbols, callers, references, consumers, contracts, and nearby integration seams. Stay review-only and lead with actionable findings."
-
-claude --agents '{"reviewer":{"description":"Reviews code","prompt":"You are a strict code reviewer who treats the supplied diff as primary scope and follows bounded impact traces through relevant callers, references, consumers, contracts, and immediate upstream/downstream behavior without editing files."}}' \
-  --agent reviewer \
-  --print \
-  "Review the current diff as primary scope and inspect the minimum necessary impact chain around touched symbols, callers, references, consumers, contracts, and nearby integration seams. Stay review-only and lead with actionable findings."
+cd /path/to/project
+claude --print "Implement the approved feature and summarize the changed files"
 ```
 
-Use these only when the user explicitly wants a specific sub-agent persona or the workflow already defines one.
+Headless Claude Code runs can be quiet for a long time, especially reviews and repo-wide refactors.
+After starting a headless run, wait for the process to exit cleanly before taking the next action; do not kill or repeatedly poll it just because no output has appeared yet.
 
-## Permissions, Tools, and Isolation
-
-Claude Code exposes stronger-execution and environment-shaping flags:
+If the task needs sibling directories, add them explicitly:
 
 ```bash
-claude --permission-mode bypassPermissions ...
-claude --dangerously-skip-permissions ...
-claude --allowed-tools Read,Grep,Glob ...
-claude --disallowed-tools Bash ...
-claude --tools Read,Edit,Bash ...
-claude --mcp-config /path/to/mcp.json ...
-claude --bare ...
-claude --worktree review-branch ...
-claude --tmux ...
+claude --add-dir ../shared-lib --print "Update the app and shared library together"
 ```
 
-Treat these as **intentional overrides**, not the default path.
+## Model and Effort Selection
 
-- Use them only when the user explicitly wants that behavior or the task clearly requires it.
-- Do not silently escalate to `--dangerously-skip-permissions`.
-- Do not silently create worktrees or tmux sessions.
-- Use `--bare` only when you intentionally want a stripped-down run with fewer ambient integrations.
+Pass through model, fallback model, and effort choices only when the user or surrounding workflow specifies them:
 
-## Rules
+```bash
+claude --model sonnet --print "Your task"
+claude --print --fallback-model sonnet "Your task"
+claude --effort high --print "Investigate the regression and patch it"
+```
 
-1. Use this skill only when the user explicitly wants **Claude Code** or `claude`.
-2. Treat bare `claude` as the default launcher only. If the user specifies a wrapper, alias-style command, or explicit path, use that command.
-3. Prefer `--print` for automation, one-shot runs, and non-interactive execution.
-4. Use interactive terminal mode only when a live session is actually useful.
-5. If the user specifies a model, pass it through with `--model <id>`.
-6. If the user does not specify a model, let Claude Code use the current configured default.
-7. For read-only tasks, encode that in the prompt and tighten permissions or tool access as needed.
-8. For code review tasks, keep the diff or range as primary scope while explicitly requiring bounded impact tracing rather than narrow local inspection or repo-wide wandering.
-9. Code review tasks must stay review-only, avoid build/test/patch work unless the user asks for it, and lead with actionable findings or an explicit "no clear findings" statement.
+If no model or effort is specified, let Claude Code use its configured default.
+
+## Read-Only and Output Formats
+
+Claude Code does not expose Cursor-style `--mode ask` or `--mode plan`.
+For analysis, explanation, or planning without edits, say so in the prompt and tighten tools or permissions when appropriate:
+
+```bash
+cd /path/to/project
+claude --print --allowed-tools Read,Grep,Glob "Explain how the caching layer works in this repo. Do not modify files."
+```
+
+Use text output by default. Choose structured output only when the caller benefits from it:
+
+```bash
+claude --print --output-format text "Your task"
+claude --print --output-format json "Your task"
+claude --print --output-format stream-json "Your task"
+```
+
+## Common Patterns
+
+### Implementation
+
+```bash
+cd /path/to/project
+claude --print "Build the admin export flow described in README-notes.md"
+```
+
+Add `--permission-mode bypassPermissions` only when unattended write access is an explicit choice:
+
+```bash
+claude --permission-mode bypassPermissions --print "Implement the approved API pagination changes"
+```
+
+### Review
+
+```bash
+cd /path/to/project
+claude --print "$REVIEW_PROMPT"
+```
+
+### Background Run
+
+```bash
+cd /path/to/project
+nohup claude --permission-mode bypassPermissions --print "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/claude-code-agent.log 2>&1 &
+```
+
+Apply the headless patience rule after starting the background process: wait for completion, then inspect the final result.
+
+### Named Agents
+
+Use Claude Code named or injected agents only when the user explicitly wants that persona or the workflow already defines it:
+
+```bash
+claude --agent reviewer --print "$REVIEW_PROMPT"
+```
+
+For ad hoc injected agents, keep the injected prompt bounded to the selected role and do not forward unrelated orchestration instructions.
+
+## Safety Rules
+
+1. Use this skill only when the user, wrapper, or active orchestration explicitly selects Claude Code CLI.
+2. Do not use it for generic coding tasks, built-in subagents, ordinary Claude chat, or unspecified delegation.
+3. Treat bare `claude` as the default launcher only; preserve user-provided wrappers, aliases, shell entrypoints, and explicit paths.
+4. Prefer `--print` for automation, one-shot runs, and non-interactive execution.
+5. Use interactive terminal mode only when live collaboration or prior Claude Code context is useful.
+6. Pass through explicit model, fallback model, and effort choices; do not invent them.
+7. For read-only tasks, encode the no-edit constraint in the prompt and tighten permissions or tool access where appropriate.
+8. For review, treat the diff/range as primary scope, require bounded impact tracing, stay review-only, and lead with actionable findings or "no clear findings".
+9. Do not silently add `--permission-mode bypassPermissions`; use it only when unattended editing is an explicit workflow choice.
 10. Do not silently escalate to `--dangerously-skip-permissions`.
 11. Do not silently create worktrees or tmux sessions.
-12. Headless runs, especially reviews, may take a long time with little or no visible output. This is normal.
-13. Do not kill a headless run just because it seems quiet, and do not keep poking it with frequent polling.
-14. After starting a headless run, wait for it to exit cleanly before taking the next action.
-15. If you run Claude Code as a long task in the background, choose a host-specific monitoring approach outside this skill.
+12. Use `--bare` only when a stripped-down run with fewer ambient integrations is intentional.
+13. Headless runs may be quiet for a long time; wait for clean exit instead of killing or repeatedly polling them.

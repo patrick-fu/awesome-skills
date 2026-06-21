@@ -1,0 +1,113 @@
+{
+  "skill_name": "cursor-coding-agent",
+  "evals": [
+    {
+      "id": 1,
+      "name": "cursor-headless-implementation",
+      "category": "positive-execution",
+      "prompt": "Use Cursor CLI to implement the approved API pagination changes in this repo. Keep it headless and summarize the changed files.",
+      "expected_output": "The skill should route the task to Cursor CLI, prefer `agent --print --trust`, and avoid adding stronger execution flags.",
+      "files": [],
+      "expectations": [
+        "The response uses or recommends `agent --print --trust` for the headless implementation run.",
+        "The response makes clear that `agent` means the Cursor CLI command.",
+        "The response runs from the intended repository or workspace.",
+        "The response does not silently add `--force`, `--yolo`, `--sandbox disabled`, or `--approve-mcps`."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "cursor-review-ask-mode",
+      "category": "positive-review",
+      "prompt": "Use Cursor CLI to review the current git diff for bugs, compatibility issues, and hidden blast radius. Do not edit files.",
+      "expected_output": "The skill should use a headless Cursor CLI review prompt in ask mode that is review-only and findings-first.",
+      "files": [],
+      "expectations": [
+        "The response uses or recommends `agent --print --trust --mode ask` for the review run.",
+        "The review prompt treats the diff as primary scope.",
+        "The review prompt requires bounded impact tracing through callers, references, consumers, contracts, compatibility assumptions, and immediate upstream/downstream paths.",
+        "The review prompt says not to edit files or start build/test work."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "cursor-plan-mode",
+      "category": "positive-read-only",
+      "prompt": "Use Cursor CLI in plan mode to compare two approaches for splitting the monolith service. I only want a plan, no file edits.",
+      "expected_output": "The skill should use Cursor CLI plan mode for read-only planning.",
+      "files": [],
+      "expectations": [
+        "The response uses or recommends `agent --print --trust --mode plan`.",
+        "The response encodes the no-edit constraint.",
+        "The response does not use implementation mode for a planning-only task.",
+        "The response does not add stronger execution flags."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "cursor-model-pass-through",
+      "category": "positive-options",
+      "prompt": "Run Cursor CLI with model gpt-5.4-medium to investigate this regression and patch it if needed.",
+      "expected_output": "The skill should pass through the requested Cursor model without inventing unrelated defaults.",
+      "files": [],
+      "expectations": [
+        "The response includes `--model gpt-5.4-medium`.",
+        "The response uses `agent --print --trust` if the run is headless or automated.",
+        "The response does not invent another model.",
+        "The response does not add unrelated sandbox or force flags."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "generic-subagent-no-cursor",
+      "category": "negative-trigger",
+      "prompt": "Please use a subagent to inspect the auth tests and report back. I do not care which built-in helper you use.",
+      "expected_output": "The skill should not trigger because the user asked for a generic or built-in subagent, not Cursor CLI.",
+      "files": [],
+      "expectations": [
+        "The response does not introduce Cursor CLI `agent` commands.",
+        "The response treats the request as generic delegation rather than Cursor CLI selection.",
+        "The response may ask which external executor to use if external execution is required."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "generic-agent-word-no-cursor",
+      "category": "negative-trigger",
+      "prompt": "Have an agent review the changes and tell me if there are regressions. Any normal sub agent is fine.",
+      "expected_output": "The skill should not trigger merely because the user used the word agent.",
+      "files": [],
+      "expectations": [
+        "The response does not interpret generic `agent` as the Cursor CLI command.",
+        "The response does not use `agent --print --trust`.",
+        "The response treats the request as generic review delegation or asks for executor choice."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "wrong-executor-codex",
+      "category": "negative-trigger",
+      "prompt": "Run Codex on this repo to implement the UI copy update. Keep it non-interactive.",
+      "expected_output": "The Cursor skill should not activate because the user selected Codex CLI, not Cursor CLI.",
+      "files": [],
+      "expectations": [
+        "The response does not use Cursor CLI `agent` commands.",
+        "The response recognizes that Codex CLI is the selected executor.",
+        "The response does not substitute Cursor CLI for the named executor."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "cursor-editor-info-no-cli",
+      "category": "negative-trigger",
+      "prompt": "What is the difference between Cursor editor and VS Code for everyday coding? Do not run anything.",
+      "expected_output": "The skill should not launch Cursor CLI for a general explanation about Cursor editor.",
+      "files": [],
+      "expectations": [
+        "The response does not launch or recommend `agent --print --trust`.",
+        "The response respects the instruction not to run anything.",
+        "The response treats the task as normal explanation."
+      ]
+    }
+  ]
+}

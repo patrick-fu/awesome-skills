@@ -107,7 +107,7 @@ claude --print "Implement the approved feature and summarize the changed files"
 ```
 
 Headless Claude Code runs can be quiet for a long time, especially reviews and repo-wide refactors.
-After starting a headless run, wait for the process to exit cleanly before taking the next action; do not kill or repeatedly poll it just because no output has appeared yet.
+For short foreground runs, wait for clean exit. For long or background runs, check current output-capture flags with `claude --help`, then capture stdout and stderr in a small run directory so the caller can inspect progress without interrupting the process.
 
 If the task needs sibling directories, add them explicitly:
 
@@ -137,13 +137,14 @@ cd /path/to/project
 claude --print --allowed-tools Read,Grep,Glob "Explain how the caching layer works in this repo. Do not modify files."
 ```
 
-Use text output by default. Choose structured output only when the caller benefits from it:
+Use text output by default. Choose structured output only when the caller benefits from it.
+When the caller needs progress or machine-readable output, treat local help as the flag reference:
 
 ```bash
-claude --print --output-format text "Your task"
-claude --print --output-format json "Your task"
-claude --print --output-format stream-json "Your task"
+claude --help | rg -n "output-format|stream|partial|verbose"
 ```
+
+For long headless runs, prefer a streaming output mode if current help exposes one.
 
 ## Common Patterns
 
@@ -171,10 +172,14 @@ claude --print "$REVIEW_PROMPT"
 
 ```bash
 cd /path/to/project
-nohup claude --print "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/claude-code-agent.log 2>&1 &
+RUN_DIR="${TMPDIR:-/tmp}/coding-agent-runs/claude-code/$(date -u +%Y%m%dT%H%M%SZ)-metrics-refactor"
+mkdir -p "$RUN_DIR"
+# Add verified streaming/output flags from `claude --help` before the prompt when progress output is needed.
+nohup claude --print "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > "$RUN_DIR/stdout.log" 2> "$RUN_DIR/stderr.log" &
+echo $! > "$RUN_DIR/pid"
 ```
 
-Apply the headless patience rule after starting the background process: wait for completion, then inspect the final result.
+After starting the background process, monitor it with `tail -f "$RUN_DIR/stdout.log" "$RUN_DIR/stderr.log"` when progress matters. Wait for completion, then inspect the captured logs.
 Add `--permission-mode bypassPermissions` to a background run only when the user or workflow explicitly chose that permission mode.
 
 ### Named Agents

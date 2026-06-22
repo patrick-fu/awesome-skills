@@ -98,7 +98,7 @@ agent --print --trust "Implement the approved feature and summarize the changed 
 ```
 
 Headless Cursor CLI runs can be quiet for a long time, especially reviews and repo-wide refactors.
-After starting a headless run, wait for the process to exit cleanly before taking the next action; do not kill or repeatedly poll it just because no output has appeared yet.
+For short foreground runs, wait for clean exit. For long or background runs, check current output-capture flags with `agent --help`, then capture stdout and stderr in a small run directory so the caller can inspect progress without interrupting the process.
 
 ## Model Selection
 
@@ -128,13 +128,14 @@ agent --print --trust --mode ask "Explain how the caching layer works in this re
 
 Do not use `--mode plan` or `--mode ask` for tasks that are supposed to modify code.
 
-Use text output by default. Choose structured output only when the caller benefits from it:
+Use text output by default. Choose structured output only when the caller benefits from it.
+When the caller needs progress or machine-readable output, treat local help as the flag reference:
 
 ```bash
-agent --print --trust --output-format text "Your task"
-agent --print --trust --output-format json "Your task"
-agent --print --trust --output-format stream-json "Your task"
+agent --help | rg -n "output-format|stream|partial|print|trust"
 ```
+
+For long headless runs, prefer a streaming output mode if current help exposes one.
 
 ## Common Patterns
 
@@ -164,10 +165,14 @@ agent --print --trust --mode ask "$REVIEW_PROMPT"
 
 ```bash
 cd /path/to/project
-nohup agent --print --trust "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/cursor-agent.log 2>&1 &
+RUN_DIR="${TMPDIR:-/tmp}/coding-agent-runs/cursor/$(date -u +%Y%m%dT%H%M%SZ)-metrics-refactor"
+mkdir -p "$RUN_DIR"
+# Add verified streaming/output flags from `agent --help` before the prompt when progress output is needed.
+nohup agent --print --trust "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > "$RUN_DIR/stdout.log" 2> "$RUN_DIR/stderr.log" &
+echo $! > "$RUN_DIR/pid"
 ```
 
-Apply the headless patience rule after starting the background process: wait for completion, then inspect the final result.
+After starting the background process, monitor it with `tail -f "$RUN_DIR/stdout.log" "$RUN_DIR/stderr.log"` when progress matters. Wait for completion, then inspect the captured logs.
 
 ## Safety Rules
 

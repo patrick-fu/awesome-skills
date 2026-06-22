@@ -108,7 +108,7 @@ codex exec "Implement the approved feature and summarize the changed files"
 ```
 
 Headless Codex runs can be quiet for a long time, especially reviews and repo-wide refactors.
-After starting a headless run, wait for the process to exit cleanly before taking the next action; do not kill or repeatedly poll it just because no output has appeared yet.
+For short foreground runs, wait for clean exit. For long or background runs, check current output-capture flags with `codex exec --help`, then capture stdout and stderr in a small run directory so the caller can inspect progress without interrupting the process.
 
 Codex expects a Git repository by default. For scratch work, prefer a temporary Git repository over bypassing the repo check:
 
@@ -148,12 +148,14 @@ cd /path/to/project
 codex exec --sandbox read-only --ephemeral "Explain how the caching layer works in this repo. Do not modify files."
 ```
 
-Use plain stdout by default. Add output capture only when the caller benefits from it:
+Use plain stdout by default. Add output capture only when the caller benefits from it.
+When the caller needs progress or final-result files, treat local help as the flag reference:
 
 ```bash
-codex exec -o /tmp/codex-last.txt "Your task"
-codex exec --json "Your task"
+codex exec --help | rg -n "json|output|stream|last-message"
 ```
+
+For long headless runs, prefer a streaming or event-output flag if current help exposes one. Add a final-message file only when current help exposes that capability and the caller benefits from it.
 
 ## Common Patterns
 
@@ -183,10 +185,14 @@ codex review --commit abc1234 "$REVIEW_PROMPT"
 
 ```bash
 cd /path/to/project
-nohup codex exec --full-auto -o /tmp/codex-last.txt "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > /tmp/codex-agent.log 2>&1 &
+RUN_DIR="${TMPDIR:-/tmp}/coding-agent-runs/codex/$(date -u +%Y%m%dT%H%M%SZ)-metrics-refactor"
+mkdir -p "$RUN_DIR"
+# Add verified streaming/output flags from `codex exec --help` before the prompt when progress output is needed.
+nohup codex exec --full-auto "Refactor the metrics pipeline, keep behavior intact, and summarize the final diff" > "$RUN_DIR/stdout.log" 2> "$RUN_DIR/stderr.log" &
+echo $! > "$RUN_DIR/pid"
 ```
 
-Apply the headless patience rule after starting the background process: wait for completion, then inspect the final result.
+After starting the background process, monitor it with `tail -f "$RUN_DIR/stdout.log" "$RUN_DIR/stderr.log"` when progress matters. Wait for completion, then inspect the captured logs and any final-result file requested through the verified flags.
 
 ### Image-Aware Work
 

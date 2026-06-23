@@ -48,10 +48,14 @@ Do:
 - compile the user's raw request into one clear task contract; strip invocation
   text and rewrite user wording into goal, context, boundaries, deliverable, and
   pause conditions
-- start one Workflow Owner with that contract
+- start one Workflow Owner with that contract in a clean context
 - wait with callback-style patience
 - relay user clarifications to the Workflow Owner
 - relay the final report to the user
+
+MUST NOT fork or forward the full main conversation when starting the Workflow
+Owner. If the host exposes a history-fork option such as `fork_context`, set it
+to `false`. The Workflow Owner gets the compiled task contract only.
 
 After the Workflow Owner starts, do not do task-level research, implementation,
 review, repair, verification, or peer-worker spawning for the same task. If the

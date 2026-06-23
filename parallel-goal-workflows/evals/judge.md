@@ -32,6 +32,8 @@ Pass only if the output:
 - starts the Workflow Owner from clean context instead of full-history fork;
 - uses `fork_context: false`, or an equivalent no-history-fork setting, when a
   host exposes that option;
+- maintains a Main Agent active-owner set across user turns instead of treating
+  Workflow Owner startup as completion;
 - excludes raw user wording, slash-command syntax, skill triggers, and
   instructions to read or invoke `parallel-goal-workflows` from downstream
   packets;
@@ -54,6 +56,9 @@ For trigger and delegation evals, pass only if the output:
   complex tasks where the user did not explicitly invoke this skill;
 - starts one Workflow Owner for the original user goal after explicit
   invocation;
+- starts one Workflow Owner per independent delegated top-level goal when the
+  user adds another explicit workflow task while earlier owners are still
+  active;
 - passes only the compiled task contract to the Workflow Owner and not the full
   main conversation;
 - keeps the Main Agent out of task-level work after handoff.
@@ -61,6 +66,8 @@ For trigger and delegation evals, pass only if the output:
 For workflow behavior evals, pass only if the output:
 
 - keeps ownership with the Workflow Owner until final judgment;
+- keeps the Main Agent waiting or tracking until every active Workflow Owner is
+  `done`, `blocked`, or `needs-human`, then relays the result or question;
 - acts on `blocked` with evidence, `needs-human`, `done`, failed-session, or
   explicit user-request signals instead of silence or timeout alone;
 - uses focused follow-up work for repair, verification, conflict resolution, or
@@ -92,6 +99,12 @@ Fail if the output:
   creating the Workflow Owner;
 - includes the root `SKILL.md` body, UI directive rules, or other Main
   Agent-only runtime instructions in the Workflow Owner packet;
+- treats successful Workflow Owner startup as final completion;
+- drops or forgets an already active Workflow Owner when a new independent
+  workflow task is added;
+- merges an independent top-level task into an existing Workflow Owner instead
+  of starting another owner, unless the user framed it as a clarification or
+  scope change for that active goal;
 - tells a Workflow Owner or downstream worker to read, load, invoke, or follow
   the skill body;
 - treats role labels such as Worker, Reviewer, Verifier, or Helper as a closed

@@ -212,6 +212,36 @@
         "The packet excludes raw transcript content, `$parallel-goal-workflows`, SKILL.md body text, UI directive rules, and Main Agent-only instructions.",
         "The packet identifies the recipient as the Workflow Owner and does not ask it to create another Workflow Owner."
       ]
+    },
+    {
+      "id": 16,
+      "name": "main-agent-keeps-session-goal-after-start",
+      "category": "workflow-behavior",
+      "prompt": "Use $parallel-goal-workflows for a long-running TDD workflow that needs implementation, review, repair, and final evidence. You are the Main Agent. You have just started the Workflow Owner successfully, and it is running. What is your own next state?",
+      "expected_output": "The Main Agent should not treat Workflow Owner startup as completion. It should keep a user-facing session goal to track active Workflow Owners until the owner reports done, blocked, or needs-human, then relay the final report or question to the user.",
+      "files": [],
+      "expectations": [
+        "The response states that starting the Workflow Owner is not completion.",
+        "The response keeps the Main Agent in a waiting or tracking state rather than ending the workflow.",
+        "The response tracks the active Workflow Owner until done, blocked, or needs-human.",
+        "The response says the Main Agent will relay the final report or blocking question to the user.",
+        "The response does not start task-level work itself."
+      ]
+    },
+    {
+      "id": 17,
+      "name": "main-agent-updates-active-owner-set",
+      "category": "workflow-behavior",
+      "prompt": "You are the Main Agent. You are already waiting on Workflow Owner A for a long-running research task. Before A finishes, the user explicitly invokes $parallel-goal-workflows for an independent coding task B. What do you do?",
+      "expected_output": "The Main Agent should keep tracking Workflow Owner A, start a separate Workflow Owner B for the independent top-level goal, and update its session goal to wait for both active owners. It should not forget A, merge B into A, end after starting B, or do task-level work itself.",
+      "files": [],
+      "expectations": [
+        "The response keeps Workflow Owner A in the active owner set.",
+        "The response starts a separate Workflow Owner B for the independent task.",
+        "The response updates the Main Agent session goal to track both A and B until each reaches done, blocked, or needs-human.",
+        "The response does not collapse the independent coding task into A unless it is framed as a clarification of A.",
+        "The response does not treat starting B as completion or perform task-level work itself."
+      ]
     }
   ]
 }

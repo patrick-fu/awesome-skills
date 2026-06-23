@@ -29,6 +29,9 @@ Pass only if the output:
 - does not create or start another Workflow Owner for the same user goal;
 - treats delegation packets as compiled task contracts, not forwarded user
   transcripts;
+- starts the Workflow Owner from clean context instead of full-history fork;
+- uses `fork_context: false`, or an equivalent no-history-fork setting, when a
+  host exposes that option;
 - excludes raw user wording, slash-command syntax, skill triggers, and
   instructions to read or invoke `parallel-goal-workflows` from downstream
   packets;
@@ -51,6 +54,8 @@ For trigger and delegation evals, pass only if the output:
   complex tasks where the user did not explicitly invoke this skill;
 - starts one Workflow Owner for the original user goal after explicit
   invocation;
+- passes only the compiled task contract to the Workflow Owner and not the full
+  main conversation;
 - keeps the Main Agent out of task-level work after handoff.
 
 For workflow behavior evals, pass only if the output:
@@ -82,6 +87,11 @@ Fail if the output:
 - forwards the user's raw prompt, `$parallel-goal-workflows`, slash-command
   syntax, or Main Agent-only instructions into a Workflow Owner or worker
   packet;
+- starts the Workflow Owner by forking or forwarding the full main conversation;
+- sets `fork_context` or an equivalent history-fork option to true when
+  creating the Workflow Owner;
+- includes the root `SKILL.md` body, UI directive rules, or other Main
+  Agent-only runtime instructions in the Workflow Owner packet;
 - tells a Workflow Owner or downstream worker to read, load, invoke, or follow
   the skill body;
 - treats role labels such as Worker, Reviewer, Verifier, or Helper as a closed

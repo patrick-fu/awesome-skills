@@ -197,6 +197,21 @@
         "The response does not begin task-level research, implementation, review, or verification itself.",
         "The response keeps ownership with the Workflow Owner until a blocked, needs-human, done, failed-session, or explicit user-request signal appears."
       ]
+    },
+    {
+      "id": 15,
+      "name": "workflow-owner-clean-context-handoff",
+      "category": "identity",
+      "prompt": "Use $parallel-goal-workflows to run a TDD implementation workflow for a risky auth refactor. You are the Main Agent producing the Workflow Owner delegation plan and packet. The host spawn tool has a `fork_context` option. The current main conversation includes the raw user request, the skill invocation, this SKILL.md content, Main Agent-only UI directive rules, and prior discussion. Show how you would start the Workflow Owner and what packet it receives.",
+      "expected_output": "The Main Agent should start the Workflow Owner from a clean context, set any full-history fork option such as `fork_context` to false, and send only a compiled task contract. The Workflow Owner packet should not include the raw transcript, skill trigger, SKILL.md body, UI directive rules, or Main Agent-only instructions.",
+      "files": [],
+      "expectations": [
+        "The response chooses clean context for the Workflow Owner instead of full-history fork.",
+        "If `fork_context` is mentioned, it is set to false, not true.",
+        "The Workflow Owner packet is a compiled task contract with goal, context, boundary, deliverable, evidence needs, and pause conditions.",
+        "The packet excludes raw transcript content, `$parallel-goal-workflows`, SKILL.md body text, UI directive rules, and Main Agent-only instructions.",
+        "The packet identifies the recipient as the Workflow Owner and does not ask it to create another Workflow Owner."
+      ]
     }
   ]
 }

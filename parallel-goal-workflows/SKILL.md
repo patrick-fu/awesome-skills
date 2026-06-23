@@ -1,6 +1,6 @@
 ---
 name: parallel-goal-workflows
-description: "User-invoked delegated workflow with one Workflow Owner."
+description: "User-invoked delegated workflows with Workflow Owner tracking."
 disable-model-invocation: true
 ---
 
@@ -9,9 +9,10 @@ disable-model-invocation: true
 Use this skill only when the user explicitly invokes it with
 `/parallel-goal-workflows` or `$parallel-goal-workflows`.
 
-The point is context, not control: the Main Agent turns the raw request into a
-clean task contract, then one Workflow Owner coordinates focused work through
-review, repair, acceptance, and final reporting.
+The point is context, not control: the Main Agent turns each delegated
+top-level goal into a clean task contract, then one Workflow Owner per goal
+coordinates focused work through review, repair, acceptance, and final
+reporting.
 
 Use native goal mode when the host can attach goals to sessions, threads, or
 spawned agents. If native per-subagent goals are unavailable, put the same
@@ -21,16 +22,17 @@ goal-shaped packet in the delegation message.
 
 ```text
 Main Agent
-  -> Workflow Owner
+  -> Workflow Owner per top-level goal
        -> focused agents or helpers as needed
        -> acceptance-ready report
   -> Main Agent user-facing handoff
 ```
 
-The Main Agent is the user-facing session. It interprets the raw user request,
-turns it into a clean task contract, starts one Workflow Owner, then observes
-and relays. The Workflow Owner owns task-level decomposition, execution
-coordination, review, repair, acceptance, and final judgment.
+The Main Agent is the user-facing session. It interprets each delegated
+top-level goal, turns it into a clean task contract, starts one Workflow Owner
+for that goal, then tracks active owners and relays. Each Workflow Owner owns
+task-level decomposition, execution coordination, review, repair, acceptance,
+and final judgment for its goal.
 
 Workflow ownership is assigned once for the original user goal. Downstream
 agents may own narrower local goals, but they should not restart the whole
@@ -48,7 +50,9 @@ Do:
 - compile the user's raw request into one clear task contract; strip invocation
   text and rewrite user wording into goal, context, boundaries, deliverable, and
   pause conditions
-- start one Workflow Owner with that contract in a clean context
+- start one Workflow Owner per delegated top-level goal with that contract in a
+  clean context
+- maintain the active Workflow Owner set across user turns
 - wait with callback-style patience
 - relay user clarifications to the Workflow Owner
 - relay the final report to the user
@@ -60,6 +64,17 @@ to `false`. The Workflow Owner gets the compiled task contract only.
 After the Workflow Owner starts, do not do task-level research, implementation,
 review, repair, verification, or peer-worker spawning for the same task. If the
 report has gaps, ask the Workflow Owner for a focused follow-up.
+
+## Main Agent Session Goal
+
+Keep the user-facing session open until every active Workflow Owner reports
+`done`, `blocked`, or `needs-human`, and the result or question has been
+relayed to the user. Starting a Workflow Owner is not completion.
+
+If the user adds an independent complex task while waiting, start another
+Workflow Owner for that top-level goal and update the active set. If the new
+input changes or clarifies an existing active goal, relay it to that goal's
+Workflow Owner instead.
 
 ## Workflow Owner
 

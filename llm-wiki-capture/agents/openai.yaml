@@ -1,0 +1,10 @@
+---
+interface:
+  display_name: "LLM Wiki Capture"
+  short_description: >
+    User-invoked capture from the current session into my-llm-wiki.
+  default_prompt: >
+    Use $llm-wiki-capture to capture reusable knowledge from the current
+    session into my-llm-wiki, or ask it to review candidates first.
+policy:
+  allow_implicit_invocation: false

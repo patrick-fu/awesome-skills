@@ -16,10 +16,6 @@ integration.
 
 ## Configuration
 
-Keep the reusable workflow in this skill. Keep machine-specific and
-repository-specific wiring in local instructions such as `AGENTS.md` or
-equivalent host configuration.
-
 Resolve local configuration in this order:
 
 1. explicit instructions from the user for this run
@@ -43,46 +39,8 @@ If a write-capable mode is selected and required configuration is missing, ask
 once in plain text. If the user does not want to decide and review mode would
 still be useful, downgrade to review instead of guessing.
 
-A good pattern is to keep the shared skill generic and store local wiring in the
-user's own environment config, similar in spirit to Karpathy's shell-helper
-gist that is installed through `~/.zshrc` or `~/.bashrc` rather than hard-coded
-into a shared tool:
-
-- https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285
-
-Treat that reference as configuration inspiration only. Do not make normal
-runtime behavior depend on fetching an external gist.
-
-Suggested local config shape inside `AGENTS.md`:
-
-```markdown
-## LLM Wiki Capture Config
-- Knowledge base root: ~/path/to/your/wiki
-- Clone URL: git@github.com:you/your-wiki.git
-- Trunk branch: main
-- Read first: purpose.md, schema.md, wiki/index.md, wiki/log.md
-- Navigation files to update after knowledge edits: wiki/index.md, wiki/log.md
-- Require clean worktree before capture: yes
-- Commit policy after verified edits: commit-and-push
-- Commit identity: Your Name <you@example.com>
-```
-
-The exact headings and keys do not matter. What matters is that the local
-instructions make the environment-specific values explicit and stable.
-
-## Tips
-
-If the user asks how to set this up for themselves, read
+For setup, initialization, `AGENTS.md` examples, and automation patterns, read
 `references/configuration-guide.md`.
-
-That guide covers:
-
-- how to initialize a wiki or knowledge-base repository
-- how to write local `AGENTS.md` instructions for memory capture
-- how to choose between explicit capture, end-of-task review, and scheduled
-  recap patterns
-- how to tune preferences such as branch, commit, push, notification, and
-  source-ingest policy
 
 ## Mode Selection
 

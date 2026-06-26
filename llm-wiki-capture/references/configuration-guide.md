@@ -7,6 +7,19 @@ This guide is intentionally generic. The shared skill defines the capture
 workflow; each user should define local paths, policies, and automation style
 in their own `AGENTS.md` or equivalent local agent instructions.
 
+Keep the shared skill generic. Put machine-specific wiring and personal
+preferences in local instructions rather than hard-coding them into the public
+skill.
+
+Configuration inspiration can also come from shell-level helper patterns such
+as Karpathy's gist:
+
+- https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285
+
+Treat that reference as background only. Runtime behavior should come from the
+user's local instructions and repository docs, not from fetching an external
+gist.
+
 ## Quick Start
 
 Use this sequence:
@@ -45,6 +58,9 @@ part is to make the integration rules explicit somewhere the agent can read.
 
 The local `AGENTS.md` should answer the environment-specific questions that a
 shared public skill should not hard-code.
+
+The exact headings and keys do not matter. What matters is that the local
+instructions make the environment-specific values explicit and stable.
 
 At minimum, configure:
 

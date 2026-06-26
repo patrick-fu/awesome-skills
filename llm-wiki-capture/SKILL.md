@@ -70,6 +70,20 @@ Suggested local config shape inside `AGENTS.md`:
 The exact headings and keys do not matter. What matters is that the local
 instructions make the environment-specific values explicit and stable.
 
+## Tips
+
+If the user asks how to set this up for themselves, read
+`references/configuration-guide.md`.
+
+That guide covers:
+
+- how to initialize a wiki or knowledge-base repository
+- how to write local `AGENTS.md` instructions for memory capture
+- how to choose between explicit capture, end-of-task review, and scheduled
+  recap patterns
+- how to tune preferences such as branch, commit, push, notification, and
+  source-ingest policy
+
 ## Mode Selection
 
 Default to **capture** for a bare invocation or clear save intent such as

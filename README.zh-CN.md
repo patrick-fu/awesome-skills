@@ -60,6 +60,10 @@ npx skills add patrick-fu/parallel-goal-workflows
 
 当你想初始化、部署或维护一个位于 `~/.dotfiles`、work-tree 指向 `$HOME` 的个人 bare-repo dotfiles 工作流时使用这个 Skill。它覆盖从空私有远端开始的首次 setup、starter 文件处理、多机器同步、pull/merge 安全性，以及日常 push 流程。
 
+### `llm-wiki-capture`
+
+当用户明确希望把当前会话里的可复用知识沉淀下来、先评估是否值得沉淀，或把给定 source links 导入一个长期维护的 LLM wiki / 知识库时使用这个 Skill。它保持通用 workflow，不把本地 wiki 路径、分支、commit 和 push 策略写死，而是要求这些值由本地 agent instructions 提供。
+
 ### `log-driven-debugging`
 
 当一个 bug 很难靠静态阅读推理清楚，而一次带有高质量日志的重跑能显著缩小搜索空间时使用这个 Skill。它要求用户提供日志前缀，指导有目的地加日志，并在用户返回日志后围绕第一个被证明的分歧点做分析。

@@ -61,6 +61,14 @@ Use this skill when you want a high-quality commit message for staged changes bu
 
 Use this skill when you want to initialize, deploy, or maintain a personal bare-repo dotfiles workflow under `~/.dotfiles` with work-tree set to `$HOME`. It covers first-time setup from an empty private remote, starter-file handling, multi-machine sync, pull and merge safety, and ongoing push workflow.
 
+### `llm-wiki-capture`
+
+Use this skill when the user explicitly wants to capture reusable knowledge from
+the current session, review whether something is worth saving, or ingest
+explicit source links into a maintained LLM wiki or knowledge base. It keeps
+the workflow generic while expecting local wiki path, branch, commit, and push
+policy to be configured in local agent instructions.
+
 ### `log-driven-debugging`
 
 Use this skill when a bug is hard to reason about statically and one targeted rerun with better logs will collapse the search space. It requires a user-provided log prefix, guides deliberate instrumentation, and structures the follow-up analysis around the first proven divergence in the returned logs.

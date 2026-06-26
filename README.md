@@ -69,6 +69,12 @@ explicit source links into a maintained LLM wiki or knowledge base. It keeps
 the workflow generic while expecting local wiki path, branch, commit, and push
 policy to be configured in local agent instructions.
 
+Tip: the skill includes
+[`references/configuration-guide.md`](llm-wiki-capture/references/configuration-guide.md)
+with setup guidance for initializing a wiki, writing `AGENTS.md` memory rules,
+choosing capture preferences, and selecting between automatic capture,
+end-of-task review, and scheduled recap.
+
 ### `log-driven-debugging`
 
 Use this skill when a bug is hard to reason about statically and one targeted rerun with better logs will collapse the search space. It requires a user-provided log prefix, guides deliberate instrumentation, and structures the follow-up analysis around the first proven divergence in the returned logs.

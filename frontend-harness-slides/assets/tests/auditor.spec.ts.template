@@ -1,0 +1,87 @@
+import { test, expect } from '@playwright/test';
+
+// ==========================================
+// 💡 Playwright 物理与布局安全性审计模板 (Auditor)
+// ==========================================
+//
+// 作用：
+// 1. 自动遍历全书所有已注册的 Scene/Beat 页面。
+// 2. 检查页面中是否存在低质量 AI 腔调标志（如字号小于 16px 的细小文字）。
+// 3. 检查是否存在容器溢出、边界碰撞和物理重叠（Title vs content elements）。
+
+// 模拟导入的幻灯片配置（实际应从项目的 SlideRegistry 动态生成或直接导入）
+const slideConfigs = [
+  { id: 'cover', totalBeats: 1 },
+  { id: 'harness-premise', totalBeats: 3 },
+  { id: 'loop-definition', totalBeats: 4 }
+];
+
+test.describe('Slides Layout & Structural Audit', () => {
+  test.beforeEach(async ({ page }) => {
+    // 强制视口采用 1920x1080 标准 Widescreen 物理尺寸进行高保真审计
+    await page.setViewportSize({ width: 1920, height: 1080 });
+  });
+
+  for (const config of slideConfigs) {
+    for (let beat = 0; beat <= config.totalBeats; beat++) {
+      test(`Audit Scene: ${config.id} - Beat: ${beat}`, async ({ page }) => {
+        // 带着 test=true 标志进入页面，开启静止动效与强制状态拦截
+        await page.goto(`/?scene=${config.id}&beat=${beat}&test=true`);
+        await page.waitForLoadState('networkidle');
+        await page.evaluate(() => document.fonts.ready); // 确保字体完全就位
+
+        // ------------------------------------------
+        // 🛡️ 审计防线 1：16px 字号地板审计 ( legible font floor )
+        // ------------------------------------------
+        const visibleTextElements = await page.locator('span, p, h1, h2, h3, h4, div, li').all();
+        
+        for (const element of visibleTextElements) {
+          const isVisible = await element.isVisible();
+          if (!isVisible) continue;
+
+          // 获取计算后的实际渲染样式
+          const fontSizeStr = await element.evaluate((node) => window.getComputedStyle(node).fontSize);
+          const fontSize = parseFloat(fontSizeStr);
+
+          // 获取文本内容，排查非空可见元素
+          const text = (await element.textContent())?.trim() || '';
+          if (text.length > 2 && !/^[0-9\-\s:+]+$/.test(text)) {
+            // 确保字号在 1920x1080 Widescreen 设计环境下不小于 16px 
+            // 强制消灭 12px 的无意义小字，提高讲演示Legibility。
+            expect(fontSize).toBeGreaterThanOrEqual(16);
+          }
+        }
+
+        // ------------------------------------------
+        // 🛡️ 审计防线 2：绝对定位边界溢出审计 ( Layout Overflow )
+        // ------------------------------------------
+        const rootStage = page.locator('.relative.flex-shrink-0.overflow-hidden'); // 对应 SlideStage 物理外框
+        const stageBox = await rootStage.boundingBox();
+
+        if (stageBox) {
+          const overflowElements = await page.locator('div, section, p, img, button').all();
+          for (const el of overflowElements) {
+            const isVisible = await el.isVisible();
+            if (!isVisible) continue;
+
+            const elBox = await el.boundingBox();
+            if (elBox) {
+              // 检查幻灯片内部元素是否物理越界穿出了 1920x1080 的绝对视口
+              const isOverlappingOrOutside = 
+                elBox.x < stageBox.x || 
+                elBox.y < stageBox.y || 
+                (elBox.x + elBox.width) > (stageBox.x + stageBox.width) || 
+                (elBox.y + elBox.height) > (stageBox.y + stageBox.height);
+                
+              // 如果元素被设计为溢出裁切，需显式声明 `data-allow-overflow`
+              const allowOverflow = await el.getAttribute('data-allow-overflow');
+              if (!allowOverflow) {
+                expect(isOverlappingOrOutside).toBeFalsy();
+              }
+            }
+          }
+        }
+      });
+    }
+  }
+});

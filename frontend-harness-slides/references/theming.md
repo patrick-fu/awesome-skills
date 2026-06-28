@@ -28,7 +28,7 @@ export interface ThemeConfig {
 }
 ```
 
-Inject via a React Context (`ThemeProvider` + `useTheme`). Map each token to a CSS variable so slides use clean classes (`bg-background`, `text-primary`) instead of inline hex, while keeping IDE autocomplete.
+Inject via a React Context (`ThemeProvider` + `useTheme`, implemented in the starter's `src/theme/`). Map each token to a CSS variable so slides use clean classes (`bg-background`, `text-primary`) instead of inline hex, while keeping IDE autocomplete. Avoid Tailwind's `/<alpha>` opacity modifier on these var-backed colors — it produces invalid CSS.
 
 ## 2. Dual-preview — discover themes visually
 

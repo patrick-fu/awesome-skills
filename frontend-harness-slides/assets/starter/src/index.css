@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Local, open-source fonts only (see references/fonts.md). Download the files into public/fonts/
+ * and declare them here. The starter ships with system fallbacks so it runs out of the box, but a
+ * real deck must install distinctive faces — system-ui / Inter read as AI slop.
+ *
+ * @font-face {
+ *   font-family: 'Cabinet Grotesk';
+ *   src: url('/fonts/CabinetGrotesk-Variable.woff2') format('woff2');
+ *   font-weight: 100 900;
+ *   font-display: swap;
+ * }
+ */
+
+:root {
+  --font-display: 'Cabinet Grotesk', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --color-background: #0b0b0f;
+  --color-text: #f5f5f4;
+  --color-primary: #c7f284;
+  --color-border: #2a2a32;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}

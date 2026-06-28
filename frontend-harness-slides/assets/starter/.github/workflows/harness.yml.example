@@ -1,0 +1,20 @@
+# Optional, portable CI for the harness. Drop the `.example` suffix to enable it on GitHub.
+name: harness
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  harness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      # Optional: compile a heavy CJK web font on the fly instead of committing the binary.
+      # - run: npx ttf2woff2 < public/fonts/LXGWWenKaiLite-Regular.ttf > public/fonts/LXGWWenKaiLite-Regular.woff2
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npx playwright test

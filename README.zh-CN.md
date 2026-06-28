@@ -18,6 +18,18 @@ active owners，并由这些 owner 管理 worker goals、独立 review、accepta
 npx skills add patrick-fu/parallel-goal-workflows
 ```
 
+## 🎬 推荐 Skill
+
+🛠️ **Frontend Harness Slides** 已独立到专门仓库：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)。
+
+把幻灯片当成一个有 harness 守护的工程项目来做——稳健、可维护、随增长也不易改坏，比单体 HTML slides 高一档。
+
+安装这个独立 skill：
+
+```bash
+npx skills add patrick-fu/frontend-harness-slides
+```
+
 ## 包含的 Skills
 
 ### `aero-mint-glass-html-design`

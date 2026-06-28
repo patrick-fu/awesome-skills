@@ -1,0 +1,2 @@
+# Place downloaded open-source font files here (see ../../references/fonts.md), then declare
+# @font-face in src/index.css. Keep this folder under public/ so Vite serves the files as-is.

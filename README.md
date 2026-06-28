@@ -19,6 +19,18 @@ Install the standalone workflow:
 npx skills add patrick-fu/parallel-goal-workflows
 ```
 
+## 🎬 Featured Skill
+
+🛠️ **Frontend Harness Slides** lives in its own repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides).
+
+Build a slide deck as a harness-guarded engineering project — robust, maintainable, and hard to break as it grows, a step up from single-file HTML slides.
+
+Install the standalone skill:
+
+```bash
+npx skills add patrick-fu/frontend-harness-slides
+```
+
 ## Included Skills
 
 ### `aero-mint-glass-html-design`

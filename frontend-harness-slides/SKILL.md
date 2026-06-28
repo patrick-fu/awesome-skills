@@ -1,289 +1,116 @@
 ---
 name: frontend-harness-slides
-description: Create and manage high-quality, production-grade, and test-driven React + Vite + Framer Motion slide presentations. Use this skill when the user wants to build professional slide decks as positive-engineering frontend projects, when they mention Framer Motion animations, Playwright visual regression testing, or query-based Vercel deployments, or when they want to refactor an existing deck into a resilient, pixel-perfect, and highly-maintainable presentation.
+description: Build a presentation as a harness-guarded engineering project — a complete, maintainable slide deck that stays visually consistent and won't silently break as it grows or gets edited, a step up from single-file HTML slides. Use when the user wants to create, extend, or refactor HTML slides into something built to last rather than a quick one-off.
 ---
 
 # Frontend Harness Slides
 
-Create high-end React-based slide presentations as professional software engineering projects, protected by comprehensive visual regression testing, absolute 16:9 stage layout preservation, and resilient state-management workflows.
+Build React slide decks like production software: a Playwright **harness** guards every frame, a **registry** decouples order from filenames, and an absolute 16:9 **stage** keeps layout identical on any screen.
 
----
+Each section below is a rule plus a pointer to copyable code or detail. Read the pointed file when you reach that piece — keep this file lean.
 
 ## Core Principles
 
-1. **Slides as Software Engineering** — Treat slides with the same rigor as production code: type safety (TypeScript), code quality (ESLint), automation (CI/CD), and regression protection.
-2. **Resilience & Defensiveness** — Use robust architecture (SlideRegistry) to prevent maintenance headaches, and absolute layout scaling (SlideStage) to guarantee visual consistency on any screen size.
-3. **Aesthetic Conviction (Anti-Slop)** — Reject flat, generic "AI slop" designs (no Inter font, no default purple-on-white gradients). Commit to bold, distinctive aesthetics tailored specifically to the presentation's narrative.
-4. **Harness-Driven Loop** — Never trust visual design to verbal assertions. Use Playwright to automatically audit layouts, catch overlaps, verify minimum font thresholds, and compare pixel-level snapshots.
+1. **Harness over assertions** — Never trust "looks fine" by eye. The Playwright harness audits structure and compares pixels every run; a change is done only when the harness is green (§II).
+2. **Resilience by architecture** — A central **registry** kills re-indexing hell; the **stage** locks a 1920×1080 canvas and scales as a whole, so you never reflow per device.
+3. **Anti-slop aesthetics** — Reject generic AI-slop (no Inter, no default purple-on-white gradient). Commit to one bold, narrative-specific look (§III).
 
----
+## I. Architecture
 
-## I. Architectural Foundations
+### 1. Registry — one array owns order
+Inserting a slide must not rename files or break snapshots ("re-indexing hell"). Decouple order from filenames:
+- Name components semantically (`CoverSlide.tsx`, not `Scene7.tsx`).
+- One central `SlideRegistry.ts` array owns order; routing, page numbers, and tests all derive from array position plus each entry's stable `id` (which also names snapshots).
+- → Copy `references/slide-registry.ts.example` — the single source for the registry shape and a `getSlideNavigation` helper. Keep `id`s stable once set; they are snapshot filenames.
 
-### 1. SlideRegistry & Centralized Deck Routing
-To eliminate **"Re-indexing Hell"** (where inserting a slide forces renaming dozens of physical files, rewriting imports, and breaking visual snapshot Baselines), you MUST decouple slide order from filenames.
+### 2. Stage — absolute 16:9, no reflow
+To look identical on ultra-wide, projector, and phone, never use responsive breakpoints to rearrange slide content. Lock content in a virtual 1920×1080 canvas and scale the whole stage to fit (letterbox/pillarbox).
+- Contract: the stage frame exposes a `data-slide-stage` attribute; the harness uses it as the stable anchor for stage bounds. Don't make the harness hunt class chains — they drift.
+- → Copy `references/SlideStage.tsx.example`.
 
-* **The Pattern**: Author slide components using semantic, descriptive names (`CoverSlide.tsx`, `HarnessConveyorSlide.tsx`).
-* **The Registry**: Register and order slide components in a centralized `SlideRegistry.ts` array.
-* **The Route**: Derive the active index and page numbering dynamically from the array position.
+### 3. Theming — config + context, picked by eye
+Declare each theme as a config and inject it via React Context (slides read tokens, never hardcode color/font). Discover themes visually, not verbally.
+- → `references/theming.md` — the `ThemeConfig` shape, the dual-preview (three-pane + live hot-swap), and the preview-authenticity rules. Read it during theme discovery.
+- Fonts → `references/fonts.md` (open-source only, downloaded into `public/fonts/`).
 
-#### Implementation Contract (`SlideRegistry.ts`)
-```typescript
-import React from 'react';
-import { CoverSlide } from '../scenes/CoverSlide';
-import { HarnessConveyorSlide } from '../scenes/HarnessConveyorSlide';
-import { CompactionVortexSlide } from '../scenes/CompactionVortexSlide';
+### 4. Sandbox — isolate interactive demos
+Embedding an input, terminal, or clickable demo? Stop its key/scroll/click events from bubbling into slide navigation, or typing a space flips the slide.
+- → Copy `references/SandboxIsolator.tsx.example`.
 
-export interface SlideEntry {
-  id: string; // Persistent ID used for routing and snapshot filenames
-  component: React.ComponentType<{ currentBeat: number }>;
-  totalBeats: number;
-}
+## II. The Harness
 
-export const SLIDE_REGISTRY: SlideEntry[] = [
-  { id: 'cover', component: CoverSlide, totalBeats: 1 },
-  { id: 'harness-conveyor', component: HarnessConveyorSlide, totalBeats: 3 },
-  { id: 'compaction-vortex', component: CompactionVortexSlide, totalBeats: 4 },
-];
-```
+The harness exists to make every screenshot a **frozen frame**: the same render every run, so a pixel diff means a real regression, not animation jitter.
 
-In your main `SlideDeck.tsx` framework:
-* Resolve navigation (prev/next) and route parameters (e.g., `?scene=harness-conveyor&beat=2`) based on the array `id` matching. This ensures inserting a new slide simply requires adding an entry to the registry array—zero file renaming, zero broken routing.
+### 1. Beat controller — state lives in the URL
+Bind slide state to query params (`?scene=<id>&beat=<n>`). With `?test=true` the router locks scene+beat and components jump straight to that beat's final state (no stagger timers). That determinism is what makes a frame freezable.
 
----
+### 2. Freeze — kill continuous motion in test mode
+Infinite/looping animations (spinning gears, pulsing gradients) shift by milliseconds and break visual diffs. In test mode, **freeze** them: pause animation play-states, zero transition durations, then wait for the DOM to settle before the shot. Mask truly live regions (canvas, third-party iframes).
+- The freeze CSS and the `waitForAnimationsToSettle` poller live in `assets/tests/visual.spec.ts.template` — the single source for the freeze mechanism. Copy it; don't restate it.
 
-### 2. Absolute 16:9 Stage Scaling (No-Reflow)
-To guarantee your slides look identical on ultra-wide monitors, projectors, and mobile split-screens, **NEVER** use standard responsive breakpoints to reflow text or rearrange grids. 
-Lock the slide inside a virtual **1920×1080 canvas** and scale the entire stage uniformly to fit the viewport (Letterboxing/Pillarboxing).
+### 3. Audit — structure, not just pixels
+Alongside snapshots, run the DOM audit in `assets/tests/auditor.spec.ts.template`:
+- **Font floor** — fail if visible copy renders below **16px** at 1920×1080. Tiny text is an anti-slop tell.
+- **Overflow / overlap** — nothing escapes `data-slide-stage`; adjacent blocks don't collide. Opt a deliberate bleed out with `data-allow-overflow`.
 
-#### The Stage Component (`SlideStage.tsx`)
-```tsx
-import React, { useState, useEffect, useRef } from 'react';
+## III. Aesthetics & humanizer
 
-interface SlideStageProps {
-  children: React.ReactNode;
-  themeBg?: string; // Automatically matches slide backgrounds to avoid jarring borders
-}
+- **Anti-slop** — one committed palette, distinctive type, one strong atmospheric device. No generic dashboard-card look, no Inter, no default purple gradient. The 16px font floor (§II.3) enforces part of this — tiny text reads as slop.
+- **humanizer mode** — when the user asks for humanizer (`speak-like-human: true`), strip corporate hype and AI symmetry; keep on-slide text to keywords/metrics/one direct takeaway, and speaker notes in first-person practitioner voice. → Contrastive examples and rules in `references/humanizer-slides.md`.
 
-export const SlideStage: React.FC<SlideStageProps> = ({ children, themeBg = '#000000' }) => {
-  const [scale, setScale] = useState(1);
-  const containerRef = useRef<HTMLDivElement>(null);
+## IV. Content Density
 
-  useEffect(() => {
-    const calculateScale = () => {
-      if (!containerRef.current) return;
-      
-      const targetWidth = 1920;
-      const targetHeight = 1080;
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
+Ask once whether the deck is speaker-led or reading-first, then let the answer drive the design:
 
-      // Fit-to-screen scale factor
-      const scaleX = viewportWidth / targetWidth;
-      const scaleY = viewportHeight / targetHeight;
-      const newScale = Math.min(scaleX, scaleY);
-
-      setScale(newScale);
-    };
-
-    const resizeObserver = new ResizeObserver(() => calculateScale());
-    resizeObserver.observe(document.documentElement);
-    calculateScale();
-
-    return () => resizeObserver.disconnect();
-  }, []);
-
-  return (
-    <div 
-      className="w-screen h-screen overflow-hidden flex items-center justify-center select-none relative"
-      style={{ backgroundColor: themeBg }}
-    >
-      <div
-        ref={containerRef}
-        style={{
-          width: '1920px',
-          height: '1080px',
-          transform: `scale(${scale})`,
-          transformOrigin: 'center center',
-          flex: 'none', // Critical: prevent flex child self-collapse
-        }}
-        className="relative overflow-hidden shadow-2xl transition-transform duration-75 ease-out"
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
-```
-
----
-
-### 3. Integrated Theme Context & Dual Preview Interaction
-Rather than duplicating pages, declare style tokens in separate config files and inject them using a React Context. This enables both static and dynamic visual comparison.
-
-#### Theme Interface (`ThemeConfig.ts`)
-```typescript
-export interface ThemeConfig {
-  id: string;
-  name: string;
-  fonts: {
-    display: string; // Header font (e.g., 'Cabinet Grotesk')
-    body: string;    // Copy font (e.g., 'Plus Jakarta Sans')
-  };
-  colors: {
-    background: string;
-    text: string;
-    primary: string;
-    border: string;
-  };
-  effects: {
-    borderRadius: string;
-    borderWidth: string;
-    shadow: string;
-  };
-}
-```
-
-#### Dual-Preview Selector Design
-1. **Three-Pane Grid Preview**: Render a grid with three 16:9 scaled-down thumbnails of the Title Slide, each wrapped in a different `ThemeProvider`. This allows instant static side-by-side comparison of the design options.
-2. **Single-Page Hot-Swap**: Once an option is chosen, expand to fullscreen. Keep a small, floating theme-selector overlay available in local development mode (`?dev=true`). Clicking styles dynamically updates the `ThemeContext` state, instantly hot-swapping CSS variables and WebFonts live in the browser.
-
----
-
-### 4. Interactive Sandbox Isolator
-When embedding interactive demos (such as text input fields, terminals, or clickable games) inside your 16:9 slides, stop events from bubbling up and causing accidental slide changes while the user interacts with the demo.
-
-```tsx
-export const SandboxIsolator: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div 
-    onKeyDown={(e) => e.stopPropagation()} // Stop space, arrows, enter from triggering slide transitions
-    onWheel={(e) => e.stopPropagation()}   // Stop scroll from accidental navigation
-    onClick={(e) => e.stopPropagation()}   // Prevent click-to-next triggers
-    className="w-full h-full"
-  >
-    {children}
-  </div>
-);
-```
-
----
-
-## II. Harness & Quality Safeguards
-
-To maintain 100% deterministic visual and structural quality, integrate a dual-mode test suite in Playwright.
-
-### 1. The Global Beat Controller (Harness-Friendly Testing)
-Instead of letting components run free-flowing animations, bind slide states directly to the route query parameters (`?scene=harness-conveyor&beat=2`).
-* When Playwright runs tests with `?test=true`, the central router immediately locks the active scene and beat.
-* Components render their final state for that beat without waiting for staggered delay timers, creating a 100% stable frame for screenshot comparison.
-
-### 2. Eliminating Visual Flakiness (Continuous Motion Suspender)
-Continuous fluid animations (like rotating background gears or pulsing gradients) will fail visual regression checks because their exact rendering position varies by milliseconds.
-* **The Directive**: In test mode, freeze all infinite or continuous CSS / Framer Motion animations.
-* **The Rule**: Inject a global stylesheet or append a `.test-mode` CSS class that forces standard animation play states to pause:
-```css
-.test-mode *, .test-mode *::before, .test-mode *::after {
-  animation-play-state: paused !important;
-  transition-duration: 0s !important;
-}
-```
-* **Masking**: Use Playwright's `mask` property in your screenshots to blank out high-variance dynamic regions (like a live canvas or third-party web preview).
-
-### 3. Layout and Typography Auditing
-Run a physical DOM audit alongside visual checks:
-* Verify that no element has zero height/width if it is visible.
-* **Font-Size Floor**: Audit all visible text elements. Fail the build if any readable copy or annotations fall below **16px** (which is `text-sm` or `text-base` scaled, scaled proportional to the 1920×1080 design dimensions). Tiny fonts are an AI slop tell; keep design elements legible and punchy.
-* **Overlap Check**: Check bounding client rects of adjacent components (such as Slide Title vs Card Headers) to programmatically ensure nothing collides.
-
----
-
-## III. Writing Style & "说人话" Mode
-
-When the user requests **"说人话" (Speak Like Human) Mode** (or `speak-like-human: true`), strictly filter out bloated corporate hype and mechanical AI symmetries. Replace them with specific, concrete, and conversational human verbs.
-
-### 1. Contrastive Few-Shot Guidelines
-
-| Scenario | ❌ AI-Slop/Corporate Slop Template | ✅ Speak-Like-Human (Alternative) |
+| Mode | Best for | Behavior |
 | :--- | :--- | :--- |
-| **Login Overhaul** | "通过重构鉴权管线，我们对底层会话生命周期提供了全链路的安全闭环保障，赋能高弹性的登录持久化体验。" | "登录态过期时，要先保住用户正在编辑的内容。别直接跳转踢人，保留现场，让用户刷新完还能回来继续写。" |
-| **Harness Introduction** | "建设高密度的测试 Harness 承接底层执行质量，闭环收敛技术债务，从而最大化地释放开发提效产能。" | "没有测试的 Loop 只是自动试错。Harness 就像地基，地基稳了，改东西才不怕改坏别的，你才敢放手让 Agent 自己跑。" |
-| **Context Overload** | "针对长程任务导致的会话高熵饱和及上下文拥堵痛点，我们设计了物理级别会话隔离的编排机制。" | "任务变长之后，上下文足迹会直接压垮智商。要解决这个拥堵，要么把任务拆出去走编排，要么在主线上把日志压缩熔炼。一个往外拆，一个往里压。" |
+| **Low / speaker-led** | live talks, keynotes | one idea per slide, big type, 1–3 lines, more slides |
+| **High / reading-first** | handouts, async review | self-contained slides, grids/tables/annotations, 4–8 points |
 
-### 2. Formatting Rules
-* **No Slogans on Screen**: Except for the Title and final conclusion slides, never output generic, high-sounding marketing slogans. Keep text on the slide limited to keywords, tags, physical metrics, or brief, direct takeaways.
-* **First-Person Authenticity**: When providing speaker notes or explanations, speak from a first-person practitioner perspective: *"My experience shows that..."* or *"I tried this, and it didn't work because..."* instead of presenting assumptions as universal laws.
+The floor wins: if a high-density slide would push text under 16px or overflow the stage, split it into more slides — never shrink past legibility.
 
----
+## V. Workflow
 
-## IV. Font & Copyright Guidelines
+### Phase 0 — Detect mode (first)
+- **New deck** → Phase 1.
+- **Convert** (user has a PPT / markdown / outline) → extract content, confirm the outline, then Phase 1.
+- **Enhance an existing deck** → the high-frequency case for a multi-session deck. Before editing:
+  1. Run the existing harness once to capture a green baseline (`npx playwright test`).
+  2. Insert/edit slides through the **registry** (append or reorder the array; never rename files).
+  3. Before adding content to a slide, check it against the density floor (§IV); if it would overflow, split instead.
+  4. Re-run the harness. Done only when audit + visual specs pass and every snapshot diff is intended and re-baselined (`--update-snapshots`).
 
-To prevent licensing or copyright issues while retaining beautiful typography, **NEVER** hardcode or bundle commercial font files directly inside the skill package.
+For any deck under git, keep a root `CONTEXT.md` as the single source of decisions/backlog, and prune it during big restructures so it stays high-density.
 
-### 1. Font Recommendations & Off-the-shelf Links
-When initiating a theme, recommend and link to established copyright-free and open-source font platforms:
-*   **Sans-Serif / Display**:
-    *   *Syne* (Bold, Brutalist) — [Google Fonts](https://fonts.google.com/specimen/Syne)
-    *   *Cabinet Grotesk* (Sharp, Modern) — [Fontshare](https://www.fontshare.com/fonts/cabinet-grotesk)
-    *   *Plus Jakarta Sans* (Clean, Professional) — [Google Fonts](https://fonts.google.com/specimen/Plus+Jakarta+Sans)
-*   **Serif / Editorial**:
-    *   *Cormorant Garamond* (High-contrast Serif) — [Google Fonts](https://fonts.google.com/specimen/Cormorant+Garamond)
-    *   *Playfair Display* (Editorial Classic) — [Google Fonts](https://fonts.google.com/specimen/Playfair+Display)
-*   **Chinese / Handdrawn**:
-    *   *LXGW WenKai Lite* (霞鹜文楷 Lite - Clean Handdrawn/Sketch) — [GitHub Official Release](https://github.com/lxgw/LxgwWenKai-Lite)
-    *   *Noto Serif SC* (思源宋体) — [Google Fonts](https://fonts.google.com/specimen/Noto+Serif+SC)
+### Phase 1 — Discover (ask together)
+Ask in one batch: **purpose · audience · length · density** (speaker-led vs reading-first). Then:
+- Propose three themes via the dual-preview (`references/theming.md`); let the user pick by eye.
+- If the user supplied images/logo/screenshots: judge each (usable? what it shows) and design the outline *around* them (3 screenshots → 3 feature slides, logo → cover/closing). Put assets in `public/`.
+- Seed the `SlideRegistry.ts` array from the agreed outline.
 
-### 2. Setup Guidance
-Instruct the developer/Agent to download the `.ttf` or `.woff2` files from these official sources, place them in the project's local directory (`public/fonts/`), and reference them locally in `index.css`. This ensures:
-1. **Zero copyright liability** for the template creator.
-2. **100% offline-safe presentation** (slides don't need active internet to fetch remote WebFonts).
+### Phase 2 — Build
+- Author each registry component in `src/scenes/`. Done when every registry entry resolves to a real component (no placeholders).
+- Bind each internal state to a `beat`, reachable via `?scene=&beat=` and identical on reload.
+- Wrap every interactive widget in `<SandboxIsolator>`; verify key/scroll/click don't leak into navigation.
+- Honor `prefers-reduced-motion` for real viewers — gate decorative/continuous motion behind it. (Distinct from test-mode **freeze**, which only stabilizes snapshots.)
+- Expose a slim registry for tooling: `window.__SLIDE_REGISTRY__ = SLIDE_REGISTRY.map(s => ({ id: s.id, totalBeats: s.totalBeats }))` (the PDF export reads it).
 
----
+### Phase 3 — Verify & ship
+- Done when the auditor spec is green (no <16px copy, nothing escapes `data-slide-stage`, no zero-size visible element) **and** the visual spec is green for every registry slide at every beat, with any diff intended and re-baselined.
+- Commit and push to trigger CI (it compiles the LXGW WenKai web font with `ttf2woff2` on the fly).
+- Ship → `references/deploy.md`: Vercel `vercel.json` rewrite for `?scene=&beat=` deep links, plus PDF export via `assets/scripts/export-pdf.mjs`.
 
-## V. Deployment & Version Control
+## VI. Supporting Files
 
-To prevent state drift in long-term multi-session collaboration, establish a rigorous version control and deployment workflow.
-
-### 1. Out-of-band Context Maintenance
-Keep a central tracking document (typically `CONTEXT.md` in the root folder) as the single source of truth for historical decisions, architectural choices, and the current iteration backlog.
-*   **Dynamic Pruning (Garbage Collection)**: During major restructures (e.g. adding scenes or changing routes), the Agent MUST actively review the `CONTEXT.md` and prune away stale implementation history, obsolete drafts, and old debug notes. Keep the context file clean, compact, and high-density to avoid wasting prompt token budgets.
-
-### 2. Vercel Deployment Instructions
-Always recommend **Vercel** for hosting the slide presentation due to its generous free tier and superb SPA capabilities.
-*   To enable seamless routing (`?scene=X&beat=Y`) on static hosting platforms, configure a custom `vercel.json` in the project root. This ensures that any deep links or manual browser refreshes gracefully fall back to `index.html` without throwing a 404 error:
-
-```json
-{
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
-}
-```
-
----
-
-## VI. Workflow: Bootstrap and Run
-
-When starting a new slide project, always execute the following sequential phases:
-
-### Phase 0: Environment & Version Control Setup
-1. **Git Initialization**: Check if the current directory is a Git repository. If it's a blank directory, explain in plain words why local version control is crucial (safeguarding changes, allowing easy rollback of visual iterations) and initialize it: `git init`.
-2. **Remote Disaster Recovery**: Inquire if they want to create a private remote GitHub repository. If they have `gh` (GitHub CLI) installed, help them configure a private repo in a semi-automatic way: `gh repo create --private`. If they are not comfortable with advanced remote setup, gracefully degrade and rely solely on local Git.
-3. **Context Choice**: Ask if they have an existing context document to pass on historical decisions. If not, bootstrap a clean `CONTEXT.md` at the root.
-
-### Phase 1: Structure and Theme Discovery
-1. Ask purpose, audience, and density preferences (Speaker-led vs Reading-first).
-2. Propose three custom Theme configs matching the tone. Enable the developers' theme-switcher overlay for side-by-side browser exploration.
-3. Establish the `SlideRegistry.ts` array to map the initial outline scenes.
-
-### Phase 2: Implementation and Refinement
-1. Write TSX components inside `src/scenes/` aligned with the registry.
-2. Bind internal states to query parameters for 100% repeatable beat positioning.
-3. Wrap interactive zones with `<SandboxIsolator>` to protect transition triggers.
-
-### Phase 3: Verification and Deployment
-1. Write and run Playwright tests locally to confirm layout and visual safety.
-2. Commit changes and push to trigger remote GitHub Actions CI checks (fully configured to compile LXGW WenKai fallback and ttf2woff2 on the fly).
-3. Execute `npx vercel --prod` to deploy live. Provide the final production URL to the user.
+| File | Read when |
+| :--- | :--- |
+| `references/slide-registry.ts.example` | wiring the registry / routing |
+| `references/SlideStage.tsx.example` | building the 16:9 stage |
+| `references/SandboxIsolator.tsx.example` | embedding an interactive demo |
+| `references/theming.md` | theme discovery, dual-preview, preview rules |
+| `references/fonts.md` | choosing / installing fonts |
+| `references/humanizer-slides.md` | the user asks for humanizer copy |
+| `references/deploy.md` | deploying to Vercel or exporting PDF |
+| `assets/tests/visual.spec.ts.template` | the freeze + pixel-regression suite |
+| `assets/tests/auditor.spec.ts.template` | the font-floor + overflow audit |
+| `assets/scripts/export-pdf.mjs` | exporting the deck to PDF |

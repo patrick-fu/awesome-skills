@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --port 4173 --strictPort",
+    "preview": "vite preview",
     "test": "playwright test",
     "test:update": "playwright test --update-snapshots",
     "export:pdf": "node scripts/export-pdf.mjs"
@@ -18,13 +18,14 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.45.0",
+    "@types/node": "^22.20.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-react": "^6.0.3",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.5.3",
-    "vite": "^5.3.3"
+    "vite": "^8.1.0"
   }
 }

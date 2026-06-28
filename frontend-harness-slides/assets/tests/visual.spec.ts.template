@@ -1,101 +1,68 @@
 import { test, expect } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 // ==========================================
-// 💡 Playwright 确定性像素级回归测试模板 (Visual)
+// 💡 Visual — deterministic pixel regression (frozen frame)
 // ==========================================
-//
-// 作用：
-// 1. 自动对全书所有 Scene/Beat 进行 100% 像素级灰度回归。
-// 2. 自动挂起无限自旋、闪烁的持续动画，实现截图帧绝对静止。
-// 3. 完美适配 macOS (darwin) 与 Ubuntu (linux) 的双系统后缀快照体系。
+// Pixel-compares every beat of every scene in the registry.
+// The slide list is read at runtime from window.__SLIDE_REGISTRY__ (single source of truth) — not
+// duplicated here. Runs on chromium only (one baseline, less CI bandwidth); the cross-platform
+// snapshot suffix is matched automatically (macOS -> *-chromium-darwin.png, Ubuntu -> *-chromium-linux.png).
 
-const slideConfigs = [
-  { id: 'cover', totalBeats: 1 },
-  { id: 'harness-premise', totalBeats: 3 },
-  { id: 'loop-definition', totalBeats: 4 }
-];
+// freeze: pause every continuous / infinite animation, zero transitions, lock the first frame.
+// This is the single source of the freeze mechanism (export-pdf.mjs reuses the same rule).
+const FREEZE_CSS = `
+  *, *::before, *::after {
+    animation-play-state: paused !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+  }
+`;
 
-test.describe('Pixel-Perfect Visual Regression Suite', () => {
-  // 视觉回归限定仅在 Chromium 核心上跑，以节省 Actions 构建带宽并统一对齐基准
-  test.beforeEach(async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== 'chromium', 'Visual snapshots are verified on Chromium desktop only.');
-    await page.setViewportSize({ width: 1920, height: 1080 });
-  });
+test('pixel regression — every registered scene / beat', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'chromium', 'Visual snapshots run on Chromium desktop only.');
+  await page.setViewportSize({ width: 1920, height: 1080 });
 
-  for (const config of slideConfigs) {
-    for (let beat = 0; beat <= config.totalBeats; beat++) {
-      test(`Screenshot Scene: ${config.id} - Beat: ${beat}`, async ({ page }) => {
-        // 导航至指定状态页面，加入 test=true 标志
-        await page.goto(`/?scene=${config.id}&beat=${beat}&test=true`);
-        await page.waitForLoadState('networkidle');
-        
-        // ------------------------------------------
-        // 🛡️ 防抖保障 1：等待中文字体和 WebFonts 完全就位
-        // ------------------------------------------
-        await page.evaluate(() => document.fonts.ready);
+  // read the single source of truth
+  await page.goto('/?test=true', { waitUntil: 'networkidle' });
+  const registry = await page.evaluate(() => window.__SLIDE_REGISTRY__ ?? []);
+  expect(registry.length, 'window.__SLIDE_REGISTRY__ is empty: call exposeRegistryForTooling() at startup').toBeGreaterThan(0);
 
-        // ------------------------------------------
-        // 🛡️ 防抖保障 2：动态注入全局 CSS，强制挂起并静止所有持续自旋、流光动画
-        // ------------------------------------------
-        await page.addStyleTag({
-          content: `
-            /* 强制将所有带旋转或闪烁的元素挂起，锁定在第 0 帧 */
-            *, *::before, *::after {
-              animation-play-state: paused !important;
-              transition-delay: 0s !important;
-              transition-duration: 0s !important;
-            }
-          `
-        });
+  for (const { id, totalBeats } of registry) {
+    for (let beat = 0; beat <= totalBeats; beat++) {
+      await page.goto(`/?scene=${id}&beat=${beat}&test=true`, { waitUntil: 'networkidle' });
+      await page.evaluate(() => document.fonts.ready); // wait for fonts to load
+      await page.addStyleTag({ content: FREEZE_CSS });  // freeze continuous motion
+      await waitForAnimationsToSettle(page);            // wait for Framer Motion physics to settle
 
-        // ------------------------------------------
-        // 🛡️ 防抖保障 3：等待 Framer Motion 弹性浮点数物理衰减完成
-        // ------------------------------------------
-        await waitForAnimationsToSettle(page);
-
-        // ------------------------------------------
-        // 🛡️ 截图对比：限定 1% 的抗锯齿容差率，并自动根据运行平台匹配
-        // (macOS -> *-chromium-darwin.png, Ubuntu -> *-chromium-linux.png)
-        // ------------------------------------------
-        await expect(page).toHaveScreenshot(`${config.id}-beat-${beat}.png`, {
-          maxDiffPixelRatio: 0.01, // 允许 1% 的灰度亚像素差异（抹消跨平台的抗锯齿算法隔阂）
-          fullPage: true,
-          // 如果幻灯片中嵌入了无法静止的实时数据 Sandbox/Canvas，在此加入 CSS selector 进行纯色遮罩排除
-          mask: [
-            page.locator('.dynamic-sandbox-exclusion-zone'),
-            page.locator('iframe')
-          ].filter(Boolean)
-        });
+      // expect.soft: audit the whole deck and aggregate failures; one diff won't abort the rest
+      await expect.soft(page).toHaveScreenshot(`${id}-beat-${beat}.png`, {
+        maxDiffPixelRatio: 0.01, // allow 1% sub-pixel antialiasing diff to absorb cross-platform rendering
+        fullPage: true,
+        // mask regions that can't be frozen (live canvas, third-party iframes)
+        mask: [page.locator('[data-live-region]'), page.locator('iframe')],
       });
     }
   }
 });
 
 /**
- * 高精度物理动画落定轮询器 ( settle helper )
- * 连续两次每隔 50ms 抓取全页所有 DOM 的位置，确保绝对物理静止再切片截图。
+ * Settle poller: when two consecutive frames show no change in element position/opacity, the page
+ * is physically at rest — then it's safe to screenshot.
  */
-async function waitForAnimationsToSettle(page) {
-  let previousState = '';
-  const maxAttempts = 20; // 最大等待 1 秒 (50ms * 20)
-
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    // 抓取全页可见元素的位置及宽高特征字符串
-    const currentState = await page.evaluate(() => {
-      const els = Array.from(document.querySelectorAll('div, span, p, h1, h2, img, button'));
-      return els
-        .map(el => {
-          const rect = el.getBoundingClientRect();
-          const opacity = window.getComputedStyle(el).opacity;
-          return `${rect.top},${rect.left},${rect.width},${rect.height},${opacity}`;
+async function waitForAnimationsToSettle(page: Page) {
+  let previous = '';
+  for (let attempt = 0; attempt < 20; attempt++) { // wait at most 1s (50ms * 20)
+    const current = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('div, span, p, h1, h2, img, button'))
+        .map((el) => {
+          const r = el.getBoundingClientRect();
+          return `${r.top},${r.left},${r.width},${r.height},${getComputedStyle(el).opacity}`;
         })
-        .join('|');
-    });
-
-    if (currentState === previousState) {
-      break; // 状态完全吻合，连续两帧无位移/淡入淡出，跳出。
-    }
-    previousState = currentState;
+        .join('|')
+    );
+    if (current === previous) break;
+    previous = current;
     await page.waitForTimeout(50);
   }
 }

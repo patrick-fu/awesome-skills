@@ -1,54 +1,54 @@
 import React from 'react';
 
 // ==========================================
-// 💡 SlideRegistry (无痛路由与动态注册架构)
+// 💡 SlideRegistry — painless routing & dynamic registration
 // ==========================================
 //
-// 痛点背景：
-// 传统 slides 将顺序硬编码在文件名（如 Scene1.tsx, Scene2.tsx）或 App.tsx 中。
-// 当中途插入一张新 slide 时，后续所有文件名、物理导入、Playwright 测试快照路径都需要跟着 +1。
-// 这会造成极度痛苦的“重构序号地狱”与快照断裂。
+// The pain: traditional decks hardcode order in filenames (Scene1.tsx, Scene2.tsx) or in App.tsx.
+// Inserting a slide mid-deck forces renaming every later file, rewriting imports, and renumbering
+// every Playwright snapshot path — "re-indexing hell", with broken snapshots.
 //
-// 解决方案：
-// 1. 所有场景采用具有特定语义、不含物理数字顺序的组件命名（如 CoverSlide, HarnessConveyorSlide）。
-// 2. 建立一个中心化的 SLIDE_REGISTRY 数组声明顺序。
-// 3. 路由、页码和测试完全由该数组的 index 动态计算产生，新增插页只需调整数组元素，物理文件名无感。
+// The fix:
+// 1. Name scene components semantically, with no ordinal in the name (CoverSlide, HarnessSlide).
+// 2. One central SLIDE_REGISTRY array declares order.
+// 3. Routing, page numbers, and tests all derive from array position — inserting a slide is just
+//    editing the array; physical filenames never change.
 
 export interface SlideEntry {
-  id: string;                  // 唯一持久化标识符。对应路由路径及 Playwright 快照文件名，不可随意更改。
-  title: string;               // 幻灯片标题，供框架、页面标题或大纲展示使用
+  id: string;         // stable, persistent id — used in routes and as the Playwright snapshot filename; don't change it casually
+  title: string;      // slide title, for the framework / page title / outline
   component: React.ComponentType<{ currentBeat: number; isTestMode?: boolean }>;
-  totalBeats: number;          // 该幻灯片内部包含的 Beats 动作总数（不含 Beat 0）
+  totalBeats: number; // number of beats inside this slide (excluding beat 0)
 }
 
-// 模拟导入的语义化场景组件（实际应从对应的场景文件中真实 import）
-const DummyCoverSlide: React.FC<{ currentBeat: number }> = () => <div>封面</div>;
-const DummyHarnessSlide: React.FC<{ currentBeat: number }> = () => <div>Harness前提</div>;
-const DummyLoopSlide: React.FC<{ currentBeat: number }> = () => <div>Loop定义</div>;
+// Placeholder scene components (in a real deck, import the actual scene files instead).
+const DummyCoverSlide: React.FC<{ currentBeat: number }> = () => <div>Cover</div>;
+const DummyHarnessSlide: React.FC<{ currentBeat: number }> = () => <div>Harness premise</div>;
+const DummyLoopSlide: React.FC<{ currentBeat: number }> = () => <div>Loop definition</div>;
 
 export const SLIDE_REGISTRY: SlideEntry[] = [
   {
     id: 'cover',
-    title: '从 Spec 到 Loop',
+    title: 'From Spec to Loop',
     component: DummyCoverSlide,
     totalBeats: 1,
   },
   {
     id: 'harness-premise',
-    title: 'Harness 是前提，不是主角',
+    title: 'The harness is the premise, not the star',
     component: DummyHarnessSlide,
-    totalBeats: 3, // 例如：Beat 1 出现闸口，Beat 2 滚动包裹，Beat 3 收获硬骨头
+    totalBeats: 3, // e.g. beat 1 gate appears, beat 2 conveyor wraps, beat 3 hard case lands
   },
   {
     id: 'loop-definition',
-    title: '什么是可控闭环 Loop',
+    title: 'What a controllable loop is',
     component: DummyLoopSlide,
-    totalBeats: 4, // 例如：Beat 1 控制台，Beat 2 指示灯，Beat 3 状态流动，Beat 4 写回
-  }
+    totalBeats: 4, // e.g. beat 1 console, beat 2 indicator, beat 3 state flows, beat 4 write-back
+  },
 ];
 
 /**
- * 根据 Registry 计算路由跳转工具函数
+ * Derive prev/next navigation from the registry.
  */
 export const getSlideNavigation = (currentId: string) => {
   const currentIndex = SLIDE_REGISTRY.findIndex(s => s.id === currentId);
@@ -64,4 +64,24 @@ export const getSlideNavigation = (currentId: string) => {
     index: currentIndex,
     total: SLIDE_REGISTRY.length,
   };
+};
+
+// ==========================================
+// 💡 Expose a slim list for tooling (tests / PDF export)
+// ==========================================
+//
+// The visual / auditor specs and export-pdf.mjs all need to know "which scenes exist and how many
+// beats each has". Let them read this runtime list instead of each hardcoding its own copy —
+// SLIDE_REGISTRY stays the single source of truth. Call this once at the SlideDeck entry point.
+
+declare global {
+  interface Window {
+    __SLIDE_REGISTRY__?: { id: string; totalBeats: number }[];
+  }
+}
+
+export const exposeRegistryForTooling = () => {
+  if (typeof window !== 'undefined') {
+    window.__SLIDE_REGISTRY__ = SLIDE_REGISTRY.map(s => ({ id: s.id, totalBeats: s.totalBeats }));
+  }
 };

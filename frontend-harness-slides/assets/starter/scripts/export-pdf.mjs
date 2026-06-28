@@ -17,7 +17,7 @@ function arg(name, fallback) {
   return i !== -1 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
 }
 
-const BASE = arg('base', 'http://localhost:4173').replace(/\/$/, '');
+const BASE = arg('base', `http://localhost:${process.env.PORT || 4173}`).replace(/\/$/, '');
 const OUT = arg('out', 'deck.pdf');
 const COMPACT = process.argv.includes('--compact');
 const W = COMPACT ? 1280 : 1920;
@@ -26,11 +26,18 @@ const H = COMPACT ? 720 : 1080;
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: W, height: H } });
 
-// 1) read the registry from the running app (single source of truth)
-await page.goto(`${BASE}/?test=true`, { waitUntil: 'networkidle' });
+// 1) read the registry from the running app (single source of truth).
+// Separate the two failure modes: an unreachable server throws here, a missing registry is handled below.
+try {
+  await page.goto(`${BASE}/?test=true`, { waitUntil: 'networkidle' });
+} catch {
+  console.error(`Could not reach the preview server at ${BASE}. Start it first: npm run build && npm run preview (or pass --base/PORT).`);
+  await browser.close();
+  process.exit(1);
+}
 const registry = await page.evaluate(() => window.__SLIDE_REGISTRY__ ?? []);
 if (!registry.length) {
-  console.error('No window.__SLIDE_REGISTRY__ found. Call exposeRegistryForTooling() and start the preview server first.');
+  console.error('Reached the server but found no window.__SLIDE_REGISTRY__. Call exposeRegistryForTooling() in the app entry.');
   await browser.close();
   process.exit(1);
 }

@@ -11,8 +11,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - run: npm install
+          node-version: 22
+      - run: npm ci
       # Optional: compile a heavy CJK web font on the fly instead of committing the binary.
       # - run: npx ttf2woff2 < public/fonts/LXGWWenKaiLite-Regular.ttf > public/fonts/LXGWWenKaiLite-Regular.woff2
       - run: npx playwright install --with-deps chromium

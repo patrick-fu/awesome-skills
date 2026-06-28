@@ -27,7 +27,7 @@ Put this in `vercel.json` at the project root (the starter already includes it),
 It captures each slide's **final beat** with `?test=true` (a frozen frame), so the PDF matches what the harness verifies. Animations collapse to their final static state — expected for a PDF.
 
 ### Gotchas
-- **Server must be up first.** The script visits the live app to read the registry; start the preview server before running it, or it exits with "No window.__SLIDE_REGISTRY__".
+- **Server must be up first.** The script visits the live app to read the registry. If the preview server isn't reachable it exits early with "Could not reach the preview server at <url>"; if the server is up but the registry is missing (forgot `exposeRegistryForTooling()`), it exits with "no window.__SLIDE_REGISTRY__".
 - **Keep assets under `public/`.** Relative-path images/fonts render fine; absolute filesystem paths won't.
 - **Big decks → big PDFs.** Each slide is a full 1920×1080 PNG. If the file is too large, re-run with `--compact`.
 

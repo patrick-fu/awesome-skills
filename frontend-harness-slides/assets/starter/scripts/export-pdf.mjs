@@ -1,19 +1,16 @@
 #!/usr/bin/env node
-// ==========================================
-// 💡 export-pdf.mjs — export the whole deck to a PDF (one page per slide, final-beat frozen frame)
-// ==========================================
-//
-// Reads window.__SLIDE_REGISTRY__ from the running app as the single source of truth, so it covers
-// every slide automatically — no separate slide list to maintain. Each page is captured with
-// ?test=true (a frozen frame), so the exported PDF matches what the harness verifies.
+// Export the whole deck to a PDF — one page per slide, captured at its final beat as a frozen frame.
+// Reads window.__SLIDE_REGISTRY__ from the running app (single source of truth) and reuses the same
+// freeze as the visual harness (../harness/freeze.mjs), so the PDF matches what the harness verifies.
 //
 // Usage:
-//   node assets/scripts/export-pdf.mjs --base http://localhost:4173 --out deck.pdf [--compact]
+//   npm run build && npm run preview            # serve the deck (default http://localhost:4173)
+//   node scripts/export-pdf.mjs --base http://localhost:4173 --out deck.pdf [--compact]
 //
-// Prereq: build and serve the deck first (e.g. `npm run build && npm run preview`),
-// and install Playwright's chromium (`npx playwright install chromium`).
+// Prereq: install Playwright's chromium (`npx playwright install chromium`).
 
 import { chromium } from '@playwright/test';
+import { FREEZE_CSS, waitForAnimationsToSettle } from '../harness/freeze.mjs';
 
 function arg(name, fallback) {
   const i = process.argv.indexOf(`--${name}`);
@@ -25,15 +22,6 @@ const OUT = arg('out', 'deck.pdf');
 const COMPACT = process.argv.includes('--compact');
 const W = COMPACT ? 1280 : 1920;
 const H = COMPACT ? 720 : 1080;
-
-// Same freeze as visual.spec: pause continuous animations, zero transitions, lock the first frame.
-const FREEZE_CSS = `
-  *, *::before, *::after {
-    animation-play-state: paused !important;
-    transition-delay: 0s !important;
-    transition-duration: 0s !important;
-  }
-`;
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: W, height: H } });
@@ -53,7 +41,7 @@ for (const { id, totalBeats } of registry) {
   await page.goto(`${BASE}/?scene=${id}&beat=${totalBeats}&test=true`, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
   await page.addStyleTag({ content: FREEZE_CSS });
-  await page.waitForTimeout(150); // let Framer Motion spring physics settle
+  await waitForAnimationsToSettle(page);
   const buf = await page.screenshot({ fullPage: false });
   shots.push(`data:image/png;base64,${buf.toString('base64')}`);
   console.log(`captured ${id} (beat ${totalBeats})`);

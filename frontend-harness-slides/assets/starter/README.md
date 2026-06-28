@@ -28,6 +28,11 @@ npm run test:update   # seed snapshots, then commit tests/**/__screenshots__ (th
 
 After that, `npm test` is green; a failing visual diff means a real, reviewable change — re-baseline intended diffs with `npm run test:update`.
 
+## Port & reproducibility
+
+- The harness serves the production preview on **4173**. If that port is busy (e.g. another Vite app), shift everything with `PORT=4180 npm test` — `vite preview` and the Playwright specs read the same `PORT`. A busy port fails fast with a clear "Port is in use" error rather than silently testing the wrong app.
+- `package-lock.json` is committed so installs are reproducible; CI uses `npm ci`.
+
 ## Export & deploy
 
 - PDF: `npm run build && npm run preview`, then in another shell `npm run export:pdf` (add `--compact` for a smaller file).

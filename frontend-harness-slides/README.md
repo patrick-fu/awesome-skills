@@ -121,7 +121,7 @@ Browser **Back / Forward** buttons work — the deck URL state changes per beat 
 A: Add a component in `src/slides/` → export it as a scene entry → push `{id, title, scene, beats?}` into the `registry` array in `AllScenes.tsx`.
 
 **Q: Can I use vanilla HTML/CSS instead of React?**
-A: For <8 slides, yes! Switch to the `frontend-slides` skill. It outputs a single HTML file with no build step. For more complex decks, React componentization is what makes the harness (tests, theming, registry) work.
+A: For <10 slides and a one-shot output, yes! Switch to the `frontend-slides` skill. It outputs a single HTML file with no build step. For larger decks, decks with interactive demos, or decks that need CI regression — React componentization is what makes the harness (tests, theming, registry) work.
 
 **Q: Where do speaker notes go?**
 A: `registry[i].notes = "Markdown-ish text.\nSecond line."`. Show them with `F` (presenter mode). They also get exported alongside PDF pages if you pass `--with-notes` to export-pdf.mjs.

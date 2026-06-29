@@ -11,13 +11,6 @@ description: >-
 version: 1.0.0
 updated: 2026-06-29
 # publish_targets: ["awesome-skills"]  # 如需对外发布取消注释
-related_skills:
-  - frontend-slides
-  - lark-slides
-  - stop-slop
-  - humanizer
-  - design-taste-frontend
-  - aero-mint-glass-html-design
 ---
 
 # Frontend Harness Slides

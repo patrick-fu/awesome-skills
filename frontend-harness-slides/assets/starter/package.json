@@ -7,25 +7,33 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
     "test": "playwright test",
     "test:update": "playwright test --update-snapshots",
+    "test:audit": "playwright test auditor.spec.ts",
+    "test:visual": "playwright test visual.spec.ts",
+    "test:visual:update": "playwright test visual.spec.ts --update-snapshots",
+    "test:ci": "CI=true playwright test --reporter=list",
     "export:pdf": "node scripts/export-pdf.mjs"
   },
   "dependencies": {
-    "framer-motion": "^11.3.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "framer-motion": "11.3.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.45.0",
-    "@types/node": "^22.20.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^6.0.3",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.39",
-    "tailwindcss": "^3.4.4",
-    "typescript": "^5.5.3",
-    "vite": "^8.1.0"
+    "@playwright/test": "1.45.0",
+    "@types/node": "22.20.0",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "@vitejs/plugin-react": "6.0.3",
+    "autoprefixer": "10.4.19",
+    "postcss": "8.4.39",
+    "tailwindcss": "3.4.4",
+    "typescript": "5.8.3",
+    "vite": "8.1.0"
+  },
+  "engines": {
+    "node": ">=20.11.0"
   }
 }

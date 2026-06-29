@@ -14,20 +14,38 @@ interface SlideStageProps {
   themeBg?: string;
 }
 
+// H-6: clamp the scale so zoom never exceeds 1 (prevents upscaling blur on large monitors) and
+// never drops below 0.05 (prevents divide-by-near-zero in derived metrics).
+function clampScale(raw: number): number {
+  return Math.max(0.05, Math.min(1, raw));
+}
+
 export function SlideStage({ children, slideId, beat, themeBg = '#000000' }: SlideStageProps) {
   const [scale, setScale] = useState(1);
   const ref = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     const calculate = () => {
-      const scaleX = window.innerWidth / 1920;
-      const scaleY = window.innerHeight / 1080;
-      setScale(Math.min(scaleX, scaleY)); // take the smaller ratio so the whole stage stays visible
+      // H-6: double-rAF debounce. ResizeObserver firing → first rAF commits layout → second rAF
+      // we read the post-layout size. Avoids the "setScale → triggers reflow → observer fires
+      // again" infinite re-trigger on some browsers.
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = requestAnimationFrame(() => {
+          const scaleX = window.innerWidth / 1920;
+          const scaleY = window.innerHeight / 1080;
+          setScale(clampScale(Math.min(scaleX, scaleY)));
+        });
+      });
     };
     const observer = new ResizeObserver(calculate);
     observer.observe(document.documentElement);
     calculate();
-    return () => observer.disconnect();
+    return () => {
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -47,7 +65,13 @@ export function SlideStage({ children, slideId, beat, themeBg = '#000000' }: Sli
           transformOrigin: 'center center',
           flex: 'none', // stop the flex parent from squeezing the canvas and distorting 16:9
         }}
-        className="relative overflow-hidden shadow-2xl transition-transform duration-75 ease-out"
+        // H-6: no transition on transform. A 75ms ease-out means a screenshot taken immediately
+        // after a resize captures an in-between frame and the visual baseline drifts. Instant
+        // transforms are fine — scale changes happen on window resize which is already animated
+        // by the OS compositor, not the slide runtime.
+        // H-7 P0-3: lock the stage chrome to effects tokens so theme.effects.shadow drives the
+        // drop shadow instead of a hard-coded Tailwind preset — a swap to a "flat" theme will zero it out.
+        className="relative overflow-hidden shadow-card transition-none"
       >
         {children}
       </div>

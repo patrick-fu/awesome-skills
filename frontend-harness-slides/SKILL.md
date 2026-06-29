@@ -7,6 +7,16 @@ description: >-
   slides. Use when the user wants to create, extend, refactor, or harden HTML
   slides (a talk or pitch deck) into something built to last, or wants slide
   work with automated visual checks and PDF export — not a quick one-off.
+  适用于 ≥15 页、需要多轮迭代、CI 视觉回归测试或团队协作 review 的幻灯片项目；<10 页一次性交付请用 frontend-slides，需要飞书原生编辑/分享请用 lark-slides。
+version: 1.0.0
+# publish_targets: ["awesome-skills"]  # 如需对外发布取消注释
+related_skills:
+  - frontend-slides
+  - lark-slides
+  - stop-slop
+  - humanizer
+  - design-taste-frontend
+  - aero-mint-glass-html-design
 ---
 
 # Frontend Harness Slides
@@ -57,6 +67,23 @@ Embedding an input, terminal, or clickable demo? Stop its key/scroll/click event
 
 The harness exists to make every screenshot a **frozen frame**: the same render every run, so a pixel diff means a real regression, not animation jitter.
 
+### §II.1 Keyboard Shortcuts
+
+在幻灯片舞台（未聚焦任何 input 时）以下快捷键生效：
+
+| Key | Action |
+|-----|--------|
+| `→` / `Space` / `PageDown` / `N` | 下一页 |
+| `←` / `PageUp` / `P` | 上一页 |
+| `Home` | 第 1 页 |
+| `End` | 最后 1 页 |
+| `0-9` + `Enter` | 跳转到第 N 页 |
+| `F` / `F11` | 全屏 |
+| `Esc` | 退出全屏 / 关闭 present 模式 |
+| `?` / `H` | 显示快捷键帮助 |
+
+> 注：聚焦在 `<input>`/`<textarea>`/可编辑区域内，以上快捷键**不拦截**（见「键盘事件模型」）。
+
 ### 1. Beat controller — state lives in the URL
 Bind slide state to query params (`?scene=<id>&beat=<n>`). With `?test=true` the deck locks scene+beat and components jump straight to that beat's final state (no stagger timers, no live keyboard nav). That determinism is what makes a frame freezable, and it makes every frame a shareable deep link.
 - → `assets/starter/src/SlideDeck.tsx` parses the query, clamps the beat, syncs the URL on navigation, and emits `data-slide-id` / `data-beat` so the specs can assert the frame actually rendered.
@@ -103,11 +130,61 @@ When a dense slide would force hard-to-read type or push content past `data-slid
 
 For any deck under git, keep a root `CONTEXT.md` as the single source of decisions/backlog, and prune it during big restructures so it stays high-density.
 
+### §V.0 Import: Convert PPTX / Markdown / Keynote → Slides Project
+
+**PPTX 导入（最常见）**：
+```bash
+# 1) Keynote / WPS 先导出为 PPTX
+# 2) 用 frontend-slides 的 extract-pptx.py 抽取文本和图片
+python ~/.agents/skills/frontend-slides/scripts/extract-pptx.py \
+  --input ./source.pptx --output ./tmp-extracted \
+  --images ./assets/images/
+# 3) 生成的每一页文本对应到 SlideEntry.registry 的 content 字段
+```
+
+**Markdown 导入**：
+```
+每一级 `#` 代表一张新的 slide，`---` 分隔页。
+抽取每个页面后：
+  1) 生成 SlideEntry.id（slug 化 title）
+  2) 放入 registry 数组
+  3) 图片从 `![alt](path)` 拷贝到 assets/images/ 并改相对路径
+```
+
+**规则**：
+- 导入后**必须**按 §Phase II 重做布局（纯文本位置不做保留）
+- 字体方案、主题色按 §Theme 重新配置
+- 图片需走 §Phase I Asset Prep（裁切、去底、WebP 压缩）
+
 ### Phase 1 — Discover (ask together)
 Ask in one batch: **purpose · audience · length · density** (speaker-led vs reading-first). Then:
 - Propose three themes via the dual-preview (`references/theming.md`); let the user pick by eye.
 - If the user supplied images/logo/screenshots: judge each (usable? what it shows) and design the outline *around* them (3 screenshots → 3 feature slides, logo → cover/closing). Put assets in `public/`.
 - Seed the `SLIDE_REGISTRY` array from the agreed outline.
+
+### §Phase I.1 Asset Prep: Standard Operating Procedure
+
+**Logo 处理**：
+```bash
+# 去白底 → PNG transparent
+python -c "from PIL import Image; ..."
+# 或用 vector magic / super vectorizer 转 SVG
+# 最终要求：SVG 优先，200×200 px 边界，居中
+```
+
+**截图裁切 16:9 背景图**：
+```bash
+# 固定 1920×1080，WebP 质量 82，1200px 最大维度
+convert input.jpg -resize 1920x1080^ -gravity center -extent 1920x1080 \
+  -quality 82 output.webp
+```
+
+**SVG 优化**：
+```bash
+npx svgo input.svg --enable=removeUselessStrokeAndFill,prefixIds -o output.svg
+```
+
+**规范**：所有 assets 文件命名 `{slug}-{desc}-{dim}.{ext}`，如 `hero-app-mockup-1242x2688.webp`。
 
 ### Phase 2 — Build
 - Author each registry component in `src/scenes/`. Done when every registry entry resolves to a real component (no placeholders).
@@ -126,6 +203,24 @@ Done only when **all** of these hold:
 
 Then ship → `references/deploy.md`: Vercel `vercel.json` rewrite for `?scene=&beat=` deep links, plus PDF export via `assets/starter/scripts/export-pdf.mjs`.
 
+### §Phase III.1 Humanizer & Stop-Slop Gate
+
+完成所有页面后，**必须**跑两轮质量 Gate：
+
+1. **调用 `humanizer` skill**（或 `humanizer-zh` 中文版本），输入：
+   ```
+   请把以下幻灯片文案进行 humanize：（粘贴所有 SlideEntry 文本内容）
+   要求：保留专业度、去除 AI 味、统一语调、减少重复词、保留所有数据事实。
+   ```
+
+2. **调用 `stop-slop` skill**，跑「Slop check on slide deck」模式，检查：
+   - 空泛形容词（"seamless"、"robust"、"state-of-the-art"）
+   - 动词堆叠（"enable and empower"）
+   - 缺乏具体数字的 claims
+   - 每条 slide 的标题是否能单独表意（3 秒测试）
+
+Gate 不通过**不能发布**。
+
 ## VI. Supporting Files
 
 | File | Read / use when |
@@ -140,3 +235,36 @@ Then ship → `references/deploy.md`: Vercel `vercel.json` rewrite for `?scene=&
 | `references/fonts.md` | choosing / installing fonts |
 | `references/humanizer-slides.md` | the user asks for humanizer copy |
 | `references/deploy.md` | deploying to Vercel or exporting PDF |
+## §VII Anti-patterns — 绝对不要做的事
+
+1. **不要用 canvas 渲染整页静态内容**。Canvas 文字不可选中、不可拷贝、破坏无障碍、导出 PDF 是位图。只在图表/动画帧时用。
+2. **< 10 页、一次性交付的幻灯片，不要使用本 skill**。用 frontend-slides（单文件 HTML），工程化 setup 成本不值得。
+3. **不要把 beat 仅用于做动画/视觉效果**。每个 beat 对应一个「故事单元」，如果只是淡入淡出文字，合并为一个 beat。
+4. **不要在 [data-slide-stage] 内使用 responsive breakpoints (md:/lg:)**。舞台永远是 1920×1080 像素坐标，Tailwind 的屏幕断点基于 viewport，不适用。
+5. **不要在 Stage 内放 <iframe> 做可交互 Demo**。iOS Safari 缩放 iframe 会改变内部 layout；导出 PDF/截图 iframe 内容丢失。将交互 Demo 作为链接外链。
+6. **不要用 CSS `zoom:` 属性做舞台缩放**。它是非标准的，`transform: scale()` + `transform-origin: top left` 更可靠且可预测。
+7. **不要在 registry 中引用同一张图超过 3 次**。先考虑做成 shared component（如通用 App Mockup 组件），减少重复维护。
+8. **不要默认引入完整 CJK 字体 (20MB+)**。必须走 glyphhanger/pyftsubset 子集化到 < 1MB。
+
+## §VIII Troubleshooting — 高频问题速查
+
+**Q1: Playwright visual 快照第一次全红？**
+> 正常。先跑 `npx playwright test visual.spec --update-snapshots` 生成基线，再提交。后续 CI 会对比。
+
+**Q2: 导出 PDF 文字错位？**
+> 99% 是本地字体与 CI 字体不匹配。确保：1) fonts 用子集化 WOFF2 上传到 assets/fonts；2) auditor.spec 里有 @font-face loaded 检查；3) 加 `--font-render-hinting=none` 启动参数。
+
+**Q3: SandboxIsolator 在 SlideDeck 里不工作（老项目兼容）？**
+> SandboxIsolator 组件已在 v1.0.0 删除。功能合并到 SlideDeck 自身的 editable 元素白名单检查中。如果 upgrade，请移除所有 `<SandboxIsolator>` 包裹。
+
+**Q4: 图片在 Safari 里被自动放大？**
+> `<ImageSlot>` 默认 fit=cover 会裁切。设 `fit="contain"` 或加 `--image-slot-position`。双击图片进入 reframe 模式手动裁切。
+
+**Q5: npm run test 卡在 chromium 下载？**
+> 首次运行 Playwright 需要装浏览器：`npx playwright install chromium`。后续有 CI cache 就不会再下载。
+
+**Q6: 幻灯片舞台缩放时，fixed 定位元素位置错？**
+> `position: fixed` 基于 viewport，缩放后会漂移。全部改为 `position: absolute`，父容器用 `position: relative`。
+
+**Q7: presenter 模式下按 space 无法翻页？**
+> 确认没有任何 textarea/input 聚焦。如果 TweaksPanel 打开着，其内部 TweakNumber 横向 scrub 会吃掉 space（这是预期行为）。先点击舞台空白处失焦。

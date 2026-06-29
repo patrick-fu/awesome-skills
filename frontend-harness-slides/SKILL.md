@@ -273,12 +273,15 @@ Gate 不通过**不能发布**。
 | `references/fonts.md` | choosing / installing fonts |
 | `references/humanizer-slides.md` | the user asks for humanizer copy |
 | `references/deploy.md` | deploying to Vercel or exporting PDF |
-| `references/anti-patterns.md` | full 10-entry anti-pattern catalog (§VII expansion, 含每条触发场景 & 反例) |
-| `references/troubleshooting.md` | full 9-entry troubleshooting catalog (§VIII expansion, 含根因 + 精确修复命令) |
+| `references/asset-handling.md` | image/font/svg assets: folder structure, optimization CLI, rules |
+| `references/component-libraries.md` | decision tree + copy-paste imports for charts/code/diagrams/icons |
+| `references/content-import.md` | PPTX/Keynote/Lark → harness deck SOP, field mapping, validation |
+| `references/anti-patterns.md` | full 18-entry anti-pattern catalog (§VII expansion, 含每条触发场景 & 反例) |
+| `references/troubleshooting.md` | full 16-entry troubleshooting catalog (§VIII expansion, 含根因 + 精确修复命令) |
 
 ## §VII Anti-patterns — 绝对不要做的事
 
-> 完整扩展版（10 条，含每条触发场景 & 反例）见 [`references/anti-patterns.md`](./references/anti-patterns.md)。以下是**必须记住的快速清单**，生成或审查幻灯片时逐项对照。
+> 完整扩展版（18 条，含每条触发场景 & 反例 + 新增 8 条 Harness 特有规则）见 [`references/anti-patterns.md`](./references/anti-patterns.md)。以下是**必须记住的快速清单**，生成或审查幻灯片时逐项对照。
 
 1. **不要用 canvas 渲染整页静态内容**。Canvas 文字不可选中、不可拷贝、破坏无障碍、导出 PDF 是位图。只在图表/动画帧时用。
 2. **< 10 页、一次性交付的幻灯片，不要使用本 skill**。用 frontend-slides（单文件 HTML），工程化 setup 成本不值得。

@@ -36,7 +36,9 @@ Each section below is a rule plus a pointer to the file that implements it. Read
 Don't hand-assemble the project. The repeated engineering — Vite + React + Tailwind, the router/beat-controller, the theme provider, `playwright.config`, the two specs, the PDF exporter, an optional CI — is bundled in `assets/starter/` and already green:
 
 1. Copy `assets/starter/` to the project root.
-2. `npm install`, then `npm run dev` to author and `npm test` to run the harness.
+2. `npm install`, then `npx playwright install chromium` (the package ships
+   without a browser binary — required for tests and PDF export). After that,
+   `npm run dev` to author and `npm test` to run the harness.
 3. Replace the two demo scenes in `src/scenes/` with real content, registered through the array (§I.1).
 
 Everything below explains the pieces you'll touch inside that starter.

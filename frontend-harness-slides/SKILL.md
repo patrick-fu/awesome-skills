@@ -273,6 +273,7 @@ Gate 不通过**不能发布**。
 | `references/fonts.md` | choosing / installing fonts |
 | `references/humanizer-slides.md` | the user asks for humanizer copy |
 | `references/deploy.md` | deploying to Vercel or exporting PDF |
+| `references/asset-handling.md` | image/font/svg assets: folder structure, optimization CLI, rules |
 | `references/component-libraries.md` | decision tree + copy-paste imports for charts/code/diagrams/icons |
 | `references/content-import.md` | PPTX/Keynote/Lark → harness deck SOP, field mapping, validation |
 | `references/anti-patterns.md` | full 18-entry anti-pattern catalog (§VII expansion, 含每条触发场景 & 反例) |
@@ -295,14 +296,14 @@ Gate 不通过**不能发布**。
 
 ### Additional anti-patterns enforced by the harness（完整 18 条目录入 references/anti-patterns.md）
 
-11. **<5 slides → wrong skill.** If you're producing 1–4 slides, don't scaffold the entire harness. Use frontend-slides for a one-shot HTML output. Setup cost is non-linear.
+11. **<10 slides AND no long-term features → wrong skill.** If you're producing 1–9 slides AND there are no interactive demos / CI / PR review / ≥3 future edits, don't scaffold the entire harness. Use frontend-slides for a one-shot HTML output. Setup cost is non-linear. *Trigger Boundaries grey zone 10–14: harness only if ≥2 long-term features.*
 12. **Canvas-only rendering.** A slide that is 100% `<canvas>` with no DOM text is un-auditable (Auditor can't check text content) and produces blurry zoomed PDFs. Always keep structural text/headings in DOM; canvas only for charts/animations. Add `[data-visual-mask]` or include in `VISUAL_MASK_SELECTORS` if using canvas-based non-deterministic rendering.
 13. **Bulk `AllScenes.tsx` with >30 scenes in one file.** Split into `src/slides/01-intro.tsx`, `src/slides/02-architecture.tsx`, etc. The registry is just a concat of exported arrays. Monolithic files = 3000+ line PRs that can't be reviewed.
 14. **Chart screenshots instead of components.** Never `import chart.png` when you could `import <BarChart data={...}>`. Recharts + Shiki cost ~60KB gzipped and give you searchable PDF text + live theming support.
 15. **>3 bullet points per slide.** This is a PRESENTATION deck, not a document. If you find yourself writing `ul > li × 5+`, stop: either (a) split across 2 beats using beat-specific `data-beat-only` visibility, or (b) re-express the information visually.
 16. **Responsive breakpoints inside slides.** The stage is FIXED 1920×1080. Do NOT write `@media (max-width: 768px)` inside a slide component — it never fires. Use `clamp()` with vw/vh terms only if you're expressing design proportions; even then, prefer fixed px on stage.
 17. **Beats that are ONLY animation (no content change).** If `beat=2` differs from `beat=1` only in a CSS transition duration, it will fail audit (no text change) AND visual diff (motion blur or freeze timing). Either: attach a `data-beat-only` visibility to a real element, or drop the beat.
-18. **Skipping the harness for "just a quick deck" with ≥8 slides.** "Quick deck" + ≥8 slides → 2 weeks later someone edits a margin and the 14th slide overflows. Harness cost pays off at slide #8. Budget 30 minutes for npm install + first snapshots. *For ≥15 slides, harness is MANDATORY (Trigger Boundaries).*
+18. **Skipping the harness for "just a quick deck" with ≥10 slides.** "Quick deck" + ≥10 slides → 2 weeks later someone edits a margin and the 14th slide overflows. Harness cost pays off at slide #10 (grey zone: ≥10 AND ≥2 long-term features → upgrade). Budget 30 minutes for npm install + first snapshots. If it's really <10 slides AND one-shot, use frontend-slides. *For ≥15 slides, harness is MANDATORY (Trigger Boundaries).*
 
 ## §VIII Troubleshooting — 高频问题速查
 

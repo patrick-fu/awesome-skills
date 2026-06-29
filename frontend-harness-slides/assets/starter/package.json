@@ -4,7 +4,6 @@
   "type": "module",
   "version": "0.0.0",
   "scripts": {
-    "postinstall": "npx playwright install --with-deps chromium 2>/dev/null || echo 'Playwright install skipped (offline / already present)'",
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
@@ -14,7 +13,7 @@
     "test:audit": "playwright test auditor.spec.ts",
     "test:visual": "playwright test visual.spec.ts",
     "test:visual:update": "playwright test visual.spec.ts --update-snapshots",
-    "test:ci": "CI=true playwright test --reporter=list",
+    "test:ci": "CI=true playwright test",
     "export:pdf": "node scripts/export-pdf.mjs"
   },
   "dependencies": {

@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import {
-  FREEZE_CSS,
   freezePage,
   freezeImperative,
   waitForAnimationsToSettle,

@@ -72,59 +72,74 @@ test.afterEach(async ({}, testInfo: TestInfo) => {
   ).toHaveLength(0);
 });
 
-test('pixel regression — every registered scene / beat', async ({ page }: { page: Page }, testInfo: TestInfo) => {
-  test.skip(testInfo.project.name !== 'chromium', 'Visual snapshots run on Chromium desktop only.');
-  await page.setViewportSize({ width: 1920, height: 1080 });
+test('pixel regression — every registered scene / beat',
+  { tag: ['@visual', '@slow', '@screenshot'] },
+  async ({ page }: { page: Page }, testInfo: TestInfo) => {
+    test.skip(testInfo.project.name !== 'chromium', 'Visual snapshots run on Chromium desktop only.');
+    await page.setViewportSize({ width: 1920, height: 1080 });
 
-  await page.goto('/?test=true', { waitUntil: 'networkidle' });
-  const registry = await page.evaluate(() => window.__SLIDE_REGISTRY__ ?? []);
-  expect(
-    registry.length,
-    'window.__SLIDE_REGISTRY__ is empty: call exposeRegistryForTooling() at startup',
-  ).toBeGreaterThan(0);
+    await page.goto('/?test=true', { waitUntil: 'networkidle' });
+    const registry = await page.evaluate(() => window.__SLIDE_REGISTRY__ ?? []);
+    expect(
+      registry.length,
+      'window.__SLIDE_REGISTRY__ is empty: call exposeRegistryForTooling() at startup',
+    ).toBeGreaterThan(0);
 
-  // CR-5 fix: every screenshot clips to [data-slide-stage]'s bounding box. This guarantees
-  // visual.spec.ts and export-pdf.mjs crop from the same geometric origin, and that letterbox
-  // chrome (flex-centered padding around the 1920×1080 canvas) never pollutes the baseline.
-  const stageLocator = page.locator('[data-slide-stage]');
-  const firstBcr = await stageLocator.boundingBox();
-  if (!firstBcr) throw new Error('[data-slide-stage] has no bounding box — cannot clip screenshots');
-  const clip = { x: firstBcr.x, y: firstBcr.y, width: firstBcr.width, height: firstBcr.height };
+    // CR-5 fix: every screenshot clips to [data-slide-stage]'s bounding box. This guarantees
+    // visual.spec.ts and export-pdf.mjs crop from the same geometric origin, and that letterbox
+    // chrome (flex-centered padding around the 1920×1080 canvas) never pollutes the baseline.
+    const stageLocator = page.locator('[data-slide-stage]');
+    const firstBcr = await stageLocator.boundingBox();
+    if (!firstBcr) throw new Error('[data-slide-stage] has no bounding box — cannot clip screenshots');
+    const clip = { x: firstBcr.x, y: firstBcr.y, width: firstBcr.width, height: firstBcr.height };
 
-  // Canvas/iframe/video etc. can't be frozen (e.g. cross-origin <iframe> has its own event loop).
-  // VISUAL_MASK_SELECTORS is the single source shared between the harness and any callers.
-  const mask = VISUAL_MASK_SELECTORS.map((s: string) => page.locator(s));
+    // Canvas/iframe/video etc. can't be frozen (e.g. cross-origin <iframe> has its own event loop).
+    // VISUAL_MASK_SELECTORS is the single source shared between the harness and any callers.
+    const mask = VISUAL_MASK_SELECTORS.map((s: string) => page.locator(s));
 
-  for (const { id, totalBeats } of registry) {
-    for (let beat = 0; beat <= totalBeats; beat++) {
-      await page.goto(`/?scene=${id}&beat=${beat}&test=true`, { waitUntil: 'networkidle' });
-      await page.evaluate(() => document.fonts.ready);
+    for (const { id, totalBeats } of registry) {
+      for (let beat = 0; beat <= totalBeats; beat++) {
+        // P1-4: SPA nav via __deck.gotoBeat() — same rationale as auditor.spec.
+        await page.evaluate(
+          ([sid, b]) => (window as any).__deck?.gotoBeat(sid, b),
+          [id, beat] as const,
+        );
+        await page.waitForFunction(
+          ([sid, b]) => {
+            const stage = document.querySelector('[data-slide-stage]');
+            return stage?.getAttribute('data-slide-id') === sid
+              && stage?.getAttribute('data-beat') === String(b);
+          },
+          [id, beat] as const,
+          { timeout: 8000 },
+        );
+        await page.evaluate(() => document.fonts.ready);
 
-      // The app must actually have landed on the requested frame, or the screenshot is meaningless
-      // (a router that silently ignored the params would still "pass" against whatever rendered).
-      const landed = await page.evaluate(() => {
-        const stage = document.querySelector('[data-slide-stage]');
-        return { id: stage?.getAttribute('data-slide-id'), beat: stage?.getAttribute('data-beat') };
-      });
-      expect
-        .soft(landed, `${id} beat ${beat}: router did not honor the requested scene/beat`)
-        .toEqual({ id, beat: String(beat) });
+        // Defense-in-depth: landed assertion. Technically waitForFunction above already
+        // proves this, but we keep the soft assert so a framework regression is explicit.
+        const landed = await page.evaluate(() => {
+          const stage = document.querySelector('[data-slide-stage]');
+          return { id: stage?.getAttribute('data-slide-id'), beat: stage?.getAttribute('data-beat') };
+        });
+        expect
+          .soft(landed, `${id} beat ${beat}: router did not honor the requested scene/beat`)
+          .toEqual({ id, beat: String(beat) });
 
-      await freezePage(page);           // CSS + WAAPI + SMIL + media (single source)
-      await freezeImperative(page);     // belt-and-suspenders (idempotent even if freezePage called it)
-      await waitForAnimationsToSettle(page); // wait for spring physics to fully decay
+        await freezePage(page);           // CSS + WAAPI + SMIL + media (single source)
+        await freezeImperative(page);     // belt-and-suspenders (idempotent even if freezePage called it)
+        await waitForAnimationsToSettle(page); // wait for spring physics to fully decay
 
-      // CR-5: clip to the stage BCR — no fullPage (1920×1080 stage == viewport).
-      // Mask for non-frozen live elements is sourced from VISUAL_MASK_SELECTORS so the harness
-      // and any downstream callers agree on what is "not pixel-regression-tested".
-      await expect.soft(page).toHaveScreenshot(`${id}-beat-${beat}.png`, {
-        clip,
-        maxDiffPixelRatio: 0.0005,
-        maxDiffPixels: 100,
-        mask,
-      });
+        // CR-5: clip to the stage BCR — no fullPage (1920×1080 stage == viewport).
+        // Mask for non-frozen live elements is sourced from VISUAL_MASK_SELECTORS so the harness
+        // and any downstream callers agree on what is "not pixel-regression-tested".
+        await expect.soft(page).toHaveScreenshot(`${id}-beat-${beat}.png`, {
+          clip,
+          maxDiffPixelRatio: 0.0005,
+          maxDiffPixels: 100,
+          mask,
+        });
+      }
     }
-  }
 
   // CR-1: expect.soft() never fails the test on its own — turn accumulated errors hard.
   // NOTE: H-5 per-test failures are surfaced in test.afterEach(), this line handles soft

@@ -95,7 +95,9 @@ test.afterEach(async ({}, testInfo: TestInfo) => {
   ).toHaveLength(0);
 });
 
-test('layout audit — every registered scene / beat', async ({ page }: { page: Page }) => {
+test('layout audit — every registered scene / beat',
+  { tag: ['@structure', '@slow', '@audit'] },
+  async ({ page }: { page: Page }) => {
   await page.setViewportSize({ width: 1920, height: 1080 });
 
   await page.goto('/?test=true', { waitUntil: 'networkidle' });
@@ -107,8 +109,27 @@ test('layout audit — every registered scene / beat', async ({ page }: { page: 
 
   for (const { id, totalBeats } of registry) {
     for (let beat = 0; beat <= totalBeats; beat++) {
-      await page.goto(`/?scene=${id}&beat=${beat}&test=true`, { waitUntil: 'networkidle' });
+      // P1-4: SPA navigation via __deck.gotoBeat(). Single cold load + React setStates.
+      // For 50+ scene decks this is ~20× faster than per-beat page.goto() cold reloads.
+      await page.evaluate(
+        ([sid, b]) => (window as any).__deck?.gotoBeat(sid, b),
+        [id, beat] as const,
+      );
+      // Wait until React commits the frame and writes the data attributes on stage.
+      // This is stronger than just waiting for networkidle — we need the actual DOM state.
+      await page.waitForFunction(
+        ([sid, b]) => {
+          const stage = document.querySelector('[data-slide-stage]');
+          return stage?.getAttribute('data-slide-id') === sid
+            && stage?.getAttribute('data-beat') === String(b);
+        },
+        [id, beat] as const,
+        { timeout: 8000 },
+      );
       await page.evaluate(() => document.fonts.ready);
+      // Extra frame for WAAPI/framer-motion to flush computed opacity/transform. Without this,
+      // beat 0's opacity:0 may come back as a tiny float (1.23e-9), escaping the ===0 check.
+      await page.waitForTimeout(50);
       const where = `${id} beat ${beat}`;
 
       // —— Check 1: the router honored the requested frame ——
@@ -122,23 +143,22 @@ test('layout audit — every registered scene / beat', async ({ page }: { page: 
       });
 
       // —— Check 2: should-be-visible elements that rendered 0x0 ——
-      // CR-2 fix: isEffectivelyHidden walks the ancestor chain + checks BCR size, so a parent
-      // display:none doesn't cause a "should be visible but is 0x0" false-negative or, worse,
-      // a parent overflow:hidden clipping the child to 0x0 doesn't either.
+      // zeroSize = "declares visible intent" + "DOM reports it's not hidden" + "BCR is 0×0".
+      // Elements intentionally hidden (opacity:0, display:none, aria-hidden, …) are excluded —
+      // that's author intent, not a bug. Without this split, beat 0's `<p opacity:0>` subtitle
+      // (legitimately invisible) would trip every run.
       const zeroSize = await page.evaluate<string[]>(() => {
-        // P0-8 FIXED: 递归 isHidden() 替代原来的 while 迭代，
-        // 给出独立的 isEffectivelyHidden() 做 BCR 0x0 兜底。
-        // 覆盖：aria-hidden / data-allow-empty closest、display:none、visibility:hidden、
-        // opacity:0、HTML hidden 属性、offsetParent null + 非 fixed/sticky 0x0、递归祖先链。
         function isHidden(el: Element): boolean {
           if (!el || el === document.documentElement) return false; // base case
           if (el.closest && el.closest('[aria-hidden="true"], [data-allow-empty]') !== null) return true;
           const cs = getComputedStyle(el);
           if (cs.display === 'none') return true;
           if (cs.visibility === 'hidden') return true;
-          if (Number(cs.opacity) === 0) return true;
+          // <0.05 rather than ===0 tolerates WAAPI mid-flush tiny floats (1e-9) and
+          // framer-motion's unflushed composited opacity at duration=0.
+          if (Number(cs.opacity) < 0.05) return true;
           if ((el as HTMLElement).hasAttribute('hidden')) return true;
-          // offsetParent 为 null + 0x0 + 非 fixed/sticky 时判定隐藏
+          // offsetParent null + 0×0 + non-fixed/sticky → effectively offscreen
           const htmlEl = el as HTMLElement;
           if (
             htmlEl.offsetParent === null &&
@@ -147,25 +167,34 @@ test('layout audit — every registered scene / beat', async ({ page }: { page: 
           ) {
             if (htmlEl.offsetWidth === 0 && htmlEl.offsetHeight === 0) return true;
           }
-          if (el.parentElement) return isHidden(el.parentElement); // 递归
+          if (el.parentElement) return isHidden(el.parentElement);
           return false;
         }
-        const isEffectivelyHidden = (el: Element): boolean => {
-          if (isHidden(el)) return true;
-          const bcr = (el as HTMLElement).getBoundingClientRect();
-          return bcr.width === 0 && bcr.height === 0; // BCR 0x0 fallback
-        };
-        const hidden = (el: Element) => isEffectivelyHidden(el);
         const offenders: string[] = [];
         const nodes = document.querySelectorAll('[data-slide-stage] *');
+        // M-2 FIXED (regression recovered): use Unicode code-point-aware length
+        // `[...raw].length > 0` (NOT `.length > 2`, NOT `.length > 0`) so CJK
+        // single-char ("一") / two-char ("你好") titles still trigger the hasOwnText
+        // gate. Also strip pure punctuation/whitespace so a node whose own text is
+        // only "，。、" doesn't count as "has visible content".
+        const PUNCT_RE = /^[\p{P}\p{Z}\s]+$/u;
         for (const el of Array.from(nodes)) {
-          const hasOwnText = Array.from(el.childNodes).some(
-            (n) => n.nodeType === Node.TEXT_NODE && (n.textContent ?? '').trim().length > 0,
-          );
+          const hasOwnText = Array.from(el.childNodes).some((n) => {
+            if (n.nodeType !== Node.TEXT_NODE) return false;
+            const raw = (n.textContent ?? '').trim();
+            if (!raw) return false;
+            if (PUNCT_RE.test(raw)) return false; // 纯标点/空白：不算内容文本
+            return [...raw].length > 0;
+          });
           const isMedia =
             ['IMG', 'VIDEO', 'CANVAS', 'IFRAME'].includes((el as HTMLElement).tagName) &&
             el.hasAttribute('src');
-          if ((hasOwnText || isMedia) && hidden(el)) {
+          if (!(hasOwnText || isMedia)) continue;
+          // Element declares visible intent. Skip if it's intentionally hidden by the author.
+          if (isHidden(el)) continue;
+          // Final gate: BCR must actually be 0×0 to count as "rendered to nothing".
+          const bcr = (el as HTMLElement).getBoundingClientRect();
+          if (bcr.width === 0 && bcr.height === 0) {
             const tag = (el as HTMLElement).tagName.toLowerCase();
             const cls = (el as HTMLElement).className
               ? `.${String((el as HTMLElement).className).split(/\s+/).slice(0, 3).join('.')}`

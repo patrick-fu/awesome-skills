@@ -1,8 +1,3 @@
-// Let TS know .mjs files are imported as pure-ESM modules (no type declarations).
-// freeze.mjs is intentionally authored in plain JS so it's directly importable by
-// Playwright's node runtime without an esbuild step.
-declare module '../harness/freeze.mjs';
-
 import { test, expect } from '@playwright/test';
 import type {
   ConsoleMessage,
@@ -23,21 +18,14 @@ import {
 // less CI bandwidth; the cross-platform snapshot suffix is matched automatically.
 
 // —— H-5 health channels: a broken page must not produce a "same-as-last-time" screenshot ——
-let vPageErrors: string[] = [];
-let vConsoleErrors: string[] = [];
-let vFailedRequests: Array<{ url: string; error: string }> = [];
-let vBadStatus: Array<{ url: string; status: number }> = [];
+// P0-6 FIXED: single vHealthErrors array aggregates 4 error channels; legacy per-channel
+// arrays were retired to avoid drift between parallel collectors.
 const vHealthErrors: string[] = [];
 
 test.beforeEach(async ({ page }: { page: Page }) => {
-  vPageErrors = [];
-  vConsoleErrors = [];
-  vFailedRequests = [];
-  vBadStatus = [];
   vHealthErrors.length = 0;
   page.on('pageerror', (err: Error) => {
-    vPageErrors.push(`${err.name ?? 'E'}: ${err.message}\n${err.stack ?? ''}`);
-    vHealthErrors.push(`[PAGE_ERROR] ${(err.name ?? 'E')}: ${err.message}`);
+    vHealthErrors.push(`[PAGE_ERROR] ${(err.name ?? 'E')}: ${err.message}\n${(err.stack ?? '').slice(0, 500)}`);
   });
   page.on('console', (msg: ConsoleMessage) => {
     if (msg.type() !== 'error') return;
@@ -46,7 +34,6 @@ test.beforeEach(async ({ page }: { page: Page }) => {
         /HMR|Vite|source-map|failed to fetch dynamically imported module/i.test(t)) {
       return;
     }
-    vConsoleErrors.push(t);
     vHealthErrors.push(`[CONSOLE_ERROR] ${t.slice(0, 500)}`);
   });
   page.on('requestfailed', (req: Request) => {
@@ -54,7 +41,6 @@ test.beforeEach(async ({ page }: { page: Page }) => {
     if (u.endsWith('/favicon.ico')) return;
     if (u.startsWith('data:') || u.startsWith('about:')) return;
     const err = req.failure()?.errorText ?? 'unknown';
-    vFailedRequests.push({ url: u, error: err });
     vHealthErrors.push(`[REQ_FAILED] ${err} ${u.slice(0, 300)}`);
   });
   page.on('response', (res: Response) => {
@@ -63,7 +49,6 @@ test.beforeEach(async ({ page }: { page: Page }) => {
     if (u.endsWith('/favicon.ico')) return;
     const ct = res.headers()['content-type'] ?? '';
     if (s >= 400 && !ct.startsWith('text/event-stream')) {
-      vBadStatus.push({ url: u, status: s });
       vHealthErrors.push(`[HTTP_${s}] ${res.request().method()} ${u.slice(0, 300)}`);
     }
   });
@@ -73,7 +58,7 @@ test.beforeEach(async ({ page }: { page: Page }) => {
 // soft error accumulated. Order matters: if we only checked in test() body, beforeEach-attached
 // listeners that fire after the body's final line (last-page idle network, late errors) would be
 // lost to the timing gap.
-test.afterEach(async (_: unknown, testInfo: TestInfo) => {
+test.afterEach(async ({}, testInfo: TestInfo) => {
   // Per-channel soft reports (one error per line = one soft failure, so triage is scannable).
   if (vHealthErrors.length > 0) {
     for (const err of vHealthErrors) {

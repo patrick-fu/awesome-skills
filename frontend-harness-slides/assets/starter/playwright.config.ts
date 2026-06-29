@@ -10,7 +10,8 @@ const ORIGIN = `http://localhost:${PORT}`;
 export default defineConfig({
   testDir: './tests',
   fullyParallel: false, // Slide tests share a single browser + URL state
-  workers: process.env.CI ? 1 : undefined,
+  // CI: serial workers so a single browser process is reused; local: let playwright choose
+  ...(process.env.CI ? { workers: 1 } : {}),
   forbidOnly: !!process.env.CI,
   // H-3 (P0-5): tolerate flaky network on CI; local runs keep strict to surface flake to the author.
   retries: process.env.CI ? 2 : 0,
@@ -19,6 +20,12 @@ export default defineConfig({
   timeout: 45_000,
   expect: {
     timeout: 15_000,
+    // Absorb sub-pixel anti-aliasing / font-hinting jitter (approx. 1/2000 of pixels)
+    // without letting real regressions slip through.
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.0005,
+      maxDiffPixels: 100,
+    },
   },
   // H-3 (P0-5): CI emits list + html + junit (junit is the machine-readable artifact gate); local keeps
   // list only unless a test actually fails, in which case the html report opens.
@@ -42,10 +49,6 @@ export default defineConfig({
     viewport: { width: 1920, height: 1080 },
     deviceScaleFactor: 1,
     ignoreHTTPSErrors: true,
-    // Absorb sub-pixel anti-aliasing / font-hinting jitter (approx. 1/2000 of pixels) without
-    // letting real regressions slip through.
-    maxDiffPixelRatio: 0.0005,
-    maxDiffPixels: 100,
     trace: 'retain-on-failure',
   },
   projects: [

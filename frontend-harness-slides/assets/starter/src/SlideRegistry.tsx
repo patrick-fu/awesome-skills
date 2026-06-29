@@ -27,11 +27,11 @@ export function getSlideNavigation(currentId: string) {
   const found = SLIDE_REGISTRY.findIndex((s) => s.id === currentId);
   const index = found === -1 ? 0 : found;
   return {
-    current: SLIDE_REGISTRY[index],
+    current: SLIDE_REGISTRY[index]!,
     index,
     total: SLIDE_REGISTRY.length,
-    prev: index > 0 ? SLIDE_REGISTRY[index - 1] : null,
-    next: index < SLIDE_REGISTRY.length - 1 ? SLIDE_REGISTRY[index + 1] : null,
+    prev: index > 0 ? SLIDE_REGISTRY[index - 1]! : null,
+    next: index < SLIDE_REGISTRY.length - 1 ? SLIDE_REGISTRY[index + 1]! : null,
   };
 }
 

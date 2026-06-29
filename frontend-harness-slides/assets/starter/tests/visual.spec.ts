@@ -1,4 +1,16 @@
+// Let TS know .mjs files are imported as pure-ESM modules (no type declarations).
+// freeze.mjs is intentionally authored in plain JS so it's directly importable by
+// Playwright's node runtime without an esbuild step.
+declare module '../harness/freeze.mjs';
+
 import { test, expect } from '@playwright/test';
+import type {
+  ConsoleMessage,
+  Page,
+  Request,
+  Response,
+  TestInfo,
+} from '@playwright/test';
 import {
   freezePage,
   freezeImperative,
@@ -17,17 +29,17 @@ let vFailedRequests: Array<{ url: string; error: string }> = [];
 let vBadStatus: Array<{ url: string; status: number }> = [];
 const vHealthErrors: string[] = [];
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page }: { page: Page }) => {
   vPageErrors = [];
   vConsoleErrors = [];
   vFailedRequests = [];
   vBadStatus = [];
   vHealthErrors.length = 0;
-  page.on('pageerror', (err) => {
+  page.on('pageerror', (err: Error) => {
     vPageErrors.push(`${err.name ?? 'E'}: ${err.message}\n${err.stack ?? ''}`);
     vHealthErrors.push(`[PAGE_ERROR] ${(err.name ?? 'E')}: ${err.message}`);
   });
-  page.on('console', (msg) => {
+  page.on('console', (msg: ConsoleMessage) => {
     if (msg.type() !== 'error') return;
     const t = msg.text();
     if (t.includes('[vite]') || t.includes('Download the React DevTools') || t.includes('[HMR]') ||
@@ -37,7 +49,7 @@ test.beforeEach(async ({ page }) => {
     vConsoleErrors.push(t);
     vHealthErrors.push(`[CONSOLE_ERROR] ${t.slice(0, 500)}`);
   });
-  page.on('requestfailed', (req) => {
+  page.on('requestfailed', (req: Request) => {
     const u = req.url();
     if (u.endsWith('/favicon.ico')) return;
     if (u.startsWith('data:') || u.startsWith('about:')) return;
@@ -45,7 +57,7 @@ test.beforeEach(async ({ page }) => {
     vFailedRequests.push({ url: u, error: err });
     vHealthErrors.push(`[REQ_FAILED] ${err} ${u.slice(0, 300)}`);
   });
-  page.on('response', (res) => {
+  page.on('response', (res: Response) => {
     const s = res.status();
     const u = res.url();
     if (u.endsWith('/favicon.ico')) return;
@@ -61,7 +73,7 @@ test.beforeEach(async ({ page }) => {
 // soft error accumulated. Order matters: if we only checked in test() body, beforeEach-attached
 // listeners that fire after the body's final line (last-page idle network, late errors) would be
 // lost to the timing gap.
-test.afterEach(async ({}, testInfo) => {
+test.afterEach(async (_: unknown, testInfo: TestInfo) => {
   // Per-channel soft reports (one error per line = one soft failure, so triage is scannable).
   if (vHealthErrors.length > 0) {
     for (const err of vHealthErrors) {
@@ -75,7 +87,7 @@ test.afterEach(async ({}, testInfo) => {
   ).toHaveLength(0);
 });
 
-test('pixel regression — every registered scene / beat', async ({ page }, testInfo) => {
+test('pixel regression — every registered scene / beat', async ({ page }: { page: Page }, testInfo: TestInfo) => {
   test.skip(testInfo.project.name !== 'chromium', 'Visual snapshots run on Chromium desktop only.');
   await page.setViewportSize({ width: 1920, height: 1080 });
 
@@ -96,7 +108,7 @@ test('pixel regression — every registered scene / beat', async ({ page }, test
 
   // Canvas/iframe/video etc. can't be frozen (e.g. cross-origin <iframe> has its own event loop).
   // VISUAL_MASK_SELECTORS is the single source shared between the harness and any callers.
-  const mask = VISUAL_MASK_SELECTORS.map((s) => page.locator(s));
+  const mask = VISUAL_MASK_SELECTORS.map((s: string) => page.locator(s));
 
   for (const { id, totalBeats } of registry) {
     for (let beat = 0; beat <= totalBeats; beat++) {

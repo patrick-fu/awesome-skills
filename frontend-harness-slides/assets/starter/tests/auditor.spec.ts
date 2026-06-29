@@ -22,18 +22,11 @@ import type {
 // look wrong" is owned by the visual baseline in visual.spec.ts, not a brittle DOM heuristic.
 
 // —— H-5 health collectors: set up in beforeEach, asserted once after the scene/beat loop ——
-let pageErrors: string[] = [];
-let consoleErrors: string[] = [];
-let failedRequests: Array<{ url: string; error: string }> = [];
-let badStatusResponses: Array<{ url: string; status: number }> = [];
-// P0-6 FIXED: 健康度通道 —— 统一单数组聚合 4 类错误（pageerror/console.error/HTTP 4xx/requestfailed）
+// P0-6 FIXED: 单一数组聚合 4 类错误（pageerror/console.error/HTTP 4xx/requestfailed），
+// 避免多个 per-channel 数组不同步导致的漏报错。
 const healthErrors: string[] = [];
 
 test.beforeEach(async ({ page }: { page: Page }, _testInfo: TestInfo) => {
-  pageErrors = [];
-  consoleErrors = [];
-  failedRequests = [];
-  badStatusResponses = [];
   // P0-6: 每次测试前清空统一健康度数组
   healthErrors.length = 0;
 
@@ -58,7 +51,6 @@ test.beforeEach(async ({ page }: { page: Page }, _testInfo: TestInfo) => {
     ) {
       return;
     }
-    consoleErrors.push(text);
     // P0-6: 同步写入统一健康度数组
     healthErrors.push(`[CONSOLE_ERROR] ${text.slice(0, 500)}`);
   });
@@ -70,7 +62,6 @@ test.beforeEach(async ({ page }: { page: Page }, _testInfo: TestInfo) => {
     if (url.endsWith('/favicon.ico')) return; // dev-server favicon 404 is expected noise
     if (url.startsWith('data:') || url.startsWith('about:')) return;
     const err = req.failure()?.errorText ?? 'unknown';
-    failedRequests.push({ url, error: err });
     // P0-6: 同步写入统一健康度数组
     healthErrors.push(`[REQ_FAILED] ${err} ${url.slice(0, 300)}`);
   });
@@ -82,7 +73,6 @@ test.beforeEach(async ({ page }: { page: Page }, _testInfo: TestInfo) => {
     if (url.endsWith('/favicon.ico')) return;
     const ct = res.headers()['content-type'] ?? '';
     if (status >= 400 && !ct.startsWith('text/event-stream')) {
-      badStatusResponses.push({ url, status });
       // P0-6: 同步写入统一健康度数组
       healthErrors.push(`[HTTP_${status}] ${res.request().method()} ${url.slice(0, 300)}`);
     }

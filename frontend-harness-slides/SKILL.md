@@ -19,24 +19,6 @@ Build slide decks like production software: a Playwright **harness** guards ever
 
 Each section below is a rule plus a pointer to the file that implements it. Read the pointed file when you reach that piece — keep this file lean.
 
-## When to use this skill (Decision gate)
-
-> 与下方 **Trigger Boundaries — 三 Skill 触发边界表** 一致。两表不要互相矛盾。
-
-| Dimension | ✅ Use frontend-harness-slides | ❌ Prefer frontend-slides (HTML one-shot) |
-|---|---|---|
-| **Slide count** | ≥15 slides **OR** 10–14 slides with ≥2 long-term features (git, CI, PR review, ≥3 future edits) | <10 slides AND one-shot |
-| **Lifecycle** | Long-term deck, iterated over days/weeks | One-shot output, single render |
-| **Interactive demo** | Demos, embedded apps, live charts | Static narrative only |
-| **CI / Regression** | Need test harness, audit, visual regression | No automated verification |
-| **Hard triggers** | ≥15 slides **OR** 10–14 slides AND ≥2 long-term features **OR** user mentions "tests"/"audit"/"CI"/"regression" **OR** interactive demo inside a slide **OR** need pixel-accurate PDF export | <10 slides **AND** static **AND** one-shot |
-
-**Anti-triggers (route to frontend-slides instead):**
-- User wants a single HTML file output
-- User says "quick", "one-off", "throwaway"
-- <10 slides AND no interactive/CI requirement (even if user mentioned "harness" casually)
-- Source is Lark/Feishu native slides AND user prefers Lark editing → `lark-slides` skill instead
-
 ## Core Principles
 
 1. **Harness over eyeballing** — Never trust "looks fine" by eye. The Playwright harness audits structure and compares pixels every run; a change is done only when the harness is green (§II).
@@ -311,14 +293,14 @@ Gate 不通过**不能发布**。
 
 ### Additional anti-patterns enforced by the harness
 
-11. **<5 slides → wrong skill.** If you're producing 1–4 slides, don't scaffold the entire harness. Use frontend-slides for a one-shot HTML output. Setup cost is non-linear.
+11. **<10 slides → wrong skill.** If you're producing 1–9 slides AND there are no interactive demos / CI requirements, don't scaffold the entire harness. Use frontend-slides for a one-shot HTML output. Setup cost is non-linear.
 12. **Canvas-only rendering.** A slide that is 100% `<canvas>` with no DOM text is un-auditable (Auditor can't check text content) and produces blurry zoomed PDFs. Always keep structural text/headings in DOM; canvas only for charts/animations. Add `[data-visual-mask]` or include in `VISUAL_MASK_SELECTORS` if using canvas-based non-deterministic rendering.
 13. **Bulk `AllScenes.tsx` with >30 scenes in one file.** Split into `src/slides/01-intro.tsx`, `src/slides/02-architecture.tsx`, etc. The registry is just a concat of exported arrays. Monolithic files = 3000+ line PRs that can't be reviewed.
 14. **Chart screenshots instead of components.** Never `import chart.png` when you could `import <BarChart data={...}>`. Recharts + Shiki cost ~60KB gzipped and give you searchable PDF text + live theming support.
 15. **>3 bullet points per slide.** This is a PRESENTATION deck, not a document. If you find yourself writing `ul > li × 5+`, stop: either (a) split across 2 beats using beat-specific `data-beat-only` visibility, or (b) re-express the information visually.
 16. **Responsive breakpoints inside slides.** The stage is FIXED 1920×1080. Do NOT write `@media (max-width: 768px)` inside a slide component — it never fires. Use `clamp()` with vw/vh terms only if you're expressing design proportions; even then, prefer fixed px on stage.
 17. **Beats that are ONLY animation (no content change).** If `beat=2` differs from `beat=1` only in a CSS transition duration, it will fail audit (no text change) AND visual diff (motion blur or freeze timing). Either: attach a `data-beat-only` visibility to a real element, or drop the beat.
-18. **Skipping the harness for "just a quick deck" with ≥8 slides.** "Quick deck" + ≥8 slides → 2 weeks later someone edits a margin and the 14th slide overflows. Harness cost pays off at slide #8. Budget 30 minutes for npm install + first snapshots.
+18. **Skipping the harness for "just a quick deck" with ≥10 slides.** "Quick deck" + ≥10 slides → 2 weeks later someone edits a margin and the 14th slide overflows. Harness cost pays off at slide #10 (especially if ≥2 long-term features). Budget 30 minutes for npm install + first snapshots. If it's really "quick" AND <10 slides, use frontend-slides.
 
 ## §VIII Troubleshooting — 高频问题速查
 

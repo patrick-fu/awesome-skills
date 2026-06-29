@@ -172,9 +172,17 @@ export function SlideDeck() {
         case ' ':
         case 'PageDown':
         case 'Enter':
+        case 'j':  // vim-style next
+          e.preventDefault();
+          advance(1);
+          break;
         case 'ArrowDown':
           e.preventDefault();
           advance(1);
+          break;
+        case 'k':  // vim-style prev
+          e.preventDefault();
+          advance(-1);
           break;
         case 'ArrowLeft':
         case 'PageUp':

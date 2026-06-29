@@ -300,7 +300,7 @@ Gate 不通过**不能发布**。
 > `<ImageSlot>` 默认 fit=cover 会裁切。设 `fit="contain"` 或加 `--image-slot-position`。双击图片进入 reframe 模式手动裁切。
 
 **Q5: npm run test 卡在 chromium 下载？**
-> 首次运行 Playwright 需要装浏览器：`npx playwright install chromium`。（**P0 修复后 starter 的 `postinstall` 已自动执行此命令**；如果遇到离线环境，手动下载浏览器二进制到 `~/.cache/ms-playwright/`。）
+> `@playwright/test` 是 driver + 浏览器分离架构，Chromium binary 默认在 `~/.cache/ms-playwright/`，**首次需要单独下载**。§0 已显式提醒：`npx playwright install chromium`。离线环境下，在另一台能上网的机器打包 `~/.cache/ms-playwright/` 后复制过去，然后 `export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`。CI 环境：starter 的 `.github/workflows/harness.yml.example` 已内置 Playwright browser cache（key 基于 lockfile hash），首次下载后命中缓存。
 
 **Q6: 幻灯片舞台缩放时，fixed 定位元素位置错？**
 > `position: fixed` 基于 viewport，缩放后会漂移。全部改为 `position: absolute`，父容器用 `position: relative`。

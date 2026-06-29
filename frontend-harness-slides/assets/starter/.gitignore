@@ -1,7 +1,8 @@
-# P0-1 FIXED: starter 根目录 .gitignore。分门别类：node / logs / build / test artifacts
-# / PDF 导出 / 编辑器 / OS / Env / Vite / Coverage / 部署缓存，共 14 类。
-# Snapshot baselines (tests/*/snapshots/ 和 tests/*.spec.ts-snapshots/) 必须提交，
-# 所以只忽略 __snapshots__ 运行时产物和 diff png，不忽略 baseline。
+# P0-2 FIXED: starter 根目录 .gitignore。分门别类：Node / Logs / Build / Playwright 运行时产物
+# / PDF 导出 / 编辑器 / IDE / OS / Env / Vite / Coverage / 部署缓存，共 14 类 57 条目。
+# Snapshot baselines 仅追踪 tests/**/snapshots/ 目录（由 playwright.config.ts 的
+# snapshotPathTemplate 生成的 canonical 版本，无 chromium-darwin 等平台后缀，跨机器字节可比）。
+# Playwright 默认的 tests/*.spec.ts-snapshots/ 平台后缀目录被加入 ignore 防误提交。
 
 # --- Node
 node_modules/
@@ -14,6 +15,9 @@ pnpm-debug.log*
 dist/
 dist-ssr/
 build/
+.output/
+.nuxt/
+.next/
 *.local
 *.tsbuildinfo
 
@@ -27,13 +31,20 @@ blob-report/
 *.actual.png
 snapshots/*/diff/
 tests/**/__snapshots__/
+# Playwright 默认快照路径（带平台后缀）
+tests/*.spec.ts-snapshots/
 junit-*.xml
 test-output/
 
-# --- PDF 导出
+# --- PDF / 归档 导出
 pdf/
+*.pdf
 *.pdf.tmp
 exports/
+*.tar.gz
+*.zip
+*.tgz
+*.tar.bz2
 
 # --- Editor / IDE
 .vscode/*
@@ -42,16 +53,22 @@ exports/
 .idea/
 *.swp
 *.swo
+*.iml
 
 # --- OS
 .DS_Store
 Thumbs.db
 ehthumbs.db
+$RECYCLE.BIN/
 
-# --- Env
+# --- Env / Secrets
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+secrets.json
+*.crt
 
 # --- Vite
 .vite/
@@ -59,6 +76,7 @@ ehthumbs.db
 # --- Coverage
 coverage/
 .nyc_output/
+*.lcov
 
 # --- Logs
 *.log
@@ -73,3 +91,4 @@ coverage/
 .pnp
 .pnp.js
 .yarn/install-state.gz
+.eslintcache

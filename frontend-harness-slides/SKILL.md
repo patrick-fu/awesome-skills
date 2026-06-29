@@ -9,6 +9,7 @@ description: >-
   work with automated visual checks and PDF export — not a quick one-off.
   适用于 ≥15 页、需要多轮迭代、CI 视觉回归测试或团队协作 review 的幻灯片项目；<10 页一次性交付请用 frontend-slides，需要飞书原生编辑/分享请用 lark-slides。
 version: 1.0.0
+updated: 2026-06-29
 # publish_targets: ["awesome-skills"]  # 如需对外发布取消注释
 related_skills:
   - frontend-slides
@@ -30,6 +31,21 @@ Each section below is a rule plus a pointer to the file that implements it. Read
 1. **Harness over eyeballing** — Never trust "looks fine" by eye. The Playwright harness audits structure and compares pixels every run; a change is done only when the harness is green (§II).
 2. **Resilience by architecture** — A central **registry** kills re-indexing hell; the **stage** locks a 1920×1080 canvas and scales as a whole, so you never reflow per device.
 3. **Anti-slop aesthetics** — Reject generic AI-slop (no Inter, no default purple-on-white gradient). Commit to one bold, narrative-specific look (§III).
+
+## Trigger Boundaries — 三 Skill 触发边界表
+
+选择技能前对照下表，边界不清时向用户提问确认。**选错 Skill 的代价比选错模板大得多。**
+
+| 维度 | frontend-slides | frontend-harness-slides | lark-slides |
+| :--- | :--- | :--- | :--- |
+| **页数触发** | < 10 页，一次性 | ≥ 15 页，或 <15 但长期维护 | 任意页数，要求飞书原生 |
+| **生命周期** | 一次性交付、修改极少 | 多轮迭代、版本化、多人协作 | 持续编辑、多人评论、权限控制 |
+| **交付形态** | 单 HTML 文件 → 链接 / PDF | Vite+React 仓库 + CI 截图基线 + PDF 导出 | 飞书文档 / 飞书演示稿 |
+| **测试 & 回归** | 无，手工目视 | Playwright auditor + visual baseline，**每次提交跑** | 飞书版本历史 + 评论 |
+| **动画保真** | CSS transition / WAAPI，目视检查 | 每个 beat 冻结截图 + 3 轮稳定采样，像素级一致 | 飞书原生动画，有限可控 |
+| **典型用户故事** | 小项目分享、面试 8 页自我介绍、周会一次性展示 | 产品季度 pitch、开源 conference talk、需要 PR review 的团队 deck、设计规范展示 | 公司内部方案评审、跨部门同步、需要 @人 评论、权限分级的分享 |
+
+> **灰色地带 10–14 页**：如果 ≥2 个「是」（有 git、有 CI、要 PR review、未来会改 ≥3 次）→ 用 harness-slides；否则 → frontend-slides。
 
 ## 0. Start from the starter
 
@@ -61,9 +77,21 @@ Declare each theme as a config and inject it via React Context (slides read toke
 - → `references/theming.md` — the `ThemeConfig` shape, the dual-preview (three-pane + live hot-swap), and the preview-authenticity rules. Read it during theme discovery. The provider itself lives in `assets/starter/src/theme/`.
 - Fonts → `references/fonts.md` (open-source only, downloaded into `public/fonts/`).
 
-### 4. Sandbox — isolate interactive demos
-Embedding an input, terminal, or clickable demo? Stop its key/scroll/click events from bubbling into slide navigation, or typing a space flips the slide.
-- → `assets/starter/src/components/SandboxIsolator.tsx`.
+### 4. Sandbox — 双层键盘/滚动/点击隔离
+
+在幻灯片里嵌入 `<input>`、终端、可交互 Demo、嵌入式编辑器时，**绝对不能让它的事件冒泡到 SlideDeck 的键盘导航**，否则打一个空格就翻页、方向键就跳 beat。
+
+这里是**双层隔离模型**，两层同时生效——任何一层漏掉，另一层兜底：
+
+- **Layer 1（SlideDeck 层 —— 被动白名单）**：`SlideDeck.tsx` 在处理 `keydown` 时先调 `isEditableEventTarget(e.target)`。如果目标是 `<input>` / `<textarea>` / `contenteditable` / `role="textbox"` / `<select>`，**直接返回不拦截**。这保证了「没有被 SandboxIsolator 包裹的可编辑元素」也不会被翻页键盘吃掉文字输入。
+- **Layer 2（SandboxIsolator 组件 —— 主动拦截）**：`SandboxIsolator.tsx` 是一个 wrapper，在**原生 capture 阶段**用 `addEventListener(..., { capture: true })` + `stopImmediatePropagation()` 吞掉：Space、方向键、PageUp/PageDown、Home/End、`F`/`Esc`/`?` 等 slide 快捷键，以及 wheel（内部滚动不导致整页滑动）、contextmenu（防止与自定义右键菜单冲突）。它**不吞**普通字母/数字输入，且 `isEditable=true` / `isInteractive=true` 的子元素会跳过拦截。两层同时通过时，输入区与导航区完全解耦。
+
+典型用法：把一个代码编辑器、交互式 playground、嵌入式原型 Demo 包进 `<SandboxIsolator>`，就可以专注演示而不用担心意外翻页。
+
+- → `assets/starter/src/components/SandboxIsolator.tsx`（Layer 2，主动拦截，原生 capture 阶段）。
+- → `assets/starter/src/SlideDeck.tsx` 中的 `isEditableEventTarget()`（Layer 1，被动白名单）。
+
+> **注意**：v1.0.0 起 SandboxIsolator **仍然作为组件存在**（已重写为原生 capture 阶段 + `stopImmediatePropagation`，共 146 行）。老文档里说「已删除」是错误描述——见 §VIII Q3。
 
 ## II. The Harness
 
@@ -237,7 +265,12 @@ Gate 不通过**不能发布**。
 | `references/fonts.md` | choosing / installing fonts |
 | `references/humanizer-slides.md` | the user asks for humanizer copy |
 | `references/deploy.md` | deploying to Vercel or exporting PDF |
+| `references/anti-patterns.md` | full 10-entry anti-pattern catalog (§VII expansion, 含每条触发场景 & 反例) |
+| `references/troubleshooting.md` | full 9-entry troubleshooting catalog (§VIII expansion, 含根因 + 精确修复命令) |
+
 ## §VII Anti-patterns — 绝对不要做的事
+
+> 完整扩展版（10 条，含每条触发场景 & 反例）见 [`references/anti-patterns.md`](./references/anti-patterns.md)。以下是**必须记住的快速清单**，生成或审查幻灯片时逐项对照。
 
 1. **不要用 canvas 渲染整页静态内容**。Canvas 文字不可选中、不可拷贝、破坏无障碍、导出 PDF 是位图。只在图表/动画帧时用。
 2. **< 10 页、一次性交付的幻灯片，不要使用本 skill**。用 frontend-slides（单文件 HTML），工程化 setup 成本不值得。
@@ -247,8 +280,12 @@ Gate 不通过**不能发布**。
 6. **不要用 CSS `zoom:` 属性做舞台缩放**。它是非标准的，`transform: scale()` + `transform-origin: top left` 更可靠且可预测。
 7. **不要在 registry 中引用同一张图超过 3 次**。先考虑做成 shared component（如通用 App Mockup 组件），减少重复维护。
 8. **不要默认引入完整 CJK 字体 (20MB+)**。必须走 glyphhanger/pyftsubset 子集化到 < 1MB。
+9. **不要把测试断言全部写成 expect.soft 后忘记兜底 hard**。soft 本身不会让测试变红——**必须在每段后加 `expect(test.info().errors).toHaveLength(0)`**。
+10. **不要在 `npm run build` 成功的基础上跳过 harness**。类型通过≠渲染正确；一个 CSS 拼写错误只影响视觉。
 
 ## §VIII Troubleshooting — 高频问题速查
+
+> 完整扩展版（9 条，含每条根因分析 + 精确修复命令）见 [`references/troubleshooting.md`](./references/troubleshooting.md)。
 
 **Q1: Playwright visual 快照第一次全红？**
 > 正常。先跑 `npx playwright test visual.spec --update-snapshots` 生成基线，再提交。后续 CI 会对比。
@@ -256,17 +293,23 @@ Gate 不通过**不能发布**。
 **Q2: 导出 PDF 文字错位？**
 > 99% 是本地字体与 CI 字体不匹配。确保：1) fonts 用子集化 WOFF2 上传到 assets/fonts；2) auditor.spec 里有 @font-face loaded 检查；3) 加 `--font-render-hinting=none` 启动参数。
 
-**Q3: SandboxIsolator 在 SlideDeck 里不工作（老项目兼容）？**
-> SandboxIsolator 组件已在 v1.0.0 删除。功能合并到 SlideDeck 自身的 editable 元素白名单检查中。如果 upgrade，请移除所有 `<SandboxIsolator>` 包裹。
+**Q3: SandboxIsolator 和 SlideDeck 的键盘隔离是怎么配合的？**
+> 见「§I.4 Sandbox」下的**双层隔离模型**。Layer 1（SlideDeck 层白名单 `isEditableEventTarget()`）+ Layer 2（`SandboxIsolator` 原生 capture 阶段 `stopImmediatePropagation`）双层同时工作。**注意：v1.0.0 起 SandboxIsolator 仍然作为组件存在**（已重写为原生 capture + stopImmediatePropagation，含 editable / interactive 判断）。老文档里说「已删除」是错误——如果你在老项目中看到了这个说法，请升级 starter 后重新阅读 §I.4。
 
 **Q4: 图片在 Safari 里被自动放大？**
 > `<ImageSlot>` 默认 fit=cover 会裁切。设 `fit="contain"` 或加 `--image-slot-position`。双击图片进入 reframe 模式手动裁切。
 
 **Q5: npm run test 卡在 chromium 下载？**
-> 首次运行 Playwright 需要装浏览器：`npx playwright install chromium`。后续有 CI cache 就不会再下载。
+> 首次运行 Playwright 需要装浏览器：`npx playwright install chromium`。（**P0 修复后 starter 的 `postinstall` 已自动执行此命令**；如果遇到离线环境，手动下载浏览器二进制到 `~/.cache/ms-playwright/`。）
 
 **Q6: 幻灯片舞台缩放时，fixed 定位元素位置错？**
 > `position: fixed` 基于 viewport，缩放后会漂移。全部改为 `position: absolute`，父容器用 `position: relative`。
 
 **Q7: presenter 模式下按 space 无法翻页？**
 > 确认没有任何 textarea/input 聚焦。如果 TweaksPanel 打开着，其内部 TweakNumber 横向 scrub 会吃掉 space（这是预期行为）。先点击舞台空白处失焦。
+
+**Q8: auditor「0×0 折叠检查」在 CJK 单字/双字标题上漏检？**
+> 旧版 `hasOwnText` 使用 `.trim().length > 2`，CJK 单字（「一」length=1）、双字（「你好」length=2）全部误判为空节点，跳过 0×0 检查。**P0 修复后改用 Unicode code-point 计数 `[...raw].length > 0` + 过滤纯标点/空白正则**。如仍出现漏检，检查节点是否只含纯标点（如只有「。」）——可在父容器上补 `data-allow-empty=false`（强制检查）或拆分文本节点。
+
+**Q9: 视觉快照抖动（同代码两次跑 maxDiffPixels > 100 仍红）？**
+> 常见根因按概率：① **字体加载不稳定**——未在 `document.fonts.ready` 后截图（修复：visual.spec.ts 已内置 `await page.evaluate(() => document.fonts.ready)`，请确认你的 fork 未删除）；② **sub-pixel 抗锯齿抖动**——CI 没设 `--font-render-hinting=none` + DPR=1（修复：playwright.config 已内置）；③ **framer-motion 弹簧未衰减**——`waitForAnimationsToSettle` 默认 3 轮×50ms 采样，超慢动画需手动加 `stableRounds: 5` 或 `intervalMs: 80`；④ **canvas / video / lottie-player 内容不冻结**——已在 `VISUAL_MASK_SELECTORS` 里统一遮罩，如缺失请在元素上补 `data-visual-mask` 属性；⑤ **Live Reload 资源未完成**——截图前必须 `waitUntil: 'networkidle'`（已内置）。

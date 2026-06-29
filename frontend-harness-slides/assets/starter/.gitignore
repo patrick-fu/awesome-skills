@@ -1,4 +1,75 @@
+# P0-1 FIXED: starter 根目录 .gitignore。分门别类：node / logs / build / test artifacts
+# / PDF 导出 / 编辑器 / OS / Env / Vite / Coverage / 部署缓存，共 14 类。
+# Snapshot baselines (tests/*/snapshots/ 和 tests/*.spec.ts-snapshots/) 必须提交，
+# 所以只忽略 __snapshots__ 运行时产物和 diff png，不忽略 baseline。
+
+# --- Node
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Build 产物
 dist/
-playwright-report/
+dist-ssr/
+build/
+*.local
+*.tsbuildinfo
+
+# --- Playwright / Test 运行时产物
 test-results/
+playwright-report/
+blob-report/
+# 运行时 diff（baseline 本身必须追踪）
+*.diff.png
+*.expected.png
+*.actual.png
+snapshots/*/diff/
+tests/**/__snapshots__/
+junit-*.xml
+test-output/
+
+# --- PDF 导出
+pdf/
+*.pdf.tmp
+exports/
+
+# --- Editor / IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# --- OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# --- Env
+.env
+.env.*
+!.env.example
+
+# --- Vite
+.vite/
+
+# --- Coverage
+coverage/
+.nyc_output/
+
+# --- Logs
+*.log
+
+# --- Deployment / Cache
+.vercel
+.netlify
+.firebase/
+.cache/
+.temp/
+.tmp/
+.pnp
+.pnp.js
+.yarn/install-state.gz

@@ -294,20 +294,9 @@ Gate 不通过**不能发布**。
 9. **不要把测试断言全部写成 expect.soft 后忘记兜底 hard**。soft 本身不会让测试变红——**必须在每段后加 `expect(test.info().errors).toHaveLength(0)`**。
 10. **不要在 `npm run build` 成功的基础上跳过 harness**。类型通过≠渲染正确；一个 CSS 拼写错误只影响视觉。
 
-### Additional anti-patterns enforced by the harness
-
-11. **<10 slides → wrong skill.** If you're producing 1–9 slides AND there are no interactive demos / CI requirements, don't scaffold the entire harness. Use frontend-slides for a one-shot HTML output. Setup cost is non-linear.
-12. **Canvas-only rendering.** A slide that is 100% `<canvas>` with no DOM text is un-auditable (Auditor can't check text content) and produces blurry zoomed PDFs. Always keep structural text/headings in DOM; canvas only for charts/animations. Add `[data-visual-mask]` or include in `VISUAL_MASK_SELECTORS` if using canvas-based non-deterministic rendering.
-13. **Bulk `AllScenes.tsx` with >30 scenes in one file.** Split into `src/slides/01-intro.tsx`, `src/slides/02-architecture.tsx`, etc. The registry is just a concat of exported arrays. Monolithic files = 3000+ line PRs that can't be reviewed.
-14. **Chart screenshots instead of components.** Never `import chart.png` when you could `import <BarChart data={...}>`. Recharts + Shiki cost ~60KB gzipped and give you searchable PDF text + live theming support.
-15. **>3 bullet points per slide.** This is a PRESENTATION deck, not a document. If you find yourself writing `ul > li × 5+`, stop: either (a) split across 2 beats using beat-specific `data-beat-only` visibility, or (b) re-express the information visually.
-16. **Responsive breakpoints inside slides.** The stage is FIXED 1920×1080. Do NOT write `@media (max-width: 768px)` inside a slide component — it never fires. Use `clamp()` with vw/vh terms only if you're expressing design proportions; even then, prefer fixed px on stage.
-17. **Beats that are ONLY animation (no content change).** If `beat=2` differs from `beat=1` only in a CSS transition duration, it will fail audit (no text change) AND visual diff (motion blur or freeze timing). Either: attach a `data-beat-only` visibility to a real element, or drop the beat.
-18. **Skipping the harness for "just a quick deck" with ≥10 slides.** "Quick deck" + ≥10 slides → 2 weeks later someone edits a margin and the 14th slide overflows. Harness cost pays off at slide #10 (especially if ≥2 long-term features). Budget 30 minutes for npm install + first snapshots. If it's really "quick" AND <10 slides, use frontend-slides.
-
 ## §VIII Troubleshooting — 高频问题速查
 
-> 完整扩展版（9 条，含每条根因分析 + 精确修复命令）见 [`references/troubleshooting.md`](./references/troubleshooting.md)。
+> 完整扩展版（9 条通用问题，含每条根因分析 + 精确修复命令）见 [`references/troubleshooting.md`](./references/troubleshooting.md)。本节下方另附 7 条 harness 特有场景（Q10–Q16）。
 
 **Q1: Playwright visual 快照第一次全红？**
 > 正常。先跑 `npx playwright test visual.spec --update-snapshots` 生成基线，再提交。后续 CI 会对比。
@@ -335,16 +324,6 @@ Gate 不通过**不能发布**。
 
 **Q9: 视觉快照抖动（同代码两次跑 maxDiffPixels > 100 仍红）？**
 > 常见根因按概率：① **字体加载不稳定**——未在 `document.fonts.ready` 后截图（修复：visual.spec.ts 已内置 `await page.evaluate(() => document.fonts.ready)`，请确认你的 fork 未删除）；② **sub-pixel 抗锯齿抖动**——CI 没设 `--font-render-hinting=none` + DPR=1（修复：playwright.config 已内置）；③ **framer-motion 弹簧未衰减**——`waitForAnimationsToSettle` 默认 3 轮×50ms 采样，超慢动画需手动加 `stableRounds: 5` 或 `intervalMs: 80`；④ **canvas / video / lottie-player 内容不冻结**——已在 `VISUAL_MASK_SELECTORS` 里统一遮罩，如缺失请在元素上补 `data-visual-mask` 属性；⑤ **Live Reload 资源未完成**——截图前必须 `waitUntil: 'networkidle'`（已内置）。
-
-### Harness-specific troubleshooting
-
-1. **1–2px visual drift on re-run.** Caused by: (a) DPR mismatch — verify `playwright.config.ts` has `deviceScaleFactor: 1` in BOTH `use` block AND `projects[i].use`. (b) webfont swap — add `await page.waitForLoadState('networkidle')` before `freezePage()`, or set font-display:optional in @font-face. (c) subpixel decimal widths on flex — force `width: 1920px` on the stage outer.
-2. **Overflow false-positives on Auditor isHidden check.** The `isHidden()` function in auditor.spec recurses ancestors up to `document.body`. If you have a legitimately off-canvas element (e.g., `left: -9999px`), mark it `data-allow-empty="true"` (which skips the aria-hidden path) OR wrap it in a container with `overflow: visible` and add that container to `OFFSCREEN_IGNORE_SELECTORS` in the spec. False positives on stage-scoped elements: check that stage has `position: relative` so `offsetParent` check is correct.
-3. **SandboxIsolator not blocking PageDown inside INPUT.** If keydown still leaks: (a) Check you wrapped content with `<SandboxIsolator>` not `<div data-sandbox>`. (b) Verify the element passes `isEditable()` → TEXTAREA/SELECT/INPUT/[contenteditable]. If custom editable widget, add `data-editable` to let it pass. (c) If event is synthetic (React `onKeyDown` bubbling to window), the capture phase native listener still runs first — React handlers are separate. Good.
-4. **CJK tofu (□□□) in PDF export.** export-pdf.mjs uses the default Chromium headless which doesn't ship Chinese/Japanese/Korean fonts. Fix: (a) `sudo apt-get install fonts-noto-cjk` on Linux CI or use a Playwright image with CJK fonts. (b) Locally on macOS, it should work out of box. (c) Force a specific CJK font stack in your ThemeConfig with `@import url('Google Fonts with Noto Sans SC')` so Chromium downloads webfonts instead of falling back to missing system glyphs.
-5. **Deep link 404 / blank scene.** URL `?scene=foo&beat=1` shows empty stage. Causes: (a) Registry entry `id` doesn't match `scene` param (case-sensitive!). (b) Beat index ≥ entry.beats — registry entry default beats=1, so beat=0 and beat=1 are the same; beat=2 fails. (c) AllScenes.tsx scene component renders null. Debug: open DevTools console, type `window.__SLIDE_REGISTRY__` and compare sceneId list.
-6. **Build OOM / Vite "JavaScript heap out of memory" on decks >40 scenes.** Fix: (a) `NODE_OPTIONS=--max-old-space-size=8192 npm run build`. (b) Enable Vite `build.chunkSizeWarningLimit: 2000` and `build.rollupOptions.output.manualChunks` by slide prefix: `01-*.tsx → chunk-intro`. (c) Lazy-load heavy scene components with `React.lazy(() => import('./07-heavy.tsx'))` + `Suspense` fallback (Suspense must render during Playwright tests, so ensure `await waitForAnimationsToSettle` waits past fallback → real swap).
-7. **Playwright not installed.** `Error: Executable doesn't exist at .../chrome-*`. Always run `npx playwright install chromium` after `npm install` in CI or fresh clone. The starter's README documents this step explicitly. For cached CI: install browsers into `./.cache/ms-playwright` via `PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install chromium` and cache that path.
 
 ## §IX Related Skills — Cross-references
 

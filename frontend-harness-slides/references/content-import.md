@@ -45,4 +45,4 @@ find ~/.agents/skills/frontend-slides -name "*.py"
 3. ✅ Every scene component returns exactly ONE root element (Fragment OK)
 4. ✅ Image assets moved from `tmp-extracted/**_images/` → `src/assets/<scene-id>/` and imported with typed paths
 5. ✅ Speaker notes preserved (cross-check 3 random slides against PPTX)
-6. ✅ No slide has >6 bullets in a single beat (if yes → split beats)
+6. ✅ No slide has >3 bullets in a single beat (SKILL.md §VII Anti-pattern #15; hard absolute limit 6 — if >3 and you confirm reading-first mode is intended, at minimum split beats with `data-beat-only` and get reviewer sign-off)

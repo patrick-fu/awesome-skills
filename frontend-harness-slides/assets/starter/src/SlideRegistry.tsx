@@ -37,7 +37,7 @@ export function getSlideNavigation(currentId: string) {
 
 declare global {
   interface Window {
-    __SLIDE_REGISTRY__?: { id: string; totalBeats: number }[];
+    __SLIDE_REGISTRY__?: { id: string; title: string; totalBeats: number }[];
   }
 }
 
@@ -45,6 +45,10 @@ declare global {
 // instead of hardcoding their own slide list, so SLIDE_REGISTRY stays the single source of truth.
 export function exposeRegistryForTooling() {
   if (typeof window !== 'undefined') {
-    window.__SLIDE_REGISTRY__ = SLIDE_REGISTRY.map((s) => ({ id: s.id, totalBeats: s.totalBeats }));
+    window.__SLIDE_REGISTRY__ = SLIDE_REGISTRY.map((s) => ({
+      id: s.id,
+      title: s.title,
+      totalBeats: s.totalBeats,
+    }));
   }
 }

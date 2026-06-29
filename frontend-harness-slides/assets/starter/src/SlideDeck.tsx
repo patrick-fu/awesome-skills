@@ -12,8 +12,8 @@ function readFrameFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const isTest = params.get('test') === 'true';
 
-  const requested = params.get('scene') ?? SLIDE_REGISTRY[0].id;
-  const sceneId = SLIDE_REGISTRY.some((s) => s.id === requested) ? requested : SLIDE_REGISTRY[0].id;
+  const requested = params.get('scene') ?? SLIDE_REGISTRY[0]!.id;
+  const sceneId = SLIDE_REGISTRY.some((s) => s.id === requested) ? requested : SLIDE_REGISTRY[0]!.id;
   const entry = SLIDE_REGISTRY.find((s) => s.id === sceneId)!;
 
   const rawBeat = Number(params.get('beat') ?? '0');
@@ -116,7 +116,7 @@ export function SlideDeck() {
       gotoBeat(targetSceneId: string, targetBeat: number): void {
         const safeScene = SLIDE_REGISTRY.some((s) => s.id === targetSceneId)
           ? targetSceneId
-          : SLIDE_REGISTRY[0].id;
+          : SLIDE_REGISTRY[0]!.id;
         const safeEntry = SLIDE_REGISTRY.find((s) => s.id === safeScene)!;
         const safeBeat = Math.min(
           Math.max(0, Number.isFinite(targetBeat) ? Math.trunc(targetBeat) : 0),
@@ -128,11 +128,11 @@ export function SlideDeck() {
       nextBeat(): void { advance(1); },
       prevBeat(): void { advance(-1); },
       goToStart(): void {
-        setSceneId(SLIDE_REGISTRY[0].id);
+        setSceneId(SLIDE_REGISTRY[0]!.id);
         setBeat(0);
       },
       goToEnd(): void {
-        const last = SLIDE_REGISTRY[SLIDE_REGISTRY.length - 1];
+        const last = SLIDE_REGISTRY[SLIDE_REGISTRY.length - 1]!;
         setSceneId(last.id);
         setBeat(last.totalBeats);
       },
@@ -185,12 +185,12 @@ export function SlideDeck() {
           break;
         case 'Home':
           e.preventDefault();
-          setSceneId(SLIDE_REGISTRY[0].id);
+          setSceneId(SLIDE_REGISTRY[0]!.id);
           setBeat(0);
           break;
         case 'End':
           e.preventDefault(); {
-            const last = SLIDE_REGISTRY[SLIDE_REGISTRY.length - 1];
+            const last = SLIDE_REGISTRY[SLIDE_REGISTRY.length - 1]!;
             setSceneId(last.id);
             setBeat(last.totalBeats);
           }
@@ -219,7 +219,7 @@ export function SlideDeck() {
             const idx = e.key === '0' ? 9 : Number(e.key) - 1;
             if (idx < SLIDE_REGISTRY.length) {
               e.preventDefault();
-              setSceneId(SLIDE_REGISTRY[idx].id);
+              setSceneId(SLIDE_REGISTRY[idx]!.id);
               setBeat(0);
             }
           }

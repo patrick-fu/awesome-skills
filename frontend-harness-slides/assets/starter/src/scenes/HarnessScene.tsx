@@ -46,8 +46,12 @@ export function HarnessScene({ currentBeat, isTestMode }: SceneProps) {
           background: 'var(--color-primary)',
           filter: 'blur(10px)',
         }}
-        animate={animatePulse ? undefined : { scale: [1, 1.25, 1], opacity: [0.45, 0.8, 0.45] }}
-        transition={animatePulse ? undefined : { duration: 2, repeat: Infinity }}
+        {...(!animatePulse
+          ? {
+              animate: { scale: [1, 1.25, 1], opacity: [0.45, 0.8, 0.45] },
+              transition: { duration: 2, repeat: Infinity },
+            }
+          : {})}
       />
     </div>
   );

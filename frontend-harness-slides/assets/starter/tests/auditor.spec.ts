@@ -81,7 +81,7 @@ test.beforeEach(async ({ page }: { page: Page }, _testInfo: TestInfo) => {
 
 
 // P0-6 + P0-7 FIXED: afterEach 健康度通道 soft 断言 + soft 兜底 hard 失败
-test.afterEach(async (_: unknown, testInfo: TestInfo) => {
+test.afterEach(async ({}, testInfo: TestInfo) => {
   // P0-6: 先 soft 断言每个健康度错误（一次性全部打出）
   if (healthErrors.length > 0) {
     for (const err of healthErrors) {

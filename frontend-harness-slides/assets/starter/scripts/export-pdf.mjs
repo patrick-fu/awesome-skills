@@ -10,7 +10,7 @@
 // Prereq: install Playwright's chromium (`npx playwright install chromium`).
 
 import { chromium } from '@playwright/test';
-import { freezePage, waitForAnimationsToSettle } from '../harness/freeze.mjs';
+import { freezePage, waitForAnimationsToSettle, VISUAL_MASK_SELECTORS } from '../harness/freeze.mjs';
 
 // Robust CLI arg parser (accepts --out=foo.pdf, -o foo.pdf, positional baseUrl, --help, ...).
 function parseArgs(argv) {

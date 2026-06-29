@@ -19,6 +19,24 @@ Build slide decks like production software: a Playwright **harness** guards ever
 
 Each section below is a rule plus a pointer to the file that implements it. Read the pointed file when you reach that piece — keep this file lean.
 
+## When to use this skill (Decision gate)
+
+> 与下方 **Trigger Boundaries — 三 Skill 触发边界表** 一致。两表不要互相矛盾。
+
+| Dimension | ✅ Use frontend-harness-slides | ❌ Prefer frontend-slides (HTML one-shot) |
+|---|---|---|
+| **Slide count** | ≥15 slides **OR** 10–14 slides with ≥2 long-term features (git, CI, PR review, ≥3 future edits) | <10 slides AND one-shot |
+| **Lifecycle** | Long-term deck, iterated over days/weeks | One-shot output, single render |
+| **Interactive demo** | Demos, embedded apps, live charts | Static narrative only |
+| **CI / Regression** | Need test harness, audit, visual regression | No automated verification |
+| **Hard triggers** | ≥15 slides **OR** 10–14 slides AND ≥2 long-term features **OR** user mentions "tests"/"audit"/"CI"/"regression" **OR** interactive demo inside a slide **OR** need pixel-accurate PDF export | <10 slides **AND** static **AND** one-shot |
+
+**Anti-triggers (route to frontend-slides instead):**
+- User wants a single HTML file output
+- User says "quick", "one-off", "throwaway"
+- <10 slides AND no interactive/CI requirement (even if user mentioned "harness" casually)
+- Source is Lark/Feishu native slides AND user prefers Lark editing → `lark-slides` skill instead
+
 ## Core Principles
 
 1. **Harness over eyeballing** — Never trust "looks fine" by eye. The Playwright harness audits structure and compares pixels every run; a change is done only when the harness is green (§II).
@@ -40,7 +58,22 @@ Each section below is a rule plus a pointer to the file that implements it. Read
 
 > **灰色地带 10–14 页**：如果 ≥2 个「是」（有 git、有 CI、要 PR review、未来会改 ≥3 次）→ 用 harness-slides；否则 → frontend-slides。
 
-## 0. Start from the starter
+## §0 Glossary
+
+| Term | Definition | Where it lives |
+|---|---|---|
+| **Stage** | The fixed 1920×1080 px container that holds one scene at a time. Stage never reflows — content scales uniformly with viewport via CSS `transform: scale()`. | `src/components/SlideStage.tsx` + CSS |
+| **Scene** | One "slide surface" — a React component rendered at one point in the deck order. A scene may contain zero or more beats. | `src/slides/*.tsx` → registry array entries |
+| **Beat** | An atomic navigation unit within (or across) scenes. Every `?scene=id&beat=k` URL hash points to exactly one beat. Beat count equals total PDF page count. | `src/SlideDeck.tsx` → registry entry's `beats` or default 1 |
+| **Registry** | The single source of truth array `window.__SLIDE_REGISTRY__` listing every {id, title, scene, beats, notes} entry. Order = deck order. Auditor, visual, export-pdf, and beat-controller all read from it. | `src/SlideRegistry.tsx` → `registry` export |
+| **Harness** | The Playwright-based infrastructure (auditor.spec + visual.spec + freeze.mjs + export-pdf.mjs) that validates deck health, compares screenshots, and exports PDFs. | `tests/` + `harness/` + `scripts/` |
+| **Frozen frame** | A slide DOM state where all animation has been deterministically paused: CSS anim/transition removed, WAAPI animations cancelled, SVG SMIL halted, media paused, canvas replaced with a dataURL snapshot. Used for stable screenshots and PDF pages. | `harness/freeze.mjs` → `freezePage()` |
+| **SandboxIsolator** | React component wrapping slide content: capture-phase keyboard/wheel/pointer listeners at the window level (before deck keymaps fire), stopImmediatePropagation unless target is editable/interactive. Enables embedded demos without fighting presenter nav. | `src/components/SandboxIsolator.tsx` |
+| **ThemeProvider** | Top-level React context that reads a `ThemeConfig` object and writes derived CSS custom properties onto `document.documentElement`. Tokens: `--effect-border-radius*`, `--effect-border-width`, `--effect-shadow*` + legacy `--slide-*` fallbacks. | `src/theme/ThemeProvider.tsx` + `tailwind.config.ts` |
+| **Presenter mode** | Fullscreen mode entered by `F`/`Escape`. Displays: current scene DOM + cloned next-scene preview (right 40%) + speaker notes (bottom 35%) + timer/beat indicator. Respects `prefers-reduced-motion`. | `src/components/PresenterView.tsx` |
+| **Deep link** | A permanent URL `?scene=scene-id&beat=2` that directly opens the deck on a specific beat. Playwright tests and PDF export use these links. 404s mean registry corruption. | `src/SlideDeck.tsx` → URL read logic |
+
+## §0.5 Bootstrap — Start from the starter
 
 Don't hand-assemble the project. The repeated engineering — Vite + React + Tailwind, the router/beat-controller, the theme provider, `playwright.config`, the two specs, the PDF exporter, an optional CI — is bundled in `assets/starter/` and already green:
 
@@ -276,6 +309,17 @@ Gate 不通过**不能发布**。
 9. **不要把测试断言全部写成 expect.soft 后忘记兜底 hard**。soft 本身不会让测试变红——**必须在每段后加 `expect(test.info().errors).toHaveLength(0)`**。
 10. **不要在 `npm run build` 成功的基础上跳过 harness**。类型通过≠渲染正确；一个 CSS 拼写错误只影响视觉。
 
+### Additional anti-patterns enforced by the harness
+
+11. **<5 slides → wrong skill.** If you're producing 1–4 slides, don't scaffold the entire harness. Use frontend-slides for a one-shot HTML output. Setup cost is non-linear.
+12. **Canvas-only rendering.** A slide that is 100% `<canvas>` with no DOM text is un-auditable (Auditor can't check text content) and produces blurry zoomed PDFs. Always keep structural text/headings in DOM; canvas only for charts/animations. Add `[data-visual-mask]` or include in `VISUAL_MASK_SELECTORS` if using canvas-based non-deterministic rendering.
+13. **Bulk `AllScenes.tsx` with >30 scenes in one file.** Split into `src/slides/01-intro.tsx`, `src/slides/02-architecture.tsx`, etc. The registry is just a concat of exported arrays. Monolithic files = 3000+ line PRs that can't be reviewed.
+14. **Chart screenshots instead of components.** Never `import chart.png` when you could `import <BarChart data={...}>`. Recharts + Shiki cost ~60KB gzipped and give you searchable PDF text + live theming support.
+15. **>3 bullet points per slide.** This is a PRESENTATION deck, not a document. If you find yourself writing `ul > li × 5+`, stop: either (a) split across 2 beats using beat-specific `data-beat-only` visibility, or (b) re-express the information visually.
+16. **Responsive breakpoints inside slides.** The stage is FIXED 1920×1080. Do NOT write `@media (max-width: 768px)` inside a slide component — it never fires. Use `clamp()` with vw/vh terms only if you're expressing design proportions; even then, prefer fixed px on stage.
+17. **Beats that are ONLY animation (no content change).** If `beat=2` differs from `beat=1` only in a CSS transition duration, it will fail audit (no text change) AND visual diff (motion blur or freeze timing). Either: attach a `data-beat-only` visibility to a real element, or drop the beat.
+18. **Skipping the harness for "just a quick deck" with ≥8 slides.** "Quick deck" + ≥8 slides → 2 weeks later someone edits a margin and the 14th slide overflows. Harness cost pays off at slide #8. Budget 30 minutes for npm install + first snapshots.
+
 ## §VIII Troubleshooting — 高频问题速查
 
 > 完整扩展版（9 条，含每条根因分析 + 精确修复命令）见 [`references/troubleshooting.md`](./references/troubleshooting.md)。
@@ -306,3 +350,26 @@ Gate 不通过**不能发布**。
 
 **Q9: 视觉快照抖动（同代码两次跑 maxDiffPixels > 100 仍红）？**
 > 常见根因按概率：① **字体加载不稳定**——未在 `document.fonts.ready` 后截图（修复：visual.spec.ts 已内置 `await page.evaluate(() => document.fonts.ready)`，请确认你的 fork 未删除）；② **sub-pixel 抗锯齿抖动**——CI 没设 `--font-render-hinting=none` + DPR=1（修复：playwright.config 已内置）；③ **framer-motion 弹簧未衰减**——`waitForAnimationsToSettle` 默认 3 轮×50ms 采样，超慢动画需手动加 `stableRounds: 5` 或 `intervalMs: 80`；④ **canvas / video / lottie-player 内容不冻结**——已在 `VISUAL_MASK_SELECTORS` 里统一遮罩，如缺失请在元素上补 `data-visual-mask` 属性；⑤ **Live Reload 资源未完成**——截图前必须 `waitUntil: 'networkidle'`（已内置）。
+
+### Harness-specific troubleshooting
+
+1. **1–2px visual drift on re-run.** Caused by: (a) DPR mismatch — verify `playwright.config.ts` has `deviceScaleFactor: 1` in BOTH `use` block AND `projects[i].use`. (b) webfont swap — add `await page.waitForLoadState('networkidle')` before `freezePage()`, or set font-display:optional in @font-face. (c) subpixel decimal widths on flex — force `width: 1920px` on the stage outer.
+2. **Overflow false-positives on Auditor isHidden check.** The `isHidden()` function in auditor.spec recurses ancestors up to `document.body`. If you have a legitimately off-canvas element (e.g., `left: -9999px`), mark it `data-allow-empty="true"` (which skips the aria-hidden path) OR wrap it in a container with `overflow: visible` and add that container to `OFFSCREEN_IGNORE_SELECTORS` in the spec. False positives on stage-scoped elements: check that stage has `position: relative` so `offsetParent` check is correct.
+3. **SandboxIsolator not blocking PageDown inside INPUT.** If keydown still leaks: (a) Check you wrapped content with `<SandboxIsolator>` not `<div data-sandbox>`. (b) Verify the element passes `isEditable()` → TEXTAREA/SELECT/INPUT/[contenteditable]. If custom editable widget, add `data-editable` to let it pass. (c) If event is synthetic (React `onKeyDown` bubbling to window), the capture phase native listener still runs first — React handlers are separate. Good.
+4. **CJK tofu (□□□) in PDF export.** export-pdf.mjs uses the default Chromium headless which doesn't ship Chinese/Japanese/Korean fonts. Fix: (a) `sudo apt-get install fonts-noto-cjk` on Linux CI or use a Playwright image with CJK fonts. (b) Locally on macOS, it should work out of box. (c) Force a specific CJK font stack in your ThemeConfig with `@import url('Google Fonts with Noto Sans SC')` so Chromium downloads webfonts instead of falling back to missing system glyphs.
+5. **Deep link 404 / blank scene.** URL `?scene=foo&beat=1` shows empty stage. Causes: (a) Registry entry `id` doesn't match `scene` param (case-sensitive!). (b) Beat index ≥ entry.beats — registry entry default beats=1, so beat=0 and beat=1 are the same; beat=2 fails. (c) AllScenes.tsx scene component renders null. Debug: open DevTools console, type `window.__SLIDE_REGISTRY__` and compare sceneId list.
+6. **Build OOM / Vite "JavaScript heap out of memory" on decks >40 scenes.** Fix: (a) `NODE_OPTIONS=--max-old-space-size=8192 npm run build`. (b) Enable Vite `build.chunkSizeWarningLimit: 2000` and `build.rollupOptions.output.manualChunks` by slide prefix: `01-*.tsx → chunk-intro`. (c) Lazy-load heavy scene components with `React.lazy(() => import('./07-heavy.tsx'))` + `Suspense` fallback (Suspense must render during Playwright tests, so ensure `await waitForAnimationsToSettle` waits past fallback → real swap).
+7. **Playwright not installed.** `Error: Executable doesn't exist at .../chrome-*`. Always run `npx playwright install chromium` after `npm install` in CI or fresh clone. The starter's README documents this step explicitly. For cached CI: install browsers into `./.cache/ms-playwright` via `PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install chromium` and cache that path.
+
+## §IX Related Skills — Cross-references
+
+| Skill | When to combine | Notes |
+|---|---|---|
+| **frontend-slides** | Producing the final HTML deck from content. Use THIS skill (harness) when deck is ≥8 slides AND requires test/CI. Use frontend-slides when <8 slides AND one-shot. | frontend-slides ships `scripts/extract-pptx.py` for PPTX extraction. See `references/content-import.md`. |
+| **lark-slides** | Source content lives in 飞书 (Lark) documents. | Extract text/figures from Lark first → then ingest into harness starter via content-import SOP. |
+| **baoyu-design** | Design system reference. Sidecar state (`.design-canvas.state.json`), Tweaks host protocol, token systems. | If user mentions "baoyu canvas", "design state JSON", or "Tweaks panel" → this is the design layer, not the deck layer. Harness slides can EMIT sidecar-compatible state for baoyu-style tweak hosting. |
+| **stop-slop + humanizer** | Quality gate. Humanizer gives density/content shape feedback; stop-slop flags generic/empty slides. | Run `humanizer` BEFORE building. Run stop-slop audit on generated slides. Integrated into Auditor's "content quality" channel. |
+| **aero-mint** | Aesthetic reference: mint-glass, light glassmorphism, thin chrome. | Use Aero Mint token palette as a ThemeConfig preset if user says "glass", "clean modern", "frosted". |
+| **design-taste-frontend** | Universal design taste guide (spacing, typography rhythm, color temperature, icon weight). | Read if user rejects multiple theme options — the guide helps you identify "why" a theme feels wrong before retrying. |
+| **goofy-html-preview** | Publish the built `dist/` folder to an internal preview URL (Goofy / fufangjian-preview-html). | Run AFTER `npm run build` passes. NOT for local review; only when sharing with stakeholders outside the dev env. |
+

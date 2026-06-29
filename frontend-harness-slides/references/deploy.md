@@ -24,6 +24,9 @@ Put this in `vercel.json` at the project root (the starter already includes it),
 
 ## PDF export
 
+> **Prerequisite.** Requires the Playwright Chromium binary: run
+> `npx playwright install chromium` if you skipped this during initial setup.
+
 `scripts/export-pdf.mjs` walks the deck and stitches one page per slide. It reads `window.__SLIDE_REGISTRY__` from the running app (single source — see `src/SlideRegistry.tsx`), so it covers every slide automatically — no second list to keep in sync.
 
 1. Build and serve the deck: `npm run build && npm run preview` (default `http://localhost:4173`).

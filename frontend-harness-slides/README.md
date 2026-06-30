@@ -17,6 +17,10 @@ any other framework. It gives the agent a framework-neutral harness pattern:
 stable frame addresses, a registry, fixed stage geometry, deterministic frozen
 mode, structural audits, and visual checks when they matter.
 
+The main skill file stays compact so accidental invocations are cheap. Once a
+real slide production task is confirmed, the agent must read the four stage
+references before building: plan, design, build, and verify/ship.
+
 ## Install
 
 ```bash
@@ -43,19 +47,36 @@ npx skills update
 
 ## How An Agent Uses It
 
-1. First align with the user on slide style, information density, animation
-   direction, stage size, touch navigation, source material, and delivery
-   context.
-2. Choose the project root and technology stack from the user's situation.
-3. Implement the harness mechanisms in that stack.
-4. Build the deck as stable scenes and meaningful beats.
-5. Run the smallest useful checks during iteration and the final gate before
-   delivery.
-6. Deploy or create a project-specific handoff only after checked frames match
-   the intended result.
+1. **Plan**: align with the user on content orientation, presentation format,
+   duration, content mix, style, density, animation, stage, navigation,
+   technology stack, and delivery. Recommend defaults, name alternatives, and
+   offer 1-2 real slide previews when style is unclear.
+2. **Design**: choose a visual direction, fonts, assets, copy boundary, and
+   component approach. Keep internal planning information out of visible slide
+   copy.
+3. **Build**: implement stable scenes, meaningful beats, fixed/mobile stage
+   scaling, frozen mode, keyboard/touch navigation, and interactive motion in
+   the chosen stack.
+4. **Verify and ship**: run the relevant structural audit, visual smoke,
+   interaction/mobile checks, production smoke when deployed, and then deliver
+   the confirmed URL, PDF/static export, or both.
 
 The user does not need to operate the frontend toolchain directly. The important
 part is that the agent has enough structure to keep iteration controlled.
+
+## Stage References
+
+For confirmed non-trivial deck work, agents should read these in order:
+
+- `references/01-plan.md`: intake, alternatives, visual preview, technology
+  choice, content registry, and visible-copy boundary.
+- `references/02-design.md`: style presets, sketch emoji guidance, fonts, CJK,
+  assets, components, and copy quality.
+- `references/03-build.md`: harness contracts, mobile fixed stage, navigation,
+  frozen mode, motion, interactivity, and implementation pitfalls.
+- `references/04-verify-and-ship.md`: audit profiles, visual smoke, production
+  smoke, mobile/WebKit coverage, deployment, PDF/static handoff, and final
+  reporting.
 
 ## When It Fits
 

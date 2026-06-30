@@ -51,10 +51,12 @@ Minimum decisions:
   or a balanced rhythm.
 - **Animation direction**: cinematic keynote motion, restrained report motion, or
   another explicit style. The recommended default is keynote-like motion:
-  directional scene transitions, beat-by-beat reveals, spring/scale emphasis,
-  and visual de-emphasis of superseded items. Read
-  `references/animation-style.md` when the user asks for polished animation or
-  gives an animation reference.
+  directional scene transitions, Magic Move-style continuity, beat-by-beat
+  reveals, spring/scale emphasis, and visual de-emphasis of superseded items.
+  Explain this recommendation and ask the user to confirm or adjust it before
+  implementation. Read `references/animation-style.md` when the user asks for
+  polished animation, gives an animation reference, or leaves animation
+  direction vague.
 - **Stage basis**: default to `1920x1080` when the user has no preference, but
   ask whether they prefer `1280x720`, `2560x1440`, or another fixed 16:9 or
   project-specific ratio.
@@ -186,6 +188,7 @@ clearly reports what was not checked and why.
 |---|---|
 | `references/harness-pattern.md` | Implementing or adapting the framework-neutral harness contracts. |
 | `references/theming.md` | Discovering or implementing a visual direction. |
+| `references/style-presets.md` | Choosing preset-inspired visual directions for presentation or static information decks. |
 | `references/animation-style.md` | Choosing or describing a deck animation direction. |
 | `references/fonts.md` | Choosing and bundling open-source fonts. |
 | `references/asset-handling.md` | Preparing images, logos, SVGs, and fonts. |

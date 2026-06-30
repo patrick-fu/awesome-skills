@@ -7,8 +7,6 @@ description: >-
   that unrelated frames did not silently break. Best for non-trivial decks,
   repeated user feedback, animation states, visual checks, or team review. Avoid
   for tiny one-shot decks where a single static HTML file is enough.
-version: 1.2.0
-updated: 2026-07-01
 ---
 
 # Frontend Harness Slides
@@ -26,23 +24,54 @@ silently breaking unrelated frames.
 3. **Bind mechanisms, not frameworks**: choose the stack from the user's project
    and preferences; preserve the harness contracts in that stack.
 
-## First Step: Brief Intake
+## STOP: Brief Intake First
 
-Before creating or editing project files, align with the user in plain text
-unless the supplied context is already specific enough to proceed.
+THIS IS A HARD GATE. For vague new-deck requests, the first user-facing response
+must be a short plain-text intake, not code, scaffolding, or file creation. At
+minimum, confirm the deck's style, information density, and animation direction
+before implementation.
 
-Completion criterion: proceed only when either:
+DO NOT create files, choose a framework, scaffold a deck, or start slide
+implementation from a vague prompt. First align with the user in plain text
+unless the supplied context already answers every minimum decision below.
 
-- purpose, audience, density, source material, visual direction, and delivery
-  context are clear enough to build; or
-- the missing pieces have been stated as visible assumptions and the user has
-  explicitly asked the agent to continue.
+Completion criterion: proceed only when one is true:
+
+- The user has confirmed every minimum decision.
+- The source material or prior conversation already clearly answers every
+  minimum decision.
+- The user explicitly says to proceed with defaults or assumptions; in that case,
+  state those assumptions before creating files.
+
+Minimum decisions:
+
+- **Slides style**: keynote/product-launch, formal report, technical demo,
+  hybrid, or a custom reference.
+- **Information density**: speaker-led sparse slides, reading-first dense slides,
+  or a balanced rhythm.
+- **Animation direction**: cinematic keynote motion, restrained report motion, or
+  another explicit style. The recommended default is keynote-like motion:
+  directional scene transitions, beat-by-beat reveals, spring/scale emphasis,
+  and visual de-emphasis of superseded items. Read
+  `references/animation-style.md` when the user asks for polished animation or
+  gives an animation reference.
+- **Stage basis**: default to `1920x1080` when the user has no preference, but
+  ask whether they prefer `1280x720`, `2560x1440`, or another fixed 16:9 or
+  project-specific ratio.
+- **Touch navigation**: ask whether phone, tablet, or touchscreen viewing should
+  support tap/swipe navigation. Recommend support by default unless the user says
+  the deck is desktop/presenter-only.
 
 Use interview-style follow-up, not structured question tools. Ask few questions,
 but ask real ones. If the user gives only a short idea, ask for the highest-risk
 preference first instead of creating files. If the user provides a detailed
 document, existing deck, outline, screenshots, or brand assets, summarize the
 inferred direction and ask only the questions that materially affect the deck.
+
+Useful default phrasing: "I recommend a keynote/product-launch motion style:
+short directional transitions, meaningful beat-by-beat reveals, light spring or
+scale emphasis, old ideas fading or being crossed out, and a final takeaway
+highlight. Should I use that, or keep it more report-like and restrained?"
 
 Useful dimensions to explore:
 
@@ -52,10 +81,17 @@ Useful dimensions to explore:
   should drive.
 - **Density**: speaker-led with fewer words, reading-first with more detail, or a
   mixed rhythm.
+- **Motion**: keynote-like animated reveals, restrained report-style transitions,
+  or another reference.
 - **Source material**: notes, documents, screenshots, brand assets, old slides,
   data, code snippets, or product demos.
 - **Visual references and anti-references**: what it should resemble, and what it
   should avoid.
+
+If the user gives a reference URL, deployed deck, or source repository, inspect
+it before choosing the deck's stage, scaling, animation, and interaction
+contracts. Extract concrete behavior such as base stage size, whether scale can
+exceed `1`, transition style, beat reveal style, and click/touch navigation.
 
 ## When To Use
 
@@ -126,7 +162,8 @@ are satisfied:
 6. **Verify**: run the smallest useful check during iteration and a final check
    before handoff; report any skipped check explicitly.
 7. **Ship**: present, deploy, or create a project-specific handoff only after
-   checked frames match the intended result.
+   checked frames match the intended result. If shipping a hosted URL, read
+   `references/deploy.md` and run the production smoke test.
 
 ## Verification Tiers
 
@@ -149,6 +186,7 @@ clearly reports what was not checked and why.
 |---|---|
 | `references/harness-pattern.md` | Implementing or adapting the framework-neutral harness contracts. |
 | `references/theming.md` | Discovering or implementing a visual direction. |
+| `references/animation-style.md` | Choosing or describing a deck animation direction. |
 | `references/fonts.md` | Choosing and bundling open-source fonts. |
 | `references/asset-handling.md` | Preparing images, logos, SVGs, and fonts. |
 | `references/content-import.md` | Importing content from documents or existing decks. |

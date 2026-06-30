@@ -20,6 +20,23 @@ a dedicated project name and a dedicated domain or domain prefix, such as the
 talk name, product name, team name, or event name. Random names are acceptable
 only for disposable previews that will not be shared as the final link.
 
+## Production Smoke Test
+
+If you provide a hosted URL, do not stop at "deployment command succeeded." Open
+the production URL or alias that the user will actually share and smoke-test it:
+
+- the URL or alias points at the latest build, not a stale preview
+- the stage base size, aspect ratio, centering, and scale match the confirmed
+  contract, including large-screen upscaling when allowed
+- a direct frame URL opens the intended scene and beat
+- at least one desktop navigation path works, such as click or keyboard next
+- if touch navigation is enabled, at least one tap or swipe path works on a
+  mobile/tablet viewport
+- fonts, images, and static assets do not show obvious load failures or broad
+  404s
+
+Report any skipped smoke-test item explicitly.
+
 If the deck uses query parameters for frame state, ordinary static hosting is
 usually enough. If the deck uses path-based client routing, configure a fallback
 to the app entry page. Do not fallback known static asset directories to HTML; a

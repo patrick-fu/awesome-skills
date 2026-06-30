@@ -41,8 +41,8 @@ declare global {
   }
 }
 
-// Call once at startup (see main.tsx). The visual / auditor specs and export-pdf.mjs all read this
-// instead of hardcoding their own slide list, so SLIDE_REGISTRY stays the single source of truth.
+// Call once at startup (see main.tsx). The visual / auditor specs read this instead of hardcoding
+// their own slide list, so SLIDE_REGISTRY stays the single source of truth.
 export function exposeRegistryForTooling() {
   if (typeof window !== 'undefined') {
     window.__SLIDE_REGISTRY__ = SLIDE_REGISTRY.map((s) => ({

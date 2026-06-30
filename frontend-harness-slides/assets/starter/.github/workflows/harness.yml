@@ -45,16 +45,12 @@ jobs:
           PLAYWRIGHT_BROWSERS_PATH: ~/.cache/ms-playwright
         run: npx playwright install chromium --with-deps
 
-      - name: Build
-        env:
-          NODE_OPTIONS: --max-old-space-size=8192
-        run: npm run build
-
-      - name: Run tests (auditor + visual + typecheck via build)
+      - name: Run full gate
         env:
           CI: true
           PLAYWRIGHT_BROWSERS_PATH: ~/.cache/ms-playwright
-        run: npm run test:ci
+          NODE_OPTIONS: --max-old-space-size=8192
+        run: npm run test:full
 
       - name: Upload build + test artifacts
         if: always()

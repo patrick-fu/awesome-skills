@@ -14,7 +14,8 @@ src/assets/
 └── fonts/           # Custom webfonts (if not loading from Google Fonts)
     └── your-font.woff2
 
-harness/             # NEVER put slide assets here. Harness = test infra only.
+tests/               # NEVER put slide assets here. Test harness only.
+scripts/             # NEVER put slide assets here. Tooling only.
 public/              # Static files copied as-is. Favicons, robots.txt, og-image.png
 ```
 

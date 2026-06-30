@@ -37,12 +37,36 @@ or guessing from filenames.
 
 ### Fixed Stage
 
-Author slide content inside a fixed-ratio stage, usually 16:9. The stage scales
-as a whole to fit the viewport. Inside the stage, avoid viewport responsive
-breakpoints that rearrange slide content differently on laptop, phone, or CI.
+Author slide content inside a fixed-ratio stage, usually 16:9. Confirm the base
+stage size before implementation. Prefer `1920x1080` by default, but support
+`1280x720`, `2560x1440`, or another explicit project ratio when that better
+matches the talk, reference deck, or deployment surface.
+
+The stage scales as a whole to fit the viewport. The normal scale rule is the
+smaller of viewport width/base width and viewport height/base height. This means
+scale may be greater than `1` on large displays. Do not cap scale at `1` by
+default. If the user wants to avoid upscaling, make that an explicit opt-in such
+as "max scale 1" and document the tradeoff.
+
+Inside the stage, avoid viewport responsive breakpoints that rearrange slide
+content differently on laptop, phone, or CI.
 
 Responsive layout can exist outside the stage for controls, presenter tools, or
 debug panels. It should not change the slide composition itself.
+
+### Navigation And Touch
+
+Keyboard navigation is not enough when the deck may be opened on a phone, tablet,
+or touchscreen. Confirm whether touch navigation is required. When enabled, the
+expected behavior is:
+
+- tap/click empty slide space: next beat or next scene
+- swipe left or up: next
+- swipe right or down: previous
+- interactive regions: do not accidentally trigger slide navigation
+
+Frozen or test mode should disable or stabilize pointer/touch navigation if it
+could make automated checks nondeterministic.
 
 ### Frozen Mode
 
@@ -55,7 +79,9 @@ Tests need a deterministic render mode. Frozen mode should stop or stabilize:
 - network-dependent regions when they are not the thing being tested
 
 Frozen mode does not mean the deck has no animation. It means each animation
-state can be inspected as a known frame.
+state can be inspected as a known frame. For a beat-driven deck, frozen mode
+should normally render the requested beat's settled end state, not the middle of
+an entrance transition.
 
 ### Audit Surface
 
@@ -63,6 +89,7 @@ The harness should fail loudly on problems that a build step usually misses:
 
 - requested frame does not match the rendered scene id or beat
 - content overflow outside the stage
+- stage base size or scale behavior differs from the confirmed contract
 - visible content collapses to zero size
 - fonts or images fail to load
 - unexpected console errors or runtime exceptions
@@ -78,6 +105,21 @@ drift matters. Keep baselines tied to stable frame ids, not file positions.
 Only update a baseline after inspecting the new image and confirming the change
 is intentional. A green visual test only means "matches the baseline"; it does
 not prove the baseline was good.
+
+### Interaction Check
+
+If the deck supports click, tap, swipe, or interactive regions, add an
+interaction check. It should cover at least:
+
+- a desktop viewport where the stage may be scaled up
+- a small/mobile viewport where the stage is scaled down
+- click or tap advances only when the target is non-interactive slide space
+- swipe next and previous paths when touch navigation is enabled
+- form controls, links, code editors, demos, or other interactive regions do not
+  trigger accidental navigation
+
+Interaction checks can use Playwright, another browser automation tool, or the
+project's existing UI test system.
 
 ## Verification Tiers
 

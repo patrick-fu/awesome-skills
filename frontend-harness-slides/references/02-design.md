@@ -25,8 +25,8 @@ Preview rules:
 - Explain options in chat, not on the slide surface.
 - Do not render preset names, option labels, workflow notes, file paths, or
   internal requirements on the slide.
-- Run a light preview gate before asking the user to choose.
-- After the user chooses, summarize and store a selected theme contract, remove
+- Run a light preview check before asking the user to choose.
+- After the user chooses, summarize and store selected theme notes, remove
   preview-only controls/routes that are not part of the final deck, and commit
   the direction into the normal theme mechanism.
 
@@ -37,9 +37,9 @@ Default preview set:
 2. Safe/professional.
 3. Content-specific wildcard.
 
-Do not exceed three directions unless the user explicitly asks.
+Keep to three directions by default unless the user explicitly asks.
 
-## Preview Gate
+## Preview Check
 
 Before asking the user to choose, verify:
 
@@ -53,10 +53,10 @@ Before asking the user to choose, verify:
 - at least one beat/state change works in each direction
 - at least one transition or Magic Move-like sample works in each direction
 
-## Selected Theme Contract
+## Selected Theme Notes
 
-After the user chooses a preview direction, summarize the selected theme
-contract before expanding the full deck:
+After the user chooses a preview direction, summarize the selected theme notes
+before expanding the full deck:
 
 ```text
 chosen_direction:
@@ -72,8 +72,9 @@ asset_or_emoji_strategy:
 density_and_copy_tone:
 ```
 
-For non-trivial decks, write this contract into project docs, README, a handoff
-note, or theme configuration. Do not rely only on chat history for chosen style.
+For non-trivial decks, prefer recording these notes in the shared context
+document, README, handoff note, or theme configuration so the chosen style
+survives later edits. Follow the user's preferred documentation location.
 
 ## Theme Tokens
 
@@ -127,7 +128,7 @@ handwritten emphasis.
 
 **Navigation:** prefer a subtle right-side vertical navigator in a hand-drawn
 style. The active scene can be a slightly larger sketch circle; inactive scenes
-can be tiny filled dots. Do not add a separate textual page counter on the
+can be tiny filled dots. Avoid adding a separate textual page counter on the
 canvas unless the user explicitly needs one.
 
 **Interactivity:** treat emoji actors, robots, people, phones, microphones,
@@ -138,7 +139,7 @@ show a small callout without advancing the slide.
 
 **Motion:** use Keynote Magic Move-style object continuity, bouncing or wobbling
 emoji, flowing arrows, click-to-expand notes, hover emphasis, and local click
-feedback. Keep motion lively and varied. Do not use the same entrance or bounce
+feedback. Keep motion lively and varied. Avoid using the same entrance or bounce
 on every scene; rotate hops, wobbles, flowing arrows, rotations, sliding phones,
 turning robots, nods, and continuity transforms.
 
@@ -292,7 +293,7 @@ Rules:
 - Keep logos and diagrams as SVG when they need sharp scaling.
 - SVGs that change with theme should use `currentColor` or theme tokens.
 - Do not put slide assets inside test artifact folders.
-- Do not rely on remote assets for anything critical unless the delivery context
+- Avoid relying on remote assets for anything critical unless the delivery context
   explicitly allows network dependence.
 - If an asset is visually central, verify it in the browser.
 

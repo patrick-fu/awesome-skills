@@ -1,14 +1,14 @@
 # 04 Verify And Ship
 
 Use this before delivery and whenever layout, animation, fonts, assets,
-navigation, harness code, or deployment changes. The goal is to prove that the
-deck works, then deliver the confirmed output instead of stopping at a local dev
-server.
+navigation, harness code, or deployment changes. The goal is to build confidence
+that the deck works, then deliver the confirmed output instead of stopping at a
+local dev server.
 
 ## Verification Tiers
 
-Use project-specific commands. Do not run the heaviest suite after every tiny
-copy edit, but do not ship without the relevant final gate.
+Use project-specific commands. Avoid running the heaviest suite after every tiny
+copy edit, but prefer completing the relevant final check before shipping.
 
 | Tier | Purpose | Use when |
 |---|---|---|
@@ -16,7 +16,7 @@ copy edit, but do not ship without the relevant final gate.
 | Structural audit | Registry, direct frame routes, stage geometry, overflow, collapsed content, assets, console errors. | Ordinary scene/content/layout edits. |
 | Visual smoke | Screenshots plus human scan of representative frames. | After visual, layout, animation, theme, font, or shared component changes. |
 | Production smoke | Hosted URL, production alias, mobile visibility, navigation, assets. | After live deployment. |
-| Full gate | Relevant build, audit, visual, interaction, and production checks. | Final delivery or baseline acceptance. |
+| Full check | Relevant build, audit, visual, interaction, and production checks. | Final delivery or baseline acceptance. |
 
 Report skipped checks explicitly. A skipped check is not a pass.
 
@@ -29,7 +29,7 @@ Bind the audit profile to the confirmed information density.
 Use for live talks, sparse slides, demos, and presenter-driven decks.
 
 - Each beat needs at least one visible story element.
-- Do not require long text or multiple reveal elements.
+- Avoid requiring long text or multiple reveal elements.
 - Allow large whitespace.
 - Check that the title, primary visual object, and beat intent exist.
 - Rely more heavily on visual smoke because machines cannot judge "sparse but
@@ -41,7 +41,7 @@ Use for reports, research readouts, and self-contained decks.
 
 - Each page should explain itself.
 - Check hierarchy, font size, table/chart readability, and annotations.
-- Do not rely on the speaker to fill in core facts.
+- Avoid relying on the speaker to fill in core facts.
 - Dense content should be split instead of shrunk.
 
 ### Hybrid
@@ -154,14 +154,14 @@ Deploy hygiene for new deck projects:
 - do not recommend deprecated Vercel CLI flags such as `--name`
 - prefer existing project binding or provider config after first setup
 
-Before deploying:
+Before deploying, prefer to:
 
-- run the final relevant local gate
+- run the final relevant local check
 - build the static output
 - verify local preview from the built output when possible
 - confirm fonts, images, animation states, and direct frame links work
 
-After deploying:
+After deploying, prefer to:
 
 - smoke test the production URL, not only a preview URL
 - verify direct frame links on the hosted URL
@@ -218,4 +218,4 @@ Final delivery should state:
 - mobile/touch coverage
 - WebKit/Safari coverage status when relevant
 - skipped checks and residual risk
-- context document path and whether it was updated with final status
+- context document path and final update status, if a context document was used

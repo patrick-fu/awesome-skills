@@ -91,10 +91,11 @@ content mix, density, style, stage size, navigation, and delivery target should
 guide the deck; do not render them on the slide surface unless the user
 explicitly wants the audience to see them.
 
-For non-trivial decks, maintain an external project context document rather than
-relying only on chat history. Confirm or create its location before
-implementation, and update it after major phases so long-running work does not
-drift.
+For non-trivial decks, prefer keeping an external project context document so
+long-running work does not depend only on chat history. Follow the user's
+preferred location; otherwise use project docs for deliverable decks and a temp
+path for small explorations. Update it after major phases as a memory aid, not
+as an extra approval gate.
 
 Use interview-style follow-up, not structured question tools. Ask few questions,
 but ask real ones. If the user gives only a short idea, ask for the highest-risk
@@ -142,15 +143,16 @@ task is only exploratory discussion, answer from `SKILL.md` and load only the
 reference needed for the current question.
 
 Once the user confirms they want a non-trivial slide deck built, imported, or
-substantially edited, read these references in order before implementation:
+substantially edited, use these references as the normal reading path before
+implementation:
 
 1. `references/01-plan.md`
 2. `references/02-design.md`
 3. `references/03-build.md`
 4. `references/04-verify-and-ship.md`
 
-Do not start building from `SKILL.md` alone after production is confirmed. The
-stage references carry the detailed constraints for planning, design, harness
+Avoid building from `SKILL.md` alone after production is confirmed. The stage
+references carry the practical guidance for planning, design, harness
 implementation, verification, deployment, and handoff.
 
 ## When To Use
@@ -218,15 +220,15 @@ satisfied:
    deck, imported content, or an existing deck.
 2. **Align**: complete the brief intake or summarize the provided material and
    assumptions.
-3. **Plan**: for non-trivial decks, create/update the external context document,
-   produce a narrative/content-mix plan, then produce a registry draft with
-   stable ids, titles, audience-visible copy, speaker intent, beats, visual
-   ideas, and internal constraints before writing scene code.
+3. **Plan**: for non-trivial decks, use a context document when it helps keep
+   state visible, produce a narrative/content-mix plan, then produce a registry
+   draft with stable ids, titles, audience-visible copy, speaker intent, beats,
+   visual ideas, and internal constraints before writing scene code.
 4. **Choose**: pick the deck root and technology stack; do not copy a bundled
    project.
-5. **Preview**: when visual direction is unclear, build three interactive style
+5. **Preview**: when visual direction is unclear, prefer three interactive style
    previews in the planned production stack/stage skeleton, capture screenshots,
-   run a light preview gate, and ask the user to choose before full expansion.
+   run a light preview check, and ask the user to choose before full expansion.
 6. **Establish**: implement or adapt the harness contracts in the chosen stack.
 7. **Build**: create the narrative, frames, assets, animation states, and visual
    system.
@@ -248,10 +250,10 @@ profiles, visual smoke, production smoke, mobile checks, and final reporting.
 | Preflight | Environment, dependencies, server, browser availability, obvious config issues. | After project setup, moving the deck, or suspicious environment state. |
 | Structural audit | Registry, addressability, stage geometry, overflow, collapsed content, asset errors. | Ordinary scene/content/layout edits. |
 | Visual check | Deterministic screenshots or equivalent rendered-frame comparison. | Visual, animation, font, theme, shared component, stage, or CSS changes. |
-| Full gate | All relevant build, audit, and visual checks. | Before delivery, before accepting a new baseline, or when impact is unclear. |
+| Full check | All relevant build, audit, and visual checks. | Before delivery, before accepting a new baseline, or when impact is unclear. |
 
-The work is not ready to ship until the final relevant gate passes, or the agent
-clearly reports what was not checked and why.
+Treat the work as ready to ship only after the relevant final check passes, or
+after clearly reporting what was not checked and why.
 
 ## Supporting Files
 

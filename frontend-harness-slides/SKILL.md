@@ -46,7 +46,9 @@ Completion criterion: proceed only when one is true:
 Minimum decisions:
 
 - **Slides style**: keynote/product-launch, formal report, technical demo,
-  hybrid, or a custom reference.
+  hybrid, or a custom reference. When the direction is vague, read
+  `references/theming.md` and `references/style-presets.md`; keep the main
+  explanation short and ask the user to confirm the chosen direction.
 - **Information density**: speaker-led sparse slides, reading-first dense slides,
   or a balanced rhythm.
 - **Animation direction**: cinematic keynote motion, restrained report motion, or
@@ -62,7 +64,9 @@ Minimum decisions:
   project-specific ratio.
 - **Navigation expectations**: ask whether phone, tablet, or touchscreen viewing
   should support tap/swipe navigation. Recommend a small style-matched in-stage
-  scene navigator by default, but confirm whether the user wants it.
+  scene navigator by default, but confirm whether the user wants it. When such
+  navigation exists, avoid visible textual page counters unless the user needs a
+  PDF/reading version with page numbers.
 - **Delivery target**: confirm whether final handoff should be a deployed online
   URL, PDF/static export, or both. If the user has no hosting preference,
   recommend Vercel for the live URL and mention GitHub Pages or Cloudflare Pages
@@ -94,6 +98,8 @@ Useful dimensions to explore:
   data, code snippets, or product demos.
 - **Visual references and anti-references**: what it should resemble, and what it
   should avoid.
+- **Typeface**: choose fonts that match the visual style and language coverage;
+  for CJK content or deployment-sensitive decks, read `references/fonts.md`.
 
 If the user gives a reference URL, deployed deck, or source repository, inspect
 it before choosing the deck's stage, scaling, animation, and interaction
@@ -196,7 +202,7 @@ clearly reports what was not checked and why.
 | `references/theming.md` | Discovering or implementing a visual direction. |
 | `references/style-presets.md` | Choosing preset-inspired visual directions for presentation or static information decks. |
 | `references/animation-style.md` | Choosing or describing a deck animation direction. |
-| `references/fonts.md` | Choosing and bundling open-source fonts. |
+| `references/fonts.md` | Choosing style-matched, licensed, locally bundled fonts, including CJK constraints. |
 | `references/asset-handling.md` | Preparing images, logos, SVGs, and fonts. |
 | `references/content-import.md` | Importing content from documents or existing decks. |
 | `references/document-to-deck.md` | Turning long-form text into a speaker-led or reading-first deck. |

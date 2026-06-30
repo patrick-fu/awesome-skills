@@ -6,6 +6,10 @@ mechanical writing while preserving facts, numbers, and the user's intent.
 ## Rules
 
 - Keep slide titles specific enough to make sense on their own.
+- Render only text meant for the audience. Remove leaked planning metadata such
+  as talk duration, target audience, density, style labels, stage size,
+  deployment target, navigation requirements, or implementation notes unless the
+  user explicitly asked for that information to appear on the slide.
 - Replace vague claims with concrete evidence, numbers, examples, or direct
   takeaways.
 - Remove duplicated phrases and symmetrical filler.
@@ -23,3 +27,4 @@ mechanical writing while preserving facts, numbers, and the user's intent.
 | Generic claim | Unlock seamless collaboration | Cut review loops from 3 days to 1 |
 | Empty title | Our solution | What changes after the workflow is automated |
 | Filler | Robust, scalable, and user-friendly | Handles 10k records without manual cleanup |
+| Leaked planning note | 40-minute live talk for engineers | Why voice changes the coding loop |

@@ -43,8 +43,9 @@ npx skills update
 
 ## How An Agent Uses It
 
-1. First align with the user on audience, density, source material, visual
-   direction, and delivery context.
+1. First align with the user on slide style, information density, animation
+   direction, stage size, touch navigation, source material, and delivery
+   context.
 2. Choose the project root and technology stack from the user's situation.
 3. Implement the harness mechanisms in that stack.
 4. Build the deck as stable scenes and meaningful beats.

@@ -29,7 +29,8 @@ silently breaking unrelated frames.
 THIS IS A HARD GATE. For vague new-deck requests, the first user-facing response
 must be a short plain-text intake, not code, scaffolding, or file creation. At
 minimum, confirm the deck's style, information density, animation direction,
-stage basis, navigation expectations, and delivery target before implementation.
+stage basis, navigation expectations, technology stack, and delivery target
+before implementation.
 
 DO NOT create files, choose a framework, scaffold a deck, or start slide
 implementation from a vague prompt. First align with the user in plain text
@@ -46,31 +47,38 @@ Completion criterion: proceed only when one is true:
 Minimum decisions:
 
 - **Slides style**: keynote/product-launch, formal report, technical demo,
-  hybrid, or a custom reference. When the direction is vague, read
-  `references/theming.md` and `references/style-presets.md`; keep the main
-  explanation short and ask the user to confirm the chosen direction.
+  hybrid, or a custom reference. When the direction is vague, recommend a
+  default, name several alternatives, and offer to make 1-2 real slide previews
+  in 2-3 styles before the full deck.
 - **Information density**: speaker-led sparse slides, reading-first dense slides,
-  or a balanced rhythm.
+  or a balanced rhythm. Tie this to the audit profile.
 - **Animation direction**: cinematic keynote motion, restrained report motion, or
   another explicit style. The recommended default is keynote-like motion:
-  directional scene transitions, Magic Move-style continuity, beat-by-beat
-  reveals, spring/scale emphasis, and visual de-emphasis of superseded items.
-  Explain this recommendation and ask the user to confirm or adjust it before
-  implementation. Read `references/animation-style.md` when the user asks for
-  polished animation, gives an animation reference, or leaves animation
-  direction vague.
+  directional scene transitions, Keynote Magic Move-style continuity,
+  beat-by-beat reveals, spring/scale emphasis, and visual de-emphasis of
+  superseded items. Explain this recommendation, name livelier/restrained/static
+  alternatives, and ask the user to confirm or adjust it before implementation.
 - **Stage basis**: default to `1920x1080` when the user has no preference, but
-  ask whether they prefer `1280x720`, `2560x1440`, or another fixed 16:9 or
+  explicitly offer `1280x720`, `2560x1440`, `4:3`, or another fixed
   project-specific ratio.
 - **Navigation expectations**: ask whether phone, tablet, or touchscreen viewing
   should support tap/swipe navigation. Recommend a small style-matched in-stage
   scene navigator by default, but confirm whether the user wants it. When such
   navigation exists, avoid visible textual page counters unless the user needs a
   PDF/reading version with page numbers.
+- **Technology stack**: recommend a stack and explain why. Prefer the user's
+  existing stack when one exists; for a new non-trivial deck with no preference,
+  React + Vite + Playwright is a reasonable default. Name alternatives such as
+  plain HTML/CSS/JS, Vue/Svelte + Vite, Next.js, or Astro/static output and
+  explain the tradeoffs briefly.
 - **Delivery target**: confirm whether final handoff should be a deployed online
   URL, PDF/static export, or both. If the user has no hosting preference,
   recommend Vercel for the live URL and mention GitHub Pages or Cloudflare Pages
   as static-site alternatives.
+
+For each minimum decision, present the recommended value, at least one credible
+alternative, and ask for confirmation. Do not silently convert recommendations
+into requirements.
 
 After intake, summarize the confirmed decisions as implementation constraints,
 not slide copy. Duration, audience, density, style, stage size, navigation, and
@@ -98,18 +106,36 @@ Useful dimensions to explore:
   mixed rhythm.
 - **Motion**: keynote-like animated reveals, restrained report-style transitions,
   or another reference.
+- **Technology**: project stack, test harness, and deployment fit.
 - **Delivery**: online URL, PDF/static export, or both.
 - **Source material**: notes, documents, screenshots, brand assets, old slides,
   data, code snippets, or product demos.
 - **Visual references and anti-references**: what it should resemble, and what it
   should avoid.
-- **Typeface**: choose fonts that match the visual style and language coverage;
-  for CJK content or deployment-sensitive decks, read `references/fonts.md`.
+- **Typeface**: choose fonts that match the visual style and language coverage.
 
 If the user gives a reference URL, deployed deck, or source repository, inspect
 it before choosing the deck's stage, scaling, animation, and interaction
 contracts. Extract concrete behavior such as base stage size, whether scale can
 exceed `1`, transition style, beat reveal style, and click/touch navigation.
+
+## Reference Loading Contract
+
+`SKILL.md` stays compact so accidental triggers do not waste context. If the
+task is only exploratory discussion, answer from `SKILL.md` and load only the
+reference needed for the current question.
+
+Once the user confirms they want a non-trivial slide deck built, imported, or
+substantially edited, read these references in order before implementation:
+
+1. `references/01-plan.md`
+2. `references/02-design.md`
+3. `references/03-build.md`
+4. `references/04-verify-and-ship.md`
+
+Do not start building from `SKILL.md` alone after production is confirmed. The
+stage references carry the detailed constraints for planning, design, harness
+implementation, verification, deployment, and handoff.
 
 ## When To Use
 
@@ -143,15 +169,19 @@ Do not require React, Vite, Tailwind, Playwright, or any bundled starter. Prefer
 the user's existing stack when one exists. For a new project, choose the simplest
 web stack that can satisfy the harness contracts and the deck's visual needs.
 
-Playwright is a good default for browser-level verification, but it is not the
-skill's identity. If another browser automation or visual check system is
-already present and can enumerate, freeze, and inspect the frames, use it.
+For a new non-trivial deck with no existing stack or preference, React + Vite +
+Playwright is a reasonable default, but it is not mandatory. Plain
+HTML/CSS/JS, Vue/Svelte + Vite, Next.js, Astro/static output, or another stack
+can be correct when it better fits the user or project. Playwright is a good
+default for browser-level verification, but it is not the skill's identity. If
+another browser automation or visual check system is already present and can
+enumerate, freeze, and inspect frames, use it.
 
 ## Harness Contracts
 
-Read `references/harness-pattern.md` before implementing a new harness or
-adapting an existing one. The deck is ready to iterate only when these contracts
-are satisfied:
+Read `references/03-build.md` before implementing a new harness or adapting an
+existing one. The deck is ready to iterate only when these contracts are
+satisfied:
 
 - **Stable frame address**: every scene and meaningful beat has a stable id and a
   direct way to render that frame.
@@ -184,13 +214,14 @@ are satisfied:
    before handoff; report any skipped check explicitly.
 8. **Ship**: deliver the confirmed handoff, not just a local dev server. Deploy
    a live URL, export PDF/static output, or do both after checked frames match
-   the intended result. Read `references/deploy.md` for hosted or exported
+   the intended result. Read `references/04-verify-and-ship.md` for verified
    handoff.
 
 ## Verification Tiers
 
 Use project-specific commands. Do not mechanically run the heaviest visual suite
-after every tiny text edit.
+after every tiny text edit. Read `references/04-verify-and-ship.md` for audit
+profiles, visual smoke, production smoke, mobile checks, and final reporting.
 
 | Tier | Purpose | Use when |
 |---|---|---|
@@ -206,20 +237,10 @@ clearly reports what was not checked and why.
 
 | File | Read/use when |
 |---|---|
-| `references/harness-pattern.md` | Implementing or adapting the framework-neutral harness contracts. |
-| `references/theming.md` | Discovering or implementing a visual direction. |
-| `references/style-presets.md` | Choosing preset-inspired visual directions for presentation or static information decks. |
-| `references/animation-style.md` | Choosing or describing a deck animation direction. |
-| `references/fonts.md` | Choosing style-matched, licensed, locally bundled fonts, including CJK constraints. |
-| `references/asset-handling.md` | Preparing images, logos, SVGs, and fonts. |
-| `references/content-import.md` | Importing content from documents or existing decks. |
-| `references/document-to-deck.md` | Turning long-form text into a speaker-led or reading-first deck. |
-| `references/cjk-fonts.md` | Choosing a simple Chinese/Japanese/Korean font strategy. |
-| `references/visual-drift-triage.md` | Diagnosing visual snapshot drift before rebasing. |
-| `references/component-libraries.md` | Choosing chart, code, diagram, and icon libraries without binding a stack. |
-| `references/anti-patterns.md` | Reviewing risky slide/project patterns. |
-| `references/troubleshooting.md` | Diagnosing common harness and rendering failures. |
-| `references/deploy.md` | Deploying the checked deck or preparing optional handoff formats. |
+| `references/01-plan.md` | Intake, alternatives, visual preview, tech stack choice, decision snapshot, content import, registry draft, and visible-copy boundary. |
+| `references/02-design.md` | Visual direction, style presets, sketch emoji guidance, fonts, CJK, assets, component choices, and copy quality. |
+| `references/03-build.md` | Harness contracts, fixed/mobile stage, navigation, frozen mode, motion, interactivity, and implementation pitfalls. |
+| `references/04-verify-and-ship.md` | Audit profiles, structural audit, visual smoke, production smoke, mobile/WebKit coverage, deployment, PDF/static handoff, and final reporting. |
 
 ## Anti-Patterns
 

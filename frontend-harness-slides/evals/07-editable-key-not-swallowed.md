@@ -11,4 +11,3 @@ tags: [bug-free, implementation]
 ## Expected Output (all true)
 - [ ] keydown listener 开头有 editable 元素白名单判断（tag INPUT/TEXTAREA/isContentEditable 等）
 - [ ] 如果存在 SandboxIsolator，它的实现是原生 capture 阶段监听（而不是 React 合成层 stopPropagation）
-- [ ] 或：SandboxIsolator 已删除，功能合并到 SlideDeck 自身

@@ -1,41 +1,129 @@
-# Frontend Harness Slides — starter
+# Frontend Harness Slides Starter
 
-A minimal, runnable React + Vite slide deck wired to the Playwright harness. Copy this folder to start a deck, then:
+This is the runnable deck project copied by the skill. It is intentionally a
+small React/Vite app plus a Playwright harness, not a single HTML file.
+
+## First Run
 
 ```bash
 npm install
-npm run dev          # author at http://localhost:5173
-npm run build        # type-check + production build
-npm test             # run the harness (auditor + visual) against the preview build
+npx playwright install chromium
+npm run dev
 ```
 
-## How it fits together
+Open `http://localhost:5173`.
 
-- `src/SlideRegistry.tsx` — one array owns slide order; each entry's `id` is its route and its snapshot name.
-- `src/SlideDeck.tsx` — the beat controller. State lives in the URL: `?scene=<id>&beat=<n>`; `&test=true` locks the frame for the harness.
-- `src/components/SlideStage.tsx` — the absolute 16:9 stage. Carries `data-slide-stage` / `data-slide-id` / `data-beat` for the harness.
-- `src/theme/` — `ThemeProvider` maps tokens to CSS variables; `themes.ts` holds the look.
-- `tests/` — `auditor.spec.ts` (structure) and `visual.spec.ts` (pixels), both reading the live registry.
-- `harness/freeze.mjs` — the single freeze mechanism, shared by the visual spec and the PDF export.
-
-## First run
-
-`auditor.spec.ts` passes immediately. `visual.spec.ts` needs a baseline on first run:
+For the first visual baseline:
 
 ```bash
-npm run test:update   # seed snapshots, then commit tests/**/__screenshots__ (the *-snapshots dirs)
+npm run test:update
+npm test
 ```
 
-After that, `npm test` is green; a failing visual diff means a real, reviewable change — re-baseline intended diffs with `npm run test:update`.
+Commit the generated files under `tests/snapshots/` after reviewing them. Future
+test runs compare against those baselines.
 
-## Port & reproducibility
+## Project Map
 
-- The harness serves the production preview on **4173**. If that port is busy (e.g. another Vite app), shift everything with `PORT=4180 npm test` — `vite preview` and the Playwright specs read the same `PORT`. A busy port fails fast with a clear "Port is in use" error rather than silently testing the wrong app.
-- `package-lock.json` is committed so installs are reproducible; CI uses `npm ci`.
+```text
+src/
+├── main.tsx                    # exposes registry, renders SlideDeck
+├── SlideDeck.tsx               # scene/beat URL state and navigation
+├── SlideRegistry.tsx           # one array owns order and stable ids
+├── components/
+│   ├── SlideStage.tsx          # fixed 1920x1080 stage
+│   └── SandboxIsolator.tsx     # isolates embedded interactive widgets
+├── scenes/
+│   ├── CoverScene.tsx
+│   └── HarnessScene.tsx
+└── theme/
+    ├── ThemeProvider.tsx
+    └── themes.ts
 
-## Export & deploy
+tests/
+├── auditor.spec.ts             # structural and overflow audit
+└── visual.spec.ts              # frozen visual snapshots
 
-- PDF: `npm run build && npm run preview`, then in another shell `npm run export:pdf` (add `--compact` for a smaller file).
-- Vercel: `vercel.json` is included for query-routed deep links — `npx vercel --prod`.
+harness/freeze.mjs              # shared animation/media freeze logic
+scripts/export-pdf.mjs          # PDF export from the running app
+```
 
-See the parent skill's `references/` for theming, fonts, humanizer copy, and deploy details.
+## Add A Scene
+
+1. Create `src/scenes/MyScene.tsx`.
+2. Export a component that accepts `SceneProps`.
+3. Import it in `src/SlideRegistry.tsx`.
+4. Add an entry with a stable kebab-case `id`, a human `title`, the component,
+   and `totalBeats`.
+
+Example registry entry:
+
+```ts
+{ id: 'product-demo', title: 'Product demo', component: ProductDemoScene, totalBeats: 2 }
+```
+
+`totalBeats` is the last beat index. A scene with `totalBeats: 2` has beats `0`,
+`1`, and `2`.
+
+## Navigation
+
+| Key | Action |
+|---|---|
+| `ArrowRight`, `Space`, `PageDown`, `Enter`, `j`, `ArrowDown` | Next beat |
+| `ArrowLeft`, `PageUp`, `Backspace`, `k`, `ArrowUp` | Previous beat |
+| `Home` | First scene, beat 0 |
+| `End` | Last scene, final beat |
+| `1` to `9`, `0` | Jump to scenes 1 to 10 |
+| `f` / `F` / `F11` | Toggle browser fullscreen |
+
+Editable fields are allowed to keep their keyboard input. Wrap custom editors,
+playgrounds, or embedded interactive regions in `SandboxIsolator`.
+
+## Commands
+
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Author locally with Vite. |
+| `npm run build` | Type-check and production build. |
+| `npm run preview` | Serve `dist/` locally, default `http://localhost:4173`. |
+| `npm run auditor` | Run `auditor.spec.ts`. |
+| `npm run visual` | Run `visual.spec.ts`. |
+| `npm test` | Run all Playwright tests. |
+| `npm run test:update` | Update all snapshots for intentional visual changes. |
+| `npm run test:visual:update` | Update visual snapshots only. |
+| `npm run test:ci` | CI-oriented Playwright run. |
+| `npm run export:pdf` | Export PDF from a running preview server. |
+
+If the preview port is busy, pass a shared `PORT`:
+
+```bash
+PORT=4180 npm test
+PORT=4180 npm run export:pdf -- --base http://localhost:4180
+```
+
+## Export PDF
+
+The exporter reads `window.__SLIDE_REGISTRY__` from the running app and captures
+each scene at its final beat.
+
+```bash
+npm run build
+npm run preview
+npm run export:pdf -- --base http://localhost:4173 --out deck.pdf
+```
+
+Use `--compact` for a smaller 1280x720 export.
+
+## CI
+
+`.github/workflows/harness.yml` is included as a ready GitHub Actions workflow.
+It installs dependencies, installs Playwright Chromium, builds the app, runs the
+harness, and uploads failure artifacts.
+
+## Important Contracts
+
+- Keep `exposeRegistryForTooling()` in `src/main.tsx`.
+- Keep all slide content inside `[data-slide-stage]`.
+- Do not use responsive breakpoints inside scene content.
+- Keep scene `id` values stable after baselines are created.
+- Update snapshots only when the visual change is intentional.

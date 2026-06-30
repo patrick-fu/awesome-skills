@@ -65,45 +65,31 @@ Theme names and the safe/bold/wildcard framing belong only in your message to th
 
 ---
 
-## 5. 🚧 Planned features (NOT YET IMPLEMENTED)
+## 5. Current starter boundary
 
-> ⚠️ **The following are planned features, not current behavior.** Do not instruct users to rely on them yet. They are documented here to show the roadmap and prevent wasted PR effort on already-scheduled work.
+The current starter ships one active `ThemeProvider` mounted by `SlideDeck`. It
+writes theme tokens to `document.documentElement`. Do not promise a built-in
+theme switcher or live token editing UI unless you implement it in the starter
+first.
 
-- **Floating theme switcher (in-progress, target Q3 2026).** A small floating component (bottom-left corner, opacity 80%) with 3 preset theme buttons that calls `setTheme()` live. Currently requires manual code in `App.tsx`; official component ships when token API v2 stabilizes.
-- **Live hot-swap with Tweaks protocol (planned, Q4 2026).** Integration with baoyu-design's Tweaks Host Protocol: `postMessage({type: '__edit_mode_set_keys', keys: {...}})` → ThemeProvider applies delta tokens in real time without reload. Currently you need to edit `theme.ts` and recompile.
+For theme discovery, generate real deck-like preview scenes or temporary preview
+routes, let the user react visually, then commit the selected theme into
+`src/theme/themes.ts`.
 
-## 6. Dual-preview skeleton (implementable today)
+## 6. Preview skeleton
 
-While the official switcher is in progress, use this pattern to build a 2-column comparison page in your OWN deck. It uses two `ThemeProvider` instances with `targetRef` instead of `document.documentElement`:
+Because the shipped `ThemeProvider` writes to `document.documentElement`, do not
+mount multiple providers side by side in the same page without changing the
+provider implementation. The simplest safe preview is to render the same cover
+scene in three separate routes or temporary screenshots, each with a different
+`defaultTheme` value.
 
-```tsx
-function DualThemePreview({ leftTheme, rightTheme, children }) {
-  const leftRef = useRef<HTMLDivElement>(null);
-  const rightRef = useRef<HTMLDivElement>(null);
-  return (
-    <div className="grid grid-cols-2 gap-4">
-      <div ref={leftRef}>
-        <ThemeProvider theme={leftTheme} targetRef={leftRef}>
-          {children}
-        </ThemeProvider>
-      </div>
-      <div ref={rightRef}>
-        <ThemeProvider theme={rightTheme} targetRef={rightRef}>
-          {children}
-        </ThemeProvider>
-      </div>
-    </div>
-  );
-}
-```
-
-⚠️ **Critical**: `targetRef` must point to a container that is NOT `document.documentElement`. Two ThemeProviders writing to `documentElement` would overwrite each other's CSS variables. This pattern is ONLY for side-by-side previews; the default `App.tsx` always writes to `documentElement`.
-
-> **Starter compatibility**: Requires ThemeProvider v1.2+ which accepts an optional `targetRef: RefObject<HTMLElement>`. If `targetRef` is null/undefined, the provider writes to `documentElement` (current behavior). If your current ThemeProvider doesn't support it, add the prop first.
+If you need a true side-by-side preview, first extend `ThemeProvider` to support
+a scoped target element and verify it with the harness. Treat that as runtime
+work, not default skill behavior.
 
 ## 7. Known limitations
 
 1. **Tailwind theme tokens are var() lookups, not values.** `borderRadius: 'var(--effect-border-radius)'` in `tailwind.config.ts` means Tailwind IntelliSense shows the `var()` string, not the actual pixel value. Fix: document expected values in the `ThemeConfig` type comment.
-2. **`--slide-*` legacy tokens are deprecated but kept.** v1 starter shipped `--slide-bg`, `--slide-fg`, etc. v2 replaced with `--surface-*` and `--text-*`. Legacy names are written BOTH for 6 months to avoid breaking custom user CSS. Remove legacy writes after Q4 2026.
-3. **ThemeProvider writes to documentElement synchronously.** In a deck with 100+ token derivations, first render adds ~2ms. Not an issue for production but shows up in React DevTools Profiler as a long synchronous block.
-4. **`prefers-color-scheme: dark` auto-detect is opt-in.** By default, ThemeProvider uses `theme.preferred` and ignores system preference. To enable: pass `auto: true` in theme config (requires v1.2+ starter).
+2. **ThemeProvider writes to documentElement synchronously.** In a deck with 100+ token derivations, first render can show up in React DevTools Profiler. This is acceptable for the current starter.
+3. **System color-scheme auto-detect is not part of the starter.** Pick an explicit theme unless you implement and test auto-detection.

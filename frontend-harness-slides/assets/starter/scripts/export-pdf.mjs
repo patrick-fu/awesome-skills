@@ -68,7 +68,7 @@ Options:
   -b, --base <URL>     Preview server URL (default http://localhost:4173)
   -o, --out <file>     Output PDF path (default deck.pdf)
   -c, --compact        Export at 1280x720 instead of 1920x1080 (~50–70% smaller file)
-  -n, --with-notes     Reserved: render speaker notes alongside slides
+  -n, --with-notes     Reserved for future notes export; currently accepted but ignored
   -h, --help           Show this help message
 
 Examples:

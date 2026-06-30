@@ -1,12 +1,12 @@
 # Visual Drift Triage
 
-Use this before accepting new snapshots when visual regression fails.
+Use this before accepting new visual baselines.
 
 ## First Question
 
 Is the diff an intended design change, or did the rendering environment drift?
 
-Do not immediately run `--update-snapshots` just to make red tests green.
+Do not update baselines just to make red tests green.
 
 ## Common Patterns
 
@@ -16,20 +16,16 @@ Do not immediately run `--update-snapshots` just to make red tests green.
 | One scene moved or resized | Real layout change | Review the scene and update only if intended. |
 | Animated/live region differs each run | Unfrozen animation, video, canvas, iframe | Freeze, mask, or make the region deterministic. |
 | Old scene snapshot remains after registry change | Orphan baseline | Delete the stale snapshot after confirming the scene id was removed. |
-| Screenshot is blank or wrong scene | Router/test landing issue | Check `data-slide-id`, `data-beat`, and registry exposure. |
+| Screenshot is blank or wrong scene | Frame address or test landing issue | Check registry exposure and rendered frame metadata. |
 
 ## Minimal Triage Steps
 
-1. Run `npm run auditor` to catch structural errors first.
-2. Open a few changed snapshots or Playwright diff images.
+1. Run the project's structural audit before visual triage.
+2. Open representative changed screenshots or diff images.
 3. Decide whether the change is local to edited scenes or global.
 4. If global text drift appears, inspect font strategy before increasing
    thresholds.
-5. Rebaseline only intentional changes:
+5. Rebaseline only intentional changes using the project's baseline update
+   command.
 
-```bash
-npm run visual:update
-npm run test:full
-```
-
-Report any skipped or unresolved visual risk explicitly.
+Report skipped or unresolved visual risk explicitly.

@@ -34,6 +34,15 @@ chart state, or demo state. Do not create a new beat for every decorative text
 fade. Excess beats multiply review work and visual baselines without improving
 the talk.
 
+## Leaking Planning Context Onto Slides
+
+Do not turn implementation constraints into audience-facing copy. Talk duration,
+audience, style words, density, stage size, delivery target, deployment provider,
+navigation requirements, and review instructions should guide the deck but stay
+out of the slide surface unless the user explicitly wants the audience to see
+them. For example, "40-minute talk" may shape pacing, but it is usually not a
+subtitle.
+
 ## Responsive Breakpoints Inside The Stage
 
 The slide stage should scale as a whole. Viewport breakpoints inside the stage

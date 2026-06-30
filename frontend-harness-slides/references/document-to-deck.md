@@ -14,6 +14,9 @@ the story.
 6. Put dense evidence, examples, or scripts outside the slide surface unless the
    deck is explicitly reading-first.
 
+For non-trivial decks, do not start scene implementation before producing a
+registry draft. This is a planning gate, not a polished deliverable.
+
 ## Heuristics
 
 - A speaker-led technical talk often needs fewer words and more pacing beats than
@@ -26,14 +29,24 @@ the story.
 
 ## Output Shape
 
-Before building scenes, produce a registry draft:
+Before building scenes, produce a registry draft with separate visible copy,
+speaker intent, and internal constraints:
 
 ```text
 id: opening
 title: Why this matters now
-takeaway: The old workflow is no longer the bottleneck.
+visible_copy: The old workflow is no longer the bottleneck.
+speaker_intent: Explain that the audience's pain is coordination, not typing.
+beats: 3
+visual_idea: robot, keyboard, and microphone converge into one workflow
 mode: speaker-led
 source: paragraphs 1-4
+internal_constraints: 40-minute talk, low text density, 1920x1080 stage
 ```
+
+`visible_copy` is the text intended for the audience on the slide surface. Keep
+planning metadata out of it. Duration, audience, density, style, stage size,
+deployment target, navigation, implementation notes, and review instructions are
+internal constraints unless the user explicitly asks to show them.
 
 Ask only the questions that materially change the deck direction.

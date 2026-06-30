@@ -61,6 +61,12 @@ click feedback that does not advance the slide. Dot hover can gently scale,
 rotate, or wobble. Dot clicks should jump with a fade or Magic Move-style
 transition, not a hard cut.
 
+Keep the motion lively and varied. Do not use the same entrance or bounce on
+every scene. Rotate the motion vocabulary across the deck: a small emoji hop on
+one page, a hand-drawn arrow flowing on another, a sketch circle wobble for
+emphasis, a phone sliding between positions, a robot turning or nodding, and
+Keynote Magic Move-style object continuity when the same idea changes state.
+
 **Typeface direction:** use a style-matched handwritten or warm CJK-capable
 font when Chinese/Japanese/Korean text appears. For Chinese sketch decks,
 consider LXGW WenKai or LXGW WenKai Lite before more generic sans fonts. Bundle

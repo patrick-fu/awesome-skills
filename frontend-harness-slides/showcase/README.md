@@ -10,17 +10,21 @@ until they are generated and checked in.
 
 1. **Plan**: align content orientation, presentation format, duration, content
    mix, style, density, technology stack, and delivery target before building.
-2. **Preview style**: show 1-2 real slides in contrasting visual directions when
-   the style is not already settled.
-3. **First draft**: build a small multi-section deck in any suitable web stack.
-4. **Insert a scene**: add a new scene without renaming existing stable ids.
-5. **Tune animation**: change one meaningful beat and show that only intended
+2. **Track context**: create/update an external context document with the
+   decisions, narrative plan, registry, theme contract, verification, and
+   delivery status.
+3. **Preview style**: show three interactive real-slide previews in contrasting
+   visual directions when the style is not already settled, with screenshots and
+   a local server.
+4. **First draft**: build a small multi-section deck in any suitable web stack.
+5. **Insert a scene**: add a new scene without renaming existing stable ids.
+6. **Tune animation**: change one meaningful beat and show that only intended
    visual frames change.
-6. **Catch a bad edit**: intentionally create overflowing text or a collapsed
+7. **Catch a bad edit**: intentionally create overflowing text or a collapsed
    element and show the audit failure.
-7. **Fix and re-run**: repair the slide, rerun the project-specific gate, and
+8. **Fix and re-run**: repair the slide, rerun the project-specific gate, and
    show a green harness.
-8. **Share**: deploy or record the checked deck, run production smoke when
+9. **Share**: deploy or record the checked deck, run production smoke when
    hosted, and avoid unrelated export machinery.
 
 ## Assets To Add Later
@@ -34,6 +38,8 @@ until they are generated and checked in.
 
 - The example deck uses stable frame addresses, a registry, a fixed stage,
   frozen mode, keyboard/touch navigation, and structural/visual checks.
+- The showcase includes a context document and selected theme contract for the
+  non-trivial deck.
 - The README or handoff note records the production URL or exported artifact
   when the demo is shipped.
 - The project-specific final gate passes.

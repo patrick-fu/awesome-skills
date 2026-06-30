@@ -28,8 +28,8 @@ silently breaking unrelated frames.
 
 THIS IS A HARD GATE. For vague new-deck requests, the first user-facing response
 must be a short plain-text intake, not code, scaffolding, or file creation. At
-minimum, confirm the deck's style, information density, and animation direction
-before implementation.
+minimum, confirm the deck's style, information density, animation direction,
+stage basis, navigation expectations, and delivery target before implementation.
 
 DO NOT create files, choose a framework, scaffold a deck, or start slide
 implementation from a vague prompt. First align with the user in plain text
@@ -60,9 +60,13 @@ Minimum decisions:
 - **Stage basis**: default to `1920x1080` when the user has no preference, but
   ask whether they prefer `1280x720`, `2560x1440`, or another fixed 16:9 or
   project-specific ratio.
-- **Touch navigation**: ask whether phone, tablet, or touchscreen viewing should
-  support tap/swipe navigation. Recommend support by default unless the user says
-  the deck is desktop/presenter-only.
+- **Navigation expectations**: ask whether phone, tablet, or touchscreen viewing
+  should support tap/swipe navigation. Recommend a small style-matched in-stage
+  scene navigator by default, but confirm whether the user wants it.
+- **Delivery target**: confirm whether final handoff should be a deployed online
+  URL, PDF/static export, or both. If the user has no hosting preference,
+  recommend Vercel for the live URL and mention GitHub Pages or Cloudflare Pages
+  as static-site alternatives.
 
 Use interview-style follow-up, not structured question tools. Ask few questions,
 but ask real ones. If the user gives only a short idea, ask for the highest-risk
@@ -85,6 +89,7 @@ Useful dimensions to explore:
   mixed rhythm.
 - **Motion**: keynote-like animated reveals, restrained report-style transitions,
   or another reference.
+- **Delivery**: online URL, PDF/static export, or both.
 - **Source material**: notes, documents, screenshots, brand assets, old slides,
   data, code snippets, or product demos.
 - **Visual references and anti-references**: what it should resemble, and what it
@@ -163,9 +168,10 @@ are satisfied:
    system.
 6. **Verify**: run the smallest useful check during iteration and a final check
    before handoff; report any skipped check explicitly.
-7. **Ship**: present, deploy, or create a project-specific handoff only after
-   checked frames match the intended result. If shipping a hosted URL, read
-   `references/deploy.md` and run the production smoke test.
+7. **Ship**: deliver the confirmed handoff, not just a local dev server. Deploy
+   a live URL, export PDF/static output, or do both after checked frames match
+   the intended result. Read `references/deploy.md` for hosted or exported
+   handoff.
 
 ## Verification Tiers
 

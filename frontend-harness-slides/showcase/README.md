@@ -3,35 +3,34 @@
 The showcase should prove the core promise: an agent can keep changing an HTML
 slide deck without quietly breaking unrelated frames.
 
-This folder is intentionally a plan in phase 1. Do not claim screenshots or demos
-exist until they are generated and checked in.
+This folder is intentionally a plan. Do not claim screenshots or demos exist
+until they are generated and checked in.
 
 ## Demo Story
 
-1. **First draft**: start with a small multi-section deck built from the starter.
-2. **Insert a scene**: add a new scene in the registry without renaming existing
-   files or changing existing snapshot names.
-3. **Tune animation**: change one beat's animation and show that only intended
-   visual snapshots change.
+1. **First draft**: build a small multi-section deck in any suitable web stack.
+2. **Insert a scene**: add a new scene without renaming existing stable ids.
+3. **Tune animation**: change one meaningful beat and show that only intended
+   visual frames change.
 4. **Catch a bad edit**: intentionally create overflowing text or a collapsed
-   element and show the auditor failure.
-5. **Fix and re-run**: repair the slide, rerun `npm run test:full`, and show a
-   green harness.
-6. **Share**: deploy or record the checked deck without adding starter-only
-   export machinery.
+   element and show the audit failure.
+5. **Fix and re-run**: repair the slide, rerun the project-specific gate, and
+   show a green harness.
+6. **Share**: deploy or record the checked deck without adding unrelated export
+   machinery.
 
 ## Assets To Add Later
 
 - `screenshots/`: README-safe PNGs or GIFs of the demo flow.
-- `example-decks/`: one complete starter-based deck used to generate showcase
-  screenshots.
-- `diffs/`: selected Playwright diff images that demonstrate intended and
+- `example-decks/`: one complete deck used to generate showcase screenshots.
+- `diffs/`: selected visual diff images that demonstrate intended and
   unintended changes.
 
 ## Acceptance Criteria For A Real Showcase
 
-- The example deck is generated from `assets/starter/`.
-- `npm run build` and `npm run test:full` pass inside the example deck.
+- The example deck uses stable frame addresses, a registry, a fixed stage,
+  frozen mode, and structural/visual checks.
+- The project-specific final gate passes.
 - Screenshots in this folder match committed baselines.
 - README text explains the iteration problem before showing aesthetics.
-- No image claims a feature that the starter does not implement.
+- No image claims a feature that the example deck does not implement.

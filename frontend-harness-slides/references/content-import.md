@@ -1,48 +1,62 @@
-# Content Import SOP — PPTX / Keynote / Notion → Harness Deck
+# Content Import SOP
 
-## Source → Interim format
+Use this when the user provides an existing document, old deck, outline, or
+screenshots and wants a harness-backed HTML slide project.
 
-### Step 1: Normalize source to PPTX
-| Source format | How to get PPTX | Notes |
+Import is not layout preservation. Treat the source as content and intent, then
+rebuild the deck as scenes inside the fixed 1920x1080 stage.
+
+## Normalize The Source
+
+| Source | Practical path | Notes |
 |---|---|---|
-| Keynote (.key) | File → Export To → PowerPoint (.pptx) | ⚠️ Keynote SmartBuilds flatten to static shapes; extract text from Notes pane instead |
-| WPS (.wpp) | 另存为 → PowerPoint 演示文稿 (*.pptx) | Same as PPTX downstream |
-| Lark / 飞书 幻灯片 | 分享 → 导出 → PPTX | 飞书 shapes may lose grouping; re-check speaker notes |
-| Google Slides | File → Download → Microsoft PowerPoint (.pptx) | Preserves speaker notes 1:1 |
-| Notion / Markdown | Use a md → pptx converter OR just copy sections | Skip extract-pptx, hand-write registry directly |
+| PPTX / PowerPoint | Extract text, images, and slide order with an available PPTX parser or manual unzip workflow. | Rebuild layout; do not copy absolute PPT coordinates blindly. |
+| Keynote | Export to PPTX first. | Smart builds often flatten; check notes or source text. |
+| Google Slides | Download as PPTX or copy the outline into Markdown. | Verify image quality after export. |
+| Markdown / Notion / docs | Split by headings and narrative sections. | Often better than forcing a fake PPTX conversion. |
+| Screenshots / product captures | Put source files under `public/` or `src/assets/` and design scenes around them. | Screenshots should drive the outline, not be pasted after the fact. |
 
-### Step 2: Extract text + images with extract-pptx.py
-```bash
-# Uses frontend-slides skill's tool (works on ANY PPTX, not just frontend-slides output)
-python3 ~/.agents/skills/frontend-slides/scripts/extract-pptx.py \
-  --input ./source-deck.pptx \
-  --output ./tmp-extracted \
-  --images ./assets/images/
+## If You Need PPTX Extraction
 
-# Output structure:
-#   tmp-extracted/slides/001.json    { title, bullets[], notes, shapes[] }
-#   assets/images/001_*              PNG assets from the slide
+Use any local PPTX extraction tool that can produce:
+
+- slide number
+- title or primary heading
+- text blocks or bullets
+- image assets
+- optional speaker notes or presenter script text
+
+If no tool is available, unzip the PPTX and inspect `ppt/slides/slideN.xml` plus
+`ppt/media/`. Keep this as an extraction step only; final layout should be
+authored in React scenes.
+
+Example target structure:
+
+```text
+tmp-extracted/
+├── slides/
+│   ├── 001.json
+│   └── 002.json
+└── images/
+    ├── 001-hero.png
+    └── 002-chart.png
 ```
 
-**找不到 extract-pptx.py？** 如果你的 `frontend-slides` 安装路径不同，用：
-```bash
-find ~/.agents/skills/frontend-slides -name "*.py"
-# Fallback: unzip the PPTX manually, parse ppt/slides/slideN.xml
-```
+## Map Source Content To The Starter
 
-### Step 3: Map extraction → SlideEntry shape
-| PPTX extraction field | → Harness SlideEntry field | Transform |
+| Source field | Starter destination | Rule |
 |---|---|---|
-| `title` | `id` (slugify) + `title` (display) | `id = toKebab(title.toLowerCase()); title = title.trim()` |
-| `bullets` / `shapes[].text` | Scene component content → or split across `beats` | >3 bullets → split into N beats with `data-beat-only="beat-k"` |
-| `notes` (speaker notes pane) | `notes` | 1:1, markdown allowed (Presenter mode renders plain) |
-| Image shapes in `assets/images/` | `src/assets/<scene-id>/{name}.webp` | Convert to WebP 82% quality, max 1600px wide |
-| Slide number (PPTX) | Position in `registry[]` array | Preserve ORDER; add/remove later if narrative needs trimming |
+| Slide order | `SLIDE_REGISTRY` array order | Preserve order first, then intentionally trim or reorder after reviewing the story. |
+| Title | `id` + `title` | `id` must be stable kebab-case ASCII; display `title` can be natural language. |
+| Text blocks | Scene component content | Split dense content into multiple scenes or meaningful beats. |
+| Images | `public/` for static paths or `src/assets/` for imported assets | Optimize large images before committing. |
+| Speaker notes | Separate planning/script material | The current starter does not render a presenter notes view by default. |
 
-### Step 4: Validation (non-negotiable before moving to Build)
-1. ✅ `registry.length` equals PPTX slide count (± your intentional cuts)
-2. ✅ Every `id` is unique kebab-case (no spaces, no Chinese chars)
-3. ✅ Every scene component returns exactly ONE root element (Fragment OK)
-4. ✅ Image assets moved from `tmp-extracted/**_images/` → `src/assets/<scene-id>/` and imported with typed paths
-5. ✅ Speaker notes preserved (cross-check 3 random slides against PPTX)
-6. ✅ No slide has >3 bullets in a single beat (SKILL.md §VII Anti-pattern #15; hard absolute limit 6 — if >3 and you confirm reading-first mode is intended, at minimum split beats with `data-beat-only` and get reviewer sign-off)
+## Import Checklist
+
+1. Registry ids are unique, stable, and kebab-case.
+2. Every registry entry points to a real scene component.
+3. The source outline has been summarized back to the user if intent is unclear.
+4. Dense slides are split instead of shrinking text into unreadability.
+5. Images are named by content, not by raw export names.
+6. The rebuilt deck passes `npm run build` and `npm test`.

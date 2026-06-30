@@ -9,7 +9,7 @@ tags: [import, guidance]
 "我手头有个 source.pptx，20 多页，能不能把内容转换成你们的幻灯片项目？"
 
 ## Expected Output (all true)
-- [ ] 引用 frontend-slides 的 `scripts/extract-pptx.py`
-- [ ] 给出可直接复制粘贴的完整 shell 命令
+- [ ] 建议使用可用的 PPTX 抽取工具，或说明 fallback 为 unzip PPTX 后解析 `ppt/slides/slideN.xml`
+- [ ] 说明目标抽取字段：页序、标题、文本块、图片、可选讲稿/备注
 - [ ] 说明导入后需要重做布局（不保留原始位置）
 - [ ] 说明图片/字体要走 Asset Prep

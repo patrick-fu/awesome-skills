@@ -1,6 +1,6 @@
 ---
 name: Stage 内不使用 responsive breakpoints
-description: 生成的 Stage 内部 React 代码不包含 md:/lg:/sm: 等 Tailwind responsive 前缀
+description: "生成的 Stage 内部 React 代码不包含 md:/lg:/sm: 等 Tailwind responsive 前缀"
 difficulty: medium
 tags: [anti-pattern, implementation]
 ---

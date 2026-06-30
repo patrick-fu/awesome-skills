@@ -22,31 +22,49 @@ goals = true
 
 `max_depth` counts spawned-agent levels below the root session. The Codex
 default is `1`, which allows a direct child but prevents that child from
-spawning deeper helpers. Use `5` when the workflow needs room for patterns such
-as:
+spawning deeper helpers. Raise it only when the assigned goal has concrete,
+narrower helper work that can be verified independently.
 
-```text
-Main Agent -> Workflow Owner -> Researcher -> Verifier -> Repair helper
-```
+Depth is capacity, not permission to create coordination-only layers. Each
+nested helper must receive a local task that is smaller than its parent task and
+must return evidence upward. Do not add a pure coordinator, and do not transfer
+the current assignment wholesale to another agent.
 
 `max_threads` caps concurrent open agent threads. Raise it only when the
 workflow has a concrete fan-out need.
 
 ## Delegation Packet
 
-Depth gives capacity; the packet gives shape. When nested helpers are used,
-include:
+Depth gives capacity; the local brief gives shape. When nested helpers are used,
+ask for one concrete local outcome in natural language:
 
 ```text
-Local goal: [narrow task].
-Context: [facts needed for this local goal].
-Boundary: [owned files, systems, decisions, and areas to avoid].
-Deliverable: [result, evidence, verification, risks, or decision].
-Pause if: [approval, credentials, destructive action, or ownership conflict].
+Goal: [one concrete local outcome].
+
+Please [inspect / implement / review / verify / research] the following local
+task:
+
+[Specific task details.]
+
+Relevant context:
+[Only the facts needed for this local task.]
+
+Scope and boundaries:
+[Owned files, systems, decisions, and areas to avoid.]
+
+Return:
+- what you inspected, changed, verified, or decided
+- evidence requested by the task
+- risks, uncertainty, and unhandled items
+- anything that should pause further work
+
+Pause if approval, credentials, destructive action, or an ownership conflict is
+required.
 ```
 
 If a child agent starts solving a broader task than it was assigned, restate the
-local goal and boundary before adding more depth.
+local goal and boundary before adding more depth. Do not tell helpers about the
+full delegation chain; give them only the context required for their local task.
 
 ## Quick Checks
 

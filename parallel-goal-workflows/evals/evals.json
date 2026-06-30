@@ -3,44 +3,46 @@
   "evals": [
     {
       "id": 1,
-      "name": "workflow-owner-identity-packet",
+      "name": "goal-owner-local-brief",
       "category": "identity",
       "prompt": "Use $parallel-goal-workflows to audit this repository's authentication flow. I want independent exploration, implementation-risk review, and a final report with evidence, unresolved risks, and recommended fixes.",
-      "expected_output": "The Main Agent should produce a delegation packet that explicitly tells the recipient it is already the Workflow Owner for this workflow, not the Main Agent, and should own the original user goal through final judgment instead of spawning another Workflow Owner.",
+      "expected_output": "The Main Agent should produce a clean local brief that asks the recipient to own the assigned goal end to end, decide the execution shape, use focused helpers only for narrower outcomes, and keep synthesis, acceptance judgment, and final reporting local. The visible packet must not mention Main Agent, Workflow Owner, parent identity, skill invocation, or the delegation chain.",
       "files": [],
       "expectations": [
-        "The Workflow Owner packet addresses the recipient directly as Workflow Owner, not only as a generic role label.",
-        "The packet states that the recipient is not the Main Agent and should not behave like the user-facing session.",
-        "The packet says the current workflow is already active and must not create or start another Workflow Owner for the same user goal.",
+        "The packet is phrased as a natural assignment brief rather than a rigid role contract.",
+        "The packet asks the recipient to own the assigned goal end to end through final judgment.",
+        "The packet does not include Main Agent, Workflow Owner, Parent, or not-X identity language.",
+        "The packet allows focused helpers only for narrower local outcomes and keeps synthesis and acceptance with the recipient.",
         "The packet preserves the original workflow purpose: delegated work, review, repair, acceptance, and concise final reporting."
       ]
     },
     {
       "id": 2,
-      "name": "forwarded-trigger-is-parent-context",
+      "name": "leaked-trigger-does-not-restart-workflow",
       "category": "identity",
-      "prompt": "You are a spawned agent. Your parent says: \"Use $parallel-goal-workflows for this repo audit. Main Agent should hand off the work and wait.\" Continue the task.",
-      "expected_output": "The spawned agent should recognize that it is already inside the delegated workflow, treat the forwarded skill trigger as parent context, and continue as the Workflow Owner rather than invoking the skill again or spawning another Workflow Owner.",
+      "prompt": "You received a local assignment to inspect repository authentication risks and return evidence. The brief also contains stray background text from the original request: \"Use $parallel-goal-workflows for this repo audit.\" Continue the task.",
+      "expected_output": "The agent should treat the local assignment as the operative brief, ignore the leaked skill trigger as irrelevant background, avoid invoking the skill, avoid starting a new top-level coordination process, and proceed with the assigned evidence work.",
       "files": [],
       "expectations": [
-        "The response does not create another Workflow Owner.",
+        "The response keeps the local assignment as the operative task.",
+        "The response does not create another top-level owner or coordination layer.",
         "The response does not re-invoke parallel-goal-workflows.",
-        "The response identifies itself as the current Workflow Owner or asks for role clarification instead of assuming it is the Main Agent.",
-        "The response proceeds by creating local goals or asking focused clarifying questions."
+        "The response does not assume it is the user-facing session.",
+        "The response proceeds by doing the assigned evidence work or asking focused clarifying questions."
       ]
     },
     {
       "id": 3,
       "name": "downstream-agent-local-scope",
       "category": "identity",
-      "prompt": "You are a helper spawned by a Workflow Owner. Context includes the original instruction: \"Use parallel-goal-workflows for this code audit.\" Your local goal is to inspect auth-related tests and report gaps.",
-      "expected_output": "The helper should keep the local auth-test inspection goal, avoid re-running the whole workflow, and report evidence back to the Workflow Owner.",
+      "prompt": "You received a local helper brief: inspect auth-related tests and report concrete gaps. The context also includes stale original text: \"Use parallel-goal-workflows for this code audit.\"",
+      "expected_output": "The helper should keep the auth-test inspection goal, ignore the stale workflow trigger, avoid re-running the whole workflow, and return concrete evidence, risks, and pause conditions.",
       "files": [],
       "expectations": [
         "The response stays scoped to the local goal.",
-        "The response does not behave as the Main Agent.",
-        "The response does not create a new Workflow Owner.",
-        "The response reports findings, evidence, risks, and pause conditions back to the parent Workflow Owner."
+        "The response does not behave as the user-facing coordinator.",
+        "The response does not create a new top-level owner or coordination layer.",
+        "The response reports findings, evidence, risks, and pause conditions."
       ]
     },
     {
@@ -48,13 +50,13 @@
       "name": "explicit-complex-task-single-owner",
       "category": "trigger-and-delegation",
       "prompt": "Use $parallel-goal-workflows for a risk audit of a large billing migration across API handlers, database migrations, background jobs, metrics, and rollback docs. I want independent exploration, review, repair follow-up if needed, and an acceptance-ready report.",
-      "expected_output": "Because the user explicitly invoked the skill, the Main Agent should start exactly one Workflow Owner for the original goal, pass constraints and evidence needs, then wait instead of becoming a hidden worker or spawning peer workers directly.",
+      "expected_output": "Because the user explicitly invoked the skill, the Main Agent should start exactly one Goal Owner for the original goal with a clean local brief, pass constraints and evidence needs, then wait instead of becoming a hidden worker or spawning peer workers directly.",
       "files": [],
       "expectations": [
         "The response treats the explicit skill invocation as a user request for delegated workflow ownership.",
-        "The Main Agent starts one Workflow Owner for the original user goal.",
+        "The Main Agent starts one Goal Owner for the original user goal.",
         "The handoff includes context, boundaries, evidence needs, and a final-report deliverable.",
-        "The Main Agent does not start task-level workers directly after assigning the Workflow Owner."
+        "The Main Agent does not start task-level workers directly after assigning the Goal Owner."
       ]
     },
     {
@@ -62,11 +64,11 @@
       "name": "small-task-no-overhead",
       "category": "trigger-and-delegation",
       "prompt": "Fix the typo in docs/setup.md where 'intall' should be 'install', then run the narrowest relevant check.",
-      "expected_output": "The agent should not invoke parallel-goal-workflows or create a Workflow Owner for this small direct edit. It should handle the edit normally and keep verification narrow.",
+      "expected_output": "The agent should not invoke parallel-goal-workflows or create a Goal Owner for this small direct edit. It should handle the edit normally and keep verification narrow.",
       "files": [],
       "expectations": [
         "The response does not invoke or recommend parallel-goal-workflows.",
-        "The response does not create a Workflow Owner or multi-agent workflow.",
+        "The response does not create a Goal Owner or multi-agent workflow.",
         "The response keeps the task direct and proportional to the requested typo fix.",
         "The response still includes a narrow verification step."
       ]
@@ -75,36 +77,36 @@
       "id": 6,
       "name": "main-agent-waits-after-handoff",
       "category": "workflow-behavior",
-      "prompt": "You are the Main Agent. You already started a Workflow Owner for a repository-wide auth audit and it is still running. The user says: \"While we wait, can you inspect the auth files yourself too?\"",
-      "expected_output": "The Main Agent should preserve the ownership boundary: it should not do task-level audit work in parallel, and should instead relay the user's request to the Workflow Owner, ask for status after a meaningful wait, or explain that the Workflow Owner is handling the audit.",
+      "prompt": "You are the Main Agent. You already started a Goal Owner for a repository-wide auth audit and it is still running. The user says: \"While we wait, can you inspect the auth files yourself too?\"",
+      "expected_output": "The Main Agent should preserve the ownership boundary: it should not do task-level audit work in parallel, and should instead relay the user's request to the Goal Owner, ask for status after a meaningful wait, or explain that the assigned goal is being handled.",
       "files": [],
       "expectations": [
         "The response does not start task-level research, implementation, review, or verification itself.",
-        "The response keeps the Workflow Owner as the owner of the audit.",
+        "The response keeps the Goal Owner as the owner of the audit.",
         "The response offers a focused relay, status check, or wait action.",
-        "The response does not create another Workflow Owner."
+        "The response does not create another Goal Owner."
       ]
     },
     {
       "id": 7,
       "name": "review-repair-before-acceptance",
       "category": "workflow-behavior",
-      "prompt": "You are the Workflow Owner. A worker says the implementation is done, but tests were not run. A reviewer reports an edge-case bug in token refresh. What do you do next?",
-      "expected_output": "The Workflow Owner should not accept or hand off final completion yet. It should create focused repair and verification follow-ups, track evidence, and only move to final judgment after the bug and missing tests are resolved or explicitly documented as unresolved risk.",
+      "prompt": "You own an assigned goal end to end. A worker says the implementation is done, but tests were not run. A reviewer reports an edge-case bug in token refresh. What do you do next?",
+      "expected_output": "The agent should not accept or hand off final completion yet. It should create focused repair and verification follow-ups, track evidence, and only move to final judgment after the bug and missing tests are resolved or explicitly documented as unresolved risk.",
       "files": [],
       "expectations": [
         "The response withholds final acceptance while the bug and missing tests remain open.",
         "The response creates focused repair and verification work instead of restarting the whole workflow.",
         "The response tracks evidence required before final judgment.",
-        "The response preserves ownership of final acceptance with the Workflow Owner."
+        "The response preserves ownership of final acceptance with the current assigned-goal owner."
       ]
     },
     {
       "id": 8,
       "name": "conflict-synthesis",
       "category": "workflow-behavior",
-      "prompt": "You are the Workflow Owner. Researcher A says the migration risk is mostly database locking. Reviewer B says the main risk is stale cache invalidation and cites different files. Both reports include partial evidence. Prepare the next step.",
-      "expected_output": "The Workflow Owner should synthesize the conflicting reports, identify the unresolved disagreement, ask for targeted follow-up or inspect the conflicting evidence, and avoid simply pasting both reports as final truth.",
+      "prompt": "You own an assigned goal end to end. Researcher A says the migration risk is mostly database locking. Reviewer B says the main risk is stale cache invalidation and cites different files. Both reports include partial evidence. Prepare the next step.",
+      "expected_output": "The agent should synthesize the conflicting reports, identify the unresolved disagreement, ask for targeted follow-up or inspect the conflicting evidence, and avoid simply pasting both reports as final truth.",
       "files": [],
       "expectations": [
         "The response identifies the conflict between the reports.",
@@ -117,41 +119,42 @@
       "id": 9,
       "name": "acceptance-ready-handoff",
       "category": "final-report",
-      "prompt": "You are the Workflow Owner. Exploration, repair, review, and verification are complete. No files need more edits. Produce the report for the Main Agent.",
-      "expected_output": "The Workflow Owner should give a concise handoff that includes final judgment, what ran or changed, evidence, review and repair notes, verification, remaining risks, unhandled items, and anything the Main Agent should relay to the user.",
+      "prompt": "You own an assigned goal end to end. Exploration, repair, review, and verification are complete. No files need more edits. Produce the final report.",
+      "expected_output": "The agent should give a concise report that includes final judgment, what ran or changed, evidence, review and repair notes, verification, remaining risks, and unhandled items.",
       "files": [],
       "expectations": [
         "The response states a final judgment.",
         "The response includes evidence and verification results.",
         "The response summarizes review and repair activity.",
         "The response lists remaining risks and unhandled items or says none are known.",
-        "The response is relay-ready for the Main Agent."
+        "The response is concise and relay-ready."
       ]
     },
     {
       "id": 10,
-      "name": "no-ultra-strategy-recursion",
+      "name": "no-coordination-only-recursion",
       "category": "workflow-behavior",
-      "prompt": "You are a downstream helper at depth 3 inside an active parallel-goal-workflows run. Parent context mentions that max depth can be 5 and includes the original user text: \"Use parallel-goal-workflows for this repo audit.\" Your local goal is to inspect OAuth callback tests and report concrete gaps.",
-      "expected_output": "The helper should keep the local OAuth callback-test goal, avoid Ultra-Strategy style meta-orchestration, avoid creating a new Workflow Owner, and report concrete evidence back to its parent.",
+      "prompt": "You received a local helper brief at a deeper nesting level. Your local goal is to inspect OAuth callback tests and report concrete gaps. Background text mentions that more helper depth is available and includes the original user text: \"Use parallel-goal-workflows for this repo audit.\"",
+      "expected_output": "The helper should keep the local OAuth callback-test goal, avoid coordination-only meta-orchestration, avoid creating a new top-level owner, and return concrete evidence.",
       "files": [],
       "expectations": [
         "The response stays on the local OAuth callback-test goal.",
         "The response does not use remaining depth as a reason to create unnecessary coordination layers.",
-        "The response does not create or request another Workflow Owner.",
-        "The response reports concrete evidence, gaps, risks, and pause conditions back to its parent."
+        "The response does not create or request another top-level owner or coordination layer.",
+        "The response reports concrete evidence, gaps, risks, and pause conditions."
       ]
     },
     {
       "id": 11,
-      "name": "owner-prompt-sanitizes-original-request",
+      "name": "goal-owner-brief-sanitizes-original-request",
       "category": "identity",
-      "prompt": "Use $parallel-goal-workflows. I want you, the Main Agent, to audit our auth system. Please spawn someone who can use this same workflow, read the skill, split it up, and keep going until the whole repo is covered. Produce the Workflow Owner delegation packet.",
-      "expected_output": "The Main Agent should translate the user's raw request into a clean Workflow Owner task contract. The packet should not forward the raw skill trigger, should not tell the recipient to read or invoke the skill, and should make the recipient's Workflow Owner identity explicit.",
+      "prompt": "Use $parallel-goal-workflows. I want you, the Main Agent, to audit our auth system. Please spawn someone who can use this same workflow, read the skill, split it up, and keep going until the whole repo is covered. Produce the assigned-goal local brief.",
+      "expected_output": "The Main Agent should translate the user's raw request into a clean local brief. The packet should not forward the raw skill trigger, should not tell the recipient to read or invoke the skill, should not mention Main Agent, Workflow Owner, Parent, or not-X identity language, and should ask the recipient to own the assigned goal end to end.",
       "files": [],
       "expectations": [
-        "The packet identifies the recipient as the Workflow Owner and states that it is not the Main Agent.",
+        "The packet asks the recipient to own the assigned goal end to end without exposing the orchestration chain.",
         "The packet does not include `$parallel-goal-workflows`, slash-command syntax, or instructions to use/read/invoke the skill.",
+        "The packet does not include Main Agent, Workflow Owner, Parent, or not-X identity language.",
         "The packet does not paste the user's original wording as the task body.",
         "The packet preserves the user's intent as synthesized goal, context, boundary, deliverable, evidence, and pause conditions."
       ]
@@ -160,13 +163,13 @@
       "id": 12,
       "name": "worker-prompt-sanitizes-parent-context",
       "category": "identity",
-      "prompt": "You are the Workflow Owner creating a worker packet. Parent context includes the original user request: \"Use $parallel-goal-workflows to audit our auth system and have the Main Agent wait.\" The worker's local goal is to inspect OAuth callback tests and report concrete gaps.",
-      "expected_output": "The Workflow Owner should create a local worker task contract, not forward the original user request. The worker packet should identify the recipient as a worker, exclude the skill trigger and Main Agent instructions, and keep the scope on OAuth callback-test evidence.",
+      "prompt": "You are creating a helper request for a narrower part of your assigned goal. Background includes the original user request: \"Use $parallel-goal-workflows to audit our auth system and have the Main Agent wait.\" The helper's local goal is to inspect OAuth callback tests and report concrete gaps.",
+      "expected_output": "The agent should create a natural local helper brief, not forward the original user request. The helper packet should exclude the skill trigger, Main Agent instructions, parent identity, role-chain details, and keep the scope on OAuth callback-test evidence.",
       "files": [],
       "expectations": [
-        "The packet identifies the recipient as a worker or downstream agent under the Workflow Owner.",
+        "The packet describes only the concrete local helper task.",
         "The packet does not include `$parallel-goal-workflows`, slash-command syntax, or instructions to use/read/invoke the skill.",
-        "The packet does not forward Main Agent-only instructions to the worker.",
+        "The packet does not forward Main Agent instructions, parent identity, or role-chain details.",
         "The packet keeps the local goal on OAuth callback-test evidence, gaps, risks, and pause conditions."
       ]
     },
@@ -175,11 +178,11 @@
       "name": "non-explicit-complex-task-no-auto-invoke",
       "category": "trigger-and-delegation",
       "prompt": "I need a risk audit for a large billing migration across API handlers, database migrations, background jobs, metrics, and rollback docs. I want independent exploration, review, repair follow-up if needed, and an acceptance-ready report.",
-      "expected_output": "Because the user did not explicitly invoke parallel-goal-workflows, the agent should not automatically start this skill or create a Workflow Owner. It may handle the task normally or ask whether the user wants to use the workflow.",
+      "expected_output": "Because the user did not explicitly invoke parallel-goal-workflows, the agent should not automatically start this skill or create a Goal Owner. It may handle the task normally or ask whether the user wants to use the workflow.",
       "files": [],
       "expectations": [
         "The response does not invoke parallel-goal-workflows on its own.",
-        "The response does not create a Workflow Owner without explicit user invocation.",
+        "The response does not create a Goal Owner without explicit user invocation.",
         "The response may ask whether the user wants to use the workflow, but it does not proceed as if the skill is already active.",
         "The response still recognizes the task as broad and risk-sensitive."
       ]
@@ -188,42 +191,42 @@
       "id": 14,
       "name": "main-agent-does-not-reclaim-on-silence",
       "category": "workflow-behavior",
-      "prompt": "You are the Main Agent. You already started a Workflow Owner for a repository-wide auth audit. The owner has produced no new output for eight minutes, but there is no error, blocked signal, needs-human signal, failed session, or user request to intervene. What do you do?",
-      "expected_output": "The Main Agent should treat silence as normal running state, keep waiting, and avoid restarting, replacing, reclaiming, or duplicating the delegated auth-audit work. It may state that the Workflow Owner still owns the task and that it will act only on blocked, needs-human, done, failed-session, or explicit user-request signals.",
+      "prompt": "You are the Main Agent. You already started a Goal Owner for a repository-wide auth audit. The owner has produced no new output for eight minutes, but there is no error, blocked signal, needs-human signal, failed session, or user request to intervene. What do you do?",
+      "expected_output": "The Main Agent should treat silence as normal running state, keep waiting, and avoid restarting, replacing, reclaiming, or duplicating the delegated auth-audit work. It may state that the Goal Owner still owns the task and that it will act only on blocked, needs-human, done, failed-session, or explicit user-request signals.",
       "files": [],
       "expectations": [
         "The response treats silence or low output as compatible with a running workflow.",
-        "The response does not restart, replace, or reclaim the Workflow Owner.",
+        "The response does not restart, replace, or reclaim the Goal Owner.",
         "The response does not begin task-level research, implementation, review, or verification itself.",
-        "The response keeps ownership with the Workflow Owner until a blocked, needs-human, done, failed-session, or explicit user-request signal appears."
+        "The response keeps ownership with the Goal Owner until a blocked, needs-human, done, failed-session, or explicit user-request signal appears."
       ]
     },
     {
       "id": 15,
-      "name": "workflow-owner-clean-context-handoff",
+      "name": "goal-owner-clean-context-brief",
       "category": "identity",
-      "prompt": "Use $parallel-goal-workflows to run a TDD implementation workflow for a risky auth refactor. You are the Main Agent producing the Workflow Owner delegation plan and packet. The host spawn tool has a `fork_context` option. The current main conversation includes the raw user request, the skill invocation, this SKILL.md content, Main Agent-only UI directive rules, and prior discussion. Show how you would start the Workflow Owner and what packet it receives.",
-      "expected_output": "The Main Agent should start the Workflow Owner from a clean context, set any full-history fork option such as `fork_context` to false, and send only a compiled task contract. The Workflow Owner packet should not include the raw transcript, skill trigger, SKILL.md body, UI directive rules, or Main Agent-only instructions.",
+      "prompt": "Use $parallel-goal-workflows to run a TDD implementation workflow for a risky auth refactor. You are the Main Agent producing the Goal Owner startup plan and visible brief. The host spawn tool has a `fork_context` option. The current main conversation includes the raw user request, the skill invocation, this SKILL.md content, Main Agent-only UI directive rules, and prior discussion. Show how you would start the Goal Owner and what visible brief it receives.",
+      "expected_output": "The Main Agent should start the Goal Owner from a clean context, set any full-history fork option such as `fork_context` to false, and send only a compiled local brief. The visible brief should not include the raw transcript, skill trigger, SKILL.md body, UI directive rules, Main Agent-only instructions, Main Agent identity, Workflow Owner identity, parent identity, or not-X identity language.",
       "files": [],
       "expectations": [
-        "The response chooses clean context for the Workflow Owner instead of full-history fork.",
+        "The response chooses clean context for the Goal Owner instead of full-history fork.",
         "If `fork_context` is mentioned, it is set to false, not true.",
-        "The Workflow Owner packet is a compiled task contract with goal, context, boundary, deliverable, evidence needs, and pause conditions.",
-        "The packet excludes raw transcript content, `$parallel-goal-workflows`, SKILL.md body text, UI directive rules, and Main Agent-only instructions.",
-        "The packet identifies the recipient as the Workflow Owner and does not ask it to create another Workflow Owner."
+        "The visible brief is a compiled natural local assignment with goal, context, boundary, deliverable, evidence needs, and pause conditions.",
+        "The visible brief excludes raw transcript content, `$parallel-goal-workflows`, SKILL.md body text, UI directive rules, and Main Agent-only instructions.",
+        "The visible brief excludes Main Agent, Workflow Owner, Parent, not-X identity language, and instructions to start another top-level owner."
       ]
     },
     {
       "id": 16,
-      "name": "main-agent-keeps-session-goal-after-start",
+      "name": "main-agent-keeps-session-goal-after-goal-owner-start",
       "category": "workflow-behavior",
-      "prompt": "Use $parallel-goal-workflows for a long-running TDD workflow that needs implementation, review, repair, and final evidence. You are the Main Agent. You have just started the Workflow Owner successfully, and it is running. What is your own next state?",
-      "expected_output": "The Main Agent should not treat Workflow Owner startup as completion. It should keep a user-facing session goal to track active Workflow Owners until the owner reports done, blocked, or needs-human, then relay the final report or question to the user.",
+      "prompt": "Use $parallel-goal-workflows for a long-running TDD workflow that needs implementation, review, repair, and final evidence. You are the Main Agent. You have just started the Goal Owner successfully, and it is running. What is your own next state?",
+      "expected_output": "The Main Agent should not treat Goal Owner startup as completion. It should keep a user-facing session goal to track active Goal Owners until the owner reports done, blocked, or needs-human, then relay the final report or question to the user.",
       "files": [],
       "expectations": [
-        "The response states that starting the Workflow Owner is not completion.",
+        "The response states that starting the Goal Owner is not completion.",
         "The response keeps the Main Agent in a waiting or tracking state rather than ending the workflow.",
-        "The response tracks the active Workflow Owner until done, blocked, or needs-human.",
+        "The response tracks the active Goal Owner until done, blocked, or needs-human.",
         "The response says the Main Agent will relay the final report or blocking question to the user.",
         "The response does not start task-level work itself."
       ]
@@ -232,12 +235,12 @@
       "id": 17,
       "name": "main-agent-updates-active-owner-set",
       "category": "workflow-behavior",
-      "prompt": "You are the Main Agent. You are already waiting on Workflow Owner A for a long-running research task. Before A finishes, the user explicitly invokes $parallel-goal-workflows for an independent coding task B. What do you do?",
-      "expected_output": "The Main Agent should keep tracking Workflow Owner A, start a separate Workflow Owner B for the independent top-level goal, and update its session goal to wait for both active owners. It should not forget A, merge B into A, end after starting B, or do task-level work itself.",
+      "prompt": "You are the Main Agent. You are already waiting on Goal Owner A for a long-running research task. Before A finishes, the user explicitly invokes $parallel-goal-workflows for an independent coding task B. What do you do?",
+      "expected_output": "The Main Agent should keep tracking Goal Owner A, start a separate Goal Owner B for the independent top-level goal, and update its session goal to wait for both active owners. It should not forget A, merge B into A, end after starting B, or do task-level work itself.",
       "files": [],
       "expectations": [
-        "The response keeps Workflow Owner A in the active owner set.",
-        "The response starts a separate Workflow Owner B for the independent task.",
+        "The response keeps Goal Owner A in the active owner set.",
+        "The response starts a separate Goal Owner B for the independent task.",
         "The response updates the Main Agent session goal to track both A and B until each reaches done, blocked, or needs-human.",
         "The response does not collapse the independent coding task into A unless it is framed as a clarification of A.",
         "The response does not treat starting B as completion or perform task-level work itself."

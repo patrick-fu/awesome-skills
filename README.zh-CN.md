@@ -8,9 +8,8 @@
 
 ✨ **Parallel Goal Workflows** 已经独立到专门仓库：[`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)。
 
-当 Main Agent 需要把被委派的顶层目标转化成任务合约、为每个目标启动一个 Workflow Owner、追踪
-active owners，并由这些 owner 管理 worker goals、独立 review、acceptance、repair 和最终报告时，
-显式调用这个 workflow。
+当 Main Agent 需要把被委派的顶层目标转化成干净的本地任务 brief、为每个目标启动一个 Goal Owner、追踪
+active owners，并由这些 owner 管理聚焦 helper goals、独立 review、acceptance、repair 和最终报告，同时不把派发链路暴露给被分配任务的 agent 时，显式调用这个 workflow。
 
 安装这个独立 workflow：
 

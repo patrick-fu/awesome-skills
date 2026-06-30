@@ -218,3 +218,4 @@ Final delivery should state:
 - mobile/touch coverage
 - WebKit/Safari coverage status when relevant
 - skipped checks and residual risk
+- context document path and whether it was updated with final status

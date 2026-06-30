@@ -34,8 +34,8 @@ npx skills update
 
 ## Agent 怎么使用
 
-1. **规划**：和用户对齐内容取向、演讲形式、时长、内容占比、风格、信息密度、动画、stage、导航、技术栈和交付方式。给推荐值，也给备选项；风格不明确时，默认建议先做 1-2 张真实 slides 预览。
-2. **设计**：确定视觉方向、字体、素材、文案边界和组件选择。内部对齐信息不能默认写到 slide 画布上。
+1. **规划**：和用户对齐内容取向、演讲形式、时长、内容占比、风格、信息密度、动画、stage、导航、技术栈和交付方式。给推荐值，也给备选项；同时维护外部 context 文档，避免长程任务跑偏。
+2. **设计**：确定视觉方向、字体、素材、文案边界和组件选择。风格不明确时，默认做三种可交互真实 slides 预览，截图并启动本地 server；用户选定后沉淀 selected theme contract。内部对齐信息不能默认写到 slide 画布上。
 3. **实现**：在选定技术栈里实现稳定 scene、meaningful beats、固定/移动端 stage、冻结模式、键盘/触摸导航和互动动效。
 4. **验证与交付**：跑结构审计、视觉 smoke、交互/移动端检查；如部署上线，还要跑 production smoke；最后交付线上 URL、PDF/静态导出，或二者兼顾。
 
@@ -45,8 +45,8 @@ npx skills update
 
 确认是非小型 deck 制作或大改后，Agent 应按顺序阅读：
 
-- `references/01-plan.md`：前置对齐、推荐值和备选项、风格预览、技术栈、内容 registry、可见文案边界。
-- `references/02-design.md`：视觉风格、风格预设、手绘 emoji 方向、字体、CJK、素材、组件、文案质量。
+- `references/01-plan.md`：前置对齐、推荐值和备选项、风格预览、技术栈、context 跟踪、叙事计划、内容 registry、可见文案边界。
+- `references/02-design.md`：视觉风格、风格预设、手绘 emoji 方向、字体、CJK、素材、组件、互动预览、selected theme contract、文案质量。
 - `references/03-build.md`：harness contract、移动端固定舞台、导航、冻结模式、动效、交互和实现陷阱。
 - `references/04-verify-and-ship.md`：audit profile、视觉 smoke、production smoke、移动端/WebKit 覆盖、部署、PDF/静态交付和最终报告。
 

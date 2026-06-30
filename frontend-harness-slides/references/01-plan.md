@@ -12,6 +12,12 @@ default OK?"
 
 Minimum decisions:
 
+- **Content and presentation plan**: confirm what the deck should cover and what
+  it should leave out. Confirm the content orientation, presentation format,
+  expected duration, and rough content mix. Recommend a structure and offer
+  alternatives: teaching, persuasion, product demo, research readout,
+  retrospective, sales pitch, workshop, live talk, recording, internal review,
+  or reading-first document.
 - **Mode and style**: recommend a direction such as Sketchboard Emoji for a
   lively talk, but offer alternatives such as professional information design,
   tech grid, product-launch, editorial report, or a supplied reference.
@@ -42,6 +48,15 @@ Duration, audience, density, style, stage size, navigation, delivery target, and
 tech stack should guide the work; render them only if the user explicitly wants
 the audience to see them.
 
+Useful grouped prompt:
+
+```text
+I recommend treating this as a speaker-led live talk: 10% context, 20% problem
+framing, 30% core argument, 25% demo/cases, and 15% method plus closing. If you
+want it to be more like a product pitch, technical training, research readout,
+or self-reading document, I will change the content ratio and slide density.
+```
+
 ## Visual Preview Default
 
 When visual direction is unclear, recommend making 1-2 real slide previews in
@@ -66,6 +81,9 @@ Before implementation, write a compact snapshot in chat or project notes:
 deck_root:
 audience:
 talk_duration:
+content_orientation:
+presentation_format:
+content_mix:
 mode:
 style:
 density:
@@ -88,6 +106,10 @@ old deck, outline, screenshots, or product captures.
 
 Import is not layout preservation. Treat source material as content and intent,
 then rebuild the deck into stable scenes inside the fixed stage.
+
+Before mapping content, decide the deck's narrative allocation. A 40-minute live
+talk, a 10-minute product pitch, a workshop, and a reading-first report should
+not use the same slide count, text density, or section weights.
 
 Practical paths:
 
@@ -169,7 +191,9 @@ Before building:
 
 1. The intake decisions are confirmed or explicitly assumed.
 2. Recommended defaults and alternatives were shown for the key decisions.
-3. A visual preview step was offered unless a strong reference already exists.
-4. The decision snapshot separates constraints from slide copy.
-5. Non-trivial decks have a registry draft with `visible_copy`.
-6. Internal alignment details are not being treated as source content.
+3. Content orientation, presentation format, duration, and content mix are
+   confirmed or explicitly assumed.
+4. A visual preview step was offered unless a strong reference already exists.
+5. The decision snapshot separates constraints from slide copy.
+6. Non-trivial decks have a registry draft with `visible_copy`.
+7. Internal alignment details are not being treated as source content.

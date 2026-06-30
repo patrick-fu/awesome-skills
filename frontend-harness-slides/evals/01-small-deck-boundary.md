@@ -11,4 +11,4 @@ tags: [trigger-boundary, decision]
 ## Expected Output (any true)
 - [ ] 明确建议单体 HTML 足够（理由：页数少、一次性交付、工程化成本不必要）
 - [ ] 同时告知：若后续需要多轮改造、动画状态或视觉回归，可迁移到此 skill
-- [ ] 不主动 scaffold 本 skill 的项目
+- [ ] 不主动创建 harness 工程

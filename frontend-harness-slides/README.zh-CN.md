@@ -2,13 +2,12 @@
 
 **[English](README.md)**
 
-让 Agent 做一套可以反复修改、但不容易静默改坏其他页面的 HTML
-slides。
+让 Agent 做一套可以反复修改、但不容易静默改坏其他页面的 HTML slides。
 
 单体 HTML 很适合快速出第一版。真正麻烦的是第一版之后：用户会要求改某页文案、加一个章节、删一页、调动画、替换截图、把某个信息密度过高的页面改得更清楚。单体文件里，一个小小的 CSS 或动画改动可能会意外影响别的页面，而且往往到 review 时才发现。
 
-`frontend-harness-slides` 解决的是这个反复改造阶段的问题。它从一个
-React/Vite slides 工程开始，并配套 Playwright harness：审计结构、冻结动画、逐帧视觉回归。Agent 可以在交付前先确认每一帧没有被改坏，再按项目需要选择浏览器演示、部署或临时导出方式。
+`frontend-harness-slides` 解决的是这个反复改造阶段的问题。它不提供 starter
+工程，也不要求 React、Vite、Tailwind、Playwright 或任何固定框架。它提供的是一套框架无关的 harness 思路：稳定帧地址、registry、固定舞台、可冻结渲染、结构审计，以及必要时的视觉检查。
 
 ## 安装
 
@@ -26,38 +25,20 @@ npx skills update
 
 - **反复修改时不静默牵连别的页**：scene 和 beat 都是可打开、可测试的稳定帧，而不是藏在一个大文件里的隐式状态。
 - **安全插页、删页、重排**：中心 registry 管理顺序，scene id 和视觉基线保持稳定。
-- **布局固定**：每页都在 1920x1080 stage 内编排，整体缩放，不按 viewport 重新排版。
-- **动画可 review**：test mode 会冻结帧，让像素 diff 代表真实变化，而不是动画时序抖动。
+- **布局固定**：每页都在固定比例 stage 内编排，整体缩放，不按 viewport 重新排版。
+- **动画可 review**：冻结模式让帧检查变得确定。
 - **交付前先确认画面**：最终采用浏览器演示、部署还是项目特定导出，都先以已检查的帧为准。
 
 ## Agent 怎么使用
 
-1. 先和用户对齐受众、信息密度、素材来源、视觉方向。
-2. 复制内置 starter。
-3. 把每页做成 React scene，并用稳定 id 注册。
-4. 迭代时按风险选择测试层级，交付前跑 full gate。
-5. 只有确认是有意变化时才更新视觉基线。
-6. 最终画面符合预期后再部署，或按当前项目需要做临时交付导出。
+1. 先和用户对齐受众、信息密度、素材来源、视觉方向和交付方式。
+2. 根据用户现有项目和偏好选择项目目录与技术栈。
+3. 在该技术栈里实现 harness 机制。
+4. 把 deck 做成稳定 scene 和有意义的 beat。
+5. 迭代时跑最小有用检查，交付前跑最终 gate。
+6. 最终画面符合预期后再部署，或按当前项目需要做交付导出。
 
-用户不需要亲自操作前端工具链。关键是 Agent 有一套 harness，能把多轮改造控制住。
-
-## 快速开始
-
-```bash
-cp -r ~/.agents/skills/frontend-harness-slides/assets/starter ./my-deck
-cd ./my-deck
-npm install
-npx playwright install chromium
-npm run doctor
-npm run dev
-```
-
-第一次生成基线并验证：
-
-```bash
-npm run visual:update
-npm run test:full
-```
+用户不需要亲自操作前端工具链。关键是 Agent 有足够结构把多轮改造控制住。
 
 ## 什么时候适合
 

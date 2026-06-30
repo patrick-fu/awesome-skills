@@ -6,8 +6,8 @@ tags: [bug-free, implementation]
 ---
 
 ## Input (code audit)
-"查看生成的 SlideDeck.tsx 中键盘事件处理逻辑"
+"查看生成的 deck 导航键盘事件处理逻辑"
 
 ## Expected Output (all true)
 - [ ] keydown listener 开头有 editable 元素白名单判断（tag INPUT/TEXTAREA/isContentEditable 等）
-- [ ] 如果存在 SandboxIsolator，它的实现是原生 capture 阶段监听（而不是 React 合成层 stopPropagation）
+- [ ] 自定义交互区域有明确事件隔离边界，不依赖某个框架的合成事件冒泡

@@ -47,10 +47,8 @@ jobs:
       # glyphhanger/pyftsubset subsetting — see references/deploy.md.
       # - run: npx ttf2woff2 < public/fonts/LXGWWenKaiLite-Regular.ttf > public/fonts/LXGWWenKaiLite-Regular.woff2
 
-      - run: npm run build
-
-      - name: Run Playwright harness
-        run: npx playwright test
+      - name: Run full gate
+        run: npm run test:full
 
       # H-9: always upload the report + diff PNGs even on failure, so flaky/red builds can
       # be diagnosed from the GitHub UI without re-running locally. Retention of 14 days

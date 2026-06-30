@@ -54,5 +54,5 @@ useEffect(() => { if (ref.current) mermaid.run({ nodes: [ref.current] }); }, [di
 ## Integration notes with the harness
 - All libraries render to DOM → Auditor can verify that chart titles/axis labels exist
 - Mermaid and Shiki emit SVG/HTML that may contain auto-generated IDs or timestamps → mark containers with `[data-visual-mask]` so visual tests mask them
-- Recharts uses WAAPI animations → freeze.mjs handles WAAPI via `document.getAnimations()`. If you see motion blur, add `animationDuration={0}` to chart props explicitly.
+- Recharts uses WAAPI animations; the visual harness freezes common WAAPI animations. If you see motion blur, add `animationDuration={0}` to chart props explicitly.
 - Phosphor icons use `currentColor` by default → automatically theme-aware

@@ -4,15 +4,15 @@ Use this while implementing the deck. The goal is a framework-neutral harness
 that keeps every meaningful frame addressable, deterministic, interactive, and
 safe to verify.
 
-## Harness Contracts
+## Harness Guidance
 
 ### Stable Frame Address
 
-Every scene needs a stable id. Every meaningful state inside that scene needs a
-stable beat or equivalent frame index. A reviewer or test must be able to open
-one frame directly without clicking through the whole deck.
+Every scene should have a stable id. Every meaningful state inside that scene
+should have a stable beat or equivalent frame index. A reviewer or test should
+be able to open one frame directly without clicking through the whole deck.
 
-Do not use visible titles, file names, or array positions as the only identity.
+Avoid using visible titles, file names, or array positions as the only identity.
 They change during editing. Stable ids should survive copy changes, reordering,
 and insertion of scenes.
 
@@ -28,7 +28,8 @@ Tooling needs a source of truth for:
 - optional metadata such as section, speaker notes, or visual baseline policy
 
 The registry can be code, JSON, generated metadata, or an app-level route table.
-Tests must enumerate frames without scraping visible text or guessing filenames.
+Tests should enumerate frames without scraping visible text or guessing
+filenames.
 
 ### Fixed Stage
 
@@ -36,14 +37,14 @@ Author slide content inside a fixed-ratio stage, usually 16:9. Confirm the base
 stage before implementation. Prefer `1920x1080` by default, but support
 `1280x720`, `2560x1440`, `4:3`, or custom ratios when the user chooses them.
 
-The stage scales as a whole to fit the viewport. Do not use viewport breakpoints
+The stage scales as a whole to fit the viewport. Avoid viewport breakpoints
 inside the stage that rearrange slide content differently on laptop, phone,
 projector, and CI.
 
 ### Mobile Fixed Stage
 
-For a fixed 16:9 stage that must work on mobile, use a three-layer structure by
-default:
+For a fixed 16:9 stage that should work on mobile, use a three-layer structure
+by default:
 
 ```html
 <div class="stage-viewport">
@@ -61,8 +62,8 @@ Rules:
 - `.stage-frame` uses the scaled width/height to participate in layout.
 - The viewport centers or positions `.stage-frame`, not the unscaled stage box.
 
-Do not directly transform a `1920x1080` stage and place that unscaled layout box
-inside a centered grid/flex container. On phones, that can push the visible
+Avoid directly transforming a `1920x1080` stage and placing that unscaled layout
+box inside a centered grid/flex container. On phones, that can push the visible
 scaled slide outside the viewport and produce a blank-looking page.
 
 ### Navigation Contract
@@ -81,7 +82,7 @@ keyboard events such as `event.repeat`. If touch and click are both listened to,
 handle synthetic click double-fire, or use pointer events so one tap cannot jump
 two beats.
 
-Interactive regions must not accidentally trigger slide navigation. Buttons,
+Interactive regions should not accidentally trigger slide navigation. Buttons,
 links, form controls, code editors, demos, tooltips, expandable notes, and local
 interactive objects should stop or route events intentionally.
 
@@ -90,8 +91,8 @@ visible text counters such as `5 / 12`, `Page 5`, or `第五页 / 共十二页` 
 slide canvas. Add textual page numbers only when the user asks for them or when
 making a PDF/reading/compliance variant.
 
-Do not place navigation outside the fixed stage. Every dot, button, rail,
-hotspot, and hover target belongs inside the stage coordinate system.
+Keep navigation inside the fixed stage. Every dot, button, rail, hotspot, and
+hover target should belong inside the stage coordinate system.
 
 ### Frozen Mode
 
@@ -175,7 +176,7 @@ when those states matter.
 
 ## Reveal And Layout Pitfalls
 
-Reveal mechanisms must not change layout semantics.
+Reveal mechanisms should not change layout semantics.
 
 Avoid:
 

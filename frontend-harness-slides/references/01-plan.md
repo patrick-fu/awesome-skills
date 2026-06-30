@@ -48,9 +48,10 @@ Duration, audience, density, style, stage size, navigation, delivery target, and
 tech stack should guide the work; render them only if the user explicitly wants
 the audience to see them.
 
-For non-trivial decks, create or confirm an external context document before
-implementation. Do not rely only on chat history for decisions that must survive
-multi-hour or multi-turn work.
+For non-trivial decks, prefer an external context document for decisions that
+need to survive multi-hour or multi-turn work. This is project memory, not a
+control mechanism. Follow the user's preferred location; otherwise use project
+docs for deliverable decks and a temp path for small explorations.
 
 Useful grouped prompt:
 
@@ -80,7 +81,7 @@ Default preview set:
 All three previews should share at least one anchor slide so the user can
 compare the same content fairly. Provide screenshots and a local server URL.
 Each preview should include comparable interaction, beat/state change, and
-transition behavior. After the user chooses, summarize a selected theme contract
+transition behavior. After the user chooses, summarize a selected theme notes
 before full expansion.
 
 Good default phrasing:
@@ -90,31 +91,32 @@ I recommend first making three real interactive slide previews using the same
 stage and project skeleton: Sketchboard Emoji, professional information design,
 and a content-specific wildcard. I will capture screenshots and start a local
 server so you can compare them. After you pick a direction, I will write the
-selected theme contract and expand the full deck.
+selected theme notes and expand the full deck.
 ```
 
 ## Context Ledger
 
-For non-trivial decks, maintain a context document outside the chat. Confirm the
-path with the user when location matters. If the user wants no repository noise,
-use `/tmp` or another agreed temporary path; otherwise store it in project docs
-such as `docs/context.md`, `docs/implementation-context.md`, or the handoff
-note. Do not edit `.gitignore` just for this unless the user asks.
+For non-trivial decks, keep a context document when it will reduce drift or make
+handoff easier. If the user has a preference, follow it. Otherwise, store
+deliverable deck context in project docs such as `docs/context.md`,
+`docs/implementation-context.md`, or the handoff note. For a small temporary
+exploration, `/tmp` or another agreed temp path is fine. Do not edit
+`.gitignore` just for this unless the user asks.
 
-Track:
+Useful things to track:
 
 - confirmed intake decisions
 - narrative plan and content mix
 - registry draft
-- selected theme contract
+- selected theme notes
 - technology stack, commands, and ports
 - harness contracts and route patterns
-- style preview links/screenshots and preview gate result
+- style preview links/screenshots and preview check result
 - verification status
 - delivery target and production URL/PDF path
 - open issues, skipped checks, and user decisions
 
-Update after:
+Update after major phases when useful:
 
 - intake / decision snapshot
 - narrative plan
@@ -150,7 +152,7 @@ non_goals:
 context_document:
 ```
 
-This snapshot is an implementation contract. It is not slide copy.
+This snapshot is implementation memory. It is not slide copy.
 
 ## Narrative Plan
 
@@ -215,8 +217,8 @@ Map source fields carefully:
 
 ## Registry Draft
 
-For non-trivial decks, do not start scene implementation before producing a
-narrative plan and registry draft. This is a planning gate, not a polished
+For non-trivial decks, prefer producing a narrative plan and registry draft
+before scene implementation. This is planning guidance, not a polished
 deliverable.
 
 Required fields:
@@ -276,7 +278,7 @@ Before building:
 2. Recommended defaults and alternatives were shown for the key decisions.
 3. Content orientation, presentation format, duration, and content mix are
    confirmed or explicitly assumed.
-4. A context document exists or its location has been explicitly decided.
+4. Context location is clear when the task is long-running or deliverable.
 5. Non-trivial decks have a narrative plan before the registry draft.
 6. A three-direction interactive visual preview step was offered unless a strong
    reference already exists.

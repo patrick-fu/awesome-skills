@@ -36,14 +36,35 @@ and decks that should feel energetic.
 **Best for:** live explanations, teaching, workflow demos, AI tooling stories,
 and talks that benefit from a human, playful voice.
 
-**Visual language:** black/white/gray sketchbook surface, simple linework,
-large hand-drawn arrows, loose boxes, and enlarged emoji used as actors or
-objects. Emoji should behave like visual components, not inline punctuation.
-Use them for robots, people, devices, emotions, and simple scenes.
+**Priority:** this is the strongest default recommendation when the user wants a
+simple, lively presentation style and has not supplied a stricter brand system.
+Treat it as a taste direction, not a fixed template.
+
+**Visual language:** white background, black/white/gray sketchbook surface,
+simple linework, hand-drawn arrows, loose boxes, and generous whitespace. Prefer
+visual elements over text: use short titles and small supporting labels, not
+paragraph-heavy slides.
+
+**Emoji use:** enlarge emoji into scene actors or objects instead of using them
+as inline punctuation. Use them for robots, people, phones, tools, emotions, and
+small composite scenes. This often feels more natural than stiff hand-drawn
+figures.
+
+**Navigation:** prefer a subtle right-side vertical navigator in a hand-drawn
+style. The active scene can be a slightly larger sketch circle; inactive scenes
+can be tiny filled dots. Do not add a separate textual page counter on the
+canvas unless the user explicitly needs one.
 
 **Motion and interaction:** Magic Move-style object continuity, bouncing or
-wobbling emoji, flowing arrows, click-to-expand notes, hover emphasis, and
-local click feedback that does not advance the slide.
+wobbling emoji, flowing arrows, click-to-expand notes, hover emphasis, and local
+click feedback that does not advance the slide. Dot hover can gently scale,
+rotate, or wobble. Dot clicks should jump with a fade or Magic Move-style
+transition, not a hard cut.
+
+**Typeface direction:** use a style-matched handwritten or warm CJK-capable
+font when Chinese/Japanese/Korean text appears. For Chinese sketch decks,
+consider LXGW WenKai or LXGW WenKai Lite before more generic sans fonts. Bundle
+the chosen font locally for deployed decks.
 
 **Avoid when:** the deck must feel institutional, legally formal, or visually
 neutral across many machines. System emoji can render differently; use a

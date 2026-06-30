@@ -72,6 +72,13 @@ design: glowing dots for a tech deck, sketch marks for a hand-drawn deck, small
 tabs for an editorial deck, etc. The active scene marker should be visible but
 subtle.
 
+When an in-stage dot or marker navigator shows scene position, do not also add a
+visible text counter such as `5 / 12`, `Page 5`, or `第五页 / 共十二页` on the
+slide canvas. The navigator already communicates position; the slide surface
+should usually reserve text for the title and content. Add textual page numbers
+only when the user asks for them, or when preparing a PDF/reading/compliance
+variant where page numbers are part of the handoff.
+
 Do not place navigation outside the fixed stage. If the base stage is
 `1920x1080`, every dot, button, rail, hotspot, and hover target belongs inside
 that coordinate system. No navigation, controls, or decorative interaction

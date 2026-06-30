@@ -1,26 +1,60 @@
 # Frontend Harness Slides
 
+**[中文说明](README.zh-CN.md)**
+
 Build HTML slides that an agent can keep changing without quietly breaking
 unrelated frames.
 
-Single-file HTML is often enough for a quick first draft. The difficult part is
-what happens after the first version: the user asks to change wording, add a
-section, tune an animation, swap screenshots, tighten a dense page, or remove a
-slide. Without structure and regression checks, one edit can damage another page
-and nobody notices until review.
+A single HTML file is great for a fast first draft. The hard part starts after
+that: the user asks to rewrite a page, add a section, remove a slide, tune an
+animation, replace screenshots, or make one dense page more readable. In a
+monolithic file, a small CSS or animation change can accidentally damage another
+slide, and the breakage may stay invisible until review.
 
-`frontend-harness-slides` solves that problem by starting from a real React/Vite
-project guarded by Playwright:
+`frontend-harness-slides` turns that messy iteration phase into a checked
+workflow. It starts from a React/Vite slide project and adds a Playwright harness
+that can audit structure, freeze animation, and compare every frame before the
+agent hands off a browser deck, hosted build, or project-specific export.
 
-- **Registry**: one array owns scene order, so insertions and removals do not
-  cause filename or snapshot churn.
-- **Fixed stage**: every scene is authored in a 1920x1080 canvas and scaled as a
-  whole, so the layout does not reflow per device.
-- **Beat URLs**: every scene state is addressable with `?scene=<id>&beat=<n>`.
-- **Auditor**: checks that requested frames render correctly and that visible
-  content does not collapse or escape the stage.
-- **Visual regression**: freezes animation and compares every scene/beat against
-  baselines.
+## Install
+
+```bash
+npx skills add patrick-fu/frontend-harness-slides
+```
+
+Update later:
+
+```bash
+npx skills update
+```
+
+## What It Solves
+
+- **Repeated edits without silent collateral damage**: scenes and beats are
+  addressable, testable frames rather than hidden states in one large file.
+- **Insert, delete, and reorder safely**: a central registry owns order, so scene
+  ids and visual baselines stay stable.
+- **Layout stays fixed**: every scene lives on a 1920x1080 stage that scales as a
+  whole instead of reflowing per viewport.
+- **Animation becomes reviewable**: test mode freezes frames so pixel diffs mean
+  real changes, not timing jitter.
+- **Delivery stays grounded**: the agent checks the deck frames before choosing
+  any final handoff format.
+
+## How An Agent Uses It
+
+1. Align with the user on audience, density, source material, and visual
+   direction.
+2. Copy the bundled starter.
+3. Build scenes as React components registered by stable ids.
+4. Run the appropriate test tier during iteration, then the full gate before
+   delivery.
+5. Update visual baselines only for intentional changes.
+6. Deploy or create a project-specific handoff only after the checked frames
+   match the intended result.
+
+The user does not need to operate the frontend toolchain directly. The important
+part is that the agent has a harness to keep iteration controlled.
 
 ## Quick Start
 
@@ -33,81 +67,22 @@ npm run doctor
 npm run dev
 ```
 
-First baseline and full check:
+First baseline and verification:
 
 ```bash
 npm run visual:update
 npm run test:full
 ```
 
-## How The Starter Is Organized
+## When It Fits
 
-```text
-starter/
-├── src/
-│   ├── main.tsx                    # exposes registry, renders SlideDeck
-│   ├── SlideDeck.tsx               # URL state, beats, keyboard navigation
-│   ├── SlideRegistry.tsx           # scene order and stable ids
-│   ├── components/
-│   │   ├── SlideStage.tsx          # fixed 1920x1080 stage
-│   │   └── SandboxIsolator.tsx     # event isolation for interactive regions
-│   ├── scenes/
-│   │   ├── CoverScene.tsx
-│   │   └── HarnessScene.tsx
-│   └── theme/
-│       ├── ThemeProvider.tsx
-│       └── themes.ts
-├── tests/
-│   ├── auditor.spec.ts             # structure and layout health
-│   └── visual.spec.ts              # frozen visual snapshots
-├── scripts/
-│   └── doctor.mjs                  # setup preflight
-├── playwright.config.ts
-└── package.json
-```
+Use it when the deck is non-trivial, expected to receive feedback, has animation
+or state, uses screenshots/charts, or needs checked frames before handoff.
 
-To add a scene, create a component in `src/scenes/` and register it in
-`src/SlideRegistry.tsx` with a stable kebab-case `id`.
+Skip it when you only need a tiny static one-off where a single HTML file is
+enough and no regression harness is useful.
 
-## Commands
+## More Skills
 
-| Command | Purpose |
-|---|---|
-| `npm run dev` | Vite dev server for authoring. |
-| `npm run doctor` | Lightweight preflight for environment and project setup. |
-| `npm run build` | Type-check and production build. |
-| `npm run preview` | Serve the built `dist/` folder. |
-| `npm run auditor` | Run structural/layout audit only. |
-| `npm run visual` | Run visual snapshot comparison only. |
-| `npm test` | Fast gate: build plus auditor, no visual screenshots. |
-| `npm run test:full` | Full gate: build plus all Playwright tests. |
-| `npm run visual:update` | Update visual baselines for intentional changes. |
-
-If the default preview port is busy, run tests with a shared `PORT`:
-
-```bash
-PORT=4180 npm test
-```
-
-## What To Read
-
-- `SKILL.md`: agent-facing workflow and contracts.
-- `assets/starter/README.md`: instructions for a copied deck project.
-- `references/theming.md`: visual direction and theme tokens.
-- `references/content-import.md`: importing existing content.
-- `references/document-to-deck.md`: turning long-form source material into a deck.
-- `references/cjk-fonts.md`: choosing a simple CJK font strategy.
-- `references/visual-drift-triage.md`: deciding whether to rebaseline visual diffs.
-- `references/asset-handling.md`: images, logos, SVGs, and fonts.
-- `references/troubleshooting.md`: common failures and fixes.
-- `showcase/README.md`: planned demonstration flow for why the harness matters.
-
-## Current Boundaries
-
-This starter currently supports fullscreen browser presentation through the
-normal deck view, keyboard navigation, structural audit, visual snapshots, and
-optional static hosting.
-
-It does not currently implement a separate presenter notes view, notes export,
-bundled PDF export, or theme hot-swap UI. Treat those as project-specific work
-unless the starter code is intentionally extended first.
+For more reusable agent skills, see
+[Awesome Skills](https://github.com/patrick-fu/awesome-skills).

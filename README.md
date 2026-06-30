@@ -24,7 +24,7 @@ npx skills add patrick-fu/parallel-goal-workflows
 
 🛠️ **Frontend Harness Slides** lives in its own repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides).
 
-Build a slide deck as a harness-guarded engineering project — robust, maintainable, and hard to break as it grows, a step up from single-file HTML slides.
+Build HTML slides that an agent can keep changing without quietly breaking unrelated frames.
 
 Install the standalone skill:
 
@@ -116,6 +116,6 @@ npx skills update
 
 ## Sync Model
 
-This public repository is generated automatically from a private source repository. Public changes should be made in the source repository, not directly here.
+This public collection is generated automatically from a private source repository. Public changes should be made in the source repository, not directly here.
 
 The sync process preserves relevant file history and commit metadata for the published paths while rewriting commit hashes as part of the filtered export.

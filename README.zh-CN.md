@@ -21,7 +21,7 @@ npx skills add patrick-fu/parallel-goal-workflows
 
 🛠️ **Frontend Harness Slides** 已独立到专门仓库：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)。
 
-把幻灯片当成一个有 harness 守护的工程项目来做——稳健、可维护、随增长也不易改坏，比单体 HTML slides 高一档。
+让 Agent 做一套可以反复修改、但不容易静默改坏其他页面的 HTML slides。
 
 安装这个独立 skill：
 
@@ -107,6 +107,6 @@ npx skills update
 
 ## 同步模型
 
-这个公开仓库由私有源仓库自动生成。公开变更应该在源仓库中完成，不应直接修改这里。
+这个公开集合由私有源仓库自动生成。公开变更应该在源仓库中完成，不应直接修改这里。
 
 同步流程会保留被发布路径的相关文件历史和 commit 元数据，但过滤导出会重写 commit hash。

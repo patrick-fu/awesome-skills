@@ -59,4 +59,5 @@ tmp-extracted/
 3. The source outline has been summarized back to the user if intent is unclear.
 4. Dense slides are split instead of shrinking text into unreadability.
 5. Images are named by content, not by raw export names.
-6. The rebuilt deck passes `npm run build` and `npm test`.
+6. The rebuilt deck passes `npm test` during iteration and `npm run test:full`
+   before delivery.

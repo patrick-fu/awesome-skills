@@ -6,16 +6,136 @@ import type {
   Response,
   TestInfo,
 } from '@playwright/test';
-import {
-  freezePage,
-  freezeImperative,
-  waitForAnimationsToSettle,
-  VISUAL_MASK_SELECTORS,
-} from '../harness/freeze.mjs';
 
 // Deterministic pixel regression (frozen frame). The slide list is read at runtime from
 // window.__SLIDE_REGISTRY__ (single source) — never duplicated here. Chromium only: one baseline,
 // less CI bandwidth; the cross-platform snapshot suffix is matched automatically.
+//
+// Keep the freeze helper local to the Playwright spec. Importing a shared .mjs module from a
+// Playwright test can hang during `playwright test --list` in some environments, which means
+// preflight cannot tell whether the harness is usable.
+
+const FREEZE_CSS = `
+*, *::before, *::after {
+  animation-play-state: paused !important;
+  animation: none !important;
+  transition: none !important;
+  transition-duration: 0s !important;
+  transition-property: none !important;
+  animation-fill-mode: both !important;
+}
+video, lottie-player, canvas, iframe {
+  animation-play-state: paused !important;
+}
+html { scroll-behavior: auto !important; }
+svg :is(animate, animateTransform, animateMotion, animateColor, set) {
+  display: none !important;
+}
+`;
+
+const VISUAL_MASK_SELECTORS = [
+  'canvas',
+  'iframe',
+  'video',
+  '.non-deterministic',
+  '[data-visual-mask]',
+];
+
+async function freezeImperative(page: Page) {
+  await page.evaluate(() => {
+    try {
+      const docAny = document as Document & {
+        getAnimations?: (opts?: { subtree?: boolean }) => Animation[];
+        pauseAnimations?: () => void;
+      };
+      const allAnims = typeof docAny.getAnimations === 'function'
+        ? docAny.getAnimations({ subtree: true })
+        : [];
+      for (const anim of allAnims) {
+        try { anim.pause(); } catch {
+          try { anim.cancel(); } catch { /* swallow */ }
+        }
+      }
+    } catch { /* CSS freeze still covers normal animations */ }
+
+    try {
+      const smilNodes = document.querySelectorAll('animate, animateTransform, animateMotion, animateColor, set');
+      for (const node of Array.from(smilNodes)) {
+        const n = node as SVGElement & { endElement?: () => void; pauseAnimations?: () => void };
+        try { n.endElement?.(); } catch { /* ignore */ }
+        try { n.pauseAnimations?.(); } catch { /* ignore */ }
+      }
+      for (const svg of Array.from(document.querySelectorAll('svg'))) {
+        const s = svg as SVGSVGElement & { pauseAnimations?: () => void };
+        try { s.pauseAnimations?.(); } catch { /* ignore */ }
+      }
+      const docAny = document as Document & { pauseAnimations?: () => void };
+      try { docAny.pauseAnimations?.(); } catch { /* ignore */ }
+    } catch { /* ignore */ }
+
+    try {
+      const medias = document.querySelectorAll('video, audio');
+      for (const media of Array.from(medias)) {
+        const m = media as HTMLMediaElement;
+        try { if (!m.paused) m.pause(); } catch { /* ignore */ }
+        try { m.currentTime = 0; } catch { /* ignore */ }
+      }
+    } catch { /* ignore */ }
+  });
+}
+
+async function waitForAnimationsToSettle(page: Page, opts?: { samples?: number; intervalMs?: number; stableRounds?: number }) {
+  const samples = opts?.samples ?? 30;
+  const intervalMs = opts?.intervalMs ?? 50;
+  const stableRounds = opts?.stableRounds ?? 3;
+  const selector = [
+    'div','span','p','a','strong','em',
+    'h1','h2','h3','h4','h5','h6',
+    'img','li','button','input','select','textarea','label',
+    'section','article','nav','header','footer','aside','main',
+    'svg','path','circle','rect','g','text','use',
+    'polygon','polyline','line','ellipse','canvas',
+    'code','pre','kbd','samp',
+    'table','thead','tbody','tfoot','tr','th','td',
+    'video','audio','iframe','picture','figure','figcaption',
+    'ul','ol','dl','dt','dd',
+    'small','sub','sup','abbr','blockquote','hr',
+  ].join(',');
+
+  const history: string[] = [];
+  for (let i = 0; i < samples; i += 1) {
+    const current = await page.evaluate((sel) => {
+      const els = document.querySelectorAll(sel);
+      const parts = new Array(els.length);
+      for (let j = 0; j < els.length; j += 1) {
+        const el = els[j]!;
+        const r = el.getBoundingClientRect();
+        const s = window.getComputedStyle(el);
+        parts[j] = [
+          r.top, r.left, r.width, r.height,
+          s.opacity, s.transform, s.filter,
+          s.strokeDashoffset, s.strokeDasharray,
+        ].join(',');
+      }
+      return parts.join('|');
+    }, selector);
+
+    history.push(current);
+    if (history.length > stableRounds) history.shift();
+    if (history.length === stableRounds && history.every((value) => value === history[0])) {
+      return;
+    }
+    await page.waitForTimeout(intervalMs);
+  }
+}
+
+async function freezePage(page: Page) {
+  try {
+    await page.addStyleTag({ content: FREEZE_CSS });
+  } catch { /* page may be in a bad state; continue to imperative freeze */ }
+  await freezeImperative(page);
+  await waitForAnimationsToSettle(page);
+}
 
 // —— H-5 health channels: a broken page must not produce a "same-as-last-time" screenshot ——
 // P0-6 FIXED: single vHealthErrors array aggregates 4 error channels; legacy per-channel
@@ -85,16 +205,14 @@ test('pixel regression — every registered scene / beat',
       'window.__SLIDE_REGISTRY__ is empty: call exposeRegistryForTooling() at startup',
     ).toBeGreaterThan(0);
 
-    // CR-5 fix: every screenshot clips to [data-slide-stage]'s bounding box. This guarantees
-    // visual.spec.ts and export-pdf.mjs crop from the same geometric origin, and that letterbox
-    // chrome (flex-centered padding around the 1920×1080 canvas) never pollutes the baseline.
+    // CR-5 fix: every screenshot clips to [data-slide-stage]'s bounding box, so letterbox chrome
+    // around the 1920×1080 canvas never pollutes the baseline.
     const stageLocator = page.locator('[data-slide-stage]');
     const firstBcr = await stageLocator.boundingBox();
     if (!firstBcr) throw new Error('[data-slide-stage] has no bounding box — cannot clip screenshots');
     const clip = { x: firstBcr.x, y: firstBcr.y, width: firstBcr.width, height: firstBcr.height };
 
     // Canvas/iframe/video etc. can't be frozen (e.g. cross-origin <iframe> has its own event loop).
-    // VISUAL_MASK_SELECTORS is the single source shared between the harness and any callers.
     const mask = VISUAL_MASK_SELECTORS.map((s: string) => page.locator(s));
 
     for (const { id, totalBeats } of registry) {
@@ -125,13 +243,10 @@ test('pixel regression — every registered scene / beat',
           .soft(landed, `${id} beat ${beat}: router did not honor the requested scene/beat`)
           .toEqual({ id, beat: String(beat) });
 
-        await freezePage(page);           // CSS + WAAPI + SMIL + media (single source)
-        await freezeImperative(page);     // belt-and-suspenders (idempotent even if freezePage called it)
-        await waitForAnimationsToSettle(page); // wait for spring physics to fully decay
+        await freezePage(page); // CSS + WAAPI + SMIL + media, then wait for spring physics.
 
         // CR-5: clip to the stage BCR — no fullPage (1920×1080 stage == viewport).
-        // Mask for non-frozen live elements is sourced from VISUAL_MASK_SELECTORS so the harness
-        // and any downstream callers agree on what is "not pixel-regression-tested".
+        // Mask non-frozen live elements so stable surrounding layout remains regression-tested.
         await expect.soft(page).toHaveScreenshot(`${id}-beat-${beat}.png`, {
           clip,
           maxDiffPixelRatio: 0.0005,

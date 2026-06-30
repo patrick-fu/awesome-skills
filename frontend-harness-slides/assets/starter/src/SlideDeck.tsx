@@ -107,7 +107,7 @@ export function SlideDeck() {
     [beat, entry.totalBeats, nav.next, nav.prev],
   );
 
-  // H-7: imperative API for hosts, integration tests, and the future export-pdf reloader.
+  // H-7: imperative API for hosts and integration tests.
   // Exposes window.__deck with a stable surface; never access internal React state directly from
   // outside.
   useEffect(() => {

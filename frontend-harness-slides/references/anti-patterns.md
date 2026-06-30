@@ -10,7 +10,7 @@
 
 **为什么是反模式**：
 - Canvas 文本不可选中、不可复制、不可被无障碍读屏。
-- 导出 PDF 时整张幻灯片变成位图，放大即糊。
+- 后续如果需要静态 handoff，整张幻灯片会变成位图，放大即糊。
 - auditor 的 `hasOwnText` / `0×0 折叠检查` 对 canvas 内容完全失效。
 - 响应 `textContent` / DOM 查询的第三方工具（翻译、对比、搜索）全部失效。
 
@@ -78,7 +78,7 @@
 - iOS Safari 对 iframe 内部 layout 的缩放与桌面不一致，一个看起来正常的 iframe 在 iPhone 上会横向溢出 stage；
 - `[data-slide-stage]` 的 overflow 检查对 iframe 内部没有用；
 - Playwright 截图时，跨域 iframe 内容常是空白（需要额外 `waitForLoadState("networkidle")`，CI 里常常卡住）；
-- 导出 PDF 时 iframe 内容要么空、要么是第一帧位图。
+- 静态截图或 handoff 时 iframe 内容要么空、要么是第一帧位图。
 
 **正确做法**：
 - Demo 做成**外链** + 一张高保真截图作为封面；
@@ -97,7 +97,7 @@
 
 **正确做法**：
 - `transform: scale(var(--scale))` + `transform-origin: top left`。
-- 所有 BCR 计算都基于 stage 原始坐标系 → auditor 与导出 PDF 共享几何源。
+- 所有 BCR 计算都基于 stage 原始坐标系 → auditor 与视觉截图共享几何源。
 
 ---
 
@@ -122,7 +122,7 @@
 **为什么是反模式**：
 - Noto Sans SC 全量 WOFF2 约 10–20MB；**auditor 的 H-5 requestfailed + HTTP 4xx 健康度通道不会报字体错（它是正常 200 OK），但首屏加载慢到让所有 Playwright 截图 `waitUntil: 'networkidle'` 超时**；
 - CI 环境下载 Google Fonts 失败率不低（网络波动），导致 snapshot baseline 用 fallback 字体然后全红。
-- PDF 导出时字体加载顺序不稳定，造成文字轻微错位。
+- 静态 handoff 时字体加载顺序不稳定，造成文字轻微错位。
 
 **正确做法**：
 - 用 `glyphhanger` + `pyftsubset` 只子集化 deck 里实际出现的字；目标是每个 CJK 字体 <1MB；
@@ -167,5 +167,5 @@ for (const beat of ...) {
 - 真正"跳过 harness 不会出问题"的改动只有：注释、README.md、纯文档——其他任何能触达 src/ 的改动都必须跑。
 
 **正确做法**：
-- CI 配置里 `test:ci` 作为必过 gate（starter 的 `.github/workflows/harness.yml.example` 已启用）；
-- 本地快速验证时可以只跑 auditor（`npm run test:audit`，大约 15 秒），它比 visual baseline 快 10 倍。
+- CI 配置里 `npm run test:full` 作为必过 gate（starter 的 `.github/workflows/harness.yml.example` 已启用）；
+- 本地快速验证时可以只跑 auditor（`npm run auditor`），它比 visual baseline 快。

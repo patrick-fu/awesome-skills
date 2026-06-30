@@ -21,7 +21,6 @@ project guarded by Playwright:
   content does not collapse or escape the stage.
 - **Visual regression**: freezes animation and compares every scene/beat against
   baselines.
-- **PDF export**: captures the same stage geometry the harness checks.
 
 ## Quick Start
 
@@ -30,14 +29,15 @@ cp -r ~/.agents/skills/frontend-harness-slides/assets/starter ./my-deck
 cd ./my-deck
 npm install
 npx playwright install chromium
+npm run doctor
 npm run dev
 ```
 
 First baseline and full check:
 
 ```bash
-npm run test:update
-npm test
+npm run visual:update
+npm run test:full
 ```
 
 ## How The Starter Is Organized
@@ -60,8 +60,8 @@ starter/
 ├── tests/
 │   ├── auditor.spec.ts             # structure and layout health
 │   └── visual.spec.ts              # frozen visual snapshots
-├── harness/freeze.mjs              # shared freeze logic
-├── scripts/export-pdf.mjs          # PDF export from the running app
+├── scripts/
+│   └── doctor.mjs                  # setup preflight
 ├── playwright.config.ts
 └── package.json
 ```
@@ -74,13 +74,14 @@ To add a scene, create a component in `src/scenes/` and register it in
 | Command | Purpose |
 |---|---|
 | `npm run dev` | Vite dev server for authoring. |
+| `npm run doctor` | Lightweight preflight for environment and project setup. |
 | `npm run build` | Type-check and production build. |
 | `npm run preview` | Serve the built `dist/` folder. |
 | `npm run auditor` | Run structural/layout audit only. |
 | `npm run visual` | Run visual snapshot comparison only. |
-| `npm test` | Run the full Playwright harness. |
-| `npm run test:update` | Update visual baselines for intentional changes. |
-| `npm run export:pdf` | Export a PDF from a running preview server. |
+| `npm test` | Fast gate: build plus auditor, no visual screenshots. |
+| `npm run test:full` | Full gate: build plus all Playwright tests. |
+| `npm run visual:update` | Update visual baselines for intentional changes. |
 
 If the default preview port is busy, run tests with a shared `PORT`:
 
@@ -94,6 +95,9 @@ PORT=4180 npm test
 - `assets/starter/README.md`: instructions for a copied deck project.
 - `references/theming.md`: visual direction and theme tokens.
 - `references/content-import.md`: importing existing content.
+- `references/document-to-deck.md`: turning long-form source material into a deck.
+- `references/cjk-fonts.md`: choosing a simple CJK font strategy.
+- `references/visual-drift-triage.md`: deciding whether to rebaseline visual diffs.
 - `references/asset-handling.md`: images, logos, SVGs, and fonts.
 - `references/troubleshooting.md`: common failures and fixes.
 - `showcase/README.md`: planned demonstration flow for why the harness matters.
@@ -102,8 +106,8 @@ PORT=4180 npm test
 
 This starter currently supports fullscreen browser presentation through the
 normal deck view, keyboard navigation, structural audit, visual snapshots, and
-PDF export of each scene's final beat.
+optional static hosting.
 
-It does not currently implement a separate presenter notes view, notes export, or
-theme hot-swap UI. Treat those as future runtime work unless the starter code is
-extended first.
+It does not currently implement a separate presenter notes view, notes export,
+bundled PDF export, or theme hot-swap UI. Treat those as project-specific work
+unless the starter code is intentionally extended first.

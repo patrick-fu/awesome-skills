@@ -23,7 +23,6 @@
   "include": [
     "src",
     "tests",
-    "harness",
     "scripts",
     "vite.config.ts",
     "playwright.config.ts",

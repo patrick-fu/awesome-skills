@@ -3,10 +3,24 @@
 Use this when the user wants a live URL, a shareable build, or a static handoff
 after the deck frames have already been checked.
 
+## Delivery Target
+
+Confirm the final handoff before building:
+
+- deployed online URL
+- PDF/static export
+- both online URL and PDF/static export
+
+A local dev server is only a preview. Do not treat it as final delivery unless
+the user explicitly asks for local-only work.
+
 ## Live URL
 
-This skill does not prefer a hosting provider. Use any static host that fits the
-project and account context.
+Follow the user's existing deployment habit when they have one. If they do not,
+recommend Vercel as the default live URL path for a Vite/React or static web
+deck. GitHub Pages and Cloudflare Pages are good static-site alternatives when
+they better fit the user's repo, account, or domain setup. Check the current
+provider docs before giving exact commands.
 
 Before deploying:
 

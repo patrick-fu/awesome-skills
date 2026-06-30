@@ -65,6 +65,18 @@ expected behavior is:
 - swipe right or down: previous
 - interactive regions: do not accidentally trigger slide navigation
 
+Recommend a small in-stage scene navigator by default, then confirm with the
+user. It can be a horizontal row near the lower edge, a vertical rail near the
+side edge, or another style-matched form. It should feel embedded in the slide
+design: glowing dots for a tech deck, sketch marks for a hand-drawn deck, small
+tabs for an editorial deck, etc. The active scene marker should be visible but
+subtle.
+
+Do not place navigation outside the fixed stage. If the base stage is
+`1920x1080`, every dot, button, rail, hotspot, and hover target belongs inside
+that coordinate system. No navigation, controls, or decorative interaction
+element may overflow beyond the slide stage.
+
 Frozen or test mode should disable or stabilize pointer/touch navigation if it
 could make automated checks nondeterministic.
 

@@ -28,9 +28,9 @@ silently breaking unrelated frames.
 
 THIS IS A HARD GATE. For vague new-deck requests, the first user-facing response
 must be a short plain-text intake, not code, scaffolding, or file creation. At
-minimum, confirm the deck's style, information density, animation direction,
-stage basis, navigation expectations, technology stack, and delivery target
-before implementation.
+minimum, confirm the deck's content and presentation plan, style, information
+density, animation direction, stage basis, navigation expectations, technology
+stack, and delivery target before implementation.
 
 DO NOT create files, choose a framework, scaffold a deck, or start slide
 implementation from a vague prompt. First align with the user in plain text
@@ -46,6 +46,11 @@ Completion criterion: proceed only when one is true:
 
 Minimum decisions:
 
+- **Content and presentation plan**: confirm what the deck should cover, what it
+  should not cover, the content orientation, presentation format, expected
+  duration, and rough content mix. Recommend a structure and offer alternatives:
+  teaching, persuasion, product demo, research readout, retrospective, sales
+  pitch, workshop, live talk, recording, review deck, or reading-first document.
 - **Slides style**: keynote/product-launch, formal report, technical demo,
   hybrid, or a custom reference. When the direction is vague, recommend a
   default, name several alternatives, and offer to make 1-2 real slide previews
@@ -81,9 +86,10 @@ alternative, and ask for confirmation. Do not silently convert recommendations
 into requirements.
 
 After intake, summarize the confirmed decisions as implementation constraints,
-not slide copy. Duration, audience, density, style, stage size, navigation, and
-delivery target should guide the deck; do not render them on the slide surface
-unless the user explicitly wants the audience to see them.
+not slide copy. Duration, audience, content orientation, presentation format,
+content mix, density, style, stage size, navigation, and delivery target should
+guide the deck; do not render them on the slide surface unless the user
+explicitly wants the audience to see them.
 
 Use interview-style follow-up, not structured question tools. Ask few questions,
 but ask real ones. If the user gives only a short idea, ask for the highest-risk
@@ -102,6 +108,11 @@ Useful dimensions to explore:
   custom reference.
 - **Audience and stakes**: who will see it, and what decision or feeling the deck
   should drive.
+- **Content orientation and format**: teaching, persuasion, product demo,
+  research readout, retrospective, sales pitch, workshop, live talk, recording,
+  internal review, or reading-first material.
+- **Duration and content mix**: expected talk length and rough share of
+  background, problem, thesis, demo, evidence, method, cases, and wrap-up.
 - **Density**: speaker-led with fewer words, reading-first with more detail, or a
   mixed rhythm.
 - **Motion**: keynote-like animated reveals, restrained report-style transitions,

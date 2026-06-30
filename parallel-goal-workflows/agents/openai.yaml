@@ -2,10 +2,11 @@
 interface:
   display_name: "Parallel Goal Workflows"
   short_description: >
-    User-invoked workflow for delegated multi-agent ownership.
+    User-invoked workflow for delegated goals with clean local briefs.
   default_prompt: >
     Use $parallel-goal-workflows for a complex task that benefits from
-    delegated workflow ownership, review, repair, acceptance, and a concise
-    final report. Describe the goal, constraints, scope, and evidence you want.
+    delegated goal ownership, focused helpers, review, repair, acceptance, and
+    a concise final report. Describe the goal, constraints, scope, and evidence
+    you want.
 policy:
   allow_implicit_invocation: false

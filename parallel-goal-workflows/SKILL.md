@@ -1,6 +1,6 @@
 ---
 name: parallel-goal-workflows
-description: "User-invoked delegated workflows with Workflow Owner tracking."
+description: "User-invoked delegated workflows with clean local briefs."
 disable-model-invocation: true
 ---
 
@@ -10,36 +10,38 @@ Use this skill only when the user explicitly invokes it with
 `/parallel-goal-workflows` or `$parallel-goal-workflows`.
 
 The point is context, not control: the Main Agent turns each delegated
-top-level goal into a clean task contract, then one Workflow Owner per goal
+top-level goal into a clean local brief, then one Goal Owner per goal
 coordinates focused work through review, repair, acceptance, and final
 reporting.
 
 Use native goal mode when the host can attach goals to sessions, threads, or
-spawned agents. If native per-subagent goals are unavailable, put the same
-goal-shaped packet in the delegation message.
+spawned agents. Keep host-specific goal syntax out of the visible brief unless
+the host requires it as an out-of-band wrapper. If native per-subagent goals are
+unavailable, put the same goal-shaped brief in the delegation message.
 
 ## Ownership Model
 
 ```text
 Main Agent
-  -> Workflow Owner per top-level goal
+  -> Goal Owner per top-level goal
        -> focused agents or helpers as needed
        -> acceptance-ready report
   -> Main Agent user-facing handoff
 ```
 
 The Main Agent is the user-facing session. It interprets each delegated
-top-level goal, turns it into a clean task contract, starts one Workflow Owner
-for that goal, then tracks active owners and relays. Each Workflow Owner owns
+top-level goal, turns it into a clean local brief, starts one Goal Owner
+for that goal, then tracks active owners and relays. Each Goal Owner owns
 task-level decomposition, execution coordination, review, repair, acceptance,
 and final judgment for its goal.
 
-Workflow ownership is assigned once for the original user goal. Downstream
-agents may own narrower local goals, but they should not restart the whole
-workflow as a fresh main-agent handoff.
+Goal ownership is assigned once for the original user goal. Downstream agents
+may own narrower local outcomes, but every nested handoff must make the work
+smaller, more specific, and independently verifiable.
 
-Only the Main Agent reads this skill. Workflow Owner and downstream agents get
-task contracts, not this SKILL.md and not the user's raw prompt.
+Only the Main Agent reads this skill. Goal Owners and downstream agents get
+local briefs, not this SKILL.md, not the user's raw prompt, and not the
+delegation chain that produced the assignment.
 
 ## Main Agent
 
@@ -47,36 +49,36 @@ Do:
 
 - collect the user's goal, constraints, preferences, project rules, and evidence
   needs
-- compile the user's raw request into one clear task contract; strip invocation
-  text and rewrite user wording into goal, context, boundaries, deliverable, and
-  pause conditions
-- start one Workflow Owner per delegated top-level goal with that contract in a
+- compile the user's raw request into one clear local brief; strip invocation
+  text and rewrite user wording into goal, context, boundaries, deliverable,
+  evidence needs, and pause conditions
+- start one Goal Owner per delegated top-level goal with that local brief in a
   clean context
-- maintain the active Workflow Owner set across user turns
+- maintain the active Goal Owner set across user turns
 - wait with callback-style patience
-- relay user clarifications to the Workflow Owner
+- relay user clarifications to the Goal Owner
 - relay the final report to the user
 
-MUST NOT fork or forward the full main conversation when starting the Workflow
+MUST NOT fork or forward the full main conversation when starting the Goal
 Owner. If the host exposes a history-fork option such as `fork_context`, set it
-to `false`. The Workflow Owner gets the compiled task contract only.
+to `false`. The Goal Owner gets the compiled local brief only.
 
-After the Workflow Owner starts, do not do task-level research, implementation,
+After the Goal Owner starts, do not do task-level research, implementation,
 review, repair, verification, or peer-worker spawning for the same task. If the
-report has gaps, ask the Workflow Owner for a focused follow-up.
+report has gaps, ask the Goal Owner for a focused follow-up.
 
 ## Main Agent Session Goal
 
-Keep the user-facing session open until every active Workflow Owner reports
+Keep the user-facing session open until every active Goal Owner reports
 `done`, `blocked`, or `needs-human`, and the result or question has been
-relayed to the user. Starting a Workflow Owner is not completion.
+relayed to the user. Starting a Goal Owner is not completion.
 
 If the user adds an independent complex task while waiting, start another
-Workflow Owner for that top-level goal and update the active set. If the new
+Goal Owner for that top-level goal and update the active set. If the new
 input changes or clarifies an existing active goal, relay it to that goal's
-Workflow Owner instead.
+Goal Owner instead.
 
-## Workflow Owner
+## Goal Owner
 
 Choose the smallest useful shape: one worker, fan-out/fan-in, review loop,
 repair loop, acceptance pass, deeper helper chain, or another shape that fits.
@@ -85,17 +87,24 @@ Common child roles include Worker, Review, Acceptance, Repair, Synthesis,
 Verifier, Researcher, Explorer, Implementer, and domain-specific helpers. These
 are examples, not a type allowlist.
 
-Child packets are task contracts, not forwarded transcripts. Rewrite upstream
-context into the local goal, facts, boundaries, and deliverable. Strip skill
-invocation text, Main Agent-only instructions, and raw user wording.
+Child packets are natural local briefs, not forwarded transcripts. Rewrite the
+assignment into the local goal, facts, boundaries, and deliverable. Strip skill
+invocation text, orchestration-only instructions, raw user wording, and any
+details about the delegation chain.
+
+Delegation is a local execution choice, not a new top-level workflow. A Goal
+Owner may ask focused helpers to inspect, implement, review, repair, verify, or
+research narrower outcomes when that reduces risk or saves time. Each nested
+handoff must be narrower than the current assignment and have an independently
+checkable result. Do not create coordination-only layers, and do not ask another
+agent to own the entire assignment. Keep synthesis, acceptance judgment, and the
+final report with the current Goal Owner.
 
 Every child packet should include:
 
 - `Local goal`: the narrow outcome this child owns.
-- `Context`: only the upstream facts needed for that goal.
-- `Identity`: who the child is in this already active workflow.
-- `Boundary`: what the child may touch and what remains with the Workflow
-  Owner.
+- `Context`: only the facts needed for that goal.
+- `Boundary`: what the child may touch and what remains outside the local task.
 - `Deliverable`: result, evidence, verification, risks, or decision expected
   back.
 - `Pause if`: approval, credentials, destructive action, or ownership conflict
@@ -103,70 +112,91 @@ Every child packet should include:
 
 ## Goal Packets
 
-For the Workflow Owner:
+For the Goal Owner:
 
 ```text
-/goal Own this delegated workflow until it is acceptance-ready.
+Goal: Take this goal to an acceptance-ready result.
 
-Identity: You are the Workflow Owner for this already active delegated workflow.
-You are not the Main Agent. Use this packet as your operating contract; do not
-read or invoke parallel-goal-workflows for this user goal.
-Do not create or start another Workflow Owner for this user goal.
-Parent: Main Agent.
-Goal: [synthesized user goal; do not paste the raw user prompt].
-Context: [constraints, project rules, evidence needs, and relevant facts only].
-Boundary: delegate local goals as needed; keep ownership of the original user
-goal and final judgment.
-Observation: Long silence is acceptable; report at meaningful milestones, when
-blocked or needing human input, and on completion.
-Deliverable: final judgment, evidence, review/repair notes, remaining risks,
-unhandled items, and a concise report the Main Agent can relay.
-Pause if: [approval, credentials, destructive action, or user judgment needed].
+I need you to carry the following goal end to end:
+
+[Natural-language goal summary. Preserve the user's intent, but do not paste the
+raw request.]
+
+Useful context:
+[Only the constraints, project rules, evidence needs, and facts required for
+this work.]
+
+Please decide the execution shape yourself. You can work directly, ask focused
+helpers to inspect or implement narrower parts, request independent review, run
+repair follow-ups, or add verification where it reduces risk or saves time.
+
+When asking helpers for help, give them only the local task they need: what to
+inspect or change, the relevant context, boundaries, expected evidence, and when
+to pause. Keep synthesis, acceptance judgment, and the final report with you.
+
+A good final result should include:
+[Acceptance criteria, required evidence, verification, review/repair notes,
+remaining risks, and unhandled items.]
+
+Long silence is acceptable while work is active. Report on meaningful
+milestones, blocked states, needed human input, and completion.
+
+Pause if approval, credentials, destructive action, unclear ownership, or a
+judgment call that cannot be resolved from the provided context is needed.
 ```
 
 For downstream agents:
 
 ```text
-/goal [one concrete local outcome]
+Goal: [one concrete local outcome].
 
-Identity: You are a downstream agent working for the Workflow Owner.
-You are not the Main Agent or the Workflow Owner. Use this packet as your local
-operating contract; do not read or invoke parallel-goal-workflows for this task.
-Local goal: [narrow task].
-Context: [facts needed for this local goal; do not paste the raw user prompt,
-slash commands, skill triggers, or Main Agent-only instructions].
-Boundary: [owned files, systems, decisions, and areas to avoid]. Do not create a
-Workflow Owner.
-Deliverable: [result, evidence, verification, risks, or decision] reported back
-to the Workflow Owner.
-Pause if: [approval, credentials, destructive action, or ownership conflict].
+Please [inspect / implement / review / verify / research] the following local
+task:
+
+[Specific task details.]
+
+Relevant context:
+[Only the facts needed for this local task.]
+
+Scope and boundaries:
+[Owned files, systems, decisions, and areas to avoid.]
+
+Return:
+- what you inspected, changed, verified, or decided
+- evidence with file references, commands, citations, screenshots, or other
+  proof requested by the task
+- risks, uncertainty, and unhandled items
+- anything that should pause further work
+
+Pause if approval, credentials, destructive action, or an ownership conflict is
+required.
 ```
 
 ## Observation Rhythm
 
-After starting the Workflow Owner:
+After starting the Goal Owner:
 
 1. Observe workflow state, not output volume. Silence is normal progress unless
    paired with evidence of failure.
 2. Treat `running` as a wait state. Do not fill idle time with delegated task
    work.
-3. Ask for status only when the user asks, the Workflow Owner reports
+3. Ask for status only when the user asks, the Goal Owner reports
    `blocked` or `needs-human`, an external signal proves failure, or a
    user-visible decision needs current state.
 4. Reclaim or replace ownership only on `blocked` with evidence, `needs-human`,
    an explicit user request, or a failed/dead session. Never reclaim because of
    silence or timeout alone.
-5. Relay `done` reports plainly. If the report has gaps, ask the Workflow Owner
+5. Relay `done` reports plainly. If the report has gaps, ask the Goal Owner
    for a focused follow-up instead of doing the missing task-level work.
 
 ## Final Handoff
 
-The Workflow Owner's final report should tell the Main Agent what ran, what
+The Goal Owner's final report should tell the Main Agent what ran, what
 changed or was produced, what review and acceptance happened, what evidence
 supports completion, and what remains risky, unresolved, or unhandled.
 
 The Main Agent should relay that report plainly. If obvious pieces are missing,
-ask the Workflow Owner for a narrower follow-up instead of doing the missing
+ask the Goal Owner for a narrower follow-up instead of doing the missing
 task-level work.
 
 For Codex nested-subagent configuration, read

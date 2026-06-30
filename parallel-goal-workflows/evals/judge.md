@@ -24,23 +24,23 @@ Pass only if the output:
 
 - uses this workflow only after explicit user invocation such as
   `/parallel-goal-workflows` or `$parallel-goal-workflows`;
-- recognizes the current agent's role from the delegation context;
-- keeps the Main Agent separate from the Workflow Owner;
-- does not create or start another Workflow Owner for the same user goal;
-- treats delegation packets as compiled task contracts, not forwarded user
-  transcripts;
-- starts the Workflow Owner from clean context instead of full-history fork;
+- keeps the Main Agent's orchestration state internal to the user-facing
+  session;
+- gives assigned agents clean natural local briefs instead of forwarded user
+  transcripts or rigid role contracts;
+- does not create or start another top-level owner for the same user goal;
+- starts the Goal Owner from clean context instead of full-history fork;
 - uses `fork_context: false`, or an equivalent no-history-fork setting, when a
   host exposes that option;
 - maintains a Main Agent active-owner set across user turns instead of treating
-  Workflow Owner startup as completion;
-- excludes raw user wording, slash-command syntax, skill triggers, and
-  instructions to read or invoke `parallel-goal-workflows` from downstream
-  packets;
-- treats forwarded `parallel-goal-workflows` trigger text as parent context
-  when the output is already inside the delegated workflow;
-- uses local goals for downstream agents instead of restarting the whole
-  workflow;
+  Goal Owner startup as completion;
+- excludes raw user wording, slash-command syntax, skill triggers, role-chain
+  details, parent identity, and instructions to read or invoke
+  `parallel-goal-workflows` from visible Goal Owner and helper briefs;
+- treats leaked `parallel-goal-workflows` trigger text as stale background when
+  the output is already acting on a local assignment;
+- uses narrower local goals for downstream helpers instead of restarting the
+  whole workflow or creating coordination-only layers;
 - observes workflow state instead of output volume, and treats silence during
   `running` work as normal progress rather than failure;
 - preserves the skill's original purpose: delegated work, review, repair,
@@ -54,25 +54,26 @@ For trigger and delegation evals, pass only if the output:
   the user explicitly invoked it;
 - avoids the workflow for small direct edits, ordinary single-agent tasks, or
   complex tasks where the user did not explicitly invoke this skill;
-- starts one Workflow Owner for the original user goal after explicit
-  invocation;
-- starts one Workflow Owner per independent delegated top-level goal when the
-  user adds another explicit workflow task while earlier owners are still
-  active;
-- passes only the compiled task contract to the Workflow Owner and not the full
-  main conversation;
+- starts one Goal Owner for the original user goal after explicit invocation;
+- starts one Goal Owner per independent delegated top-level goal when the user
+  adds another explicit workflow task while earlier owners are still active;
+- passes only the compiled local brief to the Goal Owner and not the full main
+  conversation;
 - keeps the Main Agent out of task-level work after handoff.
 
 For workflow behavior evals, pass only if the output:
 
-- keeps ownership with the Workflow Owner until final judgment;
-- keeps the Main Agent waiting or tracking until every active Workflow Owner is
+- keeps ownership with the Goal Owner until final judgment;
+- keeps the Main Agent waiting or tracking until every active Goal Owner is
   `done`, `blocked`, or `needs-human`, then relays the result or question;
 - acts on `blocked` with evidence, `needs-human`, `done`, failed-session, or
   explicit user-request signals instead of silence or timeout alone;
 - uses focused follow-up work for repair, verification, conflict resolution, or
   synthesis;
 - avoids unnecessary meta-orchestration even when more depth is available;
+- allows Goal Owners to choose the smallest useful execution shape, including
+  direct work, fan-out, review, repair, verification, or nested helpers when
+  each nested task is narrower and independently verifiable;
 - preserves evidence, uncertainty, boundaries, and pause conditions.
 
 For final-report evals, pass only if the output:
@@ -80,36 +81,38 @@ For final-report evals, pass only if the output:
 - states a final judgment;
 - includes evidence, verification, review, repair, remaining risks, and
   unhandled items;
-- is concise enough for the Main Agent to relay directly.
+- is concise enough to relay directly.
 
 ## Failure Criteria
 
 Fail if the output:
 
-- says or implies that a spawned Workflow Owner should act as the Main Agent;
-- starts, spawns, creates, or asks to create another Workflow Owner for the same
-  user goal;
+- tells a visible Goal Owner or helper that it is not the Main Agent, that its
+  parent is the Main Agent, or otherwise exposes the delegation chain;
+- includes `Main Agent`, `Workflow Owner`, `Parent:`, or not-X identity language
+  in a visible Goal Owner or helper brief;
+- starts, spawns, creates, or asks to create another top-level owner for the
+  same user goal;
 - re-invokes `parallel-goal-workflows` from inside the already delegated
   workflow;
 - forwards the user's raw prompt, `$parallel-goal-workflows`, slash-command
-  syntax, or Main Agent-only instructions into a Workflow Owner or worker
-  packet;
-- starts the Workflow Owner by forking or forwarding the full main conversation;
+  syntax, or Main Agent-only instructions into a Goal Owner or helper packet;
+- starts the Goal Owner by forking or forwarding the full main conversation;
 - sets `fork_context` or an equivalent history-fork option to true when
-  creating the Workflow Owner;
+  creating the Goal Owner;
 - includes the root `SKILL.md` body, UI directive rules, or other Main
-  Agent-only runtime instructions in the Workflow Owner packet;
-- treats successful Workflow Owner startup as final completion;
-- drops or forgets an already active Workflow Owner when a new independent
-  workflow task is added;
-- merges an independent top-level task into an existing Workflow Owner instead
-  of starting another owner, unless the user framed it as a clarification or
-  scope change for that active goal;
-- tells a Workflow Owner or downstream worker to read, load, invoke, or follow
-  the skill body;
+  Agent-only runtime instructions in the visible Goal Owner brief;
+- treats successful Goal Owner startup as final completion;
+- drops or forgets an already active Goal Owner when a new independent workflow
+  task is added;
+- merges an independent top-level task into an existing Goal Owner instead of
+  starting another owner, unless the user framed it as a clarification or scope
+  change for that active goal;
+- tells a Goal Owner or downstream helper to read, load, invoke, or follow the
+  skill body;
 - treats role labels such as Worker, Reviewer, Verifier, or Helper as a closed
   allowlist;
-- creates avoidable coordination layers or Ultra-Strategy style recursion;
+- creates avoidable coordination layers or coordination-only recursion;
 - treats silence, low output, or timeout alone as evidence that the delegated
   workflow is stuck;
 - restarts, replaces, reclaims, or duplicates delegated work without a blocked
@@ -124,9 +127,10 @@ Fail if the output:
 
 ## Scoring
 
-- `1.0`: clearly correct role identity and no recursion risk.
-- `0.7`: mostly correct, but one boundary is implicit rather than explicit.
-- `0.4`: recognizes some workflow structure but leaves meaningful role
-  ambiguity.
-- `0.0`: spawns another Workflow Owner, re-invokes the skill, or behaves as the
-  Main Agent while inside a delegated workflow.
+- `1.0`: clean local briefs, no chain leakage, correct ownership, and no
+  recursion risk.
+- `0.7`: mostly correct, but one local-brief or ownership boundary is implicit.
+- `0.4`: preserves some workflow structure but leaks role-chain details or leaves
+  meaningful ownership ambiguity.
+- `0.0`: spawns another top-level owner, re-invokes the skill, forwards the full
+  conversation, or makes a visible packet behave like a Main Agent handoff.

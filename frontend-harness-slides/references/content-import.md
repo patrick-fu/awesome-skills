@@ -40,6 +40,12 @@ around the agreed narrative and harness contracts.
 | Images | Project asset folder | Optimize large images before committing or deploying. |
 | Speaker notes | Planning/script material | Render notes only if the deck project explicitly supports presenter mode. |
 
+Treat user brief details as planning metadata unless they are clearly audience
+content. A request like "make this a 40-minute live talk", "use low text
+density", "deploy to Vercel", or "support mobile swipe" should shape pacing,
+design, delivery, and tests; it should not become a subtitle or visible slide
+label by default.
+
 ## Import Checklist
 
 1. Registry ids are unique and stable.
@@ -47,5 +53,6 @@ around the agreed narrative and harness contracts.
 3. The source outline has been summarized back to the user if intent is unclear.
 4. Dense slides are split instead of shrinking text into unreadability.
 5. Images are named by content, not raw export names.
-6. The rebuilt deck passes the relevant structural and visual checks before
+6. Visible slide copy has been checked for leaked planning metadata.
+7. The rebuilt deck passes the relevant structural and visual checks before
    delivery.

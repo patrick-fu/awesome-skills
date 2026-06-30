@@ -72,6 +72,11 @@ Minimum decisions:
   recommend Vercel for the live URL and mention GitHub Pages or Cloudflare Pages
   as static-site alternatives.
 
+After intake, summarize the confirmed decisions as implementation constraints,
+not slide copy. Duration, audience, density, style, stage size, navigation, and
+delivery target should guide the deck; do not render them on the slide surface
+unless the user explicitly wants the audience to see them.
+
 Use interview-style follow-up, not structured question tools. Ask few questions,
 but ask real ones. If the user gives only a short idea, ask for the highest-risk
 preference first instead of creating files. If the user provides a detailed
@@ -167,14 +172,17 @@ are satisfied:
    deck, imported content, or an existing deck.
 2. **Align**: complete the brief intake or summarize the provided material and
    assumptions.
-3. **Choose**: pick the deck root and technology stack; do not copy a bundled
+3. **Plan**: for non-trivial decks, produce a registry draft with stable ids,
+   titles, audience-visible copy, speaker intent, beats, visual ideas, and
+   internal constraints before writing scene code.
+4. **Choose**: pick the deck root and technology stack; do not copy a bundled
    project.
-4. **Establish**: implement or adapt the harness contracts in the chosen stack.
-5. **Build**: create the narrative, frames, assets, animation states, and visual
+5. **Establish**: implement or adapt the harness contracts in the chosen stack.
+6. **Build**: create the narrative, frames, assets, animation states, and visual
    system.
-6. **Verify**: run the smallest useful check during iteration and a final check
+7. **Verify**: run the smallest useful check during iteration and a final check
    before handoff; report any skipped check explicitly.
-7. **Ship**: deliver the confirmed handoff, not just a local dev server. Deploy
+8. **Ship**: deliver the confirmed handoff, not just a local dev server. Deploy
    a live URL, export PDF/static output, or do both after checked frames match
    the intended result. Read `references/deploy.md` for hosted or exported
    handoff.

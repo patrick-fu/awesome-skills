@@ -17,10 +17,10 @@ report deck or a very static handoff:
 - small staggered delays only when they clarify reading order
 - a final takeaway or highlighted phrase on the last meaningful beat
 
-Magic Move-style continuity is the recommended default across deck types: smooth
-scene transitions, objects moving continuously between related states, and
-progressive reveals instead of dumping all content at once. Tune the intensity
-to the deck:
+Magic Move-style continuity, explicitly inspired by Keynote's Magic Move effect,
+is the recommended default across deck types: smooth scene transitions, objects
+moving continuously between related states, and progressive reveals instead of
+dumping all content at once. Tune the intensity to the deck:
 
 - presentation, keynote, product-launch, sharing, and live speaking decks can
   use more energetic motion, including rotation, bounce, wobble, flowing arrows,

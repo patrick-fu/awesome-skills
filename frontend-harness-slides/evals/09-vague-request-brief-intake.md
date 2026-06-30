@@ -14,4 +14,5 @@ tags: [brief-intake, preference-alignment]
 - [ ] 明确确认 slides 风格、信息密度和动画方向；不能只问一个泛泛的“喜欢什么风格”
 - [ ] 至少触达内容取向、演讲形式、时长、内容占比、受众、stage 尺寸、触屏/内嵌导航、技术栈、交付目标、素材来源或视觉偏好中的关键缺口
 - [ ] 每个关键点应给出推荐默认值、可选替代方案和理由，但不能把默认值当作已经确认的需求
-- [ ] 当视觉方向不明确时，建议先做 1-2 张真实 slides 的多风格预览，再完整展开整套 deck
+- [ ] 当视觉方向不明确时，建议先做三种真实可交互 slides 预览，包含截图和本地 server，再完整展开整套 deck
+- [ ] 对非小型 deck，要求维护外部 context 文档，并在 registry draft 前先产出 narrative/content-mix plan

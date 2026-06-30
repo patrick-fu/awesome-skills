@@ -8,16 +8,20 @@ until they are generated and checked in.
 
 ## Demo Story
 
-1. **First draft**: build a small multi-section deck in any suitable web stack.
-2. **Insert a scene**: add a new scene without renaming existing stable ids.
-3. **Tune animation**: change one meaningful beat and show that only intended
+1. **Plan**: align content orientation, presentation format, duration, content
+   mix, style, density, technology stack, and delivery target before building.
+2. **Preview style**: show 1-2 real slides in contrasting visual directions when
+   the style is not already settled.
+3. **First draft**: build a small multi-section deck in any suitable web stack.
+4. **Insert a scene**: add a new scene without renaming existing stable ids.
+5. **Tune animation**: change one meaningful beat and show that only intended
    visual frames change.
-4. **Catch a bad edit**: intentionally create overflowing text or a collapsed
+6. **Catch a bad edit**: intentionally create overflowing text or a collapsed
    element and show the audit failure.
-5. **Fix and re-run**: repair the slide, rerun the project-specific gate, and
+7. **Fix and re-run**: repair the slide, rerun the project-specific gate, and
    show a green harness.
-6. **Share**: deploy or record the checked deck without adding unrelated export
-   machinery.
+8. **Share**: deploy or record the checked deck, run production smoke when
+   hosted, and avoid unrelated export machinery.
 
 ## Assets To Add Later
 
@@ -29,7 +33,9 @@ until they are generated and checked in.
 ## Acceptance Criteria For A Real Showcase
 
 - The example deck uses stable frame addresses, a registry, a fixed stage,
-  frozen mode, and structural/visual checks.
+  frozen mode, keyboard/touch navigation, and structural/visual checks.
+- The README or handoff note records the production URL or exported artifact
+  when the demo is shipped.
 - The project-specific final gate passes.
 - Screenshots in this folder match committed baselines.
 - README text explains the iteration problem before showing aesthetics.

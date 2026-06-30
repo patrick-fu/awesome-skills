@@ -9,6 +9,9 @@
 `frontend-harness-slides` 解决的是这个反复改造阶段的问题。它不提供 starter
 工程，也不要求 React、Vite、Tailwind、Playwright 或任何固定框架。它提供的是一套框架无关的 harness 思路：稳定帧地址、registry、固定舞台、可冻结渲染、结构审计，以及必要时的视觉检查。
 
+主 Skill 文档保持精简，避免误触发时浪费上下文。一旦确认用户真的要制作或大改
+slides，Agent 必须先阅读四个阶段 reference：规划、设计、实现、验证与交付。
+
 ## 安装
 
 ```bash
@@ -31,14 +34,21 @@ npx skills update
 
 ## Agent 怎么使用
 
-1. 先和用户对齐 slides 风格、信息密度、动画方向、stage 尺寸、触屏导航、素材来源和交付方式。
-2. 根据用户现有项目和偏好选择项目目录与技术栈。
-3. 在该技术栈里实现 harness 机制。
-4. 把 deck 做成稳定 scene 和有意义的 beat。
-5. 迭代时跑最小有用检查，交付前跑最终 gate。
-6. 最终画面符合预期后再部署，或按当前项目需要做交付导出。
+1. **规划**：和用户对齐内容取向、演讲形式、时长、内容占比、风格、信息密度、动画、stage、导航、技术栈和交付方式。给推荐值，也给备选项；风格不明确时，默认建议先做 1-2 张真实 slides 预览。
+2. **设计**：确定视觉方向、字体、素材、文案边界和组件选择。内部对齐信息不能默认写到 slide 画布上。
+3. **实现**：在选定技术栈里实现稳定 scene、meaningful beats、固定/移动端 stage、冻结模式、键盘/触摸导航和互动动效。
+4. **验证与交付**：跑结构审计、视觉 smoke、交互/移动端检查；如部署上线，还要跑 production smoke；最后交付线上 URL、PDF/静态导出，或二者兼顾。
 
 用户不需要亲自操作前端工具链。关键是 Agent 有足够结构把多轮改造控制住。
+
+## 阶段 Reference
+
+确认是非小型 deck 制作或大改后，Agent 应按顺序阅读：
+
+- `references/01-plan.md`：前置对齐、推荐值和备选项、风格预览、技术栈、内容 registry、可见文案边界。
+- `references/02-design.md`：视觉风格、风格预设、手绘 emoji 方向、字体、CJK、素材、组件、文案质量。
+- `references/03-build.md`：harness contract、移动端固定舞台、导航、冻结模式、动效、交互和实现陷阱。
+- `references/04-verify-and-ship.md`：audit profile、视觉 smoke、production smoke、移动端/WebKit 覆盖、部署、PDF/静态交付和最终报告。
 
 ## 什么时候适合
 

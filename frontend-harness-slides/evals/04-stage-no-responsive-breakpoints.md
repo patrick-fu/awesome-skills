@@ -1,6 +1,6 @@
 ---
 name: Stage 内不使用 responsive breakpoints
-description: "生成的 Stage 内部 React 代码不包含 md:/lg:/sm: 等 Tailwind responsive 前缀"
+description: "生成的 Stage 内部布局不依赖 viewport responsive breakpoints"
 difficulty: medium
 tags: [anti-pattern, implementation]
 ---
@@ -9,6 +9,6 @@ tags: [anti-pattern, implementation]
 "给我一页幻灯片，左侧文字右侧 App 截图：左边是三行 bullet（标题 + 副标题 + 说明），右边是 16:9 手机 mockup，整体 1920×1080。"
 
 ## Expected Output (all true)
-- [ ] 生成的 JSX 中没有 `md:`、`lg:`、`sm:`、`xl:` 响应式前缀
-- [ ] 用 `w-920`、`ml-120` 等绝对像素值定位
-- [ ] Stage 容器有 `[data-slide-stage]` 属性
+- [ ] Stage 内部布局不依赖 `md:`、`lg:`、`sm:`、`xl:` 或等价 viewport 断点
+- [ ] 使用固定舞台坐标或等价的固定比例布局
+- [ ] Stage 容器暴露可供审计识别的稳定属性或角色

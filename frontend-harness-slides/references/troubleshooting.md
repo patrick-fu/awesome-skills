@@ -74,7 +74,7 @@ v1.0.0 有一批早期文档写「SandboxIsolator 已删除，功能合并到 Sl
 | 层 | 机制 | 覆盖的情况 | 不覆盖的情况 |
 | :--- | :--- | :--- | :--- |
 | Layer 1：SlideDeck 的 `isEditableEventTarget()` | keydown 处理函数开头先判断目标是否是 `<input>`/`<textarea>`/`<select>`/`contenteditable`/`role="textbox"`；是则直接 return | 所有没被 SandboxIsolator 包裹的可编辑元素；原生标签 | 自定义 Web Component、React 自定义 Input 组件（真实 DOM 可能不含这些标签） |
-| Layer 2：SandboxIsolator wrapper | 原生 `addEventListener('keydown', handler, { capture: true })` + `stopImmediatePropagation()` 吞掉 Space/方向键/PageUp/PageDown/Home/End/F/Esc/?/H | 自定义组件、嵌入式编辑器、iframe 外部容器、滚轮/contextmenu、任何无法被 Layer1 白名单识别的交互 | 包裹范围之外的元素（必须显式套一层） |
+| Layer 2：SandboxIsolator wrapper | 原生 `addEventListener('keydown', handler, { capture: true })` + `stopImmediatePropagation()` 吞掉 Space/Enter/方向键/PageUp/PageDown/Home/End/Backspace 和 vim 风格导航键 | 自定义组件、嵌入式编辑器、iframe 外部容器、滚轮/contextmenu、任何无法被 Layer1 白名单识别的交互 | 包裹范围之外的元素（必须显式套一层） |
 
 ### 老项目迁移
 如果你的老项目确实看到了「SandboxIsolator 被删除」的提示：
@@ -93,20 +93,24 @@ git log -p --all -S 'SandboxIsolator' | head -200
 
 ---
 
-## Q4: 图片在 Safari 里被自动放大
+## Q4: 图片裁切或比例不符合预期
 
 ### 根因
-`<ImageSlot>`（starter 的图片槽位组件）默认 `object-fit: cover` + `aspect-ratio: 固定值`，Safari 在父容器尺寸与图片尺寸不一致时，会把图片放大至填满容器，裁切边部。
+常见原因是 scene 中直接使用了 `object-fit: cover`、固定宽高或绝对定位，但没有明确图片的裁切焦点。浏览器会按容器比例裁掉图片边缘，这在产品截图、人物照片、logo 上尤其明显。
 
 ### 修复
-```tsx
-// 选其一：
-<ImageSlot fit="contain" src={...} />     // 完整显示，留白（常用于品牌 logo）
-<ImageSlot position="top" src={...} />    // 裁切方向置顶（人像截图）
-// 或 CSS 变量：
-style={{ '--image-slot-position': '10% 20%' }}
+```css
+.screenshot {
+  object-fit: contain;   /* 完整显示，适合 logo / UI 截图 */
+}
+
+.hero-photo {
+  object-fit: cover;     /* 允许裁切，适合氛围图 */
+  object-position: 50% 35%;
+}
 ```
-- 双击图片进入 reframe 模式（starter 内置），手动拖动裁切框。
+
+如果图片是页面核心证据，优先 `contain`，不要为了填满版面裁掉关键信息。
 
 ---
 
@@ -115,7 +119,7 @@ style={{ '--image-slot-position': '10% 20%' }}
 ### 根因
 `@playwright/test` 是 **driver + 浏览器分离**架构：`node_modules` 里只有 driver，真正的 Chromium/Firefox/WebKit 在 `~/.cache/ms-playwright/`，第一次需要下载。离线环境或国内网络环境下，下载会卡住 5–10 分钟甚至超时。
 
-### 修复（已内置 postinstall，以下是手动修复）
+### 修复
 ```bash
 # 方案 A：正常下载（推荐）
 npx playwright install chromium
@@ -133,12 +137,12 @@ tar xzf ms-playwright-cache.tgz -C ~
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 ```
 
-### P0 修复说明
-**自 v1.0.0 P0 修复后，starter 的 `package.json` 已内置 `postinstall`**：
+### 避坑
+`npm install` 只安装 Playwright driver，不保证 Chromium binary 已经存在。新环境下总是显式运行：
+
+```bash
+npx playwright install chromium
 ```
-"postinstall": "npx playwright install --with-deps chromium 2>/dev/null || echo 'Playwright install skipped'"
-```
-——第一次 `npm install` 自动装。离线 / 已有浏览器时 `|| echo` 分支兜底，不会让 postinstall 失败。
 
 ---
 
@@ -161,16 +165,16 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 ---
 
-## Q7: Presenter 模式下按 Space 无法翻页
+## Q7: 按 Space / 方向键无法翻页
 
 ### 根因（按概率）
 1. 焦点在 `<textarea>` 或 `<input>` 里（Layer 1 白名单把 Space 让给它们了）；
-2. TweaksPanel（调试面板，starter 可选组件）打开着，它的内部 `TweakNumber` 横向 scrub 监听捕获了 Space；
+2. 某个自定义交互组件主动 `preventDefault()` 或被 `SandboxIsolator` 包裹；
 3. SandboxIsolator 包裹了整页（包括舞台空白处）——极少见，属于错误使用。
 
 ### 修复
 1. **点击舞台空白处失焦**（最快解）；
-2. 临时关闭 TweaksPanel：在 URL 里加 `?tweaks=false` 或 `test=true`（test=true 会禁用 TweaksPanel）；
+2. 检查当前焦点元素：`document.activeElement`；
 3. 检查 SandboxIsolator 的包裹范围是否过大：
    ```diff
    - <SandboxIsolator><SlideStage>...</SlideStage></SandboxIsolator>  ❌

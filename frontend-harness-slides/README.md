@@ -1,145 +1,109 @@
-# Frontend Harness Slides Starter
+# Frontend Harness Slides
 
-> Production-ready slide deck harness with Playwright audit, visual regression, and PDF export.
+Build HTML slides that an agent can keep changing without quietly breaking
+unrelated frames.
 
----
+Single-file HTML is often enough for a quick first draft. The difficult part is
+what happens after the first version: the user asks to change wording, add a
+section, tune an animation, swap screenshots, tighten a dense page, or remove a
+slide. Without structure and regression checks, one edit can damage another page
+and nobody notices until review.
 
-## ⏱ 5-minute quick start
+`frontend-harness-slides` solves that problem by starting from a real React/Vite
+project guarded by Playwright:
+
+- **Registry**: one array owns scene order, so insertions and removals do not
+  cause filename or snapshot churn.
+- **Fixed stage**: every scene is authored in a 1920x1080 canvas and scaled as a
+  whole, so the layout does not reflow per device.
+- **Beat URLs**: every scene state is addressable with `?scene=<id>&beat=<n>`.
+- **Auditor**: checks that requested frames render correctly and that visible
+  content does not collapse or escape the stage.
+- **Visual regression**: freezes animation and compares every scene/beat against
+  baselines.
+- **PDF export**: captures the same stage geometry the harness checks.
+
+## Quick Start
 
 ```bash
-# 1. Copy starter folder from the skill asset
 cp -r ~/.agents/skills/frontend-harness-slides/assets/starter ./my-deck
 cd ./my-deck
-
-# 2. Install dependencies (includes Playwright)
 npm install
-
-# 3. Install Chromium for Playwright (first time)
 npx playwright install chromium
-
-# 4. Launch dev server (http://localhost:5173)
 npm run dev
+```
 
-# 5. Build + verify — run before every commit
+First baseline and full check:
+
+```bash
+npm run test:update
 npm test
 ```
 
-**That's it.** Edit `src/slides/AllScenes.tsx` (or `src/SlideRegistry.tsx` in older starters) to add your content.
+## How The Starter Is Organized
 
----
-
-## 🆚 Keynote / PPTX comparison
-
-| Feature | Harness Slides | Keynote / PPTX |
-|---|---|---|
-| **Content as code** | ✅ Git-tracked TSX, diffable | ❌ Binary blobs, impossible to diff |
-| **Interactive demos** | ✅ Full React app inside slides | ❌ Static screenshots + GIFs only |
-| **Visual regression CI** | ✅ Pixel-perfect diff per slide | ❌ Manual review only |
-| **Overflow / structure audit** | ✅ Automatic: finds off-canvas text, missing headings | ❌ Human review, misses edge cases |
-| **Theming system** | ✅ CSS variables + typed ThemeConfig, swappable | ❌ Theme editor, limited tokens |
-| **Custom components** | ✅ Any npm package (Recharts, Mermaid, Shiki, ...) | ❌ Limited built-in shapes |
-| **URL deep links** | ✅ `?scene=id&beat=k` permanent | ❌ Slide numbers only, breaks on reorder |
-| **Setup cost** | ~30 min (npm install, first snapshot) | 0 min |
-| **One-shot <5 slides** | ❌ Overkill | ✅ Perfect fit |
-
----
-
-## File tree
-
-```
+```text
 starter/
-├── playwright.config.ts     # Playwright: viewport (1920×1080), DPR=1, snapshot path template
 ├── src/
-│   ├── App.tsx              # Root: ThemeProvider + SlideDeck
-│   ├── slides/
-│   │   └── AllScenes.tsx    # 👉 YOUR CONTENT HERE. Builds registry[]
+│   ├── main.tsx                    # exposes registry, renders SlideDeck
+│   ├── SlideDeck.tsx               # URL state, beats, keyboard navigation
+│   ├── SlideRegistry.tsx           # scene order and stable ids
 │   ├── components/
-│   │   ├── SlideDeck.tsx    # Stage + nav + registry + URL state
-│   │   ├── SlideStage.tsx   # Fixed 1920×1080 scaler
-│   │   ├── SandboxIsolator.tsx  # Capture-phase event isolation
-│   │   └── PresenterView.tsx    # F key → present mode
-│   ├── theme/
-│   │   ├── ThemeProvider.tsx    # CSS variable writer
-│   │   └── themes.ts            # 👉 Your themes go here
-│   └── assets/              # Per-scene images, SVGs, fonts
+│   │   ├── SlideStage.tsx          # fixed 1920x1080 stage
+│   │   └── SandboxIsolator.tsx     # event isolation for interactive regions
+│   ├── scenes/
+│   │   ├── CoverScene.tsx
+│   │   └── HarnessScene.tsx
+│   └── theme/
+│       ├── ThemeProvider.tsx
+│       └── themes.ts
 ├── tests/
-│   ├── auditor.spec.ts      # Health: text, overflow, structure, console errors
-│   └── visual.spec.ts       # Snapshot comparison (per beat)
-├── harness/
-│   └── freeze.mjs           # Animation freeze + VISUAL_MASK_SELECTORS
-├── scripts/
-│   └── export-pdf.mjs       # CLI: per-beat PDF export
-├── .github/workflows/
-│   └── harness.yml          # CI: cache + build + test + artifacts
-└── package.json             # Scripts (see below)
+│   ├── auditor.spec.ts             # structure and layout health
+│   └── visual.spec.ts              # frozen visual snapshots
+├── harness/freeze.mjs              # shared freeze logic
+├── scripts/export-pdf.mjs          # PDF export from the running app
+├── playwright.config.ts
+└── package.json
 ```
 
----
+To add a scene, create a component in `src/scenes/` and register it in
+`src/SlideRegistry.tsx` with a stable kebab-case `id`.
 
-## Common commands
+## Commands
 
-| Command | What it does | When to run |
-|---|---|---|
-| `npm run dev` | Vite dev server, hot reload at `:5173` | Authoring content |
-| `npm run build` | Type-check + production bundle to `dist/` | Before commit, before deploy |
-| `npm run preview` | Serve `dist/` locally at `:4173` | Verify production build |
-| `npm run auditor` | Playwright → auditor.spec only | Fast structural check |
-| `npm run visual` | Playwright → visual.spec only (screenshots vs baseline) | After theme/content changes |
-| `npm run test` | auditor + visual — the full gate | **Before every commit** (CI runs this) |
-| `npm run test:update` | Regenerate all visual baseline snapshots | Intentional visual change only |
-| `npm run pdf` | `node scripts/export-pdf.mjs` → `deck.pdf` | Share deck with non-technical reviewers |
-| `npm run deploy` | Upload `dist/` → Goofy preview (requires `bytedcli` + auth) | Share live link with stakeholders |
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Vite dev server for authoring. |
+| `npm run build` | Type-check and production build. |
+| `npm run preview` | Serve the built `dist/` folder. |
+| `npm run auditor` | Run structural/layout audit only. |
+| `npm run visual` | Run visual snapshot comparison only. |
+| `npm test` | Run the full Playwright harness. |
+| `npm run test:update` | Update visual baselines for intentional changes. |
+| `npm run export:pdf` | Export a PDF from a running preview server. |
 
-Starters may also include aliases: `test:audit`/`test:visual`/`export:pdf` are the long-form equivalents of `auditor`/`visual`/`pdf`.
+If the default preview port is busy, run tests with a shared `PORT`:
 
----
+```bash
+PORT=4180 npm test
+```
 
-## Keyboard shortcuts
+## What To Read
 
-| Key | Action | Context |
-|---|---|---|
-| `→` / `Space` / `PageDown` / `Enter` / `j` | Next beat | Everywhere |
-| `←` / `PageUp` / `Backspace` / `k` | Previous beat | Everywhere |
-| `Home` | Jump to first slide | Everywhere |
-| `End` | Jump to last slide | Everywhere |
-| `0-9` + `Enter` | Jump to Nth slide | Everywhere |
-| `g` | Prompt for scene id to jump to | Everywhere |
-| `F` / `Esc` / `F11` | Toggle presenter mode (next-scene preview + notes + timer) | Everywhere |
-| `t` | Toggle theme (if multi-theme configured) | Everywhere |
-| `r` | Reload current scene (hard URL reset) | Everywhere |
-| `?` / `H` | Show this cheat sheet | Everywhere |
+- `SKILL.md`: agent-facing workflow and contracts.
+- `assets/starter/README.md`: instructions for a copied deck project.
+- `references/theming.md`: visual direction and theme tokens.
+- `references/content-import.md`: importing existing content.
+- `references/asset-handling.md`: images, logos, SVGs, and fonts.
+- `references/troubleshooting.md`: common failures and fixes.
+- `showcase/README.md`: planned demonstration flow for why the harness matters.
 
-Navigation keys are **blocked inside INPUT/TEXTAREA/SELECT/[contenteditable]** and interactive elements (`button`, `a[href]`, role=button/link/tab) — embedded demos work without fighting presenter nav.
+## Current Boundaries
 
-Browser **Back / Forward** buttons work — the deck URL state changes per beat via `replaceState`, and a `popstate` listener restores the correct scene/beat.
+This starter currently supports fullscreen browser presentation through the
+normal deck view, keyboard navigation, structural audit, visual snapshots, and
+PDF export of each scene's final beat.
 
----
-
-## FAQ
-
-**Q: How do I add a new slide?**
-A: Add a component in `src/slides/` → export it as a scene entry → push `{id, title, scene, beats?}` into the `registry` array in `AllScenes.tsx`.
-
-**Q: Can I use vanilla HTML/CSS instead of React?**
-A: For <10 slides and a one-shot output, yes! Switch to the `frontend-slides` skill. It outputs a single HTML file with no build step. For larger decks, decks with interactive demos, or decks that need CI regression — React componentization is what makes the harness (tests, theming, registry) work.
-
-**Q: Where do speaker notes go?**
-A: `registry[i].notes = "Markdown-ish text.\nSecond line."`. Show them with `F` (presenter mode). They also get exported alongside PDF pages if you pass `--with-notes` to export-pdf.mjs.
-
-**Q: Can I have two decks in one repo?**
-A: Each deck is its own starter copy with its own `package.json`. Keep them in separate folders (e.g., `decks/2026-Q1-eng-all-hands/`) — no cross-deck import sharing unless you explicitly build a shared components package.
-
-**Q: Which npm packages are recommended for common slide needs?**
-A: See [`references/component-libraries.md`](./references/component-libraries.md). Quick cheat: Icons → Phosphor, Charts → Recharts, Code → Shiki, Diagrams → Mermaid.
-
----
-
-## Troubleshooting
-
-See [`references/troubleshooting.md`](./references/troubleshooting.md) in the skill folder, or §VIII of the SKILL.md. 9 most common issues are documented step-by-step with exact commands.
-
-### Top 3 quick fixes
-
-1. **Visual snapshot failures on first run** → Run `npm run test:update` to generate baselines, then commit the `tests/snapshots/` folder.
-2. **`Executable doesn't exist at .../chrome-*`** → Run `npx playwright install chromium` (npm installs the driver, not the browser).
-3. **CJK text in PDF shows boxes (□□□)** → Install CJK fonts (`sudo apt install fonts-noto-cjk` on CI) or force Google Fonts via ThemeConfig so Chromium downloads webfonts.
+It does not currently implement a separate presenter notes view, notes export, or
+theme hot-swap UI. Treat those as future runtime work unless the starter code is
+extended first.

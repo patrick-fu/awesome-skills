@@ -18,7 +18,7 @@ stable frame addresses, a registry, fixed stage geometry, deterministic frozen
 mode, structural audits, and visual checks when they matter.
 
 The main skill file stays compact so accidental invocations are cheap. Once a
-real slide production task is confirmed, the agent must read the four stage
+real slide production task is confirmed, the agent should use the four stage
 references before building: plan, design, build, and verify/ship.
 
 ## Install
@@ -50,11 +50,11 @@ npx skills update
 1. **Plan**: align with the user on content orientation, presentation format,
    duration, content mix, style, density, animation, stage, navigation,
    technology stack, and delivery. Recommend defaults, name alternatives, and
-   maintain an external context document so long-running work does not drift.
+   use a context document when it helps long-running work stay aligned.
 2. **Design**: choose a visual direction, fonts, assets, copy boundary, and
    component approach. When style is unclear, build three interactive real-slide
    previews, capture screenshots, start a local server, and turn the user's
-   choice into a selected theme contract.
+   choice into a selected theme notes.
 3. **Build**: implement stable scenes, meaningful beats, fixed/mobile stage
    scaling, frozen mode, keyboard/touch navigation, and interactive motion in
    the chosen stack.
@@ -73,7 +73,7 @@ For confirmed non-trivial deck work, agents should read these in order:
   choice, context tracking, narrative plan, content registry, and visible-copy
   boundary.
 - `references/02-design.md`: style presets, sketch emoji guidance, fonts, CJK,
-  assets, components, interactive previews, selected theme contract, and copy
+  assets, components, interactive previews, selected theme notes, and copy
   quality.
 - `references/03-build.md`: harness contracts, mobile fixed stage, navigation,
   frozen mode, motion, interactivity, and implementation pitfalls.

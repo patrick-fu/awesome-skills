@@ -2,6 +2,10 @@
 
 Use this during visual discovery and theme implementation.
 
+Read `references/style-presets.md` when the user asks for preset inspiration,
+gives only a vague style direction, or needs a few contrasting visual directions
+before implementation.
+
 ## Discover By Eye
 
 Most users cannot name the exact style they want; they recognize it when they see
@@ -13,6 +17,10 @@ Offer three meaningfully different directions:
 - **Safe**: restrained, legible, hard to dislike.
 - **Bold**: a committed look with one strong narrative or graphic device.
 - **Wildcard**: context-specific and clearly different from the other two.
+
+Use style presets as inspiration, not as locked templates. Explain the
+recommendation in chat and ask the user to confirm, adjust, or reject it before
+turning it into the deck's theme.
 
 The preview itself should look like an actual first slide from the user's deck.
 Do not render option labels, workflow notes, file paths, theme slugs, or internal

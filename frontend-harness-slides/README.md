@@ -50,10 +50,11 @@ npx skills update
 1. **Plan**: align with the user on content orientation, presentation format,
    duration, content mix, style, density, animation, stage, navigation,
    technology stack, and delivery. Recommend defaults, name alternatives, and
-   offer 1-2 real slide previews when style is unclear.
+   maintain an external context document so long-running work does not drift.
 2. **Design**: choose a visual direction, fonts, assets, copy boundary, and
-   component approach. Keep internal planning information out of visible slide
-   copy.
+   component approach. When style is unclear, build three interactive real-slide
+   previews, capture screenshots, start a local server, and turn the user's
+   choice into a selected theme contract.
 3. **Build**: implement stable scenes, meaningful beats, fixed/mobile stage
    scaling, frozen mode, keyboard/touch navigation, and interactive motion in
    the chosen stack.
@@ -69,9 +70,11 @@ part is that the agent has enough structure to keep iteration controlled.
 For confirmed non-trivial deck work, agents should read these in order:
 
 - `references/01-plan.md`: intake, alternatives, visual preview, technology
-  choice, content registry, and visible-copy boundary.
+  choice, context tracking, narrative plan, content registry, and visible-copy
+  boundary.
 - `references/02-design.md`: style presets, sketch emoji guidance, fonts, CJK,
-  assets, components, and copy quality.
+  assets, components, interactive previews, selected theme contract, and copy
+  quality.
 - `references/03-build.md`: harness contracts, mobile fixed stage, navigation,
   frozen mode, motion, interactivity, and implementation pitfalls.
 - `references/04-verify-and-ship.md`: audit profiles, visual smoke, production

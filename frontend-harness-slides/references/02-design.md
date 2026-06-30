@@ -7,19 +7,73 @@ keep slide copy audience-facing.
 ## Discover By Eye
 
 Most users cannot name the exact style they want; they recognize it when they
-see it. When visual direction is unclear, make 1-2 real slide previews in 2-3
-meaningfully different directions.
+see it. When visual direction is unclear, make three real interactive slide
+previews in meaningfully different directions.
 
 Preview rules:
 
+- Use the same planned production stack, stage basis, and harness skeleton where
+  possible.
 - Use the user's real title, product, story, screenshots, or data.
-- Show actual slide composition, typography, navigation treatment, and motion
-  direction where possible.
+- Render the same anchor slide in all three directions.
+- Show actual slide composition, typography, navigation treatment, motion,
+  beat/state changes, and interaction.
+- Include hover feedback, click feedback or click-to-expand, at least one beat
+  reveal/state change, and at least one transition or Magic Move-like continuity
+  sample in every direction.
+- Start a local server and provide screenshots for comparison.
 - Explain options in chat, not on the slide surface.
 - Do not render preset names, option labels, workflow notes, file paths, or
   internal requirements on the slide.
-- After the user chooses, remove preview-only controls/routes and commit the
-  direction into the normal theme mechanism.
+- Run a light preview gate before asking the user to choose.
+- After the user chooses, summarize and store a selected theme contract, remove
+  preview-only controls/routes that are not part of the final deck, and commit
+  the direction into the normal theme mechanism.
+
+Default preview set:
+
+1. Sketchboard Emoji as the expressive recommended option, unless clearly
+   inappropriate.
+2. Safe/professional.
+3. Content-specific wildcard.
+
+Do not exceed three directions unless the user explicitly asks.
+
+## Preview Gate
+
+Before asking the user to choose, verify:
+
+- local server starts
+- all three directions render the same anchor slide
+- screenshots are captured from the same stage/view
+- fixed stage is visible and correctly scaled
+- no console/runtime errors
+- hover target works in each direction
+- click/reveal target works in each direction
+- at least one beat/state change works in each direction
+- at least one transition or Magic Move-like sample works in each direction
+
+## Selected Theme Contract
+
+After the user chooses a preview direction, summarize the selected theme
+contract before expanding the full deck:
+
+```text
+chosen_direction:
+keep:
+borrow_from_other_previews:
+typography:
+colors_and_background:
+navigation_treatment:
+motion_vocabulary:
+interaction_vocabulary:
+annotation_style:
+asset_or_emoji_strategy:
+density_and_copy_tone:
+```
+
+For non-trivial decks, write this contract into project docs, README, a handoff
+note, or theme configuration. Do not rely only on chat history for chosen style.
 
 ## Theme Tokens
 

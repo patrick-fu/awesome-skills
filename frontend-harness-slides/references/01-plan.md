@@ -48,6 +48,10 @@ Duration, audience, density, style, stage size, navigation, delivery target, and
 tech stack should guide the work; render them only if the user explicitly wants
 the audience to see them.
 
+For non-trivial decks, create or confirm an external context document before
+implementation. Do not rely only on chat history for decisions that must survive
+multi-hour or multi-turn work.
+
 Useful grouped prompt:
 
 ```text
@@ -59,19 +63,67 @@ or self-reading document, I will change the content ratio and slide density.
 
 ## Visual Preview Default
 
-When visual direction is unclear, recommend making 1-2 real slide previews in
-2-3 contrasting styles before building the full deck. Use the user's actual
+When visual direction is unclear, recommend making three real interactive slide
+previews before building the full deck. Use the same planned production stack,
+stage basis, and harness skeleton where possible so font loading, stage scaling,
+navigation, motion, and browser issues surface early. Use the user's actual
 title, content, screenshots, or data. Do not show abstract moodboards or option
 cards with internal labels.
+
+Default preview set:
+
+1. Sketchboard Emoji as the expressive recommended option, unless clearly
+   inappropriate for the audience, brand, or compliance context.
+2. A safe/professional option.
+3. A content-specific wildcard.
+
+All three previews should share at least one anchor slide so the user can
+compare the same content fairly. Provide screenshots and a local server URL.
+Each preview should include comparable interaction, beat/state change, and
+transition behavior. After the user chooses, summarize a selected theme contract
+before full expansion.
 
 Good default phrasing:
 
 ```text
-I recommend first making 1-2 real slide previews in three directions:
-Sketchboard Emoji, professional information design, and tech grid. After you
-pick a direction, I will expand the full deck. We can skip preview if you want
-me to proceed with the recommended style.
+I recommend first making three real interactive slide previews using the same
+stage and project skeleton: Sketchboard Emoji, professional information design,
+and a content-specific wildcard. I will capture screenshots and start a local
+server so you can compare them. After you pick a direction, I will write the
+selected theme contract and expand the full deck.
 ```
+
+## Context Ledger
+
+For non-trivial decks, maintain a context document outside the chat. Confirm the
+path with the user when location matters. If the user wants no repository noise,
+use `/tmp` or another agreed temporary path; otherwise store it in project docs
+such as `docs/context.md`, `docs/implementation-context.md`, or the handoff
+note. Do not edit `.gitignore` just for this unless the user asks.
+
+Track:
+
+- confirmed intake decisions
+- narrative plan and content mix
+- registry draft
+- selected theme contract
+- technology stack, commands, and ports
+- harness contracts and route patterns
+- style preview links/screenshots and preview gate result
+- verification status
+- delivery target and production URL/PDF path
+- open issues, skipped checks, and user decisions
+
+Update after:
+
+- intake / decision snapshot
+- narrative plan
+- style preview selection
+- registry draft
+- harness setup
+- major content build
+- verification
+- deployment or export
 
 ## Decision Snapshot
 
@@ -95,9 +147,39 @@ technology_stack:
 visual_language:
 delivery_target:
 non_goals:
+context_document:
 ```
 
 This snapshot is an implementation contract. It is not slide copy.
+
+## Narrative Plan
+
+Before the registry draft, produce a concise narrative/content-mix plan for
+non-trivial decks:
+
+```text
+orientation:
+presentation_format:
+duration:
+section_mix:
+pacing_notes:
+non_goals:
+```
+
+The section mix may be percentages or slide counts. Example:
+
+```text
+orientation: teaching + demo
+presentation_format: 40-minute live talk
+section_mix:
+  - 10% context
+  - 20% problem framing
+  - 30% core argument
+  - 25% demo/cases
+  - 15% method + closing
+pacing_notes: sparse slides, one idea per scene, demo beats get more time
+non_goals: not a self-contained whitepaper
+```
 
 ## Content Source
 
@@ -134,7 +216,8 @@ Map source fields carefully:
 ## Registry Draft
 
 For non-trivial decks, do not start scene implementation before producing a
-registry draft. This is a planning gate, not a polished deliverable.
+narrative plan and registry draft. This is a planning gate, not a polished
+deliverable.
 
 Required fields:
 
@@ -193,7 +276,10 @@ Before building:
 2. Recommended defaults and alternatives were shown for the key decisions.
 3. Content orientation, presentation format, duration, and content mix are
    confirmed or explicitly assumed.
-4. A visual preview step was offered unless a strong reference already exists.
-5. The decision snapshot separates constraints from slide copy.
-6. Non-trivial decks have a registry draft with `visible_copy`.
-7. Internal alignment details are not being treated as source content.
+4. A context document exists or its location has been explicitly decided.
+5. Non-trivial decks have a narrative plan before the registry draft.
+6. A three-direction interactive visual preview step was offered unless a strong
+   reference already exists.
+7. The decision snapshot separates constraints from slide copy.
+8. Non-trivial decks have a registry draft with `visible_copy`.
+9. Internal alignment details are not being treated as source content.

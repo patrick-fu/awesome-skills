@@ -91,6 +91,11 @@ content mix, density, style, stage size, navigation, and delivery target should
 guide the deck; do not render them on the slide surface unless the user
 explicitly wants the audience to see them.
 
+For non-trivial decks, maintain an external project context document rather than
+relying only on chat history. Confirm or create its location before
+implementation, and update it after major phases so long-running work does not
+drift.
+
 Use interview-style follow-up, not structured question tools. Ask few questions,
 but ask real ones. If the user gives only a short idea, ask for the highest-risk
 preference first instead of creating files. If the user provides a detailed
@@ -213,17 +218,21 @@ satisfied:
    deck, imported content, or an existing deck.
 2. **Align**: complete the brief intake or summarize the provided material and
    assumptions.
-3. **Plan**: for non-trivial decks, produce a registry draft with stable ids,
-   titles, audience-visible copy, speaker intent, beats, visual ideas, and
-   internal constraints before writing scene code.
+3. **Plan**: for non-trivial decks, create/update the external context document,
+   produce a narrative/content-mix plan, then produce a registry draft with
+   stable ids, titles, audience-visible copy, speaker intent, beats, visual
+   ideas, and internal constraints before writing scene code.
 4. **Choose**: pick the deck root and technology stack; do not copy a bundled
    project.
-5. **Establish**: implement or adapt the harness contracts in the chosen stack.
-6. **Build**: create the narrative, frames, assets, animation states, and visual
+5. **Preview**: when visual direction is unclear, build three interactive style
+   previews in the planned production stack/stage skeleton, capture screenshots,
+   run a light preview gate, and ask the user to choose before full expansion.
+6. **Establish**: implement or adapt the harness contracts in the chosen stack.
+7. **Build**: create the narrative, frames, assets, animation states, and visual
    system.
-7. **Verify**: run the smallest useful check during iteration and a final check
+8. **Verify**: run the smallest useful check during iteration and a final check
    before handoff; report any skipped check explicitly.
-8. **Ship**: deliver the confirmed handoff, not just a local dev server. Deploy
+9. **Ship**: deliver the confirmed handoff, not just a local dev server. Deploy
    a live URL, export PDF/static output, or do both after checked frames match
    the intended result. Read `references/04-verify-and-ship.md` for verified
    handoff.

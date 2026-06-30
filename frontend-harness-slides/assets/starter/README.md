@@ -8,6 +8,7 @@ small React/Vite app plus a Playwright harness, not a single HTML file.
 ```bash
 npm install
 npx playwright install chromium
+npm run doctor
 npm run dev
 ```
 
@@ -16,8 +17,8 @@ Open `http://localhost:5173`.
 For the first visual baseline:
 
 ```bash
-npm run test:update
-npm test
+npm run visual:update
+npm run test:full
 ```
 
 Commit the generated files under `tests/snapshots/` after reviewing them. Future
@@ -44,8 +45,8 @@ tests/
 ├── auditor.spec.ts             # structural and overflow audit
 └── visual.spec.ts              # frozen visual snapshots
 
-harness/freeze.mjs              # shared animation/media freeze logic
-scripts/export-pdf.mjs          # PDF export from the running app
+scripts/
+└── doctor.mjs                   # setup preflight
 ```
 
 ## Add A Scene
@@ -84,35 +85,39 @@ playgrounds, or embedded interactive regions in `SandboxIsolator`.
 | Command | Purpose |
 |---|---|
 | `npm run dev` | Author locally with Vite. |
+| `npm run doctor` | Lightweight preflight: Node, Chromium, port, Playwright loader, git warnings. |
 | `npm run build` | Type-check and production build. |
 | `npm run preview` | Serve `dist/` locally, default `http://localhost:4173`. |
 | `npm run auditor` | Run `auditor.spec.ts`. |
 | `npm run visual` | Run `visual.spec.ts`. |
-| `npm test` | Run all Playwright tests. |
-| `npm run test:update` | Update all snapshots for intentional visual changes. |
-| `npm run test:visual:update` | Update visual snapshots only. |
-| `npm run test:ci` | CI-oriented Playwright run. |
-| `npm run export:pdf` | Export PDF from a running preview server. |
+| `npm test` | Fast gate: build plus auditor, no visual screenshots. |
+| `npm run test:full` | Full gate: build plus all Playwright tests, including visual snapshots. |
+| `npm run visual:update` | Update visual snapshots for intentional visual changes. |
 
 If the preview port is busy, pass a shared `PORT`:
 
 ```bash
 PORT=4180 npm test
-PORT=4180 npm run export:pdf -- --base http://localhost:4180
 ```
 
-## Export PDF
+## Test Tiers
 
-The exporter reads `window.__SLIDE_REGISTRY__` from the running app and captures
-each scene at its final beat.
+- **Preflight**: `npm run doctor` after scaffolding or after moving the project.
+  It reports environment errors and git tracking warnings without installing
+  anything.
+- **Fast iteration**: `npm test` after ordinary scene edits. It builds and runs
+  the auditor, but does not spend time on screenshot comparison.
+- **Visual check**: `npm run visual` after visual, animation, font, theme, or
+  shared component changes.
+- **Full gate**: `npm run test:full` before delivery, before rebasing visual
+  snapshots, or whenever the impact range is unclear.
 
-```bash
-npm run build
-npm run preview
-npm run export:pdf -- --base http://localhost:4173 --out deck.pdf
-```
+## Optional PDF Handoff
 
-Use `--compact` for a smaller 1280x720 export.
+The starter does not bundle a PDF exporter. If the user explicitly needs a PDF,
+handle it as a project-specific handoff after `npm run test:full` passes. Use the
+current deck shape to choose browser print, a temporary Playwright capture script,
+or a hosted URL plus manual export, then inspect the output before delivery.
 
 ## CI
 
@@ -126,4 +131,5 @@ harness, and uploads failure artifacts.
 - Keep all slide content inside `[data-slide-stage]`.
 - Do not use responsive breakpoints inside scene content.
 - Keep scene `id` values stable after baselines are created.
+- Run `npm run test:full` before delivery.
 - Update snapshots only when the visual change is intentional.

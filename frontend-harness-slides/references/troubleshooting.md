@@ -22,7 +22,7 @@ Error: A snapshot doesn't exist at tests/snapshots/cover-beat-0.png, writing act
 npx playwright test visual.spec.ts --update-snapshots
 
 # （或 npm 脚本）
-npm run test:visual:update
+npm run visual:update
 ```
 生成后把 `tests/snapshots/*.png` 全部加入 git 并提交。**后续 CI 会对比这些基线**。
 
@@ -31,7 +31,7 @@ npm run test:visual:update
 
 ---
 
-## Q2: 导出 PDF 文字错位
+## Q2: 视觉快照文字错位
 
 ### 根因（按概率排序）
 1. **本地字体 vs CI 字体不一致**（99%）：本地系统装了 `Noto Sans SC`，CI 容器里没有，文本 fallback 到 Liberation Sans → 字符宽度差异 → 换行点不同 → 错位；
@@ -39,7 +39,7 @@ npm run test:visual:update
 3. **font-render-hinting 差异**：不同平台的 hinting 参数让 baseline 偏移 1–2px，逐字累加后整行错位。
 
 ### 定位
-- 打开 PDF 里错位的文本，拷贝出字体名（或截图对比 CI 产物与本地产物）；
+- 打开错位的截图或 handoff 产物，对比 CI 产物与本地产物；
 - Playwright trace 文件里检查 `document.fonts.status` 是否 `loaded`。
 
 ### 修复
@@ -114,7 +114,7 @@ git log -p --all -S 'SandboxIsolator' | head -200
 
 ---
 
-## Q5: npm run test 卡在 Chromium 下载
+## Q5: Playwright Chromium 缺失或下载慢
 
 ### 根因
 `@playwright/test` 是 **driver + 浏览器分离**架构：`node_modules` 里只有 driver，真正的 Chromium/Firefox/WebKit 在 `~/.cache/ms-playwright/`，第一次需要下载。离线环境或国内网络环境下，下载会卡住 5–10 分钟甚至超时。

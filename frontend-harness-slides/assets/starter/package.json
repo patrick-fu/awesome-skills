@@ -8,16 +8,12 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
+    "doctor": "node scripts/doctor.mjs",
     "auditor": "playwright test auditor.spec.ts",
     "visual": "playwright test visual.spec.ts",
-    "pdf": "node scripts/export-pdf.mjs",
-    "test": "playwright test",
-    "test:update": "playwright test --update-snapshots",
-    "test:audit": "playwright test auditor.spec.ts",
-    "test:visual": "playwright test visual.spec.ts",
-    "test:visual:update": "playwright test visual.spec.ts --update-snapshots",
-    "test:ci": "CI=true playwright test",
-    "export:pdf": "node scripts/export-pdf.mjs"
+    "visual:update": "playwright test visual.spec.ts --update-snapshots",
+    "test": "npm run build && npm run auditor",
+    "test:full": "npm run build && playwright test"
   },
   "dependencies": {
     "framer-motion": "11.3.0",
@@ -33,7 +29,7 @@
     "autoprefixer": "10.4.19",
     "postcss": "8.4.39",
     "tailwindcss": "3.4.4",
-    "typescript": "5.6.3",
+    "typescript": "^5.9.3",
     "vite": "8.1.0"
   },
   "engines": {

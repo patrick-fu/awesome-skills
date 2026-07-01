@@ -15,20 +15,21 @@ project or require React, Vite, Tailwind, Playwright, or any other stack. Its
 unit is the **harness contract**: stable frame address, registry, fixed stage,
 frozen mode, audit surface, visual checks, and verified handoff.
 
-## Intake Gate
+## **PRE-BUILD ALIGNMENT HARD GATE**
 
-For vague non-trivial deck requests, do not create files, scaffold a project,
-choose a framework, or start implementation before alignment. First align in
-plain text. If the user provides substantial source material, read it before
-asking broad questions; infer a direction, then ask the user to confirm or adjust
-the remaining important decisions.
+For any non-trivial deck, this is a hard gate. **DO NOT** create files, scaffold
+a project, write code, start a dev server, or begin implementation until the user
+has explicitly confirmed the Pre-Build Alignment in plain text.
 
-Proceed only when the key decisions are confirmed, clearly answered by supplied
-context, or explicitly left to defaults. For each high-risk decision, state the
-recommended value plus credible alternatives; do not convert recommendations
-into requirements.
+**INFERRED ANSWERS ARE NOT CONFIRMATION.** If the user provides substantial
+source material, inspect it first and state the inferred direction, but still ask
+the user to confirm or adjust the key decisions before implementation.
 
-Cover these decisions, at the level the task needs:
+Every key decision **MUST** include a recommended value with rationale, 3-5
+credible candidate options with a brief reason for each, and an explicit request
+for confirmation.
+
+Cover these Pre-Build Alignment decisions, at the level the task needs:
 
 - **Content plan**: scope, non-goals, orientation, presentation format, duration,
   and content mix.
@@ -37,8 +38,12 @@ Cover these decisions, at the level the task needs:
 - **Build plan**: fixed stage, navigation/touch expectations, technology stack,
   source material, and delivery target.
 
-If style is vague, recommend real interactive previews. If the user already gave
-a clear style, do not force multi-style previews.
+Style preview **MUST** be asked before implementation. Recommend a minimal
+interactive preview by default; skip it only when the user explicitly declines or
+explicitly asks to proceed directly. If style is vague, recommend real
+interactive previews. If the user already gave a clear style, confirm that style,
+offer refinements and a few nearby alternatives for inspiration, and ask whether
+to create a same-style minimal preview.
 
 Keep alignment details as implementation constraints, not slide copy. Do not
 render duration, audience, density, stage size, delivery target, navigation

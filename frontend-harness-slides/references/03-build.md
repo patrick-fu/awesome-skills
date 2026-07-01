@@ -120,7 +120,10 @@ they do not require every marker to remain visible at full size. Keep the
 implementation modest: current marker emphasis, nearby marker fade/scale, and
 click/wheel/touch movement are enough when they fit the deck.
 
-**Bad Experience Avoidance**: Ensure the navigator remains a subtle helper rather than a distracting centerpiece, and never let it overlap slide content. For decks with high slide counts, restrict the view to a small, localized sliding window of markers. Clicks, scrolls, and touch gestures must trigger predictable state transitions, and the active marker should slide smoothly without erratic jumping or layout shifts.
+For picker-style navigators, keep the implementation predictable: the marker
+window should stay inside the stage, avoid covering important content, expose a
+small localized marker range for high slide counts, and update the active marker
+without erratic jumps or layout shifts.
 
 ### Frozen Mode
 

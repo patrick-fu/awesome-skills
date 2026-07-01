@@ -75,6 +75,9 @@ npx skills add patrick-fu/frontend-harness-slides
 
 当用户明确希望把当前会话里的可复用知识沉淀下来、先评估是否值得沉淀，或把给定 source links 导入一个长期维护的 LLM wiki / 知识库时使用这个 Skill。它保持通用 workflow，不把本地 wiki 路径、分支、commit 和 push 策略写死，而是要求这些值由本地 agent instructions 提供。
 
+独立仓库：
+[`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)。
+
 Tip：这个 Skill 附带了
 [`references/configuration-guide.md`](llm-wiki-capture/references/configuration-guide.md)
 参考文档，说明如何初始化 Wiki、如何在 `AGENTS.md` 里配置记忆规则、如何按个人喜好调整策略，以及如何在“自动化沉淀 / 任务后回顾 / 定时 recap”之间做选择。

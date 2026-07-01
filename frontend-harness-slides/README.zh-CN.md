@@ -138,6 +138,8 @@ $ npm run test:slides
 
 <p align="center">
   <a href="references/style/preview.zh-CN.md"><b>👉 前往完整风格预览指南，探索全部 24 个风格 →</b></a>
+  <br />
+  <a href="https://harness-slides-24-styles.vercel.app/"><b>🖥️ 立即体验在线风格预览工作台 →</b></a>
 </p>
 
 ---

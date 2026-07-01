@@ -8,6 +8,8 @@ This guide provides a comprehensive visual catalog of all 24 styles in our desig
 
 All screenshots are optimized as lightweight WebP images at 540p resolution to ensure fast loading times.
 
+You can also explore all 24 styles interactively in our [Live Style Preview Workbench](https://harness-slides-24-styles.vercel.app/).
+
 ---
 
 ## 🟢 Minimal Keynote (Styles 01 - 08)

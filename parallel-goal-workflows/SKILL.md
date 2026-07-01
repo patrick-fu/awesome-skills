@@ -15,9 +15,13 @@ coordinates focused work through review, repair, acceptance, and final
 reporting.
 
 Use native goal mode when the host can attach goals to sessions, threads, or
-spawned agents. Keep host-specific goal syntax out of the visible brief unless
-the host requires it as an out-of-band wrapper. If native per-subagent goals are
-unavailable, put the same goal-shaped brief in the delegation message.
+spawned agents. Prefer out-of-band goal APIs when available. If the host needs
+an in-band command to put a new thread or spawned agent into goal mode, put that
+runtime mode prefix on its own first line before the brief; for Codex-style
+prompt delegation, use `/goal`. Treat the prefix as runtime syntax, not task
+context, and do not explain it inside the local brief. If native per-subagent
+goals and goal-mode prefixes are unavailable, put the same goal-shaped brief in
+the delegation message.
 
 ## Ownership Model
 
@@ -52,8 +56,8 @@ Do:
 - compile the user's raw request into one clear local brief; strip invocation
   text and rewrite user wording into goal, context, boundaries, deliverable,
   evidence needs, and pause conditions
-- start one Goal Owner per delegated top-level goal with that local brief in a
-  clean context
+- start one Goal Owner per delegated top-level goal in goal mode with that local
+  brief in a clean context
 - maintain the active Goal Owner set across user turns
 - wait with callback-style patience
 - relay user clarifications to the Goal Owner
@@ -92,6 +96,11 @@ assignment into the local goal, facts, boundaries, and deliverable. Strip skill
 invocation text, orchestration-only instructions, raw user wording, and any
 details about the delegation chain.
 
+When the host requires an in-band goal-mode command for child agents, place the
+command on the first line of the child packet. For Codex-style prompt
+delegation, this means `/goal` followed by a blank line and then the local
+brief. Do not describe the prefix as part of the task.
+
 Delegation is a local execution choice, not a new top-level workflow. A Goal
 Owner may ask focused helpers to inspect, implement, review, repair, verify, or
 research narrower outcomes when that reduces risk or saves time. Each nested
@@ -112,10 +121,16 @@ Every child packet should include:
 
 ## Goal Packets
 
+The examples below show the Codex-style in-band goal-mode prefix. If the host
+provides an out-of-band goal start mechanism, apply the goal there instead and
+omit the prefix from the message body.
+
 For the Goal Owner:
 
 ```text
-Goal: Take this goal to an acceptance-ready result.
+/goal
+
+Take this goal to an acceptance-ready result.
 
 I need you to carry the following goal end to end:
 
@@ -148,7 +163,9 @@ judgment call that cannot be resolved from the provided context is needed.
 For downstream agents:
 
 ```text
-Goal: [one concrete local outcome].
+/goal
+
+[one concrete local outcome.]
 
 Please [inspect / implement / review / verify / research] the following local
 task:

@@ -26,6 +26,7 @@ Minimum decisions:
 - **Mode and style**: recommend a direction such as Sketchboard Emoji for a
   lively talk, but offer alternatives such as professional information design,
   tech grid, product-launch, editorial report, or a supplied reference.
+- **Language and CJK Check**: Proactively ask the user if the slide deck will contain Chinese, Japanese, or Korean (CJK) characters. If yes, flag that the "Cross-Language Typography Alignment" guidelines must be activated during the design phase to ensure visual character consistency and reliable system fallback fonts. If no, keep the typography stack lightweight and Latin-only.
 - **Information density**: recommend speaker-led, reading-first, or hybrid.
   Explain that this also sets the audit profile.
 - **Animation**: recommend Keynote Magic Move-style continuity by default, and
@@ -115,7 +116,7 @@ Useful things to track:
 - confirmed intake decisions
 - narrative plan and content mix
 - registry draft
-- selected theme notes
+- selected theme notes & Design DNA (including chosen style system, visual guardrails, custom-invented metaphors, and pacing log)
 - technology stack, commands, and ports
 - harness contracts and route patterns
 - style preview links/screenshots and preview check result

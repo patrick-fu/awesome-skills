@@ -97,6 +97,12 @@ keyboard events such as `event.repeat`. If touch and click are both listened to,
 handle synthetic click double-fire, or use pointer events so one tap cannot jump
 two beats.
 
+#### Interactive Isolation & Event Protection
+When custom-inventing interactive components (e.g., draggable sliders, expandable notes, or embedded code editors), protect them from navigation leaks:
+- **Boundary Isolation**: Ensure user input events (click, touch, drag, wheel) occurring within the interactive component's bounding box are isolated and do not bubble up to the global stage navigation listeners.
+- **Keyboard Focus Protection**: If an interactive component captures keyboard focus (e.g., text inputs or interactive controls), temporarily suspend global slide navigation shortcuts (like Space or Arrow keys) to prevent accidental slide changes while the user is interacting.
+- **Gesture Conflict Resolution**: Clearly distinguish local gestures (like scrolling a list or dragging a knob) from global slide swiping to prevent gesture conflicts on mobile or touch screens.
+
 Interactive regions should not accidentally trigger slide navigation. Buttons,
 links, form controls, code editors, demos, tooltips, expandable notes, and local
 interactive objects should stop or route events intentionally.

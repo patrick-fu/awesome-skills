@@ -54,10 +54,9 @@ Before asking the user to choose, verify:
 - at least one beat/state change works in each direction
 - at least one transition or Magic Move-like sample works in each direction
 
-## Selected Theme Notes
+## Selected Theme Notes & Design DNA
 
-After the user chooses a preview direction, summarize the selected theme notes
-before expanding the full deck:
+After the user chooses a preview direction, summarize the selected theme notes and Design DNA before expanding the full deck, and record them in the external context document (e.g., `docs/context.md`):
 
 ```text
 chosen_direction:
@@ -71,6 +70,8 @@ interaction_vocabulary:
 annotation_style:
 asset_or_emoji_strategy:
 density_and_copy_tone:
+custom_invented_metaphors:
+pacing_log:
 ```
 
 For non-trivial decks, prefer recording these notes in the shared context
@@ -124,6 +125,8 @@ Presets are inspiration, not templates. Offer a small set of contrasting
 directions, usually one safe option, one expressive option, and one wildcard.
 Confirm the final direction before full implementation.
 
+For a comprehensive catalog of 24 distinct style directions across three density bands (Minimal Keynote, Balanced Hybrid, and Text Report), refer to `references/style/index.md`. These styles are generic visual systems designed to be customized and combined with flexible, content-driven layouts.
+
 ### 1. Sketchboard Emoji
 
 **Best for:** live explanations, teaching, workflow demos, AI tooling stories,
@@ -165,6 +168,14 @@ emoji, flowing arrows, click-to-expand notes, hover emphasis, and local click
 feedback. Keep motion lively and varied. Avoid using the same entrance or bounce
 on every scene; rotate hops, wobbles, flowing arrows, rotations, sliding phones,
 turning robots, nods, and continuity transforms.
+
+#### Three-Tier Motion Model
+When designing animations, align the motion intensity with the presentation intent and confirm the user's preference during the intake phase:
+- **Tier 1: Expressive & Playful (Recommended for Keynotes/Live Talks)**: Do not restrict motion. Use organic elastic physics (e.g., bounce, wobble), character pose animations, 3D card flips, progressive sketch drawing, or glowing signal flows to capture and guide audience attention.
+- **Tier 2: Smooth Continuity (Recommended for Hybrid/Mixed Decks)**: Focus on clean logical transitions. Avoid high-frequency bouncing or shaking. Rely on smooth object continuity (Magic Move-like transitions), subtle slide-ins, and gentle fade-ups.
+- **Tier 3: Static & Minimal (Recommended for Text Reports/Async Reading)**: Keep animations close to zero. Use short (150ms) local fades to guide reading order, or keep slides completely static to prevent distraction during self-paced reading.
+
+*Intake Confirmation*: Always present the matched motion tier as a default recommendation during intake, but explicitly ask the user to confirm their preference (e.g., "I recommend Tier 2 Smooth Continuity for your mixed deck, but let me know if you prefer Tier 1 Expressive or Tier 3 Static").
 
 **Typeface direction:** use a style-matched handwritten or warm CJK-capable font
 when Chinese/Japanese/Korean text appears. Prefer a reliable local or bundled
@@ -267,6 +278,11 @@ restrained scale on key numbers, dot navigation, and stable chart/table reveals.
 Choose type as part of the visual direction. It should match the style, cover
 the deck's languages, and render reliably in the final handoff.
 
+If the user confirmed that the slide deck will contain Chinese, Japanese, or Korean (CJK) characters during the intake phase, you must activate the **Cross-Language Typography Alignment** principles:
+- **Font Intent Alignment**: Align the design personality of CJK fonts with the selected Latin fonts (e.g., pair handwritten Latin fonts with handwritten/Kaiti CJK fonts; pair elegant serif Latin fonts with Songti/Mingti CJK fonts; pair clean sans-serif Latin fonts with modern CJK Heiti/sans-serif).
+- **Weight & Spacing Compensation**: CJK characters are visually denser. Proactively adjust letter spacing (e.g., `tracking-wide`) and line height to prevent visual crowding, especially on high-density slides.
+- **Robust Fallback Stack**: Design a zero-dependency local fallback font stack (e.g., prioritizing local assets ➔ OS-bundled Kaiti/Songti/Heiti ➔ generic fallbacks) to guarantee offline rendering safety.
+
 Rules:
 
 - Do not bundle commercial font files inside this skill.
@@ -337,6 +353,12 @@ assets from an allowed emoji set.
 
 Use proven libraries for complex chart, code, diagram, icon, or 3D needs, but do
 not let libraries break the harness.
+
+### Aesthetic & Semantic Alignment of Data Visualization
+When integrating charts or data visualizations, avoid generic, unstyled library defaults. Proactively guide the visual design of the chart to align with the chosen style:
+- **Style Integration**: For hand-drawn styles (e.g., Sketchboard), guide the chart to use organic lines or stacked visual elements instead of sharp 2D grids. For technical styles, use high-contrast neon accents and precise gridlines.
+- **Semantic Focus**: Minimize visual noise (remove redundant gridlines, borders, or legends). Highlight only the key data points or trends that directly support the slide's narrative conclusion.
+- **Progressive Reveals**: Guide data elements to grow or enter sequentially to support live presentation pacing.
 
 | Need | Prefer | Avoid |
 |---|---|---|

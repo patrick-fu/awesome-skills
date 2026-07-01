@@ -92,6 +92,9 @@ relevant context, boundaries, expected deliverable, verification needs, and paus
 conditions. Visible briefs should not expose the Main Agent, parent identity,
 `Workflow Owner` role labels, skill triggers, raw transcripts, SKILL.md body
 text, UI-only directives, or the delegation chain that created the assignment.
+A host-required `/goal` prefix may appear as the first line of a delegated
+packet when it is needed to enter goal mode. Treat that as runtime syntax, not
+task context.
 
 The Main Agent waits on workflow state, not output volume, and acts on done,
 blocked, needs-human, failed or dead sessions, and explicit user requests
@@ -179,6 +182,11 @@ and subagents.
 When the host supports history forking, start assigned agents from clean context
 instead of forwarding the full main conversation. For Codex, that means using
 `fork_context: false` when the spawn tool exposes it.
+
+When Codex-style prompt delegation requires a visible command to enter goal mode,
+start Goal Owner and helper prompts with `/goal` on its own first line, followed
+by the natural local brief. Do not pass `$parallel-goal-workflows` to delegated
+agents.
 
 A practical Codex configuration is:
 

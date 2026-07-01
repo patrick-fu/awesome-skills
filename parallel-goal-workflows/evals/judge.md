@@ -34,9 +34,12 @@ Pass only if the output:
   host exposes that option;
 - maintains a Main Agent active-owner set across user turns instead of treating
   Goal Owner startup as completion;
-- excludes raw user wording, slash-command syntax, skill triggers, role-chain
-  details, parent identity, and instructions to read or invoke
-  `parallel-goal-workflows` from visible Goal Owner and helper briefs;
+- excludes raw user wording, workflow skill-trigger syntax, role-chain details,
+  parent identity, and instructions to read or invoke `parallel-goal-workflows`
+  from visible Goal Owner and helper briefs;
+- starts delegated Goal Owner and helper prompts in goal mode, using an
+  out-of-band goal API when available or a first-line `/goal` runtime prefix when
+  the host requires in-band prompt syntax;
 - treats leaked `parallel-goal-workflows` trigger text as stale background when
   the output is already acting on a local assignment;
 - uses narrower local goals for downstream helpers instead of restarting the
@@ -95,8 +98,11 @@ Fail if the output:
   same user goal;
 - re-invokes `parallel-goal-workflows` from inside the already delegated
   workflow;
-- forwards the user's raw prompt, `$parallel-goal-workflows`, slash-command
-  syntax, or Main Agent-only instructions into a Goal Owner or helper packet;
+- forwards the user's raw prompt, `$parallel-goal-workflows`,
+  `/parallel-goal-workflows`, or Main Agent-only instructions into a Goal Owner
+  or helper packet;
+- omits a host-required goal-mode prefix or equivalent goal API when starting a
+  delegated Goal Owner or helper;
 - starts the Goal Owner by forking or forwarding the full main conversation;
 - sets `fork_context` or an equivalent history-fork option to true when
   creating the Goal Owner;

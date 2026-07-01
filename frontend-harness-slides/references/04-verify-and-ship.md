@@ -109,9 +109,9 @@ motion beat, or section/content hierarchy unless that uniformity is intentional.
 
 ### Aesthetic & Layout Self-Audit Checklist
 Before delivering the deck, perform a self-audit of its aesthetic quality and layout variety:
-- **Layout Monotony Test**: Review the entire slide sequence. Ensure you have not used the exact same spatial layout (e.g., two-column split, three-card grid) on consecutive slides. If a monotony block is found, proactively restructure one of the slides to restore visual surprise.
-- **Semantic-Metaphor Alignment Test**: Temporarily hide all slide text. Look only at the background, layout, and custom components. Can you still guess the general semantic direction of each slide (e.g., a balance scale indicating trade-offs, a pipeline indicating data flow)? If a slide looks like a generic bullet-point list, restructure it with a custom visual metaphor.
-- **Visual Noise & Slop Test**: Audit every visual element (lines, borders, emojis, icons, background textures). Ensure every single pixel serves a narrative or stylistic purpose. Remove any decorative element that does not contribute to the audience's understanding or the style's coherence.
+- **Layout Monotony Test**: Review the entire slide sequence. **Prefer** avoiding the exact same spatial layout (e.g., two-column split, three-card grid) on consecutive slides. If a monotony block is found, **consider** restructuring one of the slides to restore visual surprise.
+- **Semantic-Metaphor Alignment Test**: Temporarily hide all slide text. Look only at the background, layout, and custom components. **Check** if you can still guess the general semantic direction of each slide (e.g., a balance scale indicating trade-offs, a pipeline indicating data flow). If a slide looks like a generic bullet-point list, **consider** restructuring it with a custom visual metaphor.
+- **Visual Noise & Slop Test**: Audit visual elements (lines, borders, emojis, icons, background textures). **Aim to ensure** that visual elements serve a narrative or stylistic purpose, and avoid decorative clutter that does not contribute to the audience's understanding or the style's coherence.
 
 Adjust the viewing standard to the deck type without creating a separate
 process. Speaker-led or live decks need expressive final states, clear primary

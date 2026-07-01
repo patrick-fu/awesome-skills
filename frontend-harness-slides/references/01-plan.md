@@ -26,7 +26,7 @@ Minimum decisions:
 - **Mode and style**: recommend a direction such as Sketchboard Emoji for a
   lively talk, but offer alternatives such as professional information design,
   tech grid, product-launch, editorial report, or a supplied reference.
-- **Language and CJK Check**: Proactively ask the user if the slide deck will contain Chinese, Japanese, or Korean (CJK) characters. If yes, flag that the "Cross-Language Typography Alignment" guidelines must be activated during the design phase to ensure visual character consistency and reliable system fallback fonts. If no, keep the typography stack lightweight and Latin-only.
+- **Language and CJK Check**: Proactively ask the user if the slide deck will contain Chinese, Japanese, or Korean (CJK) characters. If yes, **recommend** activating the "Cross-Language Typography Alignment" guidelines during the design phase to ensure visual character consistency and reliable system fallback fonts. If no, keep the typography stack lightweight and Latin-only.
 - **Information density**: recommend speaker-led, reading-first, or hybrid.
   Explain that this also sets the audit profile.
 - **Animation**: recommend Keynote Magic Move-style continuity by default, and

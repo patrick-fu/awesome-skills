@@ -18,10 +18,10 @@ When designing a slide, do not start with a template. Analyze the raw content fi
 
 ## 2. Visual Pacing & The Breathing Rhythm
 
-A great slide deck must "breathe" by alternating visual density and layout structures. Avoid monotony:
+A great slide deck should "breathe" by alternating visual density and layout structures. **Prefer** maintaining a varied rhythm:
 
-- **The Monotony Test**: Never use the same spatial layout (e.g., a grid of cards or a two-column split) on two consecutive slides.
-- **The Density Curve**: Alternate between high-density slides (e.g., a detailed report page or bento box) and low-density slides (e.g., a sparse keynote opener or spotlight quote) to create a natural rhythm of "inhaling" (absorbing detail) and "exhaling" (focusing on the big picture).
+- **The Monotony Test**: **Avoid** using the exact same spatial layout (e.g., a grid of cards or a two-column split) on consecutive slides unless a uniform rhythm is intentionally desired.
+- **The Density Curve**: **Consider** alternating between high-density slides (e.g., a detailed report page or bento box) and low-density slides (e.g., a sparse keynote opener or spotlight quote) to create a natural rhythm of "inhaling" (absorbing detail) and "exhaling" (focusing on the big picture).
 
 ## 3. The 24 Style Directions
 

@@ -36,6 +36,11 @@ DO NOT create files, choose a framework, scaffold a deck, or start slide
 implementation from a vague prompt. First align with the user in plain text
 unless the supplied context already answers every minimum decision below.
 
+If the user provides substantial source material, read and understand it before
+asking broad intake questions. Use that understanding to propose defaults and
+alternatives, then ask the user to confirm or adjust the remaining important
+decisions.
+
 Completion criterion: proceed only when one is true:
 
 - The user has confirmed every minimum decision.
@@ -54,7 +59,8 @@ Minimum decisions:
 - **Slides style**: keynote/product-launch, formal report, technical demo,
   hybrid, or a custom reference. When the direction is vague, recommend a
   default, name several alternatives, and offer to make 1-2 real slide previews
-  in 2-3 styles before the full deck.
+  in 2-3 styles before the full deck. When the user has already specified a
+  clear style, do not force multi-style previews.
 - **Information density**: speaker-led sparse slides, reading-first dense slides,
   or a balanced rhythm. Tie this to the audit profile.
 - **Animation direction**: cinematic keynote motion, restrained report motion, or
@@ -180,6 +186,8 @@ For a new deck, initialize in a clean deck root:
   existing work; do not overwrite it.
 - Recommend an independent git repository for a new deck. If the target lives
   inside a parent git repo, explain the tradeoff and confirm before nested git.
+- When creating a deck inside a broad workspace or parent repo, briefly confirm
+  the deck root and key files are tracked or ignored as expected.
 
 ## Technology Posture
 

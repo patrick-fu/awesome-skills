@@ -200,6 +200,7 @@ After deploying, prefer to:
 - verify basic keyboard or click navigation on the hosted URL
 - verify mobile visibility and navigation when mobile/touch is supported
 - check for console, page, request, font, or asset failures
+- capture representative hosted screenshots when visual fidelity matters
 - record the production URL, deploy command, and smoke status in README or a
   handoff note
 
@@ -253,3 +254,7 @@ Final delivery should state:
 - WebKit/Safari coverage status when relevant
 - skipped checks and residual risk
 - context document path and final update status, if a context document was used
+
+When a context document, README, or handoff note exists, keep the final delivery
+state clear: production URL or PDF path, verification status, skipped checks, and
+remaining risks.

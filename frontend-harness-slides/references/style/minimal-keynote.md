@@ -6,10 +6,10 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. They are d
 
 ---
 
-## Style 01: Apple Launch Mono
+## Style 01: Minimal Product Keynote
 
 ### 1. Aesthetic Metaphor
-A premium, expensive, and highly focused product launch screen. It uses extreme whitespace, a single high-fidelity central object, and dramatic typographic scale to convey quiet confidence.
+A premium, highly focused product keynote screen. It uses extreme whitespace, a single high-fidelity central object, and dramatic typographic scale to convey quiet confidence without copying a specific brand identity.
 
 ### 2. Color & Typographic Chemistry
 - **Canvas**: Pure off-white (`#f5f5f7`) or deep space black (`#1d1d1f`). No background patterns or grids.

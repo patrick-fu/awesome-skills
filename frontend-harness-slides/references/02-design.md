@@ -77,6 +77,13 @@ For non-trivial decks, prefer recording these notes in the shared context
 document, README, handoff note, or theme configuration so the chosen style
 survives later edits. Follow the user's preferred documentation location.
 
+## Style System, Not Template
+
+A selected style is a visual system, not one repeated layout. Unless the user
+wants a uniform template rhythm, vary layout families, composition direction,
+object scale, interaction moments, and motion beats while keeping typography,
+palette, navigation, and visual language coherent.
+
 ## Theme Tokens
 
 Keep recurring visual decisions in a theme layer:
@@ -103,13 +110,13 @@ bolted outside the canvas. Keep it inside the fixed stage and match the visual
 language of the chosen style.
 
 When adding an in-stage navigator, prefer a picker-style marker window as the
-starting point. Inspired by wheel controls, it shows only a small window of
-markers, makes the current marker most prominent, fades or shrinks nearby
-markers, and can let click, wheel, trackpad, or touch gestures move through the
-sequence. Adapt the form to the style: hand-drawn dots, luminous particles,
-quiet editorial ticks, or another matching treatment are all valid. Use simpler
-dots, section tabs, or another navigator when they better fit the deck or the
-user's preference.
+starting point. It should feel like a small wheel, not a cropped dot list: keep
+the active marker visually centered, fade or scale nearby markers by distance,
+animate the marker track when the scene changes, and support click plus wheel,
+trackpad, or touch when useful. Adapt the form to the style: hand-drawn dots,
+luminous particles, quiet editorial ticks, or another matching treatment are all
+valid. Use simpler dots, section tabs, or another navigator when they better fit
+the deck or the user's preference.
 
 ## Style Presets
 

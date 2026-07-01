@@ -1,6 +1,8 @@
 ---
 name: llm-wiki-capture
-description: "User-invoked capture, review, or source ingest into a maintained LLM wiki or knowledge base."
+description: >-
+  User-invoked capture, review, or source ingest into a maintained LLM wiki or
+  knowledge base.
 disable-model-invocation: true
 ---
 
@@ -20,7 +22,7 @@ Resolve local configuration in this order:
 
 1. explicit instructions from the user for this run
 2. repository-local `AGENTS.md` or equivalent project instructions
-3. global agent instructions such as `~/.agents/AGENTS.md`
+3. global user or agent instructions configured by the host
 4. repository docs such as `README.md`, `purpose.md`, or `schema.md`
 
 Before any write-capable mode, resolve these values when they are relevant:

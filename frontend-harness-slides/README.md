@@ -4,13 +4,15 @@
 
 Build HTML slides with a **rigorous frontend engineering mindset**. Treat your presentation as a high-standard, fully testable Web Application backed by a robust automated testing harness.
 
+> 🖥️ **Live Interactive Demo**: Explore all 24 visual styles and density levels in our [Live Style Preview Workbench](https://harness-slides-24-styles.vercel.app/).
+
 A single HTML file is fine for a quick draft. The nightmare begins during iteration: the user asks to rewrite a page, adjust an animation, update a chart, or restructure a layout. In a monolithic file, a small CSS or script change can accidentally break another slide, and the regression remains completely invisible until the live presentation.
 
 `frontend-harness-slides` turns slide creation into a **checked, bulletproof workflow**. It provides a framework-neutral harness contract: stable frame addresses, a centralized registry, fixed stage geometry, deterministic frozen mode, and automated layout/interaction assertions.
 
 ---
 
-## Key Engineering Pillars (怎么改都改不坏)
+## Key Engineering Pillars (Never Breaks)
 
 *   **Harness-Backed Testing**: Built-in automated regression tests (e.g., Playwright/Vitest) run locally or in CI/CD to ensure **zero silent regressions** during edits.
 *   **Stable Frame Addresses**: Every scene and beat is an addressable, isolated route. Modifying one slide has absolutely zero side-effects on others.
@@ -20,7 +22,7 @@ A single HTML file is fine for a quick draft. The nightmare begins during iterat
 
 ---
 
-## 🛡️ Harness & Testing Suite (精简测试断言)
+## 🛡️ Harness & Testing Suite (Minimal Assertions)
 
 Every deck built with this skill is a testable Web App. Below is a minimal, high-value Playwright assertion that automatically catches layout breaks, text overflows, and runtime exceptions across all slides:
 
@@ -94,7 +96,7 @@ Here are 6 curated representative styles from our catalog. Click any style to se
 
 ---
 
-### 🟡 Balanced Hybrid (路演与混合阅读)
+### 🟡 Balanced Hybrid (Roadshows & Hybrid Reading)
 
 #### [Style 13: Subway Map of Intent](references/style/balanced-hybrid.md#style-13-transit-flow-subway-map)
 *Systematic, clean, and highly structured. Represents converging workflows as subway lines and transfer stations.*
@@ -116,7 +118,7 @@ Here are 6 curated representative styles from our catalog. Click any style to se
 
 ---
 
-### 🔵 Text Report (异步阅读与高密文档)
+### 🔵 Text Report (Asynchronous Reading & High Density)
 
 #### [Style 18: Maintainer Issue Brief](references/style/text-report.md#style-18-developer-ticket-brief)
 *Clean, structured, and action-oriented. Inspired by modern open-source issue trackers and code review tools.*

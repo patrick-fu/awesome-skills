@@ -1,6 +1,6 @@
 # Style Index & Design DNA Methodology
 
-This index guides the selection, customization, and evolution of slide aesthetics. It defines the core design philosophy: **Single Style System, Multi-Layout Composition**. 
+This index guides the selection, customization, and evolution of slide aesthetics. It defines the core design philosophy: **Single Style System, Multi-Layout Composition**.
 
 Instead of repeating a rigid template, you must analyze the semantic structure of each slide's content and custom-invent a visual layout that best fits that specific message, bound together by the visual DNA of the chosen style.
 

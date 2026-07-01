@@ -88,7 +88,7 @@ Best suited for **Parameter Tuning**, **Multi-Factor Balancing**, and **Noise Fi
 A clean, systematic transit or subway map. It represents the idea that multiple independent streams of intent, constraints, and data are not isolated, but converge at key "transfer stations".
 
 ### 2. Color & Typographic Chemistry
-- **Canvas**: Light, clean public-info gray (`#f1f5f9` or `#slate-100`).
+- **Canvas**: Light, clean public-info gray (`#f1f5f9` or Tailwind `bg-slate-100`).
 - **Ink**: Distinct, high-saturation transit line colors (e.g., Red Line `#ef4444`, Blue Line `#3b82f6`, Green Line `#10b981`), with dark slate for text.
 - **Typography**: Highly legible, clean sans-serif (e.g., Inter) to mimic public transit signage.
 

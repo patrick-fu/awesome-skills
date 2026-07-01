@@ -119,6 +119,8 @@ luminous particles, quiet editorial ticks, or another matching treatment are all
 valid. Use simpler dots, section tabs, or another navigator when they better fit
 the deck or the user's preference.
 
+**Bad Experience Avoidance**: Avoid making the navigator a flashy or distracting control that obstructs the main content. When there are many slides, display only a localized sliding window of markers; ensure that click, wheel, and touch interactions are highly predictable, and prevent the active marker from jumping or jittering during transitions.
+
 ## Style Selection & Catalog Guidance
 
 If you are choosing or designing a style for the deck, you are **strongly recommended** to refer to the comprehensive style-related guidelines and aesthetic recipes in `references/style/index.md`. 
@@ -132,10 +134,10 @@ Use the following guiding principles to select and align the visual system:
 Choose type as part of the visual direction. It should match the style, cover
 the deck's languages, and render reliably in the final handoff.
 
-If the user confirmed that the slide deck will contain Chinese, Japanese, or Korean (CJK) characters during the intake phase, you are **strongly encouraged** to activate the **Cross-Language Typography Alignment** principles:
-- **Font Intent Alignment**: Align the design personality of CJK fonts with the selected Latin fonts (e.g., pair handwritten Latin fonts with handwritten/Kaiti CJK fonts; pair elegant serif Latin fonts with Songti/Mingti CJK fonts; pair clean sans-serif Latin fonts with modern CJK Heiti/sans-serif).
-- **Weight & Spacing Compensation**: CJK characters are visually denser. **Consider** adjusting letter spacing (e.g., `tracking-wide`) and line height to prevent visual crowding, especially on high-density slides.
-- **Robust Fallback Stack**: **Prefer** designing a zero-dependency local fallback font stack (e.g., prioritizing local assets ➔ OS-bundled Kaiti/Songti/Heiti ➔ generic fallbacks) to guarantee offline rendering safety.
+If the slide deck contains Chinese, Japanese, or Korean (CJK) characters, keep the following light reminders in mind to ensure a solid reading experience:
+- **Font Selection & Fallbacks**: Select fonts and fallback stacks that cover CJK characters (e.g., pairing handwritten Latin fonts with Kaiti; elegant serif Latin fonts with Songti/Mingti; clean sans-serif Latin fonts with modern Heiti).
+- **Weight & Spacing Compensation**: CJK characters are visually denser. Consider adjusting letter spacing (e.g., `tracking-wide`) and line height to prevent visual crowding, especially on high-density slides.
+- **Rendering Verification**: Perform a light browser check to ensure proper rendering without falling back to unexpected default system fonts. Avoid making this a heavy font audit process; keep the setup lightweight and focused on reliable rendering.
 
 Rules:
 

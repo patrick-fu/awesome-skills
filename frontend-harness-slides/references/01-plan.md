@@ -133,12 +133,16 @@ selected theme notes and expand the full deck.
 
 ## Context Ledger
 
-For non-trivial decks, keep a context document when it will reduce drift or make
-handoff easier. If the user has a preference, follow it. Otherwise, store
-deliverable deck context in project docs such as `docs/context.md`,
+For non-trivial deliverable decks, establish a context/status ledger before
+implementation unless the user explicitly declines or the task is tiny/local-only.
+This is project memory, not a control mechanism: it keeps decisions and progress
+outside chat so later edits do not depend on hidden conversation state.
+
+If the user has a preference, follow it. Otherwise, store deliverable deck
+context in project docs such as `docs/context.md`,
 `docs/implementation-context.md`, or the handoff note. For a small temporary
-exploration, `/tmp` or another agreed temp path is fine. Do not edit
-`.gitignore` just for this unless the user asks.
+exploration, `/tmp` or another agreed temp path is fine. Do not edit `.gitignore`
+just for this unless the user asks.
 
 Useful things to track:
 
@@ -153,7 +157,7 @@ Useful things to track:
 - delivery target and production URL/PDF path
 - open issues, skipped checks, and user decisions
 
-Update after major phases when useful:
+Update after major phases with a compact status entry:
 
 - intake / decision snapshot
 - narrative plan
@@ -165,8 +169,9 @@ Update after major phases when useful:
 - deployment or export
 
 When verification coverage, delivery status, production URLs, or skipped risks
-change materially, prefer updating the context document so later edits do not
-depend on chat history alone.
+change materially, update the context document so later edits do not depend on
+chat history alone. If no context ledger is used, keep the reason explicit in the
+chat or final report.
 
 ## Decision Snapshot
 

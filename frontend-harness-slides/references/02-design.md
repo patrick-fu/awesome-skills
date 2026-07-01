@@ -119,169 +119,23 @@ luminous particles, quiet editorial ticks, or another matching treatment are all
 valid. Use simpler dots, section tabs, or another navigator when they better fit
 the deck or the user's preference.
 
-## Style Presets
+## Style Selection & Catalog Guidance
 
-Presets are inspiration, not templates. Offer a small set of contrasting
-directions, usually one safe option, one expressive option, and one wildcard.
-Confirm the final direction before full implementation.
+If you are choosing or designing a style for the deck, you are **strongly recommended** to refer to the comprehensive style-related guidelines and aesthetic recipes in `references/style/index.md`. 
 
-For a comprehensive catalog of 24 distinct style directions across three density bands (Minimal Keynote, Balanced Hybrid, and Text Report), refer to `references/style/index.md`. These styles are generic visual systems designed to be customized and combined with flexible, content-driven layouts.
-
-### 1. Sketchboard Emoji
-
-**Best for:** live explanations, teaching, workflow demos, AI tooling stories,
-and talks that benefit from a human, playful voice.
-
-**Priority:** this is the strongest default recommendation when the user wants a
-simple, lively presentation style and has not supplied a stricter brand system.
-Treat it as a taste direction, not a fixed template.
-
-**Visual language:** white background, black/white/gray sketchbook surface,
-simple linework, hand-drawn arrows, loose boxes, and generous whitespace. Prefer
-visual elements over text: use short titles and small supporting labels, not
-paragraph-heavy slides.
-
-**Emoji use:** enlarge emoji into scene actors or objects instead of using them
-as inline punctuation. Use emoji for robots, people, phones, tools, microphones,
-emotions, and small composite scenes. This often feels more natural than stiff
-hand-drawn figures.
-
-**Annotations:** explain supporting details with sticky notes, tape labels,
-pinned notes, margin scribbles, speech bubbles, callout tags, and highlighted
-keywords instead of plain paragraphs. Use quote or "golden sentence" moments
-with marker strokes, fluorescent highlighter, circled keywords, underlines, or
-handwritten emphasis.
-
-**Navigation:** prefer a subtle right-side vertical navigator in a hand-drawn
-style. The active scene can be a slightly larger sketch circle; inactive scenes
-can be tiny filled dots. Avoid adding a separate textual page counter on the
-canvas unless the user explicitly needs one.
-
-**Interactivity:** treat emoji actors, robots, people, phones, microphones,
-sticky notes, and labels as interactive visual objects when useful. Hover can
-trigger wobble, scale, rotate, sketch underline, tooltip, or a small note. Click
-can expand a sticky note, flip a note, pin an explanation, pulse a highlight, or
-show a small callout without advancing the slide.
-
-**Motion:** use Keynote Magic Move-style object continuity, bouncing or wobbling
-emoji, flowing arrows, click-to-expand notes, hover emphasis, and local click
-feedback. Keep motion lively and varied. Avoid using the same entrance or bounce
-on every scene; rotate hops, wobbles, flowing arrows, rotations, sliding phones,
-turning robots, nods, and continuity transforms.
-
-#### Three-Tier Motion Model
-When designing animations, align the motion intensity with the presentation intent and confirm the user's preference during the intake phase:
-- **Tier 1: Expressive & Playful (Recommended for Keynotes/Live Talks)**: Do not restrict motion. Use organic elastic physics (e.g., bounce, wobble), character pose animations, 3D card flips, progressive sketch drawing, or glowing signal flows to capture and guide audience attention.
-- **Tier 2: Smooth Continuity (Recommended for Hybrid/Mixed Decks)**: Focus on clean logical transitions. Avoid high-frequency bouncing or shaking. Rely on smooth object continuity (Magic Move-like transitions), subtle slide-ins, and gentle fade-ups.
-- **Tier 3: Static & Minimal (Recommended for Text Reports/Async Reading)**: Keep animations close to zero. Use short (150ms) local fades to guide reading order, or keep slides completely static to prevent distraction during self-paced reading.
-
-*Intake Confirmation*: Always present the matched motion tier as a default recommendation during intake, but explicitly ask the user to confirm their preference (e.g., "I recommend Tier 2 Smooth Continuity for your mixed deck, but let me know if you prefer Tier 1 Expressive or Tier 3 Static").
-
-**Typeface direction:** use a style-matched handwritten or warm CJK-capable font
-when Chinese/Japanese/Korean text appears. Prefer a reliable local or bundled
-font setup for deployed decks, with a fallback that still matches the style.
-
-**Avoid when:** the deck must feel institutional, legally formal, or visually
-neutral across many machines. Native emoji can render differently; use a
-checked-in emoji asset strategy when visual baselines must be stable.
-
-### 2. Neo-Grid Demo Board
-
-**Best for:** product launches, technical keynotes, data comparisons, process
-flows, and live step-by-step explanations.
-
-**Visual language:** strict block grid, paper/black/neon-yellow panel system,
-uppercase display type, mono labels, and editorial poster density.
-
-**Motion and interaction:** Magic Move cell migration, panel zoom, state
-replacement, progressive grid reveal, and click feedback on individual blocks.
-
-**Avoid when:** the deck needs warmth, soft emotional storytelling, natural
-imagery, or quiet institutional restraint.
-
-### 3. BlockFrame Product Demo
-
-**Best for:** SaaS demos, feature launches, comparison tables, creative pitches,
-and fresh product-led decks.
-
-**Visual language:** neobrutalist black borders, hard offset shadows, square
-cards, candy-color blocks, tilted stickers, and dense feature grids.
-
-**Motion and interaction:** card pop-ins, press states, shadow lift, status-card
-flips, feature upgrades, emoji labels, and click-triggered emphasis.
-
-**Avoid when:** the deck must feel legally formal, regulated, sober, or
-traditionally executive.
-
-### 4. Sakura Product Catalogue
-
-**Best for:** hardware/tool demos, spec walkthroughs, catalogue-style launches,
-creative technology, and tactile product storytelling.
-
-**Visual language:** vintage Japanese package mood, cream paper, diagonal color
-ribbons, condensed display type, spec checkboxes, product cards, stamps, seals,
-and equalizer bars.
-
-**Motion and interaction:** spec rows lighting up, checkbox state changes,
-product cards entering in sequence, equalizer bars growing, and stamp/seal
-emphasis beats.
-
-**Avoid when:** the deck needs a neutral corporate voice or minimalist
-restraint.
-
-### 5. Blue Professional
-
-**Best for:** B2B SaaS, advisory updates, investor reports, internal reviews,
-and executive decks that should look modern without feeling stiff.
-
-**Visual language:** warm cream base, cobalt accent, clean sans type, soft
-tinted cards, pill labels, clear data hierarchy, and restrained chart emphasis.
-
-**Motion and interaction:** smooth card reflow, staged metric reveals, subtle
-hover affordances, click-to-expand supporting detail, and simple dot navigation.
-
-### 6. Monochrome Ledger
-
-**Best for:** research synthesis, white papers, academic/policy briefs, user
-research readouts, bilingual reports, and word-led decks.
-
-**Visual language:** ivory paper, black ink, generous whitespace, thin rules,
-light sans headlines, serif quotes, and ledger-like structure.
-
-**Motion and interaction:** quiet Magic Move, progressive row or paragraph
-reveals, gentle underline/rule growth, and minimal hover feedback for evidence.
-
-### 7. Cobalt Grid
-
-**Best for:** design research, trend reports, architecture/art decks, academic
-summaries, and dense indices that should feel printed and precise.
-
-**Visual language:** warm cream canvas, electric cobalt ink, graph-paper grid,
-hairline rules, index rows, QR/grid fragments, and editorial structure.
-
-**Motion and interaction:** grid-aware Magic Move, rows filling in sequence,
-data blocks sliding along grid lines, deterministic arrows, and dot navigation.
-
-### 8. Signal
-
-**Best for:** board presentations, investor updates, policy/legal briefings,
-consulting deliverables, and credible institutional decks.
-
-**Visual language:** navy, cream, restrained antique-gold accents, editorial
-hairlines, serif-led headings, and flat institutional layouts.
-
-**Motion and interaction:** subtle Magic Move, fade-up evidence blocks,
-restrained scale on key numbers, dot navigation, and stable chart/table reveals.
+Use the following guiding principles to select and align the visual system:
+- **Prioritize Style Evaluation**: If the user has no explicit style preference, you **should prioritize evaluating the 24-style catalog** against the user's raw presentation materials. Analyze which styles best match the content's tone and structure, pick 2-3 contrasting styles from the catalog, and present them as recommended options during the Intake Gate phase.
+- **Intake Style Proposal**: Always include a style proposal in the Intake Gate. If the user does not have a pre-existing brand or design system, select and propose a curated set of styles from our 24-style catalog (`references/style/index.md`) that best fit the audience and delivery target.
 
 ## Fonts
 
 Choose type as part of the visual direction. It should match the style, cover
 the deck's languages, and render reliably in the final handoff.
 
-If the user confirmed that the slide deck will contain Chinese, Japanese, or Korean (CJK) characters during the intake phase, you must activate the **Cross-Language Typography Alignment** principles:
+If the user confirmed that the slide deck will contain Chinese, Japanese, or Korean (CJK) characters during the intake phase, you are **strongly encouraged** to activate the **Cross-Language Typography Alignment** principles:
 - **Font Intent Alignment**: Align the design personality of CJK fonts with the selected Latin fonts (e.g., pair handwritten Latin fonts with handwritten/Kaiti CJK fonts; pair elegant serif Latin fonts with Songti/Mingti CJK fonts; pair clean sans-serif Latin fonts with modern CJK Heiti/sans-serif).
-- **Weight & Spacing Compensation**: CJK characters are visually denser. Proactively adjust letter spacing (e.g., `tracking-wide`) and line height to prevent visual crowding, especially on high-density slides.
-- **Robust Fallback Stack**: Design a zero-dependency local fallback font stack (e.g., prioritizing local assets ➔ OS-bundled Kaiti/Songti/Heiti ➔ generic fallbacks) to guarantee offline rendering safety.
+- **Weight & Spacing Compensation**: CJK characters are visually denser. **Consider** adjusting letter spacing (e.g., `tracking-wide`) and line height to prevent visual crowding, especially on high-density slides.
+- **Robust Fallback Stack**: **Prefer** designing a zero-dependency local fallback font stack (e.g., prioritizing local assets ➔ OS-bundled Kaiti/Songti/Heiti ➔ generic fallbacks) to guarantee offline rendering safety.
 
 Rules:
 

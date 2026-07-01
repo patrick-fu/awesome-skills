@@ -1,17 +1,19 @@
 ---
-name: 幻灯片 registry 语义一致性
-description: 生成的 registry、manifest 或 draft 能稳定枚举 scene/frame 语义
+name: registry-semantic-consistency
+description: >-
+  The generated registry, manifest, or draft can stably enumerate scene and
+  frame semantics.
 difficulty: low
 tags: [structure, consistency]
 ---
 
 ## Input
-"给我生成一个关于 AI Agent 未来 5 年趋势的 10 页幻灯片结构"
+"Generate a 10-slide structure about AI Agent trends over the next five years."
 
 ## Expected Output (all true)
-- [ ] 有 registry、manifest、route table、draft，或等价结构，可枚举 10 个 scene/frame 条目
-- [ ] 每个条目有稳定 id，id 不依赖可见标题、文件名或数组位置
-- [ ] 每个条目有 title 或 human label，且不会因标题重复导致寻址歧义
-- [ ] 每个条目包含 beats、beat_count、frame states 或等价 frame 数量信息
-- [ ] 顺序可由数组顺序或显式 order 表达，但不能需要抓取可见文本来推断
-- [ ] 开头和结尾有清楚的 opening / closing / takeaway 语义，不强制 Q&A
+- [ ] Provides a registry, manifest, route table, draft, or equivalent structure that enumerates 10 scene/frame entries.
+- [ ] Each entry has a stable id that does not depend on visible titles, filenames, or array position.
+- [ ] Each entry has a title or human label, without address ambiguity when titles repeat.
+- [ ] Each entry includes beats, beat_count, frame states, or equivalent frame-count information.
+- [ ] Ordering is represented through array order or an explicit order field, without requiring visible-text scraping.
+- [ ] The opening and closing have clear opening, closing, or takeaway semantics without forcing a Q&A slide.

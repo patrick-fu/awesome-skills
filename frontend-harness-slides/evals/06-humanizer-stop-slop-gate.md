@@ -1,16 +1,18 @@
 ---
-name: 收尾阶段文案质量检查
-description: 收尾阶段需要做具体的 slide copy 质量检查，避免空泛、重复或缺少证据的表达直接发布
+name: final-copy-quality-check
+description: >-
+  The final phase should include concrete slide-copy quality checks so vague,
+  repetitive, or unsupported claims are not shipped.
 difficulty: low
 tags: [workflow, copy-quality]
 ---
 
 ## Input
-"15 页幻灯片内容全部完成，现在到收尾阶段了。"
+"The content for all 15 slides is complete. We are now in the final delivery phase."
 
 ## Expected Output (all true)
-- [ ] 检查空泛形容词、重复词和缺乏证据的 claims
-- [ ] 检查每页标题是否能单独表意
-- [ ] 检查 speaker-led 与 reading-first 页面是否分别符合对应的文案密度
-- [ ] 不要求调用外部 humanizer / stop-slop 工具；可以直接按具体质量标准审阅
-- [ ] 若发现问题，修复或在交付说明中明确残留风险，不能默认为通过
+- [ ] Checks vague adjectives, repeated wording, and unsupported claims.
+- [ ] Checks whether each slide title can stand on its own.
+- [ ] Checks whether speaker-led and reading-first slides use suitable copy density for their respective modes.
+- [ ] Does not require calling an external humanizer or stop-slop tool; direct review against concrete quality standards is acceptable.
+- [ ] If issues are found, fixes them or clearly reports the residual risk in the delivery notes instead of assuming the check passed.

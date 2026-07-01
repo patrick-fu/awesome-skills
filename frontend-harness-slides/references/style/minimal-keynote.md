@@ -1,6 +1,6 @@
 # Minimal Keynote Styles (Styles 1 - 8)
 
-Minimal Keynote styles are sparse, high-impact, and presentation-led. They are designed for live talks, openings, section transitions, and big memorable claims where the speaker wants the audience's attention focused on a single concept or sentence. 
+Minimal Keynote styles are sparse, high-impact, and presentation-led. They are designed for live talks, openings, section transitions, and big memorable claims where the speaker wants the audience's attention focused on a single concept or sentence.
 
 "Audience gets the point in three seconds."
 
@@ -78,7 +78,7 @@ A bold, high-energy graphic poster. It uses stacked, massive, high-impact words 
 - **The Typographic Strike**: A massive golden sentence with a key word crossed out (`line-through`) and replaced by a high-contrast, glowing word in a different color.
 
 ### 4. Semantic Fit Guide
-Best suited for **Section Transitions**, **Memorable Contrists**, and **High-Energy Keynote Beats**. Use this to wake up the audience and deliver a definitive claim.
+Best suited for **Section Transitions**, **Memorable Contrasts**, and **High-Energy Keynote Beats**. Use this to wake up the audience and deliver a definitive claim.
 
 ---
 

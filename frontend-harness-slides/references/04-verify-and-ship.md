@@ -219,7 +219,7 @@ After deploying, prefer to:
 
 ## PDF Or Static Handoff
 
-If the user wants PDF export, confirm whether the PDF is a speaker handout, reading-first version, archival record, or client/shareable artifact. 
+If the user wants PDF export, confirm whether the PDF is a speaker handout, reading-first version, archival record, or client/shareable artifact.
 
 Keep PDF export as an elegant, high-fidelity fallback of your live deck:
 - **Print Media Awareness**: Proactively guide the layout to adapt gracefully when printed (e.g., using `@media print` or custom print stylesheets to hide browser chrome, navigation controls, and ensure background colors are preserved).

@@ -276,7 +276,8 @@ Final delivery should state:
 - mobile/touch coverage
 - WebKit/Safari coverage status when relevant
 - skipped checks and residual risk
-- context document path and final update status, if a context document was used
+- context document path and final update status for non-trivial deliverables, or
+  the reason it was skipped
 
 When a context document, README, or handoff note exists, keep the final delivery
 state clear: production URL or PDF path, verification status, skipped checks, and

@@ -37,6 +37,8 @@ Cover these Pre-Build Alignment decisions, at the level the task needs:
   references, and whether a preview is useful.
 - **Build plan**: fixed stage, navigation/touch expectations, technology stack,
   source material, and delivery target.
+- **Context/status plan**: where project state will live, when it will be
+  updated, and whether the user wants a different location.
 
 Style preview **MUST** be asked before implementation. Recommend a minimal
 interactive preview by default; skip it only when the user explicitly declines or
@@ -49,9 +51,11 @@ Keep alignment details as implementation constraints, not slide copy. Do not
 render duration, audience, density, stage size, delivery target, navigation
 requirements, or implementation notes on the slide surface unless the user asks.
 
-For non-trivial decks, keep a context document when it will reduce drift. Follow
-the user's preferred location; otherwise use project docs for deliverable decks
-and a temp path for small explorations. Treat context as memory, not control.
+For non-trivial deliverable decks, establish a context/status ledger before
+implementation unless the user explicitly declines or the task is tiny/local-only.
+Follow the user's preferred location; otherwise use project docs for deliverable
+decks and a temp path for small explorations. Treat context as memory, not
+control.
 
 If the user gives a reference URL, deployed deck, or source repository, inspect
 it before choosing stage, scaling, animation, and interaction contracts.
@@ -127,13 +131,15 @@ is ready to iterate only when these contracts exist:
 
 1. **Detect** the branch: tiny static, new harness-backed, imported/source-heavy,
    or existing deck.
-2. **Align and plan** with `references/01-plan.md`.
+2. **Align and plan** with `references/01-plan.md`; create or update the
+   context/status ledger for non-trivial deliverables.
 3. **Design** with `references/02-design.md`; selected style means a visual
    system, not one repeated template.
 4. **Build** with `references/03-build.md`; preserve the harness contracts in
-   the chosen stack.
+   the chosen stack and update the ledger after major implementation milestones.
 5. **Verify and ship** with `references/04-verify-and-ship.md`; deliver a live
-   URL, PDF/static export, or both according to the confirmed target.
+   URL, PDF/static export, or both according to the confirmed target, then record
+   final delivery and verification status in the ledger when one exists.
 
 Treat local servers as previews unless the user explicitly asks for local-only
 work. Treat the work as ready only after the relevant final check passes, or

@@ -1,16 +1,18 @@
 ---
-name: 视觉快照确定性
-description: 视觉捕获前确保 frame 进入 deterministic frozen/snapshot state
+name: frozen-screenshot-determinism
+description: >-
+  Visual capture should place the frame into a deterministic frozen or snapshot
+  state first.
 difficulty: high
 tags: [test, determinism]
 ---
 
 ## Input (code audit)
-"检查视觉快照测试的 freeze 逻辑"
+"Check the freeze logic for visual snapshot tests."
 
 ## Expected Output (all true)
-- [ ] 视觉捕获前启用 frozen、snapshot、test mode 或等价确定性渲染机制
-- [ ] CSS animation、transition、timer、clock、random、SVG draw-line、media/canvas/live widget 等会影响画面的状态被停止、固定或稳定
-- [ ] 捕获的是指定 scene/beat 的 settled end state，而不是入口动画中间态
-- [ ] 机制不绑定特定测试库、常量名或函数名
-- [ ] 如采用 CSS 注入冻结，不应粗暴破坏项目用于定相位的合法 animation timing
+- [ ] Enables frozen, snapshot, test mode, or an equivalent deterministic render mechanism before visual capture.
+- [ ] Stops, fixes, or stabilizes visual-affecting state from CSS animation, transition, timer, clock, random values, SVG draw-lines, media/canvas/live widgets, and similar sources.
+- [ ] Captures the settled end state for the requested scene/beat, not a mid-entry-animation state.
+- [ ] Does not bind the mechanism to one specific test library, constant name, or function name.
+- [ ] If CSS injection is used for freezing, it should not bluntly break legitimate animation timing that the project uses for phase control.

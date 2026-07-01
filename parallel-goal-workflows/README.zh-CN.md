@@ -74,6 +74,8 @@ verifier、researcher、explorer、implementer、领域专家或其他聚焦 hel
 Main Agent 和 Goal Owner 应该发送自然的本地 brief，而不是原样转发用户 prompt 或角色链路合约。
 每个被委派出去的任务都应该带有局部目标、相关上下文、边界、期望交付物、验证要求和暂停条件。
 可见 brief 不应该暴露 Main Agent、parent identity、`Workflow Owner` 角色标签、skill trigger、raw transcript、SKILL.md 正文、仅面向 UI 的指令，或创建该任务的派发链路。
+如果宿主需要用 `/goal` 这样的可见命令进入 goal mode，可以把它作为被委派 packet 的第一行。
+这只是 runtime syntax，不是任务上下文。
 Main Agent 等待的是 workflow state，而不是输出量；它只在 done、blocked、needs-human、session failed/dead 或用户显式要求时行动，不能因为任务安静就重新接管工作。
 如果等待过程中出现新的独立 workflow 任务，Main Agent 会启动另一个 Goal Owner，并持续追踪两者，
 直到每个 owner 都到达 done、blocked 或 needs-human 状态。
@@ -152,6 +154,10 @@ flowchart LR
 
 当宿主支持 history fork 时，应从 clean context 启动被分配任务的 agent，而不是转发完整主会话。
 对 Codex 来说，如果 spawn 工具暴露 `fork_context`，就设置为 `false`。
+
+当 Codex 风格的 prompt 派发需要可见命令才能进入 goal mode 时，Goal Owner 和 helper prompt
+应该以单独一行 `/goal` 开头，然后再写自然的本地 brief。不要把 `$parallel-goal-workflows`
+传给被委派 agent。
 
 实用的 Codex 配置：
 

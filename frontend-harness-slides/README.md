@@ -72,6 +72,8 @@ $ npm run test:slides
 
 Instead of repeating a rigid template, this skill advocates **Single Style System, Multi-Layout Composition**. The layout is driven entirely by the semantic structure of your content, scaling fluidly across three density levels (Low, Medium, High).
 
+Every style is fully interactive, featuring **rich, high-fidelity web animations and motion design** (such as pulsing status indicators, glowing signal flows, kinetic typography, and smooth transitions) that bring your slides to life.
+
 Here are 6 curated representative styles from our catalog. Click any style to see its detailed design recipe, or explore the full catalog.
 
 ### 🟢 Minimal Keynote (Speaker-Led & Highly Expressive)

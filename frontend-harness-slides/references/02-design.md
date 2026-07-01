@@ -8,7 +8,8 @@ keep slide copy audience-facing.
 
 Most users cannot name the exact style they want; they recognize it when they
 see it. When visual direction is unclear, make three real interactive slide
-previews in meaningfully different directions.
+previews in meaningfully different directions. When the user already gives a
+clear style, use it directly instead of forcing competing previews.
 
 Preview rules:
 
@@ -290,6 +291,10 @@ Do a light browser check for important fonts. Package names and CSS entry points
 do not guarantee that the loaded font covers every language in the deck. If CJK
 text falls back to a system font, make that fallback intentional and acceptable
 for the delivery context.
+
+For CJK decks, check font asset size after the first build when bundling fonts.
+Large body fonts can dominate the output; a bundled display font plus intentional
+system CJK fallback may be better than shipping a huge full font.
 
 ## Assets
 

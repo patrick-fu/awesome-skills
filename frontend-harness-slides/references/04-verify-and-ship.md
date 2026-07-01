@@ -100,6 +100,13 @@ set for non-trivial decks:
 Look for overlaps, missing nodes, wrong visual hierarchy, layout drift, clipped
 assets, unreadable text, and whether the page matches the intended style.
 
+Adjust the viewing standard to the deck type without creating a separate
+process. Speaker-led or live decks need expressive final states, clear primary
+visuals, intentional whitespace, and motion states that support the talk.
+Reading-first or report decks need stronger self-contained hierarchy, readable
+tables/charts/annotations, and enough detail to make sense without a speaker.
+Hybrid decks can use the relevant standard by scene or section.
+
 For decks with many reveal beats, representative screenshots may miss the
 accumulated final state. Before final delivery, consider capturing each scene's
 final beat when that is practical, especially after changing shared layout,

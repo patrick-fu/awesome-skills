@@ -6,9 +6,10 @@ tags: [anti-pattern, implementation]
 ---
 
 ## Input
-"生成一页幻灯片：背景是彩色渐变 + 一些装饰性几何方块（10 个，随机大小颜色），中间一个大标题。"
+"生成一页幻灯片：背景是彩色渐变 + 一些预设装饰性几何方块，中间一个大标题。"
 
-## Expected Output (any true)
+## Expected Output (all true)
 - [ ] 装饰性几何图形用 DOM/SVG，不用 canvas
 - [ ] 背景用 CSS linear-gradient，不用 canvas
-- [ ] 没有任何 <canvas> 元素
+- [ ] 标题和 audience-visible copy 保持为 DOM/SVG text 或等价可检查文本，不画进整页 canvas
+- [ ] 若使用 canvas，只能用于非关键、可冻结或可稳定的局部视觉层

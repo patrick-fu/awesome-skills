@@ -124,6 +124,12 @@ the deck or the user's preference.
 
 **Bad Experience Avoidance**: Avoid making the navigator a flashy or distracting control that obstructs the main content. When there are many slides, display only a localized sliding window of markers; ensure that click, wheel, and touch interactions are highly predictable, and prevent the active marker from jumping or jittering during transitions.
 
+Treat any carousel, picker, feathered rail, note panel, or control surface as a
+stage-local design object. If it needs a fade, mask, safe zone, or reserved
+reading area, design that boundary inside the fixed stage rather than borrowing
+the browser viewport. A good navigation treatment should survive screenshot,
+PDF/static export, and viewport scaling without depending on off-stage chrome.
+
 ## Style Selection & Catalog Guidance
 
 If you are choosing or designing a style for the deck, use

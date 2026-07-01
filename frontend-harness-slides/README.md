@@ -138,6 +138,8 @@ Here are 6 curated representative styles from our catalog. Click any style to se
 
 <p align="center">
   <a href="references/style/preview.md"><b>👉 Explore All 24 Styles in the Full Style Preview Guide →</b></a>
+  <br />
+  <a href="https://harness-slides-24-styles.vercel.app/"><b>🖥️ Try the Live Style Preview Workbench →</b></a>
 </p>
 
 ---

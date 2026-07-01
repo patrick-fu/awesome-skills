@@ -52,6 +52,13 @@ def section_between(text: str, start: str, end: str) -> str:
     return match.group("body")
 
 
+def first_text_block(text: str) -> str:
+    match = re.search(r"```text\n(?P<body>.*?)\n```", text, re.DOTALL)
+    if not match:
+        raise AssertionError("missing text code block")
+    return match.group("body")
+
+
 def normalize_space(value: str) -> str:
     return " ".join(value.split())
 
@@ -69,6 +76,12 @@ def require_not_contains(haystack: str, needle: str, label: str) -> None:
 def require_equal(actual: object, expected: object, label: str) -> None:
     if actual != expected:
         raise AssertionError(f"{label}: expected {expected!r}, got {actual!r}")
+
+
+def require_goal_prefix(packet: str, label: str) -> None:
+    block = first_text_block(packet)
+    if not block.startswith("/goal\n\n"):
+        raise AssertionError(f"{label}: packet must start with '/goal' followed by a blank line")
 
 
 def main() -> int:
@@ -98,10 +111,13 @@ def main() -> int:
         (text, "fork_context", "clean context spawn option"),
         (text, "set it to `false`", "clean context spawn value"),
         (text, "not this SKILL.md", "no skill body forwarding rule"),
+        (text, "runtime mode prefix", "goal-mode prefix framing"),
+        (text, "for Codex-style prompt delegation, use `/goal`", "Codex goal prefix rule"),
         (text, "narrower than the current assignment", "nested narrowing rule"),
         (text, "independently checkable result", "nested verification rule"),
         (text, "Do not create coordination-only layers", "no coordination-only layers rule"),
         (text, "do not ask another agent to own the entire assignment", "no wholesale transfer rule"),
+        (owner_packet, "/goal", "owner goal-mode prefix"),
         (owner_packet, "Take this goal to an acceptance-ready result", "owner goal line"),
         (owner_packet, "carry the following goal end to end", "owner goal ownership"),
         (owner_packet, "Useful context", "owner useful context section"),
@@ -110,6 +126,7 @@ def main() -> int:
         (owner_packet, "Keep synthesis, acceptance judgment, and the final report with you", "owner retained synthesis"),
         (owner_packet, "A good final result should include", "owner acceptance criteria"),
         (owner_packet, "Pause if approval", "owner pause condition"),
+        (downstream_packet, "/goal", "downstream goal-mode prefix"),
         (downstream_packet, "one concrete local outcome", "downstream local goal"),
         (downstream_packet, "the following local task", "downstream natural local request"),
         (downstream_packet, "Relevant context", "downstream context section"),
@@ -131,7 +148,6 @@ def main() -> int:
         (owner_packet, "UI directive", "owner UI directive leakage"),
         (owner_packet, "You are not", "owner negative identity prompt"),
         (owner_packet, "delegation chain", "owner delegation-chain leakage"),
-        (owner_packet, "/goal", "owner visible goal command"),
         (downstream_packet, "Main Agent", "downstream Main Agent leakage"),
         (downstream_packet, "Workflow Owner", "downstream workflow-owner leakage"),
         (downstream_packet, "Goal Owner", "downstream goal-owner leakage"),
@@ -144,7 +160,6 @@ def main() -> int:
         (downstream_packet, "UI directive", "downstream UI directive leakage"),
         (downstream_packet, "You are not", "downstream negative identity prompt"),
         (downstream_packet, "delegation chain", "downstream delegation-chain leakage"),
-        (downstream_packet, "/goal", "downstream visible goal command"),
     ]
 
     failures: list[str] = []
@@ -163,6 +178,15 @@ def main() -> int:
     for haystack, needle, label in forbidden_packet_checks:
         try:
             require_not_contains(haystack, needle, label)
+        except AssertionError as exc:
+            failures.append(str(exc))
+
+    for packet, label in [
+        (owner_packet, "owner goal-mode prefix"),
+        (downstream_packet, "downstream goal-mode prefix"),
+    ]:
+        try:
+            require_goal_prefix(packet, label)
         except AssertionError as exc:
             failures.append(str(exc))
 

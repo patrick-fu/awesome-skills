@@ -6,10 +6,11 @@
       "name": "goal-owner-local-brief",
       "category": "identity",
       "prompt": "Use $parallel-goal-workflows to audit this repository's authentication flow. I want independent exploration, implementation-risk review, and a final report with evidence, unresolved risks, and recommended fixes.",
-      "expected_output": "The Main Agent should produce a clean local brief that asks the recipient to own the assigned goal end to end, decide the execution shape, use focused helpers only for narrower outcomes, and keep synthesis, acceptance judgment, and final reporting local. The visible packet must not mention Main Agent, Workflow Owner, parent identity, skill invocation, or the delegation chain.",
+      "expected_output": "The Main Agent should produce a clean local brief that asks the recipient to own the assigned goal end to end, decide the execution shape, use focused helpers only for narrower outcomes, and keep synthesis, acceptance judgment, and final reporting local. When the host requires an in-band goal-mode command, the visible packet should start with `/goal`; it must not mention Main Agent, Workflow Owner, parent identity, skill invocation, or the delegation chain.",
       "files": [],
       "expectations": [
         "The packet is phrased as a natural assignment brief rather than a rigid role contract.",
+        "The packet uses a host-required `/goal` runtime prefix when needed to enter goal mode.",
         "The packet asks the recipient to own the assigned goal end to end through final judgment.",
         "The packet does not include Main Agent, Workflow Owner, Parent, or not-X identity language.",
         "The packet allows focused helpers only for narrower local outcomes and keeps synthesis and acceptance with the recipient.",
@@ -153,7 +154,7 @@
       "files": [],
       "expectations": [
         "The packet asks the recipient to own the assigned goal end to end without exposing the orchestration chain.",
-        "The packet does not include `$parallel-goal-workflows`, slash-command syntax, or instructions to use/read/invoke the skill.",
+        "The packet does not include `$parallel-goal-workflows`, `/parallel-goal-workflows`, or instructions to use/read/invoke the skill; a host-required `/goal` runtime prefix is allowed.",
         "The packet does not include Main Agent, Workflow Owner, Parent, or not-X identity language.",
         "The packet does not paste the user's original wording as the task body.",
         "The packet preserves the user's intent as synthesized goal, context, boundary, deliverable, evidence, and pause conditions."
@@ -168,7 +169,7 @@
       "files": [],
       "expectations": [
         "The packet describes only the concrete local helper task.",
-        "The packet does not include `$parallel-goal-workflows`, slash-command syntax, or instructions to use/read/invoke the skill.",
+        "The packet does not include `$parallel-goal-workflows`, `/parallel-goal-workflows`, or instructions to use/read/invoke the skill; a host-required `/goal` runtime prefix is allowed.",
         "The packet does not forward Main Agent instructions, parent identity, or role-chain details.",
         "The packet keeps the local goal on OAuth callback-test evidence, gaps, risks, and pause conditions."
       ]
@@ -206,11 +207,12 @@
       "name": "goal-owner-clean-context-brief",
       "category": "identity",
       "prompt": "Use $parallel-goal-workflows to run a TDD implementation workflow for a risky auth refactor. You are the Main Agent producing the Goal Owner startup plan and visible brief. The host spawn tool has a `fork_context` option. The current main conversation includes the raw user request, the skill invocation, this SKILL.md content, Main Agent-only UI directive rules, and prior discussion. Show how you would start the Goal Owner and what visible brief it receives.",
-      "expected_output": "The Main Agent should start the Goal Owner from a clean context, set any full-history fork option such as `fork_context` to false, and send only a compiled local brief. The visible brief should not include the raw transcript, skill trigger, SKILL.md body, UI directive rules, Main Agent-only instructions, Main Agent identity, Workflow Owner identity, parent identity, or not-X identity language.",
+      "expected_output": "The Main Agent should start the Goal Owner from a clean context, set any full-history fork option such as `fork_context` to false, and send only a compiled local brief. If the host requires an in-band goal-mode command, the visible brief should start with `/goal`. The visible brief should not include the raw transcript, workflow skill trigger, SKILL.md body, UI directive rules, Main Agent-only instructions, Main Agent identity, Workflow Owner identity, parent identity, or not-X identity language.",
       "files": [],
       "expectations": [
         "The response chooses clean context for the Goal Owner instead of full-history fork.",
         "If `fork_context` is mentioned, it is set to false, not true.",
+        "The visible brief uses a host-required `/goal` runtime prefix when needed to enter goal mode.",
         "The visible brief is a compiled natural local assignment with goal, context, boundary, deliverable, evidence needs, and pause conditions.",
         "The visible brief excludes raw transcript content, `$parallel-goal-workflows`, SKILL.md body text, UI directive rules, and Main Agent-only instructions.",
         "The visible brief excludes Main Agent, Workflow Owner, Parent, not-X identity language, and instructions to start another top-level owner."

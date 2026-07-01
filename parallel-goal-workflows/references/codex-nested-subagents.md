@@ -36,10 +36,15 @@ workflow has a concrete fan-out need.
 ## Delegation Packet
 
 Depth gives capacity; the local brief gives shape. When nested helpers are used,
-ask for one concrete local outcome in natural language:
+ask for one concrete local outcome in natural language. If the Codex host needs
+the in-band `/goal` command to put the spawned agent into goal mode, place
+`/goal` on its own first line. This is runtime syntax, not task context; do not
+include `$parallel-goal-workflows`, parent identity, or delegation-chain details.
 
 ```text
-Goal: [one concrete local outcome].
+/goal
+
+[one concrete local outcome.]
 
 Please [inspect / implement / review / verify / research] the following local
 task:

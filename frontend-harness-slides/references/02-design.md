@@ -7,9 +7,12 @@ keep slide copy audience-facing.
 ## Discover By Eye
 
 Most users cannot name the exact style they want; they recognize it when they
-see it. When visual direction is unclear, make three real interactive slide
-previews in meaningfully different directions. When the user already gives a
-clear style, use it directly instead of forcing competing previews.
+see it. Before implementation, explicitly ask whether to make a minimal
+interactive style preview. When visual direction is unclear, recommend three
+real interactive slide previews in meaningfully different directions. When the
+user already gives a clear style, confirm the main style, offer same-style
+refinements and nearby alternatives for inspiration, then ask whether to make a
+small same-style preview or proceed directly.
 
 Preview rules:
 
@@ -123,11 +126,20 @@ the deck or the user's preference.
 
 ## Style Selection & Catalog Guidance
 
-If you are choosing or designing a style for the deck, you are **strongly recommended** to refer to the comprehensive style-related guidelines and aesthetic recipes in `references/style/index.md`. 
+If you are choosing or designing a style for the deck, use
+`references/style/index.md` as the style catalog and inspiration library.
 
 Use the following guiding principles to select and align the visual system:
-- **Prioritize Style Evaluation**: If the user has no explicit style preference, you **should prioritize evaluating the 24-style catalog** against the user's raw presentation materials. Analyze which styles best match the content's tone and structure, pick 2-3 contrasting styles from the catalog, and present them as recommended options during the Intake Gate phase.
-- **Intake Style Proposal**: Always include a style proposal in the Intake Gate. If the user does not have a pre-existing brand or design system, select and propose a curated set of styles from our 24-style catalog (`references/style/index.md`) that best fit the audience and delivery target.
+- **Style proposal**: Include a style proposal in the Pre-Build Alignment. If the
+  user does not have a pre-existing brand or design system, select 2-3 curated
+  options from the 24-style catalog that best fit the audience, content, and
+  delivery target.
+- **Clear user style**: If the user already chose a style, confirm that main
+  direction, offer 3-5 refinements inside the chosen style, and include a few
+  nearby catalog options as inspiration rather than pressure to switch.
+- **Preview prompt**: Ask whether to create a minimal interactive preview before
+  full implementation. Recommend doing so by default, and skip it only when the
+  user explicitly declines or asks to proceed directly.
 
 ## Fonts
 

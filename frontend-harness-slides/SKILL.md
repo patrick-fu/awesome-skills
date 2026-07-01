@@ -11,282 +11,137 @@ description: >-
 
 # Frontend Harness Slides
 
-Build HTML slides that survive iteration. The skill does **not** provide a
-starter project, copyable template, or required framework. It gives the agent a
-process and harness contracts so a deck can be changed repeatedly without
-silently breaking unrelated frames.
+Build HTML slides that survive iteration. This skill does not provide a starter
+project or require React, Vite, Tailwind, Playwright, or any other stack. Its
+unit is the **harness contract**: stable frame address, registry, fixed stage,
+frozen mode, audit surface, visual checks, and verified handoff.
 
-## Core Promise
+## Intake Gate
 
-1. **Align before building**: do not start implementation from a vague prompt.
-2. **Change freely, verify mechanically**: every meaningful frame can be
-   addressed, frozen, enumerated, and checked.
-3. **Bind mechanisms, not frameworks**: choose the stack from the user's project
-   and preferences; preserve the harness contracts in that stack.
+For vague non-trivial deck requests, do not create files, scaffold a project,
+choose a framework, or start implementation before alignment. First align in
+plain text. If the user provides substantial source material, read it before
+asking broad questions; infer a direction, then ask the user to confirm or adjust
+the remaining important decisions.
 
-## STOP: Brief Intake First
-
-THIS IS A HARD GATE. For vague new-deck requests, the first user-facing response
-must be a short plain-text intake, not code, scaffolding, or file creation. At
-minimum, confirm the deck's content and presentation plan, style, information
-density, animation direction, stage basis, navigation expectations, technology
-stack, and delivery target before implementation.
-
-DO NOT create files, choose a framework, scaffold a deck, or start slide
-implementation from a vague prompt. First align with the user in plain text
-unless the supplied context already answers every minimum decision below.
-
-If the user provides substantial source material, read and understand it before
-asking broad intake questions. Use that understanding to propose defaults and
-alternatives, then ask the user to confirm or adjust the remaining important
-decisions.
-
-Completion criterion: proceed only when one is true:
-
-- The user has confirmed every minimum decision.
-- The source material or prior conversation already clearly answers every
-  minimum decision.
-- The user explicitly says to proceed with defaults or assumptions; in that case,
-  state those assumptions before creating files.
-
-Minimum decisions:
-
-- **Content and presentation plan**: confirm what the deck should cover, what it
-  should not cover, the content orientation, presentation format, expected
-  duration, and rough content mix. Recommend a structure and offer alternatives:
-  teaching, persuasion, product demo, research readout, retrospective, sales
-  pitch, workshop, live talk, recording, review deck, or reading-first document.
-- **Slides style**: keynote/product-launch, formal report, technical demo,
-  hybrid, or a custom reference. When the direction is vague, recommend a
-  default, name several alternatives, and offer to make 1-2 real slide previews
-  in 2-3 styles before the full deck. When the user has already specified a
-  clear style, do not force multi-style previews.
-- **Information density**: speaker-led sparse slides, reading-first dense slides,
-  or a balanced rhythm. Tie this to the audit profile.
-- **Animation direction**: cinematic keynote motion, restrained report motion, or
-  another explicit style. The recommended default is keynote-like motion:
-  directional scene transitions, Keynote Magic Move-style continuity,
-  beat-by-beat reveals, spring/scale emphasis, and visual de-emphasis of
-  superseded items. Explain this recommendation, name livelier/restrained/static
-  alternatives, and ask the user to confirm or adjust it before implementation.
-- **Stage basis**: default to `1920x1080` when the user has no preference, but
-  explicitly offer `1280x720`, `2560x1440`, `4:3`, or another fixed
-  project-specific ratio.
-- **Navigation expectations**: ask whether phone, tablet, or touchscreen viewing
-  should support tap/swipe navigation. Recommend a small style-matched in-stage
-  scene navigator by default, but confirm whether the user wants it. When such
-  navigation exists, avoid visible textual page counters unless the user needs a
-  PDF/reading version with page numbers.
-- **Technology stack**: recommend a stack and explain why. Prefer the user's
-  existing stack when one exists; for a new non-trivial deck with no preference,
-  React + Vite + Playwright is a reasonable default. Name alternatives such as
-  plain HTML/CSS/JS, Vue/Svelte + Vite, Next.js, or Astro/static output and
-  explain the tradeoffs briefly.
-- **Delivery target**: confirm whether final handoff should be a deployed online
-  URL, PDF/static export, or both. If the user has no hosting preference,
-  recommend Vercel for the live URL and mention GitHub Pages or Cloudflare Pages
-  as static-site alternatives.
-
-For each minimum decision, present the recommended value, at least one credible
-alternative, and ask for confirmation. Do not silently convert recommendations
+Proceed only when the key decisions are confirmed, clearly answered by supplied
+context, or explicitly left to defaults. For each high-risk decision, state the
+recommended value plus credible alternatives; do not convert recommendations
 into requirements.
 
-After intake, summarize the confirmed decisions as implementation constraints,
-not slide copy. Duration, audience, content orientation, presentation format,
-content mix, density, style, stage size, navigation, and delivery target should
-guide the deck; do not render them on the slide surface unless the user
-explicitly wants the audience to see them.
+Cover these decisions, at the level the task needs:
 
-For non-trivial decks, prefer keeping an external project context document so
-long-running work does not depend only on chat history. Follow the user's
-preferred location; otherwise use project docs for deliverable decks and a temp
-path for small explorations. Update it after major phases as a memory aid, not
-as an extra approval gate.
+- **Content plan**: scope, non-goals, orientation, presentation format, duration,
+  and content mix.
+- **Design plan**: style, density, audit profile, motion direction, visual
+  references, and whether a preview is useful.
+- **Build plan**: fixed stage, navigation/touch expectations, technology stack,
+  source material, and delivery target.
 
-Use interview-style follow-up, not structured question tools. Ask few questions,
-but ask real ones. If the user gives only a short idea, ask for the highest-risk
-preference first instead of creating files. If the user provides a detailed
-document, existing deck, outline, screenshots, or brand assets, summarize the
-inferred direction and ask only the questions that materially affect the deck.
+If style is vague, recommend real interactive previews. If the user already gave
+a clear style, do not force multi-style previews.
 
-Useful default phrasing: "I recommend a keynote/product-launch motion style:
-short directional transitions, meaningful beat-by-beat reveals, light spring or
-scale emphasis, old ideas fading or being crossed out, and a final takeaway
-highlight. Should I use that, or keep it more report-like and restrained?"
+Keep alignment details as implementation constraints, not slide copy. Do not
+render duration, audience, density, stage size, delivery target, navigation
+requirements, or implementation notes on the slide surface unless the user asks.
 
-Useful dimensions to explore:
-
-- **Mode**: launch/keynote-style, formal report, technical demo, hybrid, or a
-  custom reference.
-- **Audience and stakes**: who will see it, and what decision or feeling the deck
-  should drive.
-- **Content orientation and format**: teaching, persuasion, product demo,
-  research readout, retrospective, sales pitch, workshop, live talk, recording,
-  internal review, or reading-first material.
-- **Duration and content mix**: expected talk length and rough share of
-  background, problem, thesis, demo, evidence, method, cases, and wrap-up.
-- **Density**: speaker-led with fewer words, reading-first with more detail, or a
-  mixed rhythm.
-- **Motion**: keynote-like animated reveals, restrained report-style transitions,
-  or another reference.
-- **Technology**: project stack, test harness, and deployment fit.
-- **Delivery**: online URL, PDF/static export, or both.
-- **Source material**: notes, documents, screenshots, brand assets, old slides,
-  data, code snippets, or product demos.
-- **Visual references and anti-references**: what it should resemble, and what it
-  should avoid.
-- **Typeface**: choose fonts that match the visual style and language coverage.
+For non-trivial decks, keep a context document when it will reduce drift. Follow
+the user's preferred location; otherwise use project docs for deliverable decks
+and a temp path for small explorations. Treat context as memory, not control.
 
 If the user gives a reference URL, deployed deck, or source repository, inspect
-it before choosing the deck's stage, scaling, animation, and interaction
-contracts. Extract concrete behavior such as base stage size, whether scale can
-exceed `1`, transition style, beat reveal style, and click/touch navigation.
+it before choosing stage, scaling, animation, and interaction contracts.
 
-## Reference Loading Contract
+## Reference Loading
 
-`SKILL.md` stays compact so accidental triggers do not waste context. If the
-task is only exploratory discussion, answer from `SKILL.md` and load only the
-reference needed for the current question.
-
-Once the user confirms they want a non-trivial slide deck built, imported, or
-substantially edited, use these references as the normal reading path before
-implementation:
+If the task is exploratory discussion, answer from this file and load only the
+needed reference. Once the user confirms a non-trivial deck build, import, or
+substantial edit, read the stage references before implementation:
 
 1. `references/01-plan.md`
 2. `references/02-design.md`
 3. `references/03-build.md`
 4. `references/04-verify-and-ship.md`
 
-Avoid building from `SKILL.md` alone after production is confirmed. The stage
-references carry the practical guidance for planning, design, harness
+Do not build from `SKILL.md` alone after production is confirmed. The references
+are the single source of truth for planning detail, visual systems, harness
 implementation, verification, deployment, and handoff.
 
-## When To Use
+Use `references/01-plan.md` when shaping an actual intake prompt; this file only
+lists the decision surface.
 
-Use this skill when at least one is true:
+| File | Use for |
+|---|---|
+| `references/01-plan.md` | Intake, defaults and alternatives, context, narrative/content mix, source material, registry draft, visible-copy boundary. |
+| `references/02-design.md` | Style previews, style presets, layout variation, navigation design, fonts/CJK, assets, components, copy quality. |
+| `references/03-build.md` | Stable frames, registry, fixed/mobile stage, navigation, frozen mode, motion, interaction, implementation pitfalls. |
+| `references/04-verify-and-ship.md` | Audit profiles, visual smoke, production smoke, mobile/WebKit coverage, deployment, PDF/static handoff, final report. |
 
-- The deck is likely to go through user feedback and repeated agent edits.
-- Layout, animation, screenshots, charts, or visual polish are important enough
-  to check after changes.
-- The deck has multiple sections, many scenes, or stateful animation beats.
-- The user is worried that editing one slide will break another slide.
+## Branches
 
-Do not use this skill for very small, throwaway, static slides where no harness
-is useful. A single HTML output is enough in that case.
+- **Tiny one-shot deck**: prefer a single static HTML file; do not impose a
+  harness unless the user needs iteration, animation states, or visual checks.
+- **New harness-backed deck**: align, plan, preview if useful, establish the
+  harness contracts, build, verify, and ship.
+- **Imported or source-heavy deck**: treat source material as content and intent,
+  not layout preservation; rebuild narrative, registry, assets, and scenes.
+- **Existing deck**: preserve existing stack and conventions; adapt the harness
+  contracts instead of replacing the project style.
 
-## Project Boundary
+## Project And Stack
 
-For a new deck, initialize in a clean deck root:
+For a new deck, work in a clean deck root. Do not scatter files into a non-empty
+directory. If the directory already has a deck project, treat it as existing
+work. Recommend an independent git repository when useful; if working inside a
+broad workspace or parent repo, briefly confirm the deck root and key files are
+tracked or ignored as expected.
 
-- If the current directory is empty, it may be the deck root.
-- If the current directory is not empty, do not scatter deck files into it. Ask
-  whether to create a new subdirectory, continue an existing half-built deck, or
-  use another path.
-- If the directory already contains a slide harness or deck project, treat it as
-  existing work; do not overwrite it.
-- Recommend an independent git repository for a new deck. If the target lives
-  inside a parent git repo, explain the tradeoff and confirm before nested git.
-- When creating a deck inside a broad workspace or parent repo, briefly confirm
-  the deck root and key files are tracked or ignored as expected.
-
-## Technology Posture
-
-Do not require React, Vite, Tailwind, Playwright, or any bundled starter. Prefer
-the user's existing stack when one exists. For a new project, choose the simplest
-web stack that can satisfy the harness contracts and the deck's visual needs.
-
-For a new non-trivial deck with no existing stack or preference, React + Vite +
-Playwright is a reasonable default, but it is not mandatory. Plain
-HTML/CSS/JS, Vue/Svelte + Vite, Next.js, Astro/static output, or another stack
-can be correct when it better fits the user or project. Playwright is a good
-default for browser-level verification, but it is not the skill's identity. If
-another browser automation or visual check system is already present and can
-enumerate, freeze, and inspect frames, use it.
+Prefer the user's existing stack. For a new non-trivial deck with no preference,
+React + Vite + Playwright is a reasonable default, but the skill's identity is
+the harness contract, not any framework or test library.
 
 ## Harness Contracts
 
-Read `references/03-build.md` before implementing a new harness or adapting an
-existing one. The deck is ready to iterate only when these contracts are
-satisfied:
+Read `references/03-build.md` before implementing or adapting a harness. A deck
+is ready to iterate only when these contracts exist:
 
-- **Stable frame address**: every scene and meaningful beat has a stable id and a
-  direct way to render that frame.
-- **Frame registry**: tooling can enumerate all scenes, their order, and their
-  beat counts without scraping visible text.
+- **Stable frame address**: every scene and meaningful beat can be opened
+  directly by stable id/state.
+- **Registry**: tooling can enumerate scene order and beat counts without
+  scraping visible text.
 - **Fixed stage**: slide content is authored inside a fixed-ratio stage that
-  scales as a whole; viewport responsive rules do not rearrange slide content.
-- **Frozen mode**: test-time rendering can stop animation, media, clocks, live
-  regions, and random values at a deterministic frame.
-- **Audit surface**: tests can detect route mismatch, missing content, overflow,
-  collapsed elements, broken assets, and unexpected console/runtime errors.
-- **Visual baseline**: visual snapshots or equivalent screenshots exist for
-  frames where pixel drift matters, and updates are accepted only intentionally.
+  scales as a whole.
+- **Frozen mode**: tests can render deterministic settled states.
+- **Audit surface**: checks can catch route mismatch, missing/collapsed content,
+  overflow, asset/font failures, console/runtime errors, and interaction leaks.
+- **Visual baseline**: screenshots or equivalent visual checks exist where pixel
+  drift matters.
 
-## Workflow
+## Working Loop
 
-1. **Detect**: decide whether this is a tiny static deck, a new harness-backed
-   deck, imported content, or an existing deck.
-2. **Align**: complete the brief intake or summarize the provided material and
-   assumptions.
-3. **Plan**: for non-trivial decks, use a context document when it helps keep
-   state visible, produce a narrative/content-mix plan, then produce a registry
-   draft with stable ids, titles, audience-visible copy, speaker intent, beats,
-   visual ideas, and internal constraints before writing scene code.
-4. **Choose**: pick the deck root and technology stack; do not copy a bundled
-   project.
-5. **Preview**: when visual direction is unclear, prefer three interactive style
-   previews in the planned production stack/stage skeleton, capture screenshots,
-   run a light preview check, and ask the user to choose before full expansion.
-6. **Establish**: implement or adapt the harness contracts in the chosen stack.
-7. **Build**: create the narrative, frames, assets, animation states, and visual
-   system.
-8. **Verify**: run the smallest useful check during iteration and a final check
-   before handoff; report any skipped check explicitly.
-9. **Ship**: deliver the confirmed handoff, not just a local dev server. Deploy
-   a live URL, export PDF/static output, or do both after checked frames match
-   the intended result. Read `references/04-verify-and-ship.md` for verified
-   handoff.
+1. **Detect** the branch: tiny static, new harness-backed, imported/source-heavy,
+   or existing deck.
+2. **Align and plan** with `references/01-plan.md`.
+3. **Design** with `references/02-design.md`; selected style means a visual
+   system, not one repeated template.
+4. **Build** with `references/03-build.md`; preserve the harness contracts in
+   the chosen stack.
+5. **Verify and ship** with `references/04-verify-and-ship.md`; deliver a live
+   URL, PDF/static export, or both according to the confirmed target.
 
-## Verification Tiers
-
-Use project-specific commands. Do not mechanically run the heaviest visual suite
-after every tiny text edit. Read `references/04-verify-and-ship.md` for audit
-profiles, visual smoke, production smoke, mobile checks, and final reporting.
-
-| Tier | Purpose | Use when |
-|---|---|---|
-| Preflight | Environment, dependencies, server, browser availability, obvious config issues. | After project setup, moving the deck, or suspicious environment state. |
-| Structural audit | Registry, addressability, stage geometry, overflow, collapsed content, asset errors. | Ordinary scene/content/layout edits. |
-| Visual check | Deterministic screenshots or equivalent rendered-frame comparison. | Visual, animation, font, theme, shared component, stage, or CSS changes. |
-| Full check | All relevant build, audit, and visual checks. | Before delivery, before accepting a new baseline, or when impact is unclear. |
-
-Treat the work as ready to ship only after the relevant final check passes, or
-after clearly reporting what was not checked and why.
-
-## Supporting Files
-
-| File | Read/use when |
-|---|---|
-| `references/01-plan.md` | Intake, alternatives, visual preview, tech stack choice, decision snapshot, content import, registry draft, and visible-copy boundary. |
-| `references/02-design.md` | Visual direction, style presets, sketch emoji guidance, fonts, CJK, assets, component choices, and copy quality. |
-| `references/03-build.md` | Harness contracts, fixed/mobile stage, navigation, frozen mode, motion, interactivity, and implementation pitfalls. |
-| `references/04-verify-and-ship.md` | Audit profiles, structural audit, visual smoke, production smoke, mobile/WebKit coverage, deployment, PDF/static handoff, and final reporting. |
+Treat local servers as previews unless the user explicitly asks for local-only
+work. Treat the work as ready only after the relevant final check passes, or
+after skipped checks and residual risks are reported clearly.
 
 ## Anti-Patterns
 
-- Skipping brief intake on a vague request and starting implementation.
-- Treating this skill as a mandate to use a particular frontend framework.
-- Rendering a whole static slide in canvas.
-- Using viewport responsive breakpoints inside the fixed stage.
+- Starting implementation from a vague prompt.
+- Treating recommendations as user-confirmed requirements.
+- Rendering internal planning context on the slide surface.
+- Treating this skill as a mandate for a specific framework.
+- Using viewport breakpoints inside the fixed stage.
+- Rendering whole static slides in canvas.
 - Treating beats as decorative fades instead of story states.
-- Renaming stable scene ids casually after baselines or links exist.
-- Skipping the harness after changing layout, animation, fonts, assets, or shared
-  visual code.
-
-## Copy Quality Pass
-
-Before final delivery, review the deck text for concrete claims, density, and
-tone. Prefer specific titles, visible numbers, and direct takeaways over generic
-corporate wording. If the deck is speaker-led, keep slide text short and put
-detail in the spoken narrative. If it is reading-first, keep slides
-self-contained without shrinking text into unreadability.
+- Renaming stable scene ids casually after links or baselines exist.
+- Skipping verification after layout, motion, font, asset, shared visual, or
+  harness changes.

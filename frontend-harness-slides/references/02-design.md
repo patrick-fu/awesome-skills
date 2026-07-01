@@ -101,13 +101,14 @@ Navigation should feel like part of the slide composition, not a browser chrome
 bolted outside the canvas. Keep it inside the fixed stage and match the visual
 language of the chosen style.
 
-For longer decks, a fixed-length row or column of equal dots can become crowded.
-Useful alternatives include section markers, compressed rails, or a
-picker-style navigator inspired by wheel controls: show only a small window of
-markers, make the current marker most prominent, fade or shrink nearby markers,
-and let click, wheel, trackpad, or touch gestures move through the sequence when
-that interaction fits the deck. Treat this as an option, not a default
-requirement.
+When adding an in-stage navigator, prefer a picker-style marker window as the
+starting point. Inspired by wheel controls, it shows only a small window of
+markers, makes the current marker most prominent, fades or shrinks nearby
+markers, and can let click, wheel, trackpad, or touch gestures move through the
+sequence. Adapt the form to the style: hand-drawn dots, luminous particles,
+quiet editorial ticks, or another matching treatment are all valid. Use simpler
+dots, section tabs, or another navigator when they better fit the deck or the
+user's preference.
 
 ## Style Presets
 

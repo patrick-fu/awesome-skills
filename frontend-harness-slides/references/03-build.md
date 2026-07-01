@@ -36,6 +36,10 @@ The registry can be code, JSON, generated metadata, or an app-level route table.
 Tests should enumerate frames without scraping visible text or guessing
 filenames.
 
+Keep the runtime registry or manifest minimal, stable, and enumerable. It does
+not need every planning field, but it should stay aligned with planning on scene
+ids, order, and beat or frame counts.
+
 ### Fixed Stage
 
 Author slide content inside a fixed-ratio stage, usually 16:9. Confirm the base
@@ -125,6 +129,10 @@ Tests need deterministic render mode. Frozen mode should stop or stabilize:
 Frozen mode should normally render the requested beat's settled end state, not
 the middle of an entrance transition.
 
+A common lightweight pattern is a direct frame address plus a frozen/snapshot
+flag that applies a test-mode state and waits for fonts or critical assets before
+capture.
+
 ### Audit Surface
 
 The harness should fail loudly on:
@@ -136,6 +144,13 @@ The harness should fail loudly on:
 - fonts or images fail to load
 - unexpected console errors or runtime exceptions
 - interactive regions swallow or leak navigation keys
+
+### Build-Time Tests
+
+Prefer TDD-style iteration for harness-critical behavior: direct frame routing,
+beat navigation, frozen mode, overflow checks, and interaction guards. Keep lint
+and tests simple, meaningful, and high-value; empty checks or superficial cases
+do not count as verification.
 
 ## Motion
 
@@ -209,8 +224,9 @@ Avoid:
 </div>
 ```
 
-If `.reveal` has `transform`, it can create a containing block and break
-absolute positioning inside a fixed stage.
+If `.reveal` has `transform`, `filter`, `perspective`, or similar containment
+behavior, it can create a containing block and break absolute positioning inside
+a fixed stage.
 
 Also avoid extra wrappers where grid, flex, direct-child selectors, or circular
 track layouts expect the actual child element:
@@ -229,7 +245,8 @@ Prefer applying reveal state directly to the visual/layout element:
 
 If a wrapper is necessary, keep it layout-neutral. Opacity-only wrappers are
 safer, but only when they do not affect layout, containing blocks, stacking, or
-selectors.
+selectors. Check revealed absolute elements for stage overflow after adding the
+motion.
 
 ## Other Implementation Anti-Patterns
 

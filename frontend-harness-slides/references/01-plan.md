@@ -10,6 +10,11 @@ For each important decision, give a recommended default, name credible
 alternatives, and ask the user to confirm or adjust. Do not only ask "is my
 default OK?"
 
+When the user provides substantial source material, inspect it before asking
+generic intake questions. First infer the story, likely format, content density,
+style cues, and missing decisions; then propose a direction with alternatives
+for confirmation.
+
 Minimum decisions:
 
 - **Content and presentation plan**: confirm what the deck should cover and what
@@ -65,11 +70,13 @@ or self-reading document, I will change the content ratio and slide density.
 ## Visual Preview Default
 
 When visual direction is unclear, recommend making three real interactive slide
-previews before building the full deck. Use the same planned production stack,
-stage basis, and harness skeleton where possible so font loading, stage scaling,
-navigation, motion, and browser issues surface early. Use the user's actual
-title, content, screenshots, or data. Do not show abstract moodboards or option
-cards with internal labels.
+previews before building the full deck. If the user has already supplied a clear
+style or strong visual reference, skip multi-direction previews and proceed with
+that direction, optionally using a small same-style preview to confirm details.
+Use the same planned production stack, stage basis, and harness skeleton where
+possible so font loading, stage scaling, navigation, motion, and browser issues
+surface early. Use the user's actual title, content, screenshots, or data. Do
+not show abstract moodboards or option cards with internal labels.
 
 Default preview set:
 
@@ -195,6 +202,10 @@ old deck, outline, screenshots, or product captures.
 Import is not layout preservation. Treat source material as content and intent,
 then rebuild the deck into stable scenes inside the fixed stage.
 
+For source-heavy requests, understand the material before deciding what to ask
+the user. Summarize the inferred direction, propose defaults, and confirm only
+the choices that still materially affect the deck.
+
 Before mapping content, decide the deck's narrative allocation. A 40-minute live
 talk, a 10-minute product pitch, a workshop, and a reading-first report should
 not use the same slide count, text density, or section weights.
@@ -251,6 +262,10 @@ information density, stage size, delivery target, deployment provider,
 navigation requirements, implementation notes, and review instructions are
 internal constraints unless the user explicitly asks to show them.
 
+Planning registry fields do not all need to enter runtime code. The runtime
+manifest can stay smaller as long as stable ids, ordering, and beat or frame
+counts remain aligned with the planning registry.
+
 Example:
 
 ```text
@@ -289,8 +304,8 @@ Before building:
    confirmed or explicitly assumed.
 4. Context location is clear when the task is long-running or deliverable.
 5. Non-trivial decks have a narrative plan before the registry draft.
-6. A three-direction interactive visual preview step was offered unless a strong
-   reference already exists.
+6. A three-direction interactive visual preview step was offered unless a clear
+   style or strong reference already exists.
 7. The decision snapshot separates constraints from slide copy.
 8. Non-trivial decks have a registry draft with `visible_copy`.
 9. Internal alignment details are not being treated as source content.

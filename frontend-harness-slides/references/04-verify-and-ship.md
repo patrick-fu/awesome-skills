@@ -71,6 +71,11 @@ verify at least:
 - Direct frame URLs render the intended scene/beat.
 - Frozen mode renders settled states.
 
+When practical, each custom navigation control or local interaction should have
+at least one focused check, such as click-to-expand not advancing the slide,
+wheel navigation changing one scene, or marker-track motion updating after a
+scene change.
+
 ## Mobile Visibility
 
 When mobile/touch support is part of delivery, structural checks are not enough.
@@ -98,7 +103,9 @@ set for non-trivial decks:
 - mobile viewport page when touch/mobile is supported
 
 Look for overlaps, missing nodes, wrong visual hierarchy, layout drift, clipped
-assets, unreadable text, and whether the page matches the intended style.
+assets, unreadable text, and whether the page matches the intended style. Also
+check rhythm: adjacent slides should not overuse the same skeleton, card grid,
+motion beat, or section/content hierarchy unless that uniformity is intentional.
 
 Adjust the viewing standard to the deck type without creating a separate
 process. Speaker-led or live decks need expressive final states, clear primary

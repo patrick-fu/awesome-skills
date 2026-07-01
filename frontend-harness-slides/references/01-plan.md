@@ -266,6 +266,10 @@ Planning registry fields do not all need to enter runtime code. The runtime
 manifest can stay smaller as long as stable ids, ordering, and beat or frame
 counts remain aligned with the planning registry.
 
+For longer decks, add `layoutFamily` or an equivalent visual structure tag when
+useful. The goal is to let the selected style expand into varied scene
+structures instead of one repeated component.
+
 Example:
 
 ```text

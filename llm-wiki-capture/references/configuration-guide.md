@@ -16,9 +16,9 @@ as Karpathy's gist:
 
 - https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285
 
-Treat that reference as background only. Runtime behavior should come from the
-user's local instructions and repository docs, not from fetching an external
-gist.
+Treat that reference as background inspiration only. Runtime behavior should
+come from this skill, the user's local instructions, and repository docs, not
+from fetching an external gist.
 
 ## Quick Start
 
@@ -54,6 +54,21 @@ Recommended file roles:
 The user can start from an existing notes repository instead. The important
 part is to make the integration rules explicit somewhere the agent can read.
 
+### Repository Options
+
+Use one of these Git-backed setups:
+
+- **Hosted Git repository**: GitHub, GitLab, Codeberg, a company Git host, or a
+  self-hosted Git service. This is the recommended setup for cross-machine sync,
+  backup, commit history, and optional push.
+- **Local Git repository**: a `git init` repository on one machine. This is a
+  good starting point for private or early experiments, and it still gives the
+  agent diffs, clean-worktree checks, and commit history.
+
+Do not require a hosted remote for review-only or local-only workflows. Require
+a clone URL only when the user wants missing repositories to be initialized
+automatically or when push is part of local policy.
+
 ## 2. Configure `AGENTS.md`
 
 The local `AGENTS.md` should answer the environment-specific questions that a
@@ -79,7 +94,7 @@ Minimal example:
 ```markdown
 ## LLM Wiki Capture Config
 - Knowledge base root: ~/path/to/my-wiki
-- Clone URL: git@github.com:you/my-wiki.git
+- Clone URL: git@github.com:you/my-wiki.git or https://github.com/you/my-wiki.git
 - Integration branch: main
 - Read first: purpose.md, schema.md, wiki/index.md, wiki/log.md
 - Update after knowledge edits: wiki/index.md, wiki/log.md

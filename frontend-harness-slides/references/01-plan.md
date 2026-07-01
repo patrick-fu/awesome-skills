@@ -127,6 +127,10 @@ Update after major phases when useful:
 - verification
 - deployment or export
 
+When verification coverage, delivery status, production URLs, or skipped risks
+change materially, prefer updating the context document so later edits do not
+depend on chat history alone.
+
 ## Decision Snapshot
 
 Before implementation, write a compact snapshot in chat or project notes:
@@ -194,6 +198,11 @@ then rebuild the deck into stable scenes inside the fixed stage.
 Before mapping content, decide the deck's narrative allocation. A 40-minute live
 talk, a 10-minute product pitch, a workshop, and a reading-first report should
 not use the same slide count, text density, or section weights.
+
+For long or sprawling source material, first rebuild the core story and trimming
+strategy. Record the important content choices when useful: what was kept,
+condensed, moved to speaker notes, or deliberately removed. Keep this as
+planning context rather than slide copy.
 
 Practical paths:
 

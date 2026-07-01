@@ -394,4 +394,4 @@ Examples:
 | Unlock seamless collaboration | Cut review loops from 3 days to 1 |
 | Our solution | What changes after the workflow is automated |
 | Robust, scalable, and user-friendly | Handles 10k records without manual cleanup |
-| 40-minute live talk for engineers | Why voice changes the coding loop |
+| 40-minute live talk for engineers | Why automation changes the coding loop |

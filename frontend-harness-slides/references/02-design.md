@@ -95,6 +95,20 @@ CSS variables, design tokens, a context provider, global stylesheet, or
 generated theme data are all acceptable. A theme change should not require
 editing many unrelated scenes.
 
+## Navigation Design
+
+Navigation should feel like part of the slide composition, not a browser chrome
+bolted outside the canvas. Keep it inside the fixed stage and match the visual
+language of the chosen style.
+
+For longer decks, a fixed-length row or column of equal dots can become crowded.
+Useful alternatives include section markers, compressed rails, or a
+picker-style navigator inspired by wheel controls: show only a small window of
+markers, make the current marker most prominent, fade or shrink nearby markers,
+and let click, wheel, trackpad, or touch gestures move through the sequence when
+that interaction fits the deck. Treat this as an option, not a default
+requirement.
+
 ## Style Presets
 
 Presets are inspiration, not templates. Offer a small set of contrasting
@@ -144,9 +158,8 @@ on every scene; rotate hops, wobbles, flowing arrows, rotations, sliding phones,
 turning robots, nods, and continuity transforms.
 
 **Typeface direction:** use a style-matched handwritten or warm CJK-capable font
-when Chinese/Japanese/Korean text appears. For Chinese sketch decks, consider
-LXGW WenKai or LXGW WenKai Lite before generic sans fonts. Bundle chosen fonts
-locally for deployed decks.
+when Chinese/Japanese/Korean text appears. Prefer a reliable local or bundled
+font setup for deployed decks, with a fallback that still matches the style.
 
 **Avoid when:** the deck must feel institutional, legally formal, or visually
 neutral across many machines. Native emoji can render differently; use a
@@ -261,16 +274,21 @@ Rules:
 - Subset large CJK fonts when stable deployed rendering matters and file size is
   excessive.
 
-Recommended open-source faces:
+Useful directions to consider:
 
-- Sans/display: Syne, Cabinet Grotesk, Plus Jakarta Sans.
-- Serif/editorial: Cormorant Garamond, Playfair Display.
-- Chinese/handwritten: LXGW WenKai, LXGW WenKai Lite.
-- Chinese expressive display: Ma Shan Zheng, ZCOOL KuaiLe.
-- Chinese serif: Noto Serif SC.
+- Sans/display faces for modern product or technical decks.
+- Serif or editorial faces for report, policy, or reading-first decks.
+- Handwritten or warm CJK-capable faces for sketch, teaching, or playful decks.
+- System or user-provided fonts when they are more reliable than adding large
+  webfont bundles.
 
 Avoid defaulting to Inter, Roboto, Arial, or system-ui when a stronger style
 choice is available.
+
+Do a light browser check for important fonts. Package names and CSS entry points
+do not guarantee that the loaded font covers every language in the deck. If CJK
+text falls back to a system font, make that fallback intentional and acceptable
+for the delivery context.
 
 ## Assets
 

@@ -20,6 +20,11 @@ copy edit, but prefer completing the relevant final check before shipping.
 
 Report skipped checks explicitly. A skipped check is not a pass.
 
+When an audit fails, prefer error output that names the frame being checked:
+scene id, beat or state, direct URL, failure category, and the short browser or
+runtime error when available. The exact format is project-specific; the goal is
+to make the next debugging step obvious.
+
 ## Audit Profiles
 
 Bind the audit profile to the confirmed information density.
@@ -95,6 +100,16 @@ set for non-trivial decks:
 Look for overlaps, missing nodes, wrong visual hierarchy, layout drift, clipped
 assets, unreadable text, and whether the page matches the intended style.
 
+For decks with many reveal beats, representative screenshots may miss the
+accumulated final state. Before final delivery, consider capturing each scene's
+final beat when that is practical, especially after changing shared layout,
+navigation, typography, or animation code.
+
+Automated overlap checks can be useful as an optional quality layer between
+structural audit and visual smoke. Keep them focused on important content
+regions, and do not treat decorative shadows, highlights, or intentional
+overlaps as failures.
+
 ## Browser Coverage
 
 Preflight should identify available browser engines when mobile support matters:
@@ -127,6 +142,7 @@ Common causes:
 - timers/random values/live widgets
 - browser or OS rendering differences
 - viewport scale or DPR changes
+- testing an old production build or preview output after source files changed
 
 ## Delivery Target
 
@@ -161,11 +177,22 @@ Before deploying, prefer to:
 - verify local preview from the built output when possible
 - confirm fonts, images, animation states, and direct frame links work
 
+If browser checks run against built output such as a static preview server,
+build first so the test is not reading stale files. Dev-server checks are better
+for fast iteration; built-output checks are better for delivery confidence.
+
+Before hosted deployment, it is useful to inspect the files that will be
+published when the provider makes that easy. Local screenshots, audit artifacts,
+test reports, temporary exports, cache files, and local build output are often
+not meant to become public unless the project intentionally ships them.
+
 After deploying, prefer to:
 
 - smoke test the production URL, not only a preview URL
-- verify direct frame links on the hosted URL
+- open at least one direct frame link on the hosted URL
+- verify basic keyboard or click navigation on the hosted URL
 - verify mobile visibility and navigation when mobile/touch is supported
+- check for console, page, request, font, or asset failures
 - record the production URL, deploy command, and smoke status in README or a
   handoff note
 

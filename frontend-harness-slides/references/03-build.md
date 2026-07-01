@@ -85,7 +85,8 @@ Support the confirmed navigation inputs. Recommended defaults:
 - Tap/click empty slide space: next.
 - Swipe left/up: next.
 - Swipe right/down: previous.
-- In-stage dot/marker navigator: jump to a scene.
+- In-stage picker-style marker window or another style-matched navigator: jump
+  to a scene or major section.
 
 One physical input should cause exactly one navigation step. Ignore repeated
 keyboard events such as `event.repeat`. If touch and click are both listened to,
@@ -104,9 +105,10 @@ making a PDF/reading/compliance variant.
 Keep navigation inside the fixed stage. Every dot, button, rail, hotspot, and
 hover target should belong inside the stage coordinate system.
 
-For long decks, consider navigation designs that do not require every marker to
-remain visible at full size. Section markers, compressed rails, or picker-style
-marker windows can keep navigation usable without letting it dominate the slide.
+Picker-style marker windows are a good default for embedded navigation because
+they do not require every marker to remain visible at full size. Keep the
+implementation modest: current marker emphasis, nearby marker fade/scale, and
+click/wheel/touch movement are enough when they fit the deck.
 
 ### Frozen Mode
 

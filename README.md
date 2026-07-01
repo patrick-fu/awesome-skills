@@ -48,10 +48,6 @@ Repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu
 
 ## Included Skills
 
-### `aero-mint-glass-html-design`
-
-Use this skill when a frontend surface should follow the Aero Mint Glass visual style: airy mint-cyan light, translucent white glass panels, soft rounded geometry, restrained shadows, clean typography, soft 3D focal imagery, and quiet motion.
-
 ### `brainstorm`
 
 Use this skill when the right next step is conversation rather than execution. It pushes the assistant to ask clarifying questions first, uncover hidden assumptions, and guide the user toward a clearer problem statement before proposing solutions.

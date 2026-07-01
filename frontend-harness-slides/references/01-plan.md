@@ -6,14 +6,27 @@ small visual direction decision before scene code starts.
 
 ## Intake Gate
 
-For each important decision, give a recommended default, name credible
-alternatives, and ask the user to confirm or adjust. Do not only ask "is my
-default OK?"
+For each important decision, give a recommended default, name 3-5 credible
+candidate options, explain why each option may fit, and ask the user to confirm
+or adjust. Do not only ask "is my default OK?"
 
 When the user provides substantial source material, inspect it before asking
 generic intake questions. First infer the story, likely format, content density,
 style cues, and missing decisions; then propose a direction with alternatives
-for confirmation.
+for confirmation. Inferred answers are not confirmation; they are the starting
+point for the Pre-Build Alignment.
+
+Use this format for key decisions:
+
+```text
+Recommendation: <value> because <reason>.
+Candidates:
+1. <option>: <why it may fit>
+2. <option>: <why it may fit>
+3. <option>: <why it may fit>
+Optional 4-5. <option>: <why it may fit>
+Please confirm, adjust, or tell me to proceed with the recommendation.
+```
 
 Minimum decisions:
 
@@ -70,14 +83,19 @@ or self-reading document, I will change the content ratio and slide density.
 
 ## Visual Preview Default
 
-When visual direction is unclear, recommend making three real interactive slide
-previews before building the full deck. If the user has already supplied a clear
-style or strong visual reference, skip multi-direction previews and proceed with
-that direction, optionally using a small same-style preview to confirm details.
+Always ask about visual preview before implementation. Recommend a minimal
+interactive preview by default. When visual direction is unclear, recommend
+making three real interactive slide previews before building the full deck. If
+the user has already supplied a clear style or strong visual reference, confirm
+that direction, offer 3-5 same-style refinements plus a few nearby style
+alternatives for inspiration, and ask whether to make a small same-style preview
+to confirm details.
 Use the same planned production stack, stage basis, and harness skeleton where
 possible so font loading, stage scaling, navigation, motion, and browser issues
 surface early. Use the user's actual title, content, screenshots, or data. Do
-not show abstract moodboards or option cards with internal labels.
+not show abstract moodboards or option cards with internal labels. Skip the
+preview only when the user explicitly declines or explicitly asks to proceed
+directly.
 
 Default preview set:
 
@@ -91,6 +109,17 @@ compare the same content fairly. Provide screenshots and a local server URL.
 Each preview should include comparable interaction, beat/state change, and
 transition behavior. After the user chooses, summarize a selected theme notes
 before full expansion.
+
+When the user already chose a style, the preview question should still be
+explicit:
+
+```text
+I understand the main style as <style>. I recommend a small same-style
+interactive preview first because it lets us verify typography, navigation,
+motion, and the actual visual tone before building the full deck. I can also
+show nearby alternatives such as <option A>, <option B>, and <option C> if you
+want more inspiration. Should I make the preview first, or proceed directly?
+```
 
 Good default phrasing:
 

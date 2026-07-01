@@ -82,6 +82,9 @@ explicit source links into a maintained LLM wiki or knowledge base. It keeps
 the workflow generic while expecting local wiki path, branch, commit, and push
 policy to be configured in local agent instructions.
 
+Standalone repository:
+[`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture).
+
 Tip: the skill includes
 [`references/configuration-guide.md`](llm-wiki-capture/references/configuration-guide.md)
 with setup guidance for initializing a wiki, writing `AGENTS.md` memory rules,

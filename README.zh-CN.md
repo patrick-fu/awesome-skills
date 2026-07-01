@@ -40,10 +40,6 @@ npx skills add patrick-fu/frontend-harness-slides
 
 ## 包含的 Skills
 
-### `aero-mint-glass-html-design`
-
-当前端界面需要采用 Aero Mint Glass 视觉风格时使用这个 Skill：薄荷青色空气感、半透明白色玻璃面板、柔和圆角、克制阴影、干净字体、软 3D 焦点视觉和安静动效。
-
 ### `brainstorm`
 
 当正确的下一步是对话而不是执行时使用这个 Skill。它会推动助手先提澄清问题，暴露隐藏假设，并在提出方案前帮助用户把问题收敛得更清楚。

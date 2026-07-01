@@ -16,6 +16,11 @@ Avoid using visible titles, file names, or array positions as the only identity.
 They change during editing. Stable ids should survive copy changes, reordering,
 and insertion of scenes.
 
+A common convention is to use query parameters such as
+`?scene=<stable-id>&beat=<index>&snapshot=1`, but any route, hash, state file,
+or app-specific equivalent is fine when it can open the intended frame
+directly and predictably.
+
 ### Registry Or Manifest
 
 Tooling needs a source of truth for:
@@ -66,6 +71,11 @@ Avoid directly transforming a `1920x1080` stage and placing that unscaled layout
 box inside a centered grid/flex container. On phones, that can push the visible
 scaled slide outside the viewport and produce a blank-looking page.
 
+When mobile rendering behaves oddly, remember that the visual viewport can differ
+from the layout viewport. It can be useful to compare `visualViewport` with
+`innerWidth`/`innerHeight` and verify the stage's actual visible intersection
+instead of trusting a single width calculation.
+
 ### Navigation Contract
 
 Support the confirmed navigation inputs. Recommended defaults:
@@ -94,13 +104,19 @@ making a PDF/reading/compliance variant.
 Keep navigation inside the fixed stage. Every dot, button, rail, hotspot, and
 hover target should belong inside the stage coordinate system.
 
+For long decks, consider navigation designs that do not require every marker to
+remain visible at full size. Section markers, compressed rails, or picker-style
+marker windows can keep navigation usable without letting it dominate the slide.
+
 ### Frozen Mode
 
 Tests need deterministic render mode. Frozen mode should stop or stabilize:
 
 - entrance and exit animation
+- CSS animations and transitions that affect reviewable state
 - timers and clocks
 - random values
+- SVG draw-line effects such as stroke dash animation
 - video, canvas, embedded demos, and live widgets
 - network-dependent regions when they are not the thing being tested
 
@@ -136,6 +152,11 @@ Magic Move-style continuity, explicitly inspired by Keynote's Magic Move effect,
 is the recommended default across deck types. It means smooth scene transitions,
 objects moving continuously between related states, and progressive reveals
 instead of dumping all content at once.
+
+Implementation can be simple. Stable DOM/SVG structure, CSS transforms,
+shared-element style naming, or browser view-transition APIs can all express
+this idea. Use the mechanism that fits the chosen stack, and fall back to a
+clean fade or slide transition when richer continuity is not reliable.
 
 Tune intensity:
 

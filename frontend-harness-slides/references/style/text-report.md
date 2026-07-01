@@ -28,7 +28,7 @@ Best suited for **Research Findings**, **Executive Summaries**, and **Bilingual/
 ## Style 18: Developer Ticket Brief
 
 ### 1. Aesthetic Metaphor
-A clean, structured developer issue, pull request, or ticket brief (similar to a polished GitHub or GitLab issue). It is ideal for engineering audiences because it makes tasks look actionable and reviewable.
+A clean, structured developer issue, pull request, or ticket brief inspired by modern open-source issue trackers and code review tools. It is ideal for engineering audiences because it makes tasks look actionable and reviewable without copying a specific product UI.
 
 ### 2. Color & Typographic Chemistry
 - **Canvas**: Clean, light developer gray (`#f6f8fa` or `#f8fafc`) with thin, light borders (`#d0d7de`).

@@ -27,6 +27,11 @@ A great slide deck should "breathe" by alternating visual density and layout str
 
 The style directions are organized into three density bands. Choose a style system, then refer to its specific reference file for detailed aesthetic recipes:
 
+Use these directions as inspiration for original visual systems. Do not copy
+proprietary brand identities, logos, exact product interfaces, protected artwork,
+or a living artist's recognizable style unless the user provides rights-cleared
+assets or explicit brand guidance.
+
 | Style Band | Description | Reference File | Styles Included |
 |---|---|---|---|
 | **Minimal Keynote** | Sparse, high-impact, presentation-led. Best for live talks and openings. | `references/style/minimal-keynote.md` | Styles 1 - 8 |

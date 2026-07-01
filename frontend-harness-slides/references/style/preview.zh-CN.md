@@ -8,6 +8,8 @@
 
 所有截图均已优化为 540p 分辨率的轻量化 WebP 格式，确保极速加载。
 
+您也可以在我们的 [在线风格预览工作台](https://harness-slides-24-styles.vercel.app/) 中交互式地探索全部 24 个风格。
+
 ---
 
 ## 🟢 Minimal Keynote (演讲展示流 - Styles 01 - 08)

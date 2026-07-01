@@ -50,6 +50,26 @@ The stage scales as a whole to fit the viewport. Avoid viewport breakpoints
 inside the stage that rearrange slide content differently on laptop, phone,
 projector, and CI.
 
+#### Viewport Trap
+
+Do not treat the deck as a web player with slide content in the stage and
+controls in a separate viewport chrome. The fixed stage is the deck's physical
+boundary. Navigation rails, picker dots, speaker-note panels, diagnostic bars,
+debug buttons, back/next controls, interactive hotspots, and hover targets
+belong inside the stage coordinate system when they are part of the deck
+experience.
+
+Bad pattern: the slide scales, but the navigation bar, notes, or controls stay
+anchored to the browser window at their original size. This may look polished in
+one live browser viewport, but it breaks screenshot capture, PDF/static export,
+small screens, ultrawide screens, and projector layouts because the controls no
+longer share the slide's geometry.
+
+Good pattern: the stage is the sandbox. If a control, note, or navigator should
+be visible in the delivered deck, it is composed inside the stage and scales with
+the slide. Visual flourishes such as feathered edges, masks, glow, or carousel
+windows should be stage-local effects, not viewport-level effects.
+
 ### Mobile Fixed Stage
 
 For a fixed 16:9 stage that should work on mobile, use a three-layer structure

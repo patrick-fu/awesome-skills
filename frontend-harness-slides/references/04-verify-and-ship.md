@@ -89,6 +89,20 @@ Add mobile viewport checks:
 - confirm the viewport center or stage center hits slide content
 - confirm the screenshot is not mostly blank background
 
+## Viewport Stress Audit
+
+For non-trivial decks, especially decks with embedded navigation, notes,
+diagnostic controls, or local interactive regions, include a viewport stress
+check before final delivery. Test at least one very small viewport and one
+unusually wide viewport. The exact sizes are project-specific; the goal is to
+catch viewport-level chrome that failed to scale with the stage.
+
+The audit should confirm that every delivered deck control remains inside the
+fixed stage, scales with the stage, preserves its relative position to slide
+content, and does not suddenly cover important content. If navigation or control
+elements keep their viewport-sized dimensions while the slide scales, treat that
+as a stage-boundary failure rather than a cosmetic issue.
+
 ## Visual Smoke
 
 After structural audit passes, manually scan representative screenshots. Minimum

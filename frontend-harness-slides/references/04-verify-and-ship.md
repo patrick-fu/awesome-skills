@@ -107,6 +107,12 @@ assets, unreadable text, and whether the page matches the intended style. Also
 check rhythm: adjacent slides should not overuse the same skeleton, card grid,
 motion beat, or section/content hierarchy unless that uniformity is intentional.
 
+### Aesthetic & Layout Self-Audit Checklist
+Before delivering the deck, perform a self-audit of its aesthetic quality and layout variety:
+- **Layout Monotony Test**: Review the entire slide sequence. Ensure you have not used the exact same spatial layout (e.g., two-column split, three-card grid) on consecutive slides. If a monotony block is found, proactively restructure one of the slides to restore visual surprise.
+- **Semantic-Metaphor Alignment Test**: Temporarily hide all slide text. Look only at the background, layout, and custom components. Can you still guess the general semantic direction of each slide (e.g., a balance scale indicating trade-offs, a pipeline indicating data flow)? If a slide looks like a generic bullet-point list, restructure it with a custom visual metaphor.
+- **Visual Noise & Slop Test**: Audit every visual element (lines, borders, emojis, icons, background textures). Ensure every single pixel serves a narrative or stylistic purpose. Remove any decorative element that does not contribute to the audience's understanding or the style's coherence.
+
 Adjust the viewing standard to the deck type without creating a separate
 process. Speaker-led or live decks need expressive final states, clear primary
 visuals, intentional whitespace, and motion states that support the talk.
@@ -213,16 +219,12 @@ After deploying, prefer to:
 
 ## PDF Or Static Handoff
 
-If the user wants PDF export, confirm whether the PDF is:
+If the user wants PDF export, confirm whether the PDF is a speaker handout, reading-first version, archival record, or client/shareable artifact. 
 
-- speaker handout
-- reading-first version
-- archival record
-- client/shareable artifact
-
-PDF may need different choices than the live deck: page numbers, fewer
-interactive-only explanations, expanded notes, or static versions of animated
-states.
+Keep PDF export as an elegant, high-fidelity fallback of your live deck:
+- **Print Media Awareness**: Proactively guide the layout to adapt gracefully when printed (e.g., using `@media print` or custom print stylesheets to hide browser chrome, navigation controls, and ensure background colors are preserved).
+- **Graceful State Flattening**: For slides with multi-step interactive reveals (beats), consider a simple mechanism to flatten these steps into sequential static pages, or ensure the printed PDF captures the complete, settled final state of each slide without messy overlaps.
+- **Offline Asset Safety**: Ensure critical fonts and vector assets (SVGs) are bundled locally so the exported PDF renders with perfect fidelity even in offline or restricted environments.
 
 ## Mobile Viewing Note
 

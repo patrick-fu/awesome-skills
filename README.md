@@ -4,33 +4,47 @@
 
 This repository contains a small set of reusable agent skills extracted from a larger private workspace and published as a standalone public collection.
 
-## 🚀 Featured Workflow
+## Featured Skills
 
-✨ **Parallel Goal Workflows** now lives in its own repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows).
+These larger workflow skills live in their own repositories. Install them
+directly when you want the full standalone version.
 
-Invoke it explicitly when a Main Agent should translate a broad request into a
+### `llm-wiki-capture`
+
+Capture explicit sources and AI session knowledge into a Git-backed long-term
+knowledge base with evidence, ownership, verification, and local commit/push
+policy.
+
+```bash
+npx skills add patrick-fu/llm-wiki-capture
+```
+
+Repository: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
+
+### `parallel-goal-workflows`
+
+Use this workflow when a Main Agent should translate a broad request into a
 clean local brief, start one Goal Owner per delegated top-level goal, track
 active owners, and let those owners manage focused helper goals, independent
 review, acceptance, repair, and final reports without exposing the delegation
 chain to assigned agents.
 
-Install the standalone workflow:
-
 ```bash
 npx skills add patrick-fu/parallel-goal-workflows
 ```
 
-## 🎬 Featured Skill
+Repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
 
-🛠️ **Frontend Harness Slides** lives in its own repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides).
+### `frontend-harness-slides`
 
-Build HTML slides that an agent can keep changing without quietly breaking unrelated frames.
-
-Install the standalone skill:
+Build HTML slides that an agent can keep changing without quietly breaking
+unrelated frames.
 
 ```bash
 npx skills add patrick-fu/frontend-harness-slides
 ```
+
+Repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
 ## Included Skills
 

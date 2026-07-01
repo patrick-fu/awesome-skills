@@ -4,30 +4,39 @@
 
 这个仓库是从一个更大的私有工作区中抽取出来的可复用 Agent Skills 集合，并作为独立的公开集合发布。
 
-## 🚀 推荐 Workflow
+## Featured Skills
 
-✨ **Parallel Goal Workflows** 已经独立到专门仓库：[`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)。
+这些更大的 workflow skills 已经放到独立仓库里。需要完整 standalone 版本时，直接安装对应仓库。
 
-当 Main Agent 需要把被委派的顶层目标转化成干净的本地任务 brief、为每个目标启动一个 Goal Owner、追踪
-active owners，并由这些 owner 管理聚焦 helper goals、独立 review、acceptance、repair 和最终报告，同时不把派发链路暴露给被分配任务的 agent 时，显式调用这个 workflow。
+### `llm-wiki-capture`
 
-安装这个独立 workflow：
+把明确给出的 sources 和 AI session 里的知识，沉淀进 Git-backed 长期知识库，并保留 evidence、ownership、verification 和本地 commit/push policy。
+
+```bash
+npx skills add patrick-fu/llm-wiki-capture
+```
+
+仓库：[`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
+
+### `parallel-goal-workflows`
+
+当 Main Agent 需要把较宽的请求转化成干净的本地任务 brief、为每个顶层目标启动一个 Goal Owner、追踪 active owners，并由这些 owner 管理聚焦 helper goals、独立 review、acceptance、repair 和最终报告，同时不把派发链路暴露给被分配任务的 agent 时，使用这个 workflow。
 
 ```bash
 npx skills add patrick-fu/parallel-goal-workflows
 ```
 
-## 🎬 推荐 Skill
+仓库：[`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
 
-🛠️ **Frontend Harness Slides** 已独立到专门仓库：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)。
+### `frontend-harness-slides`
 
 让 Agent 做一套可以反复修改、但不容易静默改坏其他页面的 HTML slides。
-
-安装这个独立 skill：
 
 ```bash
 npx skills add patrick-fu/frontend-harness-slides
 ```
+
+仓库：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
 ## 包含的 Skills
 

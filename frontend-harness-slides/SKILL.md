@@ -1,12 +1,11 @@
 ---
 name: frontend-harness-slides
 description: >-
-  Build iteration-safe HTML slide decks with a framework-neutral harness
-  pattern. Use when the user wants web slides that an agent will keep changing:
-  edit copy, adjust layout, add or remove scenes, tune animation, and verify
-  that unrelated frames did not silently break. Best for non-trivial decks,
-  repeated user feedback, animation states, visual checks, or team review. Avoid
-  for tiny one-shot decks where a single static HTML file is enough.
+  Create high-standard HTML slide decks that can be edited without breaking
+  other slides. Use for non-trivial web slides where the user wants rigorous
+  upfront alignment, polished visuals, lively motion/interactions, precise
+  iterative edits, and final delivery as an online deployment, PDF/static
+  export, or both. Avoid for tiny one-shot or mostly static decks.
 ---
 
 # Frontend Harness Slides

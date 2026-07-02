@@ -4,30 +4,34 @@
 
 ![A pencil sketch showing scattered notes becoming a coordinated workflow and final report](assets/workbench-workflow-sketch.webp)
 
-`parallel-goal-workflows` is a guidance skill for complex multi-agent work. It
-helps the main conversation stay clean while delegated goals run through
-planning, focused execution, review, repair, acceptance, and a concise final
-handoff.
+Use `parallel-goal-workflows` when one conversation is no longer the right shape
+for the work.
 
-Invoke it explicitly when a task is too broad, noisy, or risk-sensitive for the
-main agent to both coordinate and execute directly.
+Some tasks need exploration, implementation, review, repair, and final judgment.
+Putting all of that in the main thread creates noise and makes it harder to see
+what is actually done. This skill gives the agent a cleaner way to split broad
+work into owned goals, run focused helpers when useful, and return with a short
+evidence-backed report.
+
+It is not a command to always use more agents. A single focused worker is fine
+when that is enough.
 
 ## Install
 
 ```bash
-npx skills add patrick-fu/parallel-goal-workflows
+npx skills add patrick-fu/parallel-goal-workflows -g
 ```
 
 Update later:
 
 ```bash
-npx skills update
+npx skills update -g
 ```
 
-## Quick Use
+## Quick use
 
-This is a user-invoked skill. Invoke it with a slash command or `$` command,
-then describe the task clearly:
+Invoke the skill explicitly, then describe the task, scope, constraints, and
+what kind of evidence you expect back.
 
 ```text
 $parallel-goal-workflows
@@ -37,156 +41,140 @@ implementation-risk review, and a final report with evidence, open risks, and
 recommended fixes.
 ```
 
-Mention the goal, scope, constraints, expected evidence, and anything that
-requires approval.
+Good requests usually include:
 
-## What It Does
+- the goal;
+- the files, product area, or topic boundaries;
+- what requires approval;
+- the expected proof, such as diffs, commands, screenshots, citations, or review
+  notes;
+- what should happen if a helper gets blocked.
 
-The skill turns a broad request into an owned workflow:
+## Good fits
 
-- keeps coordination noise out of the main conversation;
-- delegates focused work to agents or helpers when useful;
-- routes important findings through review and repair;
-- checks whether the result satisfies the original goal;
-- returns a concise report with evidence and remaining risks.
+- Codebase audits that need independent exploration and review.
+- Multi-step implementation work where repair should be checked before it is
+  accepted.
+- Research tasks where separate sources or viewpoints should be compared.
+- Long-running work where intermediate logs would flood the main conversation.
+- Any task where the final decision matters more than seeing every helper step
+  live in the main thread.
 
-The workflow can be small. It does not force parallelism when a single focused
-agent is enough.
+Avoid it for quick edits, simple lookups, small code reviews, or tasks where you
+want to stay directly involved in every step.
 
-## When To Use It
+## What the workflow does
 
-Good fits include:
+The main conversation stays user-facing. The delegated workflow handles the
+working loops:
 
-- codebase audits or cross-checked research;
-- multi-step implementation work that needs independent review;
-- long-running tasks where intermediate logs would flood the main context;
-- review and repair loops where the final decision matters more than every
-  intermediate detail;
-- broad tasks that benefit from multiple focused agents working under one goal
-  owner.
+- turn a broad request into one or more local briefs;
+- send focused work to helpers only when that improves the outcome;
+- keep review and repair separate enough to catch mistakes;
+- check the result against the original goal;
+- report back with what changed, what was verified, and what risk remains.
 
-Avoid it for quick edits, simple research, ordinary code review, or tasks where
-you want to stay directly in the main conversation.
+The briefs should be natural task packets, not raw transcripts or role-chain
+contracts. A good brief includes the local goal, relevant context, boundaries,
+expected output, verification needs, and pause conditions.
 
-## How It Works
+## Workflow shapes
 
-Internally, each agent has a clear job:
+These are examples, not scripts. The goal owner chooses the smallest shape that
+fits the task.
 
-- **Main Agent:** stays user-facing, interprets each delegated top-level goal,
-  turns it into a clean local brief, starts one Goal Owner for that goal, tracks
-  active owners, and relays final handoffs.
-- **Goal Owner:** owns decomposition, execution coordination, review, repair,
-  acceptance, and final judgment.
-- **Focused agents or helpers:** own local goals only, work from the local brief
-  they receive, and return evidence, verification, risks, or decisions for the
-  current assigned goal. Nested helper work must be narrower than its parent
-  task and independently verifiable.
-
-Child agent roles are examples, not a fixed type list. A workflow may use
-workers, reviewers, verifiers, researchers, explorers, implementers, domain
-specialists, or other focused helpers as the task warrants.
-
-The Main Agent and Goal Owner should send natural local briefs, not raw user
-prompts or role-chain contracts. Every delegated task should carry a local goal,
-relevant context, boundaries, expected deliverable, verification needs, and pause
-conditions. Visible briefs should not expose the Main Agent, parent identity,
-`Workflow Owner` role labels, skill triggers, raw transcripts, SKILL.md body
-text, UI-only directives, or the delegation chain that created the assignment.
-A host-required `/goal` prefix may appear as the first line of a delegated
-packet when it is needed to enter goal mode. Treat that as runtime syntax, not
-task context.
-
-The Main Agent waits on workflow state, not output volume, and acts on done,
-blocked, needs-human, failed or dead sessions, and explicit user requests
-instead of reclaiming work because a task is quiet.
-If a new independent workflow task arrives while another owner is still running,
-the Main Agent starts another Goal Owner and tracks both until each reaches
-done, blocked, or needs-human.
-
-## Workflow Shapes
-
-The Goal Owner chooses the shape that fits the task. These are examples, not
-scripts.
-
-### Review And Repair
+### Review and repair
 
 ```mermaid
 flowchart LR
-  User["User"] --> Main["Main Agent<br/>conversation boundary"]
-  Main --> Owner["Goal Owner<br/>task owner"]
+  User["User"] --> Main["Main conversation"]
+  Main --> Owner["Goal owner"]
   Owner --> Worker["Worker goal"]
   Worker --> Review["Independent review"]
   Review --> Decision{"Good enough?"}
   Decision -- "No" --> Repair["Repair goal"]
   Repair --> Review
-  Decision -- "Yes" --> Acceptance["Acceptance / verification"]
-  Acceptance --> Report["Acceptance-ready report"]
+  Decision -- "Yes" --> Acceptance["Acceptance check"]
+  Acceptance --> Report["Final report"]
   Report --> Main
   Main --> User
 ```
 
-### Parallel Synthesis
+### Parallel synthesis
 
 ```mermaid
 flowchart LR
-  User["User"] --> Main["Main Agent<br/>conversation boundary"]
-  Main --> Owner["Goal Owner<br/>task owner"]
-  Owner --> A["Worker A goal"]
-  Owner --> B["Worker B goal"]
-  Owner --> C["Worker C goal"]
-  A --> S["Synthesis goal"]
+  User["User"] --> Main["Main conversation"]
+  Main --> Owner["Goal owner"]
+  Owner --> A["Worker A"]
+  Owner --> B["Worker B"]
+  Owner --> C["Worker C"]
+  A --> S["Synthesis"]
   B --> S
   C --> S
   S --> Decision{"Conflict or gap?"}
-  Decision -- "Yes" --> Followup["Targeted follow-up goal"]
+  Decision -- "Yes" --> Followup["Targeted follow-up"]
   Followup --> S
-  Decision -- "No" --> Acceptance["Acceptance / report"]
+  Decision -- "No" --> Acceptance["Acceptance check"]
   Acceptance --> Main
   Main --> User
 ```
 
-### Nested Helpers
+### Nested helpers
 
 ```mermaid
 flowchart LR
-  User["User"] --> Main["Main Agent<br/>conversation boundary"]
-  Main --> Owner["Goal Owner<br/>task owner"]
-  Owner --> W["Worker goal"]
+  User["User"] --> Main["Main conversation"]
+  Main --> Owner["Goal owner"]
+  Owner --> W["Worker"]
   W --> Decision{"Needs deeper help?"}
-  Decision -- "Yes" --> A["Helper A goal"]
-  Decision -- "Yes" --> B["Helper B goal"]
+  Decision -- "Yes" --> A["Helper A"]
+  Decision -- "Yes" --> B["Helper B"]
   A --> S["Worker synthesis"]
   B --> S
   Decision -- "No" --> Direct["Worker result"]
-  S --> Review["Review / acceptance"]
+  S --> Review["Review"]
   Direct --> Review
   Review --> Report["Final report"]
   Report --> Main
   Main --> User
 ```
 
-## Requirements
+## Agent notes
+
+The skill uses a few role names internally:
+
+- Main Agent: stays in the user-facing conversation, starts and tracks delegated
+  top-level goals, and relays final handoffs.
+- Goal Owner: owns decomposition, coordination, review, repair, acceptance, and
+  final judgment for one delegated goal.
+- Focused helpers: own local work only and return evidence, verification, risks,
+  or decisions for the current assigned goal.
+
+Child roles are examples. A workflow may use researchers, reviewers, verifiers,
+implementers, domain specialists, or simpler workers depending on the task.
+
+Visible delegated briefs should not expose raw user transcripts, the full
+conversation chain, SKILL.md body text, UI-only directives, or unnecessary parent
+role labels. If the host requires `/goal` as runtime syntax, it may appear as the
+first line of a delegated packet. Treat that as syntax, not task context.
+
+The Main Agent waits on workflow state, not output volume. It acts on done,
+blocked, needs-human, failed sessions, and explicit user requests instead of
+reclaiming work just because a helper is quiet.
+
+## Host support
 
 The best experience uses a host that supports explicit skill invocation, goals,
 and subagents.
 
-- **Claude Code:** invoke with `/parallel-goal-workflows`. The skill sets
-  `disable-model-invocation: true` so Claude Code should not select it
-  automatically or preload it into subagents. Nested subagents are supported in
-  Claude Code v2.1.172 and newer, up to 5 levels deep.
-- **OpenAI Codex:** invoke with `$parallel-goal-workflows`. The bundled
-  `agents/openai.yaml` sets `policy.allow_implicit_invocation: false` so Codex
-  should not select it implicitly. Codex supports `agents.max_depth` for nested
-  spawned agents.
+- Claude Code: invoke with `/parallel-goal-workflows`. Claude Code v2.1.172 and
+  newer supports nested subagents.
+- OpenAI Codex: invoke with `$parallel-goal-workflows`. Codex supports nested
+  spawned agents through `agents.max_depth`.
 
 When the host supports history forking, start assigned agents from clean context
-instead of forwarding the full main conversation. For Codex, that means using
-`fork_context: false` when the spawn tool exposes it.
-
-When Codex-style prompt delegation requires a visible command to enter goal mode,
-start Goal Owner and helper prompts with `/goal` on its own first line, followed
-by the natural local brief. Do not pass `$parallel-goal-workflows` to delegated
-agents.
+instead of forwarding the full main conversation.
 
 A practical Codex configuration is:
 
@@ -203,7 +191,7 @@ goals = true
 For more detail, see
 [`references/codex-nested-subagents.md`](references/codex-nested-subagents.md).
 
-## More Skills
+## More skills
 
 For more reusable agent skills, see
 [Awesome Skills](https://github.com/patrick-fu/awesome-skills).

@@ -2,198 +2,179 @@
 
 **[中文说明](README.zh-CN.md)**
 
-Build HTML slides with a **rigorous frontend engineering mindset**. Treat your presentation as a high-standard, fully testable Web Application backed by a robust automated testing harness.
+Build lively, interactive HTML slide decks that still hold up after multiple
+rounds of edits.
 
-> 🖥️ **Live Interactive Demo**: Explore all 24 visual styles and density levels in our [Live Style Preview Workbench](https://harness-slides-24-styles.vercel.app/).
+This skill helps an agent align on audience, content density, visual style,
+motion, navigation, delivery format, and deployment before writing code. It then
+treats the deck as a small web app: scenes are addressable, interactions are
+testable, screenshots are repeatable, and the final deck can ship as a live site,
+a PDF, or both.
 
-A single HTML file is fine for a quick draft. The nightmare begins during iteration: the user asks to rewrite a page, adjust an animation, update a chart, or restructure a layout. In a monolithic file, a small CSS or script change can accidentally break another slide, and the regression remains completely invisible until the live presentation.
+> Live demo: explore all 24 visual styles and density levels in the
+> [Style Preview Workbench](https://harness-slides-24-styles.vercel.app/).
 
-`frontend-harness-slides` turns slide creation into a **checked, bulletproof workflow**. It provides a framework-neutral harness contract: stable frame addresses, a centralized registry, fixed stage geometry, deterministic frozen mode, and automated layout/interaction assertions.
+## What it is good for
 
----
+- Speaker-led talks that need motion, pacing, and interactive beats.
+- Product walkthroughs, teaching decks, and technical explainers.
+- High-control slide work where later edits should not quietly damage other
+  pages.
+- Decks that need both a local preview and a real delivery path, such as online
+  deployment or PDF export.
 
-## Key Engineering Pillars (Never Breaks)
+For a tiny one-off static slide, a single HTML file is usually enough. This
+skill is for decks where design quality, iteration, and verification matter.
 
-*   **Harness-Backed Testing**: Built-in automated regression tests (e.g., Playwright/Vitest) run locally or in CI/CD to ensure **zero silent regressions** during edits.
-*   **Stable Frame Addresses**: Every scene and beat is an addressable, isolated route. Modifying one slide has absolutely zero side-effects on others.
-*   **Fixed Stage Geometry**: The entire slide deck renders inside a fixed-ratio stage (e.g., 16:9) that scales proportionally. This completely eliminates text overflows, overlapping elements, or layout reflow collapses across different screen sizes.
-*   **Deterministic Frozen Mode**: A global flag that freezes all entrance/exit animations, CSS transitions, timers, and random values, enabling 100% stable visual regression testing (Snapshot Testing).
-*   **Event-Isolated Interactivity**: Custom interactive components (like draggable knobs or text inputs) are strictly isolated. User inputs stop propagation and never leak to trigger accidental slide navigation.
+## Visual style gallery
 
----
+The style system is designed to stay coherent without forcing every page into
+the same template. A deck can keep one visual language while changing layouts,
+beats, motion, and interaction patterns from scene to scene.
 
-## 🛡️ Harness & Testing Suite (Minimal Assertions)
+The full catalog contains 24 styles across speaker-led, hybrid, and dense
+reading formats. These six examples show the range.
 
-Every deck built with this skill is a testable Web App. Below is a minimal, high-value Playwright assertion that automatically catches layout breaks, text overflows, and runtime exceptions across all slides:
+### Minimal keynote
 
-```javascript
-// test/slides.spec.ts
-import { test, expect } from '@playwright/test';
+#### [Style 06: Blackboard chalk talk](references/style/minimal-keynote.md#style-06-blackboard-chalk-talk)
 
-test('verify all scenes render with zero overflows and console errors', async ({ page }) => {
-  // 1. Fetch the centralized slide registry
-  const scenes = await page.evaluate(() => window.SLIDE_REGISTRY);
+Handmade, educational, and reasoning-first. Uses chalk-drawn lines and formulas
+on a deep green board.
 
-  for (const scene of scenes) {
-    // 2. Navigate to the isolated frame in deterministic frozen mode
-    await page.goto(`/frame/${scene.id}?frozen=true`);
+Topic: *The first principles of quantum computing*
 
-    // 3. Assert no unhandled console errors occurred
-    expect(page.errors).toHaveLength(0);
-
-    // 4. Assert no content overflowed the fixed 16:9 stage boundary
-    const hasOverflow = await page.evaluate(() => {
-      const stage = document.getElementById('stage');
-      return stage.scrollHeight > stage.clientHeight || stage.scrollWidth > stage.clientWidth;
-    });
-    expect(hasOverflow).toBe(false);
-  }
-});
-```
-
-### Terminal Output
-```text
-$ npm run test:slides
-
-  ✓ [Scene 01: Intro] Passed (No overflow, 0 console errors)
-  ✓ [Scene 02: Architecture] Passed (No overflow, 0 console errors)
-  ✓ [Scene 03: Performance Table] Passed (No overflow, 0 console errors)
-
-  Test Suites: 1 passed, 1 total
-  Tests:       24 passed, 24 total
-  Snapshots:   24 matched, 24 total
-  Time:        4.82 s
-  Active filters: stage-boundary, event-isolation, frozen-determinism
-```
-
----
-
-## 📺 Visual Style Gallery
-
-Instead of repeating a rigid template, this skill advocates **Single Style System, Multi-Layout Composition**. The layout is driven entirely by the semantic structure of your content, scaling fluidly across three density levels (Low, Medium, High).
-
-Every style is fully interactive, featuring **rich, high-fidelity web animations and motion design** (such as pulsing status indicators, glowing signal flows, kinetic typography, and smooth transitions) that bring your slides to life.
-
-Here are 6 curated representative styles from our catalog. Click any style to see its detailed design recipe, or explore the full catalog.
-
-### 🟢 Minimal Keynote (Speaker-Led & Highly Expressive)
-
-#### [Style 06: Blackboard Chalk Talk](references/style/minimal-keynote.md#style-06-blackboard-chalk-talk)
-*Handmade, educational, and reasoning-first. Uses chalk-drawn lines and formulas on a deep green board.*
-*   **Topic**: *The First Principles of Quantum Computing*
 <p align="center">
-  <img src="references/style/screenshots/style-06-low.webp" width="32%" alt="Low Density: Hero Formula" />
-  <img src="references/style/screenshots/style-06-med.webp" width="32%" alt="Medium Density: Routed Proof" />
-  <img src="references/style/screenshots/style-06-high.webp" width="32%" alt="High Density: Qubit Bento" />
+  <img src="references/style/screenshots/style-06-low.webp" width="32%" alt="Low density: hero formula" />
+  <img src="references/style/screenshots/style-06-med.webp" width="32%" alt="Medium density: routed proof" />
+  <img src="references/style/screenshots/style-06-high.webp" width="32%" alt="High density: qubit bento" />
 </p>
 
-#### [Style 02: Sketch Board Emoji](references/style/minimal-keynote.md#style-02-sketch-board-emoji)
-*Warm, approachable, and human-in-the-loop. Emphasizes sticky notes, tape, and emoji actors.*
-*   **Topic**: *Offline-First Sync Engine Design*
+#### [Style 02: Sketch board emoji](references/style/minimal-keynote.md#style-02-sketch-board-emoji)
+
+Warm, approachable, and human-in-the-loop. Uses sticky notes, tape, emoji actors,
+and small interactive details.
+
+Topic: *Offline-first sync engine design*
+
 <p align="center">
-  <img src="references/style/screenshots/style-02-low.webp" width="32%" alt="Low Density: Why Offline-First" />
-  <img src="references/style/screenshots/style-02-med.webp" width="32%" alt="Medium Density: Sync Timeline" />
-  <img src="references/style/screenshots/style-02-high.webp" width="32%" alt="High Density: Strategy Bento" />
+  <img src="references/style/screenshots/style-02-low.webp" width="32%" alt="Low density: why offline-first" />
+  <img src="references/style/screenshots/style-02-med.webp" width="32%" alt="Medium density: sync timeline" />
+  <img src="references/style/screenshots/style-02-high.webp" width="32%" alt="High density: strategy bento" />
 </p>
 
----
+### Balanced hybrid
 
-### 🟡 Balanced Hybrid (Roadshows & Hybrid Reading)
+#### [Style 13: Subway map of intent](references/style/balanced-hybrid.md#style-13-transit-flow-subway-map)
 
-#### [Style 13: Subway Map of Intent](references/style/balanced-hybrid.md#style-13-transit-flow-subway-map)
-*Systematic, clean, and highly structured. Represents converging workflows as subway lines and transfer stations.*
-*   **Topic**: *The Lifecycle of a Distributed Request*
+Systematic and structured. Represents converging workflows as subway lines and
+transfer stations.
+
+Topic: *The lifecycle of a distributed request*
+
 <p align="center">
-  <img src="references/style/screenshots/style-13-low.webp" width="32%" alt="Low Density: Packet Journey" />
-  <img src="references/style/screenshots/style-13-med.webp" width="32%" alt="Medium Density: Transit Map" />
-  <img src="references/style/screenshots/style-13-high.webp" width="32%" alt="High Density: Schedule Bento" />
+  <img src="references/style/screenshots/style-13-low.webp" width="32%" alt="Low density: packet journey" />
+  <img src="references/style/screenshots/style-13-med.webp" width="32%" alt="Medium density: transit map" />
+  <img src="references/style/screenshots/style-13-high.webp" width="32%" alt="High density: schedule bento" />
 </p>
 
-#### [Style 16: Debug Reaction Board](references/style/balanced-hybrid.md#style-16-diagnostic-kanban-board)
-*Developer-native, diagnostic, and actionable. Uses glowing neon badges and monospace terminal layouts.*
-*   **Topic**: *Microservices Health Self-Check*
+#### [Style 16: Debug reaction board](references/style/balanced-hybrid.md#style-16-diagnostic-kanban-board)
+
+Developer-native and diagnostic. Uses neon status badges, terminal surfaces, and
+actionable boards.
+
+Topic: *Microservices health self-check*
+
 <p align="center">
-  <img src="references/style/screenshots/style-16-low.webp" width="32%" alt="Low Density: System Ready" />
-  <img src="references/style/screenshots/style-16-med.webp" width="32%" alt="Medium Density: Self-Check Flow" />
-  <img src="references/style/screenshots/style-16-high.webp" width="32%" alt="High Density: Risk Kanban" />
+  <img src="references/style/screenshots/style-16-low.webp" width="32%" alt="Low density: system ready" />
+  <img src="references/style/screenshots/style-16-med.webp" width="32%" alt="Medium density: self-check flow" />
+  <img src="references/style/screenshots/style-16-high.webp" width="32%" alt="High density: risk kanban" />
 </p>
 
----
+### Text report
 
-### 🔵 Text Report (Asynchronous Reading & High Density)
+#### [Style 18: Maintainer issue brief](references/style/text-report.md#style-18-developer-ticket-brief)
 
-#### [Style 18: Maintainer Issue Brief](references/style/text-report.md#style-18-developer-ticket-brief)
-*Clean, structured, and action-oriented. Inspired by modern open-source issue trackers and code review tools.*
-*   **Topic**: *Post-Mortem: Connection Pool Exhaustion*
+Clean, structured, and action-oriented. Inspired by modern issue trackers and
+code review tools.
+
+Topic: *Post-mortem: connection pool exhaustion*
+
 <p align="center">
-  <img src="references/style/screenshots/style-18-low.webp" width="32%" alt="Low Density: Issue Header" />
-  <img src="references/style/screenshots/style-18-med.webp" width="32%" alt="Medium Density: Incident Timeline" />
-  <img src="references/style/screenshots/style-18-high.webp" width="32%" alt="High Density: Code Review Diff" />
+  <img src="references/style/screenshots/style-18-low.webp" width="32%" alt="Low density: issue header" />
+  <img src="references/style/screenshots/style-18-med.webp" width="32%" alt="Medium density: incident timeline" />
+  <img src="references/style/screenshots/style-18-high.webp" width="32%" alt="High density: code review diff" />
 </p>
 
-#### [Style 21: Field Notes Report](references/style/text-report.md#style-21-field-notes-report)
-*Tactile, observational, and literary. Uses warm ledger paper, charcoal ink, and polaroid-like card grids.*
-*   **Topic**: *Smart Home UX Field Research*
+#### [Style 21: Field notes report](references/style/text-report.md#style-21-field-notes-report)
+
+Tactile and observational. Uses ledger paper, charcoal ink, and card grids.
+
+Topic: *Smart home UX field research*
+
 <p align="center">
-  <img src="references/style/screenshots/style-21-low.webp" width="32%" alt="Low Density: Research Cover" />
-  <img src="references/style/screenshots/style-21-med.webp" width="32%" alt="Medium Density: User Journey Map" />
-  <img src="references/style/screenshots/style-21-high.webp" width="32%" alt="High Density: Observation Grid" />
+  <img src="references/style/screenshots/style-21-low.webp" width="32%" alt="Low density: research cover" />
+  <img src="references/style/screenshots/style-21-med.webp" width="32%" alt="Medium density: user journey map" />
+  <img src="references/style/screenshots/style-21-high.webp" width="32%" alt="High density: observation grid" />
 </p>
 
 <p align="center">
-  <a href="references/style/preview.md"><b>👉 Explore All 24 Styles in the Full Style Preview Guide →</b></a>
+  <a href="references/style/preview.md"><b>Explore all 24 styles in the preview guide</b></a>
   <br />
-  <a href="https://harness-slides-24-styles.vercel.app/"><b>🖥️ Try the Live Style Preview Workbench →</b></a>
+  <a href="https://harness-slides-24-styles.vercel.app/"><b>Try the live style preview workbench</b></a>
 </p>
 
----
+## Why it stays editable
+
+The skill does not ask an agent to make one large, fragile HTML file and hope it
+survives feedback. It recommends a small harness around the deck:
+
+- align on style, audience, density, stage size, technology, and delivery before
+  building;
+- keep scene and beat addresses stable, so a page can be inspected directly;
+- render inside a fixed-ratio stage, so content stays inside the slide surface;
+- provide a frozen mode for deterministic screenshots and visual checks;
+- isolate custom interactions so inputs, drags, and clicks do not accidentally
+  trigger slide navigation;
+- run focused layout, interaction, screenshot, export, and deployment checks.
 
 ## Install
 
 ```bash
-npx skills add patrick-fu/frontend-harness-slides
+npx skills add patrick-fu/frontend-harness-slides -g
 ```
 
 Update later:
 
 ```bash
-npx skills update
+npx skills update -g
 ```
 
----
+## How an agent uses it
 
-## How An Agent Uses It
+1. Plan: align on content, audience, presentation format, style direction,
+   technology, delivery target, and whether the user wants style previews first.
+2. Design: choose a coherent style system, then vary layouts, motion, and
+   interaction patterns across scenes.
+3. Build: implement stable scenes, a registry, fixed stage scaling, frozen mode,
+   keyboard navigation, and event-isolated interactive elements.
+4. Verify and ship: run meaningful layout and interaction checks, inspect
+   screenshots, preview locally, then deploy online, export PDF, or do both.
 
-1.  **Plan**: Align with the user on content, presentation format, technology stack, and delivery. Establish the Pre-Build Alignment Gate and record decisions in a context document.
-2.  **Design**: Propose 2-3 contrasting styles from our 24-style catalog. Build interactive previews, capture screenshots, and record the selected theme notes.
-3.  **Build**: Implement stable scenes, registry, fixed stage scaling, frozen mode, and event-isolated interactive components.
-4.  **Verify and Ship**: Run automated layout/interaction tests, perform visual smoke checks, and deploy to a live URL or export to PDF.
+## Agent references
 
----
-
-## Stage References
-
-For non-trivial deck work, agents must read these references in order:
+For non-trivial deck work, agents should read these references in order:
 
 | File | Purpose |
 |---|---|
-| `references/01-plan.md` | Intake gate, technology choice, context tracking, and content registry. |
-| `references/style/index.md` | Style Index, 24 style directions, and semantic-to-visual mapping. |
-| `references/style/preview.md` | **Full Style Preview Guide** (All 24 styles with 3-image progressions). |
-| `references/02-design.md` | Style previews, layout variations, navigation design, fonts/CJK, and assets. |
+| `references/01-plan.md` | Intake, style alignment, technology choice, context tracking, and content registry. |
+| `references/style/index.md` | Style directions and semantic-to-visual mapping. |
+| `references/style/preview.md` | Full style preview guide with 24 styles and density examples. |
+| `references/02-design.md` | Style previews, layout variation, navigation, fonts, and assets. |
 | `references/03-build.md` | Stable frames, registry, fixed stage, frozen mode, and event isolation. |
-| `references/04-verify-and-ship.md` | Audit profiles, visual smoke, viewport stress checks, and PDF/static handoff. |
+| `references/04-verify-and-ship.md` | Visual checks, viewport stress, deployment, PDF export, and handoff. |
 
----
+## More skills
 
-## When It Fits
-
-Use this skill when the deck is non-trivial, expected to receive feedback, has animation or state, uses screenshots/charts, or needs checked frames before handoff.
-
-Skip it when you only need a tiny static one-off where a single HTML file is enough and no regression harness is useful.
-
----
-
-## More Skills
-
-For more reusable agent skills, see [Awesome Skills](https://github.com/patrick-fu/awesome-skills).
+For more reusable agent skills, see
+[Awesome Skills](https://github.com/patrick-fu/awesome-skills).

@@ -2,35 +2,28 @@
 
 **[中文说明](README.zh-CN.md)**
 
-This repository contains a small set of reusable agent skills extracted from a
-larger private workspace and published as a standalone public collection.
+A practical collection of agent skills for planning, engineering workflows,
+slides, knowledge capture, external coding agents, and personal setup.
 
 ## Quick Install
 
-Install everything in one line: the public collection plus the three standalone
-picks.
+Install the full collection globally:
 
 ```bash
-npx skills add patrick-fu/awesome-skills && npx skills add patrick-fu/frontend-harness-slides && npx skills add patrick-fu/parallel-goal-workflows && npx skills add patrick-fu/llm-wiki-capture
+npx skills add patrick-fu/awesome-skills -g
 ```
 
-Install only the public collection:
+Update global skills:
 
 ```bash
-npx skills add patrick-fu/awesome-skills
+npx skills update -g
 ```
 
-Update installed skills:
+## Highlights
 
-```bash
-npx skills update
-```
-
-## Featured Skills
-
-These larger skills have their own standalone repositories. Install them
-directly when you want the full version with its references, evals, and
-examples.
+These three larger skills are included in the collection above. They also have
+standalone repositories when you want to install only that skill or read the
+full README, references, evals, and examples.
 
 ### 🎞️ `frontend-harness-slides`
 
@@ -43,7 +36,7 @@ Best for talks, product walkthroughs, teaching decks, or any slide project where
 motion, navigation, PDF export, and online deployment matter.
 
 ```bash
-npx skills add patrick-fu/frontend-harness-slides
+npx skills add patrick-fu/frontend-harness-slides -g
 ```
 
 Repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
@@ -59,7 +52,7 @@ Best when a task benefits from parallel research, implementation, review, or
 multiple independent checks.
 
 ```bash
-npx skills add patrick-fu/parallel-goal-workflows
+npx skills add patrick-fu/parallel-goal-workflows -g
 ```
 
 Repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
@@ -74,14 +67,43 @@ depending on chat history.
 Best for patterns, decisions, setup notes, and lessons you expect to need again.
 
 ```bash
-npx skills add patrick-fu/llm-wiki-capture
+npx skills add patrick-fu/llm-wiki-capture -g
 ```
 
 Repository: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
 
-## Included Skills
+## Skill Groups
 
-These smaller skills stay in this collection as everyday building blocks.
+`npx skills add patrick-fu/awesome-skills -g` shows these groups in the
+interactive installer.
+
+### Slides and visual delivery
+
+- `frontend-harness-slides`: Create high-standard HTML slide decks with
+  upfront alignment, lively motion and interactions, harness-based iteration,
+  screenshots, PDF/static export, and online delivery checks.
+
+### Knowledge and memory
+
+- `llm-wiki-capture`: Capture reusable knowledge from source links and agent
+  sessions into a maintained Git-backed wiki or knowledge base.
+- `x-twitter-reader`: Extract original content from X/Twitter posts, threads,
+  Articles, metadata, links, and media references before summarizing,
+  translating, quoting, or archiving it.
+
+### Agent orchestration
+
+- `parallel-goal-workflows`: Delegate complex work through clean local briefs,
+  Goal Owners, focused helpers, review, repair, acceptance, and final reporting.
+- `claude-code-coding-agent`: Launch Claude Code CLI as an explicitly selected
+  external executor, with patterns for automation, review-only runs, interactive
+  sessions, and model or permission pass-through.
+- `codex-coding-agent`: Launch local Codex CLI from another host agent or
+  automation harness, including `codex exec`, `codex review`, interactive
+  resume/fork flows, and Git workspace expectations.
+- `cursor-coding-agent`: Launch Cursor CLI only when Cursor is explicitly
+  selected, with separate guidance for headless execution, review-only
+  `--mode ask`, planning mode, and interactive sessions.
 
 ### Thinking and planning
 
@@ -94,7 +116,7 @@ These smaller skills stay in this collection as everyday building blocks.
   turns explanations into short learning loops with practice, teach-back, and
   review.
 
-### Coding workflow helpers
+### Engineering workflow
 
 - `write-unit-test`: A practical guide for behavior-focused unit tests around
   production code, bug fixes, refactors, and domain rules.
@@ -106,32 +128,15 @@ These smaller skills stay in this collection as everyday building blocks.
 - `generate-commit-message`: Inspect the staged diff and draft the commit message
   without creating the commit.
 
-### External coding agents
-
-- `claude-code-coding-agent`: Launch Claude Code CLI as an explicitly selected
-  external executor, with patterns for automation, review-only runs, interactive
-  sessions, and model or permission pass-through.
-- `codex-coding-agent`: Launch local Codex CLI from another host agent or
-  automation harness, including `codex exec`, `codex review`, interactive
-  resume/fork flows, and Git workspace expectations.
-- `cursor-coding-agent`: Launch Cursor CLI only when Cursor is explicitly
-  selected, with separate guidance for headless execution, review-only
-  `--mode ask`, planning mode, and interactive sessions.
-
-### Personal workflow and source capture
+### Personal setup
 
 - `home-config-sync`: Initialize and operate a personal bare-repo dotfiles setup
   under `~/.dotfiles`, including first push, new-machine deploys, whitelist
   updates, pull/merge safety, and optional GUI-discoverable mode.
-- `x-twitter-reader`: Extract original content from X/Twitter posts, threads,
-  Articles, metadata, links, and media references before summarizing,
-  translating, quoting, or archiving it.
 
-## Sync Model
+## Duplicate Installs
 
-This public collection is generated automatically from a private source
-repository. Public changes should be made in the source repository, not directly
-here.
-
-The sync process preserves relevant file history and commit metadata for the
-published paths while rewriting commit hashes as part of the filtered export.
+The collection and the standalone repositories use the same skill names. If you
+install `awesome-skills` and later install one standalone skill in the same
+global scope, the standalone install overwrites that local skill instead of
+creating a duplicate copy.

@@ -112,6 +112,12 @@ Prefer the user's existing stack. For a new non-trivial deck with no preference,
 React + Vite + Playwright is a reasonable default, but the skill's identity is
 the harness contract, not any framework or test library.
 
+Any deliverable deck project must include a runnable test setup and meaningful
+tests. Small decks may use a smaller test scope, but do not omit the test
+framework or replace it with empty assertions. Use a TDD-style flow by default:
+establish the test entry early, then implement and verify the harness,
+navigation, layout, interaction, and export-risk areas in small steps.
+
 ## Harness Contracts
 
 Read `references/03-build.md` before implementing or adapting a harness. A deck
@@ -138,7 +144,8 @@ is ready to iterate only when these contracts exist:
 3. **Design** with `references/02-design.md`; selected style means a visual
    system, not one repeated template.
 4. **Build** with `references/03-build.md`; preserve the harness contracts in
-   the chosen stack and update the ledger after major implementation milestones.
+   the chosen stack, keep tests moving with the implementation, and update the
+   ledger after major implementation milestones.
 5. **Verify and ship** with `references/04-verify-and-ship.md`; deliver a live
    URL, PDF/static export, or both according to the confirmed target, then record
    final delivery and verification status in the ledger when one exists.
@@ -153,6 +160,8 @@ after skipped checks and residual risks are reported clearly.
 - Treating recommendations as user-confirmed requirements.
 - Rendering internal planning context on the slide surface.
 - Treating this skill as a mandate for a specific framework.
+- Creating a deliverable deck project without a runnable test framework and
+  meaningful tests.
 - Using viewport breakpoints inside the fixed stage.
 - Rendering whole static slides in canvas.
 - Treating beats as decorative fades instead of story states.

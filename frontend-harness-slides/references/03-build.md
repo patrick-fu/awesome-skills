@@ -178,10 +178,19 @@ The harness should fail loudly on:
 
 ### Build-Time Tests
 
-Prefer TDD-style iteration for harness-critical behavior: direct frame routing,
-beat navigation, frozen mode, overflow checks, and interaction guards. Keep lint
-and tests simple, meaningful, and high-value; empty checks or superficial cases
-do not count as verification.
+For any deliverable deck project, create a runnable test setup early and use it
+throughout implementation. This applies even to one- or two-page decks. The
+scope can shrink for a small deck, but the project should not ship with no test
+framework, no runnable test command, or tests that only prove the test runner
+itself works.
+
+Use TDD-style iteration by default: write or update the relevant test before
+implementing harness-critical behavior, then run the focused check after each
+small change. Prioritize tests around direct frame routing, beat/navigation
+behavior, frozen mode, layout visibility, overflow risk, interaction isolation,
+and export or deployment risks. Keep lint and tests simple, meaningful, and
+high-value; empty assertions, superficial mount checks, or cases unrelated to
+slide behavior do not count as verification.
 
 ## Motion
 

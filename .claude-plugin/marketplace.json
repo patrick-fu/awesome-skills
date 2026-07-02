@@ -1,0 +1,49 @@
+{
+  "plugins": [
+    {
+      "name": "slides-and-visual-delivery",
+      "skills": [
+        "./frontend-harness-slides"
+      ]
+    },
+    {
+      "name": "knowledge-and-memory",
+      "skills": [
+        "./llm-wiki-capture",
+        "./x-twitter-reader"
+      ]
+    },
+    {
+      "name": "agent-orchestration",
+      "skills": [
+        "./parallel-goal-workflows",
+        "./claude-code-coding-agent",
+        "./codex-coding-agent",
+        "./cursor-coding-agent"
+      ]
+    },
+    {
+      "name": "thinking-and-planning",
+      "skills": [
+        "./brainstorm",
+        "./explore-and-plan",
+        "./faster-learning-coach"
+      ]
+    },
+    {
+      "name": "engineering-workflow",
+      "skills": [
+        "./write-unit-test",
+        "./log-driven-debugging",
+        "./commit-staged-changes",
+        "./generate-commit-message"
+      ]
+    },
+    {
+      "name": "personal-setup",
+      "skills": [
+        "./home-config-sync"
+      ]
+    }
+  ]
+}

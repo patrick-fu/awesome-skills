@@ -34,7 +34,7 @@
 
 手绘、教学、推理导向。用深绿色黑板、粉笔线条和公式来呈现推导过程。
 
-题材：*量子计算的基本原理*
+题材：*量子计算第一性原理*
 
 <p align="center">
   <img src="references/style/screenshots/style-06-low.webp" width="32%" alt="低密度：核心公式" />
@@ -60,7 +60,7 @@
 
 系统化、结构清楚。把复杂工作流表现成地铁线路和换乘站。
 
-题材：*分布式请求的生命周期*
+题材：*分布式请求生命周期*
 
 <p align="center">
   <img src="references/style/screenshots/style-13-low.webp" width="32%" alt="低密度：数据包旅程" />
@@ -72,7 +72,7 @@
 
 开发者原生、偏诊断。使用霓虹状态标记、终端界面和行动看板。
 
-题材：*微服务健康状况自检*
+题材：*微服务健康自检*
 
 <p align="center">
   <img src="references/style/screenshots/style-16-low.webp" width="32%" alt="低密度：系统就绪" />
@@ -86,7 +86,7 @@
 
 整洁、结构化、行动导向。灵感来自现代 issue tracker 和代码审查工具。
 
-题材：*数据库连接池耗尽事故复盘*
+题材：*事后复盘：连接池耗尽*
 
 <p align="center">
   <img src="references/style/screenshots/style-18-low.webp" width="32%" alt="低密度：工单头部" />
@@ -98,7 +98,7 @@
 
 有纸张触感，偏观察记录。使用账簿纸、木炭墨水和卡片网格。
 
-题材：*智能家居用户体验实地调研*
+题材：*智能家居 UX 田野研究*
 
 <p align="center">
   <img src="references/style/screenshots/style-21-low.webp" width="32%" alt="低密度：调研封面" />

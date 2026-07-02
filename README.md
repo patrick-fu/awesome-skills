@@ -2,43 +2,45 @@
 
 **[中文说明](README.zh-CN.md)**
 
-This repository contains a small set of reusable agent skills extracted from a larger private workspace and published as a standalone public collection.
+This repository contains a small set of reusable agent skills extracted from a
+larger private workspace and published as a standalone public collection.
+
+## Quick Install
+
+Install everything in one line: the public collection plus the three standalone
+picks.
+
+```bash
+npx skills add patrick-fu/awesome-skills && npx skills add patrick-fu/frontend-harness-slides && npx skills add patrick-fu/parallel-goal-workflows && npx skills add patrick-fu/llm-wiki-capture
+```
+
+Install only the public collection:
+
+```bash
+npx skills add patrick-fu/awesome-skills
+```
+
+Update installed skills:
+
+```bash
+npx skills update
+```
 
 ## Featured Skills
 
-These larger workflow skills live in their own repositories. Install them
-directly when you want the full standalone version.
+These larger skills have their own standalone repositories. Install them
+directly when you want the full version with its references, evals, and
+examples.
 
-### `llm-wiki-capture`
+### 🎞️ `frontend-harness-slides`
 
-Capture explicit sources and AI session knowledge into a Git-backed long-term
-knowledge base with evidence, ownership, verification, and local commit/push
-policy.
+Build HTML slide decks that stay editable after the first draft. This skill
+helps an agent align on style, audience, stage size, interaction, and delivery
+target, then use a harness, screenshots, and export checks so later edits do not
+quietly break other slides.
 
-```bash
-npx skills add patrick-fu/llm-wiki-capture
-```
-
-Repository: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
-
-### `parallel-goal-workflows`
-
-Use this workflow when a Main Agent should translate a broad request into a
-clean local brief, start one Goal Owner per delegated top-level goal, track
-active owners, and let those owners manage focused helper goals, independent
-review, acceptance, repair, and final reports without exposing the delegation
-chain to assigned agents.
-
-```bash
-npx skills add patrick-fu/parallel-goal-workflows
-```
-
-Repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
-
-### `frontend-harness-slides`
-
-Build HTML slides that an agent can keep changing without quietly breaking
-unrelated frames.
+Best for talks, product walkthroughs, teaching decks, or any slide project where
+motion, navigation, PDF export, and online deployment matter.
 
 ```bash
 npx skills add patrick-fu/frontend-harness-slides
@@ -46,72 +48,90 @@ npx skills add patrick-fu/frontend-harness-slides
 
 Repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
+### 🧭 `parallel-goal-workflows`
+
+Run complex work without stuffing every subtask into one conversation. The Main
+Agent turns a broad request into clean local briefs, starts one Goal Owner per
+top-level goal, and keeps review, repair, acceptance, and final reporting
+separated.
+
+Best when a task benefits from parallel research, implementation, review, or
+multiple independent checks.
+
+```bash
+npx skills add patrick-fu/parallel-goal-workflows
+```
+
+Repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
+
+### 📚 `llm-wiki-capture`
+
+Capture reusable knowledge from source links and agent sessions into a
+Git-backed long-term wiki. It keeps evidence, ownership, verification, and local
+commit/push policy visible, so future agents can reuse knowledge instead of
+depending on chat history.
+
+Best for patterns, decisions, setup notes, and lessons you expect to need again.
+
+```bash
+npx skills add patrick-fu/llm-wiki-capture
+```
+
+Repository: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
+
 ## Included Skills
 
-### `brainstorm`
+These smaller skills stay in this collection as everyday building blocks.
 
-Use this skill when the right next step is conversation rather than execution. It pushes the assistant to ask clarifying questions first, uncover hidden assumptions, and guide the user toward a clearer problem statement before proposing solutions.
+### Thinking and planning
 
-### `claude-code-coding-agent`
+- `brainstorm`: Use it before planning or coding, when the useful work is still
+  clarifying the idea, audience, constraints, and first direction.
+- `explore-and-plan`: Use it after the direction is mostly chosen, when the next
+  output should be an executable plan with clear steps, boundaries, and
+  acceptance checks.
+- `faster-learning-coach`: Use it when the user's real goal is learning. It
+  turns explanations into short learning loops with practice, teach-back, and
+  review.
 
-Use this skill when the user or an active orchestration/review workflow explicitly selects Claude Code CLI as the external coding executor. It covers headless `--print` runs, interactive sessions, model and effort pass-through, constrained read-only runs, review-only prompts, and long-running background execution patterns. It is not for generic subagents, ordinary Claude chat, or unspecified delegation.
+### Coding workflow helpers
 
-### `codex-coding-agent`
+- `write-unit-test`: A practical guide for behavior-focused unit tests around
+  production code, bug fixes, refactors, and domain rules.
+- `log-driven-debugging`: A diagnosis loop for slippery bugs: add targeted logs,
+  let the user rerun the scenario, then use the returned logs to find the first
+  real divergence.
+- `commit-staged-changes`: Commit only what is already staged, after reviewing
+  the staged diff and writing a factual English commit message.
+- `generate-commit-message`: Inspect the staged diff and draft the commit message
+  without creating the commit.
 
-Use this skill when the user or an active orchestration/review workflow explicitly selects Codex CLI as the external coding executor through another host agent or automation harness. It covers `codex exec` for non-interactive execution, `codex review` for review flows, interactive resume and fork flows, Git repo expectations, and safe handling of sandbox and approval controls. It is not for built-in subagents, ordinary Codex chat, or unspecified delegation.
+### External coding agents
 
-### `commit-staged-changes`
+- `claude-code-coding-agent`: Launch Claude Code CLI as an explicitly selected
+  external executor, with patterns for automation, review-only runs, interactive
+  sessions, and model or permission pass-through.
+- `codex-coding-agent`: Launch local Codex CLI from another host agent or
+  automation harness, including `codex exec`, `codex review`, interactive
+  resume/fork flows, and Git workspace expectations.
+- `cursor-coding-agent`: Launch Cursor CLI only when Cursor is explicitly
+  selected, with separate guidance for headless execution, review-only
+  `--mode ask`, planning mode, and interactive sessions.
 
-Use this skill when changes are already staged and the task is to create a commit. It enforces a clean review of staged content and a factual English commit message without staging extra files implicitly.
+### Personal workflow and source capture
 
-### `cursor-coding-agent`
-
-Use this skill when the user or an active orchestration/review workflow explicitly selects Cursor CLI as the external coding executor. It covers headless `--print --trust` runs, interactive sessions, explicit model pass-through, read-only `plan` and `ask` modes, review-only prompts, and safe handling of stronger execution flags. The `agent` command here means Cursor CLI, not a generic agent or subagent.
-
-### `explore-and-plan`
-
-Use this skill when an idea needs to be turned into a concrete execution plan. It drives the work from exploration to convergence to a plan with no unresolved decisions or placeholders.
-
-### `faster-learning-coach`
-
-Use this skill when the user's real goal is to learn, master, practice, review, or prepare for a topic rather than receive a finished answer. It turns the assistant into a learning coach that clarifies the goal, selects a learning mode, uses active practice, requires teach-back, and schedules review so the user can apply the concept independently.
-
-### `generate-commit-message`
-
-Use this skill when you want a high-quality commit message for staged changes but do not want to create the commit yet. It inspects the staged diff and outputs commit message text only.
-
-### `home-config-sync`
-
-Use this skill when you want to initialize, deploy, or maintain a personal bare-repo dotfiles workflow under `~/.dotfiles` with work-tree set to `$HOME`. It covers first-time setup from an empty private remote, starter-file handling, multi-machine sync, pull and merge safety, and ongoing push workflow.
-
-### `log-driven-debugging`
-
-Use this skill when a bug is hard to reason about statically and one targeted rerun with better logs will collapse the search space. It requires a user-provided log prefix, guides deliberate instrumentation, and structures the follow-up analysis around the first proven divergence in the returned logs.
-
-### `write-unit-test`
-
-Use this skill when writing, reviewing, or improving unit tests for production business code. It favors behavior-focused tests, realistic fixtures, stable assertions, and maintainable coverage over implementation-detail checks.
-
-### `x-twitter-reader`
-
-Use this skill when you need to acquire original content from X/Twitter posts, reply threads, long-form Articles, media references, linked URLs, author metadata, or engagement metrics before summarizing, translating, archiving, or quoting that content.
-
-## Usage
-
-Install this Awesome Skills collection:
-
-```bash
-npx skills add patrick-fu/awesome-skills
-```
-
-Update skills:
-
-```bash
-npx skills update
-```
+- `home-config-sync`: Initialize and operate a personal bare-repo dotfiles setup
+  under `~/.dotfiles`, including first push, new-machine deploys, whitelist
+  updates, pull/merge safety, and optional GUI-discoverable mode.
+- `x-twitter-reader`: Extract original content from X/Twitter posts, threads,
+  Articles, metadata, links, and media references before summarizing,
+  translating, quoting, or archiving it.
 
 ## Sync Model
 
-This public collection is generated automatically from a private source repository. Public changes should be made in the source repository, not directly here.
+This public collection is generated automatically from a private source
+repository. Public changes should be made in the source repository, not directly
+here.
 
-The sync process preserves relevant file history and commit metadata for the published paths while rewriting commit hashes as part of the filtered export.
+The sync process preserves relevant file history and commit metadata for the
+published paths while rewriting commit hashes as part of the filtered export.

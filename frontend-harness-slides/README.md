@@ -42,7 +42,7 @@ reading formats. These six examples show the range.
 Handmade, educational, and reasoning-first. Uses chalk-drawn lines and formulas
 on a deep green board.
 
-Topic: *The first principles of quantum computing*
+Topic: *The First Principles of Quantum Computing*
 
 <p align="center">
   <img src="references/style/screenshots/style-06-low.webp" width="32%" alt="Low density: hero formula" />
@@ -55,7 +55,7 @@ Topic: *The first principles of quantum computing*
 Warm, approachable, and human-in-the-loop. Uses sticky notes, tape, emoji actors,
 and small interactive details.
 
-Topic: *Offline-first sync engine design*
+Topic: *Offline-First Sync Engine Design*
 
 <p align="center">
   <img src="references/style/screenshots/style-02-low.webp" width="32%" alt="Low density: why offline-first" />
@@ -70,7 +70,7 @@ Topic: *Offline-first sync engine design*
 Systematic and structured. Represents converging workflows as subway lines and
 transfer stations.
 
-Topic: *The lifecycle of a distributed request*
+Topic: *The Lifecycle of a Distributed Request*
 
 <p align="center">
   <img src="references/style/screenshots/style-13-low.webp" width="32%" alt="Low density: packet journey" />
@@ -83,7 +83,7 @@ Topic: *The lifecycle of a distributed request*
 Developer-native and diagnostic. Uses neon status badges, terminal surfaces, and
 actionable boards.
 
-Topic: *Microservices health self-check*
+Topic: *Microservices Health Self-Check*
 
 <p align="center">
   <img src="references/style/screenshots/style-16-low.webp" width="32%" alt="Low density: system ready" />
@@ -98,7 +98,7 @@ Topic: *Microservices health self-check*
 Clean, structured, and action-oriented. Inspired by modern issue trackers and
 code review tools.
 
-Topic: *Post-mortem: connection pool exhaustion*
+Topic: *Post-Mortem: Connection Pool Exhaustion*
 
 <p align="center">
   <img src="references/style/screenshots/style-18-low.webp" width="32%" alt="Low density: issue header" />
@@ -110,7 +110,7 @@ Topic: *Post-mortem: connection pool exhaustion*
 
 Tactile and observational. Uses ledger paper, charcoal ink, and card grids.
 
-Topic: *Smart home UX field research*
+Topic: *Smart Home UX Field Research*
 
 <p align="center">
   <img src="references/style/screenshots/style-21-low.webp" width="32%" alt="Low density: research cover" />

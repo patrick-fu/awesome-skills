@@ -4,26 +4,29 @@
 
 ![用铅笔素描呈现散乱需求被整理成协作工作流和最终报告](assets/workbench-workflow-sketch.webp)
 
-`parallel-goal-workflows` 是一个面向复杂多 Agent 工作的指导型 Skill。它让主会话保持清爽，
-把复杂目标交给被委派的 Goal Owner 去完成规划、聚焦执行、review、repair、acceptance 和最终汇报。
+当一个任务已经不适合塞进单个主会话时，用 `parallel-goal-workflows`。
 
-当任务过宽、噪声太多，或者风险较高，不适合由主 Agent 一边协调一边直接执行时，显式调用它。
+有些任务需要探索、实现、review、repair 和最终判断。如果所有过程都放在主线程里，日志会
+越来越多，真正完成了什么反而不清楚。这个 Skill 给 Agent 一套更干净的拆分方式：把宽泛
+任务变成有 owner 的目标，在有价值时派出聚焦 helper，最后带着证据和风险回到主会话。
+
+它不是强制并行。一个聚焦 worker 足够时，就用一个。
 
 ## 安装
 
 ```bash
-npx skills add patrick-fu/parallel-goal-workflows
+npx skills add patrick-fu/parallel-goal-workflows -g
 ```
 
 后续更新：
 
 ```bash
-npx skills update
+npx skills update -g
 ```
 
 ## 快速使用
 
-这是一个 user-invoked Skill。用 slash command 或 `$` command 调用它，然后把任务描述清楚：
+显式调用这个 Skill，然后说明任务、范围、约束和你希望看到的证据。
 
 ```text
 $parallel-goal-workflows
@@ -32,132 +35,127 @@ $parallel-goal-workflows
 未解决风险和推荐修复方案的报告。
 ```
 
-说明目标、范围、约束、期望证据，以及哪些事情需要你批准。
+一个清楚的请求通常会包含：
 
-## 它能做什么
+- 目标；
+- 文件、产品区域或主题边界；
+- 哪些动作需要用户批准；
+- 期望证据，比如 diff、命令、截图、引用或 review notes；
+- helper 被阻塞时应该怎么办。
 
-这个 Skill 会把一个宽泛请求变成有 owner 的工作流：
+## 适合什么任务
 
-- 把协调噪声留在主会话之外；
-- 在有价值时把聚焦任务委派给 agents 或 helpers；
-- 对重要发现做 review 和 repair；
-- 检查结果是否满足原始目标；
-- 返回一份包含证据和剩余风险的简洁报告。
+- 需要独立探索和 review 的代码库审计。
+- 需要 repair 后再验收的多步骤实现任务。
+- 需要比较不同来源或不同视角的 research。
+- 中间过程很长，不适合把所有日志塞进主会话的任务。
+- 最终判断比实时看见每一步 helper 输出更重要的任务。
 
-工作流可以很小。一个聚焦 agent 足够时，它不会强行并行。
+不适合快速小改、简单查询、小型 code review，或者你希望主会话直接参与每一步的任务。
 
-## 什么时候使用
+## 工作流会做什么
 
-典型场景包括：
+主会话保持面向用户。被委派的 workflow 处理执行循环：
 
-- 代码库审计或交叉验证式 research；
-- 需要独立 review 的多步骤实现任务；
-- 长时间任务，且中间日志不适合塞进主上下文；
-- review / repair loop 很重要，而你更关心最终判断而不是每个中间细节；
-- 宽泛任务，需要多个聚焦 agent 在一个 goal owner 下协作。
+- 把宽泛请求整理成一个或多个本地 brief；
+- 只有在能改善结果时才派出 helper；
+- 把 review 和 repair 分开，降低遗漏问题的概率；
+- 用原始目标检查结果；
+- 回报改了什么、验证了什么、还剩什么风险。
 
-不适合用于快速小改、简单调研、普通 code review，或你希望主会话直接参与每一步的任务。
-
-## 工作方式
-
-内部实现上，每个 Agent 都有清晰职责：
-
-- **Main Agent：** 面向用户，理解每个被委派的顶层目标，把需求转化成干净的本地 brief，为该目标启动一个
-  Goal Owner，持续追踪 active owners，并转交最终汇报。
-- **Goal Owner：** 负责拆解、执行协调、review、repair、acceptance 和最终判断。
-- **聚焦 agents 或 helpers：** 只负责局部目标，根据收到的本地 brief 工作，并返回证据、验证结果、
-  风险或决策，供当前被分配目标综合使用。嵌套 helper 的工作必须比父任务更窄，并且可以独立验证。
-
-子 Agent 的角色只是例子，不是固定类型列表。一个工作流可以按需使用 worker、reviewer、
-verifier、researcher、explorer、implementer、领域专家或其他聚焦 helper。
-
-Main Agent 和 Goal Owner 应该发送自然的本地 brief，而不是原样转发用户 prompt 或角色链路合约。
-每个被委派出去的任务都应该带有局部目标、相关上下文、边界、期望交付物、验证要求和暂停条件。
-可见 brief 不应该暴露 Main Agent、parent identity、`Workflow Owner` 角色标签、skill trigger、raw transcript、SKILL.md 正文、仅面向 UI 的指令，或创建该任务的派发链路。
-如果宿主需要用 `/goal` 这样的可见命令进入 goal mode，可以把它作为被委派 packet 的第一行。
-这只是 runtime syntax，不是任务上下文。
-Main Agent 等待的是 workflow state，而不是输出量；它只在 done、blocked、needs-human、session failed/dead 或用户显式要求时行动，不能因为任务安静就重新接管工作。
-如果等待过程中出现新的独立 workflow 任务，Main Agent 会启动另一个 Goal Owner，并持续追踪两者，
-直到每个 owner 都到达 done、blocked 或 needs-human 状态。
+brief 应该是自然的任务说明，不是 raw transcript 或角色链路合约。好的 brief 会包含局部
+目标、相关上下文、边界、期望输出、验证要求和暂停条件。
 
 ## 工作流形态
 
-Goal Owner 会根据任务选择合适的形态。下面这些是示例，不是脚本。
+下面是示例，不是固定脚本。Goal owner 会选择能解决问题的最小形态。
 
-### Review And Repair
+### Review and repair
 
 ```mermaid
 flowchart LR
-  User["用户"] --> Main["Main Agent<br/>会话边界"]
-  Main --> Owner["Goal Owner<br/>任务 owner"]
+  User["用户"] --> Main["主会话"]
+  Main --> Owner["Goal owner"]
   Owner --> Worker["Worker goal"]
-  Worker --> Review["独立 Review"]
+  Worker --> Review["独立 review"]
   Review --> Decision{"足够好吗？"}
   Decision -- "否" --> Repair["Repair goal"]
   Repair --> Review
-  Decision -- "是" --> Acceptance["Acceptance / Verification"]
-  Acceptance --> Report["可验收报告"]
+  Decision -- "是" --> Acceptance["验收检查"]
+  Acceptance --> Report["最终报告"]
   Report --> Main
   Main --> User
 ```
 
-### 并行综合
+### Parallel synthesis
 
 ```mermaid
 flowchart LR
-  User["用户"] --> Main["Main Agent<br/>会话边界"]
-  Main --> Owner["Goal Owner<br/>任务 owner"]
-  Owner --> A["Worker A goal"]
-  Owner --> B["Worker B goal"]
-  Owner --> C["Worker C goal"]
-  A --> S["Synthesis goal"]
+  User["用户"] --> Main["主会话"]
+  Main --> Owner["Goal owner"]
+  Owner --> A["Worker A"]
+  Owner --> B["Worker B"]
+  Owner --> C["Worker C"]
+  A --> S["综合"]
   B --> S
   C --> S
   S --> Decision{"有冲突或缺口？"}
-  Decision -- "是" --> Followup["定向补充 goal"]
+  Decision -- "是" --> Followup["定向补充"]
   Followup --> S
-  Decision -- "否" --> Acceptance["验收 / 报告"]
+  Decision -- "否" --> Acceptance["验收检查"]
   Acceptance --> Main
   Main --> User
 ```
 
-### 嵌套 Helpers
+### Nested helpers
 
 ```mermaid
 flowchart LR
-  User["用户"] --> Main["Main Agent<br/>会话边界"]
-  Main --> Owner["Goal Owner<br/>任务 owner"]
-  Owner --> W["Worker goal"]
+  User["用户"] --> Main["主会话"]
+  Main --> Owner["Goal owner"]
+  Owner --> W["Worker"]
   W --> Decision{"需要更深层帮助？"}
-  Decision -- "是" --> A["Helper A goal"]
-  Decision -- "是" --> B["Helper B goal"]
-  A --> S["Worker synthesis"]
+  Decision -- "是" --> A["Helper A"]
+  Decision -- "是" --> B["Helper B"]
+  A --> S["Worker 综合"]
   B --> S
-  Decision -- "否" --> Direct["Worker result"]
-  S --> Review["Review / Acceptance"]
+  Decision -- "否" --> Direct["Worker 结果"]
+  S --> Review["Review"]
   Direct --> Review
   Review --> Report["最终报告"]
   Report --> Main
   Main --> User
 ```
 
-## 使用要求
+## Agent notes
 
-最佳体验需要宿主环境支持显式 Skill 调用、goals 和 subagents。
+这个 Skill 内部会用到几个角色名：
 
-- **Claude Code:** 使用 `/parallel-goal-workflows` 调用。这个 Skill 设置了
-  `disable-model-invocation: true`，因此 Claude Code 不应自动选择它，也不应把它预加载到
-  subagents。Claude Code v2.1.172 及更新版本支持最多 5 层嵌套 subagent。
-- **OpenAI Codex:** 使用 `$parallel-goal-workflows` 调用。随附的 `agents/openai.yaml` 设置了
-  `policy.allow_implicit_invocation: false`，因此 Codex 不应隐式选择它。Codex 支持通过
-  `agents.max_depth` 配置嵌套 spawned agents。
+- Main Agent：留在主会话里，启动并追踪被委派的顶层目标，转交最终 handoff。
+- Goal Owner：为一个被委派目标负责拆解、协调、review、repair、acceptance 和最终判断。
+- Focused helpers：只负责局部工作，并返回证据、验证结果、风险或决策。
 
-当宿主支持 history fork 时，应从 clean context 启动被分配任务的 agent，而不是转发完整主会话。
-对 Codex 来说，如果 spawn 工具暴露 `fork_context`，就设置为 `false`。
+子角色只是例子。实际工作里可以按需要使用 researcher、reviewer、verifier、implementer、
+领域专家，或者更简单的 worker。
 
-当 Codex 风格的 prompt 派发需要可见命令才能进入 goal mode 时，Goal Owner 和 helper prompt
-应该以单独一行 `/goal` 开头，然后再写自然的本地 brief。不要把 `$parallel-goal-workflows`
-传给被委派 agent。
+可见 brief 不应该暴露 raw transcript、完整会话链路、SKILL.md 正文、仅面向 UI 的指令或
+不必要的父级角色标签。如果宿主需要用 `/goal` 作为 runtime syntax，它可以出现在委派
+packet 的第一行，但它不是任务上下文。
+
+Main Agent 等待的是 workflow state，不是输出量。它应根据 done、blocked、needs-human、
+session failed 和用户显式请求行动，而不是因为 helper 安静就重新接管。
+
+## 宿主支持
+
+最佳体验需要宿主支持显式 Skill 调用、goals 和 subagents。
+
+- Claude Code：使用 `/parallel-goal-workflows` 调用。Claude Code v2.1.172 及更新版本支持
+  嵌套 subagents。
+- OpenAI Codex：使用 `$parallel-goal-workflows` 调用。Codex 可通过 `agents.max_depth`
+  配置嵌套 spawned agents。
+
+当宿主支持 history fork 时，应从 clean context 启动被分配任务的 agent，而不是转发完整
+主会话。
 
 实用的 Codex 配置：
 
@@ -176,5 +174,5 @@ goals = true
 
 ## 更多 Skills
 
-更多可复用的 Agent Skills 可以看
-[Awesome Skills](https://github.com/patrick-fu/awesome-skills/blob/main/README.zh-CN.md)。
+更多可复用 Agent Skills 见
+[Awesome Skills](https://github.com/patrick-fu/awesome-skills)。

@@ -2,141 +2,119 @@
 
 **[中文说明](README.zh-CN.md)**
 
-A practical collection of agent skills for planning, engineering workflows,
-slides, knowledge capture, external coding agents, and personal setup.
+My personal collection of agent skills for coding, planning, knowledge capture,
+slides, multi-agent work, and day-to-day setup.
 
-## Quick Install
+I keep this collection small enough to browse, but broad enough to cover the
+workflows I actually reach for: making better plans, writing safer code,
+building richer HTML slides, saving reusable knowledge, coordinating complex
+agent work, and keeping my local setup repeatable.
 
-Install the full collection globally:
+## Install the collection
 
 ```bash
 npx skills add patrick-fu/awesome-skills -g
 ```
 
-Update global skills:
+Update later:
 
 ```bash
 npx skills update -g
 ```
 
-## Highlights
+The full collection is the easiest starting point. If one of the larger skills
+below is what you came for, its standalone page gives a more focused walkthrough
+and a one-skill install command.
 
-These three larger skills are included in the collection above. They also have
-standalone repositories when you want to install only that skill or read the
-full README, references, evals, and examples.
+## Featured skills
 
 ### 🎞️ `frontend-harness-slides`
 
-Build HTML slide decks that stay editable after the first draft. This skill
-helps an agent align on style, audience, stage size, interaction, and delivery
-target, then use a harness, screenshots, and export checks so later edits do not
-quietly break other slides.
+Build lively HTML slide decks that can survive real iteration: style previews,
+motion, interaction, navigation, screenshots, PDF export, and online delivery.
 
-Best for talks, product walkthroughs, teaching decks, or any slide project where
-motion, navigation, PDF export, and online deployment matter.
+Use it when a deck needs to look good, feel alive, and stay editable after the
+first version.
 
-```bash
-npx skills add patrick-fu/frontend-harness-slides -g
-```
-
-Repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
+Standalone page: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
 ### 🧭 `parallel-goal-workflows`
 
-Run complex work without stuffing every subtask into one conversation. The Main
-Agent turns a broad request into clean local briefs, starts one Goal Owner per
-top-level goal, and keeps review, repair, acceptance, and final reporting
-separated.
+Coordinate complex work without dumping every subtask into the main
+conversation. It helps an agent split broad goals, run focused helpers when that
+is useful, review the results, and return a clean final report.
 
-Best when a task benefits from parallel research, implementation, review, or
-multiple independent checks.
+Use it for audits, research, repair loops, or any task where independent checks
+matter.
 
-```bash
-npx skills add patrick-fu/parallel-goal-workflows -g
-```
-
-Repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
+Standalone page: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
 
 ### 📚 `llm-wiki-capture`
 
-Capture reusable knowledge from source links and agent sessions into a
-Git-backed long-term wiki. It keeps evidence, ownership, verification, and local
-commit/push policy visible, so future agents can reuse knowledge instead of
-depending on chat history.
+Turn links, decisions, setup notes, and useful agent sessions into a Git-backed
+knowledge base with enough evidence to be trusted later.
 
-Best for patterns, decisions, setup notes, and lessons you expect to need again.
+Use it when something from a session should still be findable next month.
+
+Standalone page: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
+
+## Install one skill
 
 ```bash
+npx skills add patrick-fu/frontend-harness-slides -g
+npx skills add patrick-fu/parallel-goal-workflows -g
 npx skills add patrick-fu/llm-wiki-capture -g
 ```
 
-Repository: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
+If you install the full collection and later install a standalone skill in the
+same global scope, the standalone version replaces that one local skill. It does
+not create a second copy.
 
-## Skill Groups
-
-`npx skills add patrick-fu/awesome-skills -g` shows these groups in the
-interactive installer.
+## What's inside
 
 ### Slides and visual delivery
 
-- `frontend-harness-slides`: Create high-standard HTML slide decks with
-  upfront alignment, lively motion and interactions, harness-based iteration,
-  screenshots, PDF/static export, and online delivery checks.
+- `frontend-harness-slides`: HTML slide decks with style alignment, interaction,
+  motion, screenshot checks, PDF export, and online delivery.
 
 ### Knowledge and memory
 
-- `llm-wiki-capture`: Capture reusable knowledge from source links and agent
-  sessions into a maintained Git-backed wiki or knowledge base.
-- `x-twitter-reader`: Extract original content from X/Twitter posts, threads,
-  Articles, metadata, links, and media references before summarizing,
-  translating, quoting, or archiving it.
+- `llm-wiki-capture`: Save reusable source notes and session lessons into a
+  Git-backed wiki or knowledge base.
+- `x-twitter-reader`: Read X/Twitter posts, threads, Articles, metadata, links,
+  and media before summarizing or archiving them.
 
 ### Agent orchestration
 
-- `parallel-goal-workflows`: Delegate complex work through clean local briefs,
-  Goal Owners, focused helpers, review, repair, acceptance, and final reporting.
-- `claude-code-coding-agent`: Launch Claude Code CLI as an explicitly selected
-  external executor, with patterns for automation, review-only runs, interactive
-  sessions, and model or permission pass-through.
-- `codex-coding-agent`: Launch local Codex CLI from another host agent or
-  automation harness, including `codex exec`, `codex review`, interactive
-  resume/fork flows, and Git workspace expectations.
-- `cursor-coding-agent`: Launch Cursor CLI only when Cursor is explicitly
-  selected, with separate guidance for headless execution, review-only
-  `--mode ask`, planning mode, and interactive sessions.
+- `parallel-goal-workflows`: Split complex work into owned goals, focused helper
+  work, review, repair, and final reporting.
+- `claude-code-coding-agent`: Use Claude Code CLI as an explicitly selected
+  external coding agent.
+- `codex-coding-agent`: Use local Codex CLI from another host agent or
+  automation harness.
+- `cursor-coding-agent`: Use Cursor CLI when Cursor is the chosen external
+  executor.
 
 ### Thinking and planning
 
-- `brainstorm`: Use it before planning or coding, when the useful work is still
-  clarifying the idea, audience, constraints, and first direction.
-- `explore-and-plan`: Use it after the direction is mostly chosen, when the next
-  output should be an executable plan with clear steps, boundaries, and
+- `brainstorm`: Explore a rough idea before turning it into a plan.
+- `explore-and-plan`: Turn a mostly chosen direction into executable steps and
   acceptance checks.
-- `faster-learning-coach`: Use it when the user's real goal is learning. It
-  turns explanations into short learning loops with practice, teach-back, and
-  review.
+- `faster-learning-coach`: Convert explanations into short learning loops with
+  practice and review.
 
 ### Engineering workflow
 
-- `write-unit-test`: A practical guide for behavior-focused unit tests around
-  production code, bug fixes, refactors, and domain rules.
-- `log-driven-debugging`: A diagnosis loop for slippery bugs: add targeted logs,
-  let the user rerun the scenario, then use the returned logs to find the first
-  real divergence.
-- `commit-staged-changes`: Commit only what is already staged, after reviewing
-  the staged diff and writing a factual English commit message.
-- `generate-commit-message`: Inspect the staged diff and draft the commit message
-  without creating the commit.
+- `write-unit-test`: Write or improve unit tests around behavior, regressions,
+  and domain rules.
+- `log-driven-debugging`: Add targeted logs, rerun the real scenario, and trace
+  the first useful divergence.
+- `commit-staged-changes`: Commit only staged changes with a factual English
+  message.
+- `generate-commit-message`: Draft a commit message from the staged diff without
+  creating the commit.
 
 ### Personal setup
 
-- `home-config-sync`: Initialize and operate a personal bare-repo dotfiles setup
-  under `~/.dotfiles`, including first push, new-machine deploys, whitelist
-  updates, pull/merge safety, and optional GUI-discoverable mode.
-
-## Duplicate Installs
-
-The collection and the standalone repositories use the same skill names. If you
-install `awesome-skills` and later install one standalone skill in the same
-global scope, the standalone install overwrites that local skill instead of
-creating a duplicate copy.
+- `home-config-sync`: Manage a personal `~/.dotfiles` bare-repo workflow,
+  including first setup, new-machine deploys, pull safety, and pushes.

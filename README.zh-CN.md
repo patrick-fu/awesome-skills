@@ -2,99 +2,102 @@
 
 **[English README](README.md)**
 
-一组实用的 Agent Skills，覆盖计划梳理、工程工作流、slides 制作、知识沉淀、外部编码 Agent 和个人环境设置。
+这是我的个人精选 Agent Skills，主要用于编码、计划、知识记录、slides 制作、多
+Agent 协作和日常环境设置。
 
-## 快速安装
+这个集合不追求塞满所有场景。我更关心这些 Skill 是否真的常用、是否能让任务更稳、
+更清楚，或者让最终交付更好看。
 
-全局安装完整集合：
+## 安装完整集合
 
 ```bash
 npx skills add patrick-fu/awesome-skills -g
 ```
 
-更新全局 skills：
+后续更新：
 
 ```bash
 npx skills update -g
 ```
 
-## 精选 Skills
+推荐先安装完整集合。如果你只对下面某一个大 Skill 感兴趣，它们也有独立页面，适合单独
+了解设计思路、演示效果和使用方式。
 
-下面 3 个较大的 skills 已经包含在上面的集合里。它们也有独立仓库，适合只安装单个 skill，或者查看更完整的 README、references、evals 和 examples。
+## 精选 Skills
 
 ### 🎞️ `frontend-harness-slides`
 
-制作 HTML slides，并且让后续修改不容易把其他页面静默改坏。它会引导 Agent 先对齐风格、受众、舞台尺寸、交互和交付方式，再用 harness、截图和导出检查来守住质量。
+制作更灵动的 HTML slides，并且能扛住真实修改：风格预览、动效、交互、导航、截图检查、
+PDF 导出和线上交付都在流程里。
 
-适合演讲、产品 walkthrough、教学课件，以及任何需要动效、导航、PDF 导出或线上部署的 slides 项目。
+适合需要好看、能动、能交互，而且后续还会反复修改的 slides 项目。
 
-```bash
-npx skills add patrick-fu/frontend-harness-slides -g
-```
-
-仓库：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
+独立页面：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
 ### 🧭 `parallel-goal-workflows`
 
-处理复杂任务时，不把所有子任务都塞进同一个会话。Main Agent 会把宽泛请求整理成干净的本地 brief，为每个顶层目标启动一个 Goal Owner，并把 review、repair、acceptance 和最终报告分开处理。
+处理复杂任务时，不把所有子任务都塞进主会话。它会帮 Agent 拆分目标、按需派出聚焦
+helper、审查结果，再把最终判断收束成一份清楚的报告。
 
-适合需要并行调研、实现、审查，或者需要多路独立检查的任务。
+适合代码审计、复杂调研、修复循环，或者任何需要独立检查的任务。
 
-```bash
-npx skills add patrick-fu/parallel-goal-workflows -g
-```
-
-仓库：[`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
+独立页面：[`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
 
 ### 📚 `llm-wiki-capture`
 
-把 source links 和 agent sessions 里的可复用知识沉淀到 Git-backed 长期 wiki。它会保留 evidence、ownership、verification 和本地 commit/push policy，让后续 Agent 不必只依赖聊天历史。
+把链接、决策、环境设置、踩坑记录和有价值的 agent session 保存到 Git-backed 知识库，
+并保留足够证据，方便以后继续用。
 
-适合沉淀模式、决策、环境设置、踩坑记录，以及后面大概率还会用到的经验。
+适合那些你下个月还想找得到、信得过的知识。
+
+独立页面：[`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
+
+## 单独安装某个 Skill
 
 ```bash
+npx skills add patrick-fu/frontend-harness-slides -g
+npx skills add patrick-fu/parallel-goal-workflows -g
 npx skills add patrick-fu/llm-wiki-capture -g
 ```
 
-仓库：[`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
+如果已经在同一个全局 scope 里安装了完整集合，之后再安装某个独立 Skill，本地同名
+Skill 会被替换，不会多出第二份。
 
-## Skill 分组
-
-`npx skills add patrick-fu/awesome-skills -g` 会在交互安装里显示这些分组。
+## 包含哪些 Skill
 
 ### Slides and visual delivery
 
-- `frontend-harness-slides`：制作高标准 HTML slides，覆盖前期对齐、灵动动效和交互、harness 化迭代、截图检查、PDF/static 导出和线上交付检查。
+- `frontend-harness-slides`：制作带风格对齐、交互、动效、截图检查、PDF 导出和线上交付的
+  HTML slides。
 
 ### Knowledge and memory
 
-- `llm-wiki-capture`：把 source links 和 agent sessions 里的可复用知识沉淀到维护中的 Git-backed wiki 或知识库。
-- `x-twitter-reader`：在总结、翻译、引用或归档之前，先从 X/Twitter 帖子、thread、Article、元数据、链接和媒体引用里提取原始内容。
+- `llm-wiki-capture`：把可复用的资料和会话经验保存到 Git-backed wiki 或知识库。
+- `x-twitter-reader`：在总结、翻译、引用或归档前，先读取 X/Twitter 帖子、thread、
+  Article、元数据、链接和媒体。
 
 ### Agent orchestration
 
-- `parallel-goal-workflows`：用干净的本地 brief、Goal Owner、聚焦 helper、review、repair、acceptance 和最终报告来处理复杂委托工作。
-- `claude-code-coding-agent`：当 Claude Code CLI 被明确选为外部执行器时使用，覆盖自动化执行、只读 review、交互会话，以及模型或权限参数透传。
-- `codex-coding-agent`：当另一个宿主 Agent 或自动化流程需要启动本地 Codex CLI 时使用，覆盖 `codex exec`、`codex review`、交互式 resume/fork 和 Git 工作区预期。
-- `cursor-coding-agent`：只有在明确选择 Cursor CLI 时使用，区分 headless 执行、只读 `--mode ask`、plan 模式和交互会话。
+- `parallel-goal-workflows`：把复杂任务拆成有 owner 的目标、聚焦 helper 工作、review、
+  repair 和最终报告。
+- `claude-code-coding-agent`：明确选择 Claude Code CLI 作为外部编码 Agent 时使用。
+- `codex-coding-agent`：从另一个宿主 Agent 或自动化流程里调用本地 Codex CLI。
+- `cursor-coding-agent`：明确选择 Cursor CLI 作为外部执行器时使用。
 
 ### Thinking and planning
 
-- `brainstorm`：还没到写计划或动手阶段时使用。它会先帮你澄清想法、受众、约束和第一个可执行方向。
-- `explore-and-plan`：方向基本确定后使用，把想法拆成可执行计划，并明确边界、顺序和验收方式。
-- `faster-learning-coach`：当用户真正想学习，而不是只要一个答案时使用。它会把解释变成小学习循环：练习、teach-back 和复习。
+- `brainstorm`：在计划或动手前，先把粗糙想法聊清楚。
+- `explore-and-plan`：方向基本确定后，把它整理成可执行步骤和验收标准。
+- `faster-learning-coach`：把解释变成短学习循环，包括练习、复述和复习。
 
 ### Engineering workflow
 
-- `write-unit-test`：为生产业务代码写、审查或改进单元测试，重点是行为、回归、领域规则和可维护断言。
-- `log-driven-debugging`：处理靠静态阅读很难定位的 bug：先加高信号日志，让用户复现，再根据返回日志找到第一个真实分歧点。
-- `commit-staged-changes`：只提交已经 staged 的内容，提交前检查 staged diff，并生成事实准确的英文 commit message。
-- `generate-commit-message`：只基于 staged diff 草拟 commit message，不创建 commit。
+- `write-unit-test`：围绕行为、回归和领域规则编写或改进单元测试。
+- `log-driven-debugging`：加高信号日志，让用户复现，再根据日志找到真实分歧点。
+- `commit-staged-changes`：只提交 staged 内容，并写事实准确的英文 commit message。
+- `generate-commit-message`：只根据 staged diff 草拟 commit message，不创建 commit。
 
 ### Personal setup
 
-- `home-config-sync`：初始化和维护 `~/.dotfiles` 下的个人 bare-repo dotfiles 工作流，覆盖首次 push、新机器部署、白名单更新、pull/merge 安全性和可选的 GUI-discoverable mode。
-
-## 重复安装
-
-集合和独立仓库使用相同的 skill name。如果已经在同一个全局 scope 里安装了 `awesome-skills`，之后再安装某个 standalone skill，本地同名 skill 会被 standalone 版本覆盖，不会生成两份副本。
+- `home-config-sync`：维护个人 `~/.dotfiles` bare-repo 工作流，包括首次设置、新机器部署、
+  pull 安全和 push。

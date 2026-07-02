@@ -9,6 +9,9 @@ local dev server.
 
 Use project-specific commands. Avoid running the heaviest suite after every tiny
 copy edit, but prefer completing the relevant final check before shipping.
+Deliverable deck projects should have a real test command and at least a small
+set of meaningful tests; if that is missing, treat it as an implementation gap,
+not a skipped verification detail.
 
 | Tier | Purpose | Use when |
 |---|---|---|

@@ -2,17 +2,19 @@
 
 This guide provides a comprehensive visual catalog of all 24 styles in our design system. Each style is presented with a **3-image horizontal progression** illustrating its layout versatility across three information density levels:
 
-1.  **Low Density (Opener / Hero)**: Minimalist, high-impact statement or cover page.
-2.  **Medium Density (Flow / Timeline)**: Process, chronological sequence, or logical progression.
-3.  **High Density (Bento / Grid / Data)**: Multi-category card layout, detailed metrics, or code diffs.
+1.  **Low Density (Scene 1: Ultralight)**: Minimalist, high-impact statement or cover page.
+2.  **Medium Density (Scene 3: Standard)**: Process, chronological sequence, or logical progression.
+3.  **High Density (Scene 5: Extreme)**: Multi-category card layout, detailed metrics, or code diffs.
 
-All screenshots are optimized as lightweight WebP images at 540p resolution to ensure fast loading times.
+All screenshots are optimized as lightweight WebP images at 800px resolution (longest side) to ensure fast loading times while retaining crisp readability.
 
 You can also explore all 24 styles interactively in our [Live Style Preview Workbench](https://harness-slides-24-styles.vercel.app/).
 
 ---
 
-## 🟢 Minimal Keynote (Styles 01 - 08)
+## 🟢 Minimal Keynote (Styles 01 - 08) — Tier A: Kinetic & Playful
+
+*Motion Design Strategy (Tier A): Highly kinetic, playful, and expressive. Uses energetic spring bounces, continuous rotations, wiggles, and physical interaction effects (e.g. chalk-drawn wobbles, arcade shakes, spotlight pulses) to drive active engagement and focal emphasis during live speaking.*
 
 Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect for live speaking, big statements, and section openings.
 
@@ -152,7 +154,9 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect fo
 
 ---
 
-## 🟡 Balanced Hybrid (Styles 09 - 16)
+## 🟡 Balanced Hybrid (Styles 09 - 16) — Tier B: Mechanical & Flow
+
+*Motion Design Strategy (Tier B): Controlled, structured, and mechanical. Uses precise sliding timelines, laser traces, pipeline pulses, and fader level animations to showcase logical flows and processes clearly without overwhelming readability.*
 
 Balanced Hybrid styles support both live presenting and later reading. They are graphic, structured, and highly versatile.
 
@@ -292,7 +296,9 @@ Balanced Hybrid styles support both live presenting and later reading. They are 
 
 ---
 
-## 🔵 Text Report (Styles 17 - 24)
+## 🔵 Text Report (Styles 17 - 24) — Tier C: Restrained & Editorial
+
+*Motion Design Strategy (Tier C): Extremely restrained, editorial, and document-focused. Relies on clean, non-elastic translation-based Magic Move transitions, subtle typography reveals, and delicate fades. Completely avoids bounces, wiggles, or flashy loops to ensure comfortable, distraction-free reading.*
 
 Text Report styles are self-contained, evidence-rich, and document-led. Best for asynchronous reviews, manuals, and deep-dive technical reports.
 
@@ -400,7 +406,7 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 23: Checklist Ledger
 *A plain, trustworthy financial or administrative ledger. Intentionally restrained and practical, focusing entirely on completeness and readiness checks.*
-*   **Topic**: *Production Handoff Readiness Checklist*
+*   **Topic**: *Handoff Readiness Release Ledger*
 <p align="center">
   <img src="screenshots/style-23-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-23-med.webp" width="32%" alt="Medium Density" />
@@ -417,7 +423,7 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 24: Annotated Source & Diff
 *A high-fidelity code diff, source code reviewer, or text annotator. Explains value by showing "before" and "after" transformations in a single view.*
-*   **Topic**: *SQL Query Optimization Diff*
+*   **Topic**: *Query Optimization: Full Table Scan Elimination*
 <p align="center">
   <img src="screenshots/style-24-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-24-med.webp" width="32%" alt="Medium Density" />

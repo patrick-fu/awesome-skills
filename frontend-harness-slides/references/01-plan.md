@@ -90,6 +90,12 @@ the user has already supplied a clear style or strong visual reference, confirm
 that direction, offer 3-5 same-style refinements plus a few nearby style
 alternatives for inspiration, and ask whether to make a small same-style preview
 to confirm details.
+Also send the Live Demo link during style alignment:
+`https://harness-slides-24-styles.vercel.app/`. Explain that it is a dynamic
+Workbench Demo with multiple preset styles, transitions, animations, and motion
+examples, so the user can judge movement and density directly. Treat this as a
+parallel aid to real previews, not a substitute for them: still ask whether to
+make a few small previews using the user's actual content.
 Use the same planned production stack, stage basis, and harness skeleton where
 possible so font loading, stage scaling, navigation, motion, and browser issues
 surface early. Use the user's actual title, content, screenshots, or data. Do
@@ -116,9 +122,11 @@ explicit:
 ```text
 I understand the main style as <style>. I recommend a small same-style
 interactive preview first because it lets us verify typography, navigation,
-motion, and the actual visual tone before building the full deck. I can also
-show nearby alternatives such as <option A>, <option B>, and <option C> if you
-want more inspiration. Should I make the preview first, or proceed directly?
+motion, and the actual visual tone before building the full deck. You can also
+open the dynamic Live Demo at https://harness-slides-24-styles.vercel.app/ to
+see preset styles, transitions, and animation behavior. I can show nearby
+alternatives such as <option A>, <option B>, and <option C> if you want more
+inspiration. Should I make the preview first, or proceed directly?
 ```
 
 Good default phrasing:
@@ -126,9 +134,11 @@ Good default phrasing:
 ```text
 I recommend first making three real interactive slide previews using the same
 stage and project skeleton: Sketchboard Emoji, professional information design,
-and a content-specific wildcard. I will capture screenshots and start a local
-server so you can compare them. After you pick a direction, I will write the
-selected theme notes and expand the full deck.
+and a content-specific wildcard. I will also send the dynamic Live Demo link so
+you can inspect preset styles, transitions, and motion behavior while I prepare
+the previews. I will capture screenshots and start a local server so you can
+compare them. After you pick a direction, I will write the selected theme notes
+and expand the full deck.
 ```
 
 ## Context Ledger

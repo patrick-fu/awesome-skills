@@ -172,7 +172,7 @@ goals = true
 更多细节见
 [`references/codex-nested-subagents.md`](references/codex-nested-subagents.md)。
 
-## 更多 Skills
+## 我的更多精选 Skill
 
-更多可复用 Agent Skills 见
+更多我长期维护、偏实战的精选 Agent Skills，见
 [Awesome Skills](https://github.com/patrick-fu/awesome-skills)。

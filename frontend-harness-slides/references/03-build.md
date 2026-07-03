@@ -211,6 +211,23 @@ reports or a very static handoff:
 - stagger only when it clarifies reading order
 - a final takeaway or highlighted phrase on the last meaningful beat
 
+### Stable Envelope, Canvas Transition
+
+The outermost frame (header, footer, slide metadata, custom navigation dots/pickers, and persistent background templates) must remain physically static and constant across scene transitions. Transitions and entry animations must be strictly clipped inside the core content canvas area. This layout envelope stability avoids jarring flashes, unnecessary re-renders, and page jitter.
+
+### Full-Distance Sweep Transitions
+
+Instead of defaulting to plain fades, leverage stage clipping container structures (`overflow: hidden`) to trigger full-distance scene entrance sweeps (`full-slide-left`, `full-slide-up`, etc.). Moving the incoming layout box dynamically from 100% of the container coordinate bounds into centered alignment mimics physically pushing previous content off-screen.
+
+### Content-Semantic Transition Mapping
+
+When concrete scene movement vectors are unspecified, map the physical direction and deceleration velocity to the slide deck's textual semantic profile:
+- **Chronological, pipeline, or linear progress content**: Map to horizontal timeline sweeps (`full-slide-left` or `full-slide-right`) to imply progression.
+- **Deep-dive, detail audit, or micro-level analysis content**: Map to focus scaling and elastic deceleration (`scale-up` or `elastic-pop`) to focus audience attention.
+- **Dual choice, alternative comparison, or causality content**: Map to split vertical openings or mirrored entries (`gate` or `diagonal-slide`) to emphasize contrast.
+- **Errors, critical incidents, post-mortems, or warnings**: Map to high-frequency color shifts or quick shakes (`glitch-entry` or `screen-shake`) to command attention.
+- **Heavy reading reports, checklists, and editorial text**: Limit major structural movement to prevent cognitive reading fatigue. Pair with long cross-fades (`elegant-crossfade`) or simple vertical scrolling (`full-slide-up`) of minimum displacement.
+
 Magic Move-style continuity, explicitly inspired by Keynote's Magic Move effect,
 is the recommended default across deck types. It means smooth scene transitions,
 objects moving continuously between related states, and progressive reveals

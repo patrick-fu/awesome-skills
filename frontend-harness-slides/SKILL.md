@@ -47,6 +47,12 @@ interactive previews. If the user already gave a clear style, confirm that style
 offer refinements and a few nearby alternatives for inspiration, and ask whether
 to create a same-style minimal preview.
 
+During style alignment, send the user the Live Demo link as a reference:
+`https://harness-slides-24-styles.vercel.app/`. Explain that it is a dynamic
+Workbench Demo with multiple preset styles, transitions, animations, and motion
+examples. This does not replace the preview question: still ask whether to make
+a few small, content-specific style previews before the full build.
+
 Keep alignment details as implementation constraints, not slide copy. Do not
 render duration, audience, density, stage size, delivery target, navigation
 requirements, or implementation notes on the slide surface unless the user asks.

@@ -157,7 +157,7 @@ personal knowledge base when the capture loop is explicit and maintained.
 Runtime behavior comes from this skill, your local agent instructions, and your
 knowledge-base repository docs.
 
-## More skills
+## More curated skills
 
-For more reusable agent skills, see
+Browse my curated collection of practical agent skills:
 [Awesome Skills](https://github.com/patrick-fu/awesome-skills).

@@ -146,7 +146,7 @@ the wiki yet.
 `llm-wiki-capture` 不依赖这个 gist，也不要求采用完全相同的设置。实际运行行为由本
 Skill、本地 agent instructions 和知识库仓库文档共同决定。
 
-## 更多 Skills
+## 我的更多精选 Skill
 
-更多可复用 Agent Skills 见
+更多我长期维护、偏实战的精选 Agent Skills，见
 [Awesome Skills](https://github.com/patrick-fu/awesome-skills)。

@@ -154,7 +154,7 @@ Topic: *Smart Home UX Field Research*
 <p align="center">
   <a href="https://frontend-harness-slides-demo.vercel.app/"><b>Try the live Vercel Workbench</b></a>
   <br />
-  <a href="references/style/preview.md"><b>Read the full style preview guide</b></a>
+  <a href="references/style/preview.md"><b>Browse the style catalog</b></a>
 </p>
 
 ## Install
@@ -169,31 +169,18 @@ Update later:
 npx skills update -g
 ```
 
-## How an agent uses it
+## Typical workflow
 
 1. Plan: align on content, audience, presentation format, style direction,
    technology, delivery target, and whether the user wants style previews first.
 2. Design: choose a coherent style system, then vary layouts, motion, and
    interaction patterns across scenes.
-3. Build: implement stable scenes, a registry, fixed stage scaling, frozen mode,
-   keyboard navigation, and event-isolated interactive elements.
+3. Build: create stable slide scenes with keyboard navigation, interactive
+   elements, repeatable previews, and tests that protect future edits.
 4. Verify and ship: run meaningful layout and interaction checks, inspect
    screenshots, preview locally, then deploy online, export PDF, or do both.
 
-## Agent references
+## More curated skills
 
-For non-trivial deck work, agents should read these references in order:
-
-| File | Purpose |
-|---|---|
-| `references/01-plan.md` | Intake, style alignment, technology choice, context tracking, and content registry. |
-| `references/style/index.md` | Style directions and semantic-to-visual mapping. |
-| `references/style/preview.md` | Full style preview guide with preset styles and density examples. |
-| `references/02-design.md` | Style previews, layout variation, navigation, fonts, and assets. |
-| `references/03-build.md` | Stable frames, registry, fixed stage, frozen mode, and event isolation. |
-| `references/04-verify-and-ship.md` | Visual checks, viewport stress, deployment, PDF export, and handoff. |
-
-## More skills
-
-For more reusable agent skills, see
+Browse my curated collection of practical agent skills:
 [Awesome Skills](https://github.com/patrick-fu/awesome-skills).

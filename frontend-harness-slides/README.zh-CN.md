@@ -136,7 +136,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 <p align="center">
   <a href="https://frontend-harness-slides-demo.vercel.app/"><b>体验 Vercel 实时 Workbench</b></a>
   <br />
-  <a href="references/style/preview.zh-CN.md"><b>阅读完整风格预览指南</b></a>
+  <a href="references/style/preview.zh-CN.md"><b>浏览风格目录</b></a>
 </p>
 
 ## 安装
@@ -151,28 +151,15 @@ npx skills add patrick-fu/frontend-harness-slides -g
 npx skills update -g
 ```
 
-## Agent 怎么使用
+## 典型流程
 
 1. Plan：对齐内容、受众、演示形式、风格方向、技术栈、交付目标，以及是否先做风格预览。
 2. Design：确定统一的风格系统，同时让不同 scene 在版式、动效和交互形式上有变化。
-3. Build：实现稳定 scene、registry、固定舞台缩放、frozen mode、键盘导航和事件隔离交互。
+3. Build：创建稳定的 slide scene，配套键盘导航、交互元素、可复现预览和保护后续修改的测试。
 4. Verify and ship：运行有实际价值的布局和交互检查，查看截图，本地预览，然后部署线上、
    导出 PDF，或两者都交付。
 
-## Agent references
+## 我的更多精选 Skill
 
-确认是非小型 deck 制作或大改后，Agent 应按顺序阅读：
-
-| 文件 | 用途 |
-|---|---|
-| `references/01-plan.md` | 需求对齐、风格确认、技术栈选择、Context 跟踪和内容注册表。 |
-| `references/style/index.md` | 风格方向和语义到视觉的映射方式。 |
-| `references/style/preview.zh-CN.md` | 完整风格预览指南，包含预设风格和密度示例。 |
-| `references/02-design.md` | 风格预览、版式变化、导航、字体和素材。 |
-| `references/03-build.md` | 稳定帧、注册表、固定舞台、frozen mode 和事件隔离。 |
-| `references/04-verify-and-ship.md` | 视觉检查、视口压力检查、部署、PDF 导出和交付。 |
-
-## 更多 Skills
-
-更多可复用 Agent Skills 见
+更多我长期维护、偏实战的精选 Agent Skills，见
 [Awesome Skills](https://github.com/patrick-fu/awesome-skills)。

@@ -191,7 +191,7 @@ goals = true
 For more detail, see
 [`references/codex-nested-subagents.md`](references/codex-nested-subagents.md).
 
-## More skills
+## More curated skills
 
-For more reusable agent skills, see
+Browse my curated collection of practical agent skills:
 [Awesome Skills](https://github.com/patrick-fu/awesome-skills).

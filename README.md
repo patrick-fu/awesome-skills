@@ -30,11 +30,16 @@ and a one-skill install command.
 
 ### 🎞️ `frontend-harness-slides`
 
-Build lively HTML slide decks that can survive real iteration: style previews,
-motion, interaction, navigation, screenshots, PDF export, and online delivery.
+Build lively HTML slide decks with a frontend harness: stable scenes, repeatable
+screenshots, meaningful tests, PDF export, and online delivery.
 
-Use it when a deck needs to look good, feel alive, and stay editable after the
-first version.
+Use it when a deck needs to look good, feel alive, and stay hard to break after
+many rounds of edits.
+
+> 🖥️ Live demo: try the
+> [24-style interactive Workbench](https://harness-slides-24-styles.vercel.app/).
+> The visual styles are useful, but the bigger win is harness-backed iteration
+> instead of fragile single-file HTML.
 
 Standalone page: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 

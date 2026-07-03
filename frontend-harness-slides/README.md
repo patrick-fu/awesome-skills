@@ -2,17 +2,43 @@
 
 **[中文说明](README.zh-CN.md)**
 
-Build lively, interactive HTML slide decks that still hold up after multiple
-rounds of edits.
+Build HTML slide decks with a frontend harness, so the deck can survive real
+iteration.
 
-This skill helps an agent align on audience, content density, visual style,
-motion, navigation, delivery format, and deployment before writing code. It then
-treats the deck as a small web app: scenes are addressable, interactions are
-testable, screenshots are repeatable, and the final deck can ship as a live site,
-a PDF, or both.
+A single-file HTML deck is fine for a quick draft. It gets painful when the deck
+grows, when one slide needs careful tuning, or when a small CSS, animation, or
+layout change quietly breaks another page. This skill is built for that later
+phase.
 
-> Live demo: explore all 24 visual styles and density levels in the
-> [Style Preview Workbench](https://harness-slides-24-styles.vercel.app/).
+The main advantage is not just prettier slides. The harness treats the deck as a
+small, testable web app: scenes are addressable, interactions are isolated,
+screenshots are repeatable, and the final deck can ship as a live site, a PDF,
+or both.
+
+## Live preview
+
+> 🖥️ Try the live Vercel Workbench:
+> [24-style interactive preview](https://harness-slides-24-styles.vercel.app/).
+> It is the fastest way to see the motion, density, and visual range before
+> reading the full catalog.
+
+## Why the harness matters
+
+Most slide generators can produce an attractive first version. The harder part
+is keeping a larger deck stable after feedback. `frontend-harness-slides` puts a
+small engineering frame around the deck:
+
+- stable scene and beat addresses, so any frame can be opened directly;
+- a registry, so tooling can enumerate the deck without scraping visible text;
+- a fixed-ratio stage, so slide content stays inside the canvas;
+- frozen mode, so screenshots and visual checks are repeatable;
+- event-isolated interactions, so clicks, drags, inputs, and tooltips do not
+  leak into global navigation;
+- meaningful tests and smoke checks, so missing content, overflow, runtime
+  errors, and navigation leaks are caught before handoff.
+
+Visual style still matters. The difference is that the style sits on top of a
+deck structure that is designed to be edited, tested, deployed, and exported.
 
 ## What it is good for
 
@@ -25,6 +51,13 @@ a PDF, or both.
 
 For a tiny one-off static slide, a single HTML file is usually enough. This
 skill is for decks where design quality, iteration, and verification matter.
+
+## Model choice
+
+For visual slide work, model taste matters. I usually recommend starting with
+Gemini for stronger frontend aesthetics, then Claude. GPT 5.5 can work too, and
+this skill includes guidance that helps it produce better visual results, but in
+my own trials it still tends to need more direction than Gemini.
 
 ## Visual style gallery
 
@@ -119,24 +152,10 @@ Topic: *Smart Home UX Field Research*
 </p>
 
 <p align="center">
-  <a href="references/style/preview.md"><b>Explore all 24 styles in the preview guide</b></a>
+  <a href="https://harness-slides-24-styles.vercel.app/"><b>Try the live Vercel Workbench</b></a>
   <br />
-  <a href="https://harness-slides-24-styles.vercel.app/"><b>Try the live style preview workbench</b></a>
+  <a href="references/style/preview.md"><b>Read the full 24-style preview guide</b></a>
 </p>
-
-## Why it stays editable
-
-The skill does not ask an agent to make one large, fragile HTML file and hope it
-survives feedback. It recommends a small harness around the deck:
-
-- align on style, audience, density, stage size, technology, and delivery before
-  building;
-- keep scene and beat addresses stable, so a page can be inspected directly;
-- render inside a fixed-ratio stage, so content stays inside the slide surface;
-- provide a frozen mode for deterministic screenshots and visual checks;
-- isolate custom interactions so inputs, drags, and clicks do not accidentally
-  trigger slide navigation;
-- run focused layout, interaction, screenshot, export, and deployment checks.
 
 ## Install
 

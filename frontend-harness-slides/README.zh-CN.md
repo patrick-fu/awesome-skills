@@ -2,14 +2,35 @@
 
 **[English](README.md)**
 
-制作更灵动、可交互、能部署，而且经得起多轮修改的 HTML slides。
+用前端工程化 harness 制作 HTML slides，让 deck 能扛住真实的多轮修改。
 
-这个 Skill 会引导 Agent 在写代码前先对齐受众、内容密度、视觉风格、动效、导航、交付方式
-和部署目标。进入实现后，它会把 slides 当作一个小型 Web 应用来做：每个 scene 可以单独
-访问，交互可以测试，截图可以稳定复现，最终可以部署成线上页面、导出 PDF，或者两者都做。
+单体 HTML 很适合快速出第一版。但当 slides 变大、需要精调某一页，或者反复修改 CSS、动画
+和布局时，一个小改动很容易悄悄影响其他页面。这个 Skill 主要解决的就是这个阶段的问题。
 
-> 在线演示：在 [Style Preview Workbench](https://harness-slides-24-styles.vercel.app/)
-> 里查看全部 24 个视觉风格和不同信息密度。
+它的核心优势不只是做出更漂亮的 slides，而是把 deck 当成一个可测试的小型 Web 应用：
+scene 可以稳定访问，交互可以隔离，截图可以复现，最终可以部署成线上页面、导出 PDF，
+或者两者都交付。
+
+## Live preview
+
+> 🖥️ 体验 Vercel 实时 Workbench：
+> [24 风格交互式预览](https://harness-slides-24-styles.vercel.app/)。
+> 这是查看动效、信息密度和视觉范围最快的方式，比只读说明更直观。
+
+## 为什么 harness 更重要
+
+很多 slides 工具都能做出好看的第一版。真正困难的是 deck 变大、反馈变多以后，怎么继续
+精修而不把其他页面改坏。`frontend-harness-slides` 会在 deck 周围加一层轻量工程框架：
+
+- 稳定的 scene 和 beat 地址，方便直接打开任意页面或状态；
+- registry 作为目录，让工具不需要靠抓取可见文字来理解 deck；
+- 固定比例 stage，确保内容留在 slides 画布内；
+- frozen mode，让截图和视觉检查可以稳定复现；
+- 交互事件隔离，避免点击、拖拽、输入框和 tooltip 误触发全局翻页；
+- 有意义的测试和 smoke checks，在交付前发现内容缺失、溢出、运行错误和导航泄漏。
+
+视觉风格仍然重要。但这里的关键差异是：风格下面有一套能被编辑、测试、部署和导出的 deck
+结构。
 
 ## 适合什么场景
 
@@ -20,6 +41,12 @@
 
 如果只是非常小的一次性静态页面，单个 HTML 文件通常就够了。这个 Skill 更适合设计质量、
 多轮迭代和交付检查都比较重要的 slides。
+
+## 模型选择建议
+
+做视觉型 slides 时，模型的前端审美很重要。我通常建议优先使用 Gemini，其次是 Claude。
+GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我的实际测试看，它通常比 Gemini
+更需要明确的视觉指导。
 
 ## 视觉风格画廊
 
@@ -107,22 +134,10 @@
 </p>
 
 <p align="center">
-  <a href="references/style/preview.zh-CN.md"><b>查看完整 24 风格预览指南</b></a>
+  <a href="https://harness-slides-24-styles.vercel.app/"><b>体验 Vercel 实时 Workbench</b></a>
   <br />
-  <a href="https://harness-slides-24-styles.vercel.app/"><b>体验在线风格预览工作台</b></a>
+  <a href="references/style/preview.zh-CN.md"><b>阅读完整 24 风格预览指南</b></a>
 </p>
-
-## 为什么后续修改不容易坏
-
-这个 Skill 不建议让 Agent 写一个巨大的 HTML 文件然后赌它能扛住反馈。它会在 deck 周围加
-一层轻量 harness：
-
-- 开工前对齐风格、受众、密度、舞台尺寸、技术栈和交付方式；
-- 保持 scene 和 beat 地址稳定，方便单独检查某一页或某一步；
-- 在固定比例舞台内渲染，确保内容不溢出 slides 画布；
-- 提供 frozen mode，让截图和视觉检查可以稳定复现；
-- 隔离自定义交互，避免输入、拖拽和点击误触发翻页；
-- 做有意义的布局、交互、截图、导出和部署检查。
 
 ## 安装
 

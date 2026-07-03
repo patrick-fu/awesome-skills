@@ -27,10 +27,14 @@ npx skills update -g
 
 ### 🎞️ `frontend-harness-slides`
 
-制作更灵动的 HTML slides，并且能扛住真实修改：风格预览、动效、交互、导航、截图检查、
+用前端工程化 harness 制作更灵动的 HTML slides：稳定 scene、可复现截图、有意义测试、
 PDF 导出和线上交付都在流程里。
 
-适合需要好看、能动、能交互，而且后续还会反复修改的 slides 项目。
+适合需要好看、能动、能交互，而且后续多轮修改也不容易改坏的 slides 项目。
+
+> 🖥️ Live Demo：体验
+> [24 风格交互式 Workbench](https://harness-slides-24-styles.vercel.app/)。
+> 视觉风格很直观，但它更大的价值是 harness-backed 迭代，而不是脆弱的单体 HTML。
 
 独立页面：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 

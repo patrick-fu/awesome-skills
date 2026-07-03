@@ -23,7 +23,7 @@ A great slide deck should "breathe" by alternating visual density and layout str
 - **The Monotony Test**: **Avoid** using the exact same spatial layout (e.g., a grid of cards or a two-column split) on consecutive slides unless a uniform rhythm is intentionally desired.
 - **The Density Curve**: **Consider** alternating between high-density slides (e.g., a detailed report page or bento box) and low-density slides (e.g., a sparse keynote opener or spotlight quote) to create a natural rhythm of "inhaling" (absorbing detail) and "exhaling" (focusing on the big picture).
 
-## 3. The 24 Style Directions
+## 3. Style Directions
 
 The style directions are organized into three density bands. Choose a style system, then refer to its specific reference file for detailed aesthetic recipes:
 

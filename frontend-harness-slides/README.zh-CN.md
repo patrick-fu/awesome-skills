@@ -14,7 +14,7 @@ scene 可以稳定访问，交互可以隔离，截图可以复现，最终可�
 ## Live preview
 
 > 🖥️ 体验 Vercel 实时 Workbench：
-> [24 风格交互式预览](https://harness-slides-24-styles.vercel.app/)。
+> [动态风格预设预览](https://frontend-harness-slides-demo.vercel.app/)。
 > 这是查看动效、信息密度和视觉范围最快的方式，比只读说明更直观。
 
 ## 为什么 harness 更重要
@@ -53,7 +53,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 这套风格系统不是让每一页套同一个模板。它更强调在一个统一风格里，根据内容语义切换版式、
 动效、交互方式和出现节奏。
 
-完整目录包含 24 个风格，覆盖演讲展示、混合阅读和高密度文档三类。下面是 6 个代表例子。
+完整目录包含多种风格预设，覆盖演讲展示、混合阅读和高密度文档三类。下面是 6 个代表例子。
 
 ### Minimal keynote
 
@@ -134,9 +134,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 </p>
 
 <p align="center">
-  <a href="https://harness-slides-24-styles.vercel.app/"><b>体验 Vercel 实时 Workbench</b></a>
+  <a href="https://frontend-harness-slides-demo.vercel.app/"><b>体验 Vercel 实时 Workbench</b></a>
   <br />
-  <a href="references/style/preview.zh-CN.md"><b>阅读完整 24 风格预览指南</b></a>
+  <a href="references/style/preview.zh-CN.md"><b>阅读完整风格预览指南</b></a>
 </p>
 
 ## 安装
@@ -167,7 +167,7 @@ npx skills update -g
 |---|---|
 | `references/01-plan.md` | 需求对齐、风格确认、技术栈选择、Context 跟踪和内容注册表。 |
 | `references/style/index.md` | 风格方向和语义到视觉的映射方式。 |
-| `references/style/preview.zh-CN.md` | 完整风格预览指南，包含 24 个风格和密度示例。 |
+| `references/style/preview.zh-CN.md` | 完整风格预览指南，包含预设风格和密度示例。 |
 | `references/02-design.md` | 风格预览、版式变化、导航、字体和素材。 |
 | `references/03-build.md` | 稳定帧、注册表、固定舞台、frozen mode 和事件隔离。 |
 | `references/04-verify-and-ship.md` | 视觉检查、视口压力检查、部署、PDF 导出和交付。 |

@@ -20,7 +20,6 @@ Minimal Keynote 风格稀疏、留白大、高视觉冲击力，非常适合现�
 
 ### Style 01: Minimal Product Keynote (极简产品发布)
 *极简、高质感的产品发布屏幕。通过极端的留白、单高保真核心视觉对象和戏剧性的字号对比，传递出安静的自信。*
-*   **演示题材**：*《量子编译器架构》*
 <p align="center">
   <img src="screenshots/style-01-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-01-med.webp" width="32%" alt="中密度" />
@@ -37,7 +36,6 @@ Minimal Keynote 风格稀疏、留白大、高视觉冲击力，非常适合现�
 
 ### Style 02: Sketch Board Emoji (手绘工作坊)
 *温暖、亲切、人机协作。通过手绘线条、略微旋转的黄色实体贴纸、半透明胶带和 Emoji 演员，模拟实体白板头脑风暴。*
-*   **演示题材**：*《离线优先同步引擎设计》*
 <p align="center">
   <img src="screenshots/style-02-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-02-med.webp" width="32%" alt="中密度" />
@@ -54,7 +52,6 @@ Minimal Keynote 风格稀疏、留白大、高视觉冲击力，非常适合现�
 
 ### Style 03: Interactive Dialogue Stage (双剧场对话)
 *微型、戏剧性的对话舞台或聊天终端。聚焦于人机协作、提问与响应的对话流。*
-*   **演示题材**：*《人类与 Agent 协作握手》*
 <p align="center">
   <img src="screenshots/style-03-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-03-med.webp" width="32%" alt="中密度" />
@@ -71,7 +68,6 @@ Minimal Keynote 风格稀疏、留白大、高视觉冲击力，非常适合现�
 
 ### Style 04: Kinetic Type Punchline (文字海报)
 * bold、高能量的平面视觉海报。使用堆叠、巨大的高冲击力单词，以极强的视觉张力宣告核心论点。*
-*   **演示题材**：*《样板代码之死》*
 <p align="center">
   <img src="screenshots/style-04-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-04-med.webp" width="32%" alt="中密度" />
@@ -88,7 +84,6 @@ Minimal Keynote 风格稀疏、留白大、高视觉冲击力，非常适合现�
 
 ### Style 05: Object Metaphor Hero (拟物工具箱)
 *触觉感、物理性的装备箱或背包。代表“谋定而后动”，在出发前整理好工具、对齐上下文的理念。*
-*   **演示题材**：*《上下文驱动交接包》*
 <p align="center">
   <img src="screenshots/style-05-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-05-med.webp" width="32%" alt="中密度" />
@@ -105,7 +100,6 @@ Minimal Keynote 风格稀疏、留白大、高视觉冲击力，非常适合现�
 
 ### Style 06: Blackboard Chalk Talk (黑板粉笔)
 *教室或工程黑板。讲师或工程师在上面手绘概念图、推导公式，极具 handmade 感 and 推理导向。*
-*   **演示题材**：*《量子计算第一性原理》*
 <p align="center">
   <img src="screenshots/style-06-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-06-med.webp" width="32%" alt="中密度" />
@@ -122,7 +116,6 @@ Minimal Keynote 风格稀疏、留白大、高视觉冲击力，非常适合现�
 
 ### Style 07: Arcade Boss Fight (像素街机)
 *复古 8-bit 街机游戏屏幕。将工程挑战拟物化为“打 Boss”，将准备上下文拟物化为“收集血包/钥匙”，化解沉重感。*
-*   **演示题材**：*《遗留代码库重构 Boss》*
 <p align="center">
   <img src="screenshots/style-07-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-07-med.webp" width="32%" alt="中密度" />
@@ -139,7 +132,6 @@ Minimal Keynote 风格稀疏、留白大、高视觉冲击力，非常适合现�
 
 ### Style 08: Spotlight Quote Poster (戏剧舞台)
 *戏剧性的聚光灯舞台。一束柔和的聚光灯打在核心金句上，为演讲者制造戏剧性的停顿。*
-*   **演示题材**：*《整洁代码哲学》*
 <p align="center">
   <img src="screenshots/style-08-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-08-med.webp" width="32%" alt="中密度" />
@@ -162,7 +154,6 @@ Balanced Hybrid 风格兼顾了“现场演讲”与“后续自读”。它们�
 
 ### Style 09: Signal Pipeline Flow (信号管道)
 *高度结构化的信号管道。展示数据从左侧输入，穿过带有发光指示灯的处理节点，并从右侧输出。*
-*   **演示题材**：*《CI/CD 编译流水线》*
 <p align="center">
   <img src="screenshots/style-09-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-09-med.webp" width="32%" alt="中密度" />
@@ -179,7 +170,6 @@ Balanced Hybrid 风格兼顾了“现场演讲”与“后续自读”。它们�
 
 ### Style 10: Mechanical Scoring Funnel (评分漏斗)
 *工程评分漏斗或筛子。展示杂乱的原始数据从上方宽口进入，穿过层层过滤网，最终输出高纯度结果。*
-*   **演示题材**：*《基于 AST 的代码重构筛》*
 <p align="center">
   <img src="screenshots/style-10-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-10-med.webp" width="32%" alt="中密度" />
@@ -196,7 +186,6 @@ Balanced Hybrid 风格兼顾了“现场演讲”与“后续自读”。它们�
 
 ### Style 11: Collaborative Pairing Board (协作结对)
 *干净的数字化结对白板。展示两个人或实体（如人类与 AI）的分工边界、协作与同步。*
-*   **演示题材**：*《人类-AI 结对编程工作流》*
 <p align="center">
   <img src="screenshots/style-11-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-11-med.webp" width="32%" alt="中密度" />
@@ -213,7 +202,6 @@ Balanced Hybrid 风格兼顾了“现场演讲”与“后续自读”。它们�
 
 ### Style 12: Studio Mixing Console (调音台)
 *专业音频调音台或录音室面板。将参数微调、噪声过滤和多因子平衡拟物化为实体推子、旋钮和 LED 电平表。*
-*   **演示题材**：*《LLM 超参数微调》*
 <p align="center">
   <img src="screenshots/style-12-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-12-med.webp" width="32%" alt="中密度" />
@@ -230,7 +218,6 @@ Balanced Hybrid 风格兼顾了“现场演讲”与“后续自读”。它们�
 
 ### Style 13: Subway Map of Intent (意图地铁图)
 *系统化、整洁的公共交通地铁图。展示多个独立的意图、数据或约束流在关键的“换乘站”交汇并最终同步。*
-*   **演示题材**：*《分布式请求生命周期》*
 <p align="center">
   <img src="screenshots/style-13-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-13-med.webp" width="32%" alt="中密度" />
@@ -247,7 +234,6 @@ Balanced Hybrid 风格兼顾了“现场演讲”与“后续自读”。它们�
 
 ### Style 14: Kitchen Prep Station (厨房备料台)
 *温暖、专业的厨房配料台。将杂乱的原始输入数据视为“生鲜食材”，经过“切配、修剪、摆盘”输出干净整洁的成品。*
-*   **演示题材**：*《原始文本预处理与 Tokenization》*
 <p align="center">
   <img src="screenshots/style-14-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-14-med.webp" width="32%" alt="中密度" />
@@ -264,7 +250,6 @@ Balanced Hybrid 风格兼顾了“现场演讲”与“后续自读”。它们�
 
 ### Style 15: Context Bento Box (日式便当盒)
 *传统的日式便当盒。代表高保真交付或 Prompt 必须拥有清晰划分、色彩编码、各得其所的独立网格。*
-*   **演示题材**：*《现代 AI Agent 平台架构》*
 <p align="center">
   <img src="screenshots/style-15-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-15-med.webp" width="32%" alt="中密度" />
@@ -281,7 +266,6 @@ Balanced Hybrid 风格兼顾了“现场演讲”与“后续自读”。它们�
 
 ### Style 16: Debug Reaction Board (诊断看板)
 *开发者的诊断看板或带有 Reaction 标记的 Kanban。展示系统正在活跃地自检、标记风险并在动工前使不确定性显性化。*
-*   **演示题材**：*《微服务健康自检》*
 <p align="center">
   <img src="screenshots/style-16-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-16-med.webp" width="32%" alt="中密度" />
@@ -304,7 +288,6 @@ Text Report 风格自包含、证据充沛、文档导向，非常适合异步�
 
 ### Style 17: Research Memo (学术研究备忘)
 *正式、权威的研究备忘录。结构极其严谨，密度高，双语友好，追求社论级的排版美感。*
-*   **演示题材**：*《延迟对移动端用户留存的影响》*
 <p align="center">
   <img src="screenshots/style-17-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-17-med.webp" width="32%" alt="中密度" />
@@ -321,7 +304,6 @@ Text Report 风格自包含、证据充沛、文档导向，非常适合异步�
 
 ### Style 18: Maintainer Issue Brief (维护者工单)
 *整洁、结构化、行动导向。灵感源自现代开源工单系统和代码审查工具，对工程师群体极具亲和力。*
-*   **演示题材**：*《事后复盘：连接池耗尽》*
 <p align="center">
   <img src="screenshots/style-18-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-18-med.webp" width="32%" alt="中密度" />
@@ -338,7 +320,6 @@ Text Report 风格自包含、证据充沛、文档导向，非常适合异步�
 
 ### Style 19: Decision Record (ADR 架构决策)
 *正式的架构决策记录 (ADR)。克制、权威、格式化，聚焦于上下文、决策和后果。*
-*   **演示题材**：*《ADR 009：离线优先同步选择 SQLite》*
 <p align="center">
   <img src="screenshots/style-19-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-19-med.webp" width="32%" alt="中密度" />
@@ -355,7 +336,6 @@ Text Report 风格自包含、证据充沛、文档导向，非常适合异步�
 
 ### Style 20: Benchmark Matrix (性能矩阵)
 *高密度技术对比矩阵或硬件跑分。高度结构化、数字化、精确，使用整洁的网格和性能条。*
-*   **演示题材**：*《边缘端 LLM 性能对比》*
 <p align="center">
   <img src="screenshots/style-20-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-20-med.webp" width="32%" alt="中密度" />
@@ -372,7 +352,6 @@ Text Report 风格自包含、证据充沛、文档导向，非常适合异步�
 
 ### Style 21: Field Notes Report (实地调研笔记)
 *触觉感、观察性的实地调研笔记。模拟研究员的实体笔记本，使用温暖的纸张、木炭墨水和拍立得式的卡片网格。*
-*   **演示题材**：*《智能家居 UX 田野研究》*
 <p align="center">
   <img src="screenshots/style-21-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-21-med.webp" width="32%" alt="中密度" />
@@ -389,7 +368,6 @@ Text Report 风格自包含、证据充沛、文档导向，非常适合异步�
 
 ### Style 22: Operating Manual (操作手册)
 *紧凑、高对比度的工业运行手册、终端指南。将复杂的运维流程转化为直接、行动导向的步骤。*
-*   **演示题材**：*《数据库连接池恢复 Runbook》*
 <p align="center">
   <img src="screenshots/style-22-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-22-med.webp" width="32%" alt="中密度" />
@@ -406,7 +384,6 @@ Text Report 风格自包含、证据充沛、文档导向，非常适合异步�
 
 ### Style 23: Checklist Ledger (清单账簿)
 *朴素、值得信赖的财务或行政账簿。刻意保持克制与实用，完全聚焦于完整性与就绪度检查。*
-*   **演示题材**：*《交接就绪发布台账》*
 <p align="center">
   <img src="screenshots/style-23-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-23-med.webp" width="32%" alt="中密度" />
@@ -423,7 +400,6 @@ Text Report 风格自包含、证据充沛、文档导向，非常适合异步�
 
 ### Style 24: Annotated Source & Diff (源码 Diff 审查)
 *高保真的代码 Diff、源码审查器或文本标注器。通过在单视图中展示“修改前”与“修改后”的对比来直观证明价值。*
-*   **演示题材**：*《查询优化：消除全表扫描》*
 <p align="center">
   <img src="screenshots/style-24-low.webp" width="32%" alt="低密度" />
   <img src="screenshots/style-24-med.webp" width="32%" alt="中密度" />

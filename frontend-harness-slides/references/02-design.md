@@ -129,6 +129,13 @@ luminous particles, quiet editorial ticks, or another matching treatment are all
 valid. Use simpler dots, section tabs, or another navigator when they better fit
 the deck or the user's preference.
 
+### Picker-Style Wheel Navigation Standard
+
+When designing picker-style navigation indicators (such as 3D rollers or slider wheels), the following physical and visual mechanics must be adhered to:
+- **Layout & Fading Masks**: Position indicators as either vertical rows on the right edge or horizontal rows at the bottom. Implement custom linear gradients, masks (`mask-image`), or opacity calculations to make the outer edges of the list fade into the background.
+- **Distance Compensation**: Scale and fade indicators progressively based on their distance from the active center (e.g., active center is scale `1.0` and opacity `1.0`, while nearby elements scale down to `0.65` and fade to `0.15` as they approach the fading boundary).
+- **Physical Gestures & Input**: Deeply support touch swipes, pointer drags, and direct clicks on non-centered markers. When swiping or dragging, markers should track the cursor smoothly in real time with high-fps responsive feedback, and snap cleanly back to the center on release with elastic deceleration.
+
 **Bad Experience Avoidance**: Avoid making the navigator a flashy or distracting control that obstructs the main content. When there are many slides, display only a localized sliding window of markers; ensure that click, wheel, and touch interactions are highly predictable, and prevent the active marker from jumping or jittering during transitions.
 
 Treat any carousel, picker, feathered rail, note panel, or control surface as a

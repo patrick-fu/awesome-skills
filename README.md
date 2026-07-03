@@ -37,7 +37,7 @@ Use it when a deck needs to look good, feel alive, and stay hard to break after
 many rounds of edits.
 
 > 🖥️ Live demo: try the
-> [24-style interactive Workbench](https://harness-slides-24-styles.vercel.app/).
+> [dynamic Workbench Demo](https://frontend-harness-slides-demo.vercel.app/).
 > The visual styles are useful, but the bigger win is harness-backed iteration
 > instead of fragile single-file HTML.
 

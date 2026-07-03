@@ -18,7 +18,7 @@ or both.
 ## Live preview
 
 > 🖥️ Try the live Vercel Workbench:
-> [24-style interactive preview](https://harness-slides-24-styles.vercel.app/).
+> [dynamic style preset preview](https://frontend-harness-slides-demo.vercel.app/).
 > It is the fastest way to see the motion, density, and visual range before
 > reading the full catalog.
 
@@ -65,7 +65,7 @@ The style system is designed to stay coherent without forcing every page into
 the same template. A deck can keep one visual language while changing layouts,
 beats, motion, and interaction patterns from scene to scene.
 
-The full catalog contains 24 styles across speaker-led, hybrid, and dense
+The full catalog contains style presets across speaker-led, hybrid, and dense
 reading formats. These six examples show the range.
 
 ### Minimal keynote
@@ -152,9 +152,9 @@ Topic: *Smart Home UX Field Research*
 </p>
 
 <p align="center">
-  <a href="https://harness-slides-24-styles.vercel.app/"><b>Try the live Vercel Workbench</b></a>
+  <a href="https://frontend-harness-slides-demo.vercel.app/"><b>Try the live Vercel Workbench</b></a>
   <br />
-  <a href="references/style/preview.md"><b>Read the full 24-style preview guide</b></a>
+  <a href="references/style/preview.md"><b>Read the full style preview guide</b></a>
 </p>
 
 ## Install
@@ -188,7 +188,7 @@ For non-trivial deck work, agents should read these references in order:
 |---|---|
 | `references/01-plan.md` | Intake, style alignment, technology choice, context tracking, and content registry. |
 | `references/style/index.md` | Style directions and semantic-to-visual mapping. |
-| `references/style/preview.md` | Full style preview guide with 24 styles and density examples. |
+| `references/style/preview.md` | Full style preview guide with preset styles and density examples. |
 | `references/02-design.md` | Style previews, layout variation, navigation, fonts, and assets. |
 | `references/03-build.md` | Stable frames, registry, fixed stage, frozen mode, and event isolation. |
 | `references/04-verify-and-ship.md` | Visual checks, viewport stress, deployment, PDF export, and handoff. |

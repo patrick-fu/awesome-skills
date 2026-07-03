@@ -48,7 +48,7 @@ offer refinements and a few nearby alternatives for inspiration, and ask whether
 to create a same-style minimal preview.
 
 During style alignment, send the user the Live Demo link as a reference:
-`https://harness-slides-24-styles.vercel.app/`. Explain that it is a dynamic
+`https://frontend-harness-slides-demo.vercel.app/`. Explain that it is a dynamic
 Workbench Demo with multiple preset styles, transitions, animations, and motion
 examples. This does not replace the preview question: still ask whether to make
 a few small, content-specific style previews before the full build.
@@ -89,8 +89,8 @@ lists the decision surface.
 | File | Use for |
 |---|---|
 | `references/01-plan.md` | Intake, defaults and alternatives, context, narrative/content mix, source material, registry draft, visible-copy boundary. |
-| `references/style/index.md` | Style Index, 24 style directions, semantic-to-visual mapping, visual pacing, and design DNA contract. |
-| `references/style/preview.md` | Full style visual catalog (all 24 styles with 3-image progression and Design DNA tokens). |
+| `references/style/index.md` | Style Index, curated style directions, semantic-to-visual mapping, visual pacing, and design DNA contract. |
+| `references/style/preview.md` | Full style visual catalog with preset style progressions and Design DNA tokens. |
 | `references/02-design.md` | Style previews, style presets, layout variation, navigation design, fonts/CJK, assets, components, copy quality. |
 | `references/03-build.md` | Stable frames, registry, fixed/mobile stage, navigation, frozen mode, motion, interaction, implementation pitfalls. |
 | `references/04-verify-and-ship.md` | Audit profiles, visual smoke, production smoke, mobile/WebKit coverage, deployment, PDF/static handoff, final report. |

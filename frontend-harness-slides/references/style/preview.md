@@ -1,6 +1,6 @@
 # Full Style Preview Guide
 
-This guide provides a comprehensive visual catalog of all 24 styles in our design system. Each style is presented with a **3-image horizontal progression** illustrating its layout versatility across three information density levels:
+This guide provides a comprehensive visual catalog of the current style presets in our design system. Each style is presented with a **3-image horizontal progression** illustrating its layout versatility across three information density levels:
 
 1.  **Low Density (Scene 1: Ultralight)**: Minimalist, high-impact statement or cover page.
 2.  **Medium Density (Scene 3: Standard)**: Process, chronological sequence, or logical progression.
@@ -8,7 +8,7 @@ This guide provides a comprehensive visual catalog of all 24 styles in our desig
 
 All screenshots are optimized as lightweight WebP images at 800px resolution (longest side) to ensure fast loading times while retaining crisp readability.
 
-You can also explore all 24 styles interactively in our [Live Style Preview Workbench](https://harness-slides-24-styles.vercel.app/).
+You can also explore the style presets interactively in our [Live Style Preview Workbench](https://frontend-harness-slides-demo.vercel.app/).
 
 ---
 

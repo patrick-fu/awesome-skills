@@ -61,6 +61,8 @@ my own trials it still tends to need more direction than Gemini.
 
 ## Visual style gallery
 
+> 📚 Browse all style presets: [Style catalog](references/style/preview.md)
+
 The style system is designed to stay coherent without forcing every page into
 the same template. A deck can keep one visual language while changing layouts,
 beats, motion, and interaction patterns from scene to scene.
@@ -75,8 +77,6 @@ reading formats. These six examples show the range.
 Handmade, educational, and reasoning-first. Uses chalk-drawn lines and formulas
 on a deep green board.
 
-Topic: *The First Principles of Quantum Computing*
-
 <p align="center">
   <img src="references/style/screenshots/style-06-low.webp" width="32%" alt="Low density: hero formula" />
   <img src="references/style/screenshots/style-06-med.webp" width="32%" alt="Medium density: routed proof" />
@@ -87,8 +87,6 @@ Topic: *The First Principles of Quantum Computing*
 
 Warm, approachable, and human-in-the-loop. Uses sticky notes, tape, emoji actors,
 and small interactive details.
-
-Topic: *Offline-First Sync Engine Design*
 
 <p align="center">
   <img src="references/style/screenshots/style-02-low.webp" width="32%" alt="Low density: why offline-first" />
@@ -103,8 +101,6 @@ Topic: *Offline-First Sync Engine Design*
 Systematic and structured. Represents converging workflows as subway lines and
 transfer stations.
 
-Topic: *The Lifecycle of a Distributed Request*
-
 <p align="center">
   <img src="references/style/screenshots/style-13-low.webp" width="32%" alt="Low density: packet journey" />
   <img src="references/style/screenshots/style-13-med.webp" width="32%" alt="Medium density: transit map" />
@@ -115,8 +111,6 @@ Topic: *The Lifecycle of a Distributed Request*
 
 Developer-native and diagnostic. Uses neon status badges, terminal surfaces, and
 actionable boards.
-
-Topic: *Microservices Health Self-Check*
 
 <p align="center">
   <img src="references/style/screenshots/style-16-low.webp" width="32%" alt="Low density: system ready" />
@@ -131,8 +125,6 @@ Topic: *Microservices Health Self-Check*
 Clean, structured, and action-oriented. Inspired by modern issue trackers and
 code review tools.
 
-Topic: *Post-Mortem: Connection Pool Exhaustion*
-
 <p align="center">
   <img src="references/style/screenshots/style-18-low.webp" width="32%" alt="Low density: issue header" />
   <img src="references/style/screenshots/style-18-med.webp" width="32%" alt="Medium density: incident timeline" />
@@ -143,8 +135,6 @@ Topic: *Post-Mortem: Connection Pool Exhaustion*
 
 Tactile and observational. Uses ledger paper, charcoal ink, and card grids.
 
-Topic: *Smart Home UX Field Research*
-
 <p align="center">
   <img src="references/style/screenshots/style-21-low.webp" width="32%" alt="Low density: research cover" />
   <img src="references/style/screenshots/style-21-med.webp" width="32%" alt="Medium density: user journey map" />
@@ -152,9 +142,9 @@ Topic: *Smart Home UX Field Research*
 </p>
 
 <p align="center">
-  <a href="https://frontend-harness-slides-demo.vercel.app/"><b>Try the live Vercel Workbench</b></a>
-  <br />
-  <a href="references/style/preview.md"><b>Browse the style catalog</b></a>
+  <a href="https://frontend-harness-slides-demo.vercel.app/"><b>🎬 Live demo</b></a>
+  &nbsp;|&nbsp;
+  <a href="references/style/preview.md"><b>📚 Browse all styles</b></a>
 </p>
 
 ## Install

@@ -50,6 +50,8 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 ## 视觉风格画廊
 
+> 📚 预览全部风格：[风格目录](references/style/preview.zh-CN.md)
+
 这套风格系统不是让每一页套同一个模板。它更强调在一个统一风格里，根据内容语义切换版式、
 动效、交互方式和出现节奏。
 
@@ -61,8 +63,6 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 手绘、教学、推理导向。用深绿色黑板、粉笔线条和公式来呈现推导过程。
 
-题材：*量子计算第一性原理*
-
 <p align="center">
   <img src="references/style/screenshots/style-06-low.webp" width="32%" alt="低密度：核心公式" />
   <img src="references/style/screenshots/style-06-med.webp" width="32%" alt="中密度：推导流程" />
@@ -72,8 +72,6 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 #### [Style 02: Sketch board emoji](references/style/minimal-keynote.md#style-02-sketch-board-emoji)
 
 温暖、亲切，有人参与感。常用便利贴、胶带、emoji 角色和小型交互细节。
-
-题材：*离线优先同步引擎设计*
 
 <p align="center">
   <img src="references/style/screenshots/style-02-low.webp" width="32%" alt="低密度：为什么离线优先" />
@@ -87,8 +85,6 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 系统化、结构清楚。把复杂工作流表现成地铁线路和换乘站。
 
-题材：*分布式请求生命周期*
-
 <p align="center">
   <img src="references/style/screenshots/style-13-low.webp" width="32%" alt="低密度：数据包旅程" />
   <img src="references/style/screenshots/style-13-med.webp" width="32%" alt="中密度：地铁线路图" />
@@ -98,8 +94,6 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 #### [Style 16: Debug reaction board](references/style/balanced-hybrid.md#style-16-diagnostic-kanban-board)
 
 开发者原生、偏诊断。使用霓虹状态标记、终端界面和行动看板。
-
-题材：*微服务健康自检*
 
 <p align="center">
   <img src="references/style/screenshots/style-16-low.webp" width="32%" alt="低密度：系统就绪" />
@@ -113,8 +107,6 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 整洁、结构化、行动导向。灵感来自现代 issue tracker 和代码审查工具。
 
-题材：*事后复盘：连接池耗尽*
-
 <p align="center">
   <img src="references/style/screenshots/style-18-low.webp" width="32%" alt="低密度：工单头部" />
   <img src="references/style/screenshots/style-18-med.webp" width="32%" alt="中密度：事故时间线" />
@@ -125,8 +117,6 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 有纸张触感，偏观察记录。使用账簿纸、木炭墨水和卡片网格。
 
-题材：*智能家居 UX 田野研究*
-
 <p align="center">
   <img src="references/style/screenshots/style-21-low.webp" width="32%" alt="低密度：调研封面" />
   <img src="references/style/screenshots/style-21-med.webp" width="32%" alt="中密度：用户旅程图" />
@@ -134,9 +124,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 </p>
 
 <p align="center">
-  <a href="https://frontend-harness-slides-demo.vercel.app/"><b>体验 Vercel 实时 Workbench</b></a>
-  <br />
-  <a href="references/style/preview.zh-CN.md"><b>浏览风格目录</b></a>
+  <a href="https://frontend-harness-slides-demo.vercel.app/"><b>🎬 动态 Demo</b></a>
+  &nbsp;|&nbsp;
+  <a href="references/style/preview.zh-CN.md"><b>📚 预览全部风格</b></a>
 </p>
 
 ## 安装

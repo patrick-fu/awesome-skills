@@ -20,7 +20,6 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect fo
 
 ### Style 01: Minimal Product Keynote
 *A premium, highly focused product keynote screen. It uses extreme whitespace, a single high-fidelity central object, and dramatic typographic scale to convey quiet confidence.*
-*   **Topic**: *Quantum Compiler Architecture*
 <p align="center">
   <img src="screenshots/style-01-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-01-med.webp" width="32%" alt="Medium Density" />
@@ -37,7 +36,6 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect fo
 
 ### Style 02: Sketch Board Emoji
 *Warm, approachable, and human-in-the-loop. Mimics a physical brainstorming session with hand-drawn lines, sticky notes, tape, and emoji actors.*
-*   **Topic**: *Offline-First Sync Engine Design*
 <p align="center">
   <img src="screenshots/style-02-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-02-med.webp" width="32%" alt="Medium Density" />
@@ -54,7 +52,6 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect fo
 
 ### Style 03: Interactive Dialogue Stage
 *A tiny, dramatic theater scene or chat console where the interaction between two roles is staged. Focuses entirely on dialogue, questions, and responses.*
-*   **Topic**: *Human-Agent Collaboration Handshake*
 <p align="center">
   <img src="screenshots/style-03-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-03-med.webp" width="32%" alt="Medium Density" />
@@ -71,7 +68,6 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect fo
 
 ### Style 04: Kinetic Type Punchline
 *A bold, high-energy graphic poster. Uses stacked, massive, high-impact words to deliver a core claim with maximum graphic energy.*
-*   **Topic**: *The Death of Boilerplate Code*
 <p align="center">
   <img src="screenshots/style-04-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-04-med.webp" width="32%" alt="Medium Density" />
@@ -88,7 +84,6 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect fo
 
 ### Style 05: Object Metaphor Hero
 *A tactile, physical kit or package (like a field kit or a packed backpack). Represents the idea of structured preparation and carrying the right tools.*
-*   **Topic**: *The Context-Driven Handoff Kit*
 <p align="center">
   <img src="screenshots/style-05-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-05-med.webp" width="32%" alt="Medium Density" />
@@ -105,7 +100,6 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect fo
 
 ### Style 06: Blackboard Chalk Talk
 *A classroom or engineering blackboard where a teacher or engineer is actively proving a formula or drawing a conceptual diagram. Feels handmade and educational.*
-*   **Topic**: *The First Principles of Quantum Computing*
 <p align="center">
   <img src="screenshots/style-06-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-06-med.webp" width="32%" alt="Medium Density" />
@@ -122,7 +116,6 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect fo
 
 ### Style 07: Arcade Boss Fight
 *A retro 8-bit arcade game screen. Frames technical challenges as a "boss fight" and preparation as "collecting power-ups" to make risks engaging.*
-*   **Topic**: *Legacy Codebase Refactoring Boss*
 <p align="center">
   <img src="screenshots/style-07-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-07-med.webp" width="32%" alt="Medium Density" />
@@ -139,7 +132,6 @@ Minimal Keynote styles are sparse, high-impact, and presentation-led. Perfect fo
 
 ### Style 08: Spotlight Quote Poster
 *A theatrical stage where a single spotlight shines on a powerful quote. Designed to create a dramatic pause for emotional resonance.*
-*   **Topic**: *The Philosophy of Clean Code*
 <p align="center">
   <img src="screenshots/style-08-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-08-med.webp" width="32%" alt="Medium Density" />
@@ -162,7 +154,6 @@ Balanced Hybrid styles support both live presenting and later reading. They are 
 
 ### Style 09: Signal Pipeline Flow
 *A highly structured signal pipeline. It shows data entering from the left, passing through processing nodes with glowing indicators, and exiting on the right.*
-*   **Topic**: *CI/CD Compilation Pipeline*
 <p align="center">
   <img src="screenshots/style-09-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-09-med.webp" width="32%" alt="Medium Density" />
@@ -179,7 +170,6 @@ Balanced Hybrid styles support both live presenting and later reading. They are 
 
 ### Style 10: Mechanical Scoring Funnel
 *An engineering scoring funnel or sieve. It shows raw, noisy data entering a wide funnel, passing through filter meshes, and emerging as highly refined results.*
-*   **Topic**: *AST-Based Code Refactoring Sieve*
 <p align="center">
   <img src="screenshots/style-10-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-10-med.webp" width="32%" alt="Medium Density" />
@@ -196,7 +186,6 @@ Balanced Hybrid styles support both live presenting and later reading. They are 
 
 ### Style 11: Collaborative Pairing Board
 *A clean, digital whiteboard where two distinct entities (e.g., human and AI) are pairing and collaborating. Focuses on division of labor and synchronization.*
-*   **Topic**: *Human-AI Pair Programming Workflow*
 <p align="center">
   <img src="screenshots/style-11-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-11-med.webp" width="32%" alt="Medium Density" />
@@ -213,7 +202,6 @@ Balanced Hybrid styles support both live presenting and later reading. They are 
 
 ### Style 12: Studio Mixing Console
 *A professional audio mixing console or studio dashboard. Turns parameter tuning, noise filtering, and signal balancing into physical faders and LED meters.*
-*   **Topic**: *LLM Hyperparameter Fine-Tuning*
 <p align="center">
   <img src="screenshots/style-12-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-12-med.webp" width="32%" alt="Medium Density" />
@@ -230,7 +218,6 @@ Balanced Hybrid styles support both live presenting and later reading. They are 
 
 ### Style 13: Subway Map of Intent
 *A clean, systematic transit or subway map. Represents the idea that multiple independent streams of intent, constraints, and data converge at key "transfer stations".*
-*   **Topic**: *The Lifecycle of a Distributed Request*
 <p align="center">
   <img src="screenshots/style-13-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-13-med.webp" width="32%" alt="Medium Density" />
@@ -247,7 +234,6 @@ Balanced Hybrid styles support both live presenting and later reading. They are 
 
 ### Style 14: Kitchen Prep Station
 *A warm, professional kitchen prep station. Treats raw, messy input data as "raw ingredients" and the preparation process as "chopping, trimming, and plating".*
-*   **Topic**: *Raw Text Pre-processing & Tokenization*
 <p align="center">
   <img src="screenshots/style-14-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-14-med.webp" width="32%" alt="Medium Density" />
@@ -264,7 +250,6 @@ Balanced Hybrid styles support both live presenting and later reading. They are 
 
 ### Style 15: Context Bento Box
 *A traditional Japanese bento box. Represents the idea that a high-quality handoff or prompt must have distinct, compartmentalized, color-coded sections.*
-*   **Topic**: *Modern AI Agent Platform Architecture*
 <p align="center">
   <img src="screenshots/style-15-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-15-med.webp" width="32%" alt="Medium Density" />
@@ -281,7 +266,6 @@ Balanced Hybrid styles support both live presenting and later reading. They are 
 
 ### Style 16: Debug Reaction Board
 *A developer's diagnostic board or Kanban board with reaction markers. Shows a system actively self-checking, tagging risks, and making uncertainty visible.*
-*   **Topic**: *Microservices Health Self-Check*
 <p align="center">
   <img src="screenshots/style-16-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-16-med.webp" width="32%" alt="Medium Density" />
@@ -304,7 +288,6 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 17: Research Memo
 *A formal, authoritative research memo or executive brief. Highly structured, dense, and bilingual-friendly, prioritizing typographic elegance.*
-*   **Topic**: *Impact of Latency on Mobile User Retention*
 <p align="center">
   <img src="screenshots/style-17-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-17-med.webp" width="32%" alt="Medium Density" />
@@ -321,7 +304,6 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 18: Maintainer Issue Brief
 *A clean, structured developer issue, pull request, or ticket brief inspired by modern open-source issue trackers. Ideal for engineering audiences.*
-*   **Topic**: *Post-Mortem: Connection Pool Exhaustion*
 <p align="center">
   <img src="screenshots/style-18-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-18-med.webp" width="32%" alt="Medium Density" />
@@ -338,7 +320,6 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 19: Decision Record (ADR)
 *A formal Architecture Decision Record (ADR). Restrained, authoritative, and structured, focusing on context, decision, and consequences.*
-*   **Topic**: *ADR 009: SQLite for Offline-First Sync*
 <p align="center">
   <img src="screenshots/style-19-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-19-med.webp" width="32%" alt="Medium Density" />
@@ -355,7 +336,6 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 20: Benchmark Matrix
 *A high-density technical comparison matrix or hardware benchmark. Highly structured, numeric, and precise, using clean grids and performance bars.*
-*   **Topic**: *Edge LLM Performance Comparison*
 <p align="center">
   <img src="screenshots/style-20-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-20-med.webp" width="32%" alt="Medium Density" />
@@ -372,7 +352,6 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 21: Field Notes Report
 *A tactile, observational field notebook. Mimics a researcher's physical notebook with warm paper, charcoal ink, and polaroid-like card grids.*
-*   **Topic**: *Smart Home UX Field Research*
 <p align="center">
   <img src="screenshots/style-21-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-21-med.webp" width="32%" alt="Medium Density" />
@@ -389,7 +368,6 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 22: Operating Manual
 *A compact, high-contrast industrial runbook, terminal guide, or operating manual. Turns complex processes into direct, actionable steps.*
-*   **Topic**: *Database Connection Pool Recovery Runbook*
 <p align="center">
   <img src="screenshots/style-22-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-22-med.webp" width="32%" alt="Medium Density" />
@@ -406,7 +384,6 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 23: Checklist Ledger
 *A plain, trustworthy financial or administrative ledger. Intentionally restrained and practical, focusing entirely on completeness and readiness checks.*
-*   **Topic**: *Handoff Readiness Release Ledger*
 <p align="center">
   <img src="screenshots/style-23-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-23-med.webp" width="32%" alt="Medium Density" />
@@ -423,7 +400,6 @@ Text Report styles are self-contained, evidence-rich, and document-led. Best for
 
 ### Style 24: Annotated Source & Diff
 *A high-fidelity code diff, source code reviewer, or text annotator. Explains value by showing "before" and "after" transformations in a single view.*
-*   **Topic**: *Query Optimization: Full Table Scan Elimination*
 <p align="center">
   <img src="screenshots/style-24-low.webp" width="32%" alt="Low Density" />
   <img src="screenshots/style-24-med.webp" width="32%" alt="Medium Density" />

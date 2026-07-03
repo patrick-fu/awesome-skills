@@ -14,6 +14,13 @@ user already gives a clear style, confirm the main style, offer same-style
 refinements and nearby alternatives for inspiration, then ask whether to make a
 small same-style preview or proceed directly.
 
+During this alignment, send the Live Demo link:
+`https://harness-slides-24-styles.vercel.app/`. Describe it as a dynamic
+Workbench Demo with multiple preset styles, transitions, animations, and motion
+examples. The Live Demo helps users judge the general style and motion language;
+the agent's own preview should still use the user's actual content and planned
+harness skeleton.
+
 Preview rules:
 
 - Use the same planned production stack, stage basis, and harness skeleton where

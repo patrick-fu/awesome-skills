@@ -95,7 +95,7 @@ medium, and high-density examples.
 
 ### Minimal keynote
 
-#### [Minimal Product Keynote](references/style/minimal-keynote.md#minimal-product-keynote)
+#### [Minimal Product Keynote](references/style/minimal-product-keynote.md)
 
 Premium, focused, and sparse. Uses extreme whitespace, a single central object,
 and dramatic type scale for opening claims or product reveals.
@@ -106,7 +106,7 @@ and dramatic type scale for opening claims or product reveals.
   <img src="showcase/style-gallery/minimal-product-keynote-high.webp" width="32%" alt="High density: product keynote detail" />
 </p>
 
-#### [Sketch Board Emoji](references/style/minimal-keynote.md#sketch-board-emoji)
+#### [Sketch Board Emoji](references/style/sketch-board-emoji.md)
 
 Warm, approachable, and human-in-the-loop. Uses sticky notes, tape, emoji actors,
 and small interactive details.
@@ -117,7 +117,7 @@ and small interactive details.
   <img src="showcase/style-gallery/sketch-board-emoji-high.webp" width="32%" alt="High density: strategy bento" />
 </p>
 
-#### [Interactive Dialogue Stage](references/style/minimal-keynote.md#interactive-dialogue-stage)
+#### [Interactive Dialogue Stage](references/style/interactive-dialogue-stage.md)
 
 Dialog-focused and theatrical. Stages two roles, systems, or speakers through
 dark console surfaces and visible turn-taking.
@@ -128,7 +128,7 @@ dark console surfaces and visible turn-taking.
   <img src="showcase/style-gallery/interactive-dialogue-stage-high.webp" width="32%" alt="High density: dialogue transcript" />
 </p>
 
-#### [Kinetic Type Punchline](references/style/minimal-keynote.md#kinetic-type-punchline)
+#### [Kinetic Type Punchline](references/style/kinetic-type-punchline.md)
 
 Bold, poster-like, and high-energy. Built for memorable section beats,
 contrastive claims, and typographic punchlines.
@@ -139,7 +139,7 @@ contrastive claims, and typographic punchlines.
   <img src="showcase/style-gallery/kinetic-type-punchline-high.webp" width="32%" alt="High density: poster detail" />
 </p>
 
-#### [Object Metaphor Hero](references/style/minimal-keynote.md#object-metaphor-hero)
+#### [Object Metaphor Hero](references/style/object-metaphor-hero.md)
 
 Tactile and metaphor-led. Turns abstract preparation, planning, or toolkit ideas
 into physical objects and organized compartments.
@@ -150,7 +150,7 @@ into physical objects and organized compartments.
   <img src="showcase/style-gallery/object-metaphor-hero-high.webp" width="32%" alt="High density: toolkit layout" />
 </p>
 
-#### [Blackboard Chalk Talk](references/style/minimal-keynote.md#blackboard-chalk-talk)
+#### [Blackboard Chalk Talk](references/style/blackboard-chalk-talk.md)
 
 Handmade, educational, and reasoning-first. Uses chalk-drawn lines and formulas
 on a deep green board.
@@ -161,7 +161,7 @@ on a deep green board.
   <img src="showcase/style-gallery/blackboard-chalk-talk-high.webp" width="32%" alt="High density: qubit bento" />
 </p>
 
-#### [Arcade Boss Fight](references/style/minimal-keynote.md#arcade-boss-fight)
+#### [Arcade Boss Fight](references/style/arcade-boss-fight.md)
 
 Retro, playful, and risk-aware. Frames technical difficulty as a boss fight,
 using HP bars, inventory panels, and pixel UI.
@@ -172,7 +172,7 @@ using HP bars, inventory panels, and pixel UI.
   <img src="showcase/style-gallery/arcade-boss-fight-high.webp" width="32%" alt="High density: inventory screen" />
 </p>
 
-#### [Spotlight Quote Poster](references/style/minimal-keynote.md#spotlight-quote-poster)
+#### [Spotlight Quote Poster](references/style/spotlight-quote-poster.md)
 
 Dramatic and reflective. Uses stage darkness, radial light, and large quote
 typography for pauses, closings, and core philosophy.

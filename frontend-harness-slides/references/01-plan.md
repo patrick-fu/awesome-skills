@@ -55,8 +55,9 @@ Minimum decisions:
   retrospective, sales pitch, workshop, live talk, recording, internal review,
   or reading-first document.
 - **Mode and style**: recommend a direction such as Sketchboard Emoji for a
-  lively talk, but offer alternatives such as professional information design,
-  tech grid, product-launch, editorial report, or a supplied reference.
+  lively talk, but offer at least five style recommendations or refinements with
+  reasons, such as professional information design, tech grid, product-launch,
+  editorial report, or a supplied reference.
 - **Project location / deck root**: recommend the exact `deck root` before file
   creation. Explain that this is the directory that owns deck source,
   package/config files, assets, tests, and delivery commands. Give one
@@ -126,9 +127,9 @@ Always ask about visual preview before implementation. Recommend a minimal
 interactive preview by default. When visual direction is unclear, recommend
 making three real interactive slide previews before building the full deck. If
 the user has already supplied a clear style or strong visual reference, confirm
-that direction, offer a few same-style refinements plus nearby style
-alternatives for inspiration, and ask whether to make a small same-style preview
-to confirm details.
+that direction, offer at least five same-style refinements or nearby style
+recommendations with reasons, and ask whether to make a small same-style
+preview to confirm details.
 Also send the Live Demo link during style alignment:
 `https://frontend-harness-slides-demo.vercel.app/`. Explain that it is a dynamic
 Workbench Demo with multiple preset styles, transitions, animations, and motion

@@ -25,14 +25,11 @@ Alignment in plain text.
 source material, inspect it first and state the inferred direction, but still ask
 the user to confirm or adjust the key decisions before implementation.
 
-Every key decision **MUST** include a recommended value with rationale, credible
-candidate options when the decision naturally has multiple useful directions,
-and an explicit request for confirmation. For `deck root`, recommend one exact
-project location with rationale and ask the user to confirm or replace it; do
-not force artificial location alternatives. For execution parameters such as the
-context ledger, testing, harness contracts, visible-copy boundary, source path,
-or CJK font check, give a concrete plan and ask for confirmation or correction
-instead of inventing option sets.
+Every key decision **MUST** include a recommendation, rationale, and explicit
+confirmation request. Offer candidate options for directional choices; for
+execution parameters such as `deck root`, context ledger, testing, source path,
+or harness contracts, give one concrete plan and ask the user to confirm or
+correct it.
 
 Cover these Pre-Build Alignment decisions, at the level the task needs:
 
@@ -60,8 +57,8 @@ Style preview **MUST** be asked before implementation. Recommend a minimal
 interactive preview by default; skip it only when the user explicitly declines or
 explicitly asks to proceed directly. If style is vague, recommend real
 interactive previews. If the user already gave a clear style, confirm that style,
-offer refinements and a few nearby alternatives for inspiration, and ask whether
-to create a same-style minimal preview.
+offer style recommendations or refinements with reasons, and ask whether to
+create a same-style minimal preview.
 
 During style alignment, send the user the Live Demo link as a reference:
 `https://frontend-harness-slides-demo.vercel.app/`. Explain that it is a dynamic

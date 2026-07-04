@@ -193,14 +193,8 @@ on the slide surface and candidate rationale kept in chat or theme notes. Skip
 the preview only when the user explicitly declines or explicitly asks to proceed
 directly.
 
-Default preview mix:
-
-1. **Density-Fit**: the style direction that best matches the deck's confirmed
-   or inferred density, delivery mode, and audience.
-2. **Safe**: the most readable and delivery-stable direction that still has
-   clear visual character.
-3. **Wildcard**: the strongest content-specific visual thesis, prioritizing
-   semantic fit over catalog balance.
+Use the Density-Fit / Safe / Wildcard preview mix defined in
+`references/style/index.md` (the canonical definition); do not restate it here.
 
 All three previews should share an anchor slide so the user can compare the
 same content fairly. Provide screenshots and a local server URL.

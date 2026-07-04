@@ -77,8 +77,8 @@ create a same-style minimal preview.
 For open-ended style selection, use a three-candidate preview mix:
 Density-Fit, Safe, and Wildcard. Choose those candidates from the user's
 material, audience, density, formality, risk level, delivery target, and visual
-references. Read `references/style/index.md` first, then load only the category
-detail files needed for shortlisted candidates.
+references. Read `references/style/index.md` first, then load only the individual
+style files needed for shortlisted candidates.
 
 During style alignment, send the user the Live Demo link as a reference:
 `https://frontend-harness-slides-demo.vercel.app/`. Explain that it is a dynamic
@@ -122,7 +122,7 @@ lists the decision surface.
 | File | Use for |
 |---|---|
 | `references/01-plan.md` | Intake, defaults and alternatives, context, narrative/content mix, source material, registry draft, visible-copy boundary. |
-| `references/style/index.md` | Progressive style selection index, semantic-to-visual mapping, compact style catalog, and Design DNA contract. |
+| `references/style/index.md` | Flat, tagged style catalog with progressive loading, canonical preview mix, semantic-to-visual mapping, and per-style Design DNA links. |
 | `references/02-design.md` | Style previews, style presets, layout variation, navigation design, fonts/CJK, assets, components, copy quality. |
 | `references/03-build.md` | Stable frames, registry, fixed/mobile stage, navigation, frozen mode, motion, interaction, implementation pitfalls. |
 | `references/04-verify-and-ship.md` | Audit profiles, visual smoke, production smoke, mobile/WebKit coverage, deployment, PDF/static handoff, final report. |

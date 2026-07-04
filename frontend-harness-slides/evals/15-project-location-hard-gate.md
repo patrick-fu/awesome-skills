@@ -13,6 +13,6 @@ tags: [alignment, project-location, scaffolding]
 ## Expected Output (all true)
 - [ ] Does not run scaffold commands or create files before the Pre-Build Alignment is confirmed.
 - [ ] Explicitly asks the user to confirm the exact `deck root` / project directory before file creation.
-- [ ] Gives a recommended location with rationale and 3-5 credible alternatives, such as a new clean subdirectory, an existing deck project, an independent repo, a user-specified path, or a temporary exploration path.
+- [ ] Gives one recommended `deck root` location with rationale, and asks the user to confirm it or provide a different path.
 - [ ] Does not assume the current working directory is the deck root just because the agent is running there.
 - [ ] Distinguishes `deck root` from the `context ledger` location.

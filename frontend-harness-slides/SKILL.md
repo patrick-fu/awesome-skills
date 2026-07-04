@@ -25,9 +25,14 @@ Alignment in plain text.
 source material, inspect it first and state the inferred direction, but still ask
 the user to confirm or adjust the key decisions before implementation.
 
-Every key decision **MUST** include a recommended value with rationale, 3-5
-credible candidate options with a brief reason for each, and an explicit request
-for confirmation.
+Every key decision **MUST** include a recommended value with rationale, credible
+candidate options when the decision naturally has multiple useful directions,
+and an explicit request for confirmation. For `deck root`, recommend one exact
+project location with rationale and ask the user to confirm or replace it; do
+not force artificial location alternatives. For execution parameters such as the
+context ledger, testing, harness contracts, visible-copy boundary, source path,
+or CJK font check, give a concrete plan and ask for confirmation or correction
+instead of inventing option sets.
 
 Cover these Pre-Build Alignment decisions, at the level the task needs:
 
@@ -37,7 +42,8 @@ Cover these Pre-Build Alignment decisions, at the level the task needs:
   references, and whether a preview is useful.
 - **Project location plan**: confirmed `deck root`, whether it is new, existing,
   inside a parent repo, an independent repo, or temporary, and which files are
-  expected there.
+  expected there. Recommend one exact path and ask the user to confirm or
+  replace it.
 - **Build plan**: fixed stage, navigation/touch expectations, technology stack,
   source material, and delivery target.
 - **Testing plan**: test runner, test command, and required coverage across

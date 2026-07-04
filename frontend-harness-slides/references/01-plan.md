@@ -6,9 +6,18 @@ small visual direction decision before scene code starts.
 
 ## Intake Gate
 
-For each important decision, give a recommended default, name 3-5 credible
-candidate options, explain why each option may fit, and ask the user to confirm
-or adjust. Do not only ask "is my default OK?"
+For each important decision, give a recommended default with a reason and ask
+the user to confirm or adjust. Name candidate options only when the decision
+naturally has several useful directions, such as style, visual direction,
+content orientation, information density, motion direction, navigation style,
+delivery target, or technology stack. Do not only ask "is my default OK?"
+
+Execution parameters should be concrete plans, not artificial option sets. For
+`deck root`, recommend one exact project location with a reason and ask the user
+to confirm or replace it. Use the same pattern for context ledger location,
+testing requirement, harness contracts, visible-copy boundary, source material
+path, and fonts/CJK reminders unless a real constraint makes alternatives
+useful.
 
 When the user provides substantial source material, inspect it before asking
 generic intake questions. First infer the story, likely format, content density,
@@ -16,7 +25,9 @@ style cues, and missing decisions; then propose a direction with alternatives
 for confirmation. Inferred answers are not confirmation; they are the starting
 point for the Pre-Build Alignment.
 
-Use this format for key decisions:
+Use the format that fits the decision.
+
+For directional choices:
 
 ```text
 Recommendation: <value> because <reason>.
@@ -24,8 +35,15 @@ Candidates:
 1. <option>: <why it may fit>
 2. <option>: <why it may fit>
 3. <option>: <why it may fit>
-Optional 4-5. <option>: <why it may fit>
 Please confirm, adjust, or tell me to proceed with the recommendation.
+```
+
+For execution parameters:
+
+```text
+Recommendation: <exact value or plan> because <reason>.
+Confirmation needed: please confirm this, or give me the corrected value before
+I create or change files.
 ```
 
 Minimum decisions:
@@ -41,11 +59,10 @@ Minimum decisions:
   tech grid, product-launch, editorial report, or a supplied reference.
 - **Project location / deck root**: recommend the exact `deck root` before file
   creation. Explain that this is the directory that owns deck source,
-  package/config files, assets, tests, and delivery commands. Offer location
-  strategies such as a new clean subdirectory, an existing deck project, an
-  independent repo, a user-specified absolute path, or a temporary exploration
-  path. Confirm whether to create or reuse it; do not assume the current working
-  directory is the deck root.
+  package/config files, assets, tests, and delivery commands. Give one
+  recommended path with rationale, then ask the user to confirm it or provide a
+  different path. Confirm whether to create or reuse it; do not assume the
+  current working directory is the deck root.
 - **Language and CJK Check**: If the content contains Chinese, Japanese, or Korean (CJK) characters, select fonts and fallback stacks that cover CJK, and perform a browser check to ensure proper rendering. Avoid making this a heavy font audit process; keep the intake lightweight and focus on selecting reliable system fallbacks or bundled CJK fonts if needed.
 - **Information density**: recommend speaker-led, reading-first, or hybrid.
   Explain that this also sets the audit profile.
@@ -71,7 +88,9 @@ Minimum decisions:
   console/runtime errors, asset/font loading, and build/export/deployment checks
   when relevant. Recommend a browser-based test path such as Playwright when
   the deck has navigation, animation, interaction, screenshots, or delivery
-  checks; also name alternatives and tradeoffs when useful.
+  checks. Testing is mandatory for created or modified HTML slide artifacts; do
+  not present it as an optional preference. Mention alternatives only when
+  project constraints make them relevant, and explain the coverage tradeoff.
 - **Delivery**: confirm online URL, PDF/static export, or both. If the user has
   no hosting preference, recommend Vercel and mention GitHub Pages or Cloudflare
   Pages as static-site alternatives.
@@ -107,7 +126,7 @@ Always ask about visual preview before implementation. Recommend a minimal
 interactive preview by default. When visual direction is unclear, recommend
 making three real interactive slide previews before building the full deck. If
 the user has already supplied a clear style or strong visual reference, confirm
-that direction, offer 3-5 same-style refinements plus a few nearby style
+that direction, offer a few same-style refinements plus nearby style
 alternatives for inspiration, and ask whether to make a small same-style preview
 to confirm details.
 Also send the Live Demo link during style alignment:
@@ -371,7 +390,8 @@ internal_constraints: 40-minute talk, low text density, 1920x1080 stage
 Before building:
 
 1. The intake decisions are confirmed or explicitly assumed.
-2. Recommended defaults and alternatives were shown for the key decisions.
+2. Recommended defaults were shown for key decisions, with alternatives only
+   where the decision naturally benefits from them.
 3. Content orientation, presentation format, duration, and content mix are
    confirmed or explicitly assumed.
 4. Context location is clear when the task is long-running or deliverable.

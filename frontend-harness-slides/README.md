@@ -89,9 +89,9 @@ The style system is designed to stay coherent without forcing every page into
 the same template. A deck can keep one visual language while changing layouts,
 beats, motion, and interaction patterns from scene to scene.
 
-The full gallery below shows every style direction across three density bands:
-Minimal Keynote, Balanced Hybrid, and Text Report. Each style includes low,
-medium, and high-density examples.
+The full gallery below shows every style direction across four density bands:
+Minimal Keynote, Balanced Hybrid, Print & Cultural Traditions, and Text Report.
+Each style includes low, medium, and high-density examples.
 
 ### Minimal keynote
 
@@ -272,6 +272,117 @@ actionable boards.
   <img src="showcase/style-gallery/debug-reaction-board-medium.webp" width="32%" alt="Medium density: self-check flow" />
   <img src="showcase/style-gallery/debug-reaction-board-high.webp" width="32%" alt="High density: risk kanban" />
 </p>
+
+### Print & cultural traditions
+
+Styles drawn from editorial, print, and cultural design traditions. Showcase screenshots
+coming soon.
+
+**Editorial & publication**
+
+#### [Magazine Masthead](references/style/magazine-masthead.md)
+
+Newsstand cover confidence with a saturated ink field and an enormous fashion serif demanding attention.
+
+#### [Solar Biennale Poster](references/style/solar-biennale-poster.md)
+
+Exhibition poster warmth on warm parchment with a slow solar glow and one enormous serif statement.
+
+#### [Warm Editorial Feature](references/style/warm-editorial-feature.md)
+
+Magazine feature spread with cream paper, serif display, and pull-quote rhythm for narrative reading.
+
+#### [Scholars' Vellum](references/style/scholars-vellum.md)
+
+Classical manuscript on aged parchment with marginalia and serif authority for deep-dive intellectual content.
+
+#### [Front Page Broadsheet](references/style/front-page-broadsheet.md)
+
+Newspaper front page with multi-column layout and headline hierarchy for packed information delivery.
+
+**Poster & protest**
+
+#### [Neo-Brutalist Bulletin](references/style/neo-brutalist-bulletin.md)
+
+Protest poster energy with thick black borders, hard offset shadows, and one high-voltage accent.
+
+#### [Riso Print Zine](references/style/riso-print-zine.md)
+
+Risograph zine with limited palette, handmade collage density, and DIY rebellious character.
+
+#### [Red Wedge Agitprop](references/style/red-wedge-agitprop.md)
+
+Constructivist political poster with red wedge geometry and diagonal dynamism for call-to-action.
+
+#### [Duotone Session](references/style/duotone-session.md)
+
+Blue Note LP sleeve with a duotone photo and enormous condensed gothic type — cool, disciplined, workmanlike.
+
+**Illustration & craft**
+
+#### [Botanical Specimen Plate](references/style/botanical-specimen-plate.md)
+
+Scientific botanical illustration with fine ink lines and Latin annotation for natural-world framing.
+
+#### [Woodblock Floating World](references/style/woodblock-floating-world.md)
+
+Japanese ukiyo-e woodblock with floating world composition and sumi-e textures for contemplative visual storytelling.
+
+#### [Cyanotype Drafting Table](references/style/cyanotype-drafting-table.md)
+
+Blueprint drafting with cyanotype tones and technical linework for system architecture and engineering diagrams.
+
+#### [Expedition Screenprint](references/style/expedition-screenprint.md)
+
+Field journal screenprint with stamped layers and map coordinates for exploration and discovery narratives.
+
+#### [Machine-Age Deco](references/style/machine-age-deco.md)
+
+Art Deco machine age with geometric patterns and stepped forms for grand visions and ambitious roadmaps.
+
+#### [Clay & Ma](references/style/clay-and-ma.md)
+
+Hand-formed ceramic with wabi-sabi irregularity and matte glaze surfaces for craft and natural product framing.
+
+#### [Analog Cutout Collage](references/style/analog-cutout-collage.md)
+
+Hand-cut paper collage with torn edges and mixed textures for creative process and idea assembly.
+
+**Media & packaging**
+
+#### [Cassette-Era Packaging](references/style/cassette-era-packaging.md)
+
+Cassette tape J-card design with 80s-90s graphic energy and mixtape layout for music and nostalgia content.
+
+#### [Widescreen Title Card](references/style/widescreen-title-card.md)
+
+Cinematic letterbox title card with film typography and atmospheric stillness for opening titles and grand reveals.
+
+**Contemporary digital**
+
+#### [Mid-Century Grove](references/style/mid-century-grove.md)
+
+Organic mid-century calm with natural wood tones and gentle curves for sustainability and natural product stories.
+
+#### [After-Hours Luxe](references/style/after-hours-luxe.md)
+
+Dark cocktail lounge luxury with deep jewel tones and gold accents for premium positioning and evening framing.
+
+#### [Soft Pastel Friendly](references/style/soft-pastel-friendly.md)
+
+Approachable pastel warmth with rounded pill geometry and gentle spring motion for onboarding and community decks.
+
+#### [Retro Windows](references/style/retro-windows.md)
+
+Windows 3.1/95 nostalgia with beveled chrome and system gray palette for developer tooling and retro-tech vibes.
+
+#### [Objective Swiss Grid](references/style/objective-swiss-grid.md)
+
+Swiss International Style with rigid grid structure and sans-serif clarity for data-heavy reports and analytical frameworks.
+
+#### [Liquid Glass](references/style/liquid-glass.md)
+
+Apple design language with frosted glass depth and spatial layering for premium tech and Apple-platform content.
 
 ### Text report
 

@@ -156,8 +156,8 @@ Use the following guiding principles to select and align the visual system:
   options from the style preset catalog that best fit the audience, content, and
   delivery target.
 - **Clear user style**: If the user already chose a style, confirm that main
-  direction, offer 3-5 refinements inside the chosen style, and include a few
-  nearby catalog options as inspiration rather than pressure to switch.
+  direction, offer a few refinements inside the chosen style, and include nearby
+  catalog options as inspiration rather than pressure to switch.
 - **Preview prompt**: Ask whether to create a minimal interactive preview before
   full implementation. Recommend doing so by default, and skip it only when the
   user explicitly declines or asks to proceed directly.

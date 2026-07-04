@@ -39,6 +39,13 @@ Minimum decisions:
 - **Mode and style**: recommend a direction such as Sketchboard Emoji for a
   lively talk, but offer alternatives such as professional information design,
   tech grid, product-launch, editorial report, or a supplied reference.
+- **Project location / deck root**: recommend the exact `deck root` before file
+  creation. Explain that this is the directory that owns deck source,
+  package/config files, assets, tests, and delivery commands. Offer location
+  strategies such as a new clean subdirectory, an existing deck project, an
+  independent repo, a user-specified absolute path, or a temporary exploration
+  path. Confirm whether to create or reuse it; do not assume the current working
+  directory is the deck root.
 - **Language and CJK Check**: If the content contains Chinese, Japanese, or Korean (CJK) characters, select fonts and fallback stacks that cover CJK, and perform a browser check to ensure proper rendering. Avoid making this a heavy font audit process; keep the intake lightweight and focus on selecting reliable system fallbacks or bundled CJK fonts if needed.
 - **Information density**: recommend speaker-led, reading-first, or hybrid.
   Explain that this also sets the audit profile.
@@ -75,10 +82,15 @@ tech stack should guide the work; render them only if the user explicitly wants
 the audience to see them.
 
 For delivered slide work or multi-turn implementation, prefer an external
-context document for decisions that need to survive beyond the current chat.
+`context ledger` document for decisions that need to survive beyond the current
+chat.
 This is project memory, not a control mechanism. Follow the user's preferred
 location; otherwise use project docs for delivered decks and a temp path for
 explorations.
+
+Keep `deck_root` and `context_ledger` separate. The deck root owns the source
+project; the context ledger records decisions and progress. They may live near
+each other, but confirming one does not confirm the other.
 
 Useful grouped prompt:
 
@@ -152,7 +164,7 @@ and expand the full deck.
 ## Context Ledger
 
 For delivered slide work or multi-turn implementation, establish a
-context/status ledger before implementation unless the user explicitly declines.
+`context ledger` before implementation unless the user explicitly declines.
 This is project memory, not a control mechanism: it keeps decisions and progress
 outside chat so later edits do not depend on hidden conversation state.
 
@@ -165,6 +177,7 @@ this unless the user asks.
 Useful things to track:
 
 - confirmed intake decisions
+- deck root and project location decision
 - narrative plan and content mix
 - registry draft
 - selected theme notes & Design DNA (including chosen style system, visual guardrails, custom-invented metaphors, and pacing log)
@@ -187,9 +200,9 @@ Update after major phases with a compact status entry:
 - deployment or export
 
 When verification coverage, delivery status, production URLs, or skipped risks
-change materially, update the context document so later edits do not depend on
-chat history alone. If no context ledger is used, keep the reason explicit in the
-chat or final report.
+change materially, update the `context ledger` so later edits do not depend on
+chat history alone. If no context ledger is used, keep the reason explicit in
+the chat or final report.
 
 ## Decision Snapshot
 
@@ -215,7 +228,7 @@ test_command:
 visual_language:
 delivery_target:
 non_goals:
-context_document:
+context_ledger:
 ```
 
 This snapshot is implementation memory. It is not slide copy.

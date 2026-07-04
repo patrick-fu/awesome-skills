@@ -279,9 +279,9 @@ Final delivery should state:
 - mobile/touch coverage
 - WebKit/Safari coverage status when relevant
 - skipped checks and residual risk
-- context document path and final update status for delivered or multi-turn work,
+- `context ledger` path and final update status for delivered or multi-turn work,
   or the reason it was skipped
 
-When a context document, README, or handoff note exists, keep the final delivery
+When a `context ledger`, README, or handoff note exists, keep the final delivery
 state clear: production URL or PDF path, verification status, skipped checks, and
 remaining risks.

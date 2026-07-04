@@ -35,13 +35,20 @@ Cover these Pre-Build Alignment decisions, at the level the task needs:
   and content mix.
 - **Design plan**: style, density, audit profile, motion direction, visual
   references, and whether a preview is useful.
+- **Project location plan**: confirmed `deck root`, whether it is new, existing,
+  inside a parent repo, an independent repo, or temporary, and which files are
+  expected there.
 - **Build plan**: fixed stage, navigation/touch expectations, technology stack,
   source material, and delivery target.
 - **Testing plan**: test runner, test command, and required coverage across
   render, frame addressing, navigation, interaction isolation, layout safety,
   runtime errors, assets/fonts, and build/export/deployment checks.
-- **Context/status plan**: where project state will live, when it will be
+- **Context ledger plan**: where the `context ledger` will live, when it will be
   updated, and whether the user wants a different location.
+
+Project location is part of the hard gate. **DO NOT** scaffold into the current
+working directory by default. Confirm the exact `deck root` in plain text before
+creating files, even when the current directory looks plausible.
 
 Style preview **MUST** be asked before implementation. Recommend a minimal
 interactive preview by default; skip it only when the user explicitly declines or
@@ -61,9 +68,11 @@ render duration, audience, density, stage size, delivery target, navigation
 requirements, or implementation notes on the slide surface unless the user asks.
 
 For delivered slide work or multi-turn implementation, establish a
-context/status ledger before implementation unless the user explicitly declines.
-Follow the user's preferred location; otherwise use project docs for delivered
-decks and a temp path for explorations. Treat context as memory, not control.
+`context ledger` before implementation unless the user explicitly declines.
+The `deck root` owns source, assets, tests, and delivery commands; the
+`context ledger` tracks decisions and progress. Follow the user's preferred
+ledger location; otherwise use project docs for delivered decks and a temp path
+for explorations. Treat context as memory, not control.
 
 If the user gives a reference URL, deployed deck, or source repository, inspect
 it before choosing stage, scaling, animation, and interaction contracts.
@@ -108,10 +117,14 @@ lists the decision surface.
 
 ## Project And Stack
 
-For a new deck, work in a clean deck root. Do not scatter files into a non-empty
-directory. If the directory already has a deck project, treat it as existing
-work. Recommend an independent git repository when useful; if working inside a
-broad workspace or parent repo, briefly confirm the deck root and key files are
+Use the confirmed `deck root` for slide project files. The `deck root` is the
+filesystem directory that owns the deck source, package/config files, assets,
+tests, and delivery commands. For a new deck, prefer a new clean directory; an
+existing deck project, a subdirectory inside a parent repo, an independent repo,
+or a temporary exploration path are all acceptable when confirmed. Do not
+scatter files into a non-empty directory or scaffold into the current working
+directory just because the agent started there. If the confirmed root is inside
+a broad workspace or parent repo, briefly confirm key generated files are
 tracked or ignored as expected.
 
 Prefer the user's existing stack. For a new deck with no preference, React +
@@ -149,7 +162,7 @@ is ready to iterate only when these contracts exist:
 1. **Detect** the branch: new slide artifact, imported/source-heavy, or existing
    deck.
 2. **Align and plan** with `references/01-plan.md`; create or update the
-   context/status ledger when the work is delivered or multi-turn.
+   `context ledger` when the work is delivered or multi-turn.
 3. **Design** with `references/02-design.md`; selected style means a visual
    system, not one repeated template.
 4. **Build** with `references/03-build.md`; preserve the harness contracts in

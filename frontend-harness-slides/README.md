@@ -21,6 +21,18 @@ or both.
 > It is the fastest way to see the motion, density, and visual range before
 > reading the full catalog.
 
+## Install
+
+```bash
+npx skills add patrick-fu/frontend-harness-slides -g
+```
+
+Update later:
+
+```bash
+npx skills update -g
+```
+
 ## Why the harness matters
 
 Most slide generators can produce an attractive first version. The harder part
@@ -57,6 +69,17 @@ For visual slide work, model taste matters. I usually recommend starting with
 Gemini for stronger frontend aesthetics, then Claude. GPT 5.5 can work too, and
 this skill includes guidance that helps it produce better visual results, but in
 my own trials it still tends to need more direction than Gemini.
+
+## Typical workflow
+
+1. Plan: align on content, audience, presentation format, style direction,
+   technology, delivery target, and whether the user wants style previews first.
+2. Design: choose a coherent style system, then vary layouts, motion, and
+   interaction patterns across scenes.
+3. Build: create stable slide scenes with keyboard navigation, interactive
+   elements, repeatable previews, and tests that protect future edits.
+4. Verify and ship: run meaningful layout and interaction checks, inspect
+   screenshots, preview locally, then deploy online, export PDF, or do both.
 
 ## Visual style gallery
 
@@ -340,29 +363,6 @@ and evidence directly in source-like surfaces.
 <p align="center">
   <a href="https://frontend-harness-slides-demo.vercel.app/"><b>🎬 Live demo</b></a>
 </p>
-
-## Install
-
-```bash
-npx skills add patrick-fu/frontend-harness-slides -g
-```
-
-Update later:
-
-```bash
-npx skills update -g
-```
-
-## Typical workflow
-
-1. Plan: align on content, audience, presentation format, style direction,
-   technology, delivery target, and whether the user wants style previews first.
-2. Design: choose a coherent style system, then vary layouts, motion, and
-   interaction patterns across scenes.
-3. Build: create stable slide scenes with keyboard navigation, interactive
-   elements, repeatable previews, and tests that protect future edits.
-4. Verify and ship: run meaningful layout and interaction checks, inspect
-   screenshots, preview locally, then deploy online, export PDF, or do both.
 
 ## More curated skills
 

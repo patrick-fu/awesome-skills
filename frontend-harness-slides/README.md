@@ -60,90 +60,285 @@ my own trials it still tends to need more direction than Gemini.
 
 ## Visual style gallery
 
-> 📚 Browse all style presets: [Style catalog](references/style/preview.md)
-
 The style system is designed to stay coherent without forcing every page into
 the same template. A deck can keep one visual language while changing layouts,
 beats, motion, and interaction patterns from scene to scene.
 
-The full catalog contains style presets across speaker-led, hybrid, and dense
-reading formats. These six examples show the range.
+The full gallery below shows every style direction across three density bands:
+Minimal Keynote, Balanced Hybrid, and Text Report. Each style includes low,
+medium, and high-density examples.
 
 ### Minimal keynote
 
-#### [Style 06: Blackboard chalk talk](references/style/minimal-keynote.md#style-06-blackboard-chalk-talk)
+#### [Minimal Product Keynote](references/style/minimal-keynote.md#minimal-product-keynote)
 
-Handmade, educational, and reasoning-first. Uses chalk-drawn lines and formulas
-on a deep green board.
+Premium, focused, and sparse. Uses extreme whitespace, a single central object,
+and dramatic type scale for opening claims or product reveals.
 
 <p align="center">
-  <img src="references/style/screenshots/style-06-low.webp" width="32%" alt="Low density: hero formula" />
-  <img src="references/style/screenshots/style-06-med.webp" width="32%" alt="Medium density: routed proof" />
-  <img src="references/style/screenshots/style-06-high.webp" width="32%" alt="High density: qubit bento" />
+  <img src="showcase/style-gallery/minimal-product-keynote-low.webp" width="32%" alt="Low density: product keynote hero" />
+  <img src="showcase/style-gallery/minimal-product-keynote-medium.webp" width="32%" alt="Medium density: product keynote structure" />
+  <img src="showcase/style-gallery/minimal-product-keynote-high.webp" width="32%" alt="High density: product keynote detail" />
 </p>
 
-#### [Style 02: Sketch board emoji](references/style/minimal-keynote.md#style-02-sketch-board-emoji)
+#### [Sketch Board Emoji](references/style/minimal-keynote.md#sketch-board-emoji)
 
 Warm, approachable, and human-in-the-loop. Uses sticky notes, tape, emoji actors,
 and small interactive details.
 
 <p align="center">
-  <img src="references/style/screenshots/style-02-low.webp" width="32%" alt="Low density: why offline-first" />
-  <img src="references/style/screenshots/style-02-med.webp" width="32%" alt="Medium density: sync timeline" />
-  <img src="references/style/screenshots/style-02-high.webp" width="32%" alt="High density: strategy bento" />
+  <img src="showcase/style-gallery/sketch-board-emoji-low.webp" width="32%" alt="Low density: why offline-first" />
+  <img src="showcase/style-gallery/sketch-board-emoji-medium.webp" width="32%" alt="Medium density: sync timeline" />
+  <img src="showcase/style-gallery/sketch-board-emoji-high.webp" width="32%" alt="High density: strategy bento" />
+</p>
+
+#### [Interactive Dialogue Stage](references/style/minimal-keynote.md#interactive-dialogue-stage)
+
+Dialog-focused and theatrical. Stages two roles, systems, or speakers through
+dark console surfaces and visible turn-taking.
+
+<p align="center">
+  <img src="showcase/style-gallery/interactive-dialogue-stage-low.webp" width="32%" alt="Low density: dialogue setup" />
+  <img src="showcase/style-gallery/interactive-dialogue-stage-medium.webp" width="32%" alt="Medium density: dual console" />
+  <img src="showcase/style-gallery/interactive-dialogue-stage-high.webp" width="32%" alt="High density: dialogue transcript" />
+</p>
+
+#### [Kinetic Type Punchline](references/style/minimal-keynote.md#kinetic-type-punchline)
+
+Bold, poster-like, and high-energy. Built for memorable section beats,
+contrastive claims, and typographic punchlines.
+
+<p align="center">
+  <img src="showcase/style-gallery/kinetic-type-punchline-low.webp" width="32%" alt="Low density: kinetic phrase" />
+  <img src="showcase/style-gallery/kinetic-type-punchline-medium.webp" width="32%" alt="Medium density: typographic contrast" />
+  <img src="showcase/style-gallery/kinetic-type-punchline-high.webp" width="32%" alt="High density: poster detail" />
+</p>
+
+#### [Object Metaphor Hero](references/style/minimal-keynote.md#object-metaphor-hero)
+
+Tactile and metaphor-led. Turns abstract preparation, planning, or toolkit ideas
+into physical objects and organized compartments.
+
+<p align="center">
+  <img src="showcase/style-gallery/object-metaphor-hero-low.webp" width="32%" alt="Low density: hero object" />
+  <img src="showcase/style-gallery/object-metaphor-hero-medium.webp" width="32%" alt="Medium density: object compartments" />
+  <img src="showcase/style-gallery/object-metaphor-hero-high.webp" width="32%" alt="High density: toolkit layout" />
+</p>
+
+#### [Blackboard Chalk Talk](references/style/minimal-keynote.md#blackboard-chalk-talk)
+
+Handmade, educational, and reasoning-first. Uses chalk-drawn lines and formulas
+on a deep green board.
+
+<p align="center">
+  <img src="showcase/style-gallery/blackboard-chalk-talk-low.webp" width="32%" alt="Low density: hero formula" />
+  <img src="showcase/style-gallery/blackboard-chalk-talk-medium.webp" width="32%" alt="Medium density: routed proof" />
+  <img src="showcase/style-gallery/blackboard-chalk-talk-high.webp" width="32%" alt="High density: qubit bento" />
+</p>
+
+#### [Arcade Boss Fight](references/style/minimal-keynote.md#arcade-boss-fight)
+
+Retro, playful, and risk-aware. Frames technical difficulty as a boss fight,
+using HP bars, inventory panels, and pixel UI.
+
+<p align="center">
+  <img src="showcase/style-gallery/arcade-boss-fight-low.webp" width="32%" alt="Low density: battle screen" />
+  <img src="showcase/style-gallery/arcade-boss-fight-medium.webp" width="32%" alt="Medium density: arcade progress" />
+  <img src="showcase/style-gallery/arcade-boss-fight-high.webp" width="32%" alt="High density: inventory screen" />
+</p>
+
+#### [Spotlight Quote Poster](references/style/minimal-keynote.md#spotlight-quote-poster)
+
+Dramatic and reflective. Uses stage darkness, radial light, and large quote
+typography for pauses, closings, and core philosophy.
+
+<p align="center">
+  <img src="showcase/style-gallery/spotlight-quote-poster-low.webp" width="32%" alt="Low density: spotlight quote" />
+  <img src="showcase/style-gallery/spotlight-quote-poster-medium.webp" width="32%" alt="Medium density: quote context" />
+  <img src="showcase/style-gallery/spotlight-quote-poster-high.webp" width="32%" alt="High density: quote poster detail" />
 </p>
 
 ### Balanced hybrid
 
-#### [Style 13: Subway map of intent](references/style/balanced-hybrid.md#style-13-transit-flow-subway-map)
+#### [Signal Pipeline Flow](references/style/balanced-hybrid.md#signal-pipeline-flow)
+
+Technical and precise. Shows data, signals, or decisions moving through routed
+nodes and structured pipeline stages.
+
+<p align="center">
+  <img src="showcase/style-gallery/signal-pipeline-flow-low.webp" width="32%" alt="Low density: signal entry" />
+  <img src="showcase/style-gallery/signal-pipeline-flow-medium.webp" width="32%" alt="Medium density: routed pipeline" />
+  <img src="showcase/style-gallery/signal-pipeline-flow-high.webp" width="32%" alt="High density: system map" />
+</p>
+
+#### [Mechanical Scoring Funnel](references/style/balanced-hybrid.md#mechanical-scoring-funnel)
+
+Energetic and evaluative. Turns filtering, scoring, and prioritization into
+lanes, pins, score markers, and active funnel paths.
+
+<p align="center">
+  <img src="showcase/style-gallery/mechanical-scoring-funnel-low.webp" width="32%" alt="Low density: scoring moment" />
+  <img src="showcase/style-gallery/mechanical-scoring-funnel-medium.webp" width="32%" alt="Medium density: funnel lanes" />
+  <img src="showcase/style-gallery/mechanical-scoring-funnel-high.webp" width="32%" alt="High density: scoring board" />
+</p>
+
+#### [Collaborative Pairing Board](references/style/balanced-hybrid.md#collaborative-pairing-board)
+
+Clean and cooperative. Uses paired columns, role boundaries, and sync points to
+explain collaboration between people, teams, or systems.
+
+<p align="center">
+  <img src="showcase/style-gallery/collaborative-pairing-board-low.webp" width="32%" alt="Low density: collaboration thesis" />
+  <img src="showcase/style-gallery/collaborative-pairing-board-medium.webp" width="32%" alt="Medium density: pairing board" />
+  <img src="showcase/style-gallery/collaborative-pairing-board-high.webp" width="32%" alt="High density: sync plan" />
+</p>
+
+#### [Studio Mixing Console](references/style/balanced-hybrid.md#studio-mixing-console)
+
+Professional and tactile. Represents parameter tuning, noise filtering, and
+trade-off balancing through faders, knobs, and level meters.
+
+<p align="center">
+  <img src="showcase/style-gallery/studio-mixing-console-low.webp" width="32%" alt="Low density: master signal" />
+  <img src="showcase/style-gallery/studio-mixing-console-medium.webp" width="32%" alt="Medium density: fader rack" />
+  <img src="showcase/style-gallery/studio-mixing-console-high.webp" width="32%" alt="High density: console detail" />
+</p>
+
+#### [Subway Map of Intent](references/style/balanced-hybrid.md#subway-map-of-intent)
 
 Systematic and structured. Represents converging workflows as subway lines and
 transfer stations.
 
 <p align="center">
-  <img src="references/style/screenshots/style-13-low.webp" width="32%" alt="Low density: packet journey" />
-  <img src="references/style/screenshots/style-13-med.webp" width="32%" alt="Medium density: transit map" />
-  <img src="references/style/screenshots/style-13-high.webp" width="32%" alt="High density: schedule bento" />
+  <img src="showcase/style-gallery/subway-map-of-intent-low.webp" width="32%" alt="Low density: packet journey" />
+  <img src="showcase/style-gallery/subway-map-of-intent-medium.webp" width="32%" alt="Medium density: transit map" />
+  <img src="showcase/style-gallery/subway-map-of-intent-high.webp" width="32%" alt="High density: schedule bento" />
 </p>
 
-#### [Style 16: Debug reaction board](references/style/balanced-hybrid.md#style-16-diagnostic-kanban-board)
+#### [Kitchen Prep Station](references/style/balanced-hybrid.md#kitchen-prep-station)
+
+Warm and concrete. Turns raw-to-clean transformation into prep boards, trimmed
+ingredients, recipe steps, and plated outputs.
+
+<p align="center">
+  <img src="showcase/style-gallery/kitchen-prep-station-low.webp" width="32%" alt="Low density: prep thesis" />
+  <img src="showcase/style-gallery/kitchen-prep-station-medium.webp" width="32%" alt="Medium density: prep board" />
+  <img src="showcase/style-gallery/kitchen-prep-station-high.webp" width="32%" alt="High density: recipe detail" />
+</p>
+
+#### [Context Bento Box](references/style/balanced-hybrid.md#context-bento-box)
+
+Compact and organized. Uses compartment grids and layered boxes for handoffs,
+multi-category overviews, and context packaging.
+
+<p align="center">
+  <img src="showcase/style-gallery/context-bento-box-low.webp" width="32%" alt="Low density: bento concept" />
+  <img src="showcase/style-gallery/context-bento-box-medium.webp" width="32%" alt="Medium density: bento compartments" />
+  <img src="showcase/style-gallery/context-bento-box-high.webp" width="32%" alt="High density: layered bento" />
+</p>
+
+#### [Debug Reaction Board](references/style/balanced-hybrid.md#debug-reaction-board)
 
 Developer-native and diagnostic. Uses neon status badges, terminal surfaces, and
 actionable boards.
 
 <p align="center">
-  <img src="references/style/screenshots/style-16-low.webp" width="32%" alt="Low density: system ready" />
-  <img src="references/style/screenshots/style-16-med.webp" width="32%" alt="Medium density: self-check flow" />
-  <img src="references/style/screenshots/style-16-high.webp" width="32%" alt="High density: risk kanban" />
+  <img src="showcase/style-gallery/debug-reaction-board-low.webp" width="32%" alt="Low density: system ready" />
+  <img src="showcase/style-gallery/debug-reaction-board-medium.webp" width="32%" alt="Medium density: self-check flow" />
+  <img src="showcase/style-gallery/debug-reaction-board-high.webp" width="32%" alt="High density: risk kanban" />
 </p>
 
 ### Text report
 
-#### [Style 18: Maintainer issue brief](references/style/text-report.md#style-18-developer-ticket-brief)
+#### [Research Memo](references/style/text-report.md#research-memo)
+
+Calm and authoritative. Uses memo structure, restrained rules, serif hierarchy,
+and evidence blocks for credible reading-first decks.
+
+<p align="center">
+  <img src="showcase/style-gallery/research-memo-low.webp" width="32%" alt="Low density: research cover" />
+  <img src="showcase/style-gallery/research-memo-medium.webp" width="32%" alt="Medium density: research memo" />
+  <img src="showcase/style-gallery/research-memo-high.webp" width="32%" alt="High density: evidence page" />
+</p>
+
+#### [Maintainer Issue Brief](references/style/text-report.md#maintainer-issue-brief)
 
 Clean, structured, and action-oriented. Inspired by modern issue trackers and
 code review tools.
 
 <p align="center">
-  <img src="references/style/screenshots/style-18-low.webp" width="32%" alt="Low density: issue header" />
-  <img src="references/style/screenshots/style-18-med.webp" width="32%" alt="Medium density: incident timeline" />
-  <img src="references/style/screenshots/style-18-high.webp" width="32%" alt="High density: code review diff" />
+  <img src="showcase/style-gallery/maintainer-issue-brief-low.webp" width="32%" alt="Low density: issue header" />
+  <img src="showcase/style-gallery/maintainer-issue-brief-medium.webp" width="32%" alt="Medium density: incident timeline" />
+  <img src="showcase/style-gallery/maintainer-issue-brief-high.webp" width="32%" alt="High density: code review diff" />
 </p>
 
-#### [Style 21: Field notes report](references/style/text-report.md#style-21-field-notes-report)
+#### [Decision Record](references/style/text-report.md#decision-record)
+
+Rigorous and architectural. Frames context, decision, trade-offs, and
+verification in an ADR-like document rhythm.
+
+<p align="center">
+  <img src="showcase/style-gallery/decision-record-low.webp" width="32%" alt="Low density: decision title" />
+  <img src="showcase/style-gallery/decision-record-medium.webp" width="32%" alt="Medium density: decision record" />
+  <img src="showcase/style-gallery/decision-record-high.webp" width="32%" alt="High density: trade-off matrix" />
+</p>
+
+#### [Benchmark Matrix](references/style/text-report.md#benchmark-matrix)
+
+Analytical and comparative. Prioritizes structured evidence, criteria, metrics,
+and table-like comparison surfaces.
+
+<p align="center">
+  <img src="showcase/style-gallery/benchmark-matrix-low.webp" width="32%" alt="Low density: benchmark claim" />
+  <img src="showcase/style-gallery/benchmark-matrix-medium.webp" width="32%" alt="Medium density: metric grid" />
+  <img src="showcase/style-gallery/benchmark-matrix-high.webp" width="32%" alt="High density: comparison matrix" />
+</p>
+
+#### [Field Notes Report](references/style/text-report.md#field-notes-report)
 
 Tactile and observational. Uses ledger paper, charcoal ink, and card grids.
 
 <p align="center">
-  <img src="references/style/screenshots/style-21-low.webp" width="32%" alt="Low density: research cover" />
-  <img src="references/style/screenshots/style-21-med.webp" width="32%" alt="Medium density: user journey map" />
-  <img src="references/style/screenshots/style-21-high.webp" width="32%" alt="High density: observation grid" />
+  <img src="showcase/style-gallery/field-notes-report-low.webp" width="32%" alt="Low density: research cover" />
+  <img src="showcase/style-gallery/field-notes-report-medium.webp" width="32%" alt="Medium density: user journey map" />
+  <img src="showcase/style-gallery/field-notes-report-high.webp" width="32%" alt="High density: observation grid" />
+</p>
+
+#### [Operating Manual](references/style/text-report.md#operating-manual)
+
+Procedural and high-contrast. Uses industrial runbook cues, terminal blocks, and
+step execution for repeatable operating habits.
+
+<p align="center">
+  <img src="showcase/style-gallery/operating-manual-low.webp" width="32%" alt="Low density: runbook title" />
+  <img src="showcase/style-gallery/operating-manual-medium.webp" width="32%" alt="Medium density: command console" />
+  <img src="showcase/style-gallery/operating-manual-high.webp" width="32%" alt="High density: procedure detail" />
+</p>
+
+#### [Checklist Ledger](references/style/text-report.md#checklist-ledger)
+
+Trustworthy and practical. Uses ledger lines, compact rows, and visible checks
+for acceptance criteria and final readiness.
+
+<p align="center">
+  <img src="showcase/style-gallery/checklist-ledger-low.webp" width="32%" alt="Low density: readiness claim" />
+  <img src="showcase/style-gallery/checklist-ledger-medium.webp" width="32%" alt="Medium density: audit checklist" />
+  <img src="showcase/style-gallery/checklist-ledger-high.webp" width="32%" alt="High density: checklist ledger" />
+</p>
+
+#### [Annotated Source & Diff](references/style/text-report.md#annotated-source-diff)
+
+Reviewable and transformation-focused. Shows before/after changes, annotations,
+and evidence directly in source-like surfaces.
+
+<p align="center">
+  <img src="showcase/style-gallery/annotated-source-diff-low.webp" width="32%" alt="Low density: diff thesis" />
+  <img src="showcase/style-gallery/annotated-source-diff-medium.webp" width="32%" alt="Medium density: annotated source" />
+  <img src="showcase/style-gallery/annotated-source-diff-high.webp" width="32%" alt="High density: source diff" />
 </p>
 
 <p align="center">
   <a href="https://frontend-harness-slides-demo.vercel.app/"><b>🎬 Live demo</b></a>
-  &nbsp;|&nbsp;
-  <a href="references/style/preview.md"><b>📚 Browse all styles</b></a>
 </p>
 
 ## Install

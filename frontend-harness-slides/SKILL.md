@@ -60,6 +60,12 @@ interactive previews. If the user already gave a clear style, confirm that style
 offer style recommendations or refinements with reasons, and ask whether to
 create a same-style minimal preview.
 
+For open-ended style selection, use a three-candidate preview mix:
+Density-Fit, Safe, and Wildcard. Choose those candidates from the user's
+material, audience, density, formality, risk level, delivery target, and visual
+references. Read `references/style/index.md` first, then load only the category
+detail files needed for shortlisted candidates.
+
 During style alignment, send the user the Live Demo link as a reference:
 `https://frontend-harness-slides-demo.vercel.app/`. Explain that it is a dynamic
 Workbench Demo with multiple preset styles, transitions, animations, and motion
@@ -88,10 +94,9 @@ substantial edit, read the stage references before implementation:
 
 1. `references/01-plan.md`
 2. `references/style/index.md`
-3. `references/style/preview.md`
-4. `references/02-design.md`
-5. `references/03-build.md`
-6. `references/04-verify-and-ship.md`
+3. `references/02-design.md`
+4. `references/03-build.md`
+5. `references/04-verify-and-ship.md`
 
 Do not build from `SKILL.md` alone after production is confirmed. The references
 are the single source of truth for planning detail, visual systems, harness
@@ -103,8 +108,7 @@ lists the decision surface.
 | File | Use for |
 |---|---|
 | `references/01-plan.md` | Intake, defaults and alternatives, context, narrative/content mix, source material, registry draft, visible-copy boundary. |
-| `references/style/index.md` | Style Index, curated style directions, semantic-to-visual mapping, visual pacing, and design DNA contract. |
-| `references/style/preview.md` | Full style visual catalog with preset style progressions and Design DNA tokens. |
+| `references/style/index.md` | Progressive style selection index, semantic-to-visual mapping, compact style catalog, and Design DNA contract. |
 | `references/02-design.md` | Style previews, style presets, layout variation, navigation design, fonts/CJK, assets, components, copy quality. |
 | `references/03-build.md` | Stable frames, registry, fixed/mobile stage, navigation, frozen mode, motion, interaction, implementation pitfalls. |
 | `references/04-verify-and-ship.md` | Audit profiles, visual smoke, production smoke, mobile/WebKit coverage, deployment, PDF/static handoff, final report. |

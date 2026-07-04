@@ -33,20 +33,26 @@ Preview rules:
   change behavior, and transition or Magic Move-like continuity samples in every
   direction.
 - Start a local server and provide screenshots for comparison.
-- Explain options in chat, not on the slide surface.
-- Do not render preset names, option labels, workflow notes, file paths, or
-  internal requirements on the slide.
+- Explain candidate rationale in chat, not on the slide surface.
+- Slide surface copy should be audience-facing: real deck titles, product or
+  brand names, team, date, author, section titles, real source material, or
+  polished presentation copy written for the intended audience. Candidate
+  labels, style names, internal notes, implementation details, density labels,
+  delivery constraints, and selection rationale belong in chat, the context
+  ledger, or theme notes.
 - Run a light preview check before asking the user to choose.
 - After the user chooses, summarize and store selected theme notes, remove
   preview-only controls/routes that are not part of the final deck, and commit
   the direction into the normal theme mechanism.
 
-Default preview set:
+Default preview mix:
 
-1. Sketchboard Emoji as the expressive recommended option, unless clearly
-   inappropriate.
-2. Safe/professional.
-3. Content-specific wildcard.
+1. **Density-Fit**: the style direction that best matches the deck's confirmed
+   or inferred density, delivery mode, and audience.
+2. **Safe**: the most readable and delivery-stable direction that still has
+   clear visual character.
+3. **Wildcard**: the strongest content-specific visual thesis, prioritizing
+   semantic fit over catalog balance.
 
 Keep to three directions by default unless the user explicitly asks.
 
@@ -147,20 +153,22 @@ PDF/static export, and viewport scaling without depending on off-stage chrome.
 
 ## Style Selection & Catalog Guidance
 
-If you are choosing or designing a style for the deck, use
-`references/style/index.md` as the style catalog and inspiration library.
+If you are choosing or designing a style for the deck, read
+`references/style/index.md` first. It is both the compact style catalog and the
+progressive loading guide. Load only the category detail files needed for the
+shortlisted candidates.
 
 Use the following guiding principles to select and align the visual system:
 - **Style proposal**: Include a style proposal in the Pre-Build Alignment. If the
   user does not have a pre-existing brand or design system, give at least five
-  curated style recommendations from the style preset catalog with brief reasons
-  for how they fit the audience, content, and delivery target.
+  curated style recommendations from the compact catalog with brief reasons for
+  how they fit the audience, content, and delivery target.
 - **Clear user style**: If the user already chose a style, confirm that main
   direction, then give at least five same-style refinements or nearby catalog
   recommendations with reasons as inspiration rather than pressure to switch.
 - **Preview prompt**: Ask whether to create a minimal interactive preview before
-  full implementation. Recommend doing so by default, and skip it only when the
-  user explicitly declines or asks to proceed directly.
+  full implementation. Recommend doing so by default, using the Density-Fit,
+  Safe, and Wildcard mix unless the user has already given a narrower direction.
 
 ## Fonts
 
@@ -245,7 +253,7 @@ not let libraries break the harness.
 
 ### Aesthetic & Semantic Alignment of Data Visualization
 When integrating charts or data visualizations, avoid generic, unstyled library defaults. Proactively guide the visual design of the chart to align with the chosen style:
-- **Style Integration**: For hand-drawn styles (e.g., Sketchboard), guide the chart to use organic lines or stacked visual elements instead of sharp 2D grids. For technical styles, use high-contrast neon accents and precise gridlines.
+- **Style Integration**: For hand-drawn visual systems, guide the chart to use organic lines or stacked visual elements instead of sharp 2D grids. For technical styles, use high-contrast accents and precise gridlines.
 - **Semantic Focus**: Minimize visual noise (remove redundant gridlines, borders, or legends). Highlight only the key data points or trends that directly support the slide's narrative conclusion.
 - **Progressive Reveals**: Guide data elements to grow or enter sequentially to support live presentation pacing.
 

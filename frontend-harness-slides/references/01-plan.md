@@ -49,15 +49,22 @@ Minimum decisions:
 - **Navigation**: recommend a subtle in-stage navigator plus keyboard/touch
   navigation, but offer no navigator, bottom dots, side dots, section tabs, or a
   project-specific style.
-- **Technology stack**: recommend the simplest stack that fits the harness and
-  the user's preferences. For a new non-trivial deck with no existing stack,
-  React + Vite + Playwright is a reasonable default because it supports
+- **Technology stack**: recommend the stack that fits the harness and the user's
+  preferences. For a new deck with no existing stack, React + Vite + Playwright
+  is a reasonable default because it supports
   componentized scenes, animation state, direct frame routing, browser checks,
   and static deployment. Also name alternatives and tradeoffs: plain
   HTML/CSS/JS is light but weaker for long iteration; Vue/Svelte + Vite are
   fine if the user prefers them; Next.js is useful inside an existing Next app
   but usually heavy for a pure deck; Astro/static generators fit content-heavy
   decks but need extra care for rich interactions.
+- **Testing plan**: confirm the test runner, test command, and required coverage
+  before implementation. The plan should cover render and visible stage content,
+  frame addressing, navigation, interaction isolation, layout safety,
+  console/runtime errors, asset/font loading, and build/export/deployment checks
+  when relevant. Recommend a browser-based test path such as Playwright when
+  the deck has navigation, animation, interaction, screenshots, or delivery
+  checks; also name alternatives and tradeoffs when useful.
 - **Delivery**: confirm online URL, PDF/static export, or both. If the user has
   no hosting preference, recommend Vercel and mention GitHub Pages or Cloudflare
   Pages as static-site alternatives.
@@ -67,10 +74,11 @@ Duration, audience, density, style, stage size, navigation, delivery target, and
 tech stack should guide the work; render them only if the user explicitly wants
 the audience to see them.
 
-For non-trivial decks, prefer an external context document for decisions that
-need to survive multi-hour or multi-turn work. This is project memory, not a
-control mechanism. Follow the user's preferred location; otherwise use project
-docs for deliverable decks and a temp path for small explorations.
+For delivered slide work or multi-turn implementation, prefer an external
+context document for decisions that need to survive beyond the current chat.
+This is project memory, not a control mechanism. Follow the user's preferred
+location; otherwise use project docs for delivered decks and a temp path for
+explorations.
 
 Useful grouped prompt:
 
@@ -110,8 +118,8 @@ Default preview set:
 2. A safe/professional option.
 3. A content-specific wildcard.
 
-All three previews should share at least one anchor slide so the user can
-compare the same content fairly. Provide screenshots and a local server URL.
+All three previews should share an anchor slide so the user can compare the
+same content fairly. Provide screenshots and a local server URL.
 Each preview should include comparable interaction, beat/state change, and
 transition behavior. After the user chooses, summarize a selected theme notes
 before full expansion.
@@ -143,16 +151,16 @@ and expand the full deck.
 
 ## Context Ledger
 
-For non-trivial deliverable decks, establish a context/status ledger before
-implementation unless the user explicitly declines or the task is tiny/local-only.
+For delivered slide work or multi-turn implementation, establish a
+context/status ledger before implementation unless the user explicitly declines.
 This is project memory, not a control mechanism: it keeps decisions and progress
 outside chat so later edits do not depend on hidden conversation state.
 
 If the user has a preference, follow it. Otherwise, store deliverable deck
 context in project docs such as `docs/context.md`,
-`docs/implementation-context.md`, or the handoff note. For a small temporary
-exploration, `/tmp` or another agreed temp path is fine. Do not edit `.gitignore`
-just for this unless the user asks.
+`docs/implementation-context.md`, or the handoff note. For exploratory work,
+`/tmp` or another agreed temp path is fine. Do not edit `.gitignore` just for
+this unless the user asks.
 
 Useful things to track:
 
@@ -202,6 +210,8 @@ motion:
 stage:
 navigation:
 technology_stack:
+testing_plan:
+test_command:
 visual_language:
 delivery_target:
 non_goals:
@@ -213,7 +223,7 @@ This snapshot is implementation memory. It is not slide copy.
 ## Narrative Plan
 
 Before the registry draft, produce a concise narrative/content-mix plan for
-non-trivial decks:
+delivered or multi-turn slide work:
 
 ```text
 orientation:
@@ -282,9 +292,9 @@ Map source fields carefully:
 
 ## Registry Draft
 
-For non-trivial decks, prefer producing a narrative plan and registry draft
-before scene implementation. This is planning guidance, not a polished
-deliverable.
+For delivered or multi-turn slide work, prefer producing a narrative plan and
+registry draft before scene implementation. This is planning guidance, not a
+polished deliverable.
 
 Required fields:
 

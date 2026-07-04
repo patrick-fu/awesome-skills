@@ -7,12 +7,11 @@ local dev server.
 
 ## Verification Tiers
 
-Use project-specific commands. Avoid running the heaviest suite after every tiny
-copy edit, but prefer completing the relevant final check before shipping.
-Deliverable deck projects must have a real test command and at least a small set
-of meaningful tests, even for a one-slide deck. If that is missing, treat it as
-an implementation gap that must be fixed before delivery, not a skipped
-verification detail.
+Use project-specific commands and complete the relevant final check before
+shipping. Every created or modified HTML slide artifact must have a real test
+command and a sufficient multi-angle test suite before delivery. If that is
+missing, treat it as an implementation gap that must be fixed before delivery,
+not a skipped verification detail.
 
 | Tier | Purpose | Use when |
 |---|---|---|
@@ -37,7 +36,7 @@ Bind the audit profile to the confirmed information density.
 
 Use for live talks, sparse slides, demos, and presenter-driven decks.
 
-- Each beat needs at least one visible story element.
+- Each beat needs a visible story element.
 - Avoid requiring long text or multiple reveal elements.
 - Allow large whitespace.
 - Check that the title, primary visual object, and beat intent exist.
@@ -61,7 +60,7 @@ checks; evidence, data, or report sections should use reading-first checks.
 ## Interaction Checks
 
 If the deck supports keyboard, click, tap, swipe, or local interactive regions,
-verify at least:
+verify:
 
 - Space once advances exactly one beat/scene.
 - ArrowRight or ArrowDown once advances exactly one beat/scene.
@@ -75,17 +74,17 @@ verify at least:
 - Direct frame URLs render the intended scene/beat.
 - Frozen mode renders settled states.
 
-When practical, each custom navigation control or local interaction should have
-at least one focused check, such as click-to-expand not advancing the slide,
-wheel navigation changing one scene, or marker-track motion updating after a
-scene change.
+Custom navigation controls and local interactions should have focused checks for
+their expected behavior, such as click-to-expand not advancing the slide, wheel
+navigation changing one scene, or marker-track motion updating after a scene
+change.
 
 ## Mobile Visibility
 
 When mobile/touch support is part of delivery, structural checks are not enough.
 Add mobile viewport checks:
 
-- capture at least one mobile screenshot
+- capture representative mobile screenshots
 - confirm the stage has real intersection with the viewport
 - confirm the stage is not pushed outside the visible area
 - confirm stage width is close to viewport width in portrait scale mode when
@@ -95,11 +94,11 @@ Add mobile viewport checks:
 
 ## Viewport Stress Audit
 
-For non-trivial decks, especially decks with embedded navigation, notes,
-diagnostic controls, or local interactive regions, include a viewport stress
-check before final delivery. Test at least one very small viewport and one
-unusually wide viewport. The exact sizes are project-specific; the goal is to
-catch viewport-level chrome that failed to scale with the stage.
+For decks with embedded navigation, notes, diagnostic controls, or local
+interactive regions, include a viewport stress check before final delivery.
+Choose viewports that expose constrained and wide layouts. The exact sizes are
+project-specific; the goal is to catch viewport-level chrome that failed to
+scale with the stage.
 
 The audit should confirm that every delivered deck control remains inside the
 fixed stage, scales with the stage, preserves its relative position to slide
@@ -109,8 +108,8 @@ as a stage-boundary failure rather than a cosmetic issue.
 
 ## Visual Smoke
 
-After structural audit passes, manually scan representative screenshots. Minimum
-set for non-trivial decks:
+After structural audit passes, manually scan representative screenshots. Useful
+coverage includes:
 
 - opening page
 - core thesis or turning-point page
@@ -227,7 +226,7 @@ not meant to become public unless the project intentionally ships them.
 After deploying, prefer to:
 
 - smoke test the production URL, not only a preview URL
-- open at least one direct frame link on the hosted URL
+- open representative direct frame links on the hosted URL
 - verify basic keyboard or click navigation on the hosted URL
 - verify mobile visibility and navigation when mobile/touch is supported
 - check for console, page, request, font, or asset failures
@@ -280,8 +279,8 @@ Final delivery should state:
 - mobile/touch coverage
 - WebKit/Safari coverage status when relevant
 - skipped checks and residual risk
-- context document path and final update status for non-trivial deliverables, or
-  the reason it was skipped
+- context document path and final update status for delivered or multi-turn work,
+  or the reason it was skipped
 
 When a context document, README, or handoff note exists, keep the final delivery
 state clear: production URL or PDF path, verification status, skipped checks, and

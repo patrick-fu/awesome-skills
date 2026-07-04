@@ -21,6 +21,20 @@ Before creating or modifying any HTML slide artifact, this is a hard gate.
 begin implementation until the user has explicitly confirmed the Pre-Build
 Alignment in plain text.
 
+Demand alignment is the first deliverable. Understand what the user is trying
+to accomplish, who will consume the deck, what the deck should include or
+exclude, and what outcome the presentation should drive. Walk the decision tree
+one branch at a time: purpose and audience, content boundary and story,
+presentation format and density, style and motion, then deck root, build,
+testing, and delivery. For each unresolved branch, ask a plain-text question
+with a recommended answer and rationale. If the answer can be found by reading
+source material, an existing deck, a repository, a deployed URL, or project
+files, inspect that source first and present the inference instead of asking a
+generic question. Keep each round focused on the next highest-impact decision;
+group low-risk execution confirmations only when that reduces back-and-forth
+without hiding uncertainty. Implementation begins only after the user confirms
+the final shared understanding.
+
 **INFERRED ANSWERS ARE NOT CONFIRMATION.** If the user provides substantial
 source material, inspect it first and state the inferred direction, but still ask
 the user to confirm or adjust the key decisions before implementation.

@@ -4,6 +4,54 @@ Use this before creating or substantially changing a deck. The goal is to turn a
 user brief into explicit implementation constraints, a content registry, and a
 small visual direction decision before scene code starts.
 
+## Demand Alignment Interview
+
+Before planning the harness, align on the user's real presentation need. The
+intake is not a checklist collection exercise; it is the process that turns a
+vague request into a shared understanding the user can confirm.
+
+Start with the highest-impact unknown. Resolve upstream decisions before
+downstream execution details:
+
+1. **Purpose and audience**: what the deck needs to achieve, who will see it,
+   and what they should understand, believe, or do afterward.
+2. **Content boundary and story**: what belongs in the deck, what should be left
+   out, which source material matters most, and what core narrative should carry
+   the presentation.
+3. **Use context**: live talk, workshop, recording, product pitch, internal
+   review, reading-first document, or another consumption mode.
+4. **Density and pacing**: speaker-led, reading-first, or hybrid, plus expected
+   duration and section balance.
+5. **Visual and motion direction**: style family, references, preview need,
+   motion intensity, and delivery risk.
+6. **Execution constraints**: `deck root`, stack, harness contracts, testing,
+   context ledger, delivery target, and artifact hygiene.
+
+Ask one major decision branch at a time when the direction is unclear. Provide
+your recommended answer and rationale with each question so the user can react
+to a concrete proposal instead of inventing the deck from scratch. For compact
+or low-risk tasks, grouped confirmation is fine when it is ordered by decision
+priority and each important default is visible.
+
+If a question can be answered by exploring the user's files, source material,
+old deck, repository, or URL, inspect that source first. Then summarize the
+inference and ask the user to confirm or correct only the parts that materially
+affect the result.
+
+Useful first-turn pattern for a vague request:
+
+```text
+I recommend first locking the purpose and audience, because that decides the
+story, density, and style. My read is <recommended purpose/audience> because
+<reason>. If that is right, I will shape the deck as <format/density>. If not,
+tell me the real audience or outcome and I will recalibrate before choosing
+style or implementation details.
+```
+
+Before implementation, produce a compact shared-understanding snapshot. Treat it
+as the user's confirmation target, not slide copy. Start work only after the
+user confirms it or edits it into a direction they accept.
+
 ## Intake Gate
 
 For each important decision, give a recommended default with a reason and ask

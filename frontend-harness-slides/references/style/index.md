@@ -394,3 +394,315 @@ scheme: light
 best_for: Before/after transformations, diff explanations, code or text annotation.
 avoid_for: Abstract vision slides with no concrete change.
 ```
+
+```yaml
+name: Magazine Masthead
+file: magazine-masthead.md
+tagline: A newsstand cover with saturated ink and an enormous fashion serif demanding attention.
+mood: [theatrical, authoritative, unapologetic]
+tone: [editorial, published, confident]
+formality: high
+density: low-medium
+scheme: mixed
+best_for: Deck covers, section thresholds, big statements, any moment needing editorial gravitas.
+avoid_for: Dense evidence pages or several parallel facts — the register turns bombastic.
+```
+
+```yaml
+name: Solar Biennale Poster
+file: solar-biennale-poster.md
+tagline: An exhibition poster on warm parchment with a slow solar glow and one enormous serif statement.
+mood: [contemplative, warm, institutionally confident]
+tone: [cultural, dignified, slow]
+formality: high
+density: low
+scheme: light
+best_for: Cultural programme decks, artistic research, manifesto statements, slow dignified reading.
+avoid_for: Dashboard density, tech-forward energy, anything needing to feel fast or urgent.
+```
+
+```yaml
+name: Warm Editorial Feature
+file: warm-editorial-feature.md
+tagline: A magazine feature spread on cream paper with serif display and pull-quote rhythm.
+mood: [inviting, narrative, warm]
+tone: [editorial, conversational, literary]
+formality: medium-high
+density: medium
+scheme: light
+best_for: Story-led decks, long-form features, narrative case studies, interview-driven content.
+avoid_for: Pure data dashboards or anything that must read as a UI rather than a publication.
+```
+
+```yaml
+name: Scholars' Vellum
+file: scholars-vellum.md
+tagline: A classical manuscript on aged parchment with marginalia and serif authority.
+mood: [scholarly, timeless, reverent]
+tone: [academic, authoritative, deliberate]
+formality: high
+density: medium-high
+scheme: light
+best_for: Historical framing, theoretical arguments, deep-dive intellectual content, classical references.
+avoid_for: Fast-paced product launches or casual workshop energy.
+```
+
+```yaml
+name: Front Page Broadsheet
+file: front-page-broadsheet.md
+tagline: A newspaper front page with multi-column layout and headline hierarchy.
+mood: [informative, urgent, authoritative]
+tone: [journalistic, structured, direct]
+formality: high
+density: high
+scheme: light
+best_for: News-heavy updates, multi-story briefings, executive morning reads, packed content.
+avoid_for: Single-idea keynote moments or emotional storytelling.
+```
+
+```yaml
+name: Neo-Brutalist Bulletin
+file: neo-brutalist-bulletin.md
+tagline: A protest poster taped to concrete with thick black borders and hard offset shadows.
+mood: [confident, blunt, irreverent]
+tone: [bold, human, unapologetic]
+formality: medium-low
+density: medium-high
+scheme: light
+best_for: Product launches, process overviews, comparison decks, dense info with bold character.
+avoid_for: Delicate subtlety, reverent minimalism, anything that needs to whisper.
+```
+
+```yaml
+name: Riso Print Zine
+file: riso-print-zine.md
+tagline: A risograph zine with limited palette and handmade collage density.
+mood: [playful, handmade, rebellious]
+tone: [DIY, warm, slightly chaotic]
+formality: low
+density: medium-high
+scheme: light
+best_for: Creative process, community stories, zine-style documentation, youth culture.
+avoid_for: Formal executive readouts or precise technical documentation.
+```
+
+```yaml
+name: Red Wedge Agitprop
+file: red-wedge-agitprop.md
+tagline: A constructivist political poster with red wedge geometry and diagonal dynamism.
+mood: [urgent, bold, ideological]
+tone: [agitational, graphic, confrontational]
+formality: medium
+density: medium
+scheme: mixed
+best_for: Call-to-action, movement framing, bold thesis statements, activist energy.
+avoid_for: Nuanced evidence or balanced comparison — the wedge does not do nuance.
+```
+
+```yaml
+name: Duotone Session
+file: duotone-session.md
+tagline: A Blue Note LP sleeve with a duotone photo and enormous condensed gothic type.
+mood: [cool, disciplined, workmanlike]
+tone: [authentic, craft-led, session-like]
+formality: medium
+density: low-medium
+scheme: dark
+best_for: Product launches with musical angle, artist spotlights, editorial grit without fashion gloss.
+avoid_for: Corporate polish, playful illustrations, data-heavy readouts.
+```
+
+```yaml
+name: Botanical Specimen Plate
+file: botanical-specimen-plate.md
+tagline: A scientific botanical illustration with fine ink lines and Latin annotation.
+mood: [observational, precise, natural]
+tone: [scientific, patient, delicate]
+formality: high
+density: medium
+scheme: light
+best_for: Natural world framing, growth narratives, taxonomy, organic systems, patient reading.
+avoid_for: High-energy launches or dense data dashboards.
+```
+
+```yaml
+name: Woodblock Floating World
+file: woodblock-floating-world.md
+tagline: A Japanese ukiyo-e woodblock with floating world composition and sumi-e textures.
+mood: [contemplative, flowing, atmospheric]
+tone: [artistic, patient, layered]
+formality: medium-high
+density: medium
+scheme: light
+best_for: Journey narratives, layered systems, cultural framing, contemplative visual storytelling.
+avoid_for: Sharp technical diagrams or fast-paced punchlines.
+```
+
+```yaml
+name: Cyanotype Drafting Table
+file: cyanotype-drafting-table.md
+tagline: A blueprint drafting table with cyanotype tones and technical linework.
+mood: [technical, precise, architectural]
+tone: [engineering, clear, systematic]
+formality: high
+density: medium-high
+scheme: light
+best_for: System architecture, technical specs, engineering diagrams, blueprint-level planning.
+avoid_for: Emotional storytelling or purely visual brand moments.
+```
+
+```yaml
+name: Expedition Screenprint
+file: expedition-screenprint.md
+tagline: A field journal screenprint with stamped layers and map coordinates.
+mood: [adventurous, rugged, documented]
+tone: [field-ready, layered, hand-recorded]
+formality: medium
+density: medium
+scheme: light
+best_for: Exploration narratives, field research, journey mapping, discovery stories.
+avoid_for: Polished corporate decks or precise financial readouts.
+```
+
+```yaml
+name: Machine-Age Deco
+file: machine-age-deco.md
+tagline: An Art Deco machine age with geometric patterns and stepped forms.
+mood: [optimistic, geometric, luxurious]
+tone: [architectural, streamlined, confident]
+formality: high
+density: medium
+scheme: mixed
+best_for: Grand visions, infrastructure stories, ambitious roadmaps, 1920s-30s glamour energy.
+avoid_for: Casual workshop vibes or hand-drawn looseness.
+```
+
+```yaml
+name: Clay & Ma
+file: clay-and-ma.md
+tagline: Hand-formed ceramic with wabi-sabi irregularity and matte glaze surfaces.
+mood: [organic, imperfect, grounded]
+tone: [tactile, calm, artisanal]
+formality: medium-low
+density: low-medium
+scheme: light
+best_for: Craft narratives, natural product framing, mindful or wellness content, handmade stories.
+avoid_for: Sharp technical precision or corporate authority moments.
+```
+
+```yaml
+name: Analog Cutout Collage
+file: analog-cutout-collage.md
+tagline: A hand-cut paper collage with torn edges and mixed textures.
+mood: [playful, tactile, assembled]
+tone: [handmade, layered, energetic]
+formality: low-medium
+density: medium-high
+scheme: mixed
+best_for: Creative process, idea assembly, mixed-media stories, workshop documentation.
+avoid_for: Formal executive briefings or pixel-precise technical diagrams.
+```
+
+```yaml
+name: Cassette-Era Packaging
+file: cassette-era-packaging.md
+tagline: A cassette tape J-card with 80s-90s graphic energy and mixtape layout.
+mood: [nostalgic, energetic, tactile]
+tone: [retro, graphic, music-culture]
+formality: low-medium
+density: medium
+scheme: mixed
+best_for: Music-related content, nostalgia framing, mixtape-style curation, cultural throwbacks.
+avoid_for: Formal corporate reports or minimalist luxury moments.
+```
+
+```yaml
+name: Widescreen Title Card
+file: widescreen-title-card.md
+tagline: A cinematic letterbox title card with film typography and atmospheric stillness.
+mood: [epic, atmospheric, cinematic]
+tone: [filmic, deliberate, grand]
+formality: high
+density: low
+scheme: dark
+best_for: Opening titles, section interludes, grand reveals, cinematic framing moments.
+avoid_for: Dense content pages or quick-fire information delivery.
+```
+
+```yaml
+name: Mid-Century Grove
+file: mid-century-grove.md
+tagline: Organic mid-century calm with natural wood tones and gentle curves.
+mood: [warm, organic, calm]
+tone: [natural, grounded, timeless]
+formality: medium
+density: medium
+scheme: light
+best_for: Sustainability framing, natural product stories, calm authority, organic systems.
+avoid_for: High-energy tech launches or sharp industrial aesthetics.
+```
+
+```yaml
+name: After-Hours Luxe
+file: after-hours-luxe.md
+tagline: A dark cocktail lounge with deep jewel tones, gold accents, and velvet confidence.
+mood: [sophisticated, indulgent, intimate]
+tone: [luxurious, nocturnal, polished]
+formality: high
+density: low-medium
+scheme: dark
+best_for: Premium positioning, evening events, exclusive framing, sophisticated brand moments.
+avoid_for: Daytime casual energy or transparent open-source framing.
+```
+
+```yaml
+name: Soft Pastel Friendly
+file: soft-pastel-friendly.md
+tagline: Approachable pastel warmth with rounded pill geometry and gentle spring motion.
+mood: [friendly, warm, unthreatening]
+tone: [inviting, gentle, nostalgic]
+formality: low-medium
+density: medium
+scheme: light
+best_for: Onboarding flows, community decks, educational walkthroughs, audience-welcoming content.
+avoid_for: Institutional gravitas, high-stakes drama, anything demanding austere authority.
+```
+
+```yaml
+name: Retro Windows
+file: retro-windows.md
+tagline: Windows 3.1/95 nostalgia with beveled chrome, system gray palette, and tiled windows.
+mood: [nostalgic, familiar, utilitarian]
+tone: [retro-OS, boxy, comfortable]
+formality: medium
+density: medium-high
+scheme: light
+best_for: Developer tooling stories, nostalgia framing, multi-panel workflows, retro-tech vibes.
+avoid_for: Modern minimalist luxury or organic natural aesthetics.
+```
+
+```yaml
+name: Objective Swiss Grid
+file: objective-swiss-grid.md
+tagline: Swiss International Style with rigid grid structure, sans-serif clarity, and objective order.
+mood: [objective, systematic, precise]
+tone: [rational, structured, impartial]
+formality: high
+density: medium
+scheme: light
+best_for: Data-heavy reports, analytical frameworks, systematic thinking, clear information design.
+avoid_for: Emotional storytelling or expressive visual brand moments.
+```
+
+```yaml
+name: Liquid Glass
+file: liquid-glass.md
+tagline: Apple design language with frosted glass depth, spatial layering, and refined translucency.
+mood: [premium, fluid, refined]
+tone: [Apple-native, spatial, polished]
+formality: high
+density: medium
+scheme: mixed
+best_for: Product showcases, premium tech framing, Apple-platform content, layered UI metaphors.
+avoid_for: Low-budget DIY energy or hand-drawn authenticity claims.
+```

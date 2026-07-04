@@ -75,7 +75,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 这套风格系统不是让每一页套同一个模板。它更强调在一个统一风格里，根据内容语义切换版式、
 动效、交互方式和出现节奏。
 
-完整画廊覆盖三类密度：Minimal Keynote、Balanced Hybrid、Text Report。每个风格都展示
+完整画廊覆盖四类密度：Minimal Keynote、Balanced Hybrid、Print & Cultural Traditions、Text Report。每个风格都展示
 低、中、高三种密度示例。
 
 ### Minimal keynote
@@ -241,6 +241,116 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/debug-reaction-board-medium.webp" width="32%" alt="中密度：自检流水线" />
   <img src="showcase/style-gallery/debug-reaction-board-high.webp" width="32%" alt="高密度：风险看板" />
 </p>
+
+### 印刷与文化传统
+
+源自编辑出版、印刷和文化设计传统的风格。展示截图即将推出。
+
+**编辑出版**
+
+#### [Magazine Masthead](references/style/magazine-masthead.md)
+
+新闻摊封面般的自信，饱和墨色底色和超大时尚衬线标题引人注目。
+
+#### [Solar Biennale Poster](references/style/solar-biennale-poster.md)
+
+展览海报般的温暖，羊皮纸底色、日光黄氛围和一句巨大的衬线宣言。
+
+#### [Warm Editorial Feature](references/style/warm-editorial-feature.md)
+
+杂志专题页风格，暖奶油纸底色、衬线展示字体和引用节奏，适合叙事阅读。
+
+#### [Scholars' Vellum](references/style/scholars-vellum.md)
+
+古典手稿，古老羊皮纸、页边批注和衬线权威感，适合深度思想内容。
+
+#### [Front Page Broadsheet](references/style/front-page-broadsheet.md)
+
+报纸头版，多栏布局和标题层级，适合密集信息交付。
+
+**海报与抗议**
+
+#### [Neo-Brutalist Bulletin](references/style/neo-brutalist-bulletin.md)
+
+抗议海报能量，粗黑边框、硬投影和一个高电压强调色。
+
+#### [Riso Print Zine](references/style/riso-print-zine.md)
+
+Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
+
+#### [Red Wedge Agitprop](references/style/red-wedge-agitprop.md)
+
+构成主义政治海报，红色楔形几何和对角线动能，适合行动号召。
+
+#### [Duotone Session](references/style/duotone-session.md)
+
+Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、克制、匠人感。
+
+**插画与工艺**
+
+#### [Botanical Specimen Plate](references/style/botanical-specimen-plate.md)
+
+科学植物插画，精细墨线和拉丁标注，适合自然世界主题。
+
+#### [Woodblock Floating World](references/style/woodblock-floating-world.md)
+
+日本浮世绘木刻，浮动世界构图和水墨纹理，适合沉思视觉叙事。
+
+#### [Cyanotype Drafting Table](references/style/cyanotype-drafting-table.md)
+
+蓝图制图，蓝晒色调和技术线稿，适合系统架构和工程图表。
+
+#### [Expedition Screenprint](references/style/expedition-screenprint.md)
+
+田野日志丝网印，叠印图层和地图坐标，适合探索发现叙事。
+
+#### [Machine-Age Deco](references/style/machine-age-deco.md)
+
+Art Deco 机器时代，几何图案和阶梯造型，适合宏大愿景和雄心路线图。
+
+#### [Clay & Ma](references/style/clay-and-ma.md)
+
+手捏陶瓷，侘寂不规则感和哑光釉面，适合工艺和天然产品主题。
+
+#### [Analog Cutout Collage](references/style/analog-cutout-collage.md)
+
+手工剪纸拼贴，撕纸边缘和混合质感，适合创意过程和想法组装。
+
+**媒体与包装**
+
+#### [Cassette-Era Packaging](references/style/cassette-era-packaging.md)
+
+磁带 J-card 设计，80-90 年代图形能量和混音带布局，适合音乐和怀旧内容。
+
+#### [Widescreen Title Card](references/style/widescreen-title-card.md)
+
+电影宽银幕标题卡，电影字体和氛围静止感，适合开场标题和宏大揭示。
+
+**当代数字**
+
+#### [Mid-Century Grove](references/style/mid-century-grove.md)
+
+中世纪有机沉静，天然木色调和柔和曲线，适合可持续和天然产品故事。
+
+#### [After-Hours Luxe](references/style/after-hours-luxe.md)
+
+深夜鸡尾酒会奢华，深宝石色调和金色点缀，适合高端定位和夜间场景。
+
+#### [Soft Pastel Friendly](references/style/soft-pastel-friendly.md)
+
+亲切粉彩温暖，圆角药丸几何和柔和弹簧动效，适合引导页和社区 deck。
+
+#### [Retro Windows](references/style/retro-windows.md)
+
+Windows 3.1/95 怀旧，斜面镀铬和系统灰调色板，适合开发者工具和复古科技氛围。
+
+#### [Objective Swiss Grid](references/style/objective-swiss-grid.md)
+
+瑞士国际风格，刚性网格结构和无衬线清晰度，适合数据报告和分析框架。
+
+#### [Liquid Glass](references/style/liquid-glass.md)
+
+Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Apple 平台内容。
 
 ### Text report
 

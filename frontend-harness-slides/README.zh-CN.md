@@ -50,83 +50,260 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 ## 视觉风格画廊
 
-> 📚 预览全部风格：[风格目录](references/style/preview.zh-CN.md)
-
 这套风格系统不是让每一页套同一个模板。它更强调在一个统一风格里，根据内容语义切换版式、
 动效、交互方式和出现节奏。
 
-完整目录包含多种风格预设，覆盖演讲展示、混合阅读和高密度文档三类。下面是 6 个代表例子。
+完整画廊覆盖三类密度：Minimal Keynote、Balanced Hybrid、Text Report。每个风格都展示
+低、中、高三种密度示例。
 
 ### Minimal keynote
 
-#### [Style 06: Blackboard chalk talk](references/style/minimal-keynote.md#style-06-blackboard-chalk-talk)
+#### [Minimal Product Keynote](references/style/minimal-keynote.md#minimal-product-keynote)
 
-手绘、教学、推理导向。用深绿色黑板、粉笔线条和公式来呈现推导过程。
+高级、聚焦、稀疏。适合开场判断、产品亮相和单句大观点。
 
 <p align="center">
-  <img src="references/style/screenshots/style-06-low.webp" width="32%" alt="低密度：核心公式" />
-  <img src="references/style/screenshots/style-06-med.webp" width="32%" alt="中密度：推导流程" />
-  <img src="references/style/screenshots/style-06-high.webp" width="32%" alt="高密度：量子便当" />
+  <img src="showcase/style-gallery/minimal-product-keynote-low.webp" width="32%" alt="低密度：产品发布主画面" />
+  <img src="showcase/style-gallery/minimal-product-keynote-medium.webp" width="32%" alt="中密度：产品发布结构" />
+  <img src="showcase/style-gallery/minimal-product-keynote-high.webp" width="32%" alt="高密度：产品发布细节" />
 </p>
 
-#### [Style 02: Sketch board emoji](references/style/minimal-keynote.md#style-02-sketch-board-emoji)
+#### [Sketch Board Emoji](references/style/minimal-keynote.md#sketch-board-emoji)
 
 温暖、亲切，有人参与感。常用便利贴、胶带、emoji 角色和小型交互细节。
 
 <p align="center">
-  <img src="references/style/screenshots/style-02-low.webp" width="32%" alt="低密度：为什么离线优先" />
-  <img src="references/style/screenshots/style-02-med.webp" width="32%" alt="中密度：同步时间线" />
-  <img src="references/style/screenshots/style-02-high.webp" width="32%" alt="高密度：策略便当" />
+  <img src="showcase/style-gallery/sketch-board-emoji-low.webp" width="32%" alt="低密度：为什么离线优先" />
+  <img src="showcase/style-gallery/sketch-board-emoji-medium.webp" width="32%" alt="中密度：同步时间线" />
+  <img src="showcase/style-gallery/sketch-board-emoji-high.webp" width="32%" alt="高密度：策略便当" />
+</p>
+
+#### [Interactive Dialogue Stage](references/style/minimal-keynote.md#interactive-dialogue-stage)
+
+对话驱动，带一点剧场感。适合呈现两个角色、系统或说话方之间的轮流互动。
+
+<p align="center">
+  <img src="showcase/style-gallery/interactive-dialogue-stage-low.webp" width="32%" alt="低密度：对话开场" />
+  <img src="showcase/style-gallery/interactive-dialogue-stage-medium.webp" width="32%" alt="中密度：双控制台" />
+  <img src="showcase/style-gallery/interactive-dialogue-stage-high.webp" width="32%" alt="高密度：对话记录" />
+</p>
+
+#### [Kinetic Type Punchline](references/style/minimal-keynote.md#kinetic-type-punchline)
+
+强烈、海报化、高能量。适合章节转折、强对比观点和需要被记住的金句。
+
+<p align="center">
+  <img src="showcase/style-gallery/kinetic-type-punchline-low.webp" width="32%" alt="低密度：动感短句" />
+  <img src="showcase/style-gallery/kinetic-type-punchline-medium.webp" width="32%" alt="中密度：文字对比" />
+  <img src="showcase/style-gallery/kinetic-type-punchline-high.webp" width="32%" alt="高密度：海报细节" />
+</p>
+
+#### [Object Metaphor Hero](references/style/minimal-keynote.md#object-metaphor-hero)
+
+拟物、触感强、隐喻驱动。把准备、规划、工具箱这类抽象概念变成可看的物件。
+
+<p align="center">
+  <img src="showcase/style-gallery/object-metaphor-hero-low.webp" width="32%" alt="低密度：核心物件" />
+  <img src="showcase/style-gallery/object-metaphor-hero-medium.webp" width="32%" alt="中密度：物件分区" />
+  <img src="showcase/style-gallery/object-metaphor-hero-high.webp" width="32%" alt="高密度：工具箱布局" />
+</p>
+
+#### [Blackboard Chalk Talk](references/style/minimal-keynote.md#blackboard-chalk-talk)
+
+手绘、教学、推理导向。用深绿色黑板、粉笔线条和公式来呈现推导过程。
+
+<p align="center">
+  <img src="showcase/style-gallery/blackboard-chalk-talk-low.webp" width="32%" alt="低密度：核心公式" />
+  <img src="showcase/style-gallery/blackboard-chalk-talk-medium.webp" width="32%" alt="中密度：推导流程" />
+  <img src="showcase/style-gallery/blackboard-chalk-talk-high.webp" width="32%" alt="高密度：量子便当" />
+</p>
+
+#### [Arcade Boss Fight](references/style/minimal-keynote.md#arcade-boss-fight)
+
+复古、游戏化、带风险感。把技术挑战表达成 boss fight、HP 条和道具栏。
+
+<p align="center">
+  <img src="showcase/style-gallery/arcade-boss-fight-low.webp" width="32%" alt="低密度：战斗界面" />
+  <img src="showcase/style-gallery/arcade-boss-fight-medium.webp" width="32%" alt="中密度：街机进度" />
+  <img src="showcase/style-gallery/arcade-boss-fight-high.webp" width="32%" alt="高密度：道具栏" />
+</p>
+
+#### [Spotlight Quote Poster](references/style/minimal-keynote.md#spotlight-quote-poster)
+
+戏剧化、沉思感。用暗场、聚光和大字号 quote 营造停顿、收束和哲学表达。
+
+<p align="center">
+  <img src="showcase/style-gallery/spotlight-quote-poster-low.webp" width="32%" alt="低密度：聚光 quote" />
+  <img src="showcase/style-gallery/spotlight-quote-poster-medium.webp" width="32%" alt="中密度：quote 上下文" />
+  <img src="showcase/style-gallery/spotlight-quote-poster-high.webp" width="32%" alt="高密度：quote 海报细节" />
 </p>
 
 ### Balanced hybrid
 
-#### [Style 13: Subway map of intent](references/style/balanced-hybrid.md#style-13-transit-flow-subway-map)
+#### [Signal Pipeline Flow](references/style/balanced-hybrid.md#signal-pipeline-flow)
+
+技术化、精确。用节点、路由和发光箭头表现数据、信号或决策流。
+
+<p align="center">
+  <img src="showcase/style-gallery/signal-pipeline-flow-low.webp" width="32%" alt="低密度：信号入口" />
+  <img src="showcase/style-gallery/signal-pipeline-flow-medium.webp" width="32%" alt="中密度：路由管线" />
+  <img src="showcase/style-gallery/signal-pipeline-flow-high.webp" width="32%" alt="高密度：系统地图" />
+</p>
+
+#### [Mechanical Scoring Funnel](references/style/balanced-hybrid.md#mechanical-scoring-funnel)
+
+有能量、偏评估。把筛选、评分和优先级表现成轨道、弹珠、分数和漏斗路径。
+
+<p align="center">
+  <img src="showcase/style-gallery/mechanical-scoring-funnel-low.webp" width="32%" alt="低密度：评分瞬间" />
+  <img src="showcase/style-gallery/mechanical-scoring-funnel-medium.webp" width="32%" alt="中密度：漏斗轨道" />
+  <img src="showcase/style-gallery/mechanical-scoring-funnel-high.webp" width="32%" alt="高密度：评分面板" />
+</p>
+
+#### [Collaborative Pairing Board](references/style/balanced-hybrid.md#collaborative-pairing-board)
+
+清爽、协作导向。适合展示角色分工、同步点，以及人、团队或系统之间的配合。
+
+<p align="center">
+  <img src="showcase/style-gallery/collaborative-pairing-board-low.webp" width="32%" alt="低密度：协作观点" />
+  <img src="showcase/style-gallery/collaborative-pairing-board-medium.webp" width="32%" alt="中密度：协作看板" />
+  <img src="showcase/style-gallery/collaborative-pairing-board-high.webp" width="32%" alt="高密度：同步计划" />
+</p>
+
+#### [Studio Mixing Console](references/style/balanced-hybrid.md#studio-mixing-console)
+
+专业、拟物。用推子、旋钮和电平表表现参数调节、噪音过滤和多因素平衡。
+
+<p align="center">
+  <img src="showcase/style-gallery/studio-mixing-console-low.webp" width="32%" alt="低密度：主信号" />
+  <img src="showcase/style-gallery/studio-mixing-console-medium.webp" width="32%" alt="中密度：推子面板" />
+  <img src="showcase/style-gallery/studio-mixing-console-high.webp" width="32%" alt="高密度：调音台细节" />
+</p>
+
+#### [Subway Map of Intent](references/style/balanced-hybrid.md#subway-map-of-intent)
 
 系统化、结构清楚。把复杂工作流表现成地铁线路和换乘站。
 
 <p align="center">
-  <img src="references/style/screenshots/style-13-low.webp" width="32%" alt="低密度：数据包旅程" />
-  <img src="references/style/screenshots/style-13-med.webp" width="32%" alt="中密度：地铁线路图" />
-  <img src="references/style/screenshots/style-13-high.webp" width="32%" alt="高密度：时刻表便当" />
+  <img src="showcase/style-gallery/subway-map-of-intent-low.webp" width="32%" alt="低密度：数据包旅程" />
+  <img src="showcase/style-gallery/subway-map-of-intent-medium.webp" width="32%" alt="中密度：地铁线路图" />
+  <img src="showcase/style-gallery/subway-map-of-intent-high.webp" width="32%" alt="高密度：时刻表便当" />
 </p>
 
-#### [Style 16: Debug reaction board](references/style/balanced-hybrid.md#style-16-diagnostic-kanban-board)
+#### [Kitchen Prep Station](references/style/balanced-hybrid.md#kitchen-prep-station)
+
+温暖、具体。把原始输入到干净输出的过程表现成备料台、修剪、菜谱步骤和摆盘。
+
+<p align="center">
+  <img src="showcase/style-gallery/kitchen-prep-station-low.webp" width="32%" alt="低密度：备料观点" />
+  <img src="showcase/style-gallery/kitchen-prep-station-medium.webp" width="32%" alt="中密度：备料台" />
+  <img src="showcase/style-gallery/kitchen-prep-station-high.webp" width="32%" alt="高密度：菜谱细节" />
+</p>
+
+#### [Context Bento Box](references/style/balanced-hybrid.md#context-bento-box)
+
+紧凑、有组织。用分格和层叠盒子表达 handoff、多类别概览和上下文包装。
+
+<p align="center">
+  <img src="showcase/style-gallery/context-bento-box-low.webp" width="32%" alt="低密度：便当概念" />
+  <img src="showcase/style-gallery/context-bento-box-medium.webp" width="32%" alt="中密度：便当分格" />
+  <img src="showcase/style-gallery/context-bento-box-high.webp" width="32%" alt="高密度：层叠便当" />
+</p>
+
+#### [Debug Reaction Board](references/style/balanced-hybrid.md#debug-reaction-board)
 
 开发者原生、偏诊断。使用霓虹状态标记、终端界面和行动看板。
 
 <p align="center">
-  <img src="references/style/screenshots/style-16-low.webp" width="32%" alt="低密度：系统就绪" />
-  <img src="references/style/screenshots/style-16-med.webp" width="32%" alt="中密度：自检流水线" />
-  <img src="references/style/screenshots/style-16-high.webp" width="32%" alt="高密度：风险看板" />
+  <img src="showcase/style-gallery/debug-reaction-board-low.webp" width="32%" alt="低密度：系统就绪" />
+  <img src="showcase/style-gallery/debug-reaction-board-medium.webp" width="32%" alt="中密度：自检流水线" />
+  <img src="showcase/style-gallery/debug-reaction-board-high.webp" width="32%" alt="高密度：风险看板" />
 </p>
 
 ### Text report
 
-#### [Style 18: Maintainer issue brief](references/style/text-report.md#style-18-developer-ticket-brief)
+#### [Research Memo](references/style/text-report.md#research-memo)
+
+克制、可信、有研究感。适合研究发现、高管摘要和需要自洽阅读的证据页面。
+
+<p align="center">
+  <img src="showcase/style-gallery/research-memo-low.webp" width="32%" alt="低密度：研究封面" />
+  <img src="showcase/style-gallery/research-memo-medium.webp" width="32%" alt="中密度：研究备忘录" />
+  <img src="showcase/style-gallery/research-memo-high.webp" width="32%" alt="高密度：证据页面" />
+</p>
+
+#### [Maintainer Issue Brief](references/style/text-report.md#maintainer-issue-brief)
 
 整洁、结构化、行动导向。灵感来自现代 issue tracker 和代码审查工具。
 
 <p align="center">
-  <img src="references/style/screenshots/style-18-low.webp" width="32%" alt="低密度：工单头部" />
-  <img src="references/style/screenshots/style-18-med.webp" width="32%" alt="中密度：事故时间线" />
-  <img src="references/style/screenshots/style-18-high.webp" width="32%" alt="高密度：代码审查 diff" />
+  <img src="showcase/style-gallery/maintainer-issue-brief-low.webp" width="32%" alt="低密度：工单头部" />
+  <img src="showcase/style-gallery/maintainer-issue-brief-medium.webp" width="32%" alt="中密度：事故时间线" />
+  <img src="showcase/style-gallery/maintainer-issue-brief-high.webp" width="32%" alt="高密度：代码审查 diff" />
 </p>
 
-#### [Style 21: Field notes report](references/style/text-report.md#style-21-field-notes-report)
+#### [Decision Record](references/style/text-report.md#decision-record)
+
+严谨、架构化。用 ADR 节奏呈现上下文、决策、权衡和验证。
+
+<p align="center">
+  <img src="showcase/style-gallery/decision-record-low.webp" width="32%" alt="低密度：决策标题" />
+  <img src="showcase/style-gallery/decision-record-medium.webp" width="32%" alt="中密度：决策记录" />
+  <img src="showcase/style-gallery/decision-record-high.webp" width="32%" alt="高密度：权衡矩阵" />
+</p>
+
+#### [Benchmark Matrix](references/style/text-report.md#benchmark-matrix)
+
+分析型、比较型。强调结构化证据、评估标准、指标和表格化对比。
+
+<p align="center">
+  <img src="showcase/style-gallery/benchmark-matrix-low.webp" width="32%" alt="低密度：基准结论" />
+  <img src="showcase/style-gallery/benchmark-matrix-medium.webp" width="32%" alt="中密度：指标网格" />
+  <img src="showcase/style-gallery/benchmark-matrix-high.webp" width="32%" alt="高密度：对比矩阵" />
+</p>
+
+#### [Field Notes Report](references/style/text-report.md#field-notes-report)
 
 有纸张触感，偏观察记录。使用账簿纸、木炭墨水和卡片网格。
 
 <p align="center">
-  <img src="references/style/screenshots/style-21-low.webp" width="32%" alt="低密度：调研封面" />
-  <img src="references/style/screenshots/style-21-med.webp" width="32%" alt="中密度：用户旅程图" />
-  <img src="references/style/screenshots/style-21-high.webp" width="32%" alt="高密度：观察网格" />
+  <img src="showcase/style-gallery/field-notes-report-low.webp" width="32%" alt="低密度：调研封面" />
+  <img src="showcase/style-gallery/field-notes-report-medium.webp" width="32%" alt="中密度：用户旅程图" />
+  <img src="showcase/style-gallery/field-notes-report-high.webp" width="32%" alt="高密度：观察网格" />
+</p>
+
+#### [Operating Manual](references/style/text-report.md#operating-manual)
+
+流程化、高对比。用工业 runbook、终端块和步骤执行来表达可重复操作。
+
+<p align="center">
+  <img src="showcase/style-gallery/operating-manual-low.webp" width="32%" alt="低密度：操作手册标题" />
+  <img src="showcase/style-gallery/operating-manual-medium.webp" width="32%" alt="中密度：命令控制台" />
+  <img src="showcase/style-gallery/operating-manual-high.webp" width="32%" alt="高密度：流程细节" />
+</p>
+
+#### [Checklist Ledger](references/style/text-report.md#checklist-ledger)
+
+可靠、务实。用账簿线、紧凑行和可见 check 表达验收标准和最终准备度。
+
+<p align="center">
+  <img src="showcase/style-gallery/checklist-ledger-low.webp" width="32%" alt="低密度：准备度结论" />
+  <img src="showcase/style-gallery/checklist-ledger-medium.webp" width="32%" alt="中密度：审计清单" />
+  <img src="showcase/style-gallery/checklist-ledger-high.webp" width="32%" alt="高密度：清单账簿" />
+</p>
+
+#### [Annotated Source & Diff](references/style/text-report.md#annotated-source-diff)
+
+可审查、强调变化。用 before/after、注释和类源码界面直接证明改动价值。
+
+<p align="center">
+  <img src="showcase/style-gallery/annotated-source-diff-low.webp" width="32%" alt="低密度：diff 观点" />
+  <img src="showcase/style-gallery/annotated-source-diff-medium.webp" width="32%" alt="中密度：源码注释" />
+  <img src="showcase/style-gallery/annotated-source-diff-high.webp" width="32%" alt="高密度：源码 diff" />
 </p>
 
 <p align="center">
   <a href="https://frontend-harness-slides-demo.vercel.app/"><b>🎬 动态 Demo</b></a>
-  &nbsp;|&nbsp;
-  <a href="references/style/preview.zh-CN.md"><b>📚 预览全部风格</b></a>
 </p>
 
 ## 安装

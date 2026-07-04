@@ -45,15 +45,8 @@ Preview rules:
   preview-only controls/routes that are not part of the final deck, and commit
   the direction into the normal theme mechanism.
 
-Default preview mix:
-
-1. **Density-Fit**: the style direction that best matches the deck's confirmed
-   or inferred density, delivery mode, and audience.
-2. **Safe**: the most readable and delivery-stable direction that still has
-   clear visual character.
-3. **Wildcard**: the strongest content-specific visual thesis, prioritizing
-   semantic fit over catalog balance.
-
+Use the Density-Fit / Safe / Wildcard preview mix defined in
+`references/style/index.md` (the canonical definition); do not restate it here.
 Keep to three directions by default unless the user explicitly asks.
 
 ## Preview Check
@@ -154,9 +147,9 @@ PDF/static export, and viewport scaling without depending on off-stage chrome.
 ## Style Selection & Catalog Guidance
 
 If you are choosing or designing a style for the deck, read
-`references/style/index.md` first. It is both the compact style catalog and the
-progressive loading guide. Load only the category detail files needed for the
-shortlisted candidates.
+`references/style/index.md` first. It is both the flat, tagged style catalog and
+the progressive loading guide. Load only the individual style files needed for
+the shortlisted candidates.
 
 Use the following guiding principles to select and align the visual system:
 - **Style proposal**: Include a style proposal in the Pre-Build Alignment. If the

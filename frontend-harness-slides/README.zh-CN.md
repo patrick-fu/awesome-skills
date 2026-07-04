@@ -80,7 +80,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 ### Minimal keynote
 
-#### [Minimal Product Keynote](references/style/minimal-keynote.md#minimal-product-keynote)
+#### [Minimal Product Keynote](references/style/minimal-product-keynote.md)
 
 高级、聚焦、稀疏。适合开场判断、产品亮相和单句大观点。
 
@@ -90,7 +90,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/minimal-product-keynote-high.webp" width="32%" alt="高密度：产品发布细节" />
 </p>
 
-#### [Sketch Board Emoji](references/style/minimal-keynote.md#sketch-board-emoji)
+#### [Sketch Board Emoji](references/style/sketch-board-emoji.md)
 
 温暖、亲切，有人参与感。常用便利贴、胶带、emoji 角色和小型交互细节。
 
@@ -100,7 +100,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/sketch-board-emoji-high.webp" width="32%" alt="高密度：策略便当" />
 </p>
 
-#### [Interactive Dialogue Stage](references/style/minimal-keynote.md#interactive-dialogue-stage)
+#### [Interactive Dialogue Stage](references/style/interactive-dialogue-stage.md)
 
 对话驱动，带一点剧场感。适合呈现两个角色、系统或说话方之间的轮流互动。
 
@@ -110,7 +110,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/interactive-dialogue-stage-high.webp" width="32%" alt="高密度：对话记录" />
 </p>
 
-#### [Kinetic Type Punchline](references/style/minimal-keynote.md#kinetic-type-punchline)
+#### [Kinetic Type Punchline](references/style/kinetic-type-punchline.md)
 
 强烈、海报化、高能量。适合章节转折、强对比观点和需要被记住的金句。
 
@@ -120,7 +120,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/kinetic-type-punchline-high.webp" width="32%" alt="高密度：海报细节" />
 </p>
 
-#### [Object Metaphor Hero](references/style/minimal-keynote.md#object-metaphor-hero)
+#### [Object Metaphor Hero](references/style/object-metaphor-hero.md)
 
 拟物、触感强、隐喻驱动。把准备、规划、工具箱这类抽象概念变成可看的物件。
 
@@ -130,7 +130,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/object-metaphor-hero-high.webp" width="32%" alt="高密度：工具箱布局" />
 </p>
 
-#### [Blackboard Chalk Talk](references/style/minimal-keynote.md#blackboard-chalk-talk)
+#### [Blackboard Chalk Talk](references/style/blackboard-chalk-talk.md)
 
 手绘、教学、推理导向。用深绿色黑板、粉笔线条和公式来呈现推导过程。
 
@@ -140,7 +140,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/blackboard-chalk-talk-high.webp" width="32%" alt="高密度：量子便当" />
 </p>
 
-#### [Arcade Boss Fight](references/style/minimal-keynote.md#arcade-boss-fight)
+#### [Arcade Boss Fight](references/style/arcade-boss-fight.md)
 
 复古、游戏化、带风险感。把技术挑战表达成 boss fight、HP 条和道具栏。
 
@@ -150,7 +150,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/arcade-boss-fight-high.webp" width="32%" alt="高密度：道具栏" />
 </p>
 
-#### [Spotlight Quote Poster](references/style/minimal-keynote.md#spotlight-quote-poster)
+#### [Spotlight Quote Poster](references/style/spotlight-quote-poster.md)
 
 戏剧化、沉思感。用暗场、聚光和大字号 quote 营造停顿、收束和哲学表达。
 

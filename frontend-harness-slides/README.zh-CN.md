@@ -17,6 +17,18 @@
 > [动态风格预设预览](https://frontend-harness-slides-demo.vercel.app/)。
 > 这是查看动效、信息密度和视觉范围最快的方式，比只读说明更直观。
 
+## 安装
+
+```bash
+npx skills add patrick-fu/frontend-harness-slides -g
+```
+
+后续更新：
+
+```bash
+npx skills update -g
+```
+
 ## 为什么 harness 更重要
 
 很多 slides 工具都能做出好看的第一版。真正困难的是 deck 变大、反馈变多以后，怎么继续
@@ -47,6 +59,14 @@
 做视觉型 slides 时，模型的前端审美很重要。我通常建议优先使用 Gemini，其次是 Claude。
 GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我的实际测试看，它通常比 Gemini
 更需要明确的视觉指导。
+
+## 典型流程
+
+1. Plan：对齐内容、受众、演示形式、风格方向、技术栈、交付目标，以及是否先做风格预览。
+2. Design：确定统一的风格系统，同时让不同 scene 在版式、动效和交互形式上有变化。
+3. Build：创建稳定的 slide scene，配套键盘导航、交互元素、可复现预览和保护后续修改的测试。
+4. Verify and ship：运行有实际价值的布局和交互检查，查看截图，本地预览，然后部署线上、
+   导出 PDF，或两者都交付。
 
 ## 视觉风格画廊
 
@@ -305,26 +325,6 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 <p align="center">
   <a href="https://frontend-harness-slides-demo.vercel.app/"><b>🎬 动态 Demo</b></a>
 </p>
-
-## 安装
-
-```bash
-npx skills add patrick-fu/frontend-harness-slides -g
-```
-
-后续更新：
-
-```bash
-npx skills update -g
-```
-
-## 典型流程
-
-1. Plan：对齐内容、受众、演示形式、风格方向、技术栈、交付目标，以及是否先做风格预览。
-2. Design：确定统一的风格系统，同时让不同 scene 在版式、动效和交互形式上有变化。
-3. Build：创建稳定的 slide scene，配套键盘导航、交互元素、可复现预览和保护后续修改的测试。
-4. Verify and ship：运行有实际价值的布局和交互检查，查看截图，本地预览，然后部署线上、
-   导出 PDF，或两者都交付。
 
 ## 我的更多精选 Skill
 

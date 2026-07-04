@@ -54,10 +54,11 @@ Minimum decisions:
   alternatives: teaching, persuasion, product demo, research readout,
   retrospective, sales pitch, workshop, live talk, recording, internal review,
   or reading-first document.
-- **Mode and style**: recommend a direction such as Sketchboard Emoji for a
-  lively talk, but offer at least five style recommendations or refinements with
-  reasons, such as professional information design, tech grid, product-launch,
-  editorial report, or a supplied reference.
+- **Mode and style**: recommend style directions from
+  `references/style/index.md` using the user's material, audience, density,
+  formality, delivery target, and references. Offer at least five style
+  recommendations or refinements with reasons when the user has not already
+  chosen a clear direction.
 - **Project location / deck root**: recommend the exact `deck root` before file
   creation. Explain that this is the directory that owns deck source,
   package/config files, assets, tests, and delivery commands. Give one
@@ -139,16 +140,19 @@ make a few small previews using the user's actual content.
 Use the same planned production stack, stage basis, and harness skeleton where
 possible so font loading, stage scaling, navigation, motion, and browser issues
 surface early. Use the user's actual title, content, screenshots, or data. Do
-not show abstract moodboards or option cards with internal labels. Skip the
-preview only when the user explicitly declines or explicitly asks to proceed
+Render previews as real slides from the user's deck, with audience-facing copy
+on the slide surface and candidate rationale kept in chat or theme notes. Skip
+the preview only when the user explicitly declines or explicitly asks to proceed
 directly.
 
-Default preview set:
+Default preview mix:
 
-1. Sketchboard Emoji as the expressive recommended option, unless clearly
-   inappropriate for the audience, brand, or compliance context.
-2. A safe/professional option.
-3. A content-specific wildcard.
+1. **Density-Fit**: the style direction that best matches the deck's confirmed
+   or inferred density, delivery mode, and audience.
+2. **Safe**: the most readable and delivery-stable direction that still has
+   clear visual character.
+3. **Wildcard**: the strongest content-specific visual thesis, prioritizing
+   semantic fit over catalog balance.
 
 All three previews should share an anchor slide so the user can compare the
 same content fairly. Provide screenshots and a local server URL.
@@ -173,12 +177,13 @@ Good default phrasing:
 
 ```text
 I recommend first making three real interactive slide previews using the same
-stage and project skeleton: Sketchboard Emoji, professional information design,
-and a content-specific wildcard. I will also send the dynamic Live Demo link so
-you can inspect preset styles, transitions, and motion behavior while I prepare
-the previews. I will capture screenshots and start a local server so you can
-compare them. After you pick a direction, I will write the selected theme notes
-and expand the full deck.
+stage and project skeleton: one Density-Fit direction, one Safe direction, and
+one Wildcard direction. I will choose those from the content, audience, density,
+formality, delivery target, and visual references. I will also send the dynamic
+Live Demo link so you can inspect preset styles, transitions, and motion
+behavior while I prepare the previews. I will capture screenshots and start a
+local server so you can compare them. After you pick a direction, I will write
+the selected theme notes and expand the full deck.
 ```
 
 ## Context Ledger

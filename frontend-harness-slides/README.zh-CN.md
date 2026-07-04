@@ -19,6 +19,8 @@
 
 ## 安装
 
+✨ 推荐：复制这个 [Skill 页面链接](https://github.com/patrick-fu/MyAgentSkills/tree/main/skills/design/frontend-harness-slides) 给你的 Agent，然后说：`Please install this for me.`
+
 ```bash
 npx skills add patrick-fu/frontend-harness-slides -g
 ```

@@ -23,6 +23,8 @@ or both.
 
 ## Install
 
+✨ Recommended: copy this [skill page](https://github.com/patrick-fu/MyAgentSkills/tree/main/skills/design/frontend-harness-slides) to your agent and say: `Please install this for me.`
+
 ```bash
 npx skills add patrick-fu/frontend-harness-slides -g
 ```

@@ -162,7 +162,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 ### Balanced hybrid
 
-#### [Signal Pipeline Flow](references/style/balanced-hybrid.md#signal-pipeline-flow)
+#### [Signal Pipeline Flow](references/style/signal-pipeline-flow.md)
 
 技术化、精确。用节点、路由和发光箭头表现数据、信号或决策流。
 
@@ -172,7 +172,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/signal-pipeline-flow-high.webp" width="32%" alt="高密度：系统地图" />
 </p>
 
-#### [Mechanical Scoring Funnel](references/style/balanced-hybrid.md#mechanical-scoring-funnel)
+#### [Mechanical Scoring Funnel](references/style/mechanical-scoring-funnel.md)
 
 有能量、偏评估。把筛选、评分和优先级表现成轨道、弹珠、分数和漏斗路径。
 
@@ -182,7 +182,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/mechanical-scoring-funnel-high.webp" width="32%" alt="高密度：评分面板" />
 </p>
 
-#### [Collaborative Pairing Board](references/style/balanced-hybrid.md#collaborative-pairing-board)
+#### [Collaborative Pairing Board](references/style/collaborative-pairing-board.md)
 
 清爽、协作导向。适合展示角色分工、同步点，以及人、团队或系统之间的配合。
 
@@ -192,7 +192,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/collaborative-pairing-board-high.webp" width="32%" alt="高密度：同步计划" />
 </p>
 
-#### [Studio Mixing Console](references/style/balanced-hybrid.md#studio-mixing-console)
+#### [Studio Mixing Console](references/style/studio-mixing-console.md)
 
 专业、拟物。用推子、旋钮和电平表表现参数调节、噪音过滤和多因素平衡。
 
@@ -202,7 +202,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/studio-mixing-console-high.webp" width="32%" alt="高密度：调音台细节" />
 </p>
 
-#### [Subway Map of Intent](references/style/balanced-hybrid.md#subway-map-of-intent)
+#### [Subway Map of Intent](references/style/subway-map-of-intent.md)
 
 系统化、结构清楚。把复杂工作流表现成地铁线路和换乘站。
 
@@ -212,7 +212,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/subway-map-of-intent-high.webp" width="32%" alt="高密度：时刻表便当" />
 </p>
 
-#### [Kitchen Prep Station](references/style/balanced-hybrid.md#kitchen-prep-station)
+#### [Kitchen Prep Station](references/style/kitchen-prep-station.md)
 
 温暖、具体。把原始输入到干净输出的过程表现成备料台、修剪、菜谱步骤和摆盘。
 
@@ -222,7 +222,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/kitchen-prep-station-high.webp" width="32%" alt="高密度：菜谱细节" />
 </p>
 
-#### [Context Bento Box](references/style/balanced-hybrid.md#context-bento-box)
+#### [Context Bento Box](references/style/context-bento-box.md)
 
 紧凑、有组织。用分格和层叠盒子表达 handoff、多类别概览和上下文包装。
 
@@ -232,7 +232,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/context-bento-box-high.webp" width="32%" alt="高密度：层叠便当" />
 </p>
 
-#### [Debug Reaction Board](references/style/balanced-hybrid.md#debug-reaction-board)
+#### [Debug Reaction Board](references/style/debug-reaction-board.md)
 
 开发者原生、偏诊断。使用霓虹状态标记、终端界面和行动看板。
 
@@ -244,7 +244,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 ### Text report
 
-#### [Research Memo](references/style/text-report.md#research-memo)
+#### [Research Memo](references/style/research-memo.md)
 
 克制、可信、有研究感。适合研究发现、高管摘要和需要自洽阅读的证据页面。
 
@@ -254,7 +254,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/research-memo-high.webp" width="32%" alt="高密度：证据页面" />
 </p>
 
-#### [Maintainer Issue Brief](references/style/text-report.md#maintainer-issue-brief)
+#### [Maintainer Issue Brief](references/style/maintainer-issue-brief.md)
 
 整洁、结构化、行动导向。灵感来自现代 issue tracker 和代码审查工具。
 
@@ -264,7 +264,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/maintainer-issue-brief-high.webp" width="32%" alt="高密度：代码审查 diff" />
 </p>
 
-#### [Decision Record](references/style/text-report.md#decision-record)
+#### [Decision Record](references/style/decision-record.md)
 
 严谨、架构化。用 ADR 节奏呈现上下文、决策、权衡和验证。
 
@@ -274,7 +274,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/decision-record-high.webp" width="32%" alt="高密度：权衡矩阵" />
 </p>
 
-#### [Benchmark Matrix](references/style/text-report.md#benchmark-matrix)
+#### [Benchmark Matrix](references/style/benchmark-matrix.md)
 
 分析型、比较型。强调结构化证据、评估标准、指标和表格化对比。
 
@@ -284,7 +284,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/benchmark-matrix-high.webp" width="32%" alt="高密度：对比矩阵" />
 </p>
 
-#### [Field Notes Report](references/style/text-report.md#field-notes-report)
+#### [Field Notes Report](references/style/field-notes-report.md)
 
 有纸张触感，偏观察记录。使用账簿纸、木炭墨水和卡片网格。
 
@@ -294,7 +294,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/field-notes-report-high.webp" width="32%" alt="高密度：观察网格" />
 </p>
 
-#### [Operating Manual](references/style/text-report.md#operating-manual)
+#### [Operating Manual](references/style/operating-manual.md)
 
 流程化、高对比。用工业 runbook、终端块和步骤执行来表达可重复操作。
 
@@ -304,7 +304,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/operating-manual-high.webp" width="32%" alt="高密度：流程细节" />
 </p>
 
-#### [Checklist Ledger](references/style/text-report.md#checklist-ledger)
+#### [Checklist Ledger](references/style/checklist-ledger.md)
 
 可靠、务实。用账簿线、紧凑行和可见 check 表达验收标准和最终准备度。
 
@@ -314,7 +314,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/checklist-ledger-high.webp" width="32%" alt="高密度：清单账簿" />
 </p>
 
-#### [Annotated Source & Diff](references/style/text-report.md#annotated-source-diff)
+#### [Annotated Source & Diff](references/style/annotated-source-and-diff.md)
 
 可审查、强调变化。用 before/after、注释和类源码界面直接证明改动价值。
 

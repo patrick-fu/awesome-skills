@@ -78,14 +78,22 @@ motion must agree with the silence; snappy, energetic movement contradicts the
 composure the whole style is built on.
 
 ## Identity Invariants vs Freedoms
-Keep constant to stay this style: a near-colorless two-extreme value world with
-warmed rather than pure whites; a single, scarce accent; one dominant display
-voice dropping dramatically to recessive support; dominant negative space;
-light-based depth with no visible interface chrome; and slow, composed motion.
-Free to vary on every slide: the exact hues, an elegant versus a heavy-geometric
-display temperament, focal placement and composition, which idea or object is the
-hero, the specific entrance and transition, and any interaction — all should
-follow the content, not a template.
+
+Identity Invariants:
+- Near-colorless two-extreme value world with warmed rather than pure whites
+- A single, scarce accent that touches only a small deliberate fraction of the surface
+- One dominant display voice dropping dramatically to recessive support
+- Dominant negative space; emptiness is the material, not a lack of one
+- Light-based depth with no visible interface chrome (no card edges, no hard shadows)
+- Slow, composed motion
+
+Freedoms:
+- Exact hues of the value extremes and the accent
+- An elegant versus a heavy-geometric display temperament
+- Focal placement and composition (centered, drifting, etc.)
+- Which idea or object is the hero
+- The specific entrance and transition
+- Any interaction model, so long as it follows the content
 
 ## What Breaks the Spell
 It dies the instant the slide gets busy: a second accent color, filled background
@@ -93,4 +101,4 @@ texture, several competing elements, a comfortable even hierarchy, hard card
 edges or drop shadows, pure clinical white, or fast bouncy motion. If a slide
 needs multiple facts, dense data, or a real comparison, do not force this style
 onto it — move that content to a density-built style instead of shrinking type
-until the emptiness is gone.
+until the emptiness is gone. If the content wants premium material richness with glass layers and depth rather than pure emptiness, switch to Liquid Glass. If it needs dramatic darkness with one lit statement — a spotlight on a quote rather than a field of white — move to Spotlight Quote Poster.

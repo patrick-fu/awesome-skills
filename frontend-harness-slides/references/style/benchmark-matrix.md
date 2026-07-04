@@ -61,4 +61,4 @@ It dies when comparison gets hard: a dark or busy background, decorative color
 that competes with result marks, an expressive typeface, a layout that hides the
 like-for-like reading, or motion unrelated to comparison. If there is nothing to
 compare or the moment is narrative, the matrix is empty — use a keynote or memo
-style instead.
+style instead. If the content calls for strict mathematical grid discipline with visible column rules rather than a flexible comparison matrix, switch to Objective Swiss Grid. If it is a linear readiness or acceptance check rather than multi-dimensional comparison, move to Checklist Ledger.

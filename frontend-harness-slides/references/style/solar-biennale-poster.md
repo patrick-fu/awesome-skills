@@ -93,4 +93,6 @@ borders, rounded corners, fast bouncy motion, or dense dashboard grids packed
 with data widgets. It also breaks when yellow shrinks to a small highlight rather than carrying
 the atmosphere — a yellow accent on parchment is not this style. If the content
 needs editorial publication gravitas with more formal typographic restraint
-instead of solar warmth, switch to Magazine Masthead.
+instead of solar warmth, switch to Magazine Masthead. If the content calls for
+warm editorial feature spread with narrative reading flow rather than poster
+contemplation, switch to Warm Editorial Feature.

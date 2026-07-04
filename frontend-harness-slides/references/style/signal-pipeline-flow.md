@@ -57,15 +57,27 @@ purposeful, following the flow. Why: the animation is narrating how the system
 runs, so ambient or decorative motion would blur the routing.
 
 ## Identity Invariants vs Freedoms
-Keep constant to stay this style: a dark technical ground, a few luminous
-functional signal colors, a sharp technical/mono voice, a legibly routed
-node-and-connector system, instrument-like glow depth, and directional flow
-motion. Free to vary on every slide: the topology (linear, hub, branching), which
-nodes and statuses appear, the specific accents, and how flow is revealed.
+
+Identity Invariants:
+- Dark technical ground (near-black slate or space blue)
+- A few luminous functional signal colors that mean something as they travel
+- Sharp technical/mono voice for node labels, statuses, and metadata
+- Legibly routed node-and-connector system with clear directional paths
+- Instrument-like glow depth (live paths lift, dormant structure recedes)
+- Directional flow motion
+
+Freedoms:
+- Topology (linear, hub, branching)
+- Which nodes and statuses appear
+- Specific accent hues within the luminous functional family
+- How flow is revealed and animated
 
 ## What Breaks the Spell
 It dies when it stops being a system: a bright or busy background, decorative
 non-functional color, a soft expressive typeface, disconnected boxes with no
 routing, or ambient motion unrelated to flow. If the content is a feeling or a
 single claim rather than a process, do not diagram it — use a keynote or quote
-style instead.
+style instead. If the content calls for a light technical blueprint diagram on
+paper rather than a dark glowing instrument panel, switch to Cyanotype
+Drafting Table. If it needs multi-line routed convergence on a clean signage
+ground instead of dark technical flow, move to Subway Map of Intent.

@@ -63,4 +63,4 @@ argument is revealed.
 It dies when it loses rigor: a warm or dark dramatic background, decorative
 color, an expressive typeface, unstructured prose with no labeled reasoning, or
 showy motion. If the setting is a playful workshop or an emotional talk, the
-formal record deadens it — use a warmer or more expressive style instead.
+formal record deadens it — use a warmer or more expressive style instead. If the content is evidence-led research findings rather than a formal decision with reasoning chain, switch to Research Memo. If it needs an actionable ticket-style brief with status and sections instead of a decision record, move to Maintainer Issue Brief.

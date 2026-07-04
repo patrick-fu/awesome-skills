@@ -55,14 +55,24 @@ expanding a note, revealing a source. Keep it calm. Why: this is a document mean
 to be read, so lively motion would contradict the authoritative stillness.
 
 ## Identity Invariants vs Freedoms
-Keep constant to stay this style: a bright clean paper ground with thin rules, an
-extremely restrained single serious accent, an elegant header voice paired with a
-readable body voice, self-contained reading hierarchy, near-flat depth, and quiet
-motion. Free to vary on every slide: the editorial layout, which findings and
-metrics lead, the exact accent, and how sections are revealed.
+
+Identity Invariants:
+- Bright clean paper ground with thin rules
+- Extremely restrained single serious accent (one accent maximum)
+- Elegant header voice paired with a readable body voice
+- Self-contained reading hierarchy — never cramped, never shrunk to fit
+- Near-flat depth; hierarchy from type scale, weight, and thin rules
+- Quiet, dignified motion
+
+Freedoms:
+- Editorial layout (memo header with columns, centered evidence block, etc.)
+- Which findings and metrics lead
+- Exact accent hue within the serious family
+- How sections are revealed
 
 ## What Breaks the Spell
 It dies when it gets loud: multiple accent colors, filled backgrounds or texture,
 an expressive display typeface, cramped shrunken text, heavy shadows, or animated
 flourishes. If the content wants energy, spectacle, or a single big emotional
 claim, this is the wrong register — use a keynote or punchline style instead.
+If the content needs a formal reasoning chain with context-decision-trade-offs-verification structure rather than a calm evidence brief, switch to Decision Record. If it wants classical scholarly authority with warm serif intimacy instead of modern memo restraint, move to Scholar's Vellum.

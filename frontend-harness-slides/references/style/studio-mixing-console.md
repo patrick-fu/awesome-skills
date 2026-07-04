@@ -64,4 +64,7 @@ It dies when it stops being gear: a light or airy background, decorative color
 across the whole panel, a soft expressive typeface, generic cards with no
 controls or levels, or motion unrelated to adjustment. If there is only one
 parameter or a single big claim, the console is the wrong instrument — use a
-keynote or report style.
+keynote or report style. If the content is a serious routed flow diagram rather
+than a parameter-tuning console, switch to Signal Pipeline Flow. If it needs
+diagnostic self-check and risk status rather than fader-and-meter balancing,
+move to Debug Reaction Board.

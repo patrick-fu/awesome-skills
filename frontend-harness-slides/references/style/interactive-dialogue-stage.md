@@ -76,3 +76,8 @@ speakers, everything lit equally, a soft decorative typeface, or a single
 monologue with no exchange to stage. If the content is really a report or a broad
 overview, do not force it onto a stage — there is no dialogue to watch; use a
 reading-first or overview style instead.
+If the content needs bold typographic punch with stacked massive phrases rather
+than conversational two-voice turn-taking, switch to Kinetic Type Punchline.
+If it calls for dramatic single-voice darkness with one lit statement and
+theatrical atmosphere rather than dialogue exchange, move to Spotlight Quote
+Poster.

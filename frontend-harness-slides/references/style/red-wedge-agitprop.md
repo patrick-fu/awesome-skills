@@ -93,4 +93,6 @@ room. It also breaks under diagonal overload — three or more competing vectors
 fighting each other instead of reinforcing a single thrust. Nuanced data
 visualization has no place here; the style cannot carry gradations of meaning.
 If the content is pure typographic punch without the photomontage or geometric
-wedge apparatus, switch to Kinetic Type Punchline instead.
+wedge apparatus, switch to Kinetic Type Punchline instead. If the content calls
+for dense bulletin-board boldness with thick borders and hard offset shadows
+rather than red-wedge geometric rhetoric, switch to Neo-Brutalist Bulletin.

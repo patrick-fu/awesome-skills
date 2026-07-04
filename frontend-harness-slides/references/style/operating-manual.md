@@ -63,4 +63,4 @@ console, which steps and commands appear, and how execution is revealed.
 It dies when it softens: a light or warm background, gentle or decorative color, a
 proportional or elegant typeface, unordered prose with no steps, or ambient
 motion. If the moment is reflective, emotional, or a single big claim, the
-industrial command tone is wrong — use a keynote or quote style instead.
+industrial command tone is wrong — use a keynote or quote style instead. If the content is diagnostic self-check and risk assessment rather than ordered procedure steps, switch to Debug Reaction Board. If it is pure sign-off and readiness verification with no command tone needed, move to Checklist Ledger.

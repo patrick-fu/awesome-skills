@@ -64,4 +64,8 @@ colors, and how travel and convergence are revealed.
 It dies when the map becomes unreadable: a dark or busy background, colors that
 blur the lines together, an expressive typeface, a single track with no
 convergence, or motion that leaves the routes. If the content is one claim or a
-feeling, there is no network to map — use a keynote or quote style instead.
+feeling, there is no network to map — use a keynote or quote style instead. If
+the content calls for a dark technical instrument-panel flow with glowing nodes
+rather than a light transit map, switch to Signal Pipeline Flow. If it needs
+structured comparison across criteria instead of multi-track convergence, move
+to Benchmark Matrix.

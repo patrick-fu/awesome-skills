@@ -65,4 +65,4 @@ It dies when the change gets lost: a dark or busy background, decorative color
 competing with the change tones, an expressive typeface with no monospaced source,
 a single unmarked block with no before/after, or motion unrelated to the diff. If
 the content is an abstract vision with no concrete change, there is nothing to
-annotate — use a keynote or memo style instead.
+annotate — use a keynote or memo style instead. If the content is a ticket-framed change with status and labeled sections rather than a pure diff view, switch to Maintainer Issue Brief. If it needs a formal reasoning chain explaining why the change was made instead of just showing what changed, move to Decision Record.

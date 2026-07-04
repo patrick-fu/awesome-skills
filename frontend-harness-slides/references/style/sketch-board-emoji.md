@@ -68,16 +68,29 @@ working the board, so overly precise, springy-perfect animation contradicts the
 handmade feel.
 
 ## Identity Invariants vs Freedoms
-Keep constant to stay this style: a warm aged-paper base, soft charcoal
-hand-marks, a small friendly non-neon accent kit, a real handwritten voice paired
-with a readable plain voice, hand-arranged looseness, and tactile paper/tape/note
-materials. Free to vary on every slide: which actors appear, how notes and
-connectors are arranged, the specific hand-drawn shapes, the exact motion, and
-how much structure versus mess a given beat carries.
+
+Identity Invariants:
+- Warm aged-paper base (cream that feels recycled and handled)
+- Soft charcoal hand-marks (never hard black)
+- Small friendly non-neon accent kit (yellow, blue, red are typical)
+- Real handwritten voice paired with a readable plain voice
+- Hand-arranged looseness — gathered, not gridded
+- Tactile paper/tape/note materials
+
+Freedoms:
+- Which actors appear
+- How notes and connectors are arranged
+- Specific hand-drawn shapes
+- Exact motion and timing
+- How much structure versus mess a given beat carries
 
 ## What Breaks the Spell
 It dies with hard precision: crisp geometric grids, pure black on pure white,
 saturated brand-neon accents, a purely typeset look with no hand marks, or slick
 perfectly-eased motion. If the content needs gravitas, dense tabular data, or
 formal authority, do not dress it in sticky notes — the warmth undercuts the
-seriousness; move it to a calmer, more formal style instead.
+seriousness; move it to a calmer, more formal style instead. If the content
+needs warm hands-on structure with kitchen-prep tangibility rather than loose
+workshop energy, switch to Kitchen Prep Station. If it wants friendly
+approachable polish with pastel softness instead of hand-drawn mess, move to
+Soft Pastel Friendly.

@@ -93,4 +93,8 @@ interface rather than paper, fast bouncy motion, or clinical white grounds. If
 the content demands very high information density — stacked metrics,
 side-by-side comparison tables, evidence-heavy research layouts — do not
 shrink type to fit the margins. Switch to Research Memo instead, where density
-is native and the credibility register is built for it.
+is native and the credibility register is built for it. If the content wants
+cover-page spectacle with masthead drama and saturated field rather than quiet
+feature spread, switch to Magazine Masthead. If it needs solar-warmed poster
+contemplation with biennale poster calm instead of narrative reading flow, move
+to Solar Biennale Poster.

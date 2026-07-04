@@ -99,4 +99,8 @@ backgrounds, filled texture or noise patterns, multiple competing hero
 elements, centered geometric symmetry, fast bouncy motion, visible drop shadows
 or card elevations, or body copy set in the display serif. If the content needs
 daytime clarity, dense data, operational comparison, or premium restraint
-without the nocturnal mood, switch to Minimal Product Keynote instead.
+without the nocturnal mood, switch to Minimal Product Keynote instead. If the
+content wants geometric engineered luxury with symmetric monumentality rather
+than intimate nocturnal sophistication, switch to Machine-Age Deco. If it needs
+cool dark studio session discipline with duotone photo tint instead of warm bar
+intimacy, move to Duotone Session.

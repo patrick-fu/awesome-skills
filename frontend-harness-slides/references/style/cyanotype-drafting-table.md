@@ -92,5 +92,4 @@ Freedoms:
 It dies when the blueprint becomes a theme: grids used as decoration rather
 than construction, dark-neon glow or saturated accents, multiple warm colors
 competing, type that tries to be a headline instead of a legend, soft
-organic motion, or any consumer-gloss surface treatment. For routed
-technical flows, switch to Signal Pipeline instead.
+organic motion, or any consumer-gloss surface treatment. For routed technical flows, switch to Signal Pipeline instead. If it requires strict analytical grid authority with mathematical column discipline instead of drafting-table craft, move to Objective Swiss Grid.

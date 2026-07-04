@@ -59,4 +59,4 @@ appear, and how checks and rationale are revealed.
 It dies when it gets showy: a dark or vivid background, varied decorative color,
 an expressive typeface, an irregular non-list layout, or flashy motion. If the
 moment calls for energy, emotion, or a single big claim, the ledger is too plain —
-use a keynote or punchline style instead.
+use a keynote or punchline style instead. If the content needs a richer ticket-style brief with status, sections, and narrative context rather than a pure check list, switch to Maintainer Issue Brief. If it calls for multi-dimensional comparison across criteria instead of linear sign-off, move to Benchmark Matrix.

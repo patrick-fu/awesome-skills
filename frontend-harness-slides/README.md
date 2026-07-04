@@ -89,9 +89,10 @@ The style system is designed to stay coherent without forcing every page into
 the same template. A deck can keep one visual language while changing layouts,
 beats, motion, and interaction patterns from scene to scene.
 
-The full gallery below shows every style direction across four density bands:
-Minimal Keynote, Balanced Hybrid, Print & Cultural Traditions, and Text Report.
-Each style includes low, medium, and high-density examples.
+The full gallery below shows every style direction across six visual families:
+Minimal Keynote, Balanced Hybrid, Editorial & Print, Craft & Cultural Traditions,
+Contemporary Digital, and Text Report. Each style includes low, medium, and
+high-density examples.
 
 ### Minimal keynote
 
@@ -273,12 +274,9 @@ actionable boards.
   <img src="showcase/style-gallery/debug-reaction-board-high.webp" width="32%" alt="High density: risk kanban" />
 </p>
 
-### Print & cultural traditions
+### Editorial & Print
 
-Styles drawn from editorial, print, and cultural design traditions. Showcase screenshots
-coming soon.
-
-**Editorial & publication**
+Styles drawn from editorial design, publication layout, and print typography traditions. Showcase screenshots coming soon.
 
 #### [Magazine Masthead](references/style/magazine-masthead.md)
 
@@ -300,25 +298,13 @@ Classical manuscript on aged parchment with marginalia and serif authority for d
 
 Newspaper front page with multi-column layout and headline hierarchy for packed information delivery.
 
-**Poster & protest**
-
-#### [Neo-Brutalist Bulletin](references/style/neo-brutalist-bulletin.md)
-
-Protest poster energy with thick black borders, hard offset shadows, and one high-voltage accent.
-
-#### [Riso Print Zine](references/style/riso-print-zine.md)
-
-Risograph zine with limited palette, handmade collage density, and DIY rebellious character.
-
-#### [Red Wedge Agitprop](references/style/red-wedge-agitprop.md)
-
-Constructivist political poster with red wedge geometry and diagonal dynamism for call-to-action.
-
 #### [Duotone Session](references/style/duotone-session.md)
 
 Blue Note LP sleeve with a duotone photo and enormous condensed gothic type — cool, disciplined, workmanlike.
 
-**Illustration & craft**
+### Craft & Cultural Traditions
+
+Styles rooted in craft techniques, cultural visual traditions, and physical media. Showcase screenshots coming soon.
 
 #### [Botanical Specimen Plate](references/style/botanical-specimen-plate.md)
 
@@ -340,7 +326,7 @@ Field journal screenprint with stamped layers and map coordinates for exploratio
 
 Art Deco machine age with geometric patterns and stepped forms for grand visions and ambitious roadmaps.
 
-#### [Clay & Ma](references/style/clay-and-ma.md)
+#### [Wabi-Sabi Ceramic](references/style/wabi-sabi-ceramic.md)
 
 Hand-formed ceramic with wabi-sabi irregularity and matte glaze surfaces for craft and natural product framing.
 
@@ -348,17 +334,25 @@ Hand-formed ceramic with wabi-sabi irregularity and matte glaze surfaces for cra
 
 Hand-cut paper collage with torn edges and mixed textures for creative process and idea assembly.
 
-**Media & packaging**
-
 #### [Cassette-Era Packaging](references/style/cassette-era-packaging.md)
 
 Cassette tape J-card design with 80s-90s graphic energy and mixtape layout for music and nostalgia content.
 
-#### [Widescreen Title Card](references/style/widescreen-title-card.md)
+#### [Riso Print Zine](references/style/riso-print-zine.md)
 
-Cinematic letterbox title card with film typography and atmospheric stillness for opening titles and grand reveals.
+Risograph zine with limited palette, handmade collage density, and DIY rebellious character.
 
-**Contemporary digital**
+#### [Neo-Brutalist Bulletin](references/style/neo-brutalist-bulletin.md)
+
+Protest poster energy with thick black borders, hard offset shadows, and one high-voltage accent.
+
+#### [Red Wedge Agitprop](references/style/red-wedge-agitprop.md)
+
+Constructivist political poster with red wedge geometry and diagonal dynamism for call-to-action.
+
+### Contemporary Digital
+
+Modern digital-first styles drawing from current UI trends and platform aesthetics. Showcase screenshots coming soon.
 
 #### [Mid-Century Grove](references/style/mid-century-grove.md)
 
@@ -383,6 +377,10 @@ Swiss International Style with rigid grid structure and sans-serif clarity for d
 #### [Liquid Glass](references/style/liquid-glass.md)
 
 Apple design language with frosted glass depth and spatial layering for premium tech and Apple-platform content.
+
+#### [Widescreen Title Card](references/style/widescreen-title-card.md)
+
+Cinematic letterbox title card with film typography and atmospheric stillness for opening titles and grand reveals.
 
 ### Text report
 

@@ -65,4 +65,7 @@ It dies when it stops looking like a tool: a light or warm background, decorativ
 non-status color, a soft proportional typeface, generic cards with no states, or
 motion unrelated to status. If the audience is non-technical or the content is a
 story or claim, the diagnostic frame alienates them — use a warmer or simpler
-style instead.
+style instead. If the content needs to read as an engineering ticket with status
+and labeled sections rather than a diagnostic panel, switch to Maintainer Issue
+Brief. If it is a procedural step-by-step runbook with command tone instead of
+self-check states, move to Operating Manual.

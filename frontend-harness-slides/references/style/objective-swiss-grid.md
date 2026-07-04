@@ -93,4 +93,7 @@ centered text, soft shadows, decorative photography, or any typeface with
 expressive personality. If the deck needs to feel premium, reverent, or
 emotionally pitched rather than systematic and objective, this is the wrong
 instrument — switch to Minimal Product Keynote instead of softening the grid
-until it loses its authority.
+until it loses its authority. If the content is a structured comparison across
+options and criteria rather than pure systematic grid layout, switch to
+Benchmark Matrix. If it needs calm evidence-led document authority with
+editorial hierarchy instead of mathematical rigor, move to Research Memo.

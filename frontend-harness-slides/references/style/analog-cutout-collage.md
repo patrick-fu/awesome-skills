@@ -95,4 +95,6 @@ paper-cut illusion. Too many saturated colors, pixel-perfect grids, or any depth
 that reads as UI elevation rather than paper stacking kills the handmade
 register. If the content wants the feeling of a printed zine — ink on paper,
 registration drift, two-color constraint — rather than cut-and-paste collage,
-switch to Riso Print Zine.
+switch to Riso Print Zine. If the content wants workshop energy with hand-drawn
+marks and emoji actors rather than cut-paper collage, switch to Sketch Board
+Emoji.

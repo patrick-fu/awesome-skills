@@ -71,4 +71,7 @@ It dies when it gets smooth and serious: modern smooth typefaces, soft gradients
 or realistic lighting, a light or pastel background, generic corporate UI, or
 elegant slow easing. It also dies where levity is unwelcome — for high-stakes,
 formal, or precision-critical content the game costume undercuts trust; switch to
-a serious style instead.
+a serious style instead. If the content wants retro-tech OS-level desktop
+nostalgia with window chrome and bevels rather than arcade game energy, switch to
+Retro Windows. If it needs analog cassette-package warmth with product catalogue
+feel instead of pixel game UI, move to Cassette-Era Packaging.

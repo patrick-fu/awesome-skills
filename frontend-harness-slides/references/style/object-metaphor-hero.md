@@ -73,4 +73,7 @@ It dies when it goes flat and digital: cool screen-blue palettes, neon accents,
 hard flat UI cards, shadowless graphics, or a loud typeface stealing focus from
 the object. It also dies without a real metaphor — if there is no object that
 genuinely clarifies the idea, do not invent a decorative one; use a cleaner
-evidence or comparison style instead.
+evidence or comparison style instead. If the content calls for sparser premium
+restraint with extreme negative space rather than a tangible object metaphor,
+switch to Minimal Product Keynote. If it needs organic natural warmth with
+botanical calm instead of material-kit tangibility, move to Mid-Century Grove.

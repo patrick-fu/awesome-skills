@@ -99,4 +99,6 @@ severe display face with dramatic thin-thick contrast. It also dies from too
 much cuteness — if the hand-drawn motifs become the main event, or if the
 pastel palette tips into nursery territory, the style loses its adult-
 friendliness. If the content needs organic calm and grounded naturalness
-rather than pastel warmth, switch to Mid-Century Grove instead.
+rather than pastel warmth, switch to Mid-Century Grove instead. If the
+content wants workshop energy with hand-drawn marks and emoji actors rather
+than pastel politeness, switch to Sketch Board Emoji.

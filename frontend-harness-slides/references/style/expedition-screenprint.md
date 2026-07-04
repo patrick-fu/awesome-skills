@@ -93,4 +93,8 @@ strips out the grain and warmth, somber dark palettes, type floating in UI
 chrome above the image, or playful bouncy motion that turns the poster into
 a cartoon. If the content calls for a cultural institution's gravitas — a
 museum, a biennale, an art-world context — switch to Solar Biennale Poster
-instead of trying to make this screenprint feel like a gallery wall.
+instead of trying to make this screenprint feel like a gallery wall. If the
+content is grounded field-notebook observation with hand-recorded findings
+rather than poster-style civic optimism, switch to Field Notes Report. If it
+calls for print-zine craft with registration drift and two-color constraint
+instead of screenprint poster conviction, move to Riso Print Zine.

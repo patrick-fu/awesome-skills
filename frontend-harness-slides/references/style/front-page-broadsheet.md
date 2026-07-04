@@ -93,4 +93,5 @@ parody — a fake-news gag rather than a real front page. Saturated imagery, hea
 shadows, or glossy surfaces read as advertising, not reporting. If the content
 is evidence-first research rather than narrative storytelling, switch to
 Research Memo instead of forcing broadsheet columns onto data that wants a memo
-hierarchy.
+hierarchy. If the content needs warm paper feature spread with narrative reading
+flow rather than dense newsprint journalism, switch to Warm Editorial Feature.

@@ -101,5 +101,9 @@ empty regions, blurred or colored shadows pretending to be elevation, or a
 second accent color diluting the signal. It also breaks when forced onto
 content that is purely data-for-data's-sake — if every slide is a comparison
 matrix and the only job is side-by-side numerical evaluation, this style's
-bulletin energy becomes noise. Switch to Benchmark Matrix for pure data
-comparison instead of trying to strip this down to a table-only system.
+bulletin energy becomes noise. Switch to Benchmark Matrix for pure data comparison instead of trying to strip
+this down to a table-only system. If the content calls for ideological boldness
+with red-wedge geometric rhetoric and photomontage rather than bulletin-board
+directness, switch to Red-Wedge Agitprop. If it needs looser workshop energy
+with hand-drawn marks and emoji actors instead of hard-bordered panels, move to
+Sketch Board Emoji.

@@ -71,4 +71,7 @@ It dies when it gets polished: crisp vector lines, flat solid fills, bright
 saturated color, a heavy printed typeface, glossy depth, or everything appearing
 at once instead of being worked out. If the content is a finished corporate
 result rather than a line of reasoning, do not chalk it up — the handmade honesty
-feels like a costume; use a cleaner report or keynote style.
+feels like a costume; use a cleaner report or keynote style. If the content needs
+formal calm evidence and document authority rather than live board reasoning,
+switch to Research Memo. If it wants warmer workshop collaboration with sticky
+notes and emoji instead of chalk formulas, move to Sketch Board Emoji.

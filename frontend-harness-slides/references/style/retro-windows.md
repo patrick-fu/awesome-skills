@@ -99,4 +99,8 @@ whitespace, or a single centered headline. It also breaks when the status
 colors are redeployed as decoration rather than signals. If the content needs
 serious authority, calm credibility, or premium restraint, this costume is too
 loud and too specific — switch to Operating Manual for a serious dark runbook
-that carries real weight without winking at the audience.
+that carries real weight without winking at the audience. If the content wants
+arcade game retro with pixel sprites and HUD meters rather than OS desktop
+nostalgia, switch to Arcade Boss Fight. If it needs analog cassette-package
+warmth with product catalogue feel instead of software UI costume, move to
+Cassette-Era Packaging.

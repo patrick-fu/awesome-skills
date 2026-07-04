@@ -63,4 +63,7 @@ It dies when it goes cold and clinical: a stark white or dark technical
 background, neon or corporate color, a severe geometric typeface, abstract cards
 with no raw-to-clean story, or sterile mechanical motion. If the content is formal
 governance or pure data, the kitchen tone undercuts it — use a report or decision
-style instead.
+style instead. If the content wants loose workshop energy with emoji actors and
+sticky notes rather than structured kitchen steps, switch to Sketch Board Emoji.
+If it needs hands-on observational field-notebook grounding instead of recipe
+transformation, move to Field Notes Report.

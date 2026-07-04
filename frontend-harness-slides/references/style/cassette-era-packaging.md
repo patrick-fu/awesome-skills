@@ -102,3 +102,5 @@ soft gradients, hand-drawn illustrations, botanical warmth — and on serious
 enterprise contexts where retro-tech nostalgia reads as unprofessional. If the
 content wants OS-level desktop nostalgia instead of cassette-package nostalgia,
 switch to Retro Windows. If it needs corporate sobriety, move to Research Memo.
+If it calls for arcade game retro with pixel sprites and HUD meters rather than
+cassette product catalogue warmth, switch to Arcade Boss Fight.

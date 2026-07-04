@@ -14,5 +14,5 @@ tags: [alignment, testing, verification]
 - [ ] Does not create files, scaffold a project, or write slide code before the Pre-Build Alignment is confirmed.
 - [ ] Includes a Testing plan in the Pre-Build Alignment alongside content, design, project location, build, delivery, and context decisions.
 - [ ] Recommends a runnable test command and explains the required coverage across render, frame addressing, navigation, interaction isolation, layout safety, runtime errors, assets/fonts, and delivery/export checks when relevant.
-- [ ] Gives credible testing alternatives with tradeoffs instead of asking only whether the default is OK.
+- [ ] Treats testing as mandatory and gives a concrete test plan with runner, command, coverage, and rationale; mentions alternatives only if project constraints make them relevant.
 - [ ] Does not recommend skipping or weakening tests.

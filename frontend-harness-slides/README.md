@@ -5,13 +5,14 @@
 Build HTML slide decks with a frontend harness, so the deck can survive real
 iteration.
 
-Plain HTML can get a first draft on screen. It gets painful when the deck grows,
-when one slide needs careful tuning, or when a CSS, animation, or layout change
-quietly breaks another page. This skill is built for that more rigorous phase.
+A single-file HTML deck is fine for a quick draft. It gets painful when the deck
+grows, when one slide needs careful tuning, or when a CSS, animation, or layout
+change quietly breaks another page. This skill is built for that later phase.
 
 The main advantage is not just prettier slides. The harness treats the deck as a
-testable web app: scenes are addressable, interactions are isolated, screenshots
-are repeatable, and the final deck can ship as a live site, a PDF, or both.
+small, testable web app: scenes are addressable, interactions are isolated,
+screenshots are repeatable, and the final deck can ship as a live site, a PDF,
+or both.
 
 ## Live preview
 
@@ -23,8 +24,8 @@ are repeatable, and the final deck can ship as a live site, a PDF, or both.
 ## Why the harness matters
 
 Most slide generators can produce an attractive first version. The harder part
-is keeping a larger deck stable after feedback. `frontend-harness-slides` puts
-an engineering frame around the deck:
+is keeping a larger deck stable after feedback. `frontend-harness-slides` puts a
+small engineering frame around the deck:
 
 - stable scene and beat addresses, so any frame can be opened directly;
 - a registry, so tooling can enumerate the deck without scraping visible text;
@@ -47,8 +48,8 @@ deck structure that is designed to be edited, tested, deployed, and exported.
 - Decks that need both a local preview and a real delivery path, such as online
   deployment or PDF export.
 
-This skill is for slides where design quality, iteration, and verification
-matter.
+For a tiny one-off static slide, a single HTML file is usually enough. This
+skill is for decks where design quality, iteration, and verification matter.
 
 ## Model choice
 

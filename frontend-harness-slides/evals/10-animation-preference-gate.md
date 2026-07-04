@@ -13,6 +13,7 @@ tags: [brief-intake, animation, preference-alignment]
 ## Expected Output (all true)
 - [ ] Does not immediately create files, initialize a project, choose a framework, or generate a full deck.
 - [ ] Even when the user asks for a premium product-launch feel, still confirms key intake points in plain text: style, density, motion, stage, navigation, technology, delivery, and related choices.
+- [ ] Provides at least five style recommendations or refinements with brief reasons, rather than treating "premium product launch" as a fully confirmed visual system.
 - [ ] Recommends keynote/product-launch-style semantic beat motion such as transitions, reveals, promotes, replaces, de-emphasis, final takeaways, or equivalent concepts without requiring fixed wording.
 - [ ] Also offers calmer or more static motion as optional directions, without hard-coding the choice set.
 - [ ] Does not treat recommended motion as a final implementation requirement before the user confirms it.

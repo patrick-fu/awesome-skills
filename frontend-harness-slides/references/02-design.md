@@ -10,9 +10,9 @@ Most users cannot name the exact style they want; they recognize it when they
 see it. Before implementation, explicitly ask whether to make a minimal
 interactive style preview. When visual direction is unclear, recommend three
 real interactive slide previews in meaningfully different directions. When the
-user already gives a clear style, confirm the main style, offer same-style
-refinements and nearby alternatives for inspiration, then ask whether to make a
-small same-style preview or proceed directly.
+user already gives a clear style, confirm the main style, offer at least five
+style recommendations or refinements with brief reasons, then ask whether to
+make a small same-style preview or proceed directly.
 
 During this alignment, send the Live Demo link:
 `https://frontend-harness-slides-demo.vercel.app/`. Describe it as a dynamic
@@ -152,12 +152,12 @@ If you are choosing or designing a style for the deck, use
 
 Use the following guiding principles to select and align the visual system:
 - **Style proposal**: Include a style proposal in the Pre-Build Alignment. If the
-  user does not have a pre-existing brand or design system, select 2-3 curated
-  options from the style preset catalog that best fit the audience, content, and
-  delivery target.
+  user does not have a pre-existing brand or design system, give at least five
+  curated style recommendations from the style preset catalog with brief reasons
+  for how they fit the audience, content, and delivery target.
 - **Clear user style**: If the user already chose a style, confirm that main
-  direction, offer a few refinements inside the chosen style, and include nearby
-  catalog options as inspiration rather than pressure to switch.
+  direction, then give at least five same-style refinements or nearby catalog
+  recommendations with reasons as inspiration rather than pressure to switch.
 - **Preview prompt**: Ask whether to create a minimal interactive preview before
   full implementation. Recommend doing so by default, and skip it only when the
   user explicitly declines or asks to proceed directly.

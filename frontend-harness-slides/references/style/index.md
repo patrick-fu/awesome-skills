@@ -187,7 +187,210 @@ best_for: Closing statements, guiding philosophies, mission lines, deliberate pa
 avoid_for: Procedural, explanatory, or data content with steps or evidence to walk through.
 ```
 
-<!-- MIGRATION NOTE: The Balanced Hybrid and Text Report directions are being
-migrated into this flat, tagged catalog. Until their per-style files exist,
-shortlist and read those directions from the current combined files
-`balanced-hybrid.md` and `text-report.md`. -->
+```yaml
+name: Signal Pipeline Flow
+file: signal-pipeline-flow.md
+tagline: A dark technical map tracing signals through a routed system.
+mood: [technical, precise, systematic]
+tone: [exact, instrument-like, confident]
+formality: medium-high
+density: medium
+scheme: dark
+best_for: System architecture, data flow, pipelines, technical process mapping.
+avoid_for: Emotional openers or human stories with no system to route.
+```
+
+```yaml
+name: Mechanical Scoring Funnel
+file: mechanical-scoring-funnel.md
+tagline: A colorful machine that filters and scores inputs through lanes.
+mood: [energetic, playful, evaluative]
+tone: [kinetic, game-like, systematic]
+formality: medium
+density: medium
+scheme: dark
+best_for: Categorization, multi-stage filtering, scoring, prioritization.
+avoid_for: Quiet reports or reflective moments with nothing to sort or score.
+```
+
+```yaml
+name: Collaborative Pairing Board
+file: collaborative-pairing-board.md
+tagline: A clean board where two partners divide work and sync.
+mood: [clean, cooperative, professional]
+tone: [even-handed, tidy, calm]
+formality: medium
+density: medium
+scheme: light
+best_for: Role division, pair workflows, sync points, human-system collaboration.
+avoid_for: Highly expressive talks or single-voice claims with no pairing.
+```
+
+```yaml
+name: Studio Mixing Console
+file: studio-mixing-console.md
+tagline: A console where balancing trade-offs becomes faders and meters.
+mood: [professional, tactile, precise]
+tone: [hardware, instrument-like]
+formality: medium
+density: medium
+scheme: dark
+best_for: Parameter tuning, multi-factor balancing, noise filtering, trade-offs.
+avoid_for: Sparse keynote claims with a single variable and nothing to balance.
+```
+
+```yaml
+name: Subway Map of Intent
+file: subway-map-of-intent.md
+tagline: A transit map where separate tracks converge at deliberate stations.
+mood: [systematic, calm, structured]
+tone: [public-info, orderly, legible]
+formality: medium-high
+density: medium
+scheme: light
+best_for: Multi-track workflows, converging processes, milestone mapping.
+avoid_for: A single emotional claim with one track and no convergence.
+```
+
+```yaml
+name: Kitchen Prep Station
+file: kitchen-prep-station.md
+tagline: A warm prep station turning raw input into a plated result.
+mood: [warm, concrete, hands-on]
+tone: [friendly, tactile, inviting]
+formality: medium-low
+density: medium
+scheme: light
+best_for: Raw-to-clean transformations, pre-processing, step-by-step refinement.
+avoid_for: Formal technical governance or pure data.
+```
+
+```yaml
+name: Context Bento Box
+file: context-bento-box.md
+tagline: An organized bento where context is neatly compartmentalized.
+mood: [organized, compact, considered]
+tone: [refined, tidy, premium]
+formality: medium
+density: medium-high
+scheme: dark
+best_for: Context structuring, handoff specifications, multi-category overviews.
+avoid_for: Sparse keynote beats with a single idea and no compartments.
+```
+
+```yaml
+name: Debug Reaction Board
+file: debug-reaction-board.md
+tagline: A diagnostic board that surfaces checks, risks, and uncertainty.
+mood: [developer-native, diagnostic, candid]
+tone: [terminal, technical, honest]
+formality: medium
+density: medium-high
+scheme: dark
+best_for: System diagnostics, risk assessment, readiness checks, remediation.
+avoid_for: Non-technical audiences or emotional stories with no checks to show.
+```
+
+```yaml
+name: Research Memo
+file: research-memo.md
+tagline: A calm, evidence-first research brief that earns trust by hierarchy.
+mood: [calm, authoritative, evidence-first]
+tone: [editorial, credible, unhurried]
+formality: high
+density: high
+scheme: light
+best_for: Research findings, executive summaries, evidence-led readouts for async reading.
+avoid_for: High-energy launches or playful moods.
+```
+
+```yaml
+name: Maintainer Issue Brief
+file: maintainer-issue-brief.md
+tagline: A structured ticket where work reads as actionable and reviewable.
+mood: [actionable, engineering-led]
+tone: [tracker, no-nonsense, tidy]
+formality: medium-high
+density: high
+scheme: light
+best_for: Engineering tasks, handoff specs, action items for developers and reviewers.
+avoid_for: Emotional storytelling or non-technical audiences.
+```
+
+```yaml
+name: Decision Record
+file: decision-record.md
+tagline: A formal record making a choice's context, trade-offs, and verification explicit.
+mood: [rigorous, architectural, deliberate]
+tone: [documentation, exact, serious]
+formality: high
+density: high
+scheme: light
+best_for: Technical decisions, trade-offs, architectural boundaries, the reasoning behind a choice.
+avoid_for: Playful workshops or emotional talks.
+```
+
+```yaml
+name: Benchmark Matrix
+file: benchmark-matrix.md
+tagline: A clean matrix for fair, legible like-against-like comparison.
+mood: [analytical, comparative, even-handed]
+tone: [objective, scannable, orderly]
+formality: high
+density: high
+scheme: light
+best_for: Tool comparisons, evaluation criteria, data-heavy benchmarks.
+avoid_for: Narrative keynote scenes with nothing to compare.
+```
+
+```yaml
+name: Field Notes Report
+file: field-notes-report.md
+tagline: A field notebook of grounded, hand-recorded observation.
+mood: [observational, tactile, honest]
+tone: [notebook, grounded, warm]
+formality: medium
+density: medium-high
+scheme: light
+best_for: User-research observations, physical setup notes, tactile case studies.
+avoid_for: Formal legal or finance decks.
+```
+
+```yaml
+name: Operating Manual
+file: operating-manual.md
+tagline: A high-contrast runbook of clear, numbered, do-this steps.
+mood: [commanding, procedural, urgent]
+tone: [industrial, terminal, disciplined]
+formality: medium-high
+density: high
+scheme: dark
+best_for: Runbooks, repeatable habits, command-line guides, step-by-step how-tos.
+avoid_for: Reflective closings or emotional beats.
+```
+
+```yaml
+name: Checklist Ledger
+file: checklist-ledger.md
+tagline: A plain, trustworthy ledger of readiness checks, all accounted for.
+mood: [trustworthy, practical, restrained]
+tone: [audit, sober, steady]
+formality: high
+density: high
+scheme: light
+best_for: Readiness checks, acceptance criteria, final quality checklists.
+avoid_for: Expressive storytelling or a single big claim.
+```
+
+```yaml
+name: Annotated Source & Diff
+file: annotated-source-and-diff.md
+tagline: A before/after diff that proves the value of a change.
+mood: [reviewable, precise, transformation-focused]
+tone: [reviewer, exact, clear]
+formality: medium-high
+density: high
+scheme: light
+best_for: Before/after transformations, diff explanations, code or text annotation.
+avoid_for: Abstract vision slides with no concrete change.
+```

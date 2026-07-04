@@ -185,7 +185,7 @@ typography for pauses, closings, and core philosophy.
 
 ### Balanced hybrid
 
-#### [Signal Pipeline Flow](references/style/balanced-hybrid.md#signal-pipeline-flow)
+#### [Signal Pipeline Flow](references/style/signal-pipeline-flow.md)
 
 Technical and precise. Shows data, signals, or decisions moving through routed
 nodes and structured pipeline stages.
@@ -196,7 +196,7 @@ nodes and structured pipeline stages.
   <img src="showcase/style-gallery/signal-pipeline-flow-high.webp" width="32%" alt="High density: system map" />
 </p>
 
-#### [Mechanical Scoring Funnel](references/style/balanced-hybrid.md#mechanical-scoring-funnel)
+#### [Mechanical Scoring Funnel](references/style/mechanical-scoring-funnel.md)
 
 Energetic and evaluative. Turns filtering, scoring, and prioritization into
 lanes, pins, score markers, and active funnel paths.
@@ -207,7 +207,7 @@ lanes, pins, score markers, and active funnel paths.
   <img src="showcase/style-gallery/mechanical-scoring-funnel-high.webp" width="32%" alt="High density: scoring board" />
 </p>
 
-#### [Collaborative Pairing Board](references/style/balanced-hybrid.md#collaborative-pairing-board)
+#### [Collaborative Pairing Board](references/style/collaborative-pairing-board.md)
 
 Clean and cooperative. Uses paired columns, role boundaries, and sync points to
 explain collaboration between people, teams, or systems.
@@ -218,7 +218,7 @@ explain collaboration between people, teams, or systems.
   <img src="showcase/style-gallery/collaborative-pairing-board-high.webp" width="32%" alt="High density: sync plan" />
 </p>
 
-#### [Studio Mixing Console](references/style/balanced-hybrid.md#studio-mixing-console)
+#### [Studio Mixing Console](references/style/studio-mixing-console.md)
 
 Professional and tactile. Represents parameter tuning, noise filtering, and
 trade-off balancing through faders, knobs, and level meters.
@@ -229,7 +229,7 @@ trade-off balancing through faders, knobs, and level meters.
   <img src="showcase/style-gallery/studio-mixing-console-high.webp" width="32%" alt="High density: console detail" />
 </p>
 
-#### [Subway Map of Intent](references/style/balanced-hybrid.md#subway-map-of-intent)
+#### [Subway Map of Intent](references/style/subway-map-of-intent.md)
 
 Systematic and structured. Represents converging workflows as subway lines and
 transfer stations.
@@ -240,7 +240,7 @@ transfer stations.
   <img src="showcase/style-gallery/subway-map-of-intent-high.webp" width="32%" alt="High density: schedule bento" />
 </p>
 
-#### [Kitchen Prep Station](references/style/balanced-hybrid.md#kitchen-prep-station)
+#### [Kitchen Prep Station](references/style/kitchen-prep-station.md)
 
 Warm and concrete. Turns raw-to-clean transformation into prep boards, trimmed
 ingredients, recipe steps, and plated outputs.
@@ -251,7 +251,7 @@ ingredients, recipe steps, and plated outputs.
   <img src="showcase/style-gallery/kitchen-prep-station-high.webp" width="32%" alt="High density: recipe detail" />
 </p>
 
-#### [Context Bento Box](references/style/balanced-hybrid.md#context-bento-box)
+#### [Context Bento Box](references/style/context-bento-box.md)
 
 Compact and organized. Uses compartment grids and layered boxes for handoffs,
 multi-category overviews, and context packaging.
@@ -262,7 +262,7 @@ multi-category overviews, and context packaging.
   <img src="showcase/style-gallery/context-bento-box-high.webp" width="32%" alt="High density: layered bento" />
 </p>
 
-#### [Debug Reaction Board](references/style/balanced-hybrid.md#debug-reaction-board)
+#### [Debug Reaction Board](references/style/debug-reaction-board.md)
 
 Developer-native and diagnostic. Uses neon status badges, terminal surfaces, and
 actionable boards.
@@ -275,7 +275,7 @@ actionable boards.
 
 ### Text report
 
-#### [Research Memo](references/style/text-report.md#research-memo)
+#### [Research Memo](references/style/research-memo.md)
 
 Calm and authoritative. Uses memo structure, restrained rules, serif hierarchy,
 and evidence blocks for credible reading-first decks.
@@ -286,7 +286,7 @@ and evidence blocks for credible reading-first decks.
   <img src="showcase/style-gallery/research-memo-high.webp" width="32%" alt="High density: evidence page" />
 </p>
 
-#### [Maintainer Issue Brief](references/style/text-report.md#maintainer-issue-brief)
+#### [Maintainer Issue Brief](references/style/maintainer-issue-brief.md)
 
 Clean, structured, and action-oriented. Inspired by modern issue trackers and
 code review tools.
@@ -297,7 +297,7 @@ code review tools.
   <img src="showcase/style-gallery/maintainer-issue-brief-high.webp" width="32%" alt="High density: code review diff" />
 </p>
 
-#### [Decision Record](references/style/text-report.md#decision-record)
+#### [Decision Record](references/style/decision-record.md)
 
 Rigorous and architectural. Frames context, decision, trade-offs, and
 verification in an ADR-like document rhythm.
@@ -308,7 +308,7 @@ verification in an ADR-like document rhythm.
   <img src="showcase/style-gallery/decision-record-high.webp" width="32%" alt="High density: trade-off matrix" />
 </p>
 
-#### [Benchmark Matrix](references/style/text-report.md#benchmark-matrix)
+#### [Benchmark Matrix](references/style/benchmark-matrix.md)
 
 Analytical and comparative. Prioritizes structured evidence, criteria, metrics,
 and table-like comparison surfaces.
@@ -319,7 +319,7 @@ and table-like comparison surfaces.
   <img src="showcase/style-gallery/benchmark-matrix-high.webp" width="32%" alt="High density: comparison matrix" />
 </p>
 
-#### [Field Notes Report](references/style/text-report.md#field-notes-report)
+#### [Field Notes Report](references/style/field-notes-report.md)
 
 Tactile and observational. Uses ledger paper, charcoal ink, and card grids.
 
@@ -329,7 +329,7 @@ Tactile and observational. Uses ledger paper, charcoal ink, and card grids.
   <img src="showcase/style-gallery/field-notes-report-high.webp" width="32%" alt="High density: observation grid" />
 </p>
 
-#### [Operating Manual](references/style/text-report.md#operating-manual)
+#### [Operating Manual](references/style/operating-manual.md)
 
 Procedural and high-contrast. Uses industrial runbook cues, terminal blocks, and
 step execution for repeatable operating habits.
@@ -340,7 +340,7 @@ step execution for repeatable operating habits.
   <img src="showcase/style-gallery/operating-manual-high.webp" width="32%" alt="High density: procedure detail" />
 </p>
 
-#### [Checklist Ledger](references/style/text-report.md#checklist-ledger)
+#### [Checklist Ledger](references/style/checklist-ledger.md)
 
 Trustworthy and practical. Uses ledger lines, compact rows, and visible checks
 for acceptance criteria and final readiness.
@@ -351,7 +351,7 @@ for acceptance criteria and final readiness.
   <img src="showcase/style-gallery/checklist-ledger-high.webp" width="32%" alt="High density: checklist ledger" />
 </p>
 
-#### [Annotated Source & Diff](references/style/text-report.md#annotated-source-diff)
+#### [Annotated Source & Diff](references/style/annotated-source-and-diff.md)
 
 Reviewable and transformation-focused. Shows before/after changes, annotations,
 and evidence directly in source-like surfaces.

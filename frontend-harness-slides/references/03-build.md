@@ -178,25 +178,18 @@ The harness should fail loudly on:
 
 ### Build-Time Tests
 
-**No test-free deck projects.** For any deliverable deck project, create a
-runnable test setup early and use it throughout implementation. This applies
-even to a one-slide deck, one route, or a project with only a few source files.
-The scope can shrink for a small deck, but the project should not ship with no
-test framework, no runnable test command, or tests that only prove the test
-runner itself works.
+**No test-free or under-tested slide outputs.** For any created or modified HTML
+slide artifact, create a runnable test setup early and use it throughout
+implementation. The test suite must cover the deck's meaningful risk surface:
+render and visible stage content, direct frame routing, beat/navigation behavior,
+frozen mode, layout visibility, overflow risk, interaction isolation,
+console/runtime errors, asset/font loading, and export or deployment risks when
+relevant.
 
 Use TDD-style iteration by default: write or update the relevant test before
-implementing harness-critical behavior, then run the focused check after each
-small change. Prioritize tests around direct frame routing, beat/navigation
-behavior, frozen mode, layout visibility, overflow risk, interaction isolation,
-and export or deployment risks. Keep lint and tests simple, meaningful, and
-high-value; empty assertions, superficial mount checks, or cases unrelated to
-slide behavior do not count as verification.
-
-For a tiny deck, a sufficient starting point can be one or two focused tests,
-such as: the first frame route renders the expected stage and visible title; the
-next/previous or keyboard navigation changes beat or scene state; or a structural
-audit catches overflow and console errors. Keep them small, but make them real.
+implementing harness-critical behavior, then run focused checks after each
+change. Empty assertions, superficial mount checks, tests that only prove the
+runner works, or cases unrelated to slide behavior do not count as verification.
 
 ## Motion
 

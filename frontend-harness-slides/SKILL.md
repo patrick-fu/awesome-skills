@@ -2,10 +2,9 @@
 name: frontend-harness-slides
 description: >-
   Create high-standard HTML slide decks that can be edited without breaking
-  other slides. Use for non-trivial web slides where the user wants rigorous
-  upfront alignment, polished visuals, lively motion/interactions, precise
-  iterative edits, and final delivery as an online deployment, PDF/static
-  export, or both. Avoid for tiny one-shot or mostly static decks.
+  other slides. Use for HTML slide work where the user wants rigorous upfront
+  alignment, polished visuals, lively motion/interactions, precise iterative
+  edits, and final delivery as an online deployment, PDF/static export, or both.
 ---
 
 # Frontend Harness Slides
@@ -17,9 +16,10 @@ frozen mode, audit surface, visual checks, and verified handoff.
 
 ## **PRE-BUILD ALIGNMENT HARD GATE**
 
-For any non-trivial deck, this is a hard gate. **DO NOT** create files, scaffold
-a project, write code, start a dev server, or begin implementation until the user
-has explicitly confirmed the Pre-Build Alignment in plain text.
+Before creating or modifying any HTML slide artifact, this is a hard gate.
+**DO NOT** create files, scaffold a project, write code, start a dev server, or
+begin implementation until the user has explicitly confirmed the Pre-Build
+Alignment in plain text.
 
 **INFERRED ANSWERS ARE NOT CONFIRMATION.** If the user provides substantial
 source material, inspect it first and state the inferred direction, but still ask
@@ -37,6 +37,9 @@ Cover these Pre-Build Alignment decisions, at the level the task needs:
   references, and whether a preview is useful.
 - **Build plan**: fixed stage, navigation/touch expectations, technology stack,
   source material, and delivery target.
+- **Testing plan**: test runner, test command, and required coverage across
+  render, frame addressing, navigation, interaction isolation, layout safety,
+  runtime errors, assets/fonts, and build/export/deployment checks.
 - **Context/status plan**: where project state will live, when it will be
   updated, and whether the user wants a different location.
 
@@ -57,11 +60,10 @@ Keep alignment details as implementation constraints, not slide copy. Do not
 render duration, audience, density, stage size, delivery target, navigation
 requirements, or implementation notes on the slide surface unless the user asks.
 
-For non-trivial deliverable decks, establish a context/status ledger before
-implementation unless the user explicitly declines or the task is tiny/local-only.
-Follow the user's preferred location; otherwise use project docs for deliverable
-decks and a temp path for small explorations. Treat context as memory, not
-control.
+For delivered slide work or multi-turn implementation, establish a
+context/status ledger before implementation unless the user explicitly declines.
+Follow the user's preferred location; otherwise use project docs for delivered
+decks and a temp path for explorations. Treat context as memory, not control.
 
 If the user gives a reference URL, deployed deck, or source repository, inspect
 it before choosing stage, scaling, animation, and interaction contracts.
@@ -69,7 +71,7 @@ it before choosing stage, scaling, animation, and interaction contracts.
 ## Reference Loading
 
 If the task is exploratory discussion, answer from this file and load only the
-needed reference. Once the user confirms a non-trivial deck build, import, or
+needed reference. Once the user confirms an HTML slide build, import, or
 substantial edit, read the stage references before implementation:
 
 1. `references/01-plan.md`
@@ -97,10 +99,8 @@ lists the decision surface.
 
 ## Branches
 
-- **Tiny one-shot deck**: prefer a single static HTML file; do not impose a
-  harness unless the user needs iteration, animation states, or visual checks.
-- **New harness-backed deck**: align, plan, preview if useful, establish the
-  harness contracts, build, verify, and ship.
+- **New slide artifact**: align, plan, preview if useful, establish the harness
+  contracts the work needs, build, verify, and ship.
 - **Imported or source-heavy deck**: treat source material as content and intent,
   not layout preservation; rebuild narrative, registry, assets, and scenes.
 - **Existing deck**: preserve existing stack and conventions; adapt the harness
@@ -114,17 +114,18 @@ work. Recommend an independent git repository when useful; if working inside a
 broad workspace or parent repo, briefly confirm the deck root and key files are
 tracked or ignored as expected.
 
-Prefer the user's existing stack. For a new non-trivial deck with no preference,
-React + Vite + Playwright is a reasonable default, but the skill's identity is
-the harness contract, not any framework or test library.
+Prefer the user's existing stack. For a new deck with no preference, React +
+Vite + Playwright is a reasonable default, but the skill's identity is the
+harness contract, not any framework or test library.
 
-**NO TEST-FREE DECK PROJECTS.** If you create or modify any deliverable deck
-project, include a runnable test setup and meaningful tests even when the deck
-has only one slide, one route, or a few files. Small decks may use a tiny test
-scope, but deck size is never a reason to omit the test command, test framework,
-or first useful assertions. Use a TDD-style flow by default: establish the test
-entry early, then implement and verify the harness, navigation, layout,
-interaction, and export-risk areas in small steps.
+**NO TEST-FREE OR UNDER-TESTED SLIDE OUTPUTS.** Every created or modified HTML
+slide artifact must have a runnable test command and a sufficient multi-angle
+test suite before delivery. Required coverage includes render and visible stage
+content, frame addressing, navigation, interaction isolation, layout safety,
+runtime errors, assets/fonts, and build/export/deployment behavior when
+relevant. Use a TDD-style flow by default: establish the test entry early, then
+implement and verify the harness, navigation, layout, interaction, and
+export-risk areas in small steps.
 
 ## Harness Contracts
 
@@ -145,10 +146,10 @@ is ready to iterate only when these contracts exist:
 
 ## Working Loop
 
-1. **Detect** the branch: tiny static, new harness-backed, imported/source-heavy,
-   or existing deck.
+1. **Detect** the branch: new slide artifact, imported/source-heavy, or existing
+   deck.
 2. **Align and plan** with `references/01-plan.md`; create or update the
-   context/status ledger for non-trivial deliverables.
+   context/status ledger when the work is delivered or multi-turn.
 3. **Design** with `references/02-design.md`; selected style means a visual
    system, not one repeated template.
 4. **Build** with `references/03-build.md`; preserve the harness contracts in
@@ -168,8 +169,8 @@ after skipped checks and residual risks are reported clearly.
 - Treating recommendations as user-confirmed requirements.
 - Rendering internal planning context on the slide surface.
 - Treating this skill as a mandate for a specific framework.
-- Creating a deliverable deck project without a runnable test framework and
-  meaningful tests, including one-page or otherwise "too simple" decks.
+- Creating or modifying HTML slide artifacts without a runnable test command and
+  sufficient multi-angle tests.
 - Using viewport breakpoints inside the fixed stage.
 - Rendering whole static slides in canvas.
 - Treating beats as decorative fades instead of story states.

@@ -29,9 +29,9 @@ Preview rules:
 - Render the same anchor slide in all three directions.
 - Show actual slide composition, typography, navigation treatment, motion,
   beat/state changes, and interaction.
-- Include hover feedback, click feedback or click-to-expand, at least one beat
-  reveal/state change, and at least one transition or Magic Move-like continuity
-  sample in every direction.
+- Include hover feedback, click feedback or click-to-expand, beat reveal/state
+  change behavior, and transition or Magic Move-like continuity samples in every
+  direction.
 - Start a local server and provide screenshots for comparison.
 - Explain options in chat, not on the slide surface.
 - Do not render preset names, option labels, workflow notes, file paths, or
@@ -61,8 +61,8 @@ Before asking the user to choose, verify:
 - no console/runtime errors
 - hover target works in each direction
 - click/reveal target works in each direction
-- at least one beat/state change works in each direction
-- at least one transition or Magic Move-like sample works in each direction
+- beat/state change behavior works in each direction
+- transition or Magic Move-like samples work in each direction
 
 ## Selected Theme Notes & Design DNA
 
@@ -84,9 +84,10 @@ custom_invented_metaphors:
 pacing_log:
 ```
 
-For non-trivial decks, prefer recording these notes in the shared context
-document, README, handoff note, or theme configuration so the chosen style
-survives later edits. Follow the user's preferred documentation location.
+For delivered or multi-turn slide work, prefer recording these notes in the
+shared context document, README, handoff note, or theme configuration so the
+chosen style survives later edits. Follow the user's preferred documentation
+location.
 
 ## Style System, Not Template
 

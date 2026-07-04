@@ -1,4 +1,4 @@
-# Clay & Ma
+# Wabi-Sabi Ceramic
 
 ## Aesthetic Thesis
 The screen behaves like an unglazed ceramic bowl set on a worn wooden table:
@@ -89,4 +89,8 @@ It dies the moment it gets crisp: glossy surfaces, pure white backgrounds,
 high-contrast sharp type, perfect geometric symmetry, multiple accent colors,
 dense data tables, or fast bouncy motion. If a slide needs to feel premium,
 polished, or product-launch ready, this is the wrong register — switch to
-Minimal Product Keynote instead of trying to make clay feel like glass.
+Minimal Product Keynote instead of trying to make clay feel like glass. If the
+content needs mid-century organic warmth with botanical green ground and rust
+accents rather than muted earthen stillness, switch to Mid-Century Grove. If it
+calls for friendly pastel approachability with rounded pill geometry instead of
+tea-ceremony contemplation, move to Soft Pastel Friendly.

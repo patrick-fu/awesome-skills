@@ -65,4 +65,4 @@ It dies when it stops looking like engineering: a dark dramatic or warm
 background, decorative color, an expressive display typeface with no monospaced
 elements, unstructured prose with no status or sections, or showy motion. If the
 audience is non-technical or the content is a story, the tracker frame alienates
-them — use a warmer report or keynote style.
+them — use a warmer report or keynote style. If the content needs to explain the "why" behind a choice with full reasoning and trade-offs rather than just the actionable ticket, switch to Decision Record. If it is pure sign-off and readiness checks with no narrative needed, move to Checklist Ledger.

@@ -75,10 +75,10 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 这套风格系统不是让每一页套同一个模板。它更强调在一个统一风格里，根据内容语义切换版式、
 动效、交互方式和出现节奏。
 
-完整画廊覆盖四类密度：Minimal Keynote、Balanced Hybrid、Print & Cultural Traditions、Text Report。每个风格都展示
+完整画廊覆盖六类视觉家族：极简主题演讲、平衡混合、编辑与印刷、工艺与文化传统、当代数字、文本报告。每个风格都展示
 低、中、高三种密度示例。
 
-### Minimal keynote
+### 极简主题演讲
 
 #### [Minimal Product Keynote](references/style/minimal-product-keynote.md)
 
@@ -160,7 +160,7 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/spotlight-quote-poster-high.webp" width="32%" alt="高密度：quote 海报细节" />
 </p>
 
-### Balanced hybrid
+### 平衡混合
 
 #### [Signal Pipeline Flow](references/style/signal-pipeline-flow.md)
 
@@ -242,11 +242,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
   <img src="showcase/style-gallery/debug-reaction-board-high.webp" width="32%" alt="高密度：风险看板" />
 </p>
 
-### 印刷与文化传统
+### 编辑与印刷
 
-源自编辑出版、印刷和文化设计传统的风格。展示截图即将推出。
-
-**编辑出版**
+源自编辑设计、出版版式和印刷字体传统的风格。展示截图即将推出。
 
 #### [Magazine Masthead](references/style/magazine-masthead.md)
 
@@ -268,25 +266,13 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 报纸头版，多栏布局和标题层级，适合密集信息交付。
 
-**海报与抗议**
-
-#### [Neo-Brutalist Bulletin](references/style/neo-brutalist-bulletin.md)
-
-抗议海报能量，粗黑边框、硬投影和一个高电压强调色。
-
-#### [Riso Print Zine](references/style/riso-print-zine.md)
-
-Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
-
-#### [Red Wedge Agitprop](references/style/red-wedge-agitprop.md)
-
-构成主义政治海报，红色楔形几何和对角线动能，适合行动号召。
-
 #### [Duotone Session](references/style/duotone-session.md)
 
 Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、克制、匠人感。
 
-**插画与工艺**
+### 工艺与文化传统
+
+根植于工艺技法、文化视觉传统和实体媒介的风格。展示截图即将推出。
 
 #### [Botanical Specimen Plate](references/style/botanical-specimen-plate.md)
 
@@ -308,7 +294,7 @@ Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、�
 
 Art Deco 机器时代，几何图案和阶梯造型，适合宏大愿景和雄心路线图。
 
-#### [Clay & Ma](references/style/clay-and-ma.md)
+#### [Wabi-Sabi Ceramic](references/style/wabi-sabi-ceramic.md)
 
 手捏陶瓷，侘寂不规则感和哑光釉面，适合工艺和天然产品主题。
 
@@ -316,17 +302,25 @@ Art Deco 机器时代，几何图案和阶梯造型，适合宏大愿景和雄�
 
 手工剪纸拼贴，撕纸边缘和混合质感，适合创意过程和想法组装。
 
-**媒体与包装**
-
 #### [Cassette-Era Packaging](references/style/cassette-era-packaging.md)
 
 磁带 J-card 设计，80-90 年代图形能量和混音带布局，适合音乐和怀旧内容。
 
-#### [Widescreen Title Card](references/style/widescreen-title-card.md)
+#### [Riso Print Zine](references/style/riso-print-zine.md)
 
-电影宽银幕标题卡，电影字体和氛围静止感，适合开场标题和宏大揭示。
+Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
 
-**当代数字**
+#### [Neo-Brutalist Bulletin](references/style/neo-brutalist-bulletin.md)
+
+抗议海报能量，粗黑边框、硬投影和一个高电压强调色。
+
+#### [Red Wedge Agitprop](references/style/red-wedge-agitprop.md)
+
+构成主义政治海报，红色楔形几何和对角线动能，适合行动号召。
+
+### 当代数字
+
+源自当前 UI 趋势和平台美学的现代数字优先风格。展示截图即将推出。
 
 #### [Mid-Century Grove](references/style/mid-century-grove.md)
 
@@ -352,7 +346,11 @@ Windows 3.1/95 怀旧，斜面镀铬和系统灰调色板，适合开发者工�
 
 Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Apple 平台内容。
 
-### Text report
+#### [Widescreen Title Card](references/style/widescreen-title-card.md)
+
+电影宽银幕标题卡，电影字体和氛围静止感，适合开场标题和宏大揭示。
+
+### 文本报告
 
 #### [Research Memo](references/style/research-memo.md)
 

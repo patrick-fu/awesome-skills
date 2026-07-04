@@ -105,4 +105,8 @@ corners, drop shadows, gradient backgrounds, chrome labels in sentence case,
 or a slide packed with six or more competing elements. If the content needs
 reading-first evidence, dense comparison, or calm document authority rather
 than cover-page spectacle, this is the wrong instrument — switch to the
-Research Memo style and let the evidence lead instead of the masthead.
+Research Memo style and let the evidence lead instead of the masthead. If the
+content needs pure typographic punch with percussive word impact rather than
+editorial cover spectacle, switch to Kinetic Type Punchline. If it needs quiet
+narrative reading flow with warm paper feature spread instead of saturated
+masthead drama, move to Warm Editorial Feature.

@@ -66,4 +66,7 @@ the run is animated.
 It dies when it goes quiet or flat: a light calm background, muted undifferentiated
 color, a delicate typeface, a static list with no travel or scoring, or no motion
 at all. If the content is a calm report or a single reflective point, this machine
-is the wrong toy — use a report or keynote style.
+is the wrong toy — use a report or keynote style. If the content needs serious
+technical routing and flow diagramming rather than playful sorting machinery,
+switch to Signal Pipeline Flow. If it requires analytical side-by-side comparison
+instead of travel-through-structure scoring, move to Benchmark Matrix.

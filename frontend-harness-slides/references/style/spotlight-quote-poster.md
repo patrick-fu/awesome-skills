@@ -67,4 +67,7 @@ It dies the moment it fills up or brightens: multiple points on screen, a light 
 busy background, several colors, a plain utilitarian typeface, hard even lighting,
 or quick snappy motion. It also dies if asked to explain — lists, steps, or data
 have no place under the spotlight; move that content to a reading-first or process
-style and keep this for the pause.
+style and keep this for the pause. If the content wants cinematic opening with
+letterbox frame and graded film still rather than pure spotlight darkness, switch
+to Widescreen Title Card. If it needs light extreme value contrast with one idea
+in emptiness instead of dark drama, move to Minimal Product Keynote.

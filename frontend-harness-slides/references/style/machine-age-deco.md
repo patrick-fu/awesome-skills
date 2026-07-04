@@ -93,4 +93,6 @@ metallic tone collapse the engineered opulence into kitsch. Dense paragraphs,
 utilitarian data tables, and casual illustration all fight the stately register.
 If the content wants intimate, human-scale luxury rather than monumental
 ceremony, switch to After-Hours Luxe instead of forcing the content onto a
-pedestal it was never meant to stand on.
+pedestal it was never meant to stand on. If the content calls for editorial
+cover drama with magazine masthead authority rather than geometric
+monumentality, switch to Magazine Masthead.

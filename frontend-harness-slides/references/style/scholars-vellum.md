@@ -90,5 +90,8 @@ It dies when it gets cold or loud: cold clinical black grounds, neon or
 saturated accent colors, a second accent, busy multi-column density,
 rounded card corners, drop shadows, fast bouncy motion, or sans display
 type. If the content needs routed technical diagrams, system architecture,
-or dense data flows, this is the wrong instrument — switch to Signal
-Pipeline instead of shrinking serif type until the library calm is gone.
+or dense data flows, this is the wrong instrument — switch to Signal Pipeline instead of shrinking serif type until the library calm is gone.
+If the content needs evidence-led document authority with memo hierarchy rather
+than vellum reverence, switch to Research Memo. If it calls for dense justified
+newspaper narrative with nameplate journalism instead of manuscript quiet, move
+to Front Page Broadsheet.

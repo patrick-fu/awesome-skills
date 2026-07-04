@@ -64,4 +64,4 @@ which observations appear, the warm accent, and how notes are revealed.
 It dies when it goes slick: a bright white or dark technical background, cool or
 neon color, a purely typeset look with no hand marks, a rigid corporate layout, or
 mechanical motion. If the deck is formal legal, finance, or high-gravitas, the
-notebook warmth undercuts it — use a memo or decision style instead.
+notebook warmth undercuts it — use a memo or decision style instead. If the content wants poster-style civic optimism with flat ink conviction and landscape horizon rather than notebook observation, switch to Expedition Screenprint. If it needs looser workshop energy with hand-drawn marks and emoji actors instead of grounded field notes, move to Sketch Board Emoji.

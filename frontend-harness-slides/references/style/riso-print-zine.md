@@ -91,4 +91,8 @@ pure white backgrounds, full-color photography, or a buttery ease-in all strip
 the printed-paper illusion. Over-polished type, too many colors, or
 pixel-perfect alignment kills the handmade warmth. If the content needs more
 refinement or editorial polish than a zine table allows, do not sand down the
-edges — switch to Warm Editorial Feature instead.
+edges — switch to Warm Editorial Feature instead. If the content calls for
+paper-cut collage with scissor edges and pin fasteners rather than print-zine
+ink registration, switch to Analog Cutout Collage. If it needs looser workshop
+energy with hand-drawn marks and emoji actors instead of print craft, move to
+Sketch Board Emoji.

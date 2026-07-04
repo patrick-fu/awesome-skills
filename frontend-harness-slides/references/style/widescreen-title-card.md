@@ -93,4 +93,6 @@ bouncy transitions. If a slide needs to carry real content rather than just
 name a section, this style cannot hold it — do not shrink the type or strip
 the still to force more words in. Switch to Spotlight Quote Poster for a
 dark single-statement slide that can hold a bit more text while keeping the
-cinematic mood.
+cinematic mood. If the content calls for light extreme-value keynote restraint
+with one idea in a field of white rather than cinematic dark letterbox, switch
+to Minimal Product Keynote.

@@ -70,4 +70,8 @@ It dies the moment it gets polite: light or medium type, comfortable whitespace
 with small words, soft gradients or textures, several colors, or gentle fades. It
 also dies if you try to make it explain — the instant a slide needs real
 sentences or data, this is the wrong instrument; move the detail to a
-reading-first style and keep this for the punch.
+reading-first style and keep this for the punch. If the content calls for
+ideological boldness with red-wedge geometric rhetoric and photomontage rather
+than pure typographic punch, switch to Red-Wedge Agitprop. If it needs editorial
+cover drama with magazine masthead authority instead of poster punch, move to
+Magazine Masthead.

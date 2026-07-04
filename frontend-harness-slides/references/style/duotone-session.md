@@ -93,4 +93,7 @@ when scale gets timid: shrink the gothic title to a comfortable header and the
 whole thing collapses into a generic dark slide. Other killers: extra accent
 colors, gradients, glow, centered layouts, playful illustration, and body text in
 the spot ink. For full-color photos or glossy fashion energy, switch to Magazine
-Masthead.
+Masthead. If the content wants dark sophisticated intimacy with late-night bar
+atmosphere rather than cool studio session discipline, switch to After-Hours
+Luxe. If it needs cinematic letterbox opening with film still and title
+treatment instead of LP-sleeve duotone, move to Widescreen Title Card.

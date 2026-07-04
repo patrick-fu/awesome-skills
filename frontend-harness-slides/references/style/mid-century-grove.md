@@ -94,4 +94,8 @@ text, cold blue or neon values, a heavy sans display, fast bouncy motion,
 multi-column bullet density, hard drop shadows, glossy gradients, or tech-chrome
 UI elements. If the content needs to feel more playful, energetic, or
 approachable — if "warm and cultivated" reads as too serious or too quiet —
-switch to Soft Pastel Friendly instead.
+switch to Soft Pastel Friendly instead. If the content needs 19th-century
+scientific illustration authority with specimen-plate reverence rather than
+mid-century organic warmth, switch to Botanical Specimen Plate. If the content
+needs even quieter wabi-sabi stillness with earthen imperfection and ma
+emptiness rather than cultivated botanical warmth, switch to Wabi-Sabi Ceramic.

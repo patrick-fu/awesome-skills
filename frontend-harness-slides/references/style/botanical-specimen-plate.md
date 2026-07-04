@@ -101,4 +101,7 @@ white backgrounds, glossy surfaces, hard vector edges, drop shadows, fast
 motion, dashboard information density, multiple competing elements, or a
 modern sans-serif. If the content calls for contemporary organic warmth,
 living green energy, or a mid-century modernist take on nature rather than
-19th-century scientific illustration, switch to Mid-Century Grove instead.
+19th-century scientific illustration, switch to Mid-Century Grove instead. If
+the content needs light-background technical blueprint precision with
+drafting-table calm rather than herbarium plate reverence, switch to Cyanotype
+Drafting Table.

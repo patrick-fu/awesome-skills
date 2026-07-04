@@ -4,7 +4,8 @@ This file is the flat style decision surface for agents. Use the catalog below t
 shortlist candidate style directions from their tags, then load only the
 individual style files you need. There is no category hierarchy: every style is a
 peer, classified by tags rather than by folder or section, so nothing implies a
-default or a ranking.
+default or a ranking. The catalog is grouped into six visual families for
+browsing convenience; use the tags (not the group order) for automated selection.
 
 Agent reference files stay decision-focused; human-facing visual galleries live
 in the README.
@@ -63,6 +64,10 @@ Start from the content's semantic structure, then choose a spatial idea:
 | Core thesis, golden sentence, big claim | Hero metaphor, poster, quote, spotlight object |
 | Evidence, categories, checklist | Asymmetric bento, memo blocks, ledger, matrix |
 | Trade-offs, balance, cycles | Balance scale, gear mesh, loop, custom topology |
+| Hierarchy, stack, progression | Layered tower, stepped pyramid, concentric rings, stacked cards → Objective Swiss Grid, Scholars' Vellum, Decision Record |
+| Chronology, before-during-after | Timeline track, era bands, flip-card sequence, annotated chronicle → Expedition Screenprint, Field Notes Report, Front Page Broadsheet |
+| Metrics dashboard, KPI display | Tile grid, gauge row, scorecard, lede-numeral layout → Benchmark Matrix, Research Memo, Debug Reaction Board |
+| Narrative arc, hero's journey | Act structure panels, story spine, journey map, rising-falling curve → Warm Editorial Feature, Woodblock Floating World, Kitchen Prep Station |
 
 Invent new visual metaphors when they serve the material better than the listed
 families. Keep the selected style system coherent across slides while varying
@@ -75,6 +80,28 @@ notes for non-trivial decks, such as `Low | Medium | Low | High | Medium`.
 Adjacent slides can share a layout family when the repetition has a purpose;
 otherwise, vary composition enough that the deck feels deliberately paced.
 
+## Quick Decision Tree
+
+Use these shortcuts to jump to candidate styles without scanning all 48.
+
+| I need... | Start with |
+|---|---|
+| One enormous idea, premium restraint | Minimal Product Keynote, Kinetic Type Punchline, Magazine Masthead |
+| Data flowing through a system | Signal Pipeline Flow, Subway Map of Intent, Cyanotype Drafting Table |
+| Before/after transformation proof | Annotated Source & Diff, Kitchen Prep Station, Neo-Brutalist Bulletin |
+| Technical content for developers | Debug Reaction Board, Maintainer Issue Brief, Operating Manual, Signal Pipeline Flow |
+| Formal evidence for async reading | Research Memo, Decision Record, Scholars' Vellum, Objective Swiss Grid |
+| Warm hands-on approachable | Sketch Board Emoji, Kitchen Prep Station, Soft Pastel Friendly |
+| Bold confrontational statement | Red Wedge Agitprop, Kinetic Type Punchline, Neo-Brutalist Bulletin |
+| Editorial print publication | Magazine Masthead, Warm Editorial Feature, Front Page Broadsheet, Solar Biennale Poster |
+| Craft handmade authenticity | Riso Print Zine, Analog Cutout Collage, Wabi-Sabi Ceramic, Expedition Screenprint |
+| Retro tech nostalgia | Arcade Boss Fight, Retro Windows, Cassette-Era Packaging |
+| Dark cinematic atmosphere | Spotlight Quote Poster, Widescreen Title Card, After-Hours Luxe, Duotone Session |
+| Multi-category comparison | Benchmark Matrix, Context Bento Box, Objective Swiss Grid |
+| Premium product showcase | Minimal Product Keynote, Liquid Glass, After-Hours Luxe, Magazine Masthead |
+| Educational teaching | Blackboard Chalk Talk, Sketch Board Emoji, Soft Pastel Friendly |
+| Cultural artistic framing | Woodblock Floating World, Scholars' Vellum, Botanical Specimen Plate, Machine-Age Deco |
+
 ## Catalog
 
 Each entry carries the tags used to shortlist it and a link to its full style
@@ -83,30 +110,38 @@ against `mood`, `tone`, `formality`, `density`, `scheme`, `best_for`, and
 `avoid_for`. Treat `best_for` as feeling and example fit, not a strict industry
 filter, and `avoid_for` as a soft warning, not a veto.
 
+# === Band: Minimal Keynote ===
+
 ```yaml
 name: Minimal Product Keynote
 file: minimal-product-keynote.md
 tagline: One idea, enormous, alone in a field of emptiness; restraint reads as luxury.
-mood: [premium, composed, unhurried]
+mood: [premium, calm, composed]
 tone: [reverent, focused, confident]
 formality: high
 density: low
 scheme: mixed          # lives at near-white or near-black extremes
 best_for: Opening theses, product reveals, section thresholds, single big claims.
 avoid_for: Dense evidence, multi-part comparison, or anything needing several facts on screen at once.
+aliases: [apple keynote, gallery, extreme minimal, product launch]
+motion: calm-slow
+typography_voice: serif-display
 ```
 
 ```yaml
 name: Sketch Board Emoji
 file: sketch-board-emoji.md
 tagline: A warm, in-progress workshop board where thinking happens out loud.
-mood: [warm, playful, human]
+mood: [warm-approachable, playful, human]
 tone: [candid, collaborative, workshop-like]
 formality: low-medium
 density: low-medium
 scheme: light
 best_for: Collaboration stories, messy-to-structured journeys, human-in-the-loop workflows.
 avoid_for: Formal, regulated, or high-gravitas decks where hand-drawn looseness reads as unserious.
+aliases: [sketch, whiteboard, workshop, emoji, hand-drawn]
+motion: spring-gentle
+typography_voice: handwritten
 ```
 
 ```yaml
@@ -120,6 +155,9 @@ density: low-medium
 scheme: dark
 best_for: Human-agent dialogue, clarifying questions, role exchange, request-and-response stories.
 avoid_for: Data-heavy reports or broad multi-topic overviews with no exchange to stage.
+aliases: [dialogue, stage, conversation, two-voice, exchange]
+motion: calm-slow
+typography_voice: sans-grotesque
 ```
 
 ```yaml
@@ -133,6 +171,9 @@ density: low
 scheme: dark           # deep black or one high-voltage saturated field
 best_for: Section punches, hard contrasts, memorable one-liners, waking a room up.
 avoid_for: Reading-first detail, nuance, evidence, or anything needing qualification.
+aliases: [kinetic type, punchline, poster, bold statement, type-driven]
+motion: kinetic-punchy
+typography_voice: display-condensed
 ```
 
 ```yaml
@@ -146,6 +187,9 @@ density: low-medium
 scheme: light          # warm material tones
 best_for: Toolkits, preparation, readiness, simplifying an abstract concept via a physical metaphor.
 avoid_for: Dense side-by-side comparison or pure data with no single tangible metaphor.
+aliases: [object metaphor, hero, physical, tangible, craft object]
+motion: calm-slow
+typography_voice: serif-display
 ```
 
 ```yaml
@@ -159,6 +203,9 @@ density: low-medium
 scheme: dark           # matte chalkboard tone
 best_for: Core principles, conceptual formulas, derivations, "why this works" explanations.
 avoid_for: Glossy corporate polish, hype, or finished results with no reasoning to show.
+aliases: [chalkboard, classroom, teaching, derivation, whiteboard dark]
+motion: calm-slow
+typography_voice: handwritten
 ```
 
 ```yaml
@@ -172,6 +219,9 @@ density: low-medium
 scheme: dark
 best_for: Risk framing, recaps, re-engaging a room after a heavy stretch, making difficulty approachable.
 avoid_for: Serious executive readouts or anything needing gravitas and precise tone.
+aliases: [arcade, retro game, boss fight, 8-bit, pixel art]
+motion: energetic-fluid
+typography_voice: display-condensed
 ```
 
 ```yaml
@@ -185,7 +235,12 @@ density: low
 scheme: dark
 best_for: Closing statements, guiding philosophies, mission lines, deliberate pauses between sections.
 avoid_for: Procedural, explanatory, or data content with steps or evidence to walk through.
+aliases: [spotlight, quote, poster, dark stage, reflective]
+motion: calm-slow
+typography_voice: serif-display
 ```
+
+# === Band: Balanced Hybrid ===
 
 ```yaml
 name: Signal Pipeline Flow
@@ -198,6 +253,9 @@ density: medium
 scheme: dark
 best_for: System architecture, data flow, pipelines, technical process mapping.
 avoid_for: Emotional openers or human stories with no system to route.
+aliases: [pipeline, data flow, system map, routing, technical diagram]
+motion: energetic-fluid
+typography_voice: mono-technical
 ```
 
 ```yaml
@@ -211,6 +269,9 @@ density: medium
 scheme: dark
 best_for: Categorization, multi-stage filtering, scoring, prioritization.
 avoid_for: Quiet reports or reflective moments with nothing to sort or score.
+aliases: [funnel, scoring, mechanical, filter, categorization]
+motion: energetic-fluid
+typography_voice: sans-grotesque
 ```
 
 ```yaml
@@ -224,6 +285,9 @@ density: medium
 scheme: light
 best_for: Role division, pair workflows, sync points, human-system collaboration.
 avoid_for: Highly expressive talks or single-voice claims with no pairing.
+aliases: [pairing, collaboration, board, two-column, sync]
+motion: minimal
+typography_voice: sans-grotesque
 ```
 
 ```yaml
@@ -237,6 +301,9 @@ density: medium
 scheme: dark
 best_for: Parameter tuning, multi-factor balancing, noise filtering, trade-offs.
 avoid_for: Sparse keynote claims with a single variable and nothing to balance.
+aliases: [mixing console, studio, faders, audio, trade-offs]
+motion: minimal
+typography_voice: mono-technical
 ```
 
 ```yaml
@@ -250,19 +317,25 @@ density: medium
 scheme: light
 best_for: Multi-track workflows, converging processes, milestone mapping.
 avoid_for: A single emotional claim with one track and no convergence.
+aliases: [subway map, transit, journey, stations, convergence]
+motion: minimal
+typography_voice: sans-grotesque
 ```
 
 ```yaml
 name: Kitchen Prep Station
 file: kitchen-prep-station.md
 tagline: A warm prep station turning raw input into a plated result.
-mood: [warm, concrete, hands-on]
+mood: [warm-approachable, concrete, hands-on]
 tone: [friendly, tactile, inviting]
 formality: medium-low
 density: medium
 scheme: light
 best_for: Raw-to-clean transformations, pre-processing, step-by-step refinement.
 avoid_for: Formal technical governance or pure data.
+aliases: [kitchen, prep station, cooking, transformation, ingredients]
+motion: spring-gentle
+typography_voice: mixed-voice
 ```
 
 ```yaml
@@ -276,6 +349,9 @@ density: medium-high
 scheme: dark
 best_for: Context structuring, handoff specifications, multi-category overviews.
 avoid_for: Sparse keynote beats with a single idea and no compartments.
+aliases: [bento box, context, compartments, organized, compact]
+motion: minimal
+typography_voice: sans-grotesque
 ```
 
 ```yaml
@@ -289,111 +365,12 @@ density: medium-high
 scheme: dark
 best_for: System diagnostics, risk assessment, readiness checks, remediation.
 avoid_for: Non-technical audiences or emotional stories with no checks to show.
+aliases: [debug, diagnostic, terminal, developer, risk]
+motion: minimal
+typography_voice: mono-technical
 ```
 
-```yaml
-name: Research Memo
-file: research-memo.md
-tagline: A calm, evidence-first research brief that earns trust by hierarchy.
-mood: [calm, authoritative, evidence-first]
-tone: [editorial, credible, unhurried]
-formality: high
-density: high
-scheme: light
-best_for: Research findings, executive summaries, evidence-led readouts for async reading.
-avoid_for: High-energy launches or playful moods.
-```
-
-```yaml
-name: Maintainer Issue Brief
-file: maintainer-issue-brief.md
-tagline: A structured ticket where work reads as actionable and reviewable.
-mood: [actionable, engineering-led]
-tone: [tracker, no-nonsense, tidy]
-formality: medium-high
-density: high
-scheme: light
-best_for: Engineering tasks, handoff specs, action items for developers and reviewers.
-avoid_for: Emotional storytelling or non-technical audiences.
-```
-
-```yaml
-name: Decision Record
-file: decision-record.md
-tagline: A formal record making a choice's context, trade-offs, and verification explicit.
-mood: [rigorous, architectural, deliberate]
-tone: [documentation, exact, serious]
-formality: high
-density: high
-scheme: light
-best_for: Technical decisions, trade-offs, architectural boundaries, the reasoning behind a choice.
-avoid_for: Playful workshops or emotional talks.
-```
-
-```yaml
-name: Benchmark Matrix
-file: benchmark-matrix.md
-tagline: A clean matrix for fair, legible like-against-like comparison.
-mood: [analytical, comparative, even-handed]
-tone: [objective, scannable, orderly]
-formality: high
-density: high
-scheme: light
-best_for: Tool comparisons, evaluation criteria, data-heavy benchmarks.
-avoid_for: Narrative keynote scenes with nothing to compare.
-```
-
-```yaml
-name: Field Notes Report
-file: field-notes-report.md
-tagline: A field notebook of grounded, hand-recorded observation.
-mood: [observational, tactile, honest]
-tone: [notebook, grounded, warm]
-formality: medium
-density: medium-high
-scheme: light
-best_for: User-research observations, physical setup notes, tactile case studies.
-avoid_for: Formal legal or finance decks.
-```
-
-```yaml
-name: Operating Manual
-file: operating-manual.md
-tagline: A high-contrast runbook of clear, numbered, do-this steps.
-mood: [commanding, procedural, urgent]
-tone: [industrial, terminal, disciplined]
-formality: medium-high
-density: high
-scheme: dark
-best_for: Runbooks, repeatable habits, command-line guides, step-by-step how-tos.
-avoid_for: Reflective closings or emotional beats.
-```
-
-```yaml
-name: Checklist Ledger
-file: checklist-ledger.md
-tagline: A plain, trustworthy ledger of readiness checks, all accounted for.
-mood: [trustworthy, practical, restrained]
-tone: [audit, sober, steady]
-formality: high
-density: high
-scheme: light
-best_for: Readiness checks, acceptance criteria, final quality checklists.
-avoid_for: Expressive storytelling or a single big claim.
-```
-
-```yaml
-name: Annotated Source & Diff
-file: annotated-source-and-diff.md
-tagline: A before/after diff that proves the value of a change.
-mood: [reviewable, precise, transformation-focused]
-tone: [reviewer, exact, clear]
-formality: medium-high
-density: high
-scheme: light
-best_for: Before/after transformations, diff explanations, code or text annotation.
-avoid_for: Abstract vision slides with no concrete change.
-```
+# === Band: Editorial & Print ===
 
 ```yaml
 name: Magazine Masthead
@@ -406,32 +383,41 @@ density: low-medium
 scheme: mixed
 best_for: Deck covers, section thresholds, big statements, any moment needing editorial gravitas.
 avoid_for: Dense evidence pages or several parallel facts — the register turns bombastic.
+aliases: [magazine, masthead, editorial cover, newsstand, fashion serif]
+motion: kinetic-punchy
+typography_voice: serif-display
 ```
 
 ```yaml
 name: Solar Biennale Poster
 file: solar-biennale-poster.md
 tagline: An exhibition poster on warm parchment with a slow solar glow and one enormous serif statement.
-mood: [contemplative, warm, institutionally confident]
+mood: [contemplative, warm-elegant, institutionally confident]
 tone: [cultural, dignified, slow]
 formality: high
 density: low
 scheme: light
 best_for: Cultural programme decks, artistic research, manifesto statements, slow dignified reading.
 avoid_for: Dashboard density, tech-forward energy, anything needing to feel fast or urgent.
+aliases: [biennale, exhibition poster, solar, parchment, cultural]
+motion: calm-slow
+typography_voice: serif-display
 ```
 
 ```yaml
 name: Warm Editorial Feature
 file: warm-editorial-feature.md
 tagline: A magazine feature spread on cream paper with serif display and pull-quote rhythm.
-mood: [inviting, narrative, warm]
+mood: [inviting, narrative, warm-elegant]
 tone: [editorial, conversational, literary]
 formality: medium-high
 density: medium
 scheme: light
 best_for: Story-led decks, long-form features, narrative case studies, interview-driven content.
 avoid_for: Pure data dashboards or anything that must read as a UI rather than a publication.
+aliases: [editorial feature, magazine spread, cream paper, pull quote, longform]
+motion: calm-slow
+typography_voice: serif-display
 ```
 
 ```yaml
@@ -445,6 +431,9 @@ density: medium-high
 scheme: light
 best_for: Historical framing, theoretical arguments, deep-dive intellectual content, classical references.
 avoid_for: Fast-paced product launches or casual workshop energy.
+aliases: [vellum, manuscript, parchment, classical, academic]
+motion: calm-slow
+typography_voice: serif-display
 ```
 
 ```yaml
@@ -458,45 +447,9 @@ density: high
 scheme: light
 best_for: News-heavy updates, multi-story briefings, executive morning reads, packed content.
 avoid_for: Single-idea keynote moments or emotional storytelling.
-```
-
-```yaml
-name: Neo-Brutalist Bulletin
-file: neo-brutalist-bulletin.md
-tagline: A protest poster taped to concrete with thick black borders and hard offset shadows.
-mood: [confident, blunt, irreverent]
-tone: [bold, human, unapologetic]
-formality: medium-low
-density: medium-high
-scheme: light
-best_for: Product launches, process overviews, comparison decks, dense info with bold character.
-avoid_for: Delicate subtlety, reverent minimalism, anything that needs to whisper.
-```
-
-```yaml
-name: Riso Print Zine
-file: riso-print-zine.md
-tagline: A risograph zine with limited palette and handmade collage density.
-mood: [playful, handmade, rebellious]
-tone: [DIY, warm, slightly chaotic]
-formality: low
-density: medium-high
-scheme: light
-best_for: Creative process, community stories, zine-style documentation, youth culture.
-avoid_for: Formal executive readouts or precise technical documentation.
-```
-
-```yaml
-name: Red Wedge Agitprop
-file: red-wedge-agitprop.md
-tagline: A constructivist political poster with red wedge geometry and diagonal dynamism.
-mood: [urgent, bold, ideological]
-tone: [agitational, graphic, confrontational]
-formality: medium
-density: medium
-scheme: mixed
-best_for: Call-to-action, movement framing, bold thesis statements, activist energy.
-avoid_for: Nuanced evidence or balanced comparison — the wedge does not do nuance.
+aliases: [newspaper, broadsheet, front page, headline, multi-column]
+motion: calm-slow
+typography_voice: serif-display
 ```
 
 ```yaml
@@ -510,7 +463,12 @@ density: low-medium
 scheme: dark
 best_for: Product launches with musical angle, artist spotlights, editorial grit without fashion gloss.
 avoid_for: Corporate polish, playful illustrations, data-heavy readouts.
+aliases: [duotone, blue note, LP sleeve, vinyl, session]
+motion: atmospheric-drift
+typography_voice: display-condensed
 ```
+
+# === Band: Craft & Cultural Traditions ===
 
 ```yaml
 name: Botanical Specimen Plate
@@ -523,6 +481,9 @@ density: medium
 scheme: light
 best_for: Natural world framing, growth narratives, taxonomy, organic systems, patient reading.
 avoid_for: High-energy launches or dense data dashboards.
+aliases: [botanical, specimen, scientific illustration, plant, taxonomy]
+motion: atmospheric-drift
+typography_voice: serif-display
 ```
 
 ```yaml
@@ -536,6 +497,9 @@ density: medium
 scheme: light
 best_for: Journey narratives, layered systems, cultural framing, contemplative visual storytelling.
 avoid_for: Sharp technical diagrams or fast-paced punchlines.
+aliases: [woodblock, ukiyo-e, japanese, floating world, sumi-e]
+motion: atmospheric-drift
+typography_voice: handwritten
 ```
 
 ```yaml
@@ -549,6 +513,9 @@ density: medium-high
 scheme: light
 best_for: System architecture, technical specs, engineering diagrams, blueprint-level planning.
 avoid_for: Emotional storytelling or purely visual brand moments.
+aliases: [cyanotype, blueprint, drafting, engineering, technical drawing]
+motion: minimal
+typography_voice: mono-technical
 ```
 
 ```yaml
@@ -562,6 +529,9 @@ density: medium
 scheme: light
 best_for: Exploration narratives, field research, journey mapping, discovery stories.
 avoid_for: Polished corporate decks or precise financial readouts.
+aliases: [expedition, screenprint, field journal, map, adventure]
+motion: minimal
+typography_voice: mixed-voice
 ```
 
 ```yaml
@@ -575,11 +545,14 @@ density: medium
 scheme: mixed
 best_for: Grand visions, infrastructure stories, ambitious roadmaps, 1920s-30s glamour energy.
 avoid_for: Casual workshop vibes or hand-drawn looseness.
+aliases: [art deco, machine age, geometric, 1920s, streamlined]
+motion: calm-slow
+typography_voice: serif-display
 ```
 
 ```yaml
-name: Clay & Ma
-file: clay-and-ma.md
+name: Wabi-Sabi Ceramic
+file: wabi-sabi-ceramic.md
 tagline: Hand-formed ceramic with wabi-sabi irregularity and matte glaze surfaces.
 mood: [organic, imperfect, grounded]
 tone: [tactile, calm, artisanal]
@@ -588,6 +561,9 @@ density: low-medium
 scheme: light
 best_for: Craft narratives, natural product framing, mindful or wellness content, handmade stories.
 avoid_for: Sharp technical precision or corporate authority moments.
+aliases: [clay and ma, wabi sabi, ceramic, craft, handmade, japanese]
+motion: spring-gentle
+typography_voice: handwritten
 ```
 
 ```yaml
@@ -601,6 +577,9 @@ density: medium-high
 scheme: mixed
 best_for: Creative process, idea assembly, mixed-media stories, workshop documentation.
 avoid_for: Formal executive briefings or pixel-precise technical diagrams.
+aliases: [cutout, collage, paper craft, torn edges, handmade]
+motion: spring-gentle
+typography_voice: handwritten
 ```
 
 ```yaml
@@ -614,32 +593,75 @@ density: medium
 scheme: mixed
 best_for: Music-related content, nostalgia framing, mixtape-style curation, cultural throwbacks.
 avoid_for: Formal corporate reports or minimalist luxury moments.
+aliases: [cassette, mixtape, 80s, 90s, J-card]
+motion: energetic-fluid
+typography_voice: mixed-voice
 ```
 
 ```yaml
-name: Widescreen Title Card
-file: widescreen-title-card.md
-tagline: A cinematic letterbox title card with film typography and atmospheric stillness.
-mood: [epic, atmospheric, cinematic]
-tone: [filmic, deliberate, grand]
-formality: high
-density: low
-scheme: dark
-best_for: Opening titles, section interludes, grand reveals, cinematic framing moments.
-avoid_for: Dense content pages or quick-fire information delivery.
+name: Riso Print Zine
+file: riso-print-zine.md
+tagline: A risograph zine with limited palette and handmade collage density.
+mood: [playful, handmade, rebellious]
+tone: [DIY, warm, slightly chaotic]
+formality: low
+density: medium-high
+scheme: light
+best_for: Creative process, community stories, zine-style documentation, youth culture.
+avoid_for: Formal executive readouts or precise technical documentation.
+aliases: [risograph, zine, riso, handmade print, DIY]
+motion: energetic-fluid
+typography_voice: mixed-voice
 ```
+
+```yaml
+name: Neo-Brutalist Bulletin
+file: neo-brutalist-bulletin.md
+tagline: A protest poster taped to concrete with thick black borders and hard offset shadows.
+mood: [confident, blunt, irreverent]
+tone: [bold, human, unapologetic]
+formality: medium-low
+density: medium-high
+scheme: light
+best_for: Product launches, process overviews, comparison decks, dense info with bold character.
+avoid_for: Delicate subtlety, reverent minimalism, anything that needs to whisper.
+aliases: [neo brutalist, protest poster, concrete, thick borders, offset shadow]
+motion: snappy-blocky
+typography_voice: display-condensed
+```
+
+```yaml
+name: Red Wedge Agitprop
+file: red-wedge-agitprop.md
+tagline: A constructivist political poster with red wedge geometry and diagonal dynamism.
+mood: [urgent, bold, ideological]
+tone: [agitational, graphic, confrontational]
+formality: medium
+density: medium
+scheme: mixed
+best_for: Call-to-action, movement framing, bold thesis statements, activist energy.
+avoid_for: Nuanced evidence or balanced comparison — the wedge does not do nuance.
+aliases: [red wedge, constructivist, agitprop, political poster, diagonal]
+motion: energetic-fluid
+typography_voice: display-condensed
+```
+
+# === Band: Contemporary Digital ===
 
 ```yaml
 name: Mid-Century Grove
 file: mid-century-grove.md
 tagline: Organic mid-century calm with natural wood tones and gentle curves.
-mood: [warm, organic, calm]
+mood: [warm-organic, organic, calm]
 tone: [natural, grounded, timeless]
 formality: medium
 density: medium
 scheme: light
 best_for: Sustainability framing, natural product stories, calm authority, organic systems.
 avoid_for: High-energy tech launches or sharp industrial aesthetics.
+aliases: [mid-century, organic modern, wood tones, eames, scandinavian]
+motion: atmospheric-drift
+typography_voice: sans-grotesque
 ```
 
 ```yaml
@@ -653,19 +675,25 @@ density: low-medium
 scheme: dark
 best_for: Premium positioning, evening events, exclusive framing, sophisticated brand moments.
 avoid_for: Daytime casual energy or transparent open-source framing.
+aliases: [cocktail lounge, jewel tones, gold, velvet, premium dark]
+motion: calm-slow
+typography_voice: serif-display
 ```
 
 ```yaml
 name: Soft Pastel Friendly
 file: soft-pastel-friendly.md
 tagline: Approachable pastel warmth with rounded pill geometry and gentle spring motion.
-mood: [friendly, warm, unthreatening]
+mood: [friendly, warm-approachable, unthreatening]
 tone: [inviting, gentle, nostalgic]
 formality: low-medium
 density: medium
 scheme: light
 best_for: Onboarding flows, community decks, educational walkthroughs, audience-welcoming content.
 avoid_for: Institutional gravitas, high-stakes drama, anything demanding austere authority.
+aliases: [pastel, soft, friendly, rounded, approachable]
+motion: spring-gentle
+typography_voice: sans-grotesque
 ```
 
 ```yaml
@@ -679,6 +707,9 @@ density: medium-high
 scheme: light
 best_for: Developer tooling stories, nostalgia framing, multi-panel workflows, retro-tech vibes.
 avoid_for: Modern minimalist luxury or organic natural aesthetics.
+aliases: [windows 95, retro OS, beveled chrome, system gray, tiled]
+motion: snappy-blocky
+typography_voice: sans-grotesque
 ```
 
 ```yaml
@@ -692,6 +723,9 @@ density: medium
 scheme: light
 best_for: Data-heavy reports, analytical frameworks, systematic thinking, clear information design.
 avoid_for: Emotional storytelling or expressive visual brand moments.
+aliases: [swiss grid, international style, helvetica, grid, objective]
+motion: snappy-blocky
+typography_voice: sans-grotesque
 ```
 
 ```yaml
@@ -705,4 +739,153 @@ density: medium
 scheme: mixed
 best_for: Product showcases, premium tech framing, Apple-platform content, layered UI metaphors.
 avoid_for: Low-budget DIY energy or hand-drawn authenticity claims.
+aliases: [liquid glass, frosted glass, apple design, spatial, translucent]
+motion: calm-slow
+typography_voice: sans-grotesque
+```
+
+```yaml
+name: Widescreen Title Card
+file: widescreen-title-card.md
+tagline: A cinematic letterbox title card with film typography and atmospheric stillness.
+mood: [epic, atmospheric, cinematic]
+tone: [filmic, deliberate, grand]
+formality: high
+density: low
+scheme: dark
+best_for: Opening titles, section interludes, grand reveals, cinematic framing moments.
+avoid_for: Dense content pages or quick-fire information delivery.
+aliases: [cinematic, letterbox, title card, film, widescreen]
+motion: calm-slow
+typography_voice: serif-display
+```
+
+# === Band: Text Report ===
+
+```yaml
+name: Research Memo
+file: research-memo.md
+tagline: A calm, evidence-first research brief that earns trust by hierarchy.
+mood: [calm, authoritative, evidence-first]
+tone: [editorial, credible, unhurried]
+formality: high
+density: high
+scheme: light
+best_for: Research findings, executive summaries, evidence-led readouts for async reading.
+avoid_for: High-energy launches or playful moods.
+aliases: [research memo, brief, evidence, executive summary, async reading]
+motion: minimal
+typography_voice: sans-grotesque
+```
+
+```yaml
+name: Maintainer Issue Brief
+file: maintainer-issue-brief.md
+tagline: A structured ticket where work reads as actionable and reviewable.
+mood: [actionable, engineering-led]
+tone: [tracker, no-nonsense, tidy]
+formality: medium-high
+density: high
+scheme: light
+best_for: Engineering tasks, handoff specs, action items for developers and reviewers.
+avoid_for: Emotional storytelling or non-technical audiences.
+aliases: [maintainer, issue brief, ticket, engineering, tracker]
+motion: minimal
+typography_voice: mono-technical
+```
+
+```yaml
+name: Decision Record
+file: decision-record.md
+tagline: A formal record making a choice's context, trade-offs, and verification explicit.
+mood: [rigorous, architectural, deliberate]
+tone: [documentation, exact, serious]
+formality: high
+density: high
+scheme: light
+best_for: Technical decisions, trade-offs, architectural boundaries, the reasoning behind a choice.
+avoid_for: Playful workshops or emotional talks.
+aliases: [decision record, ADR, trade-offs, architectural, choice]
+motion: minimal
+typography_voice: sans-grotesque
+```
+
+```yaml
+name: Benchmark Matrix
+file: benchmark-matrix.md
+tagline: A clean matrix for fair, legible like-against-like comparison.
+mood: [analytical, comparative, even-handed]
+tone: [objective, scannable, orderly]
+formality: high
+density: high
+scheme: light
+best_for: Tool comparisons, evaluation criteria, data-heavy benchmarks.
+avoid_for: Narrative keynote scenes with nothing to compare.
+aliases: [benchmark, matrix, comparison, evaluation, scorecard]
+motion: minimal
+typography_voice: sans-grotesque
+```
+
+```yaml
+name: Field Notes Report
+file: field-notes-report.md
+tagline: A field notebook of grounded, hand-recorded observation.
+mood: [observational, tactile, honest]
+tone: [notebook, grounded, warm]
+formality: medium
+density: medium-high
+scheme: light
+best_for: User-research observations, physical setup notes, tactile case studies.
+avoid_for: Formal legal or finance decks.
+aliases: [field notes, notebook, observation, hand-recorded, research]
+motion: minimal
+typography_voice: handwritten
+```
+
+```yaml
+name: Operating Manual
+file: operating-manual.md
+tagline: A high-contrast runbook of clear, numbered, do-this steps.
+mood: [commanding, procedural, urgent]
+tone: [industrial, terminal, disciplined]
+formality: medium-high
+density: high
+scheme: dark
+best_for: Runbooks, repeatable habits, command-line guides, step-by-step how-tos.
+avoid_for: Reflective closings or emotional beats.
+aliases: [operating manual, runbook, how-to, steps, command-line]
+motion: snappy-blocky
+typography_voice: mono-technical
+```
+
+```yaml
+name: Checklist Ledger
+file: checklist-ledger.md
+tagline: A plain, trustworthy ledger of readiness checks, all accounted for.
+mood: [trustworthy, practical, composed]
+tone: [audit, sober, steady]
+formality: high
+density: high
+scheme: light
+best_for: Readiness checks, acceptance criteria, final quality checklists.
+avoid_for: Expressive storytelling or a single big claim.
+aliases: [checklist, ledger, audit, readiness, acceptance]
+motion: snappy-blocky
+typography_voice: sans-grotesque
+```
+
+```yaml
+name: Annotated Source & Diff
+file: annotated-source-and-diff.md
+tagline: A before/after diff that proves the value of a change.
+mood: [reviewable, precise, transformation-focused]
+tone: [reviewer, exact, clear]
+formality: medium-high
+density: high
+scheme: light
+best_for: Before/after transformations, diff explanations, code or text annotation.
+avoid_for: Abstract vision slides with no concrete change.
+aliases: [annotated diff, source code, before after, review, code annotation]
+motion: minimal
+typography_voice: mono-technical
 ```

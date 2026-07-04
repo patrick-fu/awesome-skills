@@ -95,4 +95,7 @@ full-screen like wallpaper, behind-glass content so blurred it's illegible,
 too many stacked panes to parse, and any colored tint turning glass into a
 colored rectangle. If the content doesn't benefit from layers, drop the
 glass and switch to Minimal Product Keynote for premium restraint without
-the material overhead.
+the material overhead. If the content is a single bold metaphor with object-as-
+idea hero rather than layered glass depth, switch to Object Metaphor Hero. If it
+needs dark sophisticated intimacy with nocturnal bar atmosphere instead of
+luminous glass layers, move to After-Hours Luxe.

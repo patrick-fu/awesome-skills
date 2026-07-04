@@ -65,4 +65,8 @@ syncs are revealed.
 It dies when the pairing disappears: a busy or dark dramatic background, loud
 color that favors one side, an expressive display typeface, a single undivided
 layout, or no visible sync. If the content is one voice or one big claim, there is
-no pairing to show — use a keynote or report style instead.
+no pairing to show — use a keynote or report style instead. If the content needs
+multi-party routed convergence with transit-map clarity rather than two-party
+pairing, switch to Subway Map of Intent. If it wants warmer workshop collaboration
+with hand-drawn energy and emoji actors instead of clean digital board, move to
+Sketch Board Emoji.

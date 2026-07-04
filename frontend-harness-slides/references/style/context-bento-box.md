@@ -13,19 +13,36 @@ comprehension. It works live and reads afterward, but it fights sparse keynote
 beats; with only one idea, there are no compartments to fill.
 
 ## Color Temperament
-Set a deep, refined dark ground — a lacquer black or dark stone — so
-color-coded compartments read cleanly against it, using a small set of warm and
-cool accents to distinguish sections. Each accent means a category; the ground
-stays calm and premium. Why: the dark lacquer plus a few coded compartment colors
-is what makes the divisions feel intentional and legible; an all-over palette
-would blur the compartments together.
+Live in a deep warm lacquer-black ground — a dark that leans warm, like polished
+lacquerware or dark volcanic stone, never cold blue-black or pure void black.
+At most four compartment accent colors are permitted, each assigned to a
+specific category role: one for goal or primary content, one for constraints or
+boundaries, one for risks or cautions, one for tests or verification. Each
+accent touches only its compartment's label text and a thin border tint —
+never filling a compartment, never carrying body copy. Refuse pure white,
+gradients, neon, mid-tone washes, textured backgrounds, and any color that
+competes with rather than codes the compartments. Why: the warm lacquer ground
+plus strict per-category color-coding is what makes each compartment read as
+intentionally portioned and distinct; a free-form palette or more than four
+accents blurs the division into a random pile, and cold dark grounds read as
+technical UI rather than crafted lacquerware.
 
 ## Typographic Voice
-Pair a clean, balanced character for section content with a light technical or
-monospaced voice for compartment labels, so each portion reads as a titled,
-self-contained unit. Keep it tidy and even across compartments. Why: the appeal
-is orderly division, so a consistent, quiet voice keeps every compartment feeling
-equally cared for.
+Display type is a warm, considered serif with quiet authority — medium weight,
+confident but never theatrical. It carries section titles and the occasional
+featured statement, always set with calm breathing room. Body text uses a clean
+humanist sans at regular weight, readable and neutral, the substance inside
+each compartment. Compartment labels and category tags use a light monospaced
+voice — the technical stamp on each bento portion, set small and precise. The
+scale gap between display and body is a clear step down: display leads but
+never shouts, body recedes but never whispers. Labels are all caps with
+generous letter-spacing for a catalogued feel; body is sentence case.
+Hierarchy works through a combination of compartment color coding, label
+weight, and display scale — the eye knows what matters by which compartment
+glows and which voice speaks. Why: the serif/mono pairing — authored content
+plus technical labels — is what makes each compartment feel both considered
+and catalogued; a single typographic voice would erase the bento-box division
+and read as an ordinary grid.
 
 ## Spatial Temperament
 It wants a sense of distinct compartments of varied size, each holding one portion
@@ -55,14 +72,34 @@ orderly. Why: the animation is presenting a well-packed set, so hurried or chaot
 motion would contradict the careful packing.
 
 ## Identity Invariants vs Freedoms
-Keep constant to stay this style: a deep refined dark ground with a few coded
-compartment accents, a clean content voice with light labels, clearly separated
-individually labeled sections forming one whole, premium matte depth, and calm
-orderly motion. Free to vary on every slide: the compartment layout and sizing,
-which categories appear, the accent coding, and how compartments are revealed.
+
+Identity Invariants:
+- Deep warm lacquer-black ground (never cold blue-black, never pure void)
+- At most four compartment accent colors, each assigned to a category role
+- Each accent touches only its label and border tint, never fills or body copy
+- Warm considered serif display with quiet authority (medium weight, not theatrical)
+- Clean humanist sans body at regular weight
+- Light monospaced voice for compartment labels (all caps, generous tracking)
+- Clearly separated individually labeled sections forming one whole
+- Premium matte depth from subtle separation, not heavy shadow
+- Calm orderly motion
+
+Freedoms:
+- Compartment layout and sizing (asymmetric grid, tiered stack, or other)
+- Which categories appear and which accent codes each
+- Exact hue of the warm lacquer ground within its warm-dark family
+- How compartments are revealed and in what sequence
+- Whether a compartment lifts to show deeper detail
 
 ## What Breaks the Spell
-It dies when the order dissolves: a light or busy background, uncoded or clashing
-color, an expressive typeface, an undivided pile with no compartments, or chaotic
-motion. If the content is a single claim or a linear story, there is nothing to
-compartmentalize — use a keynote or flow style instead.
+It dies when the order dissolves: a light or busy background, uncoded or
+clashing color, five or more accents competing, an expressive display typeface,
+an undivided pile with no compartments, gradient washes, pure white text,
+rounded corners softening the compartment edges, or chaotic motion. It also
+dies when a single compartment dominates so completely that the bento
+grammar collapses into a hero panel. If the content is a single claim or a
+linear story, there is nothing to compartmentalize — use a keynote style
+instead. If the content needs side-by-side comparison rather than categorized
+portions, switch to Benchmark Matrix for a clean comparison grid. If the
+content is evidence-led and document-like rather than portioned, move to
+Research Memo.

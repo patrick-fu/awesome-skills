@@ -93,4 +93,8 @@ into the paper ground, multiple graded skies diluting the bokashi, shadows
 creeping in "just for depth," or a third type voice muddying the pairing.
 If the content demands modern organic calm without craft-heritage and
 narrative distance, switch to Mid-Century Grove instead of forcing a
-woodblock costume onto content that does not need it.
+woodblock costume onto content that does not need it. If the content is
+scientific natural illustration with herbarium plate precision rather than
+woodblock narrative craft, switch to Botanical Specimen Plate. If the content needs
+quiet organic calm with earthen imperfection and ma emptiness rather than
+woodblock's formal craft heritage, switch to Wabi-Sabi Ceramic.

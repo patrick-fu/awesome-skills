@@ -18,7 +18,7 @@ Style selection is progressive:
 2. Use the catalog tags to shortlist three preview candidates.
 3. Read only the individual style files needed for those candidates.
 4. After the user chooses a direction, record the selected direction and its
-   guardrails in the `context ledger` / theme notes (see the "Selected Theme
+   guardrails in the Context document / theme notes (see the "Selected Theme
    Notes & Design DNA" section in `../02-design.md`).
 5. Let the selected style drive the full deck. Borrowing from another preview is
    a user-visible decision and should be recorded in the theme notes.

@@ -25,7 +25,7 @@ downstream execution details:
 5. **Visual and motion direction**: style family, references, preview need,
    motion intensity, and delivery risk.
 6. **Execution constraints**: `deck root`, stack, harness contracts, testing,
-   context ledger, delivery target, and artifact hygiene.
+   Context document, delivery target, and artifact hygiene.
 
 Ask one major decision branch at a time when the direction is unclear. Provide
 your recommended answer and rationale with each question so the user can react
@@ -62,7 +62,7 @@ delivery target, or technology stack. Do not only ask "is my default OK?"
 
 Execution parameters should be concrete plans, not artificial option sets. For
 `deck root`, recommend one exact project location with a reason and ask the user
-to confirm or replace it. Use the same pattern for context ledger location,
+to confirm or replace it. Use the same pattern for Context document location,
 testing requirement, harness contracts, visible-copy boundary, source material
 path, and fonts/CJK reminders unless a real constraint makes alternatives
 useful.
@@ -150,15 +150,14 @@ Duration, audience, density, style, stage size, navigation, delivery target, and
 tech stack should guide the work; render them only if the user explicitly wants
 the audience to see them.
 
-For delivered slide work or multi-turn implementation, prefer an external
-`context ledger` document for decisions that need to survive beyond the current
-chat.
-This is project memory, not a control mechanism. Follow the user's preferred
-location; otherwise use project docs for delivered decks and a temp path for
-explorations.
+For delivered slide work or multi-turn implementation, prefer a Context document
+for decisions that need to survive beyond the current chat. This is project
+memory, not a control mechanism. Follow the user's preferred location or the
+repo's existing `CONTEXT.md` / `CONTEXT-MAP.md` convention; otherwise use project
+docs for delivered decks and a temp path for explorations.
 
-Keep `deck_root` and `context_ledger` separate. The deck root owns the source
-project; the context ledger records decisions and progress. They may live near
+Keep `deck_root` and `context_document` separate. The deck root owns the source
+project; the Context document records decisions and progress. They may live near
 each other, but confirming one does not confirm the other.
 
 Useful grouped prompt:
@@ -228,18 +227,21 @@ local server so you can compare them. After you pick a direction, I will write
 the selected theme notes and expand the full deck.
 ```
 
-## Context Ledger
+## Context Document
 
-For delivered slide work or multi-turn implementation, establish a
-`context ledger` before implementation unless the user explicitly declines.
-This is project memory, not a control mechanism: it keeps decisions and progress
-outside chat so later edits do not depend on hidden conversation state.
+For delivered slide work or multi-turn implementation, create or update a
+Context document when there is useful state to preserve, unless the user
+explicitly declines. Create it lazily, the first time there is something worth
+recording. This is project memory, not a control mechanism: it keeps decisions
+and progress outside chat so later edits do not depend on hidden conversation
+state.
 
-If the user has a preference, follow it. Otherwise, store deliverable deck
-context in project docs such as `docs/context.md`,
-`docs/implementation-context.md`, or the handoff note. For exploratory work,
-`/tmp` or another agreed temp path is fine. Do not edit `.gitignore` just for
-this unless the user asks.
+If the user or repo already has a context convention, follow it. If a root
+`CONTEXT.md` or `CONTEXT-MAP.md` exists, use that structure to decide where deck
+context belongs. Otherwise, store deliverable deck context in project docs such
+as `docs/context.md`, `docs/implementation-context.md`, or the handoff note. For
+exploratory work, `/tmp` or another agreed temp path is fine. Do not edit
+`.gitignore` just for this unless the user asks.
 
 Useful things to track:
 
@@ -267,8 +269,8 @@ Update after major phases with a compact status entry:
 - deployment or export
 
 When verification coverage, delivery status, production URLs, or skipped risks
-change materially, update the `context ledger` so later edits do not depend on
-chat history alone. If no context ledger is used, keep the reason explicit in
+change materially, update the Context document so later edits do not depend on
+chat history alone. If no Context document is used, keep the reason explicit in
 the chat or final report.
 
 ## Decision Snapshot
@@ -295,7 +297,7 @@ test_command:
 visual_language:
 delivery_target:
 non_goals:
-context_ledger:
+context_document:
 ```
 
 This snapshot is implementation memory. It is not slide copy.

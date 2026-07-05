@@ -41,7 +41,7 @@ the user to confirm or adjust the key decisions before implementation.
 
 Every key decision **MUST** include a recommendation, rationale, and explicit
 confirmation request. Offer candidate options for directional choices; for
-execution parameters such as `deck root`, context ledger, testing, source path,
+execution parameters such as `deck root`, Context document, testing, source path,
 or harness contracts, give one concrete plan and ask the user to confirm or
 correct it.
 
@@ -60,7 +60,7 @@ Cover these Pre-Build Alignment decisions, at the level the task needs:
 - **Testing plan**: test runner, test command, and required coverage across
   render, frame addressing, navigation, interaction isolation, layout safety,
   runtime errors, assets/fonts, and build/export/deployment checks.
-- **Context ledger plan**: where the `context ledger` will live, when it will be
+- **Context document plan**: where the Context document will live, when it will be
   updated, and whether the user wants a different location.
 
 Project location is part of the hard gate. **DO NOT** scaffold into the current
@@ -90,12 +90,12 @@ Keep alignment details as implementation constraints, not slide copy. Do not
 render duration, audience, density, stage size, delivery target, navigation
 requirements, or implementation notes on the slide surface unless the user asks.
 
-For delivered slide work or multi-turn implementation, establish a
-`context ledger` before implementation unless the user explicitly declines.
-The `deck root` owns source, assets, tests, and delivery commands; the
-`context ledger` tracks decisions and progress. Follow the user's preferred
-ledger location; otherwise use project docs for delivered decks and a temp path
-for explorations. Treat context as memory, not control.
+For delivered slide work or multi-turn implementation, create or update a
+Context document when useful state needs to survive beyond chat, unless the user
+explicitly declines. The `deck root` owns source, assets, tests, and delivery
+commands; the Context document tracks decisions and progress. Follow the user's
+or repo's existing context convention; otherwise use project docs for delivered
+decks and a temp path for explorations. Treat context as memory, not control.
 
 If the user gives a reference URL, deployed deck, or source repository, inspect
 it before choosing stage, scaling, animation, and interaction contracts.
@@ -183,15 +183,16 @@ is ready to iterate only when these contracts exist:
 1. **Detect** the branch: new slide artifact, imported/source-heavy, or existing
    deck.
 2. **Align and plan** with `references/01-plan.md`; create or update the
-   `context ledger` when the work is delivered or multi-turn.
+   Context document when the work is delivered or multi-turn.
 3. **Design** with `references/02-design.md`; selected style means a visual
    system, not one repeated template.
 4. **Build** with `references/03-build.md`; preserve the harness contracts in
    the chosen stack, keep tests moving with the implementation, and update the
-   ledger after major implementation milestones.
+   Context document after major implementation milestones.
 5. **Verify and ship** with `references/04-verify-and-ship.md`; deliver a live
    URL, PDF/static export, or both according to the confirmed target, then record
-   final delivery and verification status in the ledger when one exists.
+   final delivery and verification status in the Context document when one
+   exists.
 
 Treat local servers as previews unless the user explicitly asks for local-only
 work. Treat the work as ready only after the relevant final check passes, or

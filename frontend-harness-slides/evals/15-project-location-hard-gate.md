@@ -15,4 +15,4 @@ tags: [alignment, project-location, scaffolding]
 - [ ] Explicitly asks the user to confirm the exact `deck root` / project directory before file creation.
 - [ ] Gives one recommended `deck root` location with rationale, and asks the user to confirm it or provide a different path.
 - [ ] Does not assume the current working directory is the deck root just because the agent is running there.
-- [ ] Distinguishes `deck root` from the `context ledger` location.
+- [ ] Distinguishes `deck root` from the Context document location.

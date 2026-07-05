@@ -38,8 +38,8 @@ Preview rules:
   brand names, team, date, author, section titles, real source material, or
   polished presentation copy written for the intended audience. Candidate
   labels, style names, internal notes, implementation details, density labels,
-  delivery constraints, and selection rationale belong in chat, the context
-  ledger, or theme notes.
+  delivery constraints, and selection rationale belong in chat, the Context
+  document, or theme notes.
 - Run a light preview check before asking the user to choose.
 - After the user chooses, summarize and store selected theme notes, remove
   preview-only controls/routes that are not part of the final deck, and commit
@@ -65,7 +65,7 @@ Before asking the user to choose, verify:
 
 ## Selected Theme Notes & Design DNA
 
-After the user chooses a preview direction, summarize the selected theme notes and Design DNA before expanding the full deck, and record them in the external `context ledger` document (e.g., `docs/context.md`):
+After the user chooses a preview direction, summarize the selected theme notes and Design DNA before expanding the full deck, and record them in the Context document when one exists (e.g., `docs/context.md`):
 
 ```text
 chosen_direction:
@@ -84,7 +84,7 @@ pacing_log:
 ```
 
 For delivered or multi-turn slide work, prefer recording these notes in the
-shared `context ledger`, README, handoff note, or theme configuration so the
+shared Context document, README, handoff note, or theme configuration so the
 chosen style survives later edits. Follow the user's preferred documentation
 location.
 

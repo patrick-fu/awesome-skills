@@ -14,7 +14,7 @@
 ## Live preview
 
 > 🖥️ 体验 Vercel 实时 Workbench：
-> [动态风格预设预览](https://frontend-harness-slides-demo.vercel.app/)。
+> [动态风格预设预览](https://frontend-harness-slides-workbench.vercel.app/)。
 > 这是查看动效、信息密度和视觉范围最快的方式，比只读说明更直观。
 
 ## 安装
@@ -244,111 +244,255 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 ### 编辑与印刷
 
-源自编辑设计、出版版式和印刷字体传统的风格。展示截图即将推出。
+源自编辑设计、出版版式和印刷字体传统的风格。
 
 #### [Magazine Masthead](references/style/magazine-masthead.md)
 
 新闻摊封面般的自信，饱和墨色底色和超大时尚衬线标题引人注目。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/18-magazine-masthead-creative-intelligence-scene1.webp" width="32%" alt="杂志刊头 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/18-magazine-masthead-creative-intelligence-scene3.webp" width="32%" alt="杂志刊头 — 场景 3：Creative Intelligence" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/18-magazine-masthead-creative-intelligence-scene5.webp" width="32%" alt="杂志刊头 — 场景 5：结尾" />
+</p>
+
 #### [Solar Biennale Poster](references/style/solar-biennale-poster.md)
 
 展览海报般的温暖，羊皮纸底色、日光黄氛围和一句巨大的衬线宣言。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/21-solar-biennale-poster-slow-light-biennale-scene1.webp" width="32%" alt="太阳双年展海报 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/21-solar-biennale-poster-slow-light-biennale-scene3.webp" width="32%" alt="太阳双年展海报 — 场景 3：Slow Light Biennale" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/21-solar-biennale-poster-slow-light-biennale-scene5.webp" width="32%" alt="太阳双年展海报 — 场景 5：结尾" />
+</p>
 
 #### [Warm Editorial Feature](references/style/warm-editorial-feature.md)
 
 杂志专题页风格，暖奶油纸底色、衬线展示字体和引用节奏，适合叙事阅读。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/19-warm-editorial-feature-attention-rebellion-scene1.webp" width="32%" alt="暖色编辑特写 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/19-warm-editorial-feature-attention-rebellion-scene3.webp" width="32%" alt="暖色编辑特写 — 场景 3：Attention Rebellion" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/19-warm-editorial-feature-attention-rebellion-scene5.webp" width="32%" alt="暖色编辑特写 — 场景 5：结尾" />
+</p>
+
 #### [Scholars' Vellum](references/style/scholars-vellum.md)
 
 古典手稿，古老羊皮纸、页边批注和衬线权威感，适合深度思想内容。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/20-scholars-vellum-nature-of-knowing-scene1.webp" width="32%" alt="学者羊皮纸 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/20-scholars-vellum-nature-of-knowing-scene3.webp" width="32%" alt="学者羊皮纸 — 场景 3：Nature of Knowing" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/20-scholars-vellum-nature-of-knowing-scene5.webp" width="32%" alt="学者羊皮纸 — 场景 5：结尾" />
+</p>
 
 #### [Front Page Broadsheet](references/style/front-page-broadsheet.md)
 
 报纸头版，多栏布局和标题层级，适合密集信息交付。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/17-front-page-broadsheet-urban-transformation-scene1.webp" width="32%" alt="头版大报 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/17-front-page-broadsheet-urban-transformation-scene3.webp" width="32%" alt="头版大报 — 场景 3：Urban Transformation" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/17-front-page-broadsheet-urban-transformation-scene5.webp" width="32%" alt="头版大报 — 场景 5：结尾" />
+</p>
+
 #### [Duotone Session](references/style/duotone-session.md)
 
 Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、克制、匠人感。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/22-duotone-session-recording-session-scene1.webp" width="32%" alt="双调录音 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/22-duotone-session-recording-session-scene3.webp" width="32%" alt="双调录音 — 场景 3：Recording Session" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/22-duotone-session-recording-session-scene5.webp" width="32%" alt="双调录音 — 场景 5：结尾" />
+</p>
+
 ### 工艺与文化传统
 
-根植于工艺技法、文化视觉传统和实体媒介的风格。展示截图即将推出。
+根植于工艺技法、文化视觉传统和实体媒介的风格。
 
 #### [Botanical Specimen Plate](references/style/botanical-specimen-plate.md)
 
 科学植物插画，精细墨线和拉丁标注，适合自然世界主题。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/26-botanical-specimen-plate-botanical-taxonomy-specimens-scene1.webp" width="32%" alt="植物标本板 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/26-botanical-specimen-plate-botanical-taxonomy-specimens-scene3.webp" width="32%" alt="植物标本板 — 场景 3：Botanical Taxonomy Specimens" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/26-botanical-specimen-plate-botanical-taxonomy-specimens-scene5.webp" width="32%" alt="植物标本板 — 场景 5：结尾" />
+</p>
+
 #### [Woodblock Floating World](references/style/woodblock-floating-world.md)
 
 日本浮世绘木刻，浮动世界构图和水墨纹理，适合沉思视觉叙事。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/25-woodblock-floating-world-ukiyo-e-floating-world-scene1.webp" width="32%" alt="木版浮世绘 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/25-woodblock-floating-world-ukiyo-e-floating-world-scene3.webp" width="32%" alt="木版浮世绘 — 场景 3：Ukiyo-e Floating World" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/25-woodblock-floating-world-ukiyo-e-floating-world-scene5.webp" width="32%" alt="木版浮世绘 — 场景 5：结尾" />
+</p>
 
 #### [Cyanotype Drafting Table](references/style/cyanotype-drafting-table.md)
 
 蓝图制图，蓝晒色调和技术线稿，适合系统架构和工程图表。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/05-cyanotype-drafting-table-system-architecture-scene1.webp" width="32%" alt="蓝图制图台 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/05-cyanotype-drafting-table-system-architecture-scene3.webp" width="32%" alt="蓝图制图台 — 场景 3：System Architecture" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/05-cyanotype-drafting-table-system-architecture-scene5.webp" width="32%" alt="蓝图制图台 — 场景 5：结尾" />
+</p>
+
 #### [Expedition Screenprint](references/style/expedition-screenprint.md)
 
 田野日志丝网印，叠印图层和地图坐标，适合探索发现叙事。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/28-expedition-screenprint-public-lands-expedition-scene1.webp" width="32%" alt="探险丝网印 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/28-expedition-screenprint-public-lands-expedition-scene3.webp" width="32%" alt="探险丝网印 — 场景 3：Public Lands Expedition" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/28-expedition-screenprint-public-lands-expedition-scene5.webp" width="32%" alt="探险丝网印 — 场景 5：结尾" />
+</p>
 
 #### [Machine-Age Deco](references/style/machine-age-deco.md)
 
 Art Deco 机器时代，几何图案和阶梯造型，适合宏大愿景和雄心路线图。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/27-machine-age-deco-flagship-product-launch-scene1.webp" width="32%" alt="机器时代装饰 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/27-machine-age-deco-flagship-product-launch-scene3.webp" width="32%" alt="机器时代装饰 — 场景 3：Flagship Product Launch" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/27-machine-age-deco-flagship-product-launch-scene5.webp" width="32%" alt="机器时代装饰 — 场景 5：结尾" />
+</p>
+
 #### [Wabi-Sabi Ceramic](references/style/wabi-sabi-ceramic.md)
 
 手捏陶瓷，侘寂不规则感和哑光釉面，适合工艺和天然产品主题。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/03-wabi-sabi-ceramic-craft-philosophy-scene1.webp" width="32%" alt="侘寂陶瓷 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/03-wabi-sabi-ceramic-craft-philosophy-scene3.webp" width="32%" alt="侘寂陶瓷 — 场景 3：Craft Philosophy" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/03-wabi-sabi-ceramic-craft-philosophy-scene5.webp" width="32%" alt="侘寂陶瓷 — 场景 5：结尾" />
+</p>
 
 #### [Analog Cutout Collage](references/style/analog-cutout-collage.md)
 
 手工剪纸拼贴，撕纸边缘和混合质感，适合创意过程和想法组装。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/24-analog-cutout-collage-desk-fragments-scene1.webp" width="32%" alt="模拟拼贴 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/24-analog-cutout-collage-desk-fragments-scene3.webp" width="32%" alt="模拟拼贴 — 场景 3：Desk Fragments" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/24-analog-cutout-collage-desk-fragments-scene5.webp" width="32%" alt="模拟拼贴 — 场景 5：结尾" />
+</p>
+
 #### [Cassette-Era Packaging](references/style/cassette-era-packaging.md)
 
 磁带 J-card 设计，80-90 年代图形能量和混音带布局，适合音乐和怀旧内容。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/29-cassette-era-packaging-retro-audio-catalogue-scene1.webp" width="32%" alt="磁带时代包装 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/29-cassette-era-packaging-retro-audio-catalogue-scene3.webp" width="32%" alt="磁带时代包装 — 场景 3：Retro Audio Catalogue" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/29-cassette-era-packaging-retro-audio-catalogue-scene5.webp" width="32%" alt="磁带时代包装 — 场景 5：结尾" />
+</p>
 
 #### [Riso Print Zine](references/style/riso-print-zine.md)
 
 Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/23-riso-print-zine-underground-music-scene1.webp" width="32%" alt="孔版印刷杂志 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/23-riso-print-zine-underground-music-scene3.webp" width="32%" alt="孔版印刷杂志 — 场景 3：Underground Music" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/23-riso-print-zine-underground-music-scene5.webp" width="32%" alt="孔版印刷杂志 — 场景 5：结尾" />
+</p>
+
 #### [Neo-Brutalist Bulletin](references/style/neo-brutalist-bulletin.md)
 
 抗议海报能量，粗黑边框、硬投影和一个高电压强调色。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/30-neo-brutalist-bulletin-product-launch-bulletin-scene1.webp" width="32%" alt="新野兽派公告 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/30-neo-brutalist-bulletin-product-launch-bulletin-scene3.webp" width="32%" alt="新野兽派公告 — 场景 3：Product Launch Bulletin" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/30-neo-brutalist-bulletin-product-launch-bulletin-scene5.webp" width="32%" alt="新野兽派公告 — 场景 5：结尾" />
+</p>
 
 #### [Red Wedge Agitprop](references/style/red-wedge-agitprop.md)
 
 构成主义政治海报，红色楔形几何和对角线动能，适合行动号召。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/31-red-wedge-agitprop-movement-call-to-action-scene1.webp" width="32%" alt="红色楔子宣传 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/31-red-wedge-agitprop-movement-call-to-action-scene3.webp" width="32%" alt="红色楔子宣传 — 场景 3：Movement Call to Action" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/31-red-wedge-agitprop-movement-call-to-action-scene5.webp" width="32%" alt="红色楔子宣传 — 场景 5：结尾" />
+</p>
+
 ### 当代数字
 
-源自当前 UI 趋势和平台美学的现代数字优先风格。展示截图即将推出。
+源自当前 UI 趋势和平台美学的现代数字优先风格。
 
 #### [Mid-Century Grove](references/style/mid-century-grove.md)
 
 中世纪有机沉静，天然木色调和柔和曲线，适合可持续和天然产品故事。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/35-mid-century-grove-brand-storytelling-scene1.webp" width="32%" alt="中世纪树林 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/35-mid-century-grove-brand-storytelling-scene3.webp" width="32%" alt="中世纪树林 — 场景 3：Brand Storytelling" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/35-mid-century-grove-brand-storytelling-scene5.webp" width="32%" alt="中世纪树林 — 场景 5：结尾" />
+</p>
+
 #### [After-Hours Luxe](references/style/after-hours-luxe.md)
 
 深夜鸡尾酒会奢华，深宝石色调和金色点缀，适合高端定位和夜间场景。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/36-after-hours-luxe-luxury-brand-launch-scene1.webp" width="32%" alt="夜间奢华 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/36-after-hours-luxe-luxury-brand-launch-scene3.webp" width="32%" alt="夜间奢华 — 场景 3：Luxury Brand Launch" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/36-after-hours-luxe-luxury-brand-launch-scene5.webp" width="32%" alt="夜间奢华 — 场景 5：结尾" />
+</p>
 
 #### [Soft Pastel Friendly](references/style/soft-pastel-friendly.md)
 
 亲切粉彩温暖，圆角药丸几何和柔和弹簧动效，适合引导页和社区 deck。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/12-soft-pastel-friendly-workspace-onboarding-scene1.webp" width="32%" alt="柔和粉彩 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/12-soft-pastel-friendly-workspace-onboarding-scene3.webp" width="32%" alt="柔和粉彩 — 场景 3：Workspace Onboarding" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/12-soft-pastel-friendly-workspace-onboarding-scene5.webp" width="32%" alt="柔和粉彩 — 场景 5：结尾" />
+</p>
+
 #### [Retro Windows](references/style/retro-windows.md)
 
 Windows 3.1/95 怀旧，斜面镀铬和系统灰调色板，适合开发者工具和复古科技氛围。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/34-retro-windows-nostalgic-computing-scene1.webp" width="32%" alt="复古窗口 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/34-retro-windows-nostalgic-computing-scene3.webp" width="32%" alt="复古窗口 — 场景 3：Nostalgic Computing" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/34-retro-windows-nostalgic-computing-scene5.webp" width="32%" alt="复古窗口 — 场景 5：结尾" />
+</p>
 
 #### [Objective Swiss Grid](references/style/objective-swiss-grid.md)
 
 瑞士国际风格，刚性网格结构和无衬线清晰度，适合数据报告和分析框架。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/02-objective-swiss-grid-migration-sequence-scene1.webp" width="32%" alt="客观瑞士网格 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/02-objective-swiss-grid-migration-sequence-scene3.webp" width="32%" alt="客观瑞士网格 — 场景 3：Migration Sequence" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/02-objective-swiss-grid-migration-sequence-scene5.webp" width="32%" alt="客观瑞士网格 — 场景 5：结尾" />
+</p>
+
 #### [Liquid Glass](references/style/liquid-glass.md)
 
 Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Apple 平台内容。
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/33-liquid-glass-museum-collection-showcase-scene1.webp" width="32%" alt="液态玻璃 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/33-liquid-glass-museum-collection-showcase-scene3.webp" width="32%" alt="液态玻璃 — 场景 3：Museum Collection Showcase" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/33-liquid-glass-museum-collection-showcase-scene5.webp" width="32%" alt="液态玻璃 — 场景 5：结尾" />
+</p>
+
 #### [Widescreen Title Card](references/style/widescreen-title-card.md)
 
 电影宽银幕标题卡，电影字体和氛围静止感，适合开场标题和宏大揭示。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/38-widescreen-title-card-cinematic-title-cards-scene1.webp" width="32%" alt="宽屏标题卡 — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/38-widescreen-title-card-cinematic-title-cards-scene3.webp" width="32%" alt="宽屏标题卡 — 场景 3：Cinematic Title Cards" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/38-widescreen-title-card-cinematic-title-cards-scene5.webp" width="32%" alt="宽屏标题卡 — 场景 5：结尾" />
+</p>
 
 ### 文本报告
 
@@ -433,7 +577,7 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 </p>
 
 <p align="center">
-  <a href="https://frontend-harness-slides-demo.vercel.app/"><b>🎬 动态 Demo</b></a>
+  <a href="https://frontend-harness-slides-workbench.vercel.app/"><b>🎬 动态 Demo</b></a>
 </p>
 
 ## 我的更多精选 Skill

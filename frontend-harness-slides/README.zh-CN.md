@@ -85,9 +85,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 高级、聚焦、稀疏。适合开场判断、产品亮相和单句大观点。
 
 <p align="center">
-  <img src="showcase/style-gallery/minimal-product-keynote-low.webp" width="32%" alt="低密度：产品发布主画面" />
-  <img src="showcase/style-gallery/minimal-product-keynote-medium.webp" width="32%" alt="中密度：产品发布结构" />
-  <img src="showcase/style-gallery/minimal-product-keynote-high.webp" width="32%" alt="高密度：产品发布细节" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/01-minimal-product-keynote-nova-launch-scene1.webp" width="32%" alt="Minimal Product Keynote — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/01-minimal-product-keynote-nova-launch-scene3.webp" width="32%" alt="Minimal Product Keynote — 场景 3：Nova Launch" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/01-minimal-product-keynote-nova-launch-scene5.webp" width="32%" alt="Minimal Product Keynote — 场景 5：结尾" />
 </p>
 
 #### [Sketch Board Emoji](references/style/sketch-board-emoji.md)
@@ -95,9 +95,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 温暖、亲切，有人参与感。常用便利贴、胶带、emoji 角色和小型交互细节。
 
 <p align="center">
-  <img src="showcase/style-gallery/sketch-board-emoji-low.webp" width="32%" alt="低密度：为什么离线优先" />
-  <img src="showcase/style-gallery/sketch-board-emoji-medium.webp" width="32%" alt="中密度：同步时间线" />
-  <img src="showcase/style-gallery/sketch-board-emoji-high.webp" width="32%" alt="高密度：策略便当" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/07-sketch-board-emoji-collab-workshop-scene1.webp" width="32%" alt="Sketch Board Emoji — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/07-sketch-board-emoji-collab-workshop-scene3.webp" width="32%" alt="Sketch Board Emoji — 场景 3：Collab Workshop" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/07-sketch-board-emoji-collab-workshop-scene5.webp" width="32%" alt="Sketch Board Emoji — 场景 5：结尾" />
 </p>
 
 #### [Interactive Dialogue Stage](references/style/interactive-dialogue-stage.md)
@@ -105,9 +105,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 对话驱动，带一点剧场感。适合呈现两个角色、系统或说话方之间的轮流互动。
 
 <p align="center">
-  <img src="showcase/style-gallery/interactive-dialogue-stage-low.webp" width="32%" alt="低密度：对话开场" />
-  <img src="showcase/style-gallery/interactive-dialogue-stage-medium.webp" width="32%" alt="中密度：双控制台" />
-  <img src="showcase/style-gallery/interactive-dialogue-stage-high.webp" width="32%" alt="高密度：对话记录" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/04-interactive-dialogue-stage-human-ai-collaboration-scene1.webp" width="32%" alt="Interactive Dialogue Stage — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/04-interactive-dialogue-stage-human-ai-collaboration-scene3.webp" width="32%" alt="Interactive Dialogue Stage — 场景 3：Human-AI Collaboration" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/04-interactive-dialogue-stage-human-ai-collaboration-scene5.webp" width="32%" alt="Interactive Dialogue Stage — 场景 5：结尾" />
 </p>
 
 #### [Kinetic Type Punchline](references/style/kinetic-type-punchline.md)
@@ -115,9 +115,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 强烈、海报化、高能量。适合章节转折、强对比观点和需要被记住的金句。
 
 <p align="center">
-  <img src="showcase/style-gallery/kinetic-type-punchline-low.webp" width="32%" alt="低密度：动感短句" />
-  <img src="showcase/style-gallery/kinetic-type-punchline-medium.webp" width="32%" alt="中密度：文字对比" />
-  <img src="showcase/style-gallery/kinetic-type-punchline-high.webp" width="32%" alt="高密度：海报细节" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/06-kinetic-type-punchline-punchline-impact-scene1.webp" width="32%" alt="Kinetic Type Punchline — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/06-kinetic-type-punchline-punchline-impact-scene3.webp" width="32%" alt="Kinetic Type Punchline — 场景 3：Punchline Impact" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/06-kinetic-type-punchline-punchline-impact-scene5.webp" width="32%" alt="Kinetic Type Punchline — 场景 5：结尾" />
 </p>
 
 #### [Object Metaphor Hero](references/style/object-metaphor-hero.md)
@@ -125,9 +125,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 拟物、触感强、隐喻驱动。把准备、规划、工具箱这类抽象概念变成可看的物件。
 
 <p align="center">
-  <img src="showcase/style-gallery/object-metaphor-hero-low.webp" width="32%" alt="低密度：核心物件" />
-  <img src="showcase/style-gallery/object-metaphor-hero-medium.webp" width="32%" alt="中密度：物件分区" />
-  <img src="showcase/style-gallery/object-metaphor-hero-high.webp" width="32%" alt="高密度：工具箱布局" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/48-object-metaphor-hero-system-metaphor-scene1.webp" width="32%" alt="Object Metaphor Hero — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/48-object-metaphor-hero-system-metaphor-scene3.webp" width="32%" alt="Object Metaphor Hero — 场景 3：System Metaphor" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/48-object-metaphor-hero-system-metaphor-scene5.webp" width="32%" alt="Object Metaphor Hero — 场景 5：结尾" />
 </p>
 
 #### [Blackboard Chalk Talk](references/style/blackboard-chalk-talk.md)
@@ -135,9 +135,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 手绘、教学、推理导向。用深绿色黑板、粉笔线条和公式来呈现推导过程。
 
 <p align="center">
-  <img src="showcase/style-gallery/blackboard-chalk-talk-low.webp" width="32%" alt="低密度：核心公式" />
-  <img src="showcase/style-gallery/blackboard-chalk-talk-medium.webp" width="32%" alt="中密度：推导流程" />
-  <img src="showcase/style-gallery/blackboard-chalk-talk-high.webp" width="32%" alt="高密度：量子便当" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/39-blackboard-chalk-talk-chalkboard-derivation-scene1.webp" width="32%" alt="Blackboard Chalk Talk — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/39-blackboard-chalk-talk-chalkboard-derivation-scene3.webp" width="32%" alt="Blackboard Chalk Talk — 场景 3：Chalkboard Derivation" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/39-blackboard-chalk-talk-chalkboard-derivation-scene5.webp" width="32%" alt="Blackboard Chalk Talk — 场景 5：结尾" />
 </p>
 
 #### [Arcade Boss Fight](references/style/arcade-boss-fight.md)
@@ -145,9 +145,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 复古、游戏化、带风险感。把技术挑战表达成 boss fight、HP 条和道具栏。
 
 <p align="center">
-  <img src="showcase/style-gallery/arcade-boss-fight-low.webp" width="32%" alt="低密度：战斗界面" />
-  <img src="showcase/style-gallery/arcade-boss-fight-medium.webp" width="32%" alt="中密度：街机进度" />
-  <img src="showcase/style-gallery/arcade-boss-fight-high.webp" width="32%" alt="高密度：道具栏" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/40-arcade-boss-fight-gamified-risk-framing-scene1.webp" width="32%" alt="Arcade Boss Fight — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/40-arcade-boss-fight-gamified-risk-framing-scene3.webp" width="32%" alt="Arcade Boss Fight — 场景 3：Gamified Risk Framing" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/40-arcade-boss-fight-gamified-risk-framing-scene5.webp" width="32%" alt="Arcade Boss Fight — 场景 5：结尾" />
 </p>
 
 #### [Spotlight Quote Poster](references/style/spotlight-quote-poster.md)
@@ -155,9 +155,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 戏剧化、沉思感。用暗场、聚光和大字号 quote 营造停顿、收束和哲学表达。
 
 <p align="center">
-  <img src="showcase/style-gallery/spotlight-quote-poster-low.webp" width="32%" alt="低密度：聚光 quote" />
-  <img src="showcase/style-gallery/spotlight-quote-poster-medium.webp" width="32%" alt="中密度：quote 上下文" />
-  <img src="showcase/style-gallery/spotlight-quote-poster-high.webp" width="32%" alt="高密度：quote 海报细节" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/08-spotlight-quote-poster-mission-philosophy-scene1.webp" width="32%" alt="Spotlight Quote Poster — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/08-spotlight-quote-poster-mission-philosophy-scene3.webp" width="32%" alt="Spotlight Quote Poster — 场景 3：Mission Philosophy" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/08-spotlight-quote-poster-mission-philosophy-scene5.webp" width="32%" alt="Spotlight Quote Poster — 场景 5：结尾" />
 </p>
 
 ### 平衡混合
@@ -167,9 +167,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 技术化、精确。用节点、路由和发光箭头表现数据、信号或决策流。
 
 <p align="center">
-  <img src="showcase/style-gallery/signal-pipeline-flow-low.webp" width="32%" alt="低密度：信号入口" />
-  <img src="showcase/style-gallery/signal-pipeline-flow-medium.webp" width="32%" alt="中密度：路由管线" />
-  <img src="showcase/style-gallery/signal-pipeline-flow-high.webp" width="32%" alt="高密度：系统地图" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/11-signal-pipeline-flow-data-pipeline-flow-scene1.webp" width="32%" alt="Signal Pipeline Flow — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/11-signal-pipeline-flow-data-pipeline-flow-scene3.webp" width="32%" alt="Signal Pipeline Flow — 场景 3：Data Pipeline Flow" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/11-signal-pipeline-flow-data-pipeline-flow-scene5.webp" width="32%" alt="Signal Pipeline Flow — 场景 5：结尾" />
 </p>
 
 #### [Mechanical Scoring Funnel](references/style/mechanical-scoring-funnel.md)
@@ -177,9 +177,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 有能量、偏评估。把筛选、评分和优先级表现成轨道、弹珠、分数和漏斗路径。
 
 <p align="center">
-  <img src="showcase/style-gallery/mechanical-scoring-funnel-low.webp" width="32%" alt="低密度：评分瞬间" />
-  <img src="showcase/style-gallery/mechanical-scoring-funnel-medium.webp" width="32%" alt="中密度：漏斗轨道" />
-  <img src="showcase/style-gallery/mechanical-scoring-funnel-high.webp" width="32%" alt="高密度：评分面板" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/32-mechanical-scoring-funnel-evaluation-funnel-scoring-scene1.webp" width="32%" alt="Mechanical Scoring Funnel — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/32-mechanical-scoring-funnel-evaluation-funnel-scoring-scene3.webp" width="32%" alt="Mechanical Scoring Funnel — 场景 3：Evaluation Funnel Scoring" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/32-mechanical-scoring-funnel-evaluation-funnel-scoring-scene5.webp" width="32%" alt="Mechanical Scoring Funnel — 场景 5：结尾" />
 </p>
 
 #### [Collaborative Pairing Board](references/style/collaborative-pairing-board.md)
@@ -187,9 +187,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 清爽、协作导向。适合展示角色分工、同步点，以及人、团队或系统之间的配合。
 
 <p align="center">
-  <img src="showcase/style-gallery/collaborative-pairing-board-low.webp" width="32%" alt="低密度：协作观点" />
-  <img src="showcase/style-gallery/collaborative-pairing-board-medium.webp" width="32%" alt="中密度：协作看板" />
-  <img src="showcase/style-gallery/collaborative-pairing-board-high.webp" width="32%" alt="高密度：同步计划" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/14-collaborative-pairing-board-cross-team-pairing-scene1.webp" width="32%" alt="Collaborative Pairing Board — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/14-collaborative-pairing-board-cross-team-pairing-scene3.webp" width="32%" alt="Collaborative Pairing Board — 场景 3：Cross-Team Pairing" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/14-collaborative-pairing-board-cross-team-pairing-scene5.webp" width="32%" alt="Collaborative Pairing Board — 场景 5：结尾" />
 </p>
 
 #### [Studio Mixing Console](references/style/studio-mixing-console.md)
@@ -197,9 +197,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 专业、拟物。用推子、旋钮和电平表表现参数调节、噪音过滤和多因素平衡。
 
 <p align="center">
-  <img src="showcase/style-gallery/studio-mixing-console-low.webp" width="32%" alt="低密度：主信号" />
-  <img src="showcase/style-gallery/studio-mixing-console-medium.webp" width="32%" alt="中密度：推子面板" />
-  <img src="showcase/style-gallery/studio-mixing-console-high.webp" width="32%" alt="高密度：调音台细节" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/15-studio-mixing-console-project-roadmap-scene1.webp" width="32%" alt="Studio Mixing Console — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/15-studio-mixing-console-project-roadmap-scene3.webp" width="32%" alt="Studio Mixing Console — 场景 3：Project Roadmap" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/15-studio-mixing-console-project-roadmap-scene5.webp" width="32%" alt="Studio Mixing Console — 场景 5：结尾" />
 </p>
 
 #### [Subway Map of Intent](references/style/subway-map-of-intent.md)
@@ -207,9 +207,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 系统化、结构清楚。把复杂工作流表现成地铁线路和换乘站。
 
 <p align="center">
-  <img src="showcase/style-gallery/subway-map-of-intent-low.webp" width="32%" alt="低密度：数据包旅程" />
-  <img src="showcase/style-gallery/subway-map-of-intent-medium.webp" width="32%" alt="中密度：地铁线路图" />
-  <img src="showcase/style-gallery/subway-map-of-intent-high.webp" width="32%" alt="高密度：时刻表便当" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/09-subway-map-of-intent-parallel-track-convergence-scene1.webp" width="32%" alt="Subway Map of Intent — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/09-subway-map-of-intent-parallel-track-convergence-scene3.webp" width="32%" alt="Subway Map of Intent — 场景 3：Parallel Track Convergence" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/09-subway-map-of-intent-parallel-track-convergence-scene5.webp" width="32%" alt="Subway Map of Intent — 场景 5：结尾" />
 </p>
 
 #### [Kitchen Prep Station](references/style/kitchen-prep-station.md)
@@ -217,9 +217,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 温暖、具体。把原始输入到干净输出的过程表现成备料台、修剪、菜谱步骤和摆盘。
 
 <p align="center">
-  <img src="showcase/style-gallery/kitchen-prep-station-low.webp" width="32%" alt="低密度：备料观点" />
-  <img src="showcase/style-gallery/kitchen-prep-station-medium.webp" width="32%" alt="中密度：备料台" />
-  <img src="showcase/style-gallery/kitchen-prep-station-high.webp" width="32%" alt="高密度：菜谱细节" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/13-kitchen-prep-station-brainstorm-ideation-scene1.webp" width="32%" alt="Kitchen Prep Station — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/13-kitchen-prep-station-brainstorm-ideation-scene3.webp" width="32%" alt="Kitchen Prep Station — 场景 3：Brainstorm Ideation" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/13-kitchen-prep-station-brainstorm-ideation-scene5.webp" width="32%" alt="Kitchen Prep Station — 场景 5：结尾" />
 </p>
 
 #### [Context Bento Box](references/style/context-bento-box.md)
@@ -227,9 +227,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 紧凑、有组织。用分格和层叠盒子表达 handoff、多类别概览和上下文包装。
 
 <p align="center">
-  <img src="showcase/style-gallery/context-bento-box-low.webp" width="32%" alt="低密度：便当概念" />
-  <img src="showcase/style-gallery/context-bento-box-medium.webp" width="32%" alt="中密度：便当分格" />
-  <img src="showcase/style-gallery/context-bento-box-high.webp" width="32%" alt="高密度：层叠便当" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/47-context-bento-box-project-context-scene1.webp" width="32%" alt="Context Bento Box — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/47-context-bento-box-project-context-scene3.webp" width="32%" alt="Context Bento Box — 场景 3：Project Context" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/47-context-bento-box-project-context-scene5.webp" width="32%" alt="Context Bento Box — 场景 5：结尾" />
 </p>
 
 #### [Debug Reaction Board](references/style/debug-reaction-board.md)
@@ -237,9 +237,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 开发者原生、偏诊断。使用霓虹状态标记、终端界面和行动看板。
 
 <p align="center">
-  <img src="showcase/style-gallery/debug-reaction-board-low.webp" width="32%" alt="低密度：系统就绪" />
-  <img src="showcase/style-gallery/debug-reaction-board-medium.webp" width="32%" alt="中密度：自检流水线" />
-  <img src="showcase/style-gallery/debug-reaction-board-high.webp" width="32%" alt="高密度：风险看板" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/16-debug-reaction-board-system-diagnostics-scene1.webp" width="32%" alt="Debug Reaction Board — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/16-debug-reaction-board-system-diagnostics-scene3.webp" width="32%" alt="Debug Reaction Board — 场景 3：System Diagnostics" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/16-debug-reaction-board-system-diagnostics-scene5.webp" width="32%" alt="Debug Reaction Board — 场景 5：结尾" />
 </p>
 
 ### 编辑与印刷
@@ -357,9 +357,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 克制、可信、有研究感。适合研究发现、高管摘要和需要自洽阅读的证据页面。
 
 <p align="center">
-  <img src="showcase/style-gallery/research-memo-low.webp" width="32%" alt="低密度：研究封面" />
-  <img src="showcase/style-gallery/research-memo-medium.webp" width="32%" alt="中密度：研究备忘录" />
-  <img src="showcase/style-gallery/research-memo-high.webp" width="32%" alt="高密度：证据页面" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/41-research-memo-model-performance-scene1.webp" width="32%" alt="Research Memo — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/41-research-memo-model-performance-scene3.webp" width="32%" alt="Research Memo — 场景 3：Model Performance" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/41-research-memo-model-performance-scene5.webp" width="32%" alt="Research Memo — 场景 5：结尾" />
 </p>
 
 #### [Maintainer Issue Brief](references/style/maintainer-issue-brief.md)
@@ -367,9 +367,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 整洁、结构化、行动导向。灵感来自现代 issue tracker 和代码审查工具。
 
 <p align="center">
-  <img src="showcase/style-gallery/maintainer-issue-brief-low.webp" width="32%" alt="低密度：工单头部" />
-  <img src="showcase/style-gallery/maintainer-issue-brief-medium.webp" width="32%" alt="中密度：事故时间线" />
-  <img src="showcase/style-gallery/maintainer-issue-brief-high.webp" width="32%" alt="高密度：代码审查 diff" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/43-maintainer-issue-brief-bug-fix-brief-scene1.webp" width="32%" alt="Maintainer Issue Brief — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/43-maintainer-issue-brief-bug-fix-brief-scene3.webp" width="32%" alt="Maintainer Issue Brief — 场景 3：Bug Fix Brief" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/43-maintainer-issue-brief-bug-fix-brief-scene5.webp" width="32%" alt="Maintainer Issue Brief — 场景 5：结尾" />
 </p>
 
 #### [Decision Record](references/style/decision-record.md)
@@ -377,9 +377,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 严谨、架构化。用 ADR 节奏呈现上下文、决策、权衡和验证。
 
 <p align="center">
-  <img src="showcase/style-gallery/decision-record-low.webp" width="32%" alt="低密度：决策标题" />
-  <img src="showcase/style-gallery/decision-record-medium.webp" width="32%" alt="中密度：决策记录" />
-  <img src="showcase/style-gallery/decision-record-high.webp" width="32%" alt="高密度：权衡矩阵" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/42-decision-record-architecture-decision-scene1.webp" width="32%" alt="Decision Record — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/42-decision-record-architecture-decision-scene3.webp" width="32%" alt="Decision Record — 场景 3：Architecture Decision" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/42-decision-record-architecture-decision-scene5.webp" width="32%" alt="Decision Record — 场景 5：结尾" />
 </p>
 
 #### [Benchmark Matrix](references/style/benchmark-matrix.md)
@@ -387,9 +387,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 分析型、比较型。强调结构化证据、评估标准、指标和表格化对比。
 
 <p align="center">
-  <img src="showcase/style-gallery/benchmark-matrix-low.webp" width="32%" alt="低密度：基准结论" />
-  <img src="showcase/style-gallery/benchmark-matrix-medium.webp" width="32%" alt="中密度：指标网格" />
-  <img src="showcase/style-gallery/benchmark-matrix-high.webp" width="32%" alt="高密度：对比矩阵" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/10-benchmark-matrix-competitive-benchmark-scene1.webp" width="32%" alt="Benchmark Matrix — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/10-benchmark-matrix-competitive-benchmark-scene3.webp" width="32%" alt="Benchmark Matrix — 场景 3：Competitive Benchmark" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/10-benchmark-matrix-competitive-benchmark-scene5.webp" width="32%" alt="Benchmark Matrix — 场景 5：结尾" />
 </p>
 
 #### [Field Notes Report](references/style/field-notes-report.md)
@@ -397,9 +397,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 有纸张触感，偏观察记录。使用账簿纸、木炭墨水和卡片网格。
 
 <p align="center">
-  <img src="showcase/style-gallery/field-notes-report-low.webp" width="32%" alt="低密度：调研封面" />
-  <img src="showcase/style-gallery/field-notes-report-medium.webp" width="32%" alt="中密度：用户旅程图" />
-  <img src="showcase/style-gallery/field-notes-report-high.webp" width="32%" alt="高密度：观察网格" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/44-field-notes-report-field-research-scene1.webp" width="32%" alt="Field Notes Report — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/44-field-notes-report-field-research-scene3.webp" width="32%" alt="Field Notes Report — 场景 3：Field Research" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/44-field-notes-report-field-research-scene5.webp" width="32%" alt="Field Notes Report — 场景 5：结尾" />
 </p>
 
 #### [Operating Manual](references/style/operating-manual.md)
@@ -407,9 +407,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 流程化、高对比。用工业 runbook、终端块和步骤执行来表达可重复操作。
 
 <p align="center">
-  <img src="showcase/style-gallery/operating-manual-low.webp" width="32%" alt="低密度：操作手册标题" />
-  <img src="showcase/style-gallery/operating-manual-medium.webp" width="32%" alt="中密度：命令控制台" />
-  <img src="showcase/style-gallery/operating-manual-high.webp" width="32%" alt="高密度：流程细节" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/37-operating-manual-industrial-runbook-scene1.webp" width="32%" alt="Operating Manual — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/37-operating-manual-industrial-runbook-scene3.webp" width="32%" alt="Operating Manual — 场景 3：Industrial Runbook" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/37-operating-manual-industrial-runbook-scene5.webp" width="32%" alt="Operating Manual — 场景 5：结尾" />
 </p>
 
 #### [Checklist Ledger](references/style/checklist-ledger.md)
@@ -417,9 +417,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 可靠、务实。用账簿线、紧凑行和可见 check 表达验收标准和最终准备度。
 
 <p align="center">
-  <img src="showcase/style-gallery/checklist-ledger-low.webp" width="32%" alt="低密度：准备度结论" />
-  <img src="showcase/style-gallery/checklist-ledger-medium.webp" width="32%" alt="中密度：审计清单" />
-  <img src="showcase/style-gallery/checklist-ledger-high.webp" width="32%" alt="高密度：清单账簿" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/46-checklist-ledger-release-readiness-scene1.webp" width="32%" alt="Checklist Ledger — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/46-checklist-ledger-release-readiness-scene3.webp" width="32%" alt="Checklist Ledger — 场景 3：Release Readiness" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/46-checklist-ledger-release-readiness-scene5.webp" width="32%" alt="Checklist Ledger — 场景 5：结尾" />
 </p>
 
 #### [Annotated Source & Diff](references/style/annotated-source-and-diff.md)
@@ -427,9 +427,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 可审查、强调变化。用 before/after、注释和类源码界面直接证明改动价值。
 
 <p align="center">
-  <img src="showcase/style-gallery/annotated-source-diff-low.webp" width="32%" alt="低密度：diff 观点" />
-  <img src="showcase/style-gallery/annotated-source-diff-medium.webp" width="32%" alt="中密度：源码注释" />
-  <img src="showcase/style-gallery/annotated-source-diff-high.webp" width="32%" alt="高密度：源码 diff" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/45-annotated-source-diff-code-refactor-scene1.webp" width="32%" alt="Annotated Source Diff — 场景 1：开场" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/45-annotated-source-diff-code-refactor-scene3.webp" width="32%" alt="Annotated Source Diff — 场景 3：Code Refactor" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/45-annotated-source-diff-code-refactor-scene5.webp" width="32%" alt="Annotated Source Diff — 场景 5：结尾" />
 </p>
 
 <p align="center">

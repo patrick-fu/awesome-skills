@@ -102,9 +102,9 @@ Premium, focused, and sparse. Uses extreme whitespace, a single central object,
 and dramatic type scale for opening claims or product reveals.
 
 <p align="center">
-  <img src="showcase/style-gallery/minimal-product-keynote-low.webp" width="32%" alt="Low density: product keynote hero" />
-  <img src="showcase/style-gallery/minimal-product-keynote-medium.webp" width="32%" alt="Medium density: product keynote structure" />
-  <img src="showcase/style-gallery/minimal-product-keynote-high.webp" width="32%" alt="High density: product keynote detail" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/01-minimal-product-keynote-nova-launch-scene1.webp" width="32%" alt="Minimal Product Keynote — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/01-minimal-product-keynote-nova-launch-scene3.webp" width="32%" alt="Minimal Product Keynote — scene 3: Nova Launch" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/01-minimal-product-keynote-nova-launch-scene5.webp" width="32%" alt="Minimal Product Keynote — scene 5: closing" />
 </p>
 
 #### [Sketch Board Emoji](references/style/sketch-board-emoji.md)
@@ -113,9 +113,9 @@ Warm, approachable, and human-in-the-loop. Uses sticky notes, tape, emoji actors
 and small interactive details.
 
 <p align="center">
-  <img src="showcase/style-gallery/sketch-board-emoji-low.webp" width="32%" alt="Low density: why offline-first" />
-  <img src="showcase/style-gallery/sketch-board-emoji-medium.webp" width="32%" alt="Medium density: sync timeline" />
-  <img src="showcase/style-gallery/sketch-board-emoji-high.webp" width="32%" alt="High density: strategy bento" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/07-sketch-board-emoji-collab-workshop-scene1.webp" width="32%" alt="Sketch Board Emoji — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/07-sketch-board-emoji-collab-workshop-scene3.webp" width="32%" alt="Sketch Board Emoji — scene 3: Collab Workshop" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/07-sketch-board-emoji-collab-workshop-scene5.webp" width="32%" alt="Sketch Board Emoji — scene 5: closing" />
 </p>
 
 #### [Interactive Dialogue Stage](references/style/interactive-dialogue-stage.md)
@@ -124,9 +124,9 @@ Dialog-focused and theatrical. Stages two roles, systems, or speakers through
 dark console surfaces and visible turn-taking.
 
 <p align="center">
-  <img src="showcase/style-gallery/interactive-dialogue-stage-low.webp" width="32%" alt="Low density: dialogue setup" />
-  <img src="showcase/style-gallery/interactive-dialogue-stage-medium.webp" width="32%" alt="Medium density: dual console" />
-  <img src="showcase/style-gallery/interactive-dialogue-stage-high.webp" width="32%" alt="High density: dialogue transcript" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/04-interactive-dialogue-stage-human-ai-collaboration-scene1.webp" width="32%" alt="Interactive Dialogue Stage — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/04-interactive-dialogue-stage-human-ai-collaboration-scene3.webp" width="32%" alt="Interactive Dialogue Stage — scene 3: Human-AI Collaboration" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/04-interactive-dialogue-stage-human-ai-collaboration-scene5.webp" width="32%" alt="Interactive Dialogue Stage — scene 5: closing" />
 </p>
 
 #### [Kinetic Type Punchline](references/style/kinetic-type-punchline.md)
@@ -135,9 +135,9 @@ Bold, poster-like, and high-energy. Built for memorable section beats,
 contrastive claims, and typographic punchlines.
 
 <p align="center">
-  <img src="showcase/style-gallery/kinetic-type-punchline-low.webp" width="32%" alt="Low density: kinetic phrase" />
-  <img src="showcase/style-gallery/kinetic-type-punchline-medium.webp" width="32%" alt="Medium density: typographic contrast" />
-  <img src="showcase/style-gallery/kinetic-type-punchline-high.webp" width="32%" alt="High density: poster detail" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/06-kinetic-type-punchline-punchline-impact-scene1.webp" width="32%" alt="Kinetic Type Punchline — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/06-kinetic-type-punchline-punchline-impact-scene3.webp" width="32%" alt="Kinetic Type Punchline — scene 3: Punchline Impact" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/06-kinetic-type-punchline-punchline-impact-scene5.webp" width="32%" alt="Kinetic Type Punchline — scene 5: closing" />
 </p>
 
 #### [Object Metaphor Hero](references/style/object-metaphor-hero.md)
@@ -146,9 +146,9 @@ Tactile and metaphor-led. Turns abstract preparation, planning, or toolkit ideas
 into physical objects and organized compartments.
 
 <p align="center">
-  <img src="showcase/style-gallery/object-metaphor-hero-low.webp" width="32%" alt="Low density: hero object" />
-  <img src="showcase/style-gallery/object-metaphor-hero-medium.webp" width="32%" alt="Medium density: object compartments" />
-  <img src="showcase/style-gallery/object-metaphor-hero-high.webp" width="32%" alt="High density: toolkit layout" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/48-object-metaphor-hero-system-metaphor-scene1.webp" width="32%" alt="Object Metaphor Hero — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/48-object-metaphor-hero-system-metaphor-scene3.webp" width="32%" alt="Object Metaphor Hero — scene 3: System Metaphor" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/48-object-metaphor-hero-system-metaphor-scene5.webp" width="32%" alt="Object Metaphor Hero — scene 5: closing" />
 </p>
 
 #### [Blackboard Chalk Talk](references/style/blackboard-chalk-talk.md)
@@ -157,9 +157,9 @@ Handmade, educational, and reasoning-first. Uses chalk-drawn lines and formulas
 on a deep green board.
 
 <p align="center">
-  <img src="showcase/style-gallery/blackboard-chalk-talk-low.webp" width="32%" alt="Low density: hero formula" />
-  <img src="showcase/style-gallery/blackboard-chalk-talk-medium.webp" width="32%" alt="Medium density: routed proof" />
-  <img src="showcase/style-gallery/blackboard-chalk-talk-high.webp" width="32%" alt="High density: qubit bento" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/39-blackboard-chalk-talk-chalkboard-derivation-scene1.webp" width="32%" alt="Blackboard Chalk Talk — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/39-blackboard-chalk-talk-chalkboard-derivation-scene3.webp" width="32%" alt="Blackboard Chalk Talk — scene 3: Chalkboard Derivation" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/39-blackboard-chalk-talk-chalkboard-derivation-scene5.webp" width="32%" alt="Blackboard Chalk Talk — scene 5: closing" />
 </p>
 
 #### [Arcade Boss Fight](references/style/arcade-boss-fight.md)
@@ -168,9 +168,9 @@ Retro, playful, and risk-aware. Frames technical difficulty as a boss fight,
 using HP bars, inventory panels, and pixel UI.
 
 <p align="center">
-  <img src="showcase/style-gallery/arcade-boss-fight-low.webp" width="32%" alt="Low density: battle screen" />
-  <img src="showcase/style-gallery/arcade-boss-fight-medium.webp" width="32%" alt="Medium density: arcade progress" />
-  <img src="showcase/style-gallery/arcade-boss-fight-high.webp" width="32%" alt="High density: inventory screen" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/40-arcade-boss-fight-gamified-risk-framing-scene1.webp" width="32%" alt="Arcade Boss Fight — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/40-arcade-boss-fight-gamified-risk-framing-scene3.webp" width="32%" alt="Arcade Boss Fight — scene 3: Gamified Risk Framing" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/40-arcade-boss-fight-gamified-risk-framing-scene5.webp" width="32%" alt="Arcade Boss Fight — scene 5: closing" />
 </p>
 
 #### [Spotlight Quote Poster](references/style/spotlight-quote-poster.md)
@@ -179,9 +179,9 @@ Dramatic and reflective. Uses stage darkness, radial light, and large quote
 typography for pauses, closings, and core philosophy.
 
 <p align="center">
-  <img src="showcase/style-gallery/spotlight-quote-poster-low.webp" width="32%" alt="Low density: spotlight quote" />
-  <img src="showcase/style-gallery/spotlight-quote-poster-medium.webp" width="32%" alt="Medium density: quote context" />
-  <img src="showcase/style-gallery/spotlight-quote-poster-high.webp" width="32%" alt="High density: quote poster detail" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/08-spotlight-quote-poster-mission-philosophy-scene1.webp" width="32%" alt="Spotlight Quote Poster — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/08-spotlight-quote-poster-mission-philosophy-scene3.webp" width="32%" alt="Spotlight Quote Poster — scene 3: Mission Philosophy" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/08-spotlight-quote-poster-mission-philosophy-scene5.webp" width="32%" alt="Spotlight Quote Poster — scene 5: closing" />
 </p>
 
 ### Balanced hybrid
@@ -192,9 +192,9 @@ Technical and precise. Shows data, signals, or decisions moving through routed
 nodes and structured pipeline stages.
 
 <p align="center">
-  <img src="showcase/style-gallery/signal-pipeline-flow-low.webp" width="32%" alt="Low density: signal entry" />
-  <img src="showcase/style-gallery/signal-pipeline-flow-medium.webp" width="32%" alt="Medium density: routed pipeline" />
-  <img src="showcase/style-gallery/signal-pipeline-flow-high.webp" width="32%" alt="High density: system map" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/11-signal-pipeline-flow-data-pipeline-flow-scene1.webp" width="32%" alt="Signal Pipeline Flow — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/11-signal-pipeline-flow-data-pipeline-flow-scene3.webp" width="32%" alt="Signal Pipeline Flow — scene 3: Data Pipeline Flow" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/11-signal-pipeline-flow-data-pipeline-flow-scene5.webp" width="32%" alt="Signal Pipeline Flow — scene 5: closing" />
 </p>
 
 #### [Mechanical Scoring Funnel](references/style/mechanical-scoring-funnel.md)
@@ -203,9 +203,9 @@ Energetic and evaluative. Turns filtering, scoring, and prioritization into
 lanes, pins, score markers, and active funnel paths.
 
 <p align="center">
-  <img src="showcase/style-gallery/mechanical-scoring-funnel-low.webp" width="32%" alt="Low density: scoring moment" />
-  <img src="showcase/style-gallery/mechanical-scoring-funnel-medium.webp" width="32%" alt="Medium density: funnel lanes" />
-  <img src="showcase/style-gallery/mechanical-scoring-funnel-high.webp" width="32%" alt="High density: scoring board" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/32-mechanical-scoring-funnel-evaluation-funnel-scoring-scene1.webp" width="32%" alt="Mechanical Scoring Funnel — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/32-mechanical-scoring-funnel-evaluation-funnel-scoring-scene3.webp" width="32%" alt="Mechanical Scoring Funnel — scene 3: Evaluation Funnel Scoring" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/32-mechanical-scoring-funnel-evaluation-funnel-scoring-scene5.webp" width="32%" alt="Mechanical Scoring Funnel — scene 5: closing" />
 </p>
 
 #### [Collaborative Pairing Board](references/style/collaborative-pairing-board.md)
@@ -214,9 +214,9 @@ Clean and cooperative. Uses paired columns, role boundaries, and sync points to
 explain collaboration between people, teams, or systems.
 
 <p align="center">
-  <img src="showcase/style-gallery/collaborative-pairing-board-low.webp" width="32%" alt="Low density: collaboration thesis" />
-  <img src="showcase/style-gallery/collaborative-pairing-board-medium.webp" width="32%" alt="Medium density: pairing board" />
-  <img src="showcase/style-gallery/collaborative-pairing-board-high.webp" width="32%" alt="High density: sync plan" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/14-collaborative-pairing-board-cross-team-pairing-scene1.webp" width="32%" alt="Collaborative Pairing Board — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/14-collaborative-pairing-board-cross-team-pairing-scene3.webp" width="32%" alt="Collaborative Pairing Board — scene 3: Cross-Team Pairing" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/14-collaborative-pairing-board-cross-team-pairing-scene5.webp" width="32%" alt="Collaborative Pairing Board — scene 5: closing" />
 </p>
 
 #### [Studio Mixing Console](references/style/studio-mixing-console.md)
@@ -225,9 +225,9 @@ Professional and tactile. Represents parameter tuning, noise filtering, and
 trade-off balancing through faders, knobs, and level meters.
 
 <p align="center">
-  <img src="showcase/style-gallery/studio-mixing-console-low.webp" width="32%" alt="Low density: master signal" />
-  <img src="showcase/style-gallery/studio-mixing-console-medium.webp" width="32%" alt="Medium density: fader rack" />
-  <img src="showcase/style-gallery/studio-mixing-console-high.webp" width="32%" alt="High density: console detail" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/15-studio-mixing-console-project-roadmap-scene1.webp" width="32%" alt="Studio Mixing Console — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/15-studio-mixing-console-project-roadmap-scene3.webp" width="32%" alt="Studio Mixing Console — scene 3: Project Roadmap" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/15-studio-mixing-console-project-roadmap-scene5.webp" width="32%" alt="Studio Mixing Console — scene 5: closing" />
 </p>
 
 #### [Subway Map of Intent](references/style/subway-map-of-intent.md)
@@ -236,9 +236,9 @@ Systematic and structured. Represents converging workflows as subway lines and
 transfer stations.
 
 <p align="center">
-  <img src="showcase/style-gallery/subway-map-of-intent-low.webp" width="32%" alt="Low density: packet journey" />
-  <img src="showcase/style-gallery/subway-map-of-intent-medium.webp" width="32%" alt="Medium density: transit map" />
-  <img src="showcase/style-gallery/subway-map-of-intent-high.webp" width="32%" alt="High density: schedule bento" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/09-subway-map-of-intent-parallel-track-convergence-scene1.webp" width="32%" alt="Subway Map of Intent — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/09-subway-map-of-intent-parallel-track-convergence-scene3.webp" width="32%" alt="Subway Map of Intent — scene 3: Parallel Track Convergence" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/09-subway-map-of-intent-parallel-track-convergence-scene5.webp" width="32%" alt="Subway Map of Intent — scene 5: closing" />
 </p>
 
 #### [Kitchen Prep Station](references/style/kitchen-prep-station.md)
@@ -247,9 +247,9 @@ Warm and concrete. Turns raw-to-clean transformation into prep boards, trimmed
 ingredients, recipe steps, and plated outputs.
 
 <p align="center">
-  <img src="showcase/style-gallery/kitchen-prep-station-low.webp" width="32%" alt="Low density: prep thesis" />
-  <img src="showcase/style-gallery/kitchen-prep-station-medium.webp" width="32%" alt="Medium density: prep board" />
-  <img src="showcase/style-gallery/kitchen-prep-station-high.webp" width="32%" alt="High density: recipe detail" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/13-kitchen-prep-station-brainstorm-ideation-scene1.webp" width="32%" alt="Kitchen Prep Station — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/13-kitchen-prep-station-brainstorm-ideation-scene3.webp" width="32%" alt="Kitchen Prep Station — scene 3: Brainstorm Ideation" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/13-kitchen-prep-station-brainstorm-ideation-scene5.webp" width="32%" alt="Kitchen Prep Station — scene 5: closing" />
 </p>
 
 #### [Context Bento Box](references/style/context-bento-box.md)
@@ -258,9 +258,9 @@ Compact and organized. Uses compartment grids and layered boxes for handoffs,
 multi-category overviews, and context packaging.
 
 <p align="center">
-  <img src="showcase/style-gallery/context-bento-box-low.webp" width="32%" alt="Low density: bento concept" />
-  <img src="showcase/style-gallery/context-bento-box-medium.webp" width="32%" alt="Medium density: bento compartments" />
-  <img src="showcase/style-gallery/context-bento-box-high.webp" width="32%" alt="High density: layered bento" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/47-context-bento-box-project-context-scene1.webp" width="32%" alt="Context Bento Box — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/47-context-bento-box-project-context-scene3.webp" width="32%" alt="Context Bento Box — scene 3: Project Context" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/47-context-bento-box-project-context-scene5.webp" width="32%" alt="Context Bento Box — scene 5: closing" />
 </p>
 
 #### [Debug Reaction Board](references/style/debug-reaction-board.md)
@@ -269,9 +269,9 @@ Developer-native and diagnostic. Uses neon status badges, terminal surfaces, and
 actionable boards.
 
 <p align="center">
-  <img src="showcase/style-gallery/debug-reaction-board-low.webp" width="32%" alt="Low density: system ready" />
-  <img src="showcase/style-gallery/debug-reaction-board-medium.webp" width="32%" alt="Medium density: self-check flow" />
-  <img src="showcase/style-gallery/debug-reaction-board-high.webp" width="32%" alt="High density: risk kanban" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/16-debug-reaction-board-system-diagnostics-scene1.webp" width="32%" alt="Debug Reaction Board — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/16-debug-reaction-board-system-diagnostics-scene3.webp" width="32%" alt="Debug Reaction Board — scene 3: System Diagnostics" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/16-debug-reaction-board-system-diagnostics-scene5.webp" width="32%" alt="Debug Reaction Board — scene 5: closing" />
 </p>
 
 ### Editorial & Print
@@ -390,9 +390,9 @@ Calm and authoritative. Uses memo structure, restrained rules, serif hierarchy,
 and evidence blocks for credible reading-first decks.
 
 <p align="center">
-  <img src="showcase/style-gallery/research-memo-low.webp" width="32%" alt="Low density: research cover" />
-  <img src="showcase/style-gallery/research-memo-medium.webp" width="32%" alt="Medium density: research memo" />
-  <img src="showcase/style-gallery/research-memo-high.webp" width="32%" alt="High density: evidence page" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/41-research-memo-model-performance-scene1.webp" width="32%" alt="Research Memo — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/41-research-memo-model-performance-scene3.webp" width="32%" alt="Research Memo — scene 3: Model Performance" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/41-research-memo-model-performance-scene5.webp" width="32%" alt="Research Memo — scene 5: closing" />
 </p>
 
 #### [Maintainer Issue Brief](references/style/maintainer-issue-brief.md)
@@ -401,9 +401,9 @@ Clean, structured, and action-oriented. Inspired by modern issue trackers and
 code review tools.
 
 <p align="center">
-  <img src="showcase/style-gallery/maintainer-issue-brief-low.webp" width="32%" alt="Low density: issue header" />
-  <img src="showcase/style-gallery/maintainer-issue-brief-medium.webp" width="32%" alt="Medium density: incident timeline" />
-  <img src="showcase/style-gallery/maintainer-issue-brief-high.webp" width="32%" alt="High density: code review diff" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/43-maintainer-issue-brief-bug-fix-brief-scene1.webp" width="32%" alt="Maintainer Issue Brief — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/43-maintainer-issue-brief-bug-fix-brief-scene3.webp" width="32%" alt="Maintainer Issue Brief — scene 3: Bug Fix Brief" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/43-maintainer-issue-brief-bug-fix-brief-scene5.webp" width="32%" alt="Maintainer Issue Brief — scene 5: closing" />
 </p>
 
 #### [Decision Record](references/style/decision-record.md)
@@ -412,9 +412,9 @@ Rigorous and architectural. Frames context, decision, trade-offs, and
 verification in an ADR-like document rhythm.
 
 <p align="center">
-  <img src="showcase/style-gallery/decision-record-low.webp" width="32%" alt="Low density: decision title" />
-  <img src="showcase/style-gallery/decision-record-medium.webp" width="32%" alt="Medium density: decision record" />
-  <img src="showcase/style-gallery/decision-record-high.webp" width="32%" alt="High density: trade-off matrix" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/42-decision-record-architecture-decision-scene1.webp" width="32%" alt="Decision Record — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/42-decision-record-architecture-decision-scene3.webp" width="32%" alt="Decision Record — scene 3: Architecture Decision" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/42-decision-record-architecture-decision-scene5.webp" width="32%" alt="Decision Record — scene 5: closing" />
 </p>
 
 #### [Benchmark Matrix](references/style/benchmark-matrix.md)
@@ -423,9 +423,9 @@ Analytical and comparative. Prioritizes structured evidence, criteria, metrics,
 and table-like comparison surfaces.
 
 <p align="center">
-  <img src="showcase/style-gallery/benchmark-matrix-low.webp" width="32%" alt="Low density: benchmark claim" />
-  <img src="showcase/style-gallery/benchmark-matrix-medium.webp" width="32%" alt="Medium density: metric grid" />
-  <img src="showcase/style-gallery/benchmark-matrix-high.webp" width="32%" alt="High density: comparison matrix" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/10-benchmark-matrix-competitive-benchmark-scene1.webp" width="32%" alt="Benchmark Matrix — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/10-benchmark-matrix-competitive-benchmark-scene3.webp" width="32%" alt="Benchmark Matrix — scene 3: Competitive Benchmark" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/10-benchmark-matrix-competitive-benchmark-scene5.webp" width="32%" alt="Benchmark Matrix — scene 5: closing" />
 </p>
 
 #### [Field Notes Report](references/style/field-notes-report.md)
@@ -433,9 +433,9 @@ and table-like comparison surfaces.
 Tactile and observational. Uses ledger paper, charcoal ink, and card grids.
 
 <p align="center">
-  <img src="showcase/style-gallery/field-notes-report-low.webp" width="32%" alt="Low density: research cover" />
-  <img src="showcase/style-gallery/field-notes-report-medium.webp" width="32%" alt="Medium density: user journey map" />
-  <img src="showcase/style-gallery/field-notes-report-high.webp" width="32%" alt="High density: observation grid" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/44-field-notes-report-field-research-scene1.webp" width="32%" alt="Field Notes Report — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/44-field-notes-report-field-research-scene3.webp" width="32%" alt="Field Notes Report — scene 3: Field Research" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/44-field-notes-report-field-research-scene5.webp" width="32%" alt="Field Notes Report — scene 5: closing" />
 </p>
 
 #### [Operating Manual](references/style/operating-manual.md)
@@ -444,9 +444,9 @@ Procedural and high-contrast. Uses industrial runbook cues, terminal blocks, and
 step execution for repeatable operating habits.
 
 <p align="center">
-  <img src="showcase/style-gallery/operating-manual-low.webp" width="32%" alt="Low density: runbook title" />
-  <img src="showcase/style-gallery/operating-manual-medium.webp" width="32%" alt="Medium density: command console" />
-  <img src="showcase/style-gallery/operating-manual-high.webp" width="32%" alt="High density: procedure detail" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/37-operating-manual-industrial-runbook-scene1.webp" width="32%" alt="Operating Manual — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/37-operating-manual-industrial-runbook-scene3.webp" width="32%" alt="Operating Manual — scene 3: Industrial Runbook" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/37-operating-manual-industrial-runbook-scene5.webp" width="32%" alt="Operating Manual — scene 5: closing" />
 </p>
 
 #### [Checklist Ledger](references/style/checklist-ledger.md)
@@ -455,9 +455,9 @@ Trustworthy and practical. Uses ledger lines, compact rows, and visible checks
 for acceptance criteria and final readiness.
 
 <p align="center">
-  <img src="showcase/style-gallery/checklist-ledger-low.webp" width="32%" alt="Low density: readiness claim" />
-  <img src="showcase/style-gallery/checklist-ledger-medium.webp" width="32%" alt="Medium density: audit checklist" />
-  <img src="showcase/style-gallery/checklist-ledger-high.webp" width="32%" alt="High density: checklist ledger" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/46-checklist-ledger-release-readiness-scene1.webp" width="32%" alt="Checklist Ledger — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/46-checklist-ledger-release-readiness-scene3.webp" width="32%" alt="Checklist Ledger — scene 3: Release Readiness" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/46-checklist-ledger-release-readiness-scene5.webp" width="32%" alt="Checklist Ledger — scene 5: closing" />
 </p>
 
 #### [Annotated Source & Diff](references/style/annotated-source-and-diff.md)
@@ -466,9 +466,9 @@ Reviewable and transformation-focused. Shows before/after changes, annotations,
 and evidence directly in source-like surfaces.
 
 <p align="center">
-  <img src="showcase/style-gallery/annotated-source-diff-low.webp" width="32%" alt="Low density: diff thesis" />
-  <img src="showcase/style-gallery/annotated-source-diff-medium.webp" width="32%" alt="Medium density: annotated source" />
-  <img src="showcase/style-gallery/annotated-source-diff-high.webp" width="32%" alt="High density: source diff" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/45-annotated-source-diff-code-refactor-scene1.webp" width="32%" alt="Annotated Source Diff — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/45-annotated-source-diff-code-refactor-scene3.webp" width="32%" alt="Annotated Source Diff — scene 3: Code Refactor" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/45-annotated-source-diff-code-refactor-scene5.webp" width="32%" alt="Annotated Source Diff — scene 5: closing" />
 </p>
 
 <p align="center">

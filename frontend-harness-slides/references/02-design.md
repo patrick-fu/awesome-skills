@@ -15,7 +15,7 @@ style recommendations or refinements with brief reasons, then ask whether to
 make a small same-style preview or proceed directly.
 
 During this alignment, send the Live Demo link:
-`https://frontend-harness-slides-demo.vercel.app/`. Describe it as a dynamic
+`https://frontend-harness-slides-workbench.vercel.app/`. Describe it as a dynamic
 Workbench Demo with multiple preset styles, transitions, animations, and motion
 examples. The Live Demo helps users judge the general style and motion language;
 the agent's own preview should still use the user's actual content and planned

@@ -33,7 +33,7 @@ PDF 导出和线上交付都在流程里。
 适合需要好看、能动、能交互，而且后续多轮修改也不容易改坏的 slides 项目。
 
 > 🖥️ Live Demo：体验
-> [动态 Workbench Demo](https://frontend-harness-slides-demo.vercel.app/)。
+> [动态 Workbench Demo](https://frontend-harness-slides-workbench.vercel.app/)。
 > 视觉风格很直观，但它更大的价值是 harness-backed 迭代，而不是脆弱的单体 HTML。
 
 独立页面：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)

@@ -81,7 +81,7 @@ references. Read `references/style/index.md` first, then load only the individua
 style files needed for shortlisted candidates.
 
 During style alignment, send the user the Live Demo link as a reference:
-`https://frontend-harness-slides-demo.vercel.app/`. Explain that it is a dynamic
+`https://frontend-harness-slides-workbench.vercel.app/`. Explain that it is a dynamic
 Workbench Demo with multiple preset styles, transitions, animations, and motion
 examples. This does not replace the preview question: still ask whether to make
 a few small, content-specific style previews before the full build.

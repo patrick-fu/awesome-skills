@@ -179,7 +179,7 @@ that direction, offer at least five same-style refinements or nearby style
 recommendations with reasons, and ask whether to make a small same-style
 preview to confirm details.
 Also send the Live Demo link during style alignment:
-`https://frontend-harness-slides-demo.vercel.app/`. Explain that it is a dynamic
+`https://frontend-harness-slides-workbench.vercel.app/`. Explain that it is a dynamic
 Workbench Demo with multiple preset styles, transitions, animations, and motion
 examples, so the user can judge movement and density directly. Treat this as a
 parallel aid to real previews, not a substitute for them: still ask whether to
@@ -208,7 +208,7 @@ explicit:
 I understand the main style as <style>. I recommend a small same-style
 interactive preview first because it lets us verify typography, navigation,
 motion, and the actual visual tone before building the full deck. You can also
-open the dynamic Live Demo at https://frontend-harness-slides-demo.vercel.app/ to
+open the dynamic Live Demo at https://frontend-harness-slides-workbench.vercel.app/ to
 see preset styles, transitions, and animation behavior. I can show nearby
 alternatives such as <option A>, <option B>, and <option C> if you want more
 inspiration. Should I make the preview first, or proceed directly?

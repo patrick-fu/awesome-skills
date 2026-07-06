@@ -17,7 +17,7 @@ or both.
 ## Live preview
 
 > 🖥️ Try the live Vercel Workbench:
-> [dynamic style preset preview](https://frontend-harness-slides-demo.vercel.app/).
+> [dynamic style preset preview](https://frontend-harness-slides-workbench.vercel.app/).
 > It is the fastest way to see the motion, density, and visual range before
 > reading the full catalog.
 
@@ -276,111 +276,255 @@ actionable boards.
 
 ### Editorial & Print
 
-Styles drawn from editorial design, publication layout, and print typography traditions. Showcase screenshots coming soon.
+Styles drawn from editorial design, publication layout, and print typography traditions.
 
 #### [Magazine Masthead](references/style/magazine-masthead.md)
 
 Newsstand cover confidence with a saturated ink field and an enormous fashion serif demanding attention.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/18-magazine-masthead-creative-intelligence-scene1.webp" width="32%" alt="Magazine Masthead — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/18-magazine-masthead-creative-intelligence-scene3.webp" width="32%" alt="Magazine Masthead — scene 3: Creative Intelligence" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/18-magazine-masthead-creative-intelligence-scene5.webp" width="32%" alt="Magazine Masthead — scene 5: closing" />
+</p>
+
 #### [Solar Biennale Poster](references/style/solar-biennale-poster.md)
 
 Exhibition poster warmth on warm parchment with a slow solar glow and one enormous serif statement.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/21-solar-biennale-poster-slow-light-biennale-scene1.webp" width="32%" alt="Solar Biennale Poster — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/21-solar-biennale-poster-slow-light-biennale-scene3.webp" width="32%" alt="Solar Biennale Poster — scene 3: Slow Light Biennale" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/21-solar-biennale-poster-slow-light-biennale-scene5.webp" width="32%" alt="Solar Biennale Poster — scene 5: closing" />
+</p>
 
 #### [Warm Editorial Feature](references/style/warm-editorial-feature.md)
 
 Magazine feature spread with cream paper, serif display, and pull-quote rhythm for narrative reading.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/19-warm-editorial-feature-attention-rebellion-scene1.webp" width="32%" alt="Warm Editorial Feature — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/19-warm-editorial-feature-attention-rebellion-scene3.webp" width="32%" alt="Warm Editorial Feature — scene 3: Attention Rebellion" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/19-warm-editorial-feature-attention-rebellion-scene5.webp" width="32%" alt="Warm Editorial Feature — scene 5: closing" />
+</p>
+
 #### [Scholars' Vellum](references/style/scholars-vellum.md)
 
 Classical manuscript on aged parchment with marginalia and serif authority for deep-dive intellectual content.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/20-scholars-vellum-nature-of-knowing-scene1.webp" width="32%" alt="Scholars' Vellum — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/20-scholars-vellum-nature-of-knowing-scene3.webp" width="32%" alt="Scholars' Vellum — scene 3: Nature of Knowing" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/20-scholars-vellum-nature-of-knowing-scene5.webp" width="32%" alt="Scholars' Vellum — scene 5: closing" />
+</p>
 
 #### [Front Page Broadsheet](references/style/front-page-broadsheet.md)
 
 Newspaper front page with multi-column layout and headline hierarchy for packed information delivery.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/17-front-page-broadsheet-urban-transformation-scene1.webp" width="32%" alt="Front Page Broadsheet — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/17-front-page-broadsheet-urban-transformation-scene3.webp" width="32%" alt="Front Page Broadsheet — scene 3: Urban Transformation" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/17-front-page-broadsheet-urban-transformation-scene5.webp" width="32%" alt="Front Page Broadsheet — scene 5: closing" />
+</p>
+
 #### [Duotone Session](references/style/duotone-session.md)
 
 Blue Note LP sleeve with a duotone photo and enormous condensed gothic type — cool, disciplined, workmanlike.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/22-duotone-session-recording-session-scene1.webp" width="32%" alt="Duotone Session — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/22-duotone-session-recording-session-scene3.webp" width="32%" alt="Duotone Session — scene 3: Recording Session" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/22-duotone-session-recording-session-scene5.webp" width="32%" alt="Duotone Session — scene 5: closing" />
+</p>
+
 ### Craft & Cultural Traditions
 
-Styles rooted in craft techniques, cultural visual traditions, and physical media. Showcase screenshots coming soon.
+Styles rooted in craft techniques, cultural visual traditions, and physical media.
 
 #### [Botanical Specimen Plate](references/style/botanical-specimen-plate.md)
 
 Scientific botanical illustration with fine ink lines and Latin annotation for natural-world framing.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/26-botanical-specimen-plate-botanical-taxonomy-specimens-scene1.webp" width="32%" alt="Botanical Specimen Plate — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/26-botanical-specimen-plate-botanical-taxonomy-specimens-scene3.webp" width="32%" alt="Botanical Specimen Plate — scene 3: Botanical Taxonomy Specimens" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/26-botanical-specimen-plate-botanical-taxonomy-specimens-scene5.webp" width="32%" alt="Botanical Specimen Plate — scene 5: closing" />
+</p>
+
 #### [Woodblock Floating World](references/style/woodblock-floating-world.md)
 
 Japanese ukiyo-e woodblock with floating world composition and sumi-e textures for contemplative visual storytelling.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/25-woodblock-floating-world-ukiyo-e-floating-world-scene1.webp" width="32%" alt="Woodblock Floating World — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/25-woodblock-floating-world-ukiyo-e-floating-world-scene3.webp" width="32%" alt="Woodblock Floating World — scene 3: Ukiyo-e Floating World" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/25-woodblock-floating-world-ukiyo-e-floating-world-scene5.webp" width="32%" alt="Woodblock Floating World — scene 5: closing" />
+</p>
 
 #### [Cyanotype Drafting Table](references/style/cyanotype-drafting-table.md)
 
 Blueprint drafting with cyanotype tones and technical linework for system architecture and engineering diagrams.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/05-cyanotype-drafting-table-system-architecture-scene1.webp" width="32%" alt="Cyanotype Drafting Table — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/05-cyanotype-drafting-table-system-architecture-scene3.webp" width="32%" alt="Cyanotype Drafting Table — scene 3: System Architecture" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/05-cyanotype-drafting-table-system-architecture-scene5.webp" width="32%" alt="Cyanotype Drafting Table — scene 5: closing" />
+</p>
+
 #### [Expedition Screenprint](references/style/expedition-screenprint.md)
 
 Field journal screenprint with stamped layers and map coordinates for exploration and discovery narratives.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/28-expedition-screenprint-public-lands-expedition-scene1.webp" width="32%" alt="Expedition Screenprint — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/28-expedition-screenprint-public-lands-expedition-scene3.webp" width="32%" alt="Expedition Screenprint — scene 3: Public Lands Expedition" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/28-expedition-screenprint-public-lands-expedition-scene5.webp" width="32%" alt="Expedition Screenprint — scene 5: closing" />
+</p>
 
 #### [Machine-Age Deco](references/style/machine-age-deco.md)
 
 Art Deco machine age with geometric patterns and stepped forms for grand visions and ambitious roadmaps.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/27-machine-age-deco-flagship-product-launch-scene1.webp" width="32%" alt="Machine-Age Deco — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/27-machine-age-deco-flagship-product-launch-scene3.webp" width="32%" alt="Machine-Age Deco — scene 3: Flagship Product Launch" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/27-machine-age-deco-flagship-product-launch-scene5.webp" width="32%" alt="Machine-Age Deco — scene 5: closing" />
+</p>
+
 #### [Wabi-Sabi Ceramic](references/style/wabi-sabi-ceramic.md)
 
 Hand-formed ceramic with wabi-sabi irregularity and matte glaze surfaces for craft and natural product framing.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/03-wabi-sabi-ceramic-craft-philosophy-scene1.webp" width="32%" alt="Wabi-Sabi Ceramic — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/03-wabi-sabi-ceramic-craft-philosophy-scene3.webp" width="32%" alt="Wabi-Sabi Ceramic — scene 3: Craft Philosophy" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/03-wabi-sabi-ceramic-craft-philosophy-scene5.webp" width="32%" alt="Wabi-Sabi Ceramic — scene 5: closing" />
+</p>
 
 #### [Analog Cutout Collage](references/style/analog-cutout-collage.md)
 
 Hand-cut paper collage with torn edges and mixed textures for creative process and idea assembly.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/24-analog-cutout-collage-desk-fragments-scene1.webp" width="32%" alt="Analog Cutout Collage — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/24-analog-cutout-collage-desk-fragments-scene3.webp" width="32%" alt="Analog Cutout Collage — scene 3: Desk Fragments" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/24-analog-cutout-collage-desk-fragments-scene5.webp" width="32%" alt="Analog Cutout Collage — scene 5: closing" />
+</p>
+
 #### [Cassette-Era Packaging](references/style/cassette-era-packaging.md)
 
 Cassette tape J-card design with 80s-90s graphic energy and mixtape layout for music and nostalgia content.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/29-cassette-era-packaging-retro-audio-catalogue-scene1.webp" width="32%" alt="Cassette-Era Packaging — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/29-cassette-era-packaging-retro-audio-catalogue-scene3.webp" width="32%" alt="Cassette-Era Packaging — scene 3: Retro Audio Catalogue" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/29-cassette-era-packaging-retro-audio-catalogue-scene5.webp" width="32%" alt="Cassette-Era Packaging — scene 5: closing" />
+</p>
 
 #### [Riso Print Zine](references/style/riso-print-zine.md)
 
 Risograph zine with limited palette, handmade collage density, and DIY rebellious character.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/23-riso-print-zine-underground-music-scene1.webp" width="32%" alt="Riso Print Zine — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/23-riso-print-zine-underground-music-scene3.webp" width="32%" alt="Riso Print Zine — scene 3: Underground Music" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/23-riso-print-zine-underground-music-scene5.webp" width="32%" alt="Riso Print Zine — scene 5: closing" />
+</p>
+
 #### [Neo-Brutalist Bulletin](references/style/neo-brutalist-bulletin.md)
 
 Protest poster energy with thick black borders, hard offset shadows, and one high-voltage accent.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/30-neo-brutalist-bulletin-product-launch-bulletin-scene1.webp" width="32%" alt="Neo-Brutalist Bulletin — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/30-neo-brutalist-bulletin-product-launch-bulletin-scene3.webp" width="32%" alt="Neo-Brutalist Bulletin — scene 3: Product Launch Bulletin" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/30-neo-brutalist-bulletin-product-launch-bulletin-scene5.webp" width="32%" alt="Neo-Brutalist Bulletin — scene 5: closing" />
+</p>
 
 #### [Red Wedge Agitprop](references/style/red-wedge-agitprop.md)
 
 Constructivist political poster with red wedge geometry and diagonal dynamism for call-to-action.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/31-red-wedge-agitprop-movement-call-to-action-scene1.webp" width="32%" alt="Red Wedge Agitprop — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/31-red-wedge-agitprop-movement-call-to-action-scene3.webp" width="32%" alt="Red Wedge Agitprop — scene 3: Movement Call to Action" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/31-red-wedge-agitprop-movement-call-to-action-scene5.webp" width="32%" alt="Red Wedge Agitprop — scene 5: closing" />
+</p>
+
 ### Contemporary Digital
 
-Modern digital-first styles drawing from current UI trends and platform aesthetics. Showcase screenshots coming soon.
+Modern digital-first styles drawing from current UI trends and platform aesthetics.
 
 #### [Mid-Century Grove](references/style/mid-century-grove.md)
 
 Organic mid-century calm with natural wood tones and gentle curves for sustainability and natural product stories.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/35-mid-century-grove-brand-storytelling-scene1.webp" width="32%" alt="Mid-Century Grove — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/35-mid-century-grove-brand-storytelling-scene3.webp" width="32%" alt="Mid-Century Grove — scene 3: Brand Storytelling" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/35-mid-century-grove-brand-storytelling-scene5.webp" width="32%" alt="Mid-Century Grove — scene 5: closing" />
+</p>
+
 #### [After-Hours Luxe](references/style/after-hours-luxe.md)
 
 Dark cocktail lounge luxury with deep jewel tones and gold accents for premium positioning and evening framing.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/36-after-hours-luxe-luxury-brand-launch-scene1.webp" width="32%" alt="After-Hours Luxe — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/36-after-hours-luxe-luxury-brand-launch-scene3.webp" width="32%" alt="After-Hours Luxe — scene 3: Luxury Brand Launch" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/36-after-hours-luxe-luxury-brand-launch-scene5.webp" width="32%" alt="After-Hours Luxe — scene 5: closing" />
+</p>
 
 #### [Soft Pastel Friendly](references/style/soft-pastel-friendly.md)
 
 Approachable pastel warmth with rounded pill geometry and gentle spring motion for onboarding and community decks.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/12-soft-pastel-friendly-workspace-onboarding-scene1.webp" width="32%" alt="Soft Pastel Friendly — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/12-soft-pastel-friendly-workspace-onboarding-scene3.webp" width="32%" alt="Soft Pastel Friendly — scene 3: Workspace Onboarding" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/12-soft-pastel-friendly-workspace-onboarding-scene5.webp" width="32%" alt="Soft Pastel Friendly — scene 5: closing" />
+</p>
+
 #### [Retro Windows](references/style/retro-windows.md)
 
 Windows 3.1/95 nostalgia with beveled chrome and system gray palette for developer tooling and retro-tech vibes.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/34-retro-windows-nostalgic-computing-scene1.webp" width="32%" alt="Retro Windows — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/34-retro-windows-nostalgic-computing-scene3.webp" width="32%" alt="Retro Windows — scene 3: Nostalgic Computing" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/34-retro-windows-nostalgic-computing-scene5.webp" width="32%" alt="Retro Windows — scene 5: closing" />
+</p>
 
 #### [Objective Swiss Grid](references/style/objective-swiss-grid.md)
 
 Swiss International Style with rigid grid structure and sans-serif clarity for data-heavy reports and analytical frameworks.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/02-objective-swiss-grid-migration-sequence-scene1.webp" width="32%" alt="Objective Swiss Grid — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/02-objective-swiss-grid-migration-sequence-scene3.webp" width="32%" alt="Objective Swiss Grid — scene 3: Migration Sequence" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/02-objective-swiss-grid-migration-sequence-scene5.webp" width="32%" alt="Objective Swiss Grid — scene 5: closing" />
+</p>
+
 #### [Liquid Glass](references/style/liquid-glass.md)
 
 Apple design language with frosted glass depth and spatial layering for premium tech and Apple-platform content.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/33-liquid-glass-museum-collection-showcase-scene1.webp" width="32%" alt="Liquid Glass — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/33-liquid-glass-museum-collection-showcase-scene3.webp" width="32%" alt="Liquid Glass — scene 3: Museum Collection Showcase" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/33-liquid-glass-museum-collection-showcase-scene5.webp" width="32%" alt="Liquid Glass — scene 5: closing" />
+</p>
+
 #### [Widescreen Title Card](references/style/widescreen-title-card.md)
 
 Cinematic letterbox title card with film typography and atmospheric stillness for opening titles and grand reveals.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/38-widescreen-title-card-cinematic-title-cards-scene1.webp" width="32%" alt="Widescreen Title Card — scene 1: opening" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/38-widescreen-title-card-cinematic-title-cards-scene3.webp" width="32%" alt="Widescreen Title Card — scene 3: Cinematic Title Cards" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/38-widescreen-title-card-cinematic-title-cards-scene5.webp" width="32%" alt="Widescreen Title Card — scene 5: closing" />
+</p>
 
 ### Text report
 
@@ -472,7 +616,7 @@ and evidence directly in source-like surfaces.
 </p>
 
 <p align="center">
-  <a href="https://frontend-harness-slides-demo.vercel.app/"><b>🎬 Live demo</b></a>
+  <a href="https://frontend-harness-slides-workbench.vercel.app/"><b>🎬 Live demo</b></a>
 </p>
 
 ## More curated skills

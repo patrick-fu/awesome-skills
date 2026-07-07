@@ -82,14 +82,14 @@ otherwise, vary composition enough that the deck feels deliberately paced.
 
 ## Quick Decision Tree
 
-Use these shortcuts to jump to candidate styles without scanning all 48.
+Use these shortcuts to jump to candidate styles without scanning every catalog entry.
 
 | I need... | Start with |
 |---|---|
 | One enormous idea, premium restraint | Minimal Product Keynote, Kinetic Type Punchline, Magazine Masthead |
-| Data flowing through a system | Signal Pipeline Flow, Subway Map of Intent, Cyanotype Drafting Table |
+| Data flowing through a system | Signal Pipeline Flow, Subway Map of Intent, Engineering Whiteboard Explainer, Cyanotype Drafting Table |
 | Before/after transformation proof | Annotated Source & Diff, Kitchen Prep Station, Neo-Brutalist Bulletin |
-| Technical content for developers | Debug Reaction Board, Maintainer Issue Brief, Operating Manual, Signal Pipeline Flow |
+| Technical content for developers | Engineering Whiteboard Explainer, Debug Reaction Board, Maintainer Issue Brief, Operating Manual, Signal Pipeline Flow |
 | Formal evidence for async reading | Research Memo, Decision Record, Scholars' Vellum, Objective Swiss Grid |
 | Warm hands-on approachable | Sketch Board Emoji, Kitchen Prep Station, Soft Pastel Friendly |
 | Bold confrontational statement | Red Wedge Agitprop, Kinetic Type Punchline, Neo-Brutalist Bulletin |
@@ -99,7 +99,7 @@ Use these shortcuts to jump to candidate styles without scanning all 48.
 | Dark cinematic atmosphere | Spotlight Quote Poster, Widescreen Title Card, After-Hours Luxe, Duotone Session |
 | Multi-category comparison | Benchmark Matrix, Context Bento Box, Objective Swiss Grid |
 | Premium product showcase | Minimal Product Keynote, Liquid Glass, After-Hours Luxe, Magazine Masthead |
-| Educational teaching | Blackboard Chalk Talk, Sketch Board Emoji, Soft Pastel Friendly |
+| Educational teaching | Blackboard Chalk Talk, Engineering Whiteboard Explainer, Sketch Board Emoji, Soft Pastel Friendly |
 | Cultural artistic framing | Woodblock Floating World, Scholars' Vellum, Botanical Specimen Plate, Machine-Age Deco |
 
 ## Catalog
@@ -256,6 +256,22 @@ avoid_for: Emotional openers or human stories with no system to route.
 aliases: [pipeline, data flow, system map, routing, technical diagram]
 motion: energetic-fluid
 typography_voice: mono-technical
+```
+
+```yaml
+name: Engineering Whiteboard Explainer
+file: engineering-whiteboard-explainer.md
+tagline: A clean white engineering canvas for beat-driven technical explanation.
+mood: [clear, engineering-led, explanatory]
+tone: [technical, candid, diagrammatic]
+formality: medium
+density: medium-high
+scheme: light
+best_for: Technical talks, architecture walkthroughs, workflow methods, system mechanisms.
+avoid_for: Warm workshop collaboration, formal reports, pure issue tracking, or artistic sketch decks.
+aliases: [engineering whiteboard, white canvas, technical explainer, hand-written diagram, beat-driven explainer]
+motion: spring-gentle
+typography_voice: handwritten
 ```
 
 ```yaml

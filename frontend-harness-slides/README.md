@@ -89,10 +89,11 @@ The style system is designed to stay coherent without forcing every page into
 the same template. A deck can keep one visual language while changing layouts,
 beats, motion, and interaction patterns from scene to scene.
 
-The full gallery below shows every style direction across six visual families:
-Minimal Keynote, Balanced Hybrid, Editorial & Print, Craft & Cultural Traditions,
-Contemporary Digital, and Text Report. Each style includes low, medium, and
-high-density examples.
+The gallery below shows Workbench-backed preset styles across six visual
+families: Minimal Keynote, Balanced Hybrid, Editorial & Print, Craft & Cultural
+Traditions, Contemporary Digital, and Text Report. The style index may include
+additional reference-only directions before a live demo exists. Each showcased
+style includes low, medium, and high-density examples.
 
 ### Minimal keynote
 

@@ -35,6 +35,19 @@ group low-risk execution confirmations only when that reduces back-and-forth
 without hiding uncertainty. Implementation begins only after the user confirms
 the final shared understanding.
 
+Treat Pre-Build Alignment as focused, lightweight grilling-style alignment:
+explore discoverable facts first, challenge a vague brief when assumptions are
+unclear, expose the highest-impact tradeoffs, and keep moving toward a shared
+understanding the user can confirm. Do not turn the intake into a checklist dump
+or a form. Related low-risk confirmations can be grouped, but each key question
+still needs a recommended answer, rationale, and impact.
+
+Do not use structured question tools for this alignment. In particular, do not
+call `AskUserQuestion`, `AskQuestion`, `request_user_input`, or any structured
+single-choice, multiple-choice, or form-style prompt. Ask in normal chat text.
+Candidate options are fine when they clarify a real directional choice, but they
+must stay as plain text in the conversation.
+
 **INFERRED ANSWERS ARE NOT CONFIRMATION.** If the user provides substantial
 source material, inspect it first and state the inferred direction, but still ask
 the user to confirm or adjust the key decisions before implementation.

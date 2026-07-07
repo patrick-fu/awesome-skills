@@ -10,6 +10,12 @@ Before planning the harness, align on the user's real presentation need. The
 intake is not a checklist collection exercise; it is the process that turns a
 vague request into a shared understanding the user can confirm.
 
+Use a soft grilling posture: explore what can be known from files, repos, URLs,
+old decks, or source material before asking; then challenge unclear assumptions
+and resolve the most consequential dependencies first. The tone should stay
+collaborative and concrete, not adversarial. The point is to make the user react
+to a recommended direction with rationale, not to force them through a form.
+
 Start with the highest-impact unknown. Resolve upstream decisions before
 downstream execution details:
 
@@ -31,7 +37,8 @@ Ask one major decision branch at a time when the direction is unclear. Provide
 your recommended answer and rationale with each question so the user can react
 to a concrete proposal instead of inventing the deck from scratch. For compact
 or low-risk tasks, grouped confirmation is fine when it is ordered by decision
-priority and each important default is visible.
+priority and each important default is visible. Do not dump an unordered
+checklist of questions.
 
 If a question can be answered by exploring the user's files, source material,
 old deck, repository, or URL, inspect that source first. Then summarize the
@@ -59,6 +66,9 @@ the user to confirm or adjust. Name candidate options only when the decision
 naturally has several useful directions, such as style, visual direction,
 content orientation, information density, motion direction, navigation style,
 delivery target, or technology stack. Do not only ask "is my default OK?"
+Keep all intake questions in normal chat text. Do not call `AskUserQuestion`,
+`AskQuestion`, `request_user_input`, or any structured single-choice,
+multiple-choice, or form-style question tool.
 
 Execution parameters should be concrete plans, not artificial option sets. For
 `deck root`, recommend one exact project location with a reason and ask the user
@@ -85,6 +95,9 @@ Candidates:
 3. <option>: <why it may fit>
 Please confirm, adjust, or tell me to proceed with the recommendation.
 ```
+
+These candidate options are plain-text discussion aids, not structured question
+tool choices.
 
 For execution parameters:
 

@@ -12,7 +12,7 @@ tags: [brief-intake, preference-alignment]
 
 ## Expected Output (all true)
 - [ ] Does not immediately create files, initialize a project, choose a framework, or generate a full deck.
-- [ ] Asks follow-up questions in plain text, without using a structured multiple-choice question tool.
+- [ ] Asks follow-up questions in plain text, without using `AskUserQuestion`, `AskQuestion`, `request_user_input`, or any structured single-choice, multiple-choice, or form-style question tool.
 - [ ] Prioritizes the next highest-impact decision branch instead of dumping a long unordered questionnaire.
 - [ ] Moves toward shared understanding by clarifying purpose, audience, desired outcome, and content boundary before lower-level build details.
 - [ ] Explicitly confirms slide style, information density, and motion direction; it does not only ask a generic "what style do you like?"

@@ -91,11 +91,9 @@ beats, motion, and interaction patterns from scene to scene.
 
 The gallery below shows Workbench-backed preset styles across six visual
 families: Minimal Keynote, Balanced Hybrid, Editorial & Print, Craft & Cultural
-Traditions, Contemporary Digital, and Text Report. The style index may include
-additional reference-only directions before a live demo exists. Each showcased
-style compares Hero Final Frames from Doubao-Seed-Evolving, GPT 5.6 Sol, and
-Claude Opus 4.8, in that left-to-right order. Engineering Whiteboard Explainer
-reserves its third slot until a Claude Opus 4.8 Topic is available.
+Traditions, Contemporary Digital, and Text Report. Each showcased style
+compares Hero Final Frames from Doubao-Seed-Evolving, GPT 5.6 Sol, and Claude
+Opus 4.8, in that left-to-right order.
 
 ### Minimal keynote
 
@@ -207,7 +205,7 @@ Clear, engineering-led, and diagrammatic. Uses a clean white canvas for beat-dri
 <p align="center">
   <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/tcp-congestion-control.webp" width="32%" alt="Engineering Whiteboard Explainer — Doubao-Seed-Evolving — TCP Handshake &amp; Congestion — Hero Final Frame" />
   <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/water-tower.webp" width="32%" alt="Engineering Whiteboard Explainer — GPT 5.6 Sol — Water Tower — Hero Final Frame" />
-  <!-- Claude Opus 4.8 Hero Final Frame pending. -->
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/two-triangles-one-pixel.webp" width="32%" alt="Engineering Whiteboard Explainer — Claude Opus 4.8 — Two Triangles, One Pixel — Hero Final Frame" />
 </p>
 
 #### [Mechanical Scoring Funnel](references/style/mechanical-scoring-funnel.md)

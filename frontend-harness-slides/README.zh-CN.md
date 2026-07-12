@@ -76,10 +76,8 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 动效、交互方式和出现节奏。
 
 下面的画廊展示已接入 Workbench 的预设风格，覆盖六类视觉家族：极简主题演讲、平衡混合、编辑与印刷、
-工艺与文化传统、当代数字、文本报告。风格索引可能先包含尚未接入实时 demo 的 reference-only 方向。
-每个已展示风格从左到右对比 Doubao-Seed-Evolving、GPT 5.6 Sol 和 Claude Opus 4.8
-各自的 Hero 最终帧。Engineering Whiteboard Explainer 暂时保留第三个位置，等待补充
-Claude Opus 4.8 Topic。
+工艺与文化传统、当代数字、文本报告。每个已展示风格从左到右对比 Doubao-Seed-Evolving、GPT 5.6 Sol
+和 Claude Opus 4.8 各自的 Hero 最终帧。
 
 ### 极简主题演讲
 
@@ -182,7 +180,7 @@ Claude Opus 4.8 Topic。
 <p align="center">
   <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/tcp-congestion-control.webp" width="32%" alt="工程讲解白板 — Doubao-Seed-Evolving — TCP 拥塞控制 — Hero 最终帧" />
   <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/water-tower.webp" width="32%" alt="工程讲解白板 — GPT 5.6 Sol — 城市水塔 — Hero 最终帧" />
-  <!-- Claude Opus 4.8 Hero 最终帧待补充。 -->
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/two-triangles-one-pixel.webp" width="32%" alt="工程讲解白板 — Claude Opus 4.8 — 双三角，争一像素 — Hero 最终帧" />
 </p>
 
 #### [Mechanical Scoring Funnel](references/style/mechanical-scoring-funnel.md)

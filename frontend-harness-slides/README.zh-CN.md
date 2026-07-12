@@ -77,7 +77,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 
 下面的画廊展示已接入 Workbench 的预设风格，覆盖六类视觉家族：极简主题演讲、平衡混合、编辑与印刷、
 工艺与文化传统、当代数字、文本报告。风格索引可能先包含尚未接入实时 demo 的 reference-only 方向。
-每个已展示风格都包含低、中、高三种密度示例。
+每个已展示风格从左到右对比 Doubao-Seed-Evolving、GPT 5.6 Sol 和 Claude Opus 4.8
+各自的 Hero 最终帧。Engineering Whiteboard Explainer 暂时保留第三个位置，等待补充
+Claude Opus 4.8 Topic。
 
 ### 极简主题演讲
 
@@ -86,9 +88,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 高级、聚焦、稀疏。适合开场判断、产品亮相和单句大观点。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/01-minimal-product-keynote-nova-launch-scene1.webp" width="32%" alt="Minimal Product Keynote — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/01-minimal-product-keynote-nova-launch-scene3.webp" width="32%" alt="Minimal Product Keynote — 场景 3：Nova Launch" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/01-minimal-product-keynote-nova-launch-scene5.webp" width="32%" alt="Minimal Product Keynote — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/product-keynote.webp" width="32%" alt="极简产品主题演讲 — Doubao-Seed-Evolving — 产品主题 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/presolar-grain.webp" width="32%" alt="极简产品主题演讲 — GPT 5.6 Sol — 太阳前尘 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/last-feature-cut.webp" width="32%" alt="极简产品主题演讲 — Claude Opus 4.8 — 删掉的功能 — Hero 最终帧" />
 </p>
 
 #### [Sketch Board Emoji](references/style/sketch-board-emoji.md)
@@ -96,9 +98,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 温暖、亲切，有人参与感。常用便利贴、胶带、emoji 角色和小型交互细节。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/07-sketch-board-emoji-collab-workshop-scene1.webp" width="32%" alt="Sketch Board Emoji — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/07-sketch-board-emoji-collab-workshop-scene3.webp" width="32%" alt="Sketch Board Emoji — 场景 3：Collab Workshop" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/07-sketch-board-emoji-collab-workshop-scene5.webp" width="32%" alt="Sketch Board Emoji — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/workshop-board.webp" width="32%" alt="草图白板表情 — Doubao-Seed-Evolving — 工作坊 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/stadium-wave.webp" width="32%" alt="草图白板表情 — GPT 5.6 Sol — 看台人浪 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/how-we-named-it.webp" width="32%" alt="草图白板表情 — Claude Opus 4.8 — 起名字 — Hero 最终帧" />
 </p>
 
 #### [Interactive Dialogue Stage](references/style/interactive-dialogue-stage.md)
@@ -106,9 +108,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 对话驱动，带一点剧场感。适合呈现两个角色、系统或说话方之间的轮流互动。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/04-interactive-dialogue-stage-human-ai-collaboration-scene1.webp" width="32%" alt="Interactive Dialogue Stage — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/04-interactive-dialogue-stage-human-ai-collaboration-scene3.webp" width="32%" alt="Interactive Dialogue Stage — 场景 3：Human-AI Collaboration" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/04-interactive-dialogue-stage-human-ai-collaboration-scene5.webp" width="32%" alt="Interactive Dialogue Stage — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/dialogue-stage.webp" width="32%" alt="互动对话舞台 — Doubao-Seed-Evolving — 对话舞台 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/vocal-folds.webp" width="32%" alt="互动对话舞台 — GPT 5.6 Sol — 声带 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/rubber-duck.webp" width="32%" alt="互动对话舞台 — Claude Opus 4.8 — 橡皮鸭 — Hero 最终帧" />
 </p>
 
 #### [Kinetic Type Punchline](references/style/kinetic-type-punchline.md)
@@ -116,9 +118,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 强烈、海报化、高能量。适合章节转折、强对比观点和需要被记住的金句。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/06-kinetic-type-punchline-punchline-impact-scene1.webp" width="32%" alt="Kinetic Type Punchline — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/06-kinetic-type-punchline-punchline-impact-scene3.webp" width="32%" alt="Kinetic Type Punchline — 场景 3：Punchline Impact" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/06-kinetic-type-punchline-punchline-impact-scene5.webp" width="32%" alt="Kinetic Type Punchline — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/type-poster.webp" width="32%" alt="动感字体金句 — Doubao-Seed-Evolving — 字体海报 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/before-a.webp" width="32%" alt="动感字体金句 — GPT 5.6 Sol — A之前 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/ship-it.webp" width="32%" alt="动感字体金句 — Claude Opus 4.8 — 发布 — Hero 最终帧" />
 </p>
 
 #### [Object Metaphor Hero](references/style/object-metaphor-hero.md)
@@ -126,9 +128,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 拟物、触感强、隐喻驱动。把准备、规划、工具箱这类抽象概念变成可看的物件。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/48-object-metaphor-hero-system-metaphor-scene1.webp" width="32%" alt="Object Metaphor Hero — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/48-object-metaphor-hero-system-metaphor-scene3.webp" width="32%" alt="Object Metaphor Hero — 场景 3：System Metaphor" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/48-object-metaphor-hero-system-metaphor-scene5.webp" width="32%" alt="Object Metaphor Hero — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/object-metaphor.webp" width="32%" alt="物体隐喻主视觉 — Doubao-Seed-Evolving — 物体主视觉 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/cocoon-to-cloth.webp" width="32%" alt="物体隐喻主视觉 — GPT 5.6 Sol — 茧到织物 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/onboarding-toolkit.webp" width="32%" alt="物体隐喻主视觉 — Claude Opus 4.8 — 入职工具包 — Hero 最终帧" />
 </p>
 
 #### [Blackboard Chalk Talk](references/style/blackboard-chalk-talk.md)
@@ -136,9 +138,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 手绘、教学、推理导向。用深绿色黑板、粉笔线条和公式来呈现推导过程。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/39-blackboard-chalk-talk-chalkboard-derivation-scene1.webp" width="32%" alt="Blackboard Chalk Talk — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/39-blackboard-chalk-talk-chalkboard-derivation-scene3.webp" width="32%" alt="Blackboard Chalk Talk — 场景 3：Chalkboard Derivation" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/39-blackboard-chalk-talk-chalkboard-derivation-scene5.webp" width="32%" alt="Blackboard Chalk Talk — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/chalk-talk.webp" width="32%" alt="黑板粉笔演讲 — Doubao-Seed-Evolving — 粉笔推导 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/hearing-path.webp" width="32%" alt="黑板粉笔演讲 — GPT 5.6 Sol — 听觉起点 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/deriving-big-o.webp" width="32%" alt="黑板粉笔演讲 — Claude Opus 4.8 — 推导复杂度 — Hero 最终帧" />
 </p>
 
 #### [Arcade Boss Fight](references/style/arcade-boss-fight.md)
@@ -146,9 +148,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 复古、游戏化、带风险感。把技术挑战表达成 boss fight、HP 条和道具栏。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/40-arcade-boss-fight-gamified-risk-framing-scene1.webp" width="32%" alt="Arcade Boss Fight — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/40-arcade-boss-fight-gamified-risk-framing-scene3.webp" width="32%" alt="Arcade Boss Fight — 场景 3：Gamified Risk Framing" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/40-arcade-boss-fight-gamified-risk-framing-scene5.webp" width="32%" alt="Arcade Boss Fight — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/boss-fight.webp" width="32%" alt="街机 Boss 战 — Doubao-Seed-Evolving — Boss 战 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/egg-mimicry.webp" width="32%" alt="街机 Boss 战 — GPT 5.6 Sol — 卵拟态 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/defeating-tech-debt.webp" width="32%" alt="街机 Boss 战 — Claude Opus 4.8 — 打败技术债 — Hero 最终帧" />
 </p>
 
 #### [Spotlight Quote Poster](references/style/spotlight-quote-poster.md)
@@ -156,9 +158,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 戏剧化、沉思感。用暗场、聚光和大字号 quote 营造停顿、收束和哲学表达。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/08-spotlight-quote-poster-mission-philosophy-scene1.webp" width="32%" alt="Spotlight Quote Poster — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/08-spotlight-quote-poster-mission-philosophy-scene3.webp" width="32%" alt="Spotlight Quote Poster — 场景 3：Mission Philosophy" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/08-spotlight-quote-poster-mission-philosophy-scene5.webp" width="32%" alt="Spotlight Quote Poster — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/quote-poster.webp" width="32%" alt="聚光引言海报 — Doubao-Seed-Evolving — 引言海报 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/freedive.webp" width="32%" alt="聚光引言海报 — GPT 5.6 Sol — 自由潜水 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/on-quitting-well.webp" width="32%" alt="聚光引言海报 — Claude Opus 4.8 — 好好离开 — Hero 最终帧" />
 </p>
 
 ### 平衡混合
@@ -168,9 +170,19 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 技术化、精确。用节点、路由和发光箭头表现数据、信号或决策流。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/11-signal-pipeline-flow-data-pipeline-flow-scene1.webp" width="32%" alt="Signal Pipeline Flow — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/11-signal-pipeline-flow-data-pipeline-flow-scene3.webp" width="32%" alt="Signal Pipeline Flow — 场景 3：Data Pipeline Flow" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/11-signal-pipeline-flow-data-pipeline-flow-scene5.webp" width="32%" alt="Signal Pipeline Flow — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/pipeline.webp" width="32%" alt="信号管道流 — Doubao-Seed-Evolving — 管道流程 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/district-heat.webp" width="32%" alt="信号管道流 — GPT 5.6 Sol — 城市余热 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/where-request-goes.webp" width="32%" alt="信号管道流 — Claude Opus 4.8 — 请求去哪了 — Hero 最终帧" />
+</p>
+
+#### [Engineering Whiteboard Explainer](references/style/engineering-whiteboard-explainer.md)
+
+清晰、工程导向、强调图解。使用干净白色画布推进技术机制与分步说明。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/tcp-congestion-control.webp" width="32%" alt="工程讲解白板 — Doubao-Seed-Evolving — TCP 拥塞控制 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/water-tower.webp" width="32%" alt="工程讲解白板 — GPT 5.6 Sol — 城市水塔 — Hero 最终帧" />
+  <!-- Claude Opus 4.8 Hero 最终帧待补充。 -->
 </p>
 
 #### [Mechanical Scoring Funnel](references/style/mechanical-scoring-funnel.md)
@@ -178,9 +190,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 有能量、偏评估。把筛选、评分和优先级表现成轨道、弹珠、分数和漏斗路径。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/32-mechanical-scoring-funnel-evaluation-funnel-scoring-scene1.webp" width="32%" alt="Mechanical Scoring Funnel — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/32-mechanical-scoring-funnel-evaluation-funnel-scoring-scene3.webp" width="32%" alt="Mechanical Scoring Funnel — 场景 3：Evaluation Funnel Scoring" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/32-mechanical-scoring-funnel-evaluation-funnel-scoring-scene5.webp" width="32%" alt="Mechanical Scoring Funnel — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/scoring-funnel.webp" width="32%" alt="机械评分漏斗 — Doubao-Seed-Evolving — 评分漏斗 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/snowflake-branches.webp" width="32%" alt="机械评分漏斗 — GPT 5.6 Sol — 雪花分支 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/triage-the-backlog.webp" width="32%" alt="机械评分漏斗 — Claude Opus 4.8 — 需求分拣 — Hero 最终帧" />
 </p>
 
 #### [Collaborative Pairing Board](references/style/collaborative-pairing-board.md)
@@ -188,9 +200,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 清爽、协作导向。适合展示角色分工、同步点，以及人、团队或系统之间的配合。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/14-collaborative-pairing-board-cross-team-pairing-scene1.webp" width="32%" alt="Collaborative Pairing Board — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/14-collaborative-pairing-board-cross-team-pairing-scene3.webp" width="32%" alt="Collaborative Pairing Board — 场景 3：Cross-Team Pairing" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/14-collaborative-pairing-board-cross-team-pairing-scene5.webp" width="32%" alt="Collaborative Pairing Board — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/pairing-board.webp" width="32%" alt="协作配对板 — Doubao-Seed-Evolving — 配对板 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/elevator-counterweight.webp" width="32%" alt="协作配对板 — GPT 5.6 Sol — 电梯配重 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/human-reviews-ai.webp" width="32%" alt="协作配对板 — Claude Opus 4.8 — 人审 AI — Hero 最终帧" />
 </p>
 
 #### [Studio Mixing Console](references/style/studio-mixing-console.md)
@@ -198,9 +210,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 专业、拟物。用推子、旋钮和电平表表现参数调节、噪音过滤和多因素平衡。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/15-studio-mixing-console-project-roadmap-scene1.webp" width="32%" alt="Studio Mixing Console — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/15-studio-mixing-console-project-roadmap-scene3.webp" width="32%" alt="Studio Mixing Console — 场景 3：Project Roadmap" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/15-studio-mixing-console-project-roadmap-scene5.webp" width="32%" alt="Studio Mixing Console — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/mixing-console.webp" width="32%" alt="录音混音控制台 — Doubao-Seed-Evolving — 混音台 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/tidal-time.webp" width="32%" alt="录音混音控制台 — GPT 5.6 Sol — 潮汐时差 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/tuning-the-model.webp" width="32%" alt="录音混音控制台 — Claude Opus 4.8 — 调模型 — Hero 最终帧" />
 </p>
 
 #### [Subway Map of Intent](references/style/subway-map-of-intent.md)
@@ -208,9 +220,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 系统化、结构清楚。把复杂工作流表现成地铁线路和换乘站。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/09-subway-map-of-intent-parallel-track-convergence-scene1.webp" width="32%" alt="Subway Map of Intent — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/09-subway-map-of-intent-parallel-track-convergence-scene3.webp" width="32%" alt="Subway Map of Intent — 场景 3：Parallel Track Convergence" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/09-subway-map-of-intent-parallel-track-convergence-scene5.webp" width="32%" alt="Subway Map of Intent — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/subway-flow.webp" width="32%" alt="意图地铁图 — Doubao-Seed-Evolving — 地铁流程 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/tea-cha-routes.webp" width="32%" alt="意图地铁图 — GPT 5.6 Sol — 茶与 Cha — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/three-teams-launch.webp" width="32%" alt="意图地铁图 — Claude Opus 4.8 — 三队一发 — Hero 最终帧" />
 </p>
 
 #### [Kitchen Prep Station](references/style/kitchen-prep-station.md)
@@ -218,9 +230,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 温暖、具体。把原始输入到干净输出的过程表现成备料台、修剪、菜谱步骤和摆盘。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/13-kitchen-prep-station-brainstorm-ideation-scene1.webp" width="32%" alt="Kitchen Prep Station — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/13-kitchen-prep-station-brainstorm-ideation-scene3.webp" width="32%" alt="Kitchen Prep Station — 场景 3：Brainstorm Ideation" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/13-kitchen-prep-station-brainstorm-ideation-scene5.webp" width="32%" alt="Kitchen Prep Station — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/prep-station.webp" width="32%" alt="厨房备料台 — Doubao-Seed-Evolving — 备料台 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/cocoa-fermentation.webp" width="32%" alt="厨房备料台 — GPT 5.6 Sol — 可可发酵 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/raw-logs-to-report.webp" width="32%" alt="厨房备料台 — Claude Opus 4.8 — 日志到报告 — Hero 最终帧" />
 </p>
 
 #### [Context Bento Box](references/style/context-bento-box.md)
@@ -228,9 +240,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 紧凑、有组织。用分格和层叠盒子表达 handoff、多类别概览和上下文包装。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/47-context-bento-box-project-context-scene1.webp" width="32%" alt="Context Bento Box — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/47-context-bento-box-project-context-scene3.webp" width="32%" alt="Context Bento Box — 场景 3：Project Context" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/47-context-bento-box-project-context-scene5.webp" width="32%" alt="Context Bento Box — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/context-bento.webp" width="32%" alt="上下文便当盒 — Doubao-Seed-Evolving — 上下文盒 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/lichen-partners.webp" width="32%" alt="上下文便当盒 — GPT 5.6 Sol — 地衣伙伴 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/everything-the-intern-needs.webp" width="32%" alt="上下文便当盒 — Claude Opus 4.8 — 新人须知 — Hero 最终帧" />
 </p>
 
 #### [Debug Reaction Board](references/style/debug-reaction-board.md)
@@ -238,9 +250,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 开发者原生、偏诊断。使用霓虹状态标记、终端界面和行动看板。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/16-debug-reaction-board-system-diagnostics-scene1.webp" width="32%" alt="Debug Reaction Board — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/16-debug-reaction-board-system-diagnostics-scene3.webp" width="32%" alt="Debug Reaction Board — 场景 3：System Diagnostics" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/16-debug-reaction-board-system-diagnostics-scene5.webp" width="32%" alt="Debug Reaction Board — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/debug-board.webp" width="32%" alt="调试反应面板 — Doubao-Seed-Evolving — 调试面板 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/acoustic-crack.webp" width="32%" alt="调试反应面板 — GPT 5.6 Sol — 听裂缝 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/safe-to-deploy.webp" width="32%" alt="调试反应面板 — Claude Opus 4.8 — 能发布吗 — Hero 最终帧" />
 </p>
 
 ### 编辑与印刷
@@ -252,9 +264,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 新闻摊封面般的自信，饱和墨色底色和超大时尚衬线标题引人注目。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/18-magazine-masthead-creative-intelligence-scene1.webp" width="32%" alt="杂志刊头 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/18-magazine-masthead-creative-intelligence-scene3.webp" width="32%" alt="杂志刊头 — 场景 3：Creative Intelligence" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/18-magazine-masthead-creative-intelligence-scene5.webp" width="32%" alt="杂志刊头 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/masthead.webp" width="32%" alt="杂志刊头 — Doubao-Seed-Evolving — 杂志刊头 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/moth-experiment.webp" width="32%" alt="杂志刊头 — GPT 5.6 Sol — 桦尺蛾实验 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/comeback-issue.webp" width="32%" alt="杂志刊头 — Claude Opus 4.8 — 回归特刊 — Hero 最终帧" />
 </p>
 
 #### [Solar Biennale Poster](references/style/solar-biennale-poster.md)
@@ -262,9 +274,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 展览海报般的温暖，羊皮纸底色、日光黄氛围和一句巨大的衬线宣言。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/21-solar-biennale-poster-slow-light-biennale-scene1.webp" width="32%" alt="太阳双年展海报 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/21-solar-biennale-poster-slow-light-biennale-scene3.webp" width="32%" alt="太阳双年展海报 — 场景 3：Slow Light Biennale" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/21-solar-biennale-poster-slow-light-biennale-scene5.webp" width="32%" alt="太阳双年展海报 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/biennale-poster.webp" width="32%" alt="日光双年展海报 — Doubao-Seed-Evolving — 双年展 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/iron-from-stars.webp" width="32%" alt="日光双年展海报 — GPT 5.6 Sol — 恒星炼铁 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/festival-slow-ideas.webp" width="32%" alt="日光双年展海报 — Claude Opus 4.8 — 慢想节 — Hero 最终帧" />
 </p>
 
 #### [Warm Editorial Feature](references/style/warm-editorial-feature.md)
@@ -272,9 +284,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 杂志专题页风格，暖奶油纸底色、衬线展示字体和引用节奏，适合叙事阅读。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/19-warm-editorial-feature-attention-rebellion-scene1.webp" width="32%" alt="暖色编辑特写 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/19-warm-editorial-feature-attention-rebellion-scene3.webp" width="32%" alt="暖色编辑特写 — 场景 3：Attention Rebellion" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/19-warm-editorial-feature-attention-rebellion-scene5.webp" width="32%" alt="暖色编辑特写 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/editorial-feature.webp" width="32%" alt="暖色专题特稿 — Doubao-Seed-Evolving — 专题特稿 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/oral-to-written.webp" width="32%" alt="暖色专题特稿 — GPT 5.6 Sol — 史诗成文 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/letter-to-past-self.webp" width="32%" alt="暖色专题特稿 — Claude Opus 4.8 — 写给过去 — Hero 最终帧" />
 </p>
 
 #### [Scholars' Vellum](references/style/scholars-vellum.md)
@@ -282,9 +294,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 古典手稿，古老羊皮纸、页边批注和衬线权威感，适合深度思想内容。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/20-scholars-vellum-nature-of-knowing-scene1.webp" width="32%" alt="学者羊皮纸 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/20-scholars-vellum-nature-of-knowing-scene3.webp" width="32%" alt="学者羊皮纸 — 场景 3：Nature of Knowing" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/20-scholars-vellum-nature-of-knowing-scene5.webp" width="32%" alt="学者羊皮纸 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/scholar-notes.webp" width="32%" alt="学者羊皮卷 — Doubao-Seed-Evolving — 学者笔记 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/hidden-text.webp" width="32%" alt="学者羊皮卷 — GPT 5.6 Sol — 重写羊皮卷 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/what-ancients-knew.webp" width="32%" alt="学者羊皮卷 — Claude Opus 4.8 — 古人的智慧 — Hero 最终帧" />
 </p>
 
 #### [Front Page Broadsheet](references/style/front-page-broadsheet.md)
@@ -292,9 +304,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 报纸头版，多栏布局和标题层级，适合密集信息交付。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/17-front-page-broadsheet-urban-transformation-scene1.webp" width="32%" alt="头版大报 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/17-front-page-broadsheet-urban-transformation-scene3.webp" width="32%" alt="头版大报 — 场景 3：Urban Transformation" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/17-front-page-broadsheet-urban-transformation-scene5.webp" width="32%" alt="头版大报 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/broadsheet.webp" width="32%" alt="头版大报 — Doubao-Seed-Evolving — 大报头版 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/rogue-wave.webp" width="32%" alt="头版大报 — GPT 5.6 Sol — 怪浪 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/day-feed-stopped.webp" width="32%" alt="头版大报 — Claude Opus 4.8 — 信息流停摆 — Hero 最终帧" />
 </p>
 
 #### [Duotone Session](references/style/duotone-session.md)
@@ -302,9 +314,9 @@ GPT 5.5 也能做，我也针对它做过几轮提示和流程优化，但从我
 Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、克制、匠人感。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/22-duotone-session-recording-session-scene1.webp" width="32%" alt="双调录音 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/22-duotone-session-recording-session-scene3.webp" width="32%" alt="双调录音 — 场景 3：Recording Session" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/22-duotone-session-recording-session-scene5.webp" width="32%" alt="双调录音 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/session-poster.webp" width="32%" alt="双调录制 — Doubao-Seed-Evolving — 录制海报 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/dance-notation.webp" width="32%" alt="双调录制 — GPT 5.6 Sol — 舞谱 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/cut-in-one-take.webp" width="32%" alt="双调录制 — Claude Opus 4.8 — 一条过 — Hero 最终帧" />
 </p>
 
 ### 工艺与文化传统
@@ -316,9 +328,9 @@ Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、�
 科学植物插画，精细墨线和拉丁标注，适合自然世界主题。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/26-botanical-specimen-plate-botanical-taxonomy-specimens-scene1.webp" width="32%" alt="植物标本板 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/26-botanical-specimen-plate-botanical-taxonomy-specimens-scene3.webp" width="32%" alt="植物标本板 — 场景 3：Botanical Taxonomy Specimens" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/26-botanical-specimen-plate-botanical-taxonomy-specimens-scene5.webp" width="32%" alt="植物标本板 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/specimen-plate.webp" width="32%" alt="植物标本板 — Doubao-Seed-Evolving — 标本板 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/leaf-stomata.webp" width="32%" alt="植物标本板 — GPT 5.6 Sol — 叶片气孔 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/anatomy-of-an-idea.webp" width="32%" alt="植物标本板 — Claude Opus 4.8 — 想法解剖 — Hero 最终帧" />
 </p>
 
 #### [Woodblock Floating World](references/style/woodblock-floating-world.md)
@@ -326,9 +338,9 @@ Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、�
 日本浮世绘木刻，浮动世界构图和水墨纹理，适合沉思视觉叙事。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/25-woodblock-floating-world-ukiyo-e-floating-world-scene1.webp" width="32%" alt="木版浮世绘 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/25-woodblock-floating-world-ukiyo-e-floating-world-scene3.webp" width="32%" alt="木版浮世绘 — 场景 3：Ukiyo-e Floating World" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/25-woodblock-floating-world-ukiyo-e-floating-world-scene5.webp" width="32%" alt="木版浮世绘 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/woodblock.webp" width="32%" alt="木版浮世绘 — Doubao-Seed-Evolving — 木版画 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/whistled-language.webp" width="32%" alt="木版浮世绘 — GPT 5.6 Sol — 口哨语言 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/a-rivers-journey.webp" width="32%" alt="木版浮世绘 — Claude Opus 4.8 — 一条河 — Hero 最终帧" />
 </p>
 
 #### [Cyanotype Drafting Table](references/style/cyanotype-drafting-table.md)
@@ -336,9 +348,9 @@ Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、�
 蓝图制图，蓝晒色调和技术线稿，适合系统架构和工程图表。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/05-cyanotype-drafting-table-system-architecture-scene1.webp" width="32%" alt="蓝图制图台 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/05-cyanotype-drafting-table-system-architecture-scene3.webp" width="32%" alt="蓝图制图台 — 场景 3：System Architecture" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/05-cyanotype-drafting-table-system-architecture-scene5.webp" width="32%" alt="蓝图制图台 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/blueprint.webp" width="32%" alt="蓝图制图台 — Doubao-Seed-Evolving — 蓝图 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/comet-anatomy.webp" width="32%" alt="蓝图制图台 — GPT 5.6 Sol — 彗星解剖 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/drawing-a-bridge.webp" width="32%" alt="蓝图制图台 — Claude Opus 4.8 — 桥的设计 — Hero 最终帧" />
 </p>
 
 #### [Expedition Screenprint](references/style/expedition-screenprint.md)
@@ -346,9 +358,9 @@ Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、�
 田野日志丝网印，叠印图层和地图坐标，适合探索发现叙事。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/28-expedition-screenprint-public-lands-expedition-scene1.webp" width="32%" alt="探险丝网印 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/28-expedition-screenprint-public-lands-expedition-scene3.webp" width="32%" alt="探险丝网印 — 场景 3：Public Lands Expedition" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/28-expedition-screenprint-public-lands-expedition-scene5.webp" width="32%" alt="探险丝网印 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/expedition-print.webp" width="32%" alt="探险丝网印 — Doubao-Seed-Evolving — 探险海报 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/saharan-dust.webp" width="32%" alt="探险丝网印 — GPT 5.6 Sol — 撒哈拉尘 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/mapping-unknown-ground.webp" width="32%" alt="探险丝网印 — Claude Opus 4.8 — 勘探未知 — Hero 最终帧" />
 </p>
 
 #### [Machine-Age Deco](references/style/machine-age-deco.md)
@@ -356,9 +368,9 @@ Blue Note 黑胶封套，双色照片和超大压缩哥特字体——冷静、�
 Art Deco 机器时代，几何图案和阶梯造型，适合宏大愿景和雄心路线图。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/27-machine-age-deco-flagship-product-launch-scene1.webp" width="32%" alt="机器时代装饰 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/27-machine-age-deco-flagship-product-launch-scene3.webp" width="32%" alt="机器时代装饰 — 场景 3：Flagship Product Launch" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/27-machine-age-deco-flagship-product-launch-scene5.webp" width="32%" alt="机器时代装饰 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/deco-gala.webp" width="32%" alt="机器时代装饰艺术 — Doubao-Seed-Evolving — 装饰仪式 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/reinforced-concrete.webp" width="32%" alt="机器时代装饰艺术 — GPT 5.6 Sol — 钢筋混凝土 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/grand-unveiling.webp" width="32%" alt="机器时代装饰艺术 — Claude Opus 4.8 — 盛大揭幕 — Hero 最终帧" />
 </p>
 
 #### [Wabi-Sabi Ceramic](references/style/wabi-sabi-ceramic.md)
@@ -366,9 +378,9 @@ Art Deco 机器时代，几何图案和阶梯造型，适合宏大愿景和雄�
 手捏陶瓷，侘寂不规则感和哑光釉面，适合工艺和天然产品主题。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/03-wabi-sabi-ceramic-craft-philosophy-scene1.webp" width="32%" alt="侘寂陶瓷 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/03-wabi-sabi-ceramic-craft-philosophy-scene3.webp" width="32%" alt="侘寂陶瓷 — 场景 3：Craft Philosophy" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/03-wabi-sabi-ceramic-craft-philosophy-scene5.webp" width="32%" alt="侘寂陶瓷 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/ceramic-calm.webp" width="32%" alt="侘寂陶器 — Doubao-Seed-Evolving — 陶器静场 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/stone-to-soil.webp" width="32%" alt="侘寂陶器 — GPT 5.6 Sol — 石成土 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/beauty-unfinished.webp" width="32%" alt="侘寂陶器 — Claude Opus 4.8 — 未完成之美 — Hero 最终帧" />
 </p>
 
 #### [Analog Cutout Collage](references/style/analog-cutout-collage.md)
@@ -376,9 +388,9 @@ Art Deco 机器时代，几何图案和阶梯造型，适合宏大愿景和雄�
 手工剪纸拼贴，撕纸边缘和混合质感，适合创意过程和想法组装。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/24-analog-cutout-collage-desk-fragments-scene1.webp" width="32%" alt="模拟拼贴 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/24-analog-cutout-collage-desk-fragments-scene3.webp" width="32%" alt="模拟拼贴 — 场景 3：Desk Fragments" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/24-analog-cutout-collage-desk-fragments-scene5.webp" width="32%" alt="模拟拼贴 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/cutout-collage.webp" width="32%" alt="模拟剪纸拼贴 — Doubao-Seed-Evolving — 剪纸拼贴 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/concealed-objects.webp" width="32%" alt="模拟剪纸拼贴 — GPT 5.6 Sol — 墙中藏物 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/piecing-idea-together.webp" width="32%" alt="模拟剪纸拼贴 — Claude Opus 4.8 — 拼出想法 — Hero 最终帧" />
 </p>
 
 #### [Cassette-Era Packaging](references/style/cassette-era-packaging.md)
@@ -386,9 +398,9 @@ Art Deco 机器时代，几何图案和阶梯造型，适合宏大愿景和雄�
 磁带 J-card 设计，80-90 年代图形能量和混音带布局，适合音乐和怀旧内容。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/29-cassette-era-packaging-retro-audio-catalogue-scene1.webp" width="32%" alt="磁带时代包装 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/29-cassette-era-packaging-retro-audio-catalogue-scene3.webp" width="32%" alt="磁带时代包装 — 场景 3：Retro Audio Catalogue" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/29-cassette-era-packaging-retro-audio-catalogue-scene5.webp" width="32%" alt="磁带时代包装 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/cassette-pack.webp" width="32%" alt="卡带时代包装 — Doubao-Seed-Evolving — 卡带包装 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/ice-core-archive.webp" width="32%" alt="卡带时代包装 — GPT 5.6 Sol — 冰芯档案 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/greatest-hits-vol1.webp" width="32%" alt="卡带时代包装 — Claude Opus 4.8 — 精选辑一 — Hero 最终帧" />
 </p>
 
 #### [Riso Print Zine](references/style/riso-print-zine.md)
@@ -396,9 +408,9 @@ Art Deco 机器时代，几何图案和阶梯造型，适合宏大愿景和雄�
 Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/23-riso-print-zine-underground-music-scene1.webp" width="32%" alt="孔版印刷杂志 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/23-riso-print-zine-underground-music-scene3.webp" width="32%" alt="孔版印刷杂志 — 场景 3：Underground Music" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/23-riso-print-zine-underground-music-scene5.webp" width="32%" alt="孔版印刷杂志 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/riso-zine.webp" width="32%" alt="孔版印刷杂志 — Doubao-Seed-Evolving — 孔版杂志 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/seven-blues.webp" width="32%" alt="孔版印刷杂志 — GPT 5.6 Sol — 七种蓝 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/make-something-weekly.webp" width="32%" alt="孔版印刷杂志 — Claude Opus 4.8 — 每周做点 — Hero 最终帧" />
 </p>
 
 #### [Neo-Brutalist Bulletin](references/style/neo-brutalist-bulletin.md)
@@ -406,9 +418,9 @@ Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
 抗议海报能量，粗黑边框、硬投影和一个高电压强调色。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/30-neo-brutalist-bulletin-product-launch-bulletin-scene1.webp" width="32%" alt="新野兽派公告 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/30-neo-brutalist-bulletin-product-launch-bulletin-scene3.webp" width="32%" alt="新野兽派公告 — 场景 3：Product Launch Bulletin" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/30-neo-brutalist-bulletin-product-launch-bulletin-scene5.webp" width="32%" alt="新野兽派公告 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/brutalist-bulletin.webp" width="32%" alt="新粗野公告 — Doubao-Seed-Evolving — 粗野公告 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/sinking-delta.webp" width="32%" alt="新粗野公告 — GPT 5.6 Sol — 下沉三角洲 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/read-before-merge.webp" width="32%" alt="新粗野公告 — Claude Opus 4.8 — 合并前必读 — Hero 最终帧" />
 </p>
 
 #### [Red Wedge Agitprop](references/style/red-wedge-agitprop.md)
@@ -416,9 +428,9 @@ Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
 构成主义政治海报，红色楔形几何和对角线动能，适合行动号召。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/31-red-wedge-agitprop-movement-call-to-action-scene1.webp" width="32%" alt="红色楔子宣传 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/31-red-wedge-agitprop-movement-call-to-action-scene3.webp" width="32%" alt="红色楔子宣传 — 场景 3：Movement Call to Action" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/31-red-wedge-agitprop-movement-call-to-action-scene5.webp" width="32%" alt="红色楔子宣传 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/red-wedge.webp" width="32%" alt="红楔宣传画 — Doubao-Seed-Evolving — 红楔海报 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/pneumatic-post.webp" width="32%" alt="红楔宣传画 — GPT 5.6 Sol — 气动邮政 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/refactor-the-system.webp" width="32%" alt="红楔宣传画 — Claude Opus 4.8 — 重构体制 — Hero 最终帧" />
 </p>
 
 ### 当代数字
@@ -430,9 +442,9 @@ Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
 中世纪有机沉静，天然木色调和柔和曲线，适合可持续和天然产品故事。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/35-mid-century-grove-brand-storytelling-scene1.webp" width="32%" alt="中世纪树林 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/35-mid-century-grove-brand-storytelling-scene3.webp" width="32%" alt="中世纪树林 — 场景 3：Brand Storytelling" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/35-mid-century-grove-brand-storytelling-scene5.webp" width="32%" alt="中世纪树林 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/botanical-brand.webp" width="32%" alt="中世纪林间 — Doubao-Seed-Evolving — 植物品牌 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/monarch-migration.webp" width="32%" alt="中世纪林间 — GPT 5.6 Sol — 帝王蝶迁徙 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/growing-slowly-on-purpose.webp" width="32%" alt="中世纪林间 — Claude Opus 4.8 — 慢成长 — Hero 最终帧" />
 </p>
 
 #### [After-Hours Luxe](references/style/after-hours-luxe.md)
@@ -440,9 +452,9 @@ Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
 深夜鸡尾酒会奢华，深宝石色调和金色点缀，适合高端定位和夜间场景。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/36-after-hours-luxe-luxury-brand-launch-scene1.webp" width="32%" alt="夜间奢华 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/36-after-hours-luxe-luxury-brand-launch-scene3.webp" width="32%" alt="夜间奢华 — 场景 3：Luxury Brand Launch" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/36-after-hours-luxe-luxury-brand-launch-scene5.webp" width="32%" alt="夜间奢华 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/after-hours.webp" width="32%" alt="深夜奢华 — Doubao-Seed-Evolving — 奢华揭幕 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/urushi-cure.webp" width="32%" alt="深夜奢华 — GPT 5.6 Sol — 漆的固化 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/the-midnight-release.webp" width="32%" alt="深夜奢华 — Claude Opus 4.8 — 午夜上线 — Hero 最终帧" />
 </p>
 
 #### [Soft Pastel Friendly](references/style/soft-pastel-friendly.md)
@@ -450,9 +462,9 @@ Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
 亲切粉彩温暖，圆角药丸几何和柔和弹簧动效，适合引导页和社区 deck。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/12-soft-pastel-friendly-workspace-onboarding-scene1.webp" width="32%" alt="柔和粉彩 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/12-soft-pastel-friendly-workspace-onboarding-scene3.webp" width="32%" alt="柔和粉彩 — 场景 3：Workspace Onboarding" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/12-soft-pastel-friendly-workspace-onboarding-scene5.webp" width="32%" alt="柔和粉彩 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/friendly-onboard.webp" width="32%" alt="柔和粉彩友好 — Doubao-Seed-Evolving — 友好入门 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/chrysalis-rebuild.webp" width="32%" alt="柔和粉彩友好 — GPT 5.6 Sol — 蛹中重建 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/first-week-here.webp" width="32%" alt="柔和粉彩友好 — Claude Opus 4.8 — 入职第一周 — Hero 最终帧" />
 </p>
 
 #### [Retro Windows](references/style/retro-windows.md)
@@ -460,9 +472,9 @@ Risograph 手工 zine，限色调、手工拼贴密度和 DIY 反叛气质。
 Windows 3.1/95 怀旧，斜面镀铬和系统灰调色板，适合开发者工具和复古科技氛围。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/34-retro-windows-nostalgic-computing-scene1.webp" width="32%" alt="复古窗口 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/34-retro-windows-nostalgic-computing-scene3.webp" width="32%" alt="复古窗口 — 场景 3：Nostalgic Computing" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/34-retro-windows-nostalgic-computing-scene5.webp" width="32%" alt="复古窗口 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/retro-desktop.webp" width="32%" alt="复古 Windows — Doubao-Seed-Evolving — 复古桌面 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/voyager-boundary.webp" width="32%" alt="复古 Windows — GPT 5.6 Sol — 日球层边界 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/setup-exe.webp" width="32%" alt="复古 Windows — Claude Opus 4.8 — 安装向导 — Hero 最终帧" />
 </p>
 
 #### [Objective Swiss Grid](references/style/objective-swiss-grid.md)
@@ -470,9 +482,9 @@ Windows 3.1/95 怀旧，斜面镀铬和系统灰调色板，适合开发者工�
 瑞士国际风格，刚性网格结构和无衬线清晰度，适合数据报告和分析框架。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/02-objective-swiss-grid-migration-sequence-scene1.webp" width="32%" alt="客观瑞士网格 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/02-objective-swiss-grid-migration-sequence-scene3.webp" width="32%" alt="客观瑞士网格 — 场景 3：Migration Sequence" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/02-objective-swiss-grid-migration-sequence-scene5.webp" width="32%" alt="客观瑞士网格 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/swiss-grid.webp" width="32%" alt="客观瑞士网格 — Doubao-Seed-Evolving — 瑞士网格 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/bridge-movement.webp" width="32%" alt="客观瑞士网格 — GPT 5.6 Sol — 桥的位移 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/anatomy-timetable.webp" width="32%" alt="客观瑞士网格 — Claude Opus 4.8 — 时刻表解剖 — Hero 最终帧" />
 </p>
 
 #### [Liquid Glass](references/style/liquid-glass.md)
@@ -480,9 +492,9 @@ Windows 3.1/95 怀旧，斜面镀铬和系统灰调色板，适合开发者工�
 Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Apple 平台内容。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/33-liquid-glass-museum-collection-showcase-scene1.webp" width="32%" alt="液态玻璃 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/33-liquid-glass-museum-collection-showcase-scene3.webp" width="32%" alt="液态玻璃 — 场景 3：Museum Collection Showcase" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/33-liquid-glass-museum-collection-showcase-scene5.webp" width="32%" alt="液态玻璃 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/liquid-glass.webp" width="32%" alt="液态玻璃 — Doubao-Seed-Evolving — 液态玻璃 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/safety-glass.webp" width="32%" alt="液态玻璃 — GPT 5.6 Sol — 夹层玻璃 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/layers-of-a-product.webp" width="32%" alt="液态玻璃 — Claude Opus 4.8 — 产品的层 — Hero 最终帧" />
 </p>
 
 #### [Widescreen Title Card](references/style/widescreen-title-card.md)
@@ -490,9 +502,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 电影宽银幕标题卡，电影字体和氛围静止感，适合开场标题和宏大揭示。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/38-widescreen-title-card-cinematic-title-cards-scene1.webp" width="32%" alt="宽屏标题卡 — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/38-widescreen-title-card-cinematic-title-cards-scene3.webp" width="32%" alt="宽屏标题卡 — 场景 3：Cinematic Title Cards" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/38-widescreen-title-card-cinematic-title-cards-scene5.webp" width="32%" alt="宽屏标题卡 — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/title-card.webp" width="32%" alt="宽屏标题卡 — Doubao-Seed-Evolving — 宽屏片头 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/whale-fall.webp" width="32%" alt="宽屏标题卡 — GPT 5.6 Sol — 鲸落 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/chapter-zero.webp" width="32%" alt="宽屏标题卡 — Claude Opus 4.8 — 第零章 — Hero 最终帧" />
 </p>
 
 ### 文本报告
@@ -502,9 +514,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 克制、可信、有研究感。适合研究发现、高管摘要和需要自洽阅读的证据页面。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/41-research-memo-model-performance-scene1.webp" width="32%" alt="Research Memo — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/41-research-memo-model-performance-scene3.webp" width="32%" alt="Research Memo — 场景 3：Model Performance" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/41-research-memo-model-performance-scene5.webp" width="32%" alt="Research Memo — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/research-memo.webp" width="32%" alt="研究备忘录 — Doubao-Seed-Evolving — 研究备忘 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/impact-evidence.webp" width="32%" alt="研究备忘录 — GPT 5.6 Sol — 撞击证据 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/why-users-churn.webp" width="32%" alt="研究备忘录 — Claude Opus 4.8 — 用户流失 — Hero 最终帧" />
 </p>
 
 #### [Maintainer Issue Brief](references/style/maintainer-issue-brief.md)
@@ -512,9 +524,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 整洁、结构化、行动导向。灵感来自现代 issue tracker 和代码审查工具。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/43-maintainer-issue-brief-bug-fix-brief-scene1.webp" width="32%" alt="Maintainer Issue Brief — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/43-maintainer-issue-brief-bug-fix-brief-scene3.webp" width="32%" alt="Maintainer Issue Brief — 场景 3：Bug Fix Brief" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/43-maintainer-issue-brief-bug-fix-brief-scene5.webp" width="32%" alt="Maintainer Issue Brief — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/issue-brief.webp" width="32%" alt="维护者问题简报 — Doubao-Seed-Evolving — 问题简报 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/ozone-hole.webp" width="32%" alt="维护者问题简报 — GPT 5.6 Sol — 臭氧洞 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/flaky-test-root-cause.webp" width="32%" alt="维护者问题简报 — Claude Opus 4.8 — 不稳定测试 — Hero 最终帧" />
 </p>
 
 #### [Decision Record](references/style/decision-record.md)
@@ -522,9 +534,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 严谨、架构化。用 ADR 节奏呈现上下文、决策、权衡和验证。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/42-decision-record-architecture-decision-scene1.webp" width="32%" alt="Decision Record — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/42-decision-record-architecture-decision-scene3.webp" width="32%" alt="Decision Record — 场景 3：Architecture Decision" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/42-decision-record-architecture-decision-scene5.webp" width="32%" alt="Decision Record — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/decision-record.webp" width="32%" alt="决策记录 — Doubao-Seed-Evolving — 决策记录 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/standard-time.webp" width="32%" alt="决策记录 — GPT 5.6 Sol — 标准时 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/why-we-chose-monorepo.webp" width="32%" alt="决策记录 — Claude Opus 4.8 — 选单仓库 — Hero 最终帧" />
 </p>
 
 #### [Benchmark Matrix](references/style/benchmark-matrix.md)
@@ -532,9 +544,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 分析型、比较型。强调结构化证据、评估标准、指标和表格化对比。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/10-benchmark-matrix-competitive-benchmark-scene1.webp" width="32%" alt="Benchmark Matrix — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/10-benchmark-matrix-competitive-benchmark-scene3.webp" width="32%" alt="Benchmark Matrix — 场景 3：Competitive Benchmark" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/10-benchmark-matrix-competitive-benchmark-scene5.webp" width="32%" alt="Benchmark Matrix — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/benchmark.webp" width="32%" alt="基准矩阵 — Doubao-Seed-Evolving — 基准评估 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/natural-clocks.webp" width="32%" alt="基准矩阵 — GPT 5.6 Sol — 自然时钟 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/build-buy-borrow.webp" width="32%" alt="基准矩阵 — Claude Opus 4.8 — 自建还是买 — Hero 最终帧" />
 </p>
 
 #### [Field Notes Report](references/style/field-notes-report.md)
@@ -542,9 +554,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 有纸张触感，偏观察记录。使用账簿纸、木炭墨水和卡片网格。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/44-field-notes-report-field-research-scene1.webp" width="32%" alt="Field Notes Report — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/44-field-notes-report-field-research-scene3.webp" width="32%" alt="Field Notes Report — 场景 3：Field Research" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/44-field-notes-report-field-research-scene5.webp" width="32%" alt="Field Notes Report — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/field-notes.webp" width="32%" alt="田野笔记报告 — Doubao-Seed-Evolving — 田野笔记 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/ancient-sound.webp" width="32%" alt="田野笔记报告 — GPT 5.6 Sol — 古代声音 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/shadowing-support.webp" width="32%" alt="田野笔记报告 — Claude Opus 4.8 — 跟班客服 — Hero 最终帧" />
 </p>
 
 #### [Operating Manual](references/style/operating-manual.md)
@@ -552,9 +564,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 流程化、高对比。用工业 runbook、终端块和步骤执行来表达可重复操作。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/37-operating-manual-industrial-runbook-scene1.webp" width="32%" alt="Operating Manual — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/37-operating-manual-industrial-runbook-scene3.webp" width="32%" alt="Operating Manual — 场景 3：Industrial Runbook" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/37-operating-manual-industrial-runbook-scene5.webp" width="32%" alt="Operating Manual — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/manual.webp" width="32%" alt="操作手册 — Doubao-Seed-Evolving — 运行手册 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/escapement.webp" width="32%" alt="操作手册 — GPT 5.6 Sol — 擒纵器 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/rotate-the-secrets.webp" width="32%" alt="操作手册 — Claude Opus 4.8 — 轮换密钥 — Hero 最终帧" />
 </p>
 
 #### [Checklist Ledger](references/style/checklist-ledger.md)
@@ -562,9 +574,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 可靠、务实。用账簿线、紧凑行和可见 check 表达验收标准和最终准备度。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/46-checklist-ledger-release-readiness-scene1.webp" width="32%" alt="Checklist Ledger — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/46-checklist-ledger-release-readiness-scene3.webp" width="32%" alt="Checklist Ledger — 场景 3：Release Readiness" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/46-checklist-ledger-release-readiness-scene5.webp" width="32%" alt="Checklist Ledger — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/checklist-ledger.webp" width="32%" alt="检查清单台账 — Doubao-Seed-Evolving — 检查清单 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/pigment-without-touch.webp" width="32%" alt="检查清单台账 — GPT 5.6 Sol — 无损识色 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/close-the-quarter.webp" width="32%" alt="检查清单台账 — Claude Opus 4.8 — 季度结账 — Hero 最终帧" />
 </p>
 
 #### [Annotated Source & Diff](references/style/annotated-source-and-diff.md)
@@ -572,9 +584,9 @@ Apple 设计语言，毛玻璃深度和空间分层，适合高端科技和 Appl
 可审查、强调变化。用 before/after、注释和类源码界面直接证明改动价值。
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/45-annotated-source-diff-code-refactor-scene1.webp" width="32%" alt="Annotated Source Diff — 场景 1：开场" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/45-annotated-source-diff-code-refactor-scene3.webp" width="32%" alt="Annotated Source Diff — 场景 3：Code Refactor" />
-  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/45-annotated-source-diff-code-refactor-scene5.webp" width="32%" alt="Annotated Source Diff — 场景 5：结尾" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/source-diff.webp" width="32%" alt="注解源码与差异 — Doubao-Seed-Evolving — 源码差异 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/reading-rosetta.webp" width="32%" alt="注解源码与差异 — GPT 5.6 Sol — 破译罗塞塔 — Hero 最终帧" />
+  <img src="https://raw.githubusercontent.com/patrick-fu/frontend-harness-slides-workbench/main/public/showcase/killing-a-god-object.webp" width="32%" alt="注解源码与差异 — Claude Opus 4.8 — 拆解巨类 — Hero 最终帧" />
 </p>
 
 <p align="center">

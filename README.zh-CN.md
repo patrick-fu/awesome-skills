@@ -98,8 +98,7 @@ Skill 会被替换，不会多出第二份。
 
 - `write-unit-test`：围绕行为、回归和领域规则编写或改进单元测试。
 - `log-driven-debugging`：加高信号日志，让用户复现，再根据日志找到真实分歧点。
-- `commit-staged-changes`：只提交 staged 内容，并写事实准确的英文 commit message。
-- `generate-commit-message`：只根据 staged diff 草拟 commit message，不创建 commit。
+- `generate-commit-message`：按简单格式约束草拟精简的英文 commit message。
 
 ### Personal setup
 

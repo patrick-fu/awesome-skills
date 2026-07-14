@@ -35,7 +35,6 @@
       "skills": [
         "./write-unit-test",
         "./log-driven-debugging",
-        "./commit-staged-changes",
         "./generate-commit-message"
       ]
     },

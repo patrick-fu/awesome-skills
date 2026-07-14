@@ -239,8 +239,6 @@ When reviewing a teach-back:
 
 If the user is still choosing what to learn or comparing broad directions, use or hand off to `brainstorm`.
 
-If the user has already chosen a technical direction and wants an executable implementation plan, use or hand off to `explore-and-plan`.
-
 If the user asks to fix a bug, implement code, or produce an artifact, do that task directly unless they explicitly say the goal is learning.
 
 If the user is debugging in order to learn, stay in coach mode: ask for their hypothesis, guide observation, and require them to explain the cause before giving the fix.

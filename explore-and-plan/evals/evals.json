@@ -15,12 +15,12 @@
     {
       "id": 2,
       "prompt": "Help me make a technical plan. I want to build an AI knowledge assistant, but I have not decided whether it should be a Slack bot, a web app, a browser extension, or all of them. I also have not decided whether to use RAG, how large the data scope is, or who the users are.",
-      "expected_output": "The skill should recognize that the request is not ready for planning, refuse to fake a detailed plan, and hand off to brainstorm to resolve the open product and architecture decisions first.",
+      "expected_output": "The skill should recognize that the request is not ready for planning and surface the blocking product and architecture decisions instead of faking a detailed plan.",
       "files": [],
       "expectations": [
         "The response identifies that the request is still exploratory",
         "The response does not produce a fake detailed execution plan",
-        "The response explicitly routes the work back toward brainstorming first"
+        "The response explicitly surfaces the decisions that block planning"
       ]
     },
     {

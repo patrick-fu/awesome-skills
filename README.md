@@ -114,10 +114,8 @@ not create a second copy.
   and domain rules.
 - `log-driven-debugging`: Add targeted logs, rerun the real scenario, and trace
   the first useful divergence.
-- `commit-staged-changes`: Commit only staged changes with a factual English
-  message.
-- `generate-commit-message`: Draft a commit message from the staged diff without
-  creating the commit.
+- `generate-commit-message`: Draft a concise English commit message with simple
+  formatting constraints.
 
 ### Personal setup
 

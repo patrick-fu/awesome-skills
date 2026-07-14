@@ -37,7 +37,7 @@
     {
       "id": 4,
       "prompt": "We have mostly decided to build a summarization assistant for support agents. The first scope is only an embedded card on the ticket detail page, using the current ticket content and the latest 20 interaction records as input. I want you to help me tighten the boundaries and risks one last time, then I will ask for an implementation plan.",
-      "expected_output": "The skill should use the remaining conversation to pressure-test assumptions and clarify boundaries, then summarize the converged direction and naturally hand off toward explore-and-plan instead of continuing endless ideation.",
+      "expected_output": "The skill should use the remaining conversation to pressure-test assumptions and clarify boundaries, then summarize the converged direction and naturally hand off toward planning instead of continuing endless ideation.",
       "files": [],
       "expectations": [
         "The response focuses on final boundary and risk clarification rather than reopening the whole concept",

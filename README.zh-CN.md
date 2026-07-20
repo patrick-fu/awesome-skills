@@ -40,8 +40,8 @@ PDF 导出和线上交付都在流程里。
 
 ### 🧭 `parallel-goal-workflows`
 
-处理复杂任务时，不把所有子任务都塞进主会话。它会帮 Agent 拆分目标、按需派出聚焦
-helper、审查结果，再把最终判断收束成一份清楚的报告。
+处理复杂任务时，不把所有子任务都塞进主会话。它会把每个显式调用的顶层目标交给一个
+Goal Owner，由它负责执行、按需派出聚焦 helper、审查、验收和最终报告。
 
 适合代码审计、复杂调研、修复循环，或者任何需要独立检查的任务。
 
@@ -82,15 +82,15 @@ Skill 会被替换，不会多出第二份。
 
 ### Agent orchestration
 
-- `parallel-goal-workflows`：把复杂任务拆成有 owner 的目标、聚焦 helper 工作、review、
-  repair 和最终报告。
+- `parallel-goal-workflows`：把每个顶层目标交给一个 Goal Owner，由它负责执行、按需派出
+  聚焦 helper、review、repair 和最终报告。
 - `claude-code-coding-agent`：明确选择 Claude Code CLI 作为外部编码 Agent 时使用。
 - `codex-coding-agent`：从另一个宿主 Agent 或自动化流程里调用本地 Codex CLI。
 - `cursor-coding-agent`：明确选择 Cursor CLI 作为外部执行器时使用。
 
 ### Thinking and planning
 
-- `brainstorm`：在计划或动手前，先把粗糙想法聊清楚。
+- `brainstorm`：在选择方向前，把想法或开放问题展开成覆盖不同维度的可能性地图。
 - `explore-and-plan`：方向基本确定后，把它整理成可执行步骤和验收标准。
 - `faster-learning-coach`：把解释变成短学习循环，包括练习、复述和复习。
 

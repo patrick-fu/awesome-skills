@@ -46,8 +46,9 @@ Standalone page: [`patrick-fu/frontend-harness-slides`](https://github.com/patri
 ### 🧭 `parallel-goal-workflows`
 
 Coordinate complex work without dumping every subtask into the main
-conversation. It helps an agent split broad goals, run focused helpers when that
-is useful, review the results, and return a clean final report.
+conversation. It delegates each explicitly invoked top-level goal to one Goal
+Owner, which owns execution, optional focused helpers, review, verification,
+and the final report.
 
 Use it for audits, research, repair loops, or any task where independent checks
 matter.
@@ -91,8 +92,8 @@ not create a second copy.
 
 ### Agent orchestration
 
-- `parallel-goal-workflows`: Split complex work into owned goals, focused helper
-  work, review, repair, and final reporting.
+- `parallel-goal-workflows`: Delegate each top-level goal to one Goal Owner for
+  execution, focused helpers when useful, review, repair, and final reporting.
 - `claude-code-coding-agent`: Use Claude Code CLI as an explicitly selected
   external coding agent.
 - `codex-coding-agent`: Use local Codex CLI from another host agent or
@@ -102,7 +103,8 @@ not create a second copy.
 
 ### Thinking and planning
 
-- `brainstorm`: Explore a rough idea before turning it into a plan.
+- `brainstorm`: Broaden an idea or open problem into a possibility map of
+  genuinely different directions before choosing where to go deeper.
 - `explore-and-plan`: Turn a mostly chosen direction into executable steps and
   acceptance checks.
 - `faster-learning-coach`: Convert explanations into short learning loops with

@@ -9,9 +9,9 @@ for the work.
 
 Some tasks need exploration, implementation, review, repair, and final judgment.
 Putting all of that in the main thread creates noise and makes it harder to see
-what is actually done. This skill gives the agent a cleaner way to split broad
-work into owned goals, run focused helpers when useful, and return with a short
-evidence-backed report.
+what is actually done. This skill delegates each explicitly invoked top-level
+goal to one Goal Owner, which chooses direct work or focused helpers and returns
+with a short evidence-backed report.
 
 It is not a command to always use more agents. A single focused worker is fine
 when that is enough.
@@ -68,8 +68,9 @@ want to stay directly involved in every step.
 The main conversation stays user-facing. The delegated workflow handles the
 working loops:
 
-- turn a broad request into one or more local briefs;
-- send focused work to helpers only when that improves the outcome;
+- give each delegated top-level goal one Goal Owner through a clean local brief;
+- let the Goal Owner work directly or use focused helpers when that improves the
+  outcome;
 - keep review and repair separate enough to catch mistakes;
 - check the result against the original goal;
 - report back with what changed, what was verified, and what risk remains.

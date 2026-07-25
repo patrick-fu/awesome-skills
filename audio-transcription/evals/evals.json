@@ -1,0 +1,35 @@
+{
+  "skill_name": "audio-transcription",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "把 /tmp/interview.m4a 转写出来，没指定模型。",
+      "expected_output": "The skill should select dual mode by default, explain that the online branch uploads a converted copy to Doubao, obtain explicit upload consent before running it, then run independent local Whisper and Doubao branches and cross-check their outputs.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "这个录音有隐私，只在本机用 Whisper 识别，不要上传。",
+      "expected_output": "The skill should select offline mode, never call Doubao, invoke the persistent mlx_whisper CLI with previous-text conditioning disabled by default, let the CLI and Hugging Face use their default model cache, avoid creating a skill-specific venv or cache directory, and avoid inventing speaker labels.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "只用豆包录音文件识别模型 2.0 转写这份 M4A，允许上传。",
+      "expected_output": "The skill should select online mode, prefer the new-console DOUBAO_API_KEY authentication while supporting the documented legacy fallback, actually transcode the M4A to 16 kHz mono MP3 before declaring format=mp3, avoid the contradictory codec=raw field, keep DDC disabled by default, and use standard-version asynchronous submit/query polling with the model 2.0 resource ID.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "两个模型交叉转写会议录音，重点核对姓名、百分比和否定句，我同意上传豆包。",
+      "expected_output": "The skill should run dual mode without asking for duplicate consent, keep the two recognizers independent, preserve both raw outputs, generate a mechanical comparison, and explicitly review names, percentages, negations, omissions, and suspected hallucinations.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "双路转写，但这份文件不能离开本机。",
+      "expected_output": "The no-upload constraint should take precedence. The skill should explain that true dual mode is impossible because the second branch is online, then run offline-only rather than silently uploading or silently pretending that two local runs are dual validation.",
+      "files": []
+    }
+  ]
+}

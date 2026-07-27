@@ -1,0 +1,10 @@
+---
+interface:
+  display_name: "Local File Organizer"
+  short_description: "安全整理个人文件并复盘数字生活线索"
+  default_prompt: >-
+    Use $local-file-organizer to inventory these local files, propose a
+    reversible organization ledger, and execute only the authorized branch.
+
+policy:
+  allow_implicit_invocation: false

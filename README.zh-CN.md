@@ -80,6 +80,10 @@ Skill 会被替换，不会多出第二份。
 - `x-twitter-reader`：在总结、翻译、引用或归档前，先读取 X/Twitter 帖子、thread、
   Article、元数据、链接和媒体。
 
+### Communication and writing
+
+- `be-concise`：让 Agent 少说、直说，同时保留正确性、安全和执行所需的信息。
+
 ### Agent orchestration
 
 - `parallel-goal-workflows`：把每个顶层目标交给一个 Goal Owner，由它负责执行、按需派出

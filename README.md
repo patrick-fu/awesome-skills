@@ -90,6 +90,11 @@ not create a second copy.
 - `x-twitter-reader`: Read X/Twitter posts, threads, Articles, metadata, links,
   and media before summarizing or archiving them.
 
+### Communication and writing
+
+- `be-concise`: Keep agent responses brief and direct without dropping details
+  needed for correctness, safety, or action.
+
 ### Agent orchestration
 
 - `parallel-goal-workflows`: Delegate each top-level goal to one Goal Owner for

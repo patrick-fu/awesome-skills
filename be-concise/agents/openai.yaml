@@ -1,0 +1,10 @@
+---
+interface:
+  display_name: "Be Concise"
+  short_description: "Keep responses brief without losing what matters"
+  default_prompt: >-
+    Use $be-concise for this task and its follow-ups. Say only what is needed,
+    and expand only when necessary.
+
+policy:
+  allow_implicit_invocation: false

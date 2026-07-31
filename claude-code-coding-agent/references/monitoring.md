@@ -18,14 +18,17 @@ effort levels, permission modes, and option placement.
 `<launcher>` is a placeholder. It may be `claude`, an absolute path, or a
 user-provided wrapper. A wrapper may inject model, authentication, provider,
 permission, or bypass settings. Preserve those semantics and do not assume the
-raw `claude` defaults apply.
+raw `claude` defaults apply. Treat wrappers as opaque because their definitions
+or environments may contain credentials: discover their contract only through
+`<launcher> --version` and `<launcher> --help`; do not print definitions, source,
+or environment contents.
 
 ## Semantic Stream
 
 The compact monitoring baseline is:
 
 ```bash
-<launcher> --print --output-format stream-json --verbose "Your task"
+printf '%s' "$TASK_PROMPT" | <launcher> --print --output-format stream-json --verbose
 ```
 
 The stream is JSONL. Consume complete lines continuously so the child process
@@ -46,9 +49,12 @@ Ignore thinking blocks and raw reasoning. Do not enable
 token deltas; it is noisy and unnecessary for liveness monitoring. Some
 launchers may still emit thinking-token counters without that flag; ignore them.
 
-Some options accept multiple values. Confirm positional prompt placement with
-current help or pass the prompt through a supported stdin form rather than
-blindly appending it after a variadic option.
+Options such as `--tools`, `--allowedTools`, and `--add-dir` accept multiple
+values and can consume a trailing positional prompt. Pass the prompt through
+stdin whenever a variadic option is present. If Claude reports
+`Input must be provided either through stdin or as a prompt argument when using
+--print`, move the prompt to stdin and retry once; do not keep rearranging flags
+blindly.
 
 ## Polling Contract
 

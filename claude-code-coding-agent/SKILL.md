@@ -17,7 +17,11 @@ the external executor.
 
 1. Set `<launcher>` to the requested Claude Code binary, absolute path, alias, or
    wrapper. Preserve a provided wrapper; it may inject model, authentication, or
-   permission settings, including bypass permissions.
+   permission settings, including bypass permissions. Treat wrappers as opaque:
+   discover their contract only by invoking `<launcher> --version` or
+   `<launcher> --help`; do not run inspection commands that may print an alias or
+   function definition, open or print wrapper source, or dump its environment
+   because it may contain credentials.
 2. Run `<launcher> --help` before composing version-sensitive flags. Use other
    subcommand help only when the task needs it.
 3. Choose the model and thinking effort deliberately, following the guidance
@@ -44,11 +48,25 @@ current help is authoritative.
 
 ## Monitor Mode (Default)
 
+Put the bounded task contract in a task-specific `TASK_PROMPT` variable and pass
+it through stdin. This remains unambiguous when options such as `--tools` accept
+multiple values and would otherwise consume a trailing positional prompt.
+
 Use Claude Code's semantic JSON stream without requesting partial messages:
 
 ```bash
-<launcher> --print --output-format stream-json --verbose "Your task"
+printf '%s' "$TASK_PROMPT" | <launcher> --print --output-format stream-json --verbose
 ```
+
+For a read-only review, when current help supports these tools, keep the prompt
+on stdin and restrict capabilities explicitly:
+
+```bash
+printf '%s' "$TASK_PROMPT" | <launcher> --print --output-format stream-json --verbose --tools Read Grep Glob
+```
+
+Never append a bare positional prompt after `--tools`, `--allowedTools`,
+`--add-dir`, or another variadic option.
 
 Start the command with the host's long-running process facility. Keep the task ID
 returned by the host, then use the host's wait, poll, or resume facility to read
@@ -73,7 +91,7 @@ live process merely because it has produced no recent semantic event.
 For a clearly trivial, short task, wait for one final response:
 
 ```bash
-<launcher> --print "Your task"
+printf '%s' "$TASK_PROMPT" | <launcher> --print
 ```
 
 ## Task Boundaries

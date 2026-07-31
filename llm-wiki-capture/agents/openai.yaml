@@ -2,11 +2,9 @@
 interface:
   display_name: "LLM Wiki Capture"
   short_description: >
-    User-invoked capture, review, or source ingest into a maintained LLM wiki
-    or knowledge base.
+    Capture sessions and sources, audit a Wiki, or bootstrap one from zero.
   default_prompt: >
-    Use $llm-wiki-capture to capture reusable knowledge from the current
-    session, review candidates, or ingest provided source links into a
-    maintained LLM wiki or knowledge base.
+    Use $llm-wiki-capture to route this request into Session Capture, Source
+    Ingest, Full Integration, Bootstrap, or review-only for an LLM Wiki.
 policy:
   allow_implicit_invocation: false

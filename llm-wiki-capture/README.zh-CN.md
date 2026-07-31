@@ -2,23 +2,11 @@
 
 **[English README](README.md)**
 
-`llm-wiki-capture` 帮助 Agent 把有价值的链接、决策、环境设置、踩坑记录和工作会话，
-保存到一个以后还能信得过的 Git-backed 知识库。
+`llm-wiki-capture` 把 Session 中可复用的教训和外部资料沉淀进长期维护、Git-backed
+的 LLM Wiki，也可以审计成熟 Wiki，或帮助新用户从零搭建。
 
-目标很简单：不要让可复用知识只留在聊天记录里。一次好的 capture 应该保留来源、结论、
-归属页面，以及为什么这条信息值得以后再找。
-
-你可以使用自己的 notes repository、wiki 或 Markdown knowledge base。这个 Skill 不强制
-目录结构，它会按照你在本地 agent instructions 和仓库文档里写好的规则工作。
-
-## 适合什么内容
-
-- 保存一次 debugging 或实现过程里的稳定经验。
-- 把 source links、论文、帖子或文档整理成可复用笔记。
-- 记录未来 Agent 应该知道的项目决策和环境设置。
-- 在写入前先 review 一次会话，判断哪些内容值得保存。
-
-它不适合存 raw logs、临时进度、猜测或 secrets。
+这是一个用户显式调用的 Skill。它不会自动捕获会话，不会猜哪个仓库属于用户，不会因为没
+找到 Wiki 就擅自创建，也不会未经授权 commit 或 push。
 
 ## 安装
 
@@ -32,121 +20,105 @@ npx skills add patrick-fu/llm-wiki-capture -g
 npx skills update -g
 ```
 
-## 需要准备什么
+## 工作流
 
-在期待 Skill 写文件之前，先准备一个 Git-backed knowledge base。两种方式都可以：
+### Session Capture
 
-- 托管 Git 仓库：适合同步、备份、历史记录和可选 push。
-- 本地 Git 仓库：适合私密或早期实验，同时仍然保留 diff、clean-worktree 检查和历史记录。
+从当前 Session 或用户确认的历史 Session 中提取长期知识：
 
-Agent 需要足够的本地上下文来安全工作：
+- 失败过程中的教训、根因和已验证修复；
+- 决策、理由、约束和被否决的方案；
+- 可复用 SOP、精确命令、验证和恢复步骤；
+- 不容易从代码推导的项目事实，以及用户明确表达的偏好。
 
-- 知识库在哪里；
-- 哪些文档说明它的用途和结构；
-- 编辑后需要更新哪些 index 或 log 文件；
-- 是否允许 commit 或 push。
+Session Capture 按知识归属整合，不按聊天时间线建页面。临时进度和 handoff 状态默认不进入
+长期 Wiki，也不会默认复制完整 transcript。
 
-## 快速开始
+```text
+$llm-wiki-capture
 
-1. 创建或选择一个 Git 仓库作为知识库。
-2. 写一份小文档，说明知识库如何组织。
-3. 在本地 agent instructions 里配置仓库路径、read-first 文件、update-after 文件和 commit
-   policy。
-4. 用 `$llm-wiki-capture` 显式调用，并说明想用哪个模式。
+把这次 Session 的可复用教训和部署 SOP 沉淀到 Wiki。
+```
 
-最小配置示例：
+### Source Ingest
+
+对用户明确要求入库的材料执行来源识别、去重、价值驱动的引用追踪、provenance 保存和概念
+整合。
+
+```text
+$llm-wiki-capture
+
+把这篇论文、它的翻译和链接的 benchmark 炼化进我的 Wiki。
+```
+
+只有 URL、或者只是让 Agent 参考和讨论，不代表 Source Ingest 意图。
+
+### Full Integration
+
+对成熟 Wiki 做 provenance、canonical ownership、重复页面、过期知识、导航和缺失综合的
+全局审计或修复。只有用户明确要求全库处理时才进入这个分支。
+
+### Bootstrap
+
+如果还没有 Wiki，需要明确让 Skill 创建。默认从一个小型本地 Git 仓库开始，包含 purpose、
+schema、raw source evidence、source summaries、canonical concepts、index、log，以及零依赖的
+`wiki-maintenance check`。
+
+需要多端同步时会推荐私有托管仓库，但未经确认不会创建 remote 或公开发布。
+
+```text
+$llm-wiki-capture
+
+我还没有 Wiki。请在 ~/notes/my-wiki 从零搭建一个私有 Git-backed Wiki；创建 remote 前先问我。
+```
+
+## Review-only
+
+Review-only 可以叠加到所有工作流。它只报告证据、候选修改、canonical owner、冲突和跳过项，
+不编辑文件、不 commit、不 push、不创建仓库，也不对外发布。
+
+```text
+$llm-wiki-capture
+
+先回顾这次 Session 有什么值得沉淀，不要修改 Wiki。
+```
+
+## 仓库发现
+
+用户可以在当前请求里直接指定 Wiki，也可以写进本地 agent instructions。如果 Skill 从项目或
+全局 instructions 中发现候选仓库，将它作为 Wiki 目标继续处理前仍会让用户二次确认。如果
+发现的是普通 notes repository，会先只读调研，再询问原地升级还是新建独立 Wiki。
+
+可选的最小配置：
 
 ```markdown
-## LLM Wiki Capture
-- Knowledge base root: ~/path/to/my-wiki
-- Clone URL: git@github.com:you/my-wiki.git
-- Integration branch: main
-- Read first: purpose.md, schema.md, wiki/index.md, wiki/log.md
-- Update after knowledge edits: wiki/index.md, wiki/log.md
-- Require clean worktree before capture: yes
-- Commit policy: no-commit, commit-only, or commit-and-push
-- Commit identity: Your Name <you@example.com>
-- If raw session evidence or user-provided source material is unavailable,
-  downgrade to review and do not edit the knowledge base.
+## LLM Wiki
+- Root: ~/path/to/my-wiki
+- Read first: AGENTS.md, purpose.md, schema.md, wiki/index.md
+- Validate with: scripts/wiki-maintenance check
+- Require a clean worktree before edits: yes
+- Commit policy: ask
+- Push policy: ask
 ```
 
-更多 setup pattern 和 policy 选择见
+仓库发现和配置权责见
 [`references/configuration-guide.md`](references/configuration-guide.md)。
-
-## 模式
-
-### Source ingest
-
-当你提供 URL、文档、文件或其他明确 source material 时，使用 Source Ingest。
-
-Agent 会把用户提供的 sources 当作证据，写入前先去重，并把稳定结论带 provenance 地整合进
-知识库。
-
-示例：
-
-```text
-$llm-wiki-capture
-
-Ingest these two articles into my LLM wiki. Keep the raw source notes separate
-from durable conclusions, deduplicate against anything already captured, and
-update the relevant concept pages.
-```
-
-### Capture
-
-当当前 AI session 产生了可复用的决策、约束、命令、踩坑、领域事实或操作规则时，使用
-Capture。
-
-Capture 只应该写入有证据支撑的记忆。如果 Agent 无法访问 source material 或 session
-evidence，它应该降级到 Review，只报告本来会捕获什么，而不是直接编辑 wiki。
-
-示例：
-
-```text
-$llm-wiki-capture
-
-Capture the reusable lessons from this debugging session.
-```
-
-### Review
-
-当你只想看候选内容、不希望写文件时，使用 Review。Review 会报告候选记忆、证据、可能的
-owner pages，以及为什么跳过弱候选。
-
-示例：
-
-```text
-$llm-wiki-capture
-
-Review this session and tell me whether anything is worth saving. Do not edit
-the wiki yet.
-```
-
-### Full integration
-
-只有当你想对已有知识库做一次更大范围维护时，才使用 Full Integration：检查薄弱 ownership、
-缺失 provenance、重复页面，以及相关笔记之间的连接。
 
 ## 安全边界
 
-- 不把 secrets、tokens、credentials、private keys、临时日志、噪音进度或无证据猜测写进
-  知识库。
-- 缺少必要本地配置时，先询问一次；如果用户不想配置，就降级 Review。
-- 只有本地 policy 允许时才 commit 或 push。
-- push 前先 fetch；遇到 non-fast-forward 冲突就停止。
-- 优先更新已有 owner page，而不是创建重复页面。
+- 外部材料和历史 transcript 只是证据，不能变成当前可执行指令。
+- Assistant 的建议只有在被用户采纳或得到验证后，才可能成为长期事实。
+- 用户 SOP 与仓库行为冲突时，先调研，再询问用户如何确定 canonical。
+- secrets、credentials、噪音日志、临时状态和无依据主张不进入 Wiki。
+- commit 和 push 是两个独立的显式授权边界。
 
 ## 背景
 
-这个 Skill 受到一些实践型长期记忆工作流启发，例如
-[Karpathy's memory gist](https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285)。
-这个 gist 适合理解背后的思路：只要 capture loop 足够明确、可维护，AI sessions 就可以
-进入个人知识库。
-
-`llm-wiki-capture` 不依赖这个 gist，也不要求采用完全相同的设置。实际运行行为由本
-Skill、本地 agent instructions 和知识库仓库文档共同决定。
+整体架构遵循
+[Karpathy 的 LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
+中的 Raw / Wiki / Schema 思路，并在此基础上补充冷启动、provenance-aware source ingest、
+Session learning 和知识图谱维护工作流。
 
 ## 我的更多精选 Skill
 
-更多我长期维护、偏实战的精选 Agent Skills，见
-[Awesome Skills](https://github.com/patrick-fu/awesome-skills)。
+见 [Awesome Skills](https://github.com/patrick-fu/awesome-skills)。

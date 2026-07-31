@@ -18,7 +18,10 @@ for the exact syntax and supported values.
 `<launcher>` is `grok`, its absolute path, or a user-provided Grok wrapper. Do
 not use the generic `agent` alias. A wrapper may inject model, authentication,
 permission, sandbox, or bypass settings. Preserve those semantics and do not
-assume native defaults apply.
+assume native defaults apply. Treat wrappers as opaque because their definitions
+or environments may contain credentials: discover their contract only through
+`<launcher> --version` and `<launcher> --help`; do not print definitions, source,
+or environment contents.
 
 ## Semantic Stream
 
@@ -80,6 +83,10 @@ system cleanup.
   assistant message is not sufficient completion evidence.
 - Preserve stderr for diagnosis, but do not classify an otherwise successful
   run as failed solely because stderr contains warnings.
+- Plugin-collision or hook-parse warnings are non-blocking only when the terminal
+  result and process exit both show success. Surface them once without rerunning
+  the task; investigate the source configuration separately only when they
+  affect behavior.
 - If output ends with an incomplete JSON line, report an incomplete stream
   rather than manufacturing completion.
 

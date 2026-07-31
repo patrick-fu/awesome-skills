@@ -25,7 +25,8 @@
         "./parallel-goal-workflows",
         "./claude-code-coding-agent",
         "./codex-coding-agent",
-        "./cursor-coding-agent"
+        "./cursor-coding-agent",
+        "./grok-coding-agent"
       ]
     },
     {

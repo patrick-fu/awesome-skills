@@ -60,10 +60,8 @@ Goal Owner，由它负责执行、按需派出聚焦 helper、审查、验收和
 
 ### 📚 `llm-wiki-capture`
 
-把链接、决策、环境设置、踩坑记录和有价值的 agent session 保存到 Git-backed 知识库，
-并保留足够证据，方便以后继续用。
-
-适合那些你下个月还想找得到、信得过的知识。
+把 Session 教训和外部资料沉淀进长期维护的 Git-backed LLM Wiki，也能审计现有 Wiki，
+或帮助用户从零搭建。它保留 provenance 和 canonical ownership，并明确控制仓库写入边界。
 
 独立页面：[`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
 
@@ -87,7 +85,8 @@ Skill 会被替换，不会多出第二份。
 
 ### Knowledge and memory
 
-- `llm-wiki-capture`：把可复用的资料和会话经验保存到 Git-backed wiki 或知识库。
+- `llm-wiki-capture`：沉淀 Session 和外部资料、审计现有 LLM Wiki，或从零搭建，
+  并明确控制仓库操作边界。
 - `x-twitter-reader`：在总结、翻译、引用或归档前，先读取 X/Twitter 帖子、thread、
   Article、元数据、链接和媒体。
 

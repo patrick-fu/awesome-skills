@@ -91,6 +91,7 @@ Skill 会被替换，不会多出第二份。
 - `claude-code-coding-agent`：明确选择 Claude Code CLI 作为外部编码 Agent 时使用。
 - `codex-coding-agent`：从另一个宿主 Agent 或自动化流程里调用本地 Codex CLI。
 - `cursor-coding-agent`：明确选择 Cursor CLI 作为外部执行器时使用。
+- `grok-coding-agent`：明确选择 Grok Build CLI 作为外部编码 Agent 时使用。
 
 ### Thinking and planning
 

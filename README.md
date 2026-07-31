@@ -105,6 +105,8 @@ not create a second copy.
   automation harness.
 - `cursor-coding-agent`: Use Cursor CLI when Cursor is the chosen external
   executor.
+- `grok-coding-agent`: Use Grok Build CLI when Grok is the explicitly selected
+  external coding agent.
 
 ### Thinking and planning
 

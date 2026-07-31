@@ -69,10 +69,9 @@ Choose an executor: [`claude-code-coding-agent`](./claude-code-coding-agent) ·
 
 ### 📚 `llm-wiki-capture`
 
-Turn links, decisions, setup notes, and useful agent sessions into a Git-backed
-knowledge base with enough evidence to be trusted later.
-
-Use it when something from a session should still be findable next month.
+Capture session lessons and external sources into a maintained Git-backed LLM
+Wiki, audit an existing Wiki, or bootstrap one from zero. It preserves
+provenance and canonical ownership while keeping repository mutations explicit.
 
 Standalone page: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
 
@@ -97,8 +96,8 @@ not create a second copy.
 
 ### Knowledge and memory
 
-- `llm-wiki-capture`: Save reusable source notes and session lessons into a
-  Git-backed wiki or knowledge base.
+- `llm-wiki-capture`: Capture sessions and sources, audit an existing LLM Wiki,
+  or bootstrap one from zero with explicit repository boundaries.
 - `x-twitter-reader`: Read X/Twitter posts, threads, Articles, metadata, links,
   and media before summarizing or archiving them.
 

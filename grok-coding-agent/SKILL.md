@@ -18,7 +18,11 @@ as the external executor.
 1. Set `<launcher>` to `grok`, its absolute path, or a user-provided Grok
    wrapper. Do not substitute the generic `agent` alias. Preserve a provided
    wrapper; it may inject model, authentication, or permission settings,
-   including bypass permissions.
+   including bypass permissions. Treat wrappers as opaque: discover their
+   contract only by invoking `<launcher> --version` or `<launcher> --help`; do
+   not run inspection commands that may print an alias or function definition,
+   open or print wrapper source, or dump its environment because it may contain
+   credentials.
 2. Run `<launcher> --help` before composing version-sensitive flags. Use model
    listing or subcommand help only when needed.
 3. Choose the model and thinking effort deliberately, following the guidance
@@ -90,6 +94,10 @@ a streaming output format and wait for the final response:
   `workspace` only for tasks expected to edit files.
 - Treat permission approval and sandboxing as separate controls. Follow current
   help and preserve wrapper behavior, including intentional bypass settings.
+- Treat plugin-collision, hook-parse, and similar configuration warnings as
+  non-blocking only when the terminal result and process exit both show success.
+  Report them once without retrying; diagnose the source configuration
+  separately if they affect behavior.
 - Do not disable memory, subagents, or web search by default; narrow them only
   when the task requires it.
 - Do not silently create worktrees, commit, push, deploy, or widen task scope.

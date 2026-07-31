@@ -55,6 +55,18 @@ matter.
 
 Standalone page: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
 
+### 🤖 External coding agents
+
+Run Claude Code, Codex, Cursor, or Grok as an explicitly selected external
+coding executor from another host agent. The guides share one compact workflow
+for wrappers, model and reasoning-effort selection, monitored streaming,
+permissions, sandboxes, and host-side verification.
+
+Choose an executor: [`claude-code-coding-agent`](./claude-code-coding-agent) ·
+[`codex-coding-agent`](./codex-coding-agent) ·
+[`cursor-coding-agent`](./cursor-coding-agent) ·
+[`grok-coding-agent`](./grok-coding-agent)
+
 ### 📚 `llm-wiki-capture`
 
 Turn links, decisions, setup notes, and useful agent sessions into a Git-backed

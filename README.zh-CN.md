@@ -47,6 +47,17 @@ Goal Owner，由它负责执行、按需派出聚焦 helper、审查、验收和
 
 独立页面：[`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
 
+### 🤖 External coding agents
+
+把 Claude Code、Codex、Cursor 或 Grok 作为另一个宿主 Agent 明确选择的外部编码执行器。
+这一组 Skill 统一了 wrapper、模型与推理强度选择、流式监控、permission、sandbox 和宿主
+验收方式。
+
+选择执行器：[`claude-code-coding-agent`](./claude-code-coding-agent) ·
+[`codex-coding-agent`](./codex-coding-agent) ·
+[`cursor-coding-agent`](./cursor-coding-agent) ·
+[`grok-coding-agent`](./grok-coding-agent)
+
 ### 📚 `llm-wiki-capture`
 
 把链接、决策、环境设置、踩坑记录和有价值的 agent session 保存到 Git-backed 知识库，

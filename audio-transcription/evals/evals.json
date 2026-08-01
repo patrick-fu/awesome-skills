@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "把 /tmp/interview.m4a 转写出来，没指定模型。",
-      "expected_output": "The skill should select dual mode by default, explain that the online branch uploads a converted copy to Doubao, obtain explicit upload consent before running it, then run independent local Whisper and Doubao branches and cross-check their outputs.",
+      "expected_output": "The skill invocation itself should authorize the upload, so the skill should select dual mode by default without asking for duplicate consent, pass the script's explicit online-consent flag, run independent local Whisper and Doubao branches, and cross-check their outputs.",
       "files": []
     },
     {

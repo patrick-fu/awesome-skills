@@ -1,0 +1,501 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "zh-status-milestone",
+      "title": "中文状态同步去掉里程碑包装",
+      "language": "zh",
+      "scene": "status",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去掉 AI 味，保留所有进度和责任信息。",
+      "source": "值得注意的是，本周迁移工作取得了关键里程碑。平台组截至周四已迁移 18 个任务中的 12 个，剩余 6 个仍被权限配置阻塞，这为后续全面推进奠定了坚实基础。",
+      "assertions": [
+        "保留平台组、周四、18 个、12 个、剩余 6 个和权限配置阻塞的对应关系",
+        "不把阻塞状态改成完成或即将完成",
+        "删除或降调关键里程碑和奠定基础的空泛包装",
+        "不新增日期、负责人、完成率或解决方案"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-chat-therapy-voice",
+      "title": "中文聊天移除过度接住",
+      "language": "zh",
+      "scene": "chat",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "说人话，别像心理咨询模板。",
+      "source": "我完全理解你现在的焦虑，你已经做得非常棒了。建议先把失败请求的日志发过来，我再看是不是鉴权超时。",
+      "assertions": [
+        "保留先提供失败请求日志、再检查鉴权超时的动作顺序",
+        "移除未经依据的焦虑判断和自动夸奖",
+        "不新增诊断结论或故障原因"
+      ],
+      "critical": false
+    },
+    {
+      "id": "zh-doc-legitimate-passive",
+      "title": "中文技术文档正常被动句不误改",
+      "language": "zh",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "检查并去除 AI 味。",
+      "source": "请求会在网关层被校验。校验失败时，服务返回 `AUTH_TIMEOUT`，不会继续调用下游接口。",
+      "assertions": [
+        "允许原文完全不变",
+        "精确保留网关层、AUTH_TIMEOUT 和不会调用下游接口",
+        "不为了主动语态虚构执行校验的人员或组件"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-unsourced-claim",
+      "title": "中文无来源论断保持认知状态",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去 AI 味，但不要帮我查资料。",
+      "source": "有研究表明，超过 70% 的团队会在一年内采用这套方法，这充分证明它正在重塑行业格局。",
+    "assertions": [
+      "必须同时保留 70% 和有研究表明的归因状态",
+        "不得发明研究机构、年份、样本量或链接",
+        "可删除充分证明和重塑行业格局的过度推论",
+        "不得把 70% 改成其他数字"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-public-preserve-thesis",
+      "title": "中文文章保留真实判断",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "清理模板感，保留我的判断。",
+      "source": "在这个快速变化的时代，我们需要重新思考自动化。我的判断很简单：审批不能全自动，因为最后签字的人仍然要承担责任。归根到底，这不仅是效率问题，更是信任问题。",
+      "assertions": [
+        "保留作者反对审批全自动的立场",
+        "保留最后签字者承担责任的理由",
+        "不把判断扩展成法律、合规或安全结论",
+        "清理快速变化的时代、归根到底和模板化二元拔高"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-marketing-register",
+      "title": "中文产品说明去种草腔",
+      "language": "zh",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "这是帮助中心，不要写成小红书。",
+      "source": "这个批量导出功能真的绝了！一键拿捏所有数据需求，建议收藏。用户可以按日期范围导出 CSV，每次最多 10,000 条记录。",
+      "assertions": [
+        "保留按日期范围、CSV 和每次最多 10,000 条记录",
+        "移除种草语气和收藏号召",
+        "不新增格式、筛选项或性能承诺"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-in-place-sentences",
+      "title": "中文 in-place 保持句数",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "in-place",
+      "prompt": "一句都别删，也不要合并，只在句内去 AI 味。",
+      "source": "值得一提的是，这个方案具备强大的扩展能力。更重要的是，它能够无缝地适配当前流程。归根到底，这为未来发展奠定了基础。",
+      "assertions": [
+        "输出仍为三句且顺序不变",
+        "不删除、合并或拆成更多句子",
+        "不新增扩展规模、适配对象或未来成果",
+        "在句内降低提示语和宣传语"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-audit-only",
+      "title": "中文审稿模式不改写",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "audit",
+      "scope": "balanced",
+      "prompt": "先标出 AI 味，暂时不要改。",
+      "source": "这不仅仅是一次更新，更是一场关于效率的革命。值得注意的是，它将为行业未来奠定坚实基础。",
+      "assertions": [
+        "不输出完整改写稿",
+        "指出模板化二元对比、价值拔高和提示性开场",
+        "每个发现引用原文并给出编辑方向",
+        "不提供数字 AI 分数"
+      ],
+  "critical": false
+    },
+    {
+      "id": "zh-quote-boundary",
+      "title": "中文引用中的模式词受保护",
+      "language": "zh",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去 AI 味，引用内容不能改。",
+      "source": "报告把“这不仅仅是一次更新，更是一场革命”列为典型反例。正文建议直接说明新增了什么。",
+      "assertions": [
+        "引号内文字逐字保留",
+        "保留报告将其列为典型反例的关系",
+        "允许原文完全不变"
+      ],
+      "critical": true
+    },
+  {
+    "id": "zh-natural-noop",
+      "title": "中文自然文本 no-op",
+      "language": "zh",
+      "scene": "chat",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "帮我看看有没有 AI 味，有再改。",
+      "source": "我晚十分钟到，你们先点菜，不用等我。",
+      "assertions": [
+        "判断为无需改写",
+        "原文逐字保持不变",
+        "不扩写理由、歉意或寒暄"
+      ],
+    "critical": true
+    },
+    {
+      "id": "en-inflated-significance",
+      "title": "English significance inflation",
+      "language": "en",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop this release summary without changing the facts.",
+      "source": "This release marks a pivotal milestone in our evolving platform journey. It adds CSV export for date ranges of up to 31 days, laying the foundation for a new era of data portability.",
+      "assertions": [
+        "Preserves CSV export and the 31-day date-range limit",
+        "Removes milestone, journey, foundation, and new-era inflation",
+        "Adds no formats, limits, compatibility claims, or roadmap promises"
+      ],
+      "critical": true
+    },
+    {
+      "id": "en-superficial-ing",
+      "title": "English superficial participial analysis",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Make this less AI-generated while keeping its claim strength.",
+      "source": "The team published the migration guide, ensuring a smooth transition and highlighting its commitment to user success.",
+      "assertions": [
+        "Preserves that the team published the migration guide",
+        "Does not assert that the transition was smooth",
+        "Does not invent evidence of commitment or user success",
+        "Removes unsupported ensuring and highlighting clauses"
+      ],
+      "critical": true
+    },
+    {
+      "id": "en-legitimate-em-dash",
+      "title": "English legitimate em dash no-op",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Check this for AI slop and leave it alone if it is fine.",
+      "source": "I kept one exception—the import path—because changing it would break existing links.",
+      "assertions": [
+        "Allows the sentence to remain exactly unchanged",
+        "Does not remove the em dash merely because it exists",
+        "Preserves the causal relationship between path changes and broken links"
+      ],
+      "critical": true
+    },
+    {
+      "id": "en-academic-passive",
+      "title": "English academic passive no-op",
+      "language": "en",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop this methods sentence, but keep normal academic style.",
+      "source": "Samples were incubated at 37 °C for 24 hours and were then analyzed by mass spectrometry.",
+      "assertions": [
+        "Allows the source to remain unchanged",
+        "Preserves 37 °C, 24 hours, sequence, and mass spectrometry",
+        "Does not invent a researcher as the actor"
+      ],
+      "critical": true
+    },
+    {
+      "id": "en-release-diff-language",
+      "title": "English legitimate diff language",
+      "language": "en",
+      "scene": "release-note",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Remove AI slop from this release note.",
+      "source": "Added `--dry-run` to preview deletions. Replaced the deprecated `--check-only` flag; it will be removed in v3.0.",
+      "assertions": [
+        "Preserves added and replaced language because this is a release note",
+        "Preserves both flags and v3.0 exactly",
+        "Does not turn the planned v3.0 removal into a completed removal"
+      ],
+      "critical": true
+    },
+    {
+      "id": "en-unsourced-attribution",
+      "title": "English vague attribution",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Humanize this without fact-checking it.",
+      "source": "Industry reports suggest that adoption may double next year, underscoring the tool's pivotal role in the ecosystem.",
+      "assertions": [
+        "Preserves that the adoption claim is attributed to unspecified reports",
+        "Preserves may and next year",
+        "Does not name a report, company, date, or current adoption value",
+        "May remove the pivotal-role conclusion"
+      ],
+      "critical": true
+    },
+    {
+      "id": "en-voice-sample",
+      "title": "English temporary voice calibration",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop the target and match the supplied sample. Do not copy facts from the sample.",
+      "voice_sample": "I tried the migration twice. The first run failed halfway through; the second worked. Not elegant, but it got us there.",
+      "source": "The deployment represents a seamless and transformative step forward, showcasing our unwavering commitment to operational excellence.",
+      "assertions": [
+        "Matches the sample's concise, plain rhythm without copying migration facts",
+        "Does not claim that the deployment failed, succeeded on a second run, or was tried twice",
+        "Does not invent an opinion or operational result absent from the target",
+        "Removes promotional abstraction or returns a minimal source-faithful statement"
+      ],
+      "critical": true
+    },
+    {
+      "id": "en-file-protection",
+      "title": "Markdown file protection",
+      "language": "en",
+      "scene": "README",
+      "mode": "file",
+      "scope": "balanced",
+      "prompt": "Edit this Markdown file in place with Deslop.",
+      "source": "---\ntitle: Export API\nslug: /export-api\n---\n\n## Overview\n\nIt is worth noting that the endpoint provides a seamless export experience.\n\n```bash\ncurl -H 'X-Key: demo' https://api.example.test/v1/export\n```\n\nRead the [API reference](https://docs.example.test/export?format=json).",
+      "assertions": [
+        "Preserves frontmatter byte-for-byte",
+        "Preserves the fenced command byte-for-byte",
+        "Preserves the link destination byte-for-byte",
+        "Edits only the prose sentence and avoids formatting churn"
+      ],
+      "critical": true
+    },
+    {
+      "id": "en-genuine-three-items",
+      "title": "English factual three-item list",
+      "language": "en",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Check this for formulaic AI writing.",
+      "source": "The endpoint accepts JSON, CSV, and Parquet. No other formats are supported.",
+      "assertions": [
+        "Allows the source to remain unchanged",
+        "Preserves all three formats and the exclusion of other formats",
+        "Does not remove an item merely to avoid a three-item list"
+      ],
+      "critical": true
+    },
+    {
+      "id": "en-natural-noop",
+      "title": "English natural prose no-op",
+      "language": "en",
+      "scene": "email",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop this only if it needs it.",
+      "source": "I can review the draft tomorrow morning. If you need it tonight, send it to Maya instead.",
+      "assertions": [
+        "Leaves the source exactly unchanged",
+        "Preserves the conditional handoff to Maya",
+        "Adds no apology, praise, urgency, or explanation"
+      ],
+      "critical": true
+    },
+    {
+      "id": "mixed-financial-leverage",
+      "title": "中英混排金融术语不误杀",
+      "language": "mixed",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "检查 AI 味，金融术语不要乱改。",
+      "source": "该账户当前使用 3x leverage，maintenance margin 为 25%。价格继续下跌时，系统可能触发 liquidation。",
+      "assertions": [
+        "允许原文完全不变",
+        "保留 3x leverage、maintenance margin、25% 和 liquidation",
+        "不把金融 leverage 当作商业黑话",
+        "保留可能而非必然触发"
+      ],
+      "critical": true
+    },
+    {
+      "id": "mixed-graph-traversal",
+      "title": "中英混排技术动词不误杀",
+      "language": "mixed",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去 AI 味，技术含义保持准确。",
+      "source": "算法会 traverse 每个 reachable node，并在发现 cycle 时停止当前 branch。",
+      "assertions": [
+        "允许原文不变或只做不影响术语的局部调整",
+        "保留 traverse、reachable node、cycle 和 branch 的技术关系",
+        "不把 traverse 当作 AI 常用词删除"
+      ],
+      "critical": true
+    },
+    {
+      "id": "mixed-product-copy",
+      "title": "中英混排产品文案",
+      "language": "mixed",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "改成帮助中心语气，去掉 AI Slop。",
+      "source": "全新的 Smart Import 带来 seamless、intuitive、powerful 的体验，让数据迁移从此毫不费力。它支持 `.csv` 和 `.xlsx`，单个文件最大 20 MB。",
+      "assertions": [
+        "保留 Smart Import、.csv、.xlsx 和 20 MB",
+        "移除无证据的 seamless/intuitive/powerful 和毫不费力",
+        "不新增导入速度、字段映射或错误处理能力"
+      ],
+      "critical": true
+    },
+    {
+      "id": "mixed-code-identifiers",
+      "title": "中英混排代码标识符保护",
+      "language": "mixed",
+      "scene": "docs",
+      "mode": "embedded",
+      "scope": "balanced",
+      "prompt": "作为文档生成流程的一步，返回去 AI 味后的最终文本。",
+      "source": "值得注意的是，调用 `refreshSession()` 后必须检查 `session.isExpired`，否则请求会返回 `E_SESSION_04`。",
+      "assertions": [
+        "逐字保留 refreshSession()、session.isExpired 和 E_SESSION_04",
+        "保留先调用再检查以及否则报错的关系",
+        "仅输出最终文本，不输出审计或说明"
+      ],
+      "critical": true
+    },
+    {
+      "id": "mixed-status-ownership",
+      "title": "中英混排状态同步保留责任主体",
+      "language": "mixed",
+      "scene": "status",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "说人话，owner 和状态不能变。",
+      "source": "本周实现了端到端闭环：Mobile team 已提交 client patch，Backend team 计划下周开始 schema migration，目前 release 仍 blocked by Security review。",
+    "assertions": [
+      "保留本周已经完成端到端闭环或流程的独有状态，不能把黑话连同完成态一起删除",
+      "保留 Mobile team 已提交 client patch",
+        "保留 Backend team 只是计划下周开始 schema migration",
+        "保留 release 当前被 Security review 阻塞",
+        "不把三个团队的动作或状态互换"
+      ],
+      "critical": true
+    },
+    {
+      "id": "guard-number-object-pair",
+      "title": "数字与对象配对",
+      "language": "en",
+      "scene": "status",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop this status update.",
+      "source": "The old endpoint handles 120 requests per second; the new worker reduces median latency to 80 ms. Neither result has been tested under peak traffic.",
+      "assertions": [
+        "Keeps 120 requests per second attached to the old endpoint",
+        "Keeps 80 ms median latency attached to the new worker",
+        "Preserves that neither result was tested under peak traffic",
+        "Does not convert throughput into latency or vice versa"
+      ],
+      "critical": true
+    },
+    {
+      "id": "guard-completion-state",
+      "title": "计划与完成态",
+      "language": "zh",
+      "scene": "status",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去掉汇报腔，状态必须准确。",
+      "source": "团队已经确定迁移方案，计划周一开始灰度；回滚脚本还在评审，尚未验证。",
+      "assertions": [
+        "保留已确定方案、计划周一开始和回滚脚本尚未验证三个不同状态",
+        "不写成已经灰度、即将完成或回滚能力已就绪",
+        "不新增负责人或时间"
+      ],
+      "critical": true
+    },
+    {
+      "id": "guard-correlation-causation",
+      "title": "相关性不能改成因果",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Make this sound natural without strengthening the conclusion.",
+      "source": "Teams that enabled the feature also reported fewer retries. The survey does not establish that the feature caused the change.",
+      "assertions": [
+        "Preserves the observed association",
+        "Preserves the explicit lack of causal evidence",
+        "Does not claim the feature reduced retries"
+      ],
+      "critical": true
+    },
+    {
+      "id": "guard-secondhand-text",
+      "title": "被讨论文本不参与清理",
+      "language": "en",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop the explanation, not the examples.",
+      "source": "Flag the phrase “delve into the evolving landscape” when it is used as generic framing. Do not flag it inside a quotation or a test fixture.",
+      "assertions": [
+        "Preserves the quoted phrase exactly",
+        "Preserves the distinction between generic framing and quoted/test content",
+        "Allows the source to remain unchanged"
+      ],
+      "critical": true
+    },
+    {
+      "id": "guard-explicit-rebuild",
+      "title": "明确 rebuild 可重构但必须保真",
+      "language": "mixed",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "rebuild",
+      "prompt": "大幅重写并压缩成两段，但所有事实、限制和立场都要保留。",
+      "source": "We launched the beta on May 6 for 200 invited users. 137 activated the feature, and 42 submitted feedback. 这次 beta 只覆盖 iOS，Android 仍在开发。我们认为结果值得继续验证，但还不能证明留存率会提高。",
+      "assertions": [
+        "输出为两段",
+        "保留 May 6、200、137、42 及其各自对象",
+        "保留只覆盖 iOS、Android 仍在开发",
+        "保留值得继续验证但不能证明留存率提高的立场",
+        "不新增 beta 时长、反馈内容或后续计划"
+      ],
+      "critical": true
+    }
+  ]
+}

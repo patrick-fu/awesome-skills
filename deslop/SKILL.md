@@ -33,8 +33,10 @@ Choose one delivery mode:
 - **File** — only when the user explicitly asks to edit a file. Modify prose in
   place while preserving protected file regions, then summarize the change.
 
-A user-provided writing sample adds **voice calibration** to any mode. It does
-not create a separate mode and never relaxes factual fidelity.
+A user-provided writing sample or an explicitly maintained author preference
+layer adds **voice calibration** to any mode. It does not create a separate mode
+and never relaxes factual fidelity. Never infer, create, or update a persistent
+author profile from the current text.
 
 Choose an edit scope:
 
@@ -59,7 +61,8 @@ Always read [fidelity.md](references/fidelity.md). Then load selectively:
   [patterns-en.md](references/patterns-en.md)
 - Genre, register, or long-form decisions:
   [scenes.md](references/scenes.md)
-- A supplied author sample or explicit voice-matching request:
+- A supplied author sample, explicit voice-matching request, or approved author
+  preference layer:
   [voice-calibration.md](references/voice-calibration.md)
 - Natural text, quotations, academic/legal/technical prose, or any uncertain
   match: [boundary-cases.md](references/boundary-cases.md)
@@ -73,6 +76,8 @@ in its local linguistic and technical context.
    the author’s actual position.
 2. **Build a silent semantic ledger.** Record protected spans and relationships:
    who did what, to what, when, with what status, evidence, strength, and effect.
+   For long text, also note each section's job and what new claim, evidence, or
+   consequence it contributes.
 3. **Find clusters, not tokens.** Look for repeated formulaic structures,
    generic framing, performative transitions, flattened rhythm, and register
    mismatch. Do not rewrite merely because a watched word appears once.
@@ -103,7 +108,9 @@ in its local linguistic and technical context.
   Preserve their attribution and confidence. In audit mode, note that a source
   is missing; in rewrite mode, do not add one or silently promote the claim.
 - Never fetch or infer private voice samples. Use only material the current user
-  explicitly supplies for the current task, and do not persist it.
+  explicitly supplies for the current task, and do not persist it. A separate
+  author preference layer is valid only when the user has explicitly maintained
+  it and the current target is in its declared scope.
 
 ## Positive target
 

@@ -32,12 +32,21 @@ after editing.
 | cause → effect | correlation becomes causation; sequence becomes cause |
 | plan → progress → completion | “proposed” becomes “started”; “started” becomes “shipped” |
 | possibility → likelihood → certainty | may/can becomes will/is |
+| evidence basis → claim strength | personal observation becomes measured fact; an illustrative estimate becomes a benchmark |
 | comparison direction | faster becomes slower; lower risk becomes higher confidence |
 | effect type | easier becomes faster; adoption becomes satisfaction |
 | owner or scope | one team becomes the whole company; a subset becomes all users |
+| block role → repeated content | a navigation recap or pull quote is mistaken for a duplicate body claim |
 
 Preserve negation, exceptions, prerequisites, temporal order, and the strength
 of evaluative language.
+
+Epistemic markers are part of the claim. Preserve whether a statement is a
+personal observation, sourced fact, private evaluation, illustrative estimate,
+or rhetorical comparison. Do not add hedging to make prose sound modest, remove
+hedging to make it decisive, or convert an approximate example into a measured
+result. In audit mode, unsupported precision may be a material finding; in
+rewrite mode, do not silently change the number or its stated status.
 
 Do not promote rhetorical syntax into a factual relationship. In particular,
 rewriting `ensuring`, `highlighting`, or `demonstrating` as `ensured`,
@@ -97,8 +106,10 @@ Compare source and revision in this order:
 3. numbers and their modified objects;
 4. modality, negation, conditions, and completion state;
 5. attribution, quotations, and evidence boundaries;
-6. unique information and argument order required by the chosen scope;
-7. file structure and link targets.
+6. evidence basis and claim strength;
+7. unique information, section roles, and argument order required by the chosen
+   scope;
+8. file structure and link targets.
 
 Revert any change that cannot be justified from the source or an explicit user
 instruction.

@@ -1,0 +1,277 @@
+{
+  "version": 1,
+  "seed": 20260801,
+  "cases": [
+    {
+      "id": "B-01",
+      "language": "en",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop this methods sentence, but keep normal academic style.",
+      "source": "Samples were incubated at 37 °C for 24 hours and were then analyzed by mass spectrometry."
+    },
+    {
+      "id": "B-02",
+      "language": "en",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop the explanation, not the examples.",
+      "source": "Flag the phrase “delve into the evolving landscape” when it is used as generic framing. Do not flag it inside a quotation or a test fixture."
+    },
+    {
+      "id": "B-03",
+      "language": "en",
+      "scene": "status",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop this status update.",
+      "source": "The old endpoint handles 120 requests per second; the new worker reduces median latency to 80 ms. Neither result has been tested under peak traffic."
+    },
+    {
+      "id": "B-04",
+      "language": "en",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop this release summary without changing the facts.",
+      "source": "This release marks a pivotal milestone in our evolving platform journey. It adds CSV export for date ranges of up to 31 days, laying the foundation for a new era of data portability."
+    },
+    {
+      "id": "B-05",
+      "language": "en",
+      "scene": "email",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop this only if it needs it.",
+      "source": "I can review the draft tomorrow morning. If you need it tonight, send it to Maya instead."
+    },
+    {
+      "id": "B-06",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Check this for AI slop and leave it alone if it is fine.",
+      "source": "I kept one exception—the import path—because changing it would break existing links."
+    },
+    {
+      "id": "B-07",
+      "language": "zh",
+      "scene": "chat",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "说人话，别像心理咨询模板。",
+      "source": "我完全理解你现在的焦虑，你已经做得非常棒了。建议先把失败请求的日志发过来，我再看是不是鉴权超时。"
+    },
+    {
+      "id": "B-08",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Humanize this without fact-checking it.",
+      "source": "Industry reports suggest that adoption may double next year, underscoring the tool's pivotal role in the ecosystem."
+    },
+    {
+      "id": "B-09",
+      "language": "mixed",
+      "scene": "docs",
+      "mode": "embedded",
+      "scope": "balanced",
+      "prompt": "作为文档生成流程的一步，返回去 AI 味后的最终文本。",
+      "source": "值得注意的是，调用 `refreshSession()` 后必须检查 `session.isExpired`，否则请求会返回 `E_SESSION_04`。"
+    },
+    {
+      "id": "B-10",
+      "language": "en",
+      "scene": "release-note",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Remove AI slop from this release note.",
+      "source": "Added `--dry-run` to preview deletions. Replaced the deprecated `--check-only` flag; it will be removed in v3.0."
+    },
+    {
+      "id": "B-11",
+      "language": "zh",
+      "scene": "chat",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "帮我看看有没有 AI 味，有再改。",
+      "source": "我晚十分钟到，你们先点菜，不用等我。"
+    },
+    {
+      "id": "B-12",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Deslop the target and match the supplied sample. Do not copy facts from the sample.",
+      "source": "The deployment represents a seamless and transformative step forward, showcasing our unwavering commitment to operational excellence.",
+      "voice_sample": "I tried the migration twice. The first run failed halfway through; the second worked. Not elegant, but it got us there."
+    },
+    {
+      "id": "B-13",
+      "language": "mixed",
+      "scene": "status",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "说人话，owner 和状态不能变。",
+      "source": "本周实现了端到端闭环：Mobile team 已提交 client patch，Backend team 计划下周开始 schema migration，目前 release 仍 blocked by Security review。"
+    },
+    {
+      "id": "B-14",
+      "language": "en",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Check this for formulaic AI writing.",
+      "source": "The endpoint accepts JSON, CSV, and Parquet. No other formats are supported."
+    },
+    {
+      "id": "B-15",
+      "language": "mixed",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "检查 AI 味，金融术语不要乱改。",
+      "source": "该账户当前使用 3x leverage，maintenance margin 为 25%。价格继续下跌时，系统可能触发 liquidation。"
+    },
+    {
+      "id": "B-16",
+      "language": "zh",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "这是帮助中心，不要写成小红书。",
+      "source": "这个批量导出功能真的绝了！一键拿捏所有数据需求，建议收藏。用户可以按日期范围导出 CSV，每次最多 10,000 条记录。"
+    },
+    {
+      "id": "B-17",
+      "language": "zh",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "检查并去除 AI 味。",
+      "source": "请求会在网关层被校验。校验失败时，服务返回 `AUTH_TIMEOUT`，不会继续调用下游接口。"
+    },
+    {
+      "id": "B-18",
+      "language": "zh",
+      "scene": "status",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去掉 AI 味，保留所有进度和责任信息。",
+      "source": "值得注意的是，本周迁移工作取得了关键里程碑。平台组截至周四已迁移 18 个任务中的 12 个，剩余 6 个仍被权限配置阻塞，这为后续全面推进奠定了坚实基础。"
+    },
+    {
+      "id": "B-19",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Make this less AI-generated while keeping its claim strength.",
+      "source": "The team published the migration guide, ensuring a smooth transition and highlighting its commitment to user success."
+    },
+    {
+      "id": "B-20",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "in-place",
+      "prompt": "一句都别删，也不要合并，只在句内去 AI 味。",
+      "source": "值得一提的是，这个方案具备强大的扩展能力。更重要的是，它能够无缝地适配当前流程。归根到底，这为未来发展奠定了基础。"
+    },
+    {
+      "id": "B-21",
+      "language": "zh",
+      "scene": "status",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去掉汇报腔，状态必须准确。",
+      "source": "团队已经确定迁移方案，计划周一开始灰度；回滚脚本还在评审，尚未验证。"
+    },
+    {
+      "id": "B-22",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "audit",
+      "scope": "balanced",
+      "prompt": "先标出 AI 味，暂时不要改。",
+      "source": "这不仅仅是一次更新，更是一场关于效率的革命。值得注意的是，它将为行业未来奠定坚实基础。"
+    },
+    {
+      "id": "B-23",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去 AI 味，但不要帮我查资料。",
+      "source": "有研究表明，超过 70% 的团队会在一年内采用这套方法，这充分证明它正在重塑行业格局。"
+    },
+    {
+      "id": "B-24",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "清理模板感，保留我的判断。",
+      "source": "在这个快速变化的时代，我们需要重新思考自动化。我的判断很简单：审批不能全自动，因为最后签字的人仍然要承担责任。归根到底，这不仅是效率问题，更是信任问题。"
+    },
+    {
+      "id": "B-25",
+      "language": "en",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "Make this sound natural without strengthening the conclusion.",
+      "source": "Teams that enabled the feature also reported fewer retries. The survey does not establish that the feature caused the change."
+    },
+    {
+      "id": "B-26",
+      "language": "mixed",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "rebuild",
+      "prompt": "大幅重写并压缩成两段，但所有事实、限制和立场都要保留。",
+      "source": "We launched the beta on May 6 for 200 invited users. 137 activated the feature, and 42 submitted feedback. 这次 beta 只覆盖 iOS，Android 仍在开发。我们认为结果值得继续验证，但还不能证明留存率会提高。"
+    },
+    {
+      "id": "B-27",
+      "language": "zh",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去 AI 味，引用内容不能改。",
+      "source": "报告把“这不仅仅是一次更新，更是一场革命”列为典型反例。正文建议直接说明新增了什么。"
+    },
+    {
+      "id": "B-28",
+      "language": "mixed",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去 AI 味，技术含义保持准确。",
+      "source": "算法会 traverse 每个 reachable node，并在发现 cycle 时停止当前 branch。"
+    },
+    {
+      "id": "B-29",
+      "language": "mixed",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "改成帮助中心语气，去掉 AI Slop。",
+      "source": "全新的 Smart Import 带来 seamless、intuitive、powerful 的体验，让数据迁移从此毫不费力。它支持 `.csv` 和 `.xlsx`，单个文件最大 20 MB。"
+    },
+    {
+      "id": "B-30",
+      "language": "en",
+      "scene": "README",
+      "mode": "file",
+      "scope": "balanced",
+      "prompt": "Edit this Markdown file in place with Deslop.",
+      "source": "---\ntitle: Export API\nslug: /export-api\n---\n\n## Overview\n\nIt is worth noting that the endpoint provides a seamless export experience.\n\n```bash\ncurl -H 'X-Key: demo' https://api.example.test/v1/export\n```\n\nRead the [API reference](https://docs.example.test/export?format=json)."
+    }
+  ]
+}

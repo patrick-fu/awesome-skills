@@ -1,0 +1,7 @@
+---
+interface:
+  display_name: "Deslop / 说人话"
+  short_description: "清理中英文 AI Slop，保留事实、语气与作者声音"
+  default_prompt: >-
+    Use $deslop to make this text sound natural while preserving every fact and
+    the author’s intent.

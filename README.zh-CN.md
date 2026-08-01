@@ -68,6 +68,7 @@ Goal Owner，由它负责执行、按需派出聚焦 helper、审查、验收和
 ## 单独安装某个 Skill
 
 ```bash
+npx skills add patrick-fu/awesome-skills -g -s deslop
 npx skills add patrick-fu/frontend-harness-slides -g
 npx skills add patrick-fu/parallel-goal-workflows -g
 npx skills add patrick-fu/llm-wiki-capture -g
@@ -93,6 +94,8 @@ Skill 会被替换，不会多出第二份。
 ### Communication and writing
 
 - `be-concise`：让 Agent 少说、直说，同时保留正确性、安全和执行所需的信息。
+- `deslop`：改写或审查中文、英文和中英混排文本，去掉模板化 AI 味，同时保留事实、
+  立场和作者声音。
 
 ### Agent orchestration
 

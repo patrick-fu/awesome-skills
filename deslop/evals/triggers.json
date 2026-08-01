@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "trigger-zh-ai-flavor",
+      "query": "这段周报太像 AI 了，帮我去掉 AI 味，但数字和 owner 都别改。",
+      "should_trigger": true
+    },
+    {
+      "id": "trigger-zh-human-language",
+      "query": "把下面这段说人话，别再用‘不仅仅是’和‘奠定基础’这种模板。",
+      "should_trigger": true
+    },
+    {
+      "id": "trigger-zh-audit",
+      "query": "先检查这篇文章有哪些 AI Slop，只标问题，不要直接重写。",
+      "should_trigger": true
+    },
+    {
+      "id": "trigger-zh-file",
+      "query": "把 docs/release.md 里的 AI 味清掉，保留 frontmatter、命令和所有链接。",
+      "should_trigger": true
+    },
+    {
+      "id": "trigger-zh-template",
+      "query": "这封邮件像机器人模板，清理一下，语气和事实保持不变。",
+      "should_trigger": true
+    },
+    {
+      "id": "trigger-en-explicit",
+      "query": "Remove the AI-generated cadence from this README and return only the final version.",
+      "should_trigger": true
+    },
+    {
+      "id": "trigger-en-humanize",
+      "query": "Humanize this draft without inventing examples or changing the author's position.",
+      "should_trigger": true
+    },
+    {
+      "id": "trigger-en-less-ai",
+      "query": "Make this sound less AI-generated. Keep every date, quote, and attribution intact.",
+      "should_trigger": true
+    },
+    {
+      "id": "trigger-en-stock-phrasing",
+      "query": "Remove the stock LLM phrasing from this issue reply, especially the fake praise and generic conclusion.",
+      "should_trigger": true
+    },
+    {
+      "id": "trigger-mixed",
+      "query": "Deslop 这段英文 release note，技术术语和 code block 不要动。",
+      "should_trigger": true
+    },
+    {
+      "id": "no-trigger-generic-polish",
+      "query": "帮我润色一下这份项目说明，让句子更顺。",
+      "should_trigger": false
+    },
+    {
+      "id": "no-trigger-natural-alone",
+      "query": "把这段话改得自然一点。",
+      "should_trigger": false
+    },
+    {
+      "id": "no-trigger-proofread",
+      "query": "Proofread this memo for spelling, punctuation, and grammar mistakes.",
+      "should_trigger": false
+    },
+    {
+      "id": "no-trigger-translate",
+      "query": "把这封英文邮件翻译成中文，产品名保留英文。",
+      "should_trigger": false
+    },
+    {
+      "id": "no-trigger-summary",
+      "query": "把这篇 3000 字的文章总结成五个要点。",
+      "should_trigger": false
+    },
+    {
+      "id": "no-trigger-fact-check",
+      "query": "核查这篇文章里的研究、年份和引用是否真实，并给出来源。",
+      "should_trigger": false
+    },
+    {
+      "id": "no-trigger-from-scratch",
+      "query": "Write a new launch announcement for our mobile app from these product requirements.",
+      "should_trigger": false
+    },
+    {
+      "id": "no-trigger-code-cleanup",
+      "query": "Clean up the AI-generated code in this branch: remove duplicate helpers and speculative abstractions.",
+      "should_trigger": false
+    },
+    {
+      "id": "no-trigger-plain-language-explanation",
+      "query": "这个 API 的限流策略怎么算的？说人话解释一下。",
+      "should_trigger": false
+    },
+    {
+      "id": "no-trigger-tone-only",
+      "query": "Rewrite this note in a more formal tone for the legal team.",
+      "should_trigger": false
+    }
+  ]
+}

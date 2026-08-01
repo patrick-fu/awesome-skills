@@ -78,6 +78,7 @@ Standalone page: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/l
 ## Install one skill
 
 ```bash
+npx skills add patrick-fu/awesome-skills -g -s deslop
 npx skills add patrick-fu/frontend-harness-slides -g
 npx skills add patrick-fu/parallel-goal-workflows -g
 npx skills add patrick-fu/llm-wiki-capture -g
@@ -105,6 +106,8 @@ not create a second copy.
 
 - `be-concise`: Keep agent responses brief and direct without dropping details
   needed for correctness, safety, or action.
+- `deslop`: Rewrite or audit Chinese, English, and mixed-language prose to
+  remove formulaic AI patterns without changing facts, stance, or author voice.
 
 ### Agent orchestration
 

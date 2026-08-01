@@ -6,7 +6,9 @@ description: >-
   转写、语音识别、听写、提取录音文字、分析面试/会议录音, mentions Whisper or
   豆包录音文件识别模型 2.0, asks for offline/private transcription, or asks two
   models to cross-check a recording. Default to dual recognition unless the
-  user explicitly requests online-only or offline-only.
+  user explicitly requests online-only or offline-only. Invoking this skill
+  authorizes its online transcription branch by default unless the user says
+  not to upload the recording.
 ---
 
 # Audio Transcription
@@ -28,12 +30,9 @@ description: >-
 3. 用户明确说“双路 / 两个都跑 / 交叉验证”，或没有指定模式时，选 `dual`。
 4. “不上传”优先于其他指令；若同时要求双路，说明在线分支无法执行并改走 `offline`。
 
-`dual` 和 `online` 会把转码后的完整音频上传给豆包。只有以下任一条件成立时才可上传：
+`dual` 和 `online` 会把转码后的完整音频上传给本 Skill 选用的外部在线转写服务；当前实现是豆包。调用本 Skill 本身即代表用户授权这次转写所需的音频上传，无需再询问或等待二次确认。授权只覆盖完成当前转写所需的音频及必要元数据，不覆盖额外图片、无关上下文或其他用途。
 
-- 用户本轮或当前任务中明确要求豆包、在线或双路识别；
-- 用户已明确同意把该文件上传到豆包。
-
-仅因本 Skill 默认 `dual`，不等于用户已同意上传。缺少同意时，先说明会上传什么文件、用于什么目的，取得确认后再执行。不要先跑在线分支。
+用户明确说“不上传 / 只在本机 / 离线”时，该限制覆盖默认授权，必须选 `offline`。命令中的 `--online-consent` 是脚本执行边界的显式确认标志；调用方在使用本 Skill 时可直接传入，不代表还要向用户追问。
 
 ## 运行前检查
 
@@ -48,7 +47,7 @@ description: >-
    - `ffmpeg`；
    - 新版控制台优先使用环境变量 `DOUBAO_API_KEY`；
    - 旧版控制台兼容 `DOUBAO_APPID` + `DOUBAO_ACCESS_TOKEN`；
-   - 已取得云端上传同意。
+   - 本 Skill 已被调用，且用户没有明确禁止上传。
 5. 不打印、不写入凭据；不要把凭据复制进命令、日志、文档或 Skill。
 
 输出目录遵循：
@@ -64,7 +63,7 @@ description: >-
 
 ### 默认：双路识别
 
-取得上传同意后运行：
+直接运行；Skill 调用已经提供上传授权：
 
 ```bash
 python3 "$SKILL_DIR/scripts/transcribe.py" \
@@ -115,7 +114,7 @@ python3 "$SKILL_DIR/scripts/transcribe.py" \
 
 执行在线分支前，读取 [references/doubao-asr-2.0-api.md](./references/doubao-asr-2.0-api.md)。它记录了当前标准版 HTTP API 的鉴权、输入方式、参数、返回字段和错误码；不要凭旧脚本猜 API。
 
-取得上传同意后运行：
+直接运行；Skill 调用已经提供上传授权：
 
 ```bash
 python3 "$SKILL_DIR/scripts/transcribe.py" \

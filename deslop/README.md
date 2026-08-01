@@ -12,7 +12,8 @@ promise detector evasion, or invent personality to make text look human.
 - rewrites AI-slop-heavy prose into one ready-to-use version;
 - audits a draft without rewriting when asked;
 - preserves facts, numbers, attribution, modality, and responsibility;
-- supports temporary, per-request voice calibration from a supplied sample;
+- supports temporary voice calibration from a supplied sample or an explicit,
+  user-maintained author preference layer without learning profiles implicitly;
 - protects frontmatter, code, data, and link targets during explicit file edits;
 - leaves already-natural prose unchanged.
 

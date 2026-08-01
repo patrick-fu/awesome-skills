@@ -25,6 +25,13 @@ Look for repetition, density, generic use, and mismatch with the scene.
   requirements may be deliberately uniform.
 - Tutorials and educational material may use previews, recaps, repetition, and
   staged examples to support navigation and learning.
+- Practitioner-led public writing may use first-person failures, explicit
+  knowledge limits, functional technical code-switching, sparse slang or emoji,
+  fragments, and callouts as genuine evidence or voice.
+- Titles, pull quotes, callouts, media companions, and conclusions may repeat a
+  thesis when they have a distinct rendering, navigation, synthesis, consequence,
+  or action role. A block label alone is not such a role; judge what the block
+  does before protecting or compressing the recurrence.
 - Release notes and migration guides legitimately describe additions, removals,
   and changes.
 - Marketing copy may be promotional because promotion is its job; remove only
@@ -50,6 +57,14 @@ defined terms, identifiers, and quoted examples.
 - awkwardness that carries identity or precise meaning.
 
 Do not “repair” these into generic polish.
+
+Repeated phrasing is not automatically intentional voice. Across a long text,
+preserve recurrence that adds a new mechanism, example, consequence, or block
+function; compress recurrence that only paraphrases the same thesis.
+
+When only a final draft is available, audit the draft that exists. Do not claim
+that an earlier edit improved, damaged, or introduced the voice without the
+earlier version or revision evidence.
 
 ## Text about AI-writing patterns
 

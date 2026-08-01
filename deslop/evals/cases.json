@@ -496,6 +496,149 @@
         "不新增 beta 时长、反馈内容或后续计划"
       ],
       "critical": true
+    },
+    {
+      "id": "zh-practitioner-natural-noop",
+      "title": "实践型技术文章保留自然作者信号",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去掉 AI 味；如果这段已经自然，就不要为了显得更专业而重写。",
+      "source": "我先把任务全丢给 Agent 跑，半小时后回来一看：三个结果里有两个方向偏了。问题不在模型够不够聪明，是我没把验收条件说清楚。现在的做法很朴素，先写 acceptance check，再开并行。谈不上优雅，但至少 review 的时候不再靠猜。",
+      "assertions": [
+        "输出逐字等于原文，不做机械改写",
+        "保留第一人称试错、半小时、三个结果、两个方向偏了及其对应关系",
+        "保留 Agent、acceptance check 和 review 的功能性中英混排",
+        "保留谈不上优雅的自我限定和不规则节奏",
+        "不新增 emoji、口号、数据、失败原因或行动清单"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-neutral-doc-no-voice-injection",
+      "title": "中性技术文档不得注入作者腔",
+      "language": "zh",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "清理 AI 味，保持技术文档语气。",
+      "source": "客户端在收到 `SESSION_EXPIRED` 后清除本地 token，并跳转到登录页。离线状态下不执行跳转。",
+      "assertions": [
+        "输出逐字等于原文，不做机械改写",
+        "逐字保留 SESSION_EXPIRED、token 以及离线状态不跳转的条件",
+        "不新增第一人称经历、幽默、emoji、英文术语、二元对照或清单结尾",
+        "不把条件行为改成无条件行为"
+      ],
+      "critical": true
+    },
+    {
+      "id": "mixed-practitioner-epistemic-boundary",
+      "title": "实践者文章保留经验与数据边界",
+      "language": "mixed",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "说人话，但不要把体感改成结论。",
+      "source": "我的体感是，把 review 放到每个 Loop 结束后，返工少了一些。但这只是最近四次任务的观察，还没有对照数据，也不能说明 Loop 本身带来了改善。",
+      "assertions": [
+        "保留我的体感、最近四次任务、没有对照数据和不能证明因果",
+        "保留 review 与 Loop，不为统一语言而翻译或替换",
+        "不把返工少了一些改成量化收益或确定结论",
+        "不新增研究、百分比、团队范围或机制解释"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-illustrative-precision-boundary",
+      "title": "示意数字不得改成正式测量",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去掉 AI 味，但保留数字的证据边界，不要帮我补来源。",
+      "source": "粗略算下来，等待时间大约减少了 37%。这只是根据四次任务做的示意估算，没有统一计时，也不是正式 benchmark。",
+      "assertions": [
+        "保留 37%、四次任务及其与等待时间的对应关系",
+        "保留粗略、大约、示意估算、没有统一计时和不是正式 benchmark",
+        "不把示意估算改成实测结果、稳定收益或因果结论",
+        "不新增数据来源、样本、方法、团队范围或置信度"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-preference-layer-scope-veto",
+      "title": "作者偏好层越界时不得注入声线",
+      "language": "zh",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "已维护的作者偏好层只适用于作者本人的公开技术文章：保留第一人称实践、低频自嘲和功能性中英混排。当前目标是内部 API 规范，只清理 AI 味并保持规范语气。",
+      "source": "服务收到 `cancelJob()` 后将任务标记为 `cancelling`。只有 worker 确认停止后，状态才变为 `cancelled`。",
+      "assertions": [
+        "输出逐字等于目标原文，不做机械改写",
+        "逐字保留 cancelJob()、cancelling、worker 和 cancelled",
+        "保留 worker 确认停止后才进入 cancelled 的条件与顺序",
+        "不注入第一人称实践、自嘲、emoji、额外中英混排或公开文章收束",
+        "不因为存在偏好层而忽略其公开技术文章范围"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-preference-layer-in-scope",
+      "title": "范围匹配时偏好层只保留已有作者信号",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "这是作者本人的公开技术文章。已维护的偏好层要求保留已有的第一人称实践、直接判断和功能性中英混排，但不得制造新经历或口头禅。去掉 AI 模板感。",
+      "source": "在这个快速变化的 AI 时代，工具层出不穷。我的做法其实很笨：先让一个任务跑完，确认 acceptance check 没歪，再开并行。第一次我图快，结果三个分支一起返工。",
+      "assertions": [
+        "删除或具体化在这个快速变化的 AI 时代和工具层出不穷这类泛化开场",
+        "保留第一人称做法、先跑一个任务、检查 acceptance check、再开并行的顺序",
+        "保留第一次图快、三个分支一起返工及其对应关系",
+        "保留 acceptance check，不为统一语言而翻译",
+        "不新增经历、数字、原因、幽默、emoji、口头禅或行动清单"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-long-form-section-ledger",
+      "title": "长文跨节复述只压缩无新增信息部分",
+      "language": "zh",
+      "scene": "public-writing",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "去掉长文里重复的 AI 总结腔，保留标题、论点和每节独有信息。",
+      "source": "## 现象\n自动化缩短了执行时间，但没有缩短确认需求的时间。上周五的两个任务都在验收时返工。\n\n## 原因\n执行变快了，需求确认没有变快。第一个任务缺少边界条件，第二个任务的负责人直到验收才加入。\n\n## 小结\n自动化缩短了执行时间，但没有缩短确认需求的时间。",
+      "assertions": [
+        "保留三个标题及现象、原因、小结的顺序",
+        "现象一节仍说明执行提速与需求确认未提速的差异，小结不成为核心论点的唯一载体",
+        "保留上周五、两个任务、验收返工、边界条件和负责人晚加入",
+        "小结标题本身不构成独立职责；当前小结没有新增综合、后果、行动或独立导航价值，因此不得逐字复述首段论点",
+        "不删除原因一节的两个独有机制",
+        "不新增解决方案、负责人姓名或效率数字"
+      ],
+      "critical": true
+    },
+    {
+      "id": "zh-voice-sample-scene-veto",
+      "title": "个人样本不得污染技术文档语域",
+      "language": "zh",
+      "scene": "docs",
+      "mode": "rewrite",
+      "scope": "balanced",
+      "prompt": "参考样本的直接程度去 AI 味，但目标仍是 API 文档。",
+      "voice_sample": "我试了两次。第一次直接翻车，第二次勉强跑通。不是优雅，是能用 😅",
+      "source": "调用 `createJob()` 后，服务返回 job ID。客户端必须轮询 `getJob()`，直到状态变为 `completed` 或 `failed`。",
+      "assertions": [
+        "逐字保留 createJob()、job ID、getJob()、completed 和 failed",
+        "保留必须轮询直到两个终态之一的关系",
+        "不搬运样本中的两次尝试、翻车、勉强跑通或优雅判断",
+        "不向 API 文档注入第一人称、emoji、自嘲或不是 X 是 Y 的句式",
+        "输出逐字等于目标原文，不做机械改写"
+      ],
+      "critical": true
     }
   ]
 }

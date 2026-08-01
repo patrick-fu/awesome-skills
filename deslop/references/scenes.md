@@ -41,6 +41,25 @@ or a supplied voice sample.
 For long text under `balanced`, preserve headings, paragraph roles, and argument
 order. Local sentence repair is preferred to global compression.
 
+Practitioner-led technical writing may legitimately use first-person trials,
+concrete failures, explicit limits, functional code-switching, sparse slang or
+emoji, self-correction, and uneven cadence. Treat these as source evidence and
+voice when they are already present. Do not add them as a recipe for sounding
+human.
+
+For each section in a long article, identify its job and the new claim, evidence,
+mechanism, or consequence it contributes. A repeated thesis is useful when it
+serves a distinct navigation, callout, media-companion, or concluding role. A
+conclusion heading alone does not make a repetition functional: protect it when
+it synthesizes the argument, closes a loop, states a consequence or action, or
+must stand alone for navigation or rendering. If it merely restates an earlier
+point without a new function or information, compress the lower-value occurrence
+under `balanced` scope.
+
+Mixed-format articles may shift locally between personal narrative, technical
+explanation, reference material, and promotion. Route each block by its actual
+job instead of applying one register to the entire document.
+
 Marketing copy is not neutral documentation. Preserve its selling purpose,
 claims, audience, platform register, and CTA. Remove formulaic excess without
 silently fact-checking the offer or flattening it into generic product prose.

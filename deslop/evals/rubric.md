@@ -35,8 +35,12 @@ Release gate: **zero L1 failures** across the fixed full suite.
 Natural, quoted, technical, academic, legal, release-note, and domain-term cases
 must not be mechanically rewritten.
 
+Source text without a voice sample or approved preference layer must not gain a
+specific author's first-person experience, humor, slang, emoji, code-switching,
+contrast habit, or closing pattern.
+
 Release gate: **fewer than 10% false-positive rewrites**, with zero false
-positives that create an L1 failure.
+positives that create an L1 failure and zero author-voice injection cases.
 
 ## L3: editorial quality
 

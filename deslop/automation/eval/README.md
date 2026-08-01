@@ -3,6 +3,10 @@
 The committed corpus is public and synthetic. Do not add private writing samples
 or user data.
 
+Real author samples may inform an ephemeral manual review, but do not commit
+their text, URLs, identifying phrases, or derived personal profiles. Convert a
+generalizable behavior into a new synthetic case instead.
+
 ## Validate and generate blind inputs
 
 ```bash

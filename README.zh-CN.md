@@ -68,6 +68,9 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 适合页面要求登录、只露出预览，或者无法可靠提供完整内容的情况。
 
+依赖 `uv` 和 Python 3.10+。固定版本的 `twitter-cli` 可能在授权后复用本地 X 会话；Jina
+fallback 只会显式启用。
+
 ### ✍️ 沟通与写作
 
 #### ✂️ [`be-concise`](./be-concise)
@@ -144,8 +147,8 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 #### 🎓 [`faster-learning-coach`](./faster-learning-coach)
 
-用练习、teach-back 和复习组成短而主动的学习循环，而不是默认给一篇长解释。FASTER
-流程会根据学习目标、当前水平和可用时间调整。
+用练习、teach-back 和复习组成短而主动的学习循环，而不是默认给一篇长解释。每轮会
+根据学习目标、当前证据和可用时间调整。
 
 适合真正目标是理解和留存，而不只是拿到答案的场景。
 
@@ -180,3 +183,8 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 push。它的 work tree 是整个 home 目录，所以安全边界本身就是功能的一部分。
 
 适合希望把 dotfiles 纳入版本管理，又不想让便利脚本随便对待整个家目录的场景。
+
+## 📄 License
+
+采用 MIT License，详见 [`LICENSE`](./LICENSE)。若子目录中存在独立 `LICENSE` 或第三方
+notice，对其覆盖文件以该说明为准。

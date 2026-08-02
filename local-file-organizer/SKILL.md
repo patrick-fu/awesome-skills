@@ -3,7 +3,6 @@ name: local-file-organizer
 description: 逐文件拆解混乱目录，按真实用途和内容归属重分类、重命名，并用可回滚账本安全执行。
 license: MIT
 disable-model-invocation: true
-user-invocable: true
 ---
 
 # Local File Organizer

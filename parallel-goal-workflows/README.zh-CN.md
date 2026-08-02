@@ -1,5 +1,7 @@
 # Parallel Goal Workflows
 
+[![skills.sh](https://skills.sh/b/patrick-fu/parallel-goal-workflows)](https://skills.sh/patrick-fu/parallel-goal-workflows)
+
 **[English README](README.md)**
 
 ![用铅笔素描呈现散乱需求被整理成协作工作流和最终报告](assets/workbench-workflow-sketch.webp)

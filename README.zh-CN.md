@@ -68,6 +68,7 @@ Goal Owner，由它负责执行、按需派出聚焦 helper、审查、验收和
 ## 单独安装某个 Skill
 
 ```bash
+npx skills add patrick-fu/awesome-skills -g -s long-task-control
 npx skills add patrick-fu/awesome-skills -g -s deslop
 npx skills add patrick-fu/frontend-harness-slides -g
 npx skills add patrick-fu/parallel-goal-workflows -g
@@ -101,6 +102,8 @@ Skill 会被替换，不会多出第二份。
 
 - `parallel-goal-workflows`：把每个顶层目标交给一个 Goal Owner，由它负责执行、按需派出
   聚焦 helper、review、repair 和最终报告。
+- `long-task-control`：仅在已有信号表明任务出现方案膨胀、意图漂移、无证据重复、失效委托、
+  review 未收敛或无依据完成时，重新锚定目标并继续推进。
 - `claude-code-coding-agent`：明确选择 Claude Code CLI 作为外部编码 Agent 时使用。
 - `codex-coding-agent`：从另一个宿主 Agent 或自动化流程里调用本地 Codex CLI。
 - `cursor-coding-agent`：明确选择 Cursor CLI 作为外部执行器时使用。

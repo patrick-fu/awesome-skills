@@ -1,11 +1,12 @@
 ---
 name: long-task-control
 description: >-
-  Re-anchor long-running agent work when design bloat, execution drift, stale
-  delegation, or weak completion evidence threatens the intended outcome. Use
-  at the start, during execution, or after a prior turn when the user explicitly
-  asks to reassess and continue; invoke autonomously only when one of those risk
-  signals is material.
+  Re-anchor an agent task only when concrete evidence shows design bloat,
+  objective drift, no-evidence repetition, stale required delegation,
+  unsynthesized reviewer conflict, or an unsupported completion claim. Also use
+  when the user explicitly invokes this skill to reassess and continue. Do not
+  invoke for ordinary planning or review, or merely because a task is long,
+  multi-step, or uses subagents.
 user-invocable: true
 ---
 

@@ -1,10 +1,9 @@
 ---
 name: frontend-harness-slides
 description: >-
-  Create high-standard HTML slide decks that can be edited without breaking
-  other slides. Use for HTML slide work where the user wants rigorous upfront
-  alignment, polished visuals, lively motion/interactions, precise iterative
-  edits, and final delivery as an online deployment, PDF/static export, or both.
+  Build and revise iteration-safe HTML slide decks with polished visuals,
+  motion, testing, and web/PDF/static delivery. Use only for HTML slide
+  projects.
 ---
 
 # Frontend Harness Slides

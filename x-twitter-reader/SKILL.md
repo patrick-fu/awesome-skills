@@ -1,6 +1,8 @@
 ---
 name: x-twitter-reader
-description: "Retrieves X and Twitter posts, reply threads, long-form Articles, author metadata, engagement metrics, linked URLs, and media references from x.com or twitter.com URLs. This skill is for content acquisition only: load it when a user asks to fetch, inspect, quote, summarize, translate, archive, or otherwise use the original content of an X post or Article, especially when the web page requires login or only shows a preview."
+description: >-
+  Fetch original posts, threads, Articles, metadata, links, and media from
+  X/Twitter URLs. Use when a task depends on the source content.
 ---
 
 # X Twitter Reader

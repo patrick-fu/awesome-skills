@@ -1,5 +1,7 @@
 # Frontend Harness Slides
 
+[![skills.sh](https://skills.sh/b/patrick-fu/frontend-harness-slides)](https://skills.sh/patrick-fu/frontend-harness-slides)
+
 **[English](README.md)**
 
 用前端工程化 harness 制作 HTML slides，让 deck 能扛住真实的多轮修改。

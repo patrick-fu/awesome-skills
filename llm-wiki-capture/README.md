@@ -1,5 +1,7 @@
 # LLM Wiki Capture
 
+[![skills.sh](https://skills.sh/b/patrick-fu/llm-wiki-capture)](https://skills.sh/patrick-fu/llm-wiki-capture)
+
 **[中文说明](README.zh-CN.md)**
 
 `llm-wiki-capture` turns reusable session lessons and external sources into a

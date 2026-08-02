@@ -1,5 +1,7 @@
 # Awesome Skills
 
+[![skills.sh](https://skills.sh/b/patrick-fu/awesome-skills)](https://skills.sh/patrick-fu/awesome-skills)
+
 **[中文说明](README.zh-CN.md)**
 
 My personal collection of agent skills for coding, planning, knowledge capture,

@@ -1,5 +1,7 @@
 # Awesome Skills
 
+[![skills.sh](https://skills.sh/b/patrick-fu/awesome-skills)](https://skills.sh/patrick-fu/awesome-skills)
+
 **[English README](README.md)**
 
 这是我的个人 Agent Skills 集合，覆盖编码、计划、知识沉淀、slides 制作、多 Agent

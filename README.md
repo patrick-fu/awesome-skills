@@ -78,6 +78,7 @@ Standalone page: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/l
 ## Install one skill
 
 ```bash
+npx skills add patrick-fu/awesome-skills -g -s long-task-control
 npx skills add patrick-fu/awesome-skills -g -s deslop
 npx skills add patrick-fu/frontend-harness-slides -g
 npx skills add patrick-fu/parallel-goal-workflows -g
@@ -113,6 +114,9 @@ not create a second copy.
 
 - `parallel-goal-workflows`: Delegate each top-level goal to one Goal Owner for
   execution, focused helpers when useful, review, repair, and final reporting.
+- `long-task-control`: Re-anchor an agent task when concrete evidence shows
+  design bloat, objective drift, no-evidence repetition, stale delegation,
+  unsynthesized reviews, or unsupported completion.
 - `claude-code-coding-agent`: Use Claude Code CLI as an explicitly selected
   external coding agent.
 - `codex-coding-agent`: Use local Codex CLI from another host agent or

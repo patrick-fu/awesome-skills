@@ -24,6 +24,7 @@
       "name": "agent-orchestration",
       "skills": [
         "./parallel-goal-workflows",
+        "./long-task-control",
         "./claude-code-coding-agent",
         "./codex-coding-agent",
         "./cursor-coding-agent",

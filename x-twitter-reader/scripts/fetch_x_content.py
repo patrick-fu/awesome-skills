@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["twitter-cli==0.8.5"]
+# ///
 """Fetch X/Twitter post, thread, and Article content as JSON or Markdown."""
 
 from __future__ import annotations
@@ -13,6 +17,11 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit, urlunsplit
+
+
+X_HOSTS = {"x.com", "www.x.com", "twitter.com", "www.twitter.com"}
+TCO_HOSTS = {"t.co", "www.t.co"}
 
 
 def run_command(args: list[str]) -> tuple[int, str, str]:
@@ -49,12 +58,17 @@ def twitter_cli_json(command: str, url: str, max_replies: int) -> dict[str, Any]
     return data
 
 
-def fetch_jina(url: str) -> dict[str, Any]:
+def sanitized_x_url(url: str) -> str:
+    parts = urlsplit(url)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
+
+
+def fetch_jina(url: str, api_key: str | None = None) -> dict[str, Any]:
+    target_url = sanitized_x_url(url)
     request = urllib.request.Request(
-        f"https://r.jina.ai/{url}",
+        f"https://r.jina.ai/{target_url}",
         headers={"User-Agent": "Mozilla/5.0"},
     )
-    api_key = os.getenv("JINA_API_KEY")
     if api_key:
         request.add_header("Authorization", f"Bearer {api_key}")
     try:
@@ -68,8 +82,25 @@ def fetch_jina(url: str) -> dict[str, Any]:
         "ok": True,
         "schema_version": "x-twitter-reader/v1",
         "source": "jina",
-        "data": {"url": url, "readerText": text},
+        "original_url": url,
+        "data": {"url": target_url, "readerText": text},
     }
+
+
+def validate_x_url(url: str) -> None:
+    parts = urlsplit(url)
+    host = (parts.hostname or "").lower()
+    if parts.scheme != "https":
+        raise ValueError("URL must use HTTPS")
+    if host in TCO_HOSTS:
+        raise ValueError(
+            "t.co shortened URLs are not supported; provide the expanded "
+            "x.com or twitter.com URL"
+        )
+    if host not in X_HOSTS:
+        raise ValueError("URL must use x.com or twitter.com")
+    if parts.username or parts.password or parts.port not in {None, 443}:
+        raise ValueError("URL must not contain credentials or a non-standard port")
 
 
 def is_article_url(url: str) -> bool:
@@ -206,26 +237,54 @@ def result_to_markdown(result: dict[str, Any]) -> str:
     return "\n".join(out).rstrip() + "\n"
 
 
-def fetch(url: str, mode: str, max_replies: int) -> dict[str, Any]:
+def fetch(
+    url: str,
+    mode: str,
+    max_replies: int,
+    *,
+    allow_jina: bool = False,
+    use_jina_api_key: bool = False,
+) -> dict[str, Any]:
     errors: list[str] = []
+    target_url = sanitized_x_url(url)
+
+    if use_jina_api_key and not allow_jina:
+        raise RuntimeError("--use-jina-api-key requires --allow-jina")
+    jina_api_key: str | None = None
+    if use_jina_api_key:
+        jina_api_key = os.getenv("JINA_API_KEY")
+        if not jina_api_key:
+            raise RuntimeError(
+                "--use-jina-api-key requires a non-empty JINA_API_KEY"
+            )
 
     def try_tweet() -> dict[str, Any] | None:
         try:
-            return normalize_result(twitter_cli_json("tweet", url, max_replies), "twitter-cli tweet", url)
+            return normalize_result(
+                twitter_cli_json("tweet", target_url, max_replies),
+                "twitter-cli tweet",
+                url,
+            )
         except RuntimeError as exc:
             errors.append(str(exc))
             return None
 
     def try_article() -> dict[str, Any] | None:
         try:
-            return normalize_result(twitter_cli_json("article", url, max_replies), "twitter-cli article", url)
+            return normalize_result(
+                twitter_cli_json("article", target_url, max_replies),
+                "twitter-cli article",
+                url,
+            )
         except RuntimeError as exc:
             errors.append(str(exc))
             return None
 
     def try_jina() -> dict[str, Any] | None:
         try:
-            return fetch_jina(url)
+            result = fetch_jina(target_url, api_key=jina_api_key)
+            result["original_url"] = url
+            return result
         except RuntimeError as exc:
             errors.append(str(exc))
             return None
@@ -235,15 +294,17 @@ def fetch(url: str, mode: str, max_replies: int) -> dict[str, Any]:
     elif mode == "article":
         result = try_article()
     elif mode == "jina":
+        if not allow_jina:
+            raise RuntimeError("--mode jina requires --allow-jina")
         result = try_jina()
     else:
-        result = try_article() if is_article_url(url) else try_tweet()
+        result = try_article() if is_article_url(target_url) else try_tweet()
         items = extract_items(result.get("data") if result else None)
         if result and any(has_article(item) for item in items):
             return result
-        if not result or is_article_url(url):
+        if not result or is_article_url(target_url):
             result = try_article() or result
-        if not result:
+        if not result and allow_jina:
             result = try_jina()
 
     if result:
@@ -260,14 +321,32 @@ def main() -> int:
     parser.add_argument("--format", choices=["markdown", "json"], default="markdown")
     parser.add_argument("--output", help="Optional output path")
     parser.add_argument("--max-replies", type=int, default=20, help="Maximum replies for tweet mode")
+    parser.add_argument(
+        "--allow-jina",
+        action="store_true",
+        help="Allow sending the sanitized X URL to the third-party Jina Reader",
+    )
+    parser.add_argument(
+        "--use-jina-api-key",
+        action="store_true",
+        help="Read JINA_API_KEY only for an explicitly allowed Jina request",
+    )
     args = parser.parse_args()
 
-    if not re.match(r"^https://(x|twitter)\.com/", args.url):
-        print("Error: URL must start with https://x.com/ or https://twitter.com/", file=sys.stderr)
+    try:
+        validate_x_url(args.url)
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
         return 2
 
     try:
-        result = fetch(args.url, args.mode, args.max_replies)
+        result = fetch(
+            args.url,
+            args.mode,
+            args.max_replies,
+            allow_jina=args.allow_jina,
+            use_jina_api_key=args.use_jina_api_key,
+        )
     except RuntimeError as exc:
         print(str(exc), file=sys.stderr)
         return 1

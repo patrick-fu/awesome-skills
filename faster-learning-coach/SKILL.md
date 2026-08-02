@@ -1,6 +1,8 @@
 ---
 name: faster-learning-coach
-description: Coach active learning for a new topic, a personalized learning plan, guided practice, review, exam or interview preparation, teach-back, or repairing a misconception. Use when understanding, retention, or transfer—not producing an answer or artifact—is the user's goal.
+description: >-
+  Coach active learning through practice, feedback, and teach-back. Use only
+  when learning or retention—not obtaining an answer or artifact—is the goal.
 ---
 
 # Faster Learning Coach

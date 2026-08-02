@@ -5,12 +5,10 @@
 My personal collection of agent skills for coding, planning, knowledge capture,
 slides, multi-agent work, and day-to-day setup.
 
-I keep this collection small enough to browse, but broad enough to cover the
-workflows I actually reach for: making better plans, writing safer code,
-building richer HTML slides, saving reusable knowledge, coordinating complex
-agent work, and keeping my local setup repeatable.
+This is not a warehouse of every Skill I could install. It is the smaller set I
+actually reach for: useful enough to earn a place, compact enough to browse. 🧰
 
-## Install the collection
+## 🚀 Install the collection
 
 ```bash
 npx skills add patrick-fu/awesome-skills -g
@@ -22,129 +20,189 @@ Update later:
 npx skills update -g
 ```
 
-The full collection is the easiest starting point. If one of the larger skills
-below is what you came for, its standalone page gives a more focused walkthrough
-and a one-skill install command.
-
-## Featured skills
-
-### 🎞️ `frontend-harness-slides`
-
-Build lively HTML slide decks with a frontend harness: stable scenes, repeatable
-screenshots, meaningful tests, PDF export, and online delivery.
-
-Use it when a deck needs to look good, feel alive, and stay hard to break after
-many rounds of edits.
-
-> 🖥️ Live demo: try the
-> [dynamic Workbench Demo](https://frontend-harness-slides-workbench.vercel.app/).
-> The visual styles are useful, but the bigger win is harness-backed iteration
-> instead of fragile single-file HTML.
-
-Standalone page: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
-
-### 🧭 `parallel-goal-workflows`
-
-Coordinate complex work without dumping every subtask into the main
-conversation. It delegates each explicitly invoked top-level goal to one Goal
-Owner, which owns execution, optional focused helpers, review, verification,
-and the final report.
-
-Use it for audits, research, repair loops, or any task where independent checks
-matter.
-
-Standalone page: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
-
-### 🤖 External coding agents
-
-Run Claude Code, Codex, Cursor, or Grok as an explicitly selected external
-coding executor from another host agent. The guides share one compact workflow
-for wrappers, model and reasoning-effort selection, monitored streaming,
-permissions, sandboxes, and host-side verification.
-
-Choose an executor: [`claude-code-coding-agent`](./claude-code-coding-agent) ·
-[`codex-coding-agent`](./codex-coding-agent) ·
-[`cursor-coding-agent`](./cursor-coding-agent) ·
-[`grok-coding-agent`](./grok-coding-agent)
-
-### 📚 `llm-wiki-capture`
-
-Capture session lessons and external sources into a maintained Git-backed LLM
-Wiki, audit an existing Wiki, or bootstrap one from zero. It preserves
-provenance and canonical ownership while keeping repository mutations explicit.
-
-Standalone page: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
-
-## Install one skill
+## 🧩 Install one Skill
 
 ```bash
-npx skills add patrick-fu/awesome-skills -g -s long-task-control
-npx skills add patrick-fu/awesome-skills -g -s deslop
-npx skills add patrick-fu/frontend-harness-slides -g
-npx skills add patrick-fu/parallel-goal-workflows -g
-npx skills add patrick-fu/llm-wiki-capture -g
+npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 ```
 
-If you install the full collection and later install a standalone skill in the
-same global scope, the standalone version replaces that one local skill. It does
-not create a second copy.
+`frontend-harness-slides`, `parallel-goal-workflows`, and `llm-wiki-capture`
+also have standalone repositories, linked from their entries below. Installing
+one of them from its standalone repository in the same global scope replaces
+the matching Skill; it does not create a second copy.
 
-## What's inside
+## ✨ Skills
 
-### Slides and visual delivery
+### 🎨 Slides and visual delivery
 
-- `frontend-harness-slides`: HTML slide decks with style alignment, interaction,
-  motion, screenshot checks, PDF export, and online delivery.
+#### 🎞️ [`frontend-harness-slides`](./frontend-harness-slides)
 
-### Knowledge and memory
+Build HTML slide decks with a frontend harness: stable scene URLs, a registry,
+a fixed stage, tests, visual checks, and verified delivery. Repeated edits stay
+manageable instead of quietly breaking earlier slides.
 
-- `llm-wiki-capture`: Capture sessions and sources, audit an existing LLM Wiki,
-  or bootstrap one from zero with explicit repository boundaries.
-- `x-twitter-reader`: Read X/Twitter posts, threads, Articles, metadata, links,
-  and media before summarizing or archiving them.
+Use it when a deck needs to look good, feel alive, and ship online, as a PDF or
+static export, or in all three forms.
 
-### Communication and writing
+> 🖥️ Live demo: explore the
+> [dynamic Workbench Demo](https://frontend-harness-slides-workbench.vercel.app/).
+> The styles show the range; the real win is harness-backed iteration instead
+> of fragile single-file HTML.
 
-- `be-concise`: Keep agent responses brief and direct without dropping details
-  needed for correctness, safety, or action.
-- `deslop`: Rewrite or audit Chinese, English, and mixed-language prose to
-  remove formulaic AI patterns without changing facts, stance, or author voice.
+📦 Standalone repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
-### Agent orchestration
+### 🧠 Knowledge and memory
 
-- `parallel-goal-workflows`: Delegate each top-level goal to one Goal Owner for
-  execution, focused helpers when useful, review, repair, and final reporting.
-- `long-task-control`: Re-anchor an agent task when concrete evidence shows
-  design bloat, objective drift, no-evidence repetition, stale delegation,
-  unsynthesized reviews, or unsupported completion.
-- `claude-code-coding-agent`: Use Claude Code CLI as an explicitly selected
-  external coding agent.
-- `codex-coding-agent`: Use local Codex CLI from another host agent or
-  automation harness.
-- `cursor-coding-agent`: Use Cursor CLI when Cursor is the chosen external
-  executor.
-- `grok-coding-agent`: Use Grok Build CLI when Grok is the explicitly selected
-  external coding agent.
+#### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture)
 
-### Thinking and planning
+Capture session lessons and external sources into a maintained, Git-backed LLM
+Wiki. It can also audit an existing Wiki or bootstrap one from zero while
+preserving provenance, canonical ownership, and explicit repository boundaries.
 
-- `brainstorm`: Broaden an idea or open problem into a possibility map of
-  genuinely different directions before choosing where to go deeper.
-- `explore-and-plan`: Turn a mostly chosen direction into executable steps and
-  acceptance checks.
-- `faster-learning-coach`: Convert explanations into short learning loops with
-  practice and review.
+Use it when knowledge should survive the current session without handing the
+Wiki's Git history over to opaque automation.
 
-### Engineering workflow
+📦 Standalone repository: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
 
-- `write-unit-test`: Write or improve unit tests around behavior, regressions,
-  and domain rules.
-- `log-driven-debugging`: Add targeted logs, rerun the real scenario, and trace
-  the first useful divergence.
-- `generate-commit-message`: Draft a concise English commit message with simple
-  formatting constraints.
+#### 🗞️ [`x-twitter-reader`](./x-twitter-reader)
 
-### Personal setup
+Retrieve X/Twitter posts, reply threads, long-form Articles, metadata, links,
+and media before summarizing, translating, quoting, or archiving them. Source
+acquisition stays faithful; downstream transformation happens afterward.
 
-- `home-config-sync`: Manage a personal `~/.dotfiles` bare-repo workflow,
-  including first setup, new-machine deploys, pull safety, and pushes.
+Use it when an X page requires login, exposes only a preview, or simply is not
+a reliable source of the complete content.
+
+### ✍️ Communication and writing
+
+#### ✂️ [`be-concise`](./be-concise)
+
+A user-invoked response style that makes an answer as short as the task allows
+without dropping information needed for correctness, safety, or action.
+
+Use it when the agent has found three paragraphs where one sentence would do.
+
+#### 🧹 [`deslop`](./deslop)
+
+Review or rewrite Chinese, English, and mixed-language prose to remove
+formulaic AI patterns while preserving facts, intent, stance, register, and the
+author's voice.
+
+Use it on existing text that sounds templated or over-produced—not as a generic
+trigger for every writing task.
+
+### 🤖 Agent orchestration
+
+#### 🧩 [`parallel-goal-workflows`](./parallel-goal-workflows)
+
+Give each top-level goal one Goal Owner and a clean, task-local brief. The Owner
+handles execution, focused helpers when useful, review, repair, verification,
+and the final report without flooding the main conversation.
+
+Use it for audits, complex research, repair loops, or any task where independent
+checks matter.
+
+📦 Standalone repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
+
+#### 🎯 [`long-task-control`](./long-task-control)
+
+Re-anchor a task only when evidence shows design bloat, objective drift,
+no-evidence repetition, stale delegation, unresolved reviewer conflict, or an
+unsupported completion claim. It preserves verified work, cuts activity that no
+longer serves the goal, and resumes from the highest-value next step.
+
+Use it when a task is genuinely drifting—not merely because it is long.
+
+The four coding-agent guides below share one workflow: preserve the selected CLI
+wrapper, discover current model and reasoning controls, monitor semantic output,
+respect permissions and sandboxes, and verify diffs and tests from the host.
+Each guide triggers only when its CLI is explicitly selected as the executor.
+
+#### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
+
+Run Claude Code CLI as the explicitly selected external coding executor. It
+preserves the supplied wrapper, discovers current options from the CLI, and
+monitors long-running work through verbose streaming JSON.
+
+#### 🟢 [`codex-coding-agent`](./codex-coding-agent)
+
+Run Codex CLI as the explicitly selected external coding executor. It uses
+`codex exec --json` with an explicit read-only sandbox for review or a
+workspace-write sandbox for approved implementation.
+
+#### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
+
+Run Cursor CLI as the explicitly selected external coding executor. Because the
+generic `agent` launcher can point to another product, the workflow verifies its
+identity before trusting it.
+
+#### ⚡ [`grok-coding-agent`](./grok-coding-agent)
+
+Run Grok Build CLI as the explicitly selected external coding executor. It
+treats approval policy and sandbox access as separate controls and chooses the
+appropriate read-only or workspace sandbox explicitly.
+
+### 🧭 Thinking and planning
+
+#### 💡 [`brainstorm`](./brainstorm)
+
+Expand an idea or open problem into a possibility map spanning genuinely
+different dimensions before deciding where to go deeper.
+
+Use it while the solution space is still open and breadth is more valuable than
+an early verdict.
+
+#### 🗺️ [`explore-and-plan`](./explore-and-plan)
+
+Turn a mostly chosen direction into an executable plan: surface blocking
+decisions, map affected areas, order steps by dependency, and tie verification
+to each outcome.
+
+Use it when the direction is settled enough that an implementer should not have
+to rediscover the intent.
+
+#### 🎓 [`faster-learning-coach`](./faster-learning-coach)
+
+Teach through short, active learning loops built around practice, teach-back,
+and review instead of defaulting to a long explanation. The FASTER workflow
+adapts to the learner's goal, current level, and available time.
+
+Use it when the goal is understanding and retention, not merely receiving an
+answer.
+
+### 🛠️ Engineering workflow
+
+#### 🧪 [`write-unit-test`](./write-unit-test)
+
+Write, review, or improve unit tests around behavior, regressions, and domain
+rules. It starts from a caller-visible contract, keeps decisive inputs visible,
+and asserts observable effects.
+
+Use it for production code where breaking the contract should turn the test red
+while harmless internal refactoring stays green.
+
+#### 🔦 [`log-driven-debugging`](./log-driven-debugging)
+
+Add focused, prefixed logs, have the user rerun the real scenario, and inspect
+the returned evidence to locate the first meaningful divergence. When static
+reading is not enough, observability replaces guesswork.
+
+Use it for reproducible bugs whose root cause is still hiding.
+
+#### 📝 [`generate-commit-message`](./generate-commit-message)
+
+Draft a concise English commit message with a sentence-case subject, no
+conventional prefix, and optional bullets for the important changes.
+
+Use it when the change is ready but the copy-ready commit message is not.
+
+### 🏠 Personal setup
+
+#### 🔄 [`home-config-sync`](./home-config-sync)
+
+Maintain a personal `~/.dotfiles` bare-repository workflow: first-time setup,
+new-machine deployment, safe pulls and merges, and pushes. Its work tree is the
+whole home directory, so the guardrails are part of the feature.
+
+Use it when dotfiles should be versioned without letting a convenience script
+treat the home directory casually.

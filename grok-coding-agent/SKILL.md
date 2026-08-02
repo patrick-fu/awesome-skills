@@ -1,11 +1,8 @@
 ---
 name: grok-coding-agent
 description: >-
-  Grok Build CLI operating guide for external host agents. Use only when the
-  user explicitly asks to run Grok Build CLI (`grok`) as the external coding
-  executor, or when the current orchestration/review workflow explicitly selects
-  Grok by name. Do not use for generic coding tasks, built-in subagents,
-  ordinary Grok chat, xAI API questions, or unspecified delegation.
+  Run Grok Build CLI (`grok`) as an external coding executor. Use only when
+  explicitly selected by name.
 ---
 
 # Grok Coding Agent

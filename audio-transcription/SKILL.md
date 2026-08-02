@@ -1,14 +1,9 @@
 ---
 name: audio-transcription
 description: >-
-  Transcribe local audio or video files with local MLX Whisper, Doubao Speech
-  ASR 2.0, or both engines for cross-validation. Use whenever the user asks to
-  转写、语音识别、听写、提取录音文字、分析面试/会议录音, mentions Whisper or
-  豆包录音文件识别模型 2.0, asks for offline/private transcription, or asks two
-  models to cross-check a recording. Default to dual recognition unless the
-  user explicitly requests online-only or offline-only. Invoking this skill
-  authorizes its online transcription branch by default unless the user says
-  not to upload the recording.
+  Transcribe local audio/video with MLX Whisper, Doubao ASR, or both. Use only
+  for transcription or transcript extraction. Dual mode uploads to Doubao
+  unless the user declines.
 ---
 
 # Audio Transcription

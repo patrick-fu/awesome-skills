@@ -1,11 +1,8 @@
 ---
 name: claude-code-coding-agent
 description: >-
-  Claude Code CLI operating guide for external host agents. Use only when the
-  user explicitly asks to run Claude Code CLI (`claude`) as the external coding
-  executor, or when the current orchestration/review workflow explicitly selects
-  Claude Code by name. Do not use for generic coding tasks, built-in subagents,
-  ordinary Claude chat, or unspecified delegation.
+  Run Claude Code CLI (`claude`) as an external coding executor. Use only when
+  explicitly selected by name.
 ---
 
 # Claude Code Coding Agent

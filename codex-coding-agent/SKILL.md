@@ -1,11 +1,8 @@
 ---
 name: codex-coding-agent
 description: >-
-  Codex CLI operating guide for external host agents. Use only when the user
-  explicitly asks to run local Codex CLI (`codex`) as the external coding
-  executor, or when the current orchestration/review workflow explicitly selects
-  Codex CLI by name. Do not use for built-in subagents, ordinary Codex chat,
-  generic agent delegation, or unspecified coding tasks.
+  Run local Codex CLI (`codex`) as an external coding executor. Use only when
+  explicitly selected by name.
 ---
 
 # Codex Coding Agent

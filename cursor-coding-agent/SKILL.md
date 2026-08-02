@@ -1,10 +1,8 @@
 ---
 name: cursor-coding-agent
 description: >-
-  Cursor CLI operating guide for external host agents. Use only when the user
-  explicitly asks to run Cursor CLI as the external coding executor, or when the
-  current orchestration/review workflow explicitly selects Cursor CLI by name.
-  Do not trigger on generic agent, subagent, or unspecified delegation wording.
+  Run Cursor CLI as an external coding executor. Use only when explicitly
+  selected by name.
 ---
 
 # Cursor Coding Agent

@@ -1,5 +1,7 @@
 # Parallel Goal Workflows
 
+[![skills.sh](https://skills.sh/b/patrick-fu/parallel-goal-workflows)](https://skills.sh/patrick-fu/parallel-goal-workflows)
+
 **[中文说明](README.zh-CN.md)**
 
 ![A pencil sketch showing scattered notes becoming a coordinated workflow and final report](assets/workbench-workflow-sketch.webp)

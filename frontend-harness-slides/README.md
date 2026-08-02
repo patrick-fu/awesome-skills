@@ -1,5 +1,7 @@
 # Frontend Harness Slides
 
+[![skills.sh](https://skills.sh/b/patrick-fu/frontend-harness-slides)](https://skills.sh/patrick-fu/frontend-harness-slides)
+
 **[中文说明](README.zh-CN.md)**
 
 Build HTML slide decks with a frontend harness, so the deck can survive real

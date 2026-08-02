@@ -1,5 +1,7 @@
 # LLM Wiki Capture
 
+[![skills.sh](https://skills.sh/b/patrick-fu/llm-wiki-capture)](https://skills.sh/patrick-fu/llm-wiki-capture)
+
 **[English README](README.md)**
 
 `llm-wiki-capture` 把 Session 中可复用的教训和外部资料沉淀进长期维护、Git-backed

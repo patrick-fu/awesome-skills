@@ -1,0 +1,65 @@
+{
+  "skill_name": "long-task-control",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We are about to start a six-week migration of a mature internal dashboard. The current proposal has a planner agent, an architecture council, three implementation agents, a per-ticket evaluator, a nightly synthesis agent, and a final auditor. The outcome we actually need is to move the existing dashboard to the new framework without changing user-visible behavior, preserve audit logs, and pass the existing regression suite. Reassess the setup before work begins and then tell me how to proceed.",
+      "expected_output": "The response should reconstruct the outcome and acceptance evidence, challenge the ROI of the proposed agent topology, prune unsupported ceremony, and leave a concrete next action without inventing a replacement bureaucracy.",
+      "files": [],
+      "expectations": [
+        "Explicitly reconstructs the intended outcome and acceptance evidence before proposing continuation",
+        "Challenges the ROI and redundancy of the proposed agent topology",
+        "Produces a concrete pruned continuation rather than only an audit report",
+        "Uses independent review only when its independence addresses a concrete failure mode"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Continue this long-running documentation task. Original goal: publish one concise architecture guide grounded in five primary sources. Current state after four days: twelve secondary articles have been summarized, three subagents are still searching for more commentary, the primary sources have not been read, and the draft has been rewritten twice without citations. The previous turn ended by saying research was 80% complete. Reassess the task and continue from the right place.",
+      "expected_output": "The response should identify evidence substitution and progress drift, stop low-value secondary research, preserve any useful work, redirect execution to the five primary sources, and avoid accepting the unsupported 80% completion claim.",
+      "files": [],
+      "expectations": [
+        "Detects that secondary-source activity has replaced the primary-source goal",
+        "Rejects or qualifies the unsupported 80% completion claim",
+        "Retires or redirects stale delegated work",
+        "Resumes with a specific next action centered on the primary sources"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The previous agent marked a billing migration complete. The implementation is merged locally and unit tests pass. The original acceptance criteria also required replaying a production-like invoice batch, confirming idempotency on retry, and showing that rollback restores the old ledger writer. None of those results appear in the handoff. Please check the completion claim and continue the task.",
+      "expected_output": "The response should preserve completed implementation work, identify the missing acceptance evidence, avoid declaring failure or restarting the migration, and continue with focused verification or surface a genuine blocker.",
+      "files": [],
+      "expectations": [
+        "Preserves completed and verified implementation work",
+        "Identifies all material acceptance evidence missing from the handoff",
+        "Does not accept the completion claim based only on unit tests",
+        "Continues with focused verification steps or names a real blocker"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Steer this migration after the first major phase. Three reviewers have returned overlapping and conflicting findings: one proposes replacing the queue, one identifies a narrow retry bug, and one repeats both reports. A required security reviewer is still running, while the implementation agent has started applying every suggestion. The original goal is still a behavior-preserving migration with no new infrastructure. Reassess the phase and continue.",
+      "expected_output": "The response should prevent premature repair or closure, wait for and consume the required review, assign one synthesis owner, deduplicate and classify findings before repair, reject unsupported redesign, and resume with the smallest evidence-backed correction.",
+      "files": [],
+      "expectations": [
+        "Does not finalize synthesis or close before the required security review is consumed",
+        "Assigns one owner to deduplicate and reconcile the reviewer findings",
+        "Separates actionable defects from duplicates, false positives, boundary notes, or overdesign",
+        "Resumes with the smallest correction supported by the original target and evidence"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Continue this week-long browser automation task. Six agents are polling the same failed end-to-end test, the test has retried fourteen times with the identical timeout, and no new trace or diagnostic evidence has appeared since yesterday. Earlier accepted implementation work is still valid. Another engineer will take over after this turn. Reassess the task and continue it responsibly.",
+      "expected_output": "The response should stop the no-evidence activity, preserve accepted work, retire stale delegation, replan toward a specific new diagnostic signal, and leave a compact handoff containing decisions, unresolved issues, next action, and evidence pointers.",
+      "files": [],
+      "expectations": [
+        "Stops or replans the retry and polling loop because it produces no new evidence",
+        "Preserves previously accepted work while retiring stale delegated activity",
+        "Chooses a next action that can produce a new diagnostic signal",
+        "Leaves a compact continuation record with decisions, unresolved judgments, follow-ups, and evidence pointers"
+      ]
+    }
+  ]
+}

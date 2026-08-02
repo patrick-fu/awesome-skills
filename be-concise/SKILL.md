@@ -6,7 +6,6 @@ description: >-
 compatibility: >-
   Claude Code, OpenAI Codex, and other Agent Skills-compatible coding agents.
 disable-model-invocation: true
-user-invocable: true
 ---
 
 # Be Concise

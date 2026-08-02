@@ -7,7 +7,6 @@ description: >-
   when the user explicitly invokes this skill to reassess and continue. Do not
   invoke for ordinary planning or review, or merely because a task is long,
   multi-step, or uses subagents.
-user-invocable: true
 ---
 
 # Long Task Control

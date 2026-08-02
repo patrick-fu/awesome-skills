@@ -75,6 +75,9 @@ acquisition stays faithful; downstream transformation happens afterward.
 Use it when an X page requires login, exposes only a preview, or simply is not
 a reliable source of the complete content.
 
+Requires `uv` and Python 3.10+. Its pinned `twitter-cli` dependency may reuse a
+local X session after approval; the Jina fallback is opt-in.
+
 ### ✍️ Communication and writing
 
 #### ✂️ [`be-concise`](./be-concise)
@@ -166,8 +169,8 @@ to rediscover the intent.
 #### 🎓 [`faster-learning-coach`](./faster-learning-coach)
 
 Teach through short, active learning loops built around practice, teach-back,
-and review instead of defaulting to a long explanation. The FASTER workflow
-adapts to the learner's goal, current level, and available time.
+and review instead of defaulting to a long explanation. Each loop adapts to the
+learner's goal, current evidence, and available time.
 
 Use it when the goal is understanding and retention, not merely receiving an
 answer.
@@ -208,3 +211,8 @@ whole home directory, so the guardrails are part of the feature.
 
 Use it when dotfiles should be versioned without letting a convenience script
 treat the home directory casually.
+
+## 📄 License
+
+MIT. See [`LICENSE`](./LICENSE). A nested `LICENSE` or third-party notice takes
+precedence for the files it covers.

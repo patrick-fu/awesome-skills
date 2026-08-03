@@ -60,6 +60,42 @@
         "Chooses a next action that can produce a new diagnostic signal",
         "Leaves a compact continuation record with decisions, unresolved judgments, follow-ups, and evidence pointers"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "A UI worker was told to report only a commit SHA, a failed command, or a real blocker. It has been silent for eight minutes, so the coordinator wants to interrupt it and assign a replacement. Read-only telemetry shows a 240-line dirty diff, an active browser installation process, and a new test-results directory, but there is no final response yet. Reassess the worker state and continue the task.",
+      "expected_output": "The response should distinguish liveness, observable progress, and completion; reject silence as stall evidence; preserve the dirty work; and continue waiting or monitoring the active command instead of replacing the worker.",
+      "files": [],
+      "expectations": [
+        "Separates worker liveness and observable progress from terminal completion",
+        "Does not infer stagnation from silence or elapsed time alone",
+        "Uses the dirty diff, active process, and generated artifacts as progress evidence",
+        "Preserves the current worker and recoverable work while the valuable command remains active"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "An implementation agent has already committed the project baseline, read the relevant architecture, and left a useful uncommitted regression test. Its latest turn ended with 'next I will implement the compiler' but made no additional edit. The coordinator plans to discard that context and start a fresh agent. Reassess the handoff and choose the next action.",
+      "expected_output": "The response should classify the plan-only turn as non-delivery without discarding valuable context, preserve the existing test and commit, give the same agent one narrow implementation outcome with an explicit exit condition, and replace it only if that retry produces no new evidence.",
+      "files": [],
+      "expectations": [
+        "Recognizes the plan-only terminal response as non-delivery",
+        "Preserves the existing commit, regression test, and useful agent context",
+        "Reuses the same agent once with a narrower outcome and explicit terminal evidence",
+        "Defers replacement until the focused retry also fails to produce evidence"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "A persistent goal is about to cross an automatic continuation boundary. The required adversarial reviewer is still active and has said it has enough evidence to finalize, but its final findings have not arrived. Child-agent handles may not survive the next turn. The implementation and acceptance checks are already complete. Decide how the coordinator should proceed.",
+      "expected_output": "The response should keep the current boundary open, wait for and consume the required review, avoid starting a replacement solely because the final is delayed, and then record a compact continuation packet before allowing the goal to continue.",
+      "files": [],
+      "expectations": [
+        "Does not cross the continuation boundary while the required review is unresolved",
+        "Waits for and consumes the current review instead of assuming child state will persist",
+        "Does not replace the reviewer solely because its final response is delayed",
+        "Creates a compact continuation record only after required delegated work is terminal and consumed"
+      ]
     }
   ]
 }

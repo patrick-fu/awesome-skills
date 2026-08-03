@@ -1,8 +1,7 @@
 ---
 name: llm-wiki-capture
 description: >-
-  User-invoked router for reviewing or capturing session knowledge, ingesting
-  sources, integrating an existing LLM wiki, or bootstrapping one from zero.
+  Route explicit LLM Wiki capture, ingest, integration, or bootstrap work.
 disable-model-invocation: true
 ---
 

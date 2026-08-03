@@ -1,6 +1,7 @@
 ---
 name: parallel-goal-workflows
-description: "User-invoked delegated workflows with clean local briefs."
+description: >-
+  Delegate each top-level goal to one clean-context owner through acceptance.
 disable-model-invocation: true
 ---
 

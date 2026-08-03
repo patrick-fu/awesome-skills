@@ -1,8 +1,7 @@
 ---
 name: be-concise
 description: >-
-  User-invoked response style that keeps answers as short and simple as the
-  task allows without losing information needed for correctness or action.
+  Make the current task's responses as concise as correctness allows.
 compatibility: >-
   Claude Code, OpenAI Codex, and other Agent Skills-compatible coding agents.
 disable-model-invocation: true

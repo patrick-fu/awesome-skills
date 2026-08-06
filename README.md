@@ -111,10 +111,10 @@ checks matter.
 
 #### 🎯 [`long-task-control`](./long-task-control)
 
-Re-anchor a task only when evidence shows design bloat, objective drift,
-no-evidence repetition, stale delegation, unresolved reviewer conflict, or an
-unsupported completion claim. It preserves verified work, cuts activity that no
-longer serves the goal, and resumes from the highest-value next step.
+Run an adversarial control loop over a long task: at each phase boundary a
+Design Challenger and Drift Watchdog test ROI, scope creep, and drift against
+the original intent. It preserves verified work, retires activity that no
+longer serves the goal, and resumes only where new acceptance evidence appears.
 
 Use it when a task is genuinely drifting—not merely because it is long.
 

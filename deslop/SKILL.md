@@ -1,9 +1,13 @@
 ---
 name: deslop
 description: >-
-  Deslop existing Chinese, English, or mixed prose while preserving meaning and
-  voice. Use only when the user explicitly asks to remove AI-writing patterns
-  or AI 味, or audit them.
+  Review or rewrite existing Chinese, English, or mixed-language prose to remove
+  formulaic AI-slop patterns while preserving facts, intent, stance, register,
+  and author voice. Use when the user explicitly asks to deslop, humanize,
+  remove AI writing patterns or AI 味, 说人话, 别像模板/机器人, make text less
+  AI-generated, or audit a draft for those problems. Do not trigger for generic
+  polishing, proofreading, translation, summarization, fact-checking, or
+  drafting from scratch unless deslop is explicitly requested as a step.
 ---
 
 # Deslop / 说人话
@@ -72,8 +76,11 @@ in its local linguistic and technical context.
    the author’s actual position.
 2. **Build a silent semantic ledger.** Record protected spans and relationships:
    who did what, to what, when, with what status, evidence, strength, and effect.
-   For long text, also note each section's job and what new claim, evidence, or
-   consequence it contributes.
+   For long text, also note each section’s job and what new claim, evidence, or
+   consequence it contributes. If a paragraph only paraphrases an earlier point
+   without adding a new fact, action, example, distinction, or consequence, mark
+   it as redundant — under `balanced` scope it may be merged or removed; under
+   `in-place` it stays.
 3. **Find clusters, not tokens.** Look for repeated formulaic structures,
    generic framing, performative transitions, flattened rhythm, and register
    mismatch. Do not rewrite merely because a watched word appears once.
@@ -85,7 +92,19 @@ in its local linguistic and technical context.
    file region against the source. Revert any unsupported change.
 6. **Run the residual pass.** Remove remaining high-confidence slop without
    sanding away legitimate voice or genre conventions.
-7. **Consider no-op.** If the source is already natural and fit for purpose,
+7. **Check the ending.** For long-form prose, test the final paragraphs: if
+   deleting the last one or two paragraphs makes the piece stronger, end
+   earlier. A final paragraph that only restates the thesis without a new
+   consequence, action, or synthesis can be compressed. If the body never
+   sustained a large scale (时代、文明、未来、世界、历史), do not let the
+   ending escalate to it.
+8. **Cold read.** Set the rules aside. Read the revision aloud and ask: where
+   does it sound like a person working through a problem, and where does it
+   sound like a model completing a writing task? If a passage still feels
+   templated after sentence-level repair, the issue is structural — do not
+   force personality onto it. In rewrite mode, leave the awkward faithful
+   sentence; in audit mode, report the structural finding.
+9. **Consider no-op.** If the source is already natural and fit for purpose,
    leave it alone. One weak signal is not enough to justify a rewrite.
 
 ## Hard boundaries

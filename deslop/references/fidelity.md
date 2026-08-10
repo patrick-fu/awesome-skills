@@ -59,6 +59,39 @@ was completed, implemented, started, or planned. If the object remains abstract,
 keep it abstract and preserve the lowest-commitment literal meaning available
 from the source.
 
+## Material identity
+
+Before editing, classify each factual claim in the source into one of five
+categories. Preserve the category — do not promote a weaker claim into a
+stronger one.
+
+1. **Directly verifiable fact** — supported by reliable sources.
+2. **Self-reported** — from the person, company, or institution involved.
+3. **Secondhand account** — from others' recollections or media summaries.
+4. **Author's inference** — drawn by the writer from available material.
+5. **Unknown** — not currently known.
+
+When the source says `公开资料显示`, `据了解`, or `目前无法确认`, preserve that
+attribution. Removing it would turn a category-2 or category-3 claim into a
+category-1 fact. In audit mode, flag missing attribution when it materially
+affects trust; in rewrite mode, keep the epistemic status.
+
+## Historical narrative: sequence, causation, motive
+
+In historical or biographical prose, three relationships must be kept distinct:
+
+- **Sequence** — event A happened before event B.
+- **Causation** — event A caused event B.
+- **Motive** — the actor did B because of thought C.
+
+The source may support only sequence. Do not silently add `于是`, `因此`, or
+`这让他决定` to turn sequence into causation. If the source has no actor
+self-statement, do not supply inner monologue or motive.
+
+Tension in a historical story already lives in the material — geography,
+forces, institutions, available paths, and consequences of failure. Do not
+invent psychological depth where the source only gives actions and conditions.
+
 ## Unsupported claims
 
 This skill does not verify the world. Treat unsourced claims as claims made by

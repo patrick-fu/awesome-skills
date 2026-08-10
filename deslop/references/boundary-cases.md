@@ -15,6 +15,12 @@ changing meaning is higher than leaving one weak slop signal behind.
 
 Look for repetition, density, generic use, and mismatch with the scene.
 
+Exception: in Chinese prose, em dashes and introductory colons (e.g.
+`一句话总结：`, `核心是：`) follow the scene-specific rules in
+[patterns-zh.md](patterns-zh.md), which treat them as slop signals in prose
+contexts. Technical, academic, and legal writing retain their normal
+punctuation conventions.
+
 ## Legitimate structures
 
 - Academic methods and scientific summaries often use passive voice.

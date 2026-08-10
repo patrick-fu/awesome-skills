@@ -18,6 +18,28 @@ Preserve exact text unless the user explicitly authorizes a change:
 A protected value includes what it modifies. Keeping `30%` while attaching it
 to a different metric is still a fidelity failure.
 
+## Text type: reality, fiction, mixed
+
+Determine the text's commitment to reality before editing. The fidelity target
+differs by type.
+
+**Reality writing** — real people, events, numbers, quotations, and user
+experiences must be accurate. Do not invent facts, scenes, dialogue, or
+psychology.
+
+**Fiction writing** — characters, settings, dialogue, and plot may be invented.
+Fidelity means internal consistency: characters, time, causation, and world
+rules must stay coherent. Do not "correct" a fictional invention against
+external reality.
+
+**Mixed writing** — separate the parts that must be real from the parts that
+may be invented. Verify only the facts that affect the story and real-world
+judgment.
+
+If the source says `小说`, `虚构`, `假设`, or `随便编`, treat it as fiction. If
+it claims to be real, documentary, first-person, or historically accurate,
+treat it as reality.
+
 ## Semantic ledger
 
 Before editing, silently record the source relationships below. Recheck them
@@ -51,7 +73,9 @@ rewrite mode, do not silently change the number or its stated status.
 Do not promote rhetorical syntax into a factual relationship. In particular,
 rewriting `ensuring`, `highlighting`, or `demonstrating` as `ensured`,
 `highlighted`, or `demonstrated` can strengthen an unsupported outcome or
-evidence claim even when the vocabulary looks equivalent.
+evidence claim even when the vocabulary looks equivalent. The same applies to
+Chinese: `确保了`、`彰显了`、`证明了`、`实现了` can turn a stated goal or
+rhetorical claim into a completed fact. Preserve the original modality.
 
 Jargon can still carry a real action or state. Replacing `完成闭环`, `落地`, or
 similar wording does not authorize deleting the underlying claim that something

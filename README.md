@@ -212,6 +212,14 @@ whole home directory, so the guardrails are part of the feature.
 Use it when dotfiles should be versioned without letting a convenience script
 treat the home directory casually.
 
+#### 🗂️ [`local-file-organizer`](./local-file-organizer)
+
+Inventory cluttered directories file by file, classify content by its real use,
+and build a reversible ledger before moving, renaming, or deduplicating anything.
+
+Use it when a directory needs a safe, explainable reorganization rather than a
+blind cleanup.
+
 ## 📄 License
 
 MIT. See [`LICENSE`](./LICENSE). A nested `LICENSE` or third-party notice takes

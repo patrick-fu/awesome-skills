@@ -184,6 +184,12 @@ push。它的 work tree 是整个 home 目录，所以安全边界本身就是�
 
 适合希望把 dotfiles 纳入版本管理，又不想让便利脚本随便对待整个家目录的场景。
 
+#### 🗂️ [`local-file-organizer`](./local-file-organizer)
+
+逐文件盘点混乱目录，按真实用途重分类，并在移动、重命名或去重前建立可回滚账本。
+
+适合需要安全、可解释地重组目录，而不是盲目“清理一下”的场景。
+
 ## 📄 License
 
 采用 MIT License，详见 [`LICENSE`](./LICENSE)。若子目录中存在独立 `LICENSE` 或第三方

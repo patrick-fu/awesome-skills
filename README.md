@@ -118,30 +118,32 @@ longer serves the goal, and resumes only where new acceptance evidence appears.
 
 Use it when a task is genuinely drifting—not merely because it is long.
 
-The four coding-agent guides below share one workflow: preserve the selected CLI
+#### 🧑‍💻 External coding agents
+
+These four coding-agent guides share one workflow: preserve the selected CLI
 wrapper, discover current model and reasoning controls, monitor semantic output,
 respect permissions and sandboxes, and verify diffs and tests from the host.
 Each guide triggers only when its CLI is explicitly selected as the executor.
 
-#### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
+##### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
 
 Run Claude Code CLI as the explicitly selected external coding executor. It
 preserves the supplied wrapper, discovers current options from the CLI, and
 monitors long-running work through verbose streaming JSON.
 
-#### 🟢 [`codex-coding-agent`](./codex-coding-agent)
+##### 🟢 [`codex-coding-agent`](./codex-coding-agent)
 
 Run Codex CLI as the explicitly selected external coding executor. It uses
 `codex exec --json` with an explicit read-only sandbox for review or a
 workspace-write sandbox for approved implementation.
 
-#### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
+##### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
 
 Run Cursor CLI as the explicitly selected external coding executor. Because the
 generic `agent` launcher can point to another product, the workflow verifies its
 identity before trusting it.
 
-#### ⚡ [`grok-coding-agent`](./grok-coding-agent)
+##### ⚡ [`grok-coding-agent`](./grok-coding-agent)
 
 Run Grok Build CLI as the explicitly selected external coding executor. It
 treats approval policy and sandbox access as separate controls and chooses the

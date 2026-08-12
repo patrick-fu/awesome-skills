@@ -106,26 +106,28 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 适合任务真的开始跑偏时，而不是仅仅因为它很长。
 
-下面四个 coding-agent 指南共用一套流程：保留选定的 CLI wrapper、发现当前模型和推理
+#### 🧑‍💻 外部编码代理
+
+这四个 coding-agent 指南共用一套流程：保留选定的 CLI wrapper、发现当前模型和推理
 控制、监控语义输出、尊重 permission 与 sandbox，并由宿主验证 diff 和测试。每个 Skill
 只在对应 CLI 被明确选为执行器时触发。
 
-#### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
+##### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
 
 把 Claude Code CLI 作为明确选择的外部编码执行器来运行。它会保留给定的 wrapper，从
 当前 CLI 发现可用选项，并通过 verbose streaming JSON 监控耗时任务。
 
-#### 🟢 [`codex-coding-agent`](./codex-coding-agent)
+##### 🟢 [`codex-coding-agent`](./codex-coding-agent)
 
 把 Codex CLI 作为明确选择的外部编码执行器来运行。它使用 `codex exec --json`，review
 时显式选择 read-only sandbox，已批准的实现则使用 workspace-write sandbox。
 
-#### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
+##### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
 
 把 Cursor CLI 作为明确选择的外部编码执行器来运行。由于通用的 `agent` launcher 可能
 指向其他产品，流程会先验证身份，再决定是否信任它。
 
-#### ⚡ [`grok-coding-agent`](./grok-coding-agent)
+##### ⚡ [`grok-coding-agent`](./grok-coding-agent)
 
 把 Grok Build CLI 作为明确选择的外部编码执行器来运行。它把 approval policy 和 sandbox
 访问视为两项独立控制，并显式选择合适的 read-only 或 workspace sandbox。

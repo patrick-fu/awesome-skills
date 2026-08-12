@@ -50,7 +50,8 @@
     {
       "name": "personal-setup",
       "skills": [
-        "./home-config-sync"
+        "./home-config-sync",
+        "./local-file-organizer"
       ]
     }
   ]

@@ -1,0 +1,10 @@
+---
+interface:
+  display_name: "Codex Session Controller"
+  short_description: "Control global and project-level Codex sessions"
+  default_prompt: >-
+    Use $codex-session-controller to establish or operate a global or
+    project-level Codex controller, perform a one-shot session operation, or
+    hand off an existing controller.
+policy:
+  allow_implicit_invocation: false

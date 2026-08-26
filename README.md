@@ -80,12 +80,14 @@ local X session after approval; the Jina fallback is opt-in.
 
 ### ✍️ Communication and writing
 
-#### ✂️ [`be-concise`](./be-concise)
+#### 🔁 [`say-that-again`](./say-that-again)
 
-A user-invoked response style that makes an answer as short as the task allows
-without dropping information needed for correctness, safety, or action.
+A user-invoked reset for explanations that did not land. It adds only the
+necessary context, keeps established terminology, and explains the point again
+in clear, concise, unambiguous Chinese.
 
-Use it when the agent has found three paragraphs where one sentence would do.
+Use it when you did not follow the previous response and want a clearer Chinese
+explanation rather than a lasting response style.
 
 #### 🧹 [`deslop`](./deslop)
 

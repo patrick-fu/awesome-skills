@@ -1,0 +1,10 @@
+---
+interface:
+  display_name: "Say That Again"
+  short_description: "用清晰、简明、无歧义的中文重新讲一遍"
+  default_prompt: >-
+    Use $say-that-again to explain the previous response again in clear
+    Chinese.
+
+policy:
+  allow_implicit_invocation: false

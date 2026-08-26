@@ -88,8 +88,10 @@ creation leaves the predecessor title and ownership unchanged.
 
 After acceptance:
 
-- replace only the predecessor title's leading status with `🔁`, preserving the
-  remaining scope name and date
+- the successor replaces only the predecessor title's leading role/status with
+  `🗑️`, preserving the remaining scope name and date
+- archive the predecessor by default unless the user asked to keep it visible;
+  never delete it
 - continue managing existing child sessions rather than rebuilding them
 - notify the global controller when a project controller changes owner
 - replace a child only when it is confirmed failed/unreachable or the user asks

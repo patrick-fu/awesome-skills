@@ -115,6 +115,11 @@ Keep model and reasoning settings inherited unless the user specifies them.
 When worktree creation returns only a pending/client identifier, report and
 wait for the formal `(hostId, threadId)` before addressing the session.
 
+When naming or renaming an owned non-controller session, call the Skill tool
+with `codex-session-naming`. Carry that lifecycle-title requirement into each
+new normal task brief. If the Skill is unavailable, preserve the title and
+report the degradation instead of duplicating its rules here.
+
 ## Make each operation recoverable
 
 `create_thread` and `send_message_to_thread` do not provide an exactly-once
@@ -211,21 +216,25 @@ Default global-controller reports should lead with:
 Do not turn normal background work into user action items. Distinguish
 automation-ready from user, device, security, or production acceptance.
 
-Use these controller titles and states unless the user requests another style:
+Use these controller-role titles unless the user requests another style:
 
 ```text
-🟢 🧭 全局主控 · YYYY-MM-DD
-🟢 🗂️ <Project> 项目主控 · YYYY-MM-DD
+🕹️ 全局主控 · YYYY-MM-DD
+🗂️ <Project> 项目主控 · YYYY-MM-DD
+✅ 🗂️ <Project> 项目主控 · YYYY-MM-DD
+🗑️ <旧主控名称>
 ```
 
-Use `🟢` for current, `⏸️` for waiting on the user, `⚠️` for a real exception,
-`✅` for closed, and `🔁` for handed off. A global controller remains current
-when its portfolio is temporarily empty and closes only on explicit user
-request. A project controller closes only after its project outcome and all
-required human/device/production gates complete.
+Current controllers keep their role title while waiting or blocked; report that
+state in the controller summary. A global controller remains current when its
+portfolio is temporarily empty and closes only on explicit user request. A
+project controller gains `✅` only after its project outcome and all required
+human/device/production gates complete. Only an accepted successor may retitle
+the predecessor with `🗑️`.
 
 Keep completed sessions unarchived unless the user sets a narrower retention
-policy. Confirmed accidental duplicates are the only default exception.
+policy. Confirmed accidental duplicates and accepted predecessor controllers
+are the default exceptions. Never delete a session.
 
 ## Handoff
 

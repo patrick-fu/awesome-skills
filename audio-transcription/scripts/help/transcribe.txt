@@ -7,7 +7,8 @@ USAGE
 OPTIONS
   --output-dir DIR    Write artifacts to DIR instead of a new system temp directory.
   --language VALUE    Language hint for Qwen; default: auto.
-  --parallel          Run Qwen and MOSS concurrently. Requires ample unified memory.
+  --parallel          Run Qwen and MOSS concurrently for this one media file only.
+                      Requires ample unified memory; never parallelizes media files.
   --require-all       Return failure unless both models succeed.
   --no-cache          Do not read or write result cache entries.
   --print             Print the complete Markdown after the compact result.
@@ -22,6 +23,9 @@ SIDE EFFECTS
 
 EXECUTION
   Default execution is sequential. --parallel is explicit and never chosen automatically.
+  Each invocation accepts one media file. For multiple files, preserve input order and wait
+  for each command to exit before starting the next. A shared local lock enforces this across
+  concurrent local-transcribe callers; waiting is reported on stderr.
   Long audio is split at silence-aware boundaries. MOSS speaker IDs are chunk-qualified.
   Model revisions and chunk limits come from the active profile; see help profiles.
 

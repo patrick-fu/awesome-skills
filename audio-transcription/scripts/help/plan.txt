@@ -11,9 +11,11 @@ GUARANTEE
 REPORTS
   Input path, duration and audio stream; runtime readiness; active profile and exact model
   revisions; sequential or parallel strategy; chunk policy; cache hit; network/upload=false;
-  stable errors and next_actions.
+  single-media input scope; serialized cross-file strategy; stable errors and next_actions.
 
 AGENT USE
   Run plan --json before transcription when runtime state, side effects, profile, or cache
   behavior is uncertain. Do not infer a different profile from memory size at transcription
   time; profile selection belongs to explicit setup.
+  For multiple media files, complete each plan-and-transcribe sequence before starting the
+  next one. Do not dispatch files to parallel agents or processes.

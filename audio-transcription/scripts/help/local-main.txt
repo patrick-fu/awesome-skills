@@ -10,6 +10,8 @@ USAGE
 
 DEFAULT BEHAVIOR
   Runs Qwen and MOSS sequentially with the active installed profile.
+  Accepts one media file per invocation. Multiple media files run one invocation at a time,
+  in input order; a shared local lock makes concurrent callers wait.
   Does not access the network and never uploads media.
   Writes artifacts to a new system temporary directory unless --output-dir is used.
   Prints a compact manifest; use --print to print the complete Markdown transcript.
@@ -36,5 +38,7 @@ MORE HELP
 
 AUTOMATION AND AGENTS
   Prefer --json and consume stable error_code, status, artifact paths, and next_actions.
+  For multiple media files, wait for each command to exit before starting the next. Do not
+  parallelize files with agents, shell jobs, subprocess pools, or separate online requests.
   Progress and warnings use stderr. JSON output is the only content written to stdout.
   Help, topics, and --version work before setup.

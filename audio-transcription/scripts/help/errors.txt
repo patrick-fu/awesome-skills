@@ -26,4 +26,8 @@ PARTIAL_SUCCESS
 CACHE_SAFETY_ERROR
   Cache root or entry failed ownership/symlink validation. Stop before deleting anything.
 
+RUNTIME_SAFETY_ERROR
+  Application Support or the shared transcription lock failed directory, ownership, or
+  symlink validation. Stop; do not bypass the lock with a different runtime root.
+
 Every --json error includes error_code, message, requires_user_decision, and next_actions.

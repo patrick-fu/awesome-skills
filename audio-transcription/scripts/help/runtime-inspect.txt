@@ -1,0 +1,12 @@
+manage-runtime inspect — Read-only host and setup recommendation
+
+USAGE
+  manage-runtime inspect [--json]
+
+SIDE EFFECTS
+  Read-only. Does not create Application Support, cache, runtime, model, or CLI paths.
+
+REPORTS
+  Host support, unified memory, free disk, active runtime, missing uv/ffmpeg tools, recommended
+  profile, quality-decision requirement, approximate download size, and ranked CLI directories.
+  A recommendation never activates a profile; setup requires an explicit --profile.

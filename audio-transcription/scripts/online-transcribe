@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+skill_version() {
+  /usr/bin/awk -F '"' '/"runtime_version"/ { print $4; exit }' "$SCRIPT_DIR/../runtime/models.lock.json"
+}
+case "${1:-}" in
+  ""|-h|--help|help) /bin/cat "$SCRIPT_DIR/help/online-main.txt"; exit 0 ;;
+  --version) printf '%s\n' "online-transcribe $(skill_version)"; exit 0 ;;
+esac
+if command -v python3 >/dev/null 2>&1; then
+  exec python3 "$SCRIPT_DIR/online_transcribe.py" "$@"
+fi
+printf '%s\n' "SETUP_REQUIRED: python3 is required for the online worker." >&2
+exit 1

@@ -1,0 +1,23 @@
+local-transcribe outputs — Artifact and stdout contract
+
+ARTIFACT DIRECTORY
+  manifest.json       Versioned run contract, status, provenance, cache state, model results.
+  transcript.md       Two independent sections; no automatic merge or correction.
+  qwen/raw.json       Qwen result and provenance when Qwen starts.
+  qwen/transcript.txt Qwen text when Qwen succeeds.
+  moss/raw.json       MOSS result, chunk boundaries, speakers, and provenance when MOSS starts.
+  moss/transcript.txt MOSS text when MOSS succeeds.
+
+DEFAULT LOCATION
+  A new private system temporary directory. Use --output-dir for a durable destination.
+  Existing non-empty destinations are rejected to prevent accidental overwrite.
+
+MANIFEST STATUS
+  completed  Both models succeeded.
+  partial    Exactly one model succeeded; default exit status remains 0.
+  failed     Neither model succeeded.
+
+STDOUT
+  Default: a short status and artifact path, never the full transcript.
+  --json: exactly one JSON object; parse it instead of human prose.
+  --print: complete Markdown after the human summary; incompatible with --json.

@@ -213,6 +213,13 @@ Default global-controller reports should lead with:
 2. real exceptions and blockers
 3. one compact portfolio summary for everything else
 
+Whenever a controller report lists a session or its progress, make the session
+title a one-click Markdown link using its tool-returned `threadId`:
+`[<title>](codex://threads/<threadId>)`. Alongside each non-current session
+link, show its owning `hostId` because `(hostId, threadId)` remains the complete
+identity. Use this app deeplink for navigation; create a share link only when
+the user explicitly asks to share the session.
+
 Do not turn normal background work into user action items. Distinguish
 automation-ready from user, device, security, or production acceptance.
 

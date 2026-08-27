@@ -9,6 +9,10 @@ WARNING
 USAGE
   online-transcribe <media> --online-consent [options]
 
+BATCHING
+  Accepts one media file per invocation. For multiple media files, preserve input order and
+  wait for each request to finish before starting the next. Do not parallelize online jobs.
+
 OPTIONS
   --output-dir DIR        Artifact directory; default: new private system temp directory.
   --doubao-audio-url URL  Submit an already hosted equivalent media file using documented URL transport.

@@ -53,10 +53,17 @@ class HelpContractTests(unittest.TestCase):
             "network",
             "--json",
             "SETUP_REQUIRED",
+            "Multiple media files run one invocation at a time",
+            "Do not\n  parallelize files",
         ):
             self.assertIn(value, text)
         online = self.run_script("online-transcribe", "--help").stdout
-        for value in ("NETWORK: required", "UPLOAD:", "CONSENT:"):
+        for value in (
+            "NETWORK: required",
+            "UPLOAD:",
+            "CONSENT:",
+            "Do not parallelize online jobs",
+        ):
             self.assertIn(value, online)
 
     def test_every_public_subcommand_has_pre_setup_help(self):
@@ -77,6 +84,7 @@ class HelpContractTests(unittest.TestCase):
         self.assertLess(len(text), 2400)
         self.assertIn("scripts/local-transcribe plan", text)
         self.assertIn("事实源", text)
+        self.assertIn("前一个命令退出后再开始下一个", text)
         for forbidden in (
             "a8379a2",
             "7210aef",

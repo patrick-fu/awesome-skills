@@ -1,0 +1,4 @@
+mlx-audio[stt]==0.5.0
+moss-transcribe-diarize[mlx-runtime,torch-runtime] @ git+https://github.com/vanch007/mlx-MOSS-Transcribe-Diarize.git@d2546316f76e93947e8d99a17fb88652f8ad6ab2
+torch==2.11.0
+torchaudio==2.11.0

@@ -1,0 +1,9 @@
+---
+interface:
+  display_name: Audio Transcription
+  short_description: Transcribe a local audio or video file with offline models.
+  default_prompt: >-
+    Use $audio-transcription for an explicit local media transcription request.
+    Start with the bundled plan command, keep local Qwen plus MOSS as the
+    default, and use an online provider only when the user explicitly requests
+    cloud transcription or permits upload.

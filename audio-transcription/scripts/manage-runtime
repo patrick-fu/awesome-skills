@@ -1,0 +1,55 @@
+#!/bin/sh
+set -eu
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+HELP_DIR="$SCRIPT_DIR/help"
+
+skill_version() {
+  /usr/bin/awk -F '"' '/"runtime_version"/ { print $4; exit }' "$SCRIPT_DIR/../runtime/models.lock.json"
+}
+
+show_topic() {
+  topic=${1:-runtime-main}
+  case "$topic" in
+    main|runtime-main) file="$HELP_DIR/runtime-main.txt" ;;
+    inspect) file="$HELP_DIR/runtime-inspect.txt" ;;
+    doctor) file="$HELP_DIR/runtime-doctor.txt" ;;
+    setup) file="$HELP_DIR/runtime-setup.txt" ;;
+    install-cli) file="$HELP_DIR/runtime-install-cli.txt" ;;
+    cleanup) file="$HELP_DIR/runtime-cleanup.txt" ;;
+    *)
+      printf '%s\n' "Unknown help topic: $topic" >&2
+      printf '%s\n' "Available topics: inspect setup doctor install-cli cleanup" >&2
+      exit 2
+      ;;
+  esac
+  /bin/cat "$file"
+}
+
+case "${1:-}" in
+  ""|-h|--help|help)
+    if [ "${1:-}" = help ] && [ "$#" -gt 1 ]; then show_topic "$2"; else show_topic runtime-main; fi
+    exit 0
+    ;;
+  --version)
+    printf '%s\n' "manage-runtime $(skill_version)"
+    exit 0
+    ;;
+esac
+
+if [ "$#" -gt 1 ] && [ "${2:-}" = --help ]; then
+  show_topic "$1"
+  exit 0
+fi
+
+if command -v python3 >/dev/null 2>&1; then
+  exec python3 "$SCRIPT_DIR/runtime_manager.py" "$@"
+fi
+
+if command -v uv >/dev/null 2>&1; then
+  exec uv run --no-project --python 3.11 "$SCRIPT_DIR/runtime_manager.py" "$@"
+fi
+
+printf '%s\n' "SETUP_REQUIRED: python3 or uv is required to inspect/setup the runtime." >&2
+printf '%s\n' "If Homebrew is available, install uv first: brew install uv" >&2
+exit 1

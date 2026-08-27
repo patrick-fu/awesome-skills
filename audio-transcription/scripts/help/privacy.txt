@@ -1,0 +1,15 @@
+local-transcribe privacy — Network, upload, and local data boundaries
+
+LOCAL COMMAND
+  local-transcribe never accesses the network or uploads media. Runner processes set
+  Hugging Face, Transformers, dataset, and telemetry offline controls. Missing pinned models
+  produce SETUP_REQUIRED or PROFILE_NOT_INSTALLED instead of downloading during transcription.
+
+LOCAL STORAGE
+  Runtime and pinned models live under ~/Library/Application Support/audio-transcription/.
+  Result cache lives under ~/Library/Caches/audio-transcription/ and excludes original media.
+  User-selected output directories contain transcripts and raw model results.
+
+ONLINE COMMAND
+  Doubao is a separate bundled worker and requires explicit cloud/upload intent plus its
+  --online-consent boundary flag. See scripts/online-transcribe --help before using it.

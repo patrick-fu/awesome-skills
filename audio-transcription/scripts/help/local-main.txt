@@ -1,0 +1,40 @@
+local-transcribe — Offline local transcription with Qwen and MOSS
+
+USAGE
+  local-transcribe <media> [options]
+  local-transcribe transcribe <media> [options]
+  local-transcribe plan <media> [--json]
+  local-transcribe doctor [--json]
+  local-transcribe cache <status|clear> [options]
+  local-transcribe help <topic>
+
+DEFAULT BEHAVIOR
+  Runs Qwen and MOSS sequentially with the active installed profile.
+  Does not access the network and never uploads media.
+  Writes artifacts to a new system temporary directory unless --output-dir is used.
+  Prints a compact manifest; use --print to print the complete Markdown transcript.
+  A result is usable when at least one model succeeds; use --require-all for strict runs.
+
+BEFORE FIRST USE
+  If SETUP_REQUIRED is reported, invoke $audio-transcription and request setup.
+  Setup is intentionally separate from this command.
+
+SAFE DISCOVERY
+  local-transcribe plan <media> --json
+  local-transcribe doctor --json
+
+MORE HELP
+  local-transcribe help transcribe
+  local-transcribe help doctor
+  local-transcribe help plan
+  local-transcribe help outputs
+  local-transcribe help profiles
+  local-transcribe help cache
+  local-transcribe help privacy
+  local-transcribe help errors
+  local-transcribe help examples
+
+AUTOMATION AND AGENTS
+  Prefer --json and consume stable error_code, status, artifact paths, and next_actions.
+  Progress and warnings use stderr. JSON output is the only content written to stdout.
+  Help, topics, and --version work before setup.

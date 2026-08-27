@@ -1,0 +1,14 @@
+local-transcribe doctor — Check local transcription readiness
+
+USAGE
+  local-transcribe doctor [--json]
+
+SIDE EFFECTS
+  Read-only. Does not install, download, activate, delete, access the network, or load models.
+
+CHECKS
+  Apple Silicon macOS, ffmpeg, ffprobe, active runtime, active profile, runtime Python, and exact
+  pinned model directories. For import and Metal checks use manage-runtime doctor --json.
+
+OUTPUT
+  Human checklist or one stable JSON object. not_ready exits 1 and includes next_actions.

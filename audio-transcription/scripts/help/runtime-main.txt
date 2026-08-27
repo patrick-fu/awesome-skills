@@ -1,0 +1,23 @@
+manage-runtime — Deterministic runtime lifecycle for audio-transcription
+
+USAGE
+  manage-runtime inspect [--json]
+  manage-runtime setup --profile <standard|low-memory> [--json]
+  manage-runtime doctor [--json]
+  manage-runtime install-cli --bin-dir DIR [--json]
+  manage-runtime cleanup <options> [--json]
+  manage-runtime help <topic>
+
+BOUNDARY
+  The Skill decides when setup is authorized, explains quality tradeoffs, and asks for CLI
+  placement. This command performs deterministic inspected changes. It never chooses a profile,
+  install directory, sudo escalation, or destructive cleanup implicitly.
+
+MORE HELP
+  manage-runtime inspect --help
+  manage-runtime setup --help
+  manage-runtime doctor --help
+  manage-runtime install-cli --help
+  manage-runtime cleanup --help
+
+Help and inspect work before the ML runtime is installed.

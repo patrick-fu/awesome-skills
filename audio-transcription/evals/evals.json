@@ -4,31 +4,43 @@
     {
       "id": 1,
       "prompt": "把 /tmp/interview.m4a 转写出来，没指定模型。",
-      "expected_output": "The skill invocation itself should authorize the upload, so the skill should select dual mode by default without asking for duplicate consent, pass the script's explicit online-consent flag, run independent local Whisper and Doubao branches, and cross-check their outputs.",
+      "expected_output": "The skill should run the bundled read-only plan command first, then use the installed local Qwen and MOSS profile sequentially without network access or upload. It should preserve both independent outputs and return artifact paths rather than pasting a long transcript.",
       "files": []
     },
     {
       "id": 2,
-      "prompt": "这个录音有隐私，只在本机用 Whisper 识别，不要上传。",
-      "expected_output": "The skill should select offline mode, never call Doubao, invoke the persistent mlx_whisper CLI with previous-text conditioning disabled by default, let the CLI and Hugging Face use their default model cache, avoid creating a skill-specific venv or cache directory, and avoid inventing speaker labels.",
+      "prompt": "这个录音有隐私，只在本机识别，不要上传。",
+      "expected_output": "The skill should use local-transcribe only, keep network/upload false, run pinned Qwen and MOSS independently, and avoid changing profile or downloading a missing model during transcription.",
       "files": []
     },
     {
       "id": 3,
       "prompt": "只用豆包录音文件识别模型 2.0 转写这份 M4A，允许上传。",
-      "expected_output": "The skill should select online mode, prefer the new-console DOUBAO_API_KEY authentication while supporting the documented legacy fallback, actually transcode the M4A to 16 kHz mono MP3 before declaring format=mp3, avoid the contradictory codec=raw field, keep DDC disabled by default, and use standard-version asynchronous submit/query polling with the model 2.0 resource ID.",
+      "expected_output": "Because the user explicitly names Doubao and permits upload, the skill should enter the online reference branch, read online-transcribe --help, pass --online-consent, keep credential values secret, transcode the selected audio stream to a real 16 kHz mono MP3 for local-file upload, and preserve an independent online result.",
       "files": []
     },
     {
       "id": 4,
       "prompt": "两个模型交叉转写会议录音，重点核对姓名、百分比和否定句，我同意上传豆包。",
-      "expected_output": "The skill should run dual mode without asking for duplicate consent, keep the two recognizers independent, preserve both raw outputs, generate a mechanical comparison, and explicitly review names, percentages, negations, omissions, and suspected hallucinations.",
+      "expected_output": "The skill should run local Qwen and MOSS and, because upload is explicit, a separate Doubao branch. It should preserve all three raw outputs and use the transcript-review reference to inspect names, percentages, negations, coverage, and hallucination risks without automatically merging a canonical transcript.",
       "files": []
     },
     {
       "id": 5,
       "prompt": "双路转写，但这份文件不能离开本机。",
-      "expected_output": "The no-upload constraint should take precedence. The skill should explain that true dual mode is impossible because the second branch is online, then run offline-only rather than silently uploading or silently pretending that two local runs are dual validation.",
+      "expected_output": "The no-upload constraint should keep execution fully local. 'Dual' means Qwen plus MOSS, so the skill should run both local models and must not call Doubao or treat the word dual as upload consent.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "帮我 setup 本地语音转写环境。",
+      "expected_output": "The skill should inspect the host and unified memory, explain the recommended profile and low-quantization tradeoff, then run the deterministic bundled setup only after the explicit setup request. Setup must keep staging inactive until validation and must not install a stable CLI entry by default.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "总结一下这个会议。",
+      "expected_output": "The skill should not trigger solely for a meeting summary when no local audio/video transcription or transcript extraction is explicitly requested.",
       "files": []
     }
   ]

@@ -1,0 +1,20 @@
+manage-runtime setup — Install one pinned local transcription profile
+
+USAGE
+  manage-runtime setup --profile <standard|low-memory> [--json]
+
+SIDE EFFECTS
+  NETWORK: required for missing packages and model snapshots.
+  UPLOAD: none; no user media is read.
+  WRITES: versioned runtime and model directories under Application Support.
+  HOMEBREW: installs missing uv and ffmpeg when brew is available; never installs Homebrew.
+  PRIVILEGE: never invokes sudo.
+
+TRANSACTION
+  Creates a staging runtime, installs locked dependencies, downloads exact model revisions,
+  validates imports and snapshots, then atomically activates it. A failed staging runtime never
+  replaces the active runtime. Re-running the same complete profile is idempotent.
+
+PROFILE
+  Required. Inspect recommends a profile from unified memory. low-memory changes quantization,
+  so the Skill must explain and obtain the user's choice before invoking setup.

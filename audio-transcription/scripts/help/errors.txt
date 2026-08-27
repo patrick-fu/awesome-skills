@@ -1,0 +1,29 @@
+local-transcribe errors — Stable errors and recovery
+
+SETUP_REQUIRED
+  No active runtime. Invoke $audio-transcription and request setup.
+
+PROFILE_NOT_INSTALLED
+  The active configuration references an incomplete profile. Run manage-runtime doctor --json,
+  then explicitly repair that profile through the Skill setup workflow.
+
+UNSUPPORTED_HOST
+  Local MLX inference requires Apple Silicon macOS. Do not switch online automatically.
+
+INPUT_NOT_FOUND / NO_AUDIO_STREAM / MEDIA_PROBE_FAILED
+  Correct the input path or media. The input is never modified.
+
+OUTPUT_EXISTS
+  Choose an empty --output-dir. No force-overwrite option is provided.
+
+MODEL_LOAD_OOM
+  Keep the failure evidence. Recommend explicit low-memory setup or shorter pinned chunks;
+  never silently change profile.
+
+PARTIAL_SUCCESS
+  One model succeeded. Use the successful artifacts or rerun with --require-all.
+
+CACHE_SAFETY_ERROR
+  Cache root or entry failed ownership/symlink validation. Stop before deleting anything.
+
+Every --json error includes error_code, message, requires_user_decision, and next_actions.

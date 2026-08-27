@@ -1,0 +1,41 @@
+local-transcribe transcribe — Run the two local transcription models
+
+USAGE
+  local-transcribe transcribe <media> [options]
+  local-transcribe <media> [options]                 # shorthand
+
+OPTIONS
+  --output-dir DIR    Write artifacts to DIR instead of a new system temp directory.
+  --language VALUE    Language hint for Qwen; default: auto.
+  --parallel          Run Qwen and MOSS concurrently. Requires ample unified memory.
+  --require-all       Return failure unless both models succeed.
+  --no-cache          Do not read or write result cache entries.
+  --print             Print the complete Markdown after the compact result.
+  --json              Print only the machine-readable result envelope.
+
+SIDE EFFECTS
+  NETWORK: none. Model execution is forced offline.
+  UPLOAD: none.
+  READS: the supplied media, active runtime, pinned model directories, result cache.
+  WRITES: output artifacts and, unless --no-cache, a private result-cache entry.
+  INPUT: never modified, moved, or deleted.
+
+EXECUTION
+  Default execution is sequential. --parallel is explicit and never chosen automatically.
+  Long audio is split at silence-aware boundaries. MOSS speaker IDs are chunk-qualified.
+  Model revisions and chunk limits come from the active profile; see help profiles.
+
+OUTPUT
+  stdout: compact human manifest, or one JSON object with --json.
+  stderr: progress, bounded model stderr, and partial-success warnings.
+  See: local-transcribe help outputs
+
+EXIT STATUS
+  0  At least one model succeeded, or a non-mutating query succeeded.
+  1  No model succeeded, preflight failed, or --require-all rejected partial success.
+  2  Command-line usage error.
+
+EXAMPLES
+  local-transcribe recording.m4a --json
+  local-transcribe video.mp4 --output-dir /tmp/transcript --require-all --json
+  local-transcribe recording.wav --parallel --print

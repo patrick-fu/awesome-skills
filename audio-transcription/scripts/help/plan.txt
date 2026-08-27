@@ -1,0 +1,19 @@
+local-transcribe plan — Resolve a transcription without executing models
+
+USAGE
+  local-transcribe plan <media> [--language VALUE] [--parallel] [--no-cache] [--json]
+
+GUARANTEE
+  Read-only. Does not create an output directory, populate cache, load models, access the
+  network, upload media, or change the active runtime. It reads media metadata and may hash
+  the input to determine cache status.
+
+REPORTS
+  Input path, duration and audio stream; runtime readiness; active profile and exact model
+  revisions; sequential or parallel strategy; chunk policy; cache hit; network/upload=false;
+  stable errors and next_actions.
+
+AGENT USE
+  Run plan --json before transcription when runtime state, side effects, profile, or cache
+  behavior is uncertain. Do not infer a different profile from memory size at transcription
+  time; profile selection belongs to explicit setup.

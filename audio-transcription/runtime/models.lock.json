@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "runtime_version": "2026-08-27-r1",
+  "python": "3.11",
+  "requirements_lock": "requirements.lock",
+  "profiles": {
+    "standard": {
+      "minimum_memory_gib": 32,
+      "qwen": {
+        "repo": "mlx-community/Qwen3-ASR-1.7B-8bit",
+        "revision": "a8379a2e2f9e313c9292cdf1af4055ab56d50d55"
+      },
+      "moss": {
+        "repo": "vanch007/mlx-MOSS-Transcribe-Diarize-8bit",
+        "revision": "7210aef739be6b9e068fba9b1d60369ec053655b"
+      },
+      "qwen_chunk_seconds": 1200,
+      "moss_chunk_seconds": 1200
+    },
+    "low-memory": {
+      "minimum_memory_gib": 16,
+      "qwen": {
+        "repo": "mlx-community/Qwen3-ASR-1.7B-4bit",
+        "revision": "78a389c776a5483b2d0d4ea5494e11012e0d6159"
+      },
+      "moss": {
+        "repo": "vanch007/mlx-MOSS-Transcribe-Diarize-4bit",
+        "revision": "d42a296ee807e933ddd7588e2041dbbc84aff85d"
+      },
+      "qwen_chunk_seconds": 600,
+      "moss_chunk_seconds": 600
+    }
+  }
+}

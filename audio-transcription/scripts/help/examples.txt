@@ -1,0 +1,23 @@
+local-transcribe examples — Common agent-safe recipes
+
+INSPECT WITHOUT SIDE EFFECTS
+  local-transcribe plan "/path/meeting.m4a" --json
+
+DEFAULT OFFLINE TRANSCRIPTION
+  local-transcribe "/path/meeting.m4a" --json
+
+DURABLE OUTPUT AND STRICT TWO-MODEL SUCCESS
+  local-transcribe "/path/video.mp4" --output-dir "/path/artifacts" --require-all --json
+
+PRINT FOR A HUMAN
+  local-transcribe "/path/short.wav" --print
+
+CHECK RUNTIME
+  local-transcribe doctor --json
+
+CACHE PREVIEW
+  local-transcribe cache clear --dry-run --json
+
+FIRST SETUP OR PROFILE CHANGE
+  Invoke $audio-transcription and ask it to set up local transcription. The Skill will inspect
+  memory and dependencies, explain the profile, and call the bundled runtime manager.

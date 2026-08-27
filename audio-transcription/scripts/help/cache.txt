@@ -1,0 +1,17 @@
+local-transcribe cache — Private result cache
+
+POLICY
+  Stores raw model JSON and derived transcripts for 30 days. The original media is not copied.
+  Keys include media content, active profile, model revisions, language, chunk policy, and
+  execution-relevant parameters. Model files and runtimes are not result-cache entries.
+
+COMMANDS
+  local-transcribe cache status [--json]
+  local-transcribe cache clear --dry-run [--json]
+  local-transcribe cache clear --expired [--json]
+  local-transcribe cache clear --all [--json]
+
+SAFETY
+  clear defaults to --dry-run. Deletion accepts only direct, non-symlink cache entries with a
+  valid matching manifest. It never follows symlinks and never deletes models or runtimes.
+  --all is destructive and must be explicitly supplied.

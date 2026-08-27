@@ -1,0 +1,16 @@
+manage-runtime cleanup — Preview or remove managed runtime data
+
+USAGE
+  manage-runtime cleanup --dry-run [--json]
+  manage-runtime cleanup --cache [--json]
+  manage-runtime cleanup --all [--json]
+
+DEFAULT
+  --dry-run. Reports exact paths and sizes without deleting anything.
+
+DESTRUCTIVE MODES
+  --cache removes validated result-cache entries only.
+  --all removes validated result cache, inactive and active runtimes, pinned models, active
+  configuration, and a CLI launcher only when its ownership marker matches this Skill.
+
+Never runs automatically when the Skill is updated or removed. Never follows symlinks.

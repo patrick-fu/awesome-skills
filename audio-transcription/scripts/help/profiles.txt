@@ -1,0 +1,16 @@
+local-transcribe profiles — Installed quality and memory profiles
+
+STANDARD
+  Intended for machines with at least 32 GiB unified memory.
+  Uses the pinned 8-bit Qwen and 8-bit MOSS revisions from models.lock.json.
+
+LOW-MEMORY
+  Intended for 16–24 GiB machines and uses pinned 4-bit model revisions plus shorter chunks.
+  Lower quantization can change accuracy. Selection requires explicit setup and is always
+  recorded in plan output, manifests, and transcripts.
+
+RULES
+  Memory inspection recommends a profile but does not prove that inference will fit.
+  Transcription never changes profile or silently downgrades quantization.
+  Install or change a profile through the $audio-transcription setup workflow.
+  Exact repositories, revisions, and chunk limits are reported by plan --json and doctor.

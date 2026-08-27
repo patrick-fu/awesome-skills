@@ -1,0 +1,61 @@
+#!/bin/sh
+set -eu
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+HELP_DIR="$SCRIPT_DIR/help"
+APP_ROOT=${AUDIO_TRANSCRIPTION_APP_ROOT:-"$HOME/Library/Application Support/audio-transcription"}
+ACTIVE_PYTHON_FILE="$APP_ROOT/active-python"
+
+skill_version() {
+  /usr/bin/awk -F '"' '/"runtime_version"/ { print $4; exit }' "$SCRIPT_DIR/../runtime/models.lock.json"
+}
+
+show_topic() {
+  topic=${1:-local-main}
+  case "$topic" in
+    main|local-main) file="$HELP_DIR/local-main.txt" ;;
+    transcribe|plan|doctor|outputs|profiles|cache|privacy|errors|examples) file="$HELP_DIR/$topic.txt" ;;
+    *)
+      printf '%s\n' "Unknown help topic: $topic" >&2
+      printf '%s\n' "Available topics: transcribe plan doctor outputs profiles cache privacy errors examples" >&2
+      exit 2
+      ;;
+  esac
+  /bin/cat "$file"
+}
+
+case "${1:-}" in
+  ""|-h|--help|help)
+    if [ "${1:-}" = help ] && [ "$#" -gt 1 ]; then show_topic "$2"; else show_topic local-main; fi
+    exit 0
+    ;;
+  --version)
+    printf '%s\n' "local-transcribe $(skill_version)"
+    exit 0
+    ;;
+esac
+
+if [ "$#" -gt 1 ] && [ "${2:-}" = --help ]; then
+  case "$1" in
+    transcribe|plan|doctor|cache) show_topic "$1"; exit 0 ;;
+  esac
+fi
+
+if [ "$#" -gt 2 ] && [ "$1" = cache ] && [ "${3:-}" = --help ]; then
+  show_topic cache
+  exit 0
+fi
+
+if [ -f "$ACTIVE_PYTHON_FILE" ]; then
+  ACTIVE_PYTHON=$(/bin/cat "$ACTIVE_PYTHON_FILE")
+  if [ -x "$ACTIVE_PYTHON" ]; then
+    exec "$ACTIVE_PYTHON" "$SCRIPT_DIR/local_transcribe.py" "$@"
+  fi
+fi
+
+if command -v python3 >/dev/null 2>&1; then
+  exec python3 "$SCRIPT_DIR/local_transcribe.py" "$@"
+fi
+
+printf '%s\n' '{"status":"error","error_code":"SETUP_REQUIRED","message":"Python and the local transcription runtime are unavailable.","requires_user_decision":false,"next_actions":[{"kind":"invoke_skill","instruction":"Invoke $audio-transcription and request setup."}]}' >&2
+exit 1

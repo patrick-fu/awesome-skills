@@ -1,0 +1,15 @@
+manage-runtime doctor — Validate the active local runtime
+
+USAGE
+  manage-runtime doctor [--json]
+
+SIDE EFFECTS
+  Read-only. Does not repair, download, activate, delete, or access the network.
+
+CHECKS
+  Supported host, system dependencies, active configuration, pinned runtime and model paths,
+  locked package imports, and MLX Metal availability. It does not run transcription; setup owns
+  the real two-model smoke test before activation.
+
+OUTPUT
+  Human JSON-style report or one compact JSON object. not_ready exits 1 with next_actions.

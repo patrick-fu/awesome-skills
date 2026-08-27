@@ -1,0 +1,16 @@
+manage-runtime install-cli — Install an optional stable local-transcribe entry
+
+USAGE
+  manage-runtime install-cli --bin-dir DIR [--json]
+
+DEFAULT
+  No CLI entry is installed by setup. The Skill should inspect PATH and ask the user first.
+
+RECOMMENDATION ORDER
+  Existing writable ~/bin already in PATH; existing writable ~/.local/bin in PATH; creating
+  ~/.local/bin with a PATH reminder; /usr/local/bin only when explicitly selected and writable.
+
+SAFETY
+  Creates a small marked launcher pointing to this installed Skill. It does not copy business
+  logic. It refuses an unknown existing local-transcribe file and never uses sudo. Re-running
+  against a launcher owned by this Skill updates it idempotently.

@@ -1,0 +1,31 @@
+online-transcribe — Explicit Doubao cloud transcription worker
+
+WARNING
+  NETWORK: required.
+  UPLOAD: uploads a converted copy of the supplied media to Doubao/Volcengine.
+  CONSENT: explicit online/cloud/upload intent is required. Invocation of the Skill alone is
+  not consent. --online-consent is a hard execution boundary, not a prompt to bypass.
+
+USAGE
+  online-transcribe <media> --online-consent [options]
+
+OPTIONS
+  --output-dir DIR        Artifact directory; default: new private system temp directory.
+  --doubao-audio-url URL  Submit an already hosted equivalent media file using documented URL transport.
+  --audio-format FORMAT   Remote URL format: raw, wav, mp3, or ogg; default: mp3.
+  --enable-ddc            Enable semantic smoothing; changes faithful verbatim behavior.
+  --poll-interval SEC     Query interval; default: 5.
+  --online-timeout SEC    Overall query timeout; default: 1800.
+  --json                  Print exactly one machine-readable result envelope.
+
+CREDENTIALS
+  DOUBAO_API_KEY, or legacy DOUBAO_APPID plus DOUBAO_ACCESS_TOKEN.
+  Values are never printed or persisted.
+
+LOCAL FILE TRANSPORT
+  Converts the selected audio stream to a real 16 kHz mono MP3, then uploads Base64 data.
+  Use --doubao-audio-url when strict documented URL transport is required.
+
+OUTPUT
+  manifest.json, raw.json, transcript.txt. Progress uses stderr; stdout is summary or JSON.
+  The output remains independent and is never merged with local model results automatically.

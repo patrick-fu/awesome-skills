@@ -1,18 +1,23 @@
 from __future__ import annotations
 
 import concurrent.futures
+import fcntl
 import hashlib
 import json
 import os
+import stat
 import subprocess
+import sys
 import tempfile
 import time
+from collections.abc import Iterator
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from . import cache
-from .config import SKILL_ROOT, load_active, write_json_atomic
+from .config import SKILL_ROOT, app_root, load_active, write_json_atomic
 from .errors import CliError
 from .media import (
     chunk_ranges,
@@ -28,6 +33,47 @@ SCRIPTS = SKILL_ROOT / "scripts"
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+@contextmanager
+def transcription_lock() -> Iterator[float]:
+    root = app_root()
+    if root.is_symlink() or not root.is_dir():
+        raise CliError(
+            "RUNTIME_SAFETY_ERROR",
+            f"Application Support root must be a normal directory: {root}",
+        )
+    os.chmod(root, 0o700)
+    lock_path = root / ".transcription.lock"
+    flags = os.O_RDWR | os.O_CREAT
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    try:
+        descriptor = os.open(lock_path, flags, 0o600)
+    except OSError as exc:
+        raise CliError(
+            "RUNTIME_SAFETY_ERROR",
+            f"Cannot open the transcription lock safely: {lock_path}",
+        ) from exc
+    with os.fdopen(descriptor, "a+", encoding="utf-8") as handle:
+        metadata = os.fstat(handle.fileno())
+        if not stat.S_ISREG(metadata.st_mode) or metadata.st_uid != os.getuid():
+            raise CliError(
+                "RUNTIME_SAFETY_ERROR",
+                f"Transcription lock must be a user-owned regular file: {lock_path}",
+            )
+        os.fchmod(handle.fileno(), 0o600)
+        started = time.monotonic()
+        try:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            print(
+                "Waiting: another transcription is running; media files are processed serially.",
+                file=sys.stderr,
+                flush=True,
+            )
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        yield round(time.monotonic() - started, 3)
 
 
 def _cache_key(input_sha: str, active: dict[str, Any], options: dict[str, Any]) -> str:
@@ -85,6 +131,8 @@ def plan(
         },
         "execution": {
             "strategy": "parallel" if parallel else "sequential",
+            "input_scope": "single-media",
+            "cross_file_strategy": "serialized",
             "network": False,
             "upload": False,
             "language": language,
@@ -369,6 +417,27 @@ def transcribe(
     no_cache: bool,
 ) -> dict[str, Any]:
     resolved = plan(source, language=language, parallel=parallel, no_cache=no_cache)
+    with transcription_lock() as queue_wait_seconds:
+        resolved["execution"]["queue_wait_seconds"] = queue_wait_seconds
+        return _transcribe_resolved(
+            resolved,
+            output_dir=output_dir,
+            language=language,
+            parallel=parallel,
+            require_all=require_all,
+            no_cache=no_cache,
+        )
+
+
+def _transcribe_resolved(
+    resolved: dict[str, Any],
+    *,
+    output_dir: Path | None,
+    language: str,
+    parallel: bool,
+    require_all: bool,
+    no_cache: bool,
+) -> dict[str, Any]:
     output = _prepare_output(output_dir)
     key = resolved["execution"]["cache_key"]
     cached = None if no_cache else cache.lookup(key)
@@ -377,6 +446,10 @@ def transcribe(
         manifest_path = output / "manifest.json"
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         manifest["output_dir"] = str(output)
+        manifest["execution"] = {
+            **manifest.get("execution", {}),
+            **resolved["execution"],
+        }
         manifest["cache"] = {"enabled": True, "hit": True, "key": key}
         write_json_atomic(manifest_path, manifest)
         if require_all and manifest["status"] != "completed":

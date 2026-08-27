@@ -42,6 +42,12 @@
       "prompt": "总结一下这个会议。",
       "expected_output": "The skill should not trigger solely for a meeting summary when no local audio/video transcription or transcript extraction is explicitly requested.",
       "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "按顺序转写 /tmp/part-1.m4a、/tmp/part-2.m4a 和 /tmp/part-3.mp4。",
+      "expected_output": "The skill should preserve the user's input order and complete each media file's full plan-and-transcribe sequence before starting the next. It must not dispatch files to parallel agents, shell jobs, subprocesses, or online requests. Each local invocation accepts one media file, and the shared lock makes accidental concurrent local callers wait.",
+      "files": []
     }
   ]
 }

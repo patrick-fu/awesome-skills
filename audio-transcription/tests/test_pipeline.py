@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import fcntl
 import json
 import os
 import sys
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import ANY, call, patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -44,13 +45,20 @@ class PipelineTests(unittest.TestCase):
         self.input = self.root / "input.wav"
         self.input.write_bytes(b"audio")
         self.old_cache = os.environ.get("AUDIO_TRANSCRIPTION_CACHE_ROOT")
+        self.old_app = os.environ.get("AUDIO_TRANSCRIPTION_APP_ROOT")
         os.environ["AUDIO_TRANSCRIPTION_CACHE_ROOT"] = str(self.root / "cache")
+        os.environ["AUDIO_TRANSCRIPTION_APP_ROOT"] = str(self.root / "app")
+        (self.root / "app").mkdir()
 
     def tearDown(self):
         if self.old_cache is None:
             os.environ.pop("AUDIO_TRANSCRIPTION_CACHE_ROOT", None)
         else:
             os.environ["AUDIO_TRANSCRIPTION_CACHE_ROOT"] = self.old_cache
+        if self.old_app is None:
+            os.environ.pop("AUDIO_TRANSCRIPTION_APP_ROOT", None)
+        else:
+            os.environ["AUDIO_TRANSCRIPTION_APP_ROOT"] = self.old_app
         self.temporary.cleanup()
 
     @staticmethod
@@ -98,6 +106,9 @@ class PipelineTests(unittest.TestCase):
             )
         self.assertEqual(result["status"], "completed")
         self.assertEqual(result["execution"]["strategy"], "sequential")
+        self.assertEqual(result["execution"]["input_scope"], "single-media")
+        self.assertEqual(result["execution"]["cross_file_strategy"], "serialized")
+        self.assertIn("queue_wait_seconds", result["execution"])
         text = (self.root / "out" / "transcript.md").read_text()
         self.assertIn("## Qwen3-ASR", text)
         self.assertIn("## MOSS-Transcribe-Diarize", text)
@@ -187,6 +198,37 @@ class PipelineTests(unittest.TestCase):
         ):
             self.assertEqual(environment[name], "1")
         self.assertEqual(environment["TOKENIZERS_PARALLELISM"], "false")
+
+    def test_concurrent_transcription_waits_for_shared_lock(self):
+        with (
+            patch(
+                "audio_transcription.pipeline.fcntl.flock",
+                side_effect=[BlockingIOError(), None],
+            ) as flock,
+            patch(
+                "audio_transcription.pipeline.time.monotonic", side_effect=[1.0, 2.25]
+            ),
+            patch("audio_transcription.pipeline.print") as report,
+            pipeline.transcription_lock() as waited,
+        ):
+            self.assertEqual(waited, 1.25)
+        self.assertEqual(
+            flock.call_args_list,
+            [
+                call(ANY, fcntl.LOCK_EX | fcntl.LOCK_NB),
+                call(ANY, fcntl.LOCK_EX),
+            ],
+        )
+        report.assert_called_once()
+
+    def test_symlink_transcription_lock_is_rejected(self):
+        lock_path = self.root / "app" / ".transcription.lock"
+        lock_path.symlink_to(self.input)
+        with (
+            self.assertRaisesRegex(CliError, "lock safely"),
+            pipeline.transcription_lock(),
+        ):
+            self.fail("unsafe lock unexpectedly acquired")
 
 
 if __name__ == "__main__":

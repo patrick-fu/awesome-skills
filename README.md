@@ -120,6 +120,17 @@ longer serves the goal, and resumes only where new acceptance evidence appears.
 
 Use it when a task is genuinely drifting—not merely because it is long.
 
+#### 🎛️ [`codex-session-controller`](./codex-session-controller)
+
+Codex App-only control plane for top-level sessions across projects and hosts.
+It routes work, monitors ownership, deduplicates operations, and handles safe
+handoff; it depends on `codex-session-naming` for titles.
+
+#### 🏷️ [`codex-session-naming`](./codex-session-naming)
+
+Keep user-visible top-level Codex App session titles aligned with lifecycle,
+active gate, and ownership. It excludes subagents and controller-role titles.
+
 #### 🧑‍💻 External coding agents
 
 These four coding-agent guides share one workflow: preserve the selected CLI

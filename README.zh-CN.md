@@ -106,6 +106,16 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 适合任务真的开始跑偏时，而不是仅仅因为它很长。
 
+#### 🎛️ [`codex-session-controller`](./codex-session-controller)
+
+仅用于 Codex App 的顶层会话控制面，覆盖跨项目、跨 host 路由、监控、去重和安全 handoff；
+标题依赖 `codex-session-naming` 维护。
+
+#### 🏷️ [`codex-session-naming`](./codex-session-naming)
+
+让 Codex App 中用户可见的顶层会话标题随生命周期、当前 gate 和 ownership 更新；排除
+subagent 和 controller-role 标题。
+
 #### 🧑‍💻 外部编码代理
 
 这四个 coding-agent 指南共用一套流程：保留选定的 CLI wrapper、发现当前模型和推理

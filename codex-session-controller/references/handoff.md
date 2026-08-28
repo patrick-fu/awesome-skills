@@ -1,8 +1,11 @@
 # Controller handoff
 
-Use rollout and `read_thread` history as the source of truth. Do not maintain a
-periodic checkpoint, registry file, or controller database. A handoff manifest
-is an on-demand transfer aid that the successor can reconstruct and verify.
+Use `read_thread` as the primary history interface. When it is empty,
+unavailable, or suspicious, follow the entrypoint's session-evidence fallback
+and inspect the owning host's persisted rollout before drawing lifecycle or
+ownership conclusions. Do not maintain a periodic checkpoint, registry file,
+or controller database. A handoff manifest is an on-demand transfer aid that
+the successor can reconstruct and verify.
 
 ## Entry paths
 
@@ -55,7 +58,8 @@ manifest; the successor can reopen them when a specific item needs proof.
 ## Recovery from history
 
 When no trustworthy manifest exists, traverse all available predecessor turns
-or its rollout. Extract:
+from `read_thread`. If the session-evidence fallback triggers, reconstruct the
+missing or disputed history from the owning host's persisted rollout. Extract:
 
 - user goals, corrections, decisions, grants, and direction changes
 - create/send/read operations and operation IDs
@@ -69,9 +73,10 @@ context. Open detailed business output only when restoring that individual
 task. Treat cached previews, catalog state, and synchronized timestamps as
 discovery evidence rather than proof of work.
 
-If both history and rollout are unavailable, allow degraded takeover so a dead
-host does not permanently block the portfolio. List every evidence gap,
-unconfirmed child, unknown operation, and assumption before proceeding.
+If verified history and the owning host's rollout are both unavailable, produce
+a recovery-gap report and stop before ownership transfer. Keep the predecessor
+and its children unchanged; do not announce acceptance, retitle, archive,
+replace, or reroute them until sufficient evidence is restored.
 
 ## Acceptance protocol
 

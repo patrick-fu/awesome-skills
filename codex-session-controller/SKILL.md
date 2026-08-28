@@ -1,8 +1,10 @@
 ---
 name: codex-session-controller
 description: >-
-  Control top-level Codex sessions across projects and hosts, including global
-  and project controllers, routing, monitoring, deduplication, and handoff.
+  Codex App-only control of top-level Codex sessions across projects and hosts,
+  including global and project controllers, routing, monitoring, deduplication,
+  and handoff. Depends on codex-session-naming for session titles; use when the
+  user explicitly invokes this controller workflow.
 disable-model-invocation: true
 ---
 
@@ -61,11 +63,36 @@ create_thread
 set_thread_title
 ```
 
-If a required capability is missing, explain the gap and recommend establishing
-the controller in a fresh session. Treat `wait_threads`, archive, pin, and share
-as optional: state the degraded behavior when they are absent. Tool availability
-and argument schemas can differ between old and new sessions, so use the schema
-actually returned in the current session.
+If a required capability is missing, explain the gap and use the evidence
+fallback below where it applies. Recommend a fresh controller session only
+when no safe degraded path remains. Treat `wait_threads`, archive, pin, and
+share as optional: state the degraded behavior when they are absent. Tool
+availability and argument schemas can differ between old and new sessions, so
+use the schema actually returned in the current session.
+
+## Establish session evidence
+
+Use `read_thread` with its current callable schema as the primary transcript
+interface for a known `(hostId, threadId)`. Treat an empty or failed read,
+repeated blank turns, a returned history with no user, assistant, or tool-call
+items, and contradictions with other evidence as suspicious projections.
+
+For a suspicious projection, inspect the persisted rollout on the owning host
+under `$CODEX_HOME/sessions` (normally `~/.codex/sessions`). Locate candidates
+with the tool-returned `threadId`, then verify the identity from the metadata
+that actually exists. Inspect the observed record types, roles, turn boundaries,
+and completion evidence; tolerate unknown records and do not assume fixed field
+names, offsets, or one rollout schema. Read only the minimum evidence needed and
+do not copy raw transcript content into controller reports.
+
+When the tool projection and persisted transcript disagree about what happened,
+use the rollout as the authority for persisted history. A rollout absent from
+the current machine says nothing about a session owned by another host; inspect
+that host or report the evidence gap. Treat `idle`, `notLoaded`, a timeout, an
+empty turn, a refreshed timestamp, missing local rollout, and silence as
+non-terminal. Until evidence establishes a terminal or ownership state,
+preserve the session and its owner: report the gap without stopping,
+interrupting, archiving, replacing, handing off, or rerouting the session.
 
 ## Discover owners before acting
 
@@ -85,10 +112,6 @@ saved project, target host, relevant paths, title, preview, and recent turns. A
 unique matching controller is the existing owner. Multiple plausible owners
 require user disambiguation.
 
-Treat `idle`, `notLoaded`, a timeout, an empty latest turn, and a refreshed
-`updatedAt` as non-terminal. Read real turns and evidence before deciding that a
-session completed, failed, stalled, or disappeared.
-
 ## Route work
 
 Giving work to an established controller authorizes it to continue an existing
@@ -102,9 +125,10 @@ external action unless the user also expresses that intent.
    existing owner.
 3. Create a project controller only when the user explicitly asks for ongoing
    project-level control.
-4. Default normal work to the controller's current host. Use another host only
-   when the user specifies it; resolve that host's saved `projectId` rather than
-   reusing an ID from another host.
+4. Default normal work to the controller's current host. Before deduplication
+   or creation, resolve the target saved project on its owning host from the
+   returned project list, absolute path, and project identity. Use another host
+   only when the user specifies it; never reuse a `projectId` across hosts.
 5. For a Git repository, use a Codex-managed worktree for independent write
    work or historical-ref investigation. Use the saved project directly for
    read-only current-state work. Include the working tree only when the user
@@ -112,8 +136,6 @@ external action unless the user also expresses that intent.
    run `git worktree` manually.
 
 Keep model and reasoning settings inherited unless the user specifies them.
-When worktree creation returns only a pending/client identifier, report and
-wait for the formal `(hostId, threadId)` before addressing the session.
 
 When naming or renaming an owned non-controller session, call the Skill tool
 with `codex-session-naming`. Carry that lifecycle-title requirement into each
@@ -130,9 +152,13 @@ include it in the task or directive so it is preserved in rollout history:
 <controller_operation id="csc-..." source="hostId:threadId">
 ```
 
-Before create, search the target host/project for an owner and for the operation
-ID. After an unknown result or timeout, search and read again before retrying.
-Do not infer failure from a missing immediate response.
+Before create, resolve the exact target `(hostId, projectId)` and search that
+scope for an owner and for the operation ID. When creation returns only a
+pending/client identifier, wait for the formal `(hostId, threadId)`. Once the
+formal identity exists, immediately read or list the created session and verify
+its host, project, working directory or environment, and operation ID. After an
+unknown result or timeout, search and read again before retrying. Do not infer
+failure from a missing immediate response.
 
 Treat sessions as confirmed duplicates only when operation ID, source
 controller, intended scope, and target match, and the extra session has no

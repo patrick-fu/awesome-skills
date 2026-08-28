@@ -1,7 +1,7 @@
 ---
 name: codex-session-naming
 description: >-
-  Maintain titles for user-visible top-level Codex sessions. Use when a
+  Maintain titles for user-visible top-level Codex App sessions. Use when a
   session's goal, active gate, lifecycle state, or ownership changes, and when
   a controller names an owned session. Excludes subagents and controller-role
   titles.
@@ -52,7 +52,7 @@ Use one leading state according to the owner of the next meaningful step:
 
 ## Keep the title stable
 
-Use at most two tags: an exceptional scope such as `[DJI]` or `[OpenSource]`,
+Use at most two tags: an exceptional scope such as `[Project]` or `[OpenSource]`,
 then the most searchable facet such as `[Jira]`, `[Wiki]`, `[iOS]`, `[Mac]`,
 `[Skill]`, or `[研究]`. Omit the ordinary personal scope. Keep one stable
 spelling per concept.

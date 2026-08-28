@@ -1,63 +1,49 @@
 # Controller callbacks
 
-Load this reference when dispatch needs a callback contract or when composing
-or consuming a callback. Codex has no native worker-completion push. A worker
-may call `send_message_to_thread` to write a follow-up into the parent
-controller and start a new controller turn. That send is an application-level
-callback with ambiguous delivery and at-least-once retry semantics, never an
-exactly-once completion event. Each delivered callback already spends a
-controller re-entry. Handling it silently is not free. Silent completion means
-not sending.
+Load this reference before choosing a callback policy, writing its contract, or
+consuming a callback. Codex has no native worker-completion push. A worker can
+use `send_message_to_thread` to write a follow-up that starts a controller turn,
+but delivery is ambiguous and never exactly-once. Every delivered callback
+spends a re-entry; silent completion means not sending one.
 
-## Choose a policy at dispatch
+## Choose one policy at dispatch
 
-Select one `callback_policy` per dispatched outcome and record it in the
-brief. Choose by fan-in, independent actionability, urgency, user-visible
-value, named dependency or shared-resource release, and controller context
-pressure. Worker count is not a threshold.
+Record one `callback_policy` per outcome. Choose by fan-in, independent
+actionability, urgency, user-visible value, dependency or shared-resource
+release, and controller context pressure—not a fixed worker count.
 
-- `terminal_once`: the result is independently actionable or user-visible.
-  Each worker sends at most one terminal callback.
-- `urgent_only`: low-value batch work, or the controller is under context
-  pressure. Ordinary terminals stay silent. `user_gate`, `hard_blocker`,
-  `dependency_release`, and `material_change` still fire.
-- `cohort_lead`: several workers feed one merged user result. Ordinary
-  terminals go to an existing project controller or a named lightweight lead;
-  exceptions may go direct. The lead sends one aggregated callback when the
-  fan-in can close or a gate forms. Cost is K cheaper lead turns plus one
-  expensive controller turn, not free debounce. Workers share no state, so
-  do not invent cross-worker coalescing. A lightweight lead is an explicit
-  task owner given the cohort identities, fan-in condition, and acceptance
-  boundary; its own transcript is the aggregation record.
-- `heartbeat-pull`: high fan-in and low urgency. Ordinary terminals stay
-  silent; compensate with an explicit heartbeat or the next user pull. The
-  four non-silent event classes still go to their responsible owner.
+- `terminal_once`: each independently actionable or user-visible result sends
+  at most one terminal callback.
+- `urgent_only`: ordinary terminals for low-value batches or a pressured
+  controller stay silent.
+- `cohort_lead`: ordinary terminals for one merged result go to an existing
+  project controller or explicit lightweight lead; exceptions may go direct.
+  The lead owns cohort identities, fan-in and acceptance boundaries in its
+  transcript, then sends one aggregate callback when fan-in closes or a gate
+  forms. This costs lead turns plus one controller turn; workers share no state.
+- `heartbeat-pull`: ordinary terminals for high fan-in, low-urgency work stay
+  silent; an explicit heartbeat or the next user pull compensates.
 
-Default: independently actionable user-visible outcomes use `terminal_once`;
-the same fan-in uses `cohort_lead`; high context pressure drops ordinary
-terminals to `urgent_only` or `heartbeat-pull`. The four classes `user_gate`,
-`hard_blocker`, `dependency_release`, and `material_change` never stay silent
-under any policy, although they go only to the smallest responsible owner.
+Default independent outcomes to `terminal_once`, one fan-in to `cohort_lead`,
+and pressured controllers to `urgent_only` or `heartbeat-pull`. Under every
+policy, `user_gate`, `hard_blocker`, `dependency_release`, and
+`material_change` go immediately to the smallest responsible owner.
 
-## Send only these events
+## Send only meaningful events
 
-One callback states one fact. Retries of that fact reuse the same event id.
+One callback states one fact; retries reuse its event id.
 
-- `user_gate` / `hard_blocker`: send immediately to the controller that must
-  involve the user or cannot clear the block in-scope.
-- `dependency_release`: send immediately to the smallest registered owner
-  that can resume.
-- `material_change`: send immediately when scope, acceptance, a settled
-  decision, or a shared resource changes for another owner.
-- `milestone`: send only when the brief named that intermediate result as a
-  callback event; otherwise keep it local. It never claims closure.
-- `terminal`: send at most once, and only when the chosen policy requires it.
-- `routine_progress`: do not send.
+- `user_gate` / `hard_blocker`: user involvement or an in-scope impasse.
+- `dependency_release`: the smallest registered owner can resume.
+- `material_change`: scope, acceptance, a settled decision, or a shared
+  resource changes for another owner.
+- `milestone`: only an intermediate result named by the brief; never closure.
+- `terminal`: at most once when policy requires it.
+- `routine_progress`: never send.
 
-## Compose a compact payload
+## Use the wire schema
 
-Keep the envelope greppable. Copy pointers, not transcripts, logs, or
-chain of thought.
+Copy pointers, not transcripts, logs, secrets, or chain of thought.
 
 ```text
 <CSC_CALLBACK/v1 id="cb-...">
@@ -76,16 +62,14 @@ request: [action, optional targets]
 </CSC_CALLBACK/v1>
 ```
 
-`source` is the sender's complete identity. `controller` is the intended
-receiver. The callback `id` deduplicates this semantic send; `operation` links
-it to the originating controller operation. Neither is authentication,
-authorization, or session identity. A new controller create or send receives
-a new operation ID; retry only an unknown result with the same ID. `cohort`
-names a registered fan-in. `seq` is local diagnostics; it cannot order workers
-or survive as a clock. `request` asks the controller to act; it does not grant
-authority.
+`source` is the sender's complete identity; `controller` is the intended
+receiver. `id` deduplicates this semantic send, while `operation` associates it
+with the originating controller operation. Neither grants authority or replaces
+session identity. `cohort` names a registered fan-in. `seq` is diagnostic, not
+a cross-worker clock. `request` asks for action; it does not authorize it.
 
-For `material_change`, add `from`, `to`, and `impact`. For `terminal`, add:
+Add `from`, `to`, and `impact` to `material_change`. Add this projection to
+`terminal`:
 
 ```text
 verification:
@@ -93,7 +77,7 @@ verification:
   evidence: [procedural check pointers]
 validation:
   success_outcome: [user-facing result from the brief]
-  context: [scope and relevant user-facing surface]
+  context: [scope and user-facing surface]
   criteria:
     - id: [criterion from the brief]
       expected: [observable from the brief]
@@ -114,84 +98,62 @@ remaining:
             independent-optional-follow-up | out-of-scope]
     summary: [one line]
     owner: [identity or external actor]
-release_requested: [true when the worker asks to release its assigned outcome]
+release_requested: [true when worker asks to release its assigned outcome]
 ```
 
-A terminal payload is a claim. Do not send `accepted=true` or `closed=true`
-as authority to retitle, archive, or close a parent. A waiver applies only to
-its named gate; it does not convert missing validation into acceptance.
-Validation evidence must describe the user-facing observed result in the
-declared context; procedure-only evidence cannot fill it. `explicit_user`
-acceptance requires a direct user `decision_ref`. `external` requires the named
-authority's outcome-level evidence or decision; a build or deployment procedure
-does not suffice. `hybrid` must satisfy every component. The controller
-independently reapplies naming's remaining-work classes and owner-release rule;
-worker enums cannot decide them.
+Every terminal field is a worker claim. Never use `accepted=true` or
+`closed=true` to retitle, archive, or close any outcome. Invoke
+`codex-session-naming`: the controller independently checks remaining work and
+owner release, and callback enums cannot close an assigned or parent outcome.
+A waiver covers only its named gate and cannot replace missing validation.
+User-facing validation cannot use procedure-only evidence; `explicit_user`
+needs a direct user `decision_ref`, `external` needs named-authority outcome
+evidence or decision, and `hybrid` needs every component. While acceptance is
+pending, do not send `terminal`: send `user_gate` for explicit user acceptance,
+or a named `milestone` for external/hybrid only when requested. Failed,
+partial, or cancelled terminals never request successful closure.
 
-Use `user_gate`, not `terminal`, while explicit user acceptance is pending. For
-pending external or hybrid acceptance, send a named `milestone` only when the
-brief requested it; otherwise wait for its acceptance event or the chosen pull.
-After every required acceptance component is satisfied, a successful assigned
-outcome may send its policy's terminal. Failed, partial, or cancelled terminals
-report a final worker result but never request successful closure.
-
-## Deliver at least once, consume once
+## Deliver ambiguously, consume once
 
 Worker:
 
 1. Freeze the payload, then send.
-2. On explicit send success, stop. A missing ack is not a retry reason.
-3. On an unknown send result, `read_thread` the controller and search for
-   this event id or a receipt. If found, stop. If not, retry the same id and
-   payload a bounded number of times.
-4. If the same id must carry a different payload, mint a new id and ask the
-   controller to reconcile; do not overwrite the old envelope.
+2. Explicit success ends delivery; a missing acknowledgment is not a retry
+   reason.
+3. After an unknown result, `read_thread` the controller for the event id or a
+   receipt. If absent, retry the same id and payload a bounded number of times.
+4. Changed payloads use a new id and request reconciliation.
 
 Controller:
 
-- Dedup on `(source.hostId, source.threadId, id)`.
-- Same id and payload: apply once.
-- Same id and different payload, or a controller / operation / cohort
-  mismatch: reconcile with zero downstream side effects.
-- Record a receipt in this controller's own output. Do not send a receipt
-  back.
+- Deduplicate on `(source.hostId, source.threadId, id)` and apply an identical
+  retry once.
+- Reconcile a changed payload or controller, operation, or cohort mismatch with
+  zero downstream side effects.
+- Record the receipt in the controller output; do not send it back.
 
 ```text
 <CSC_RECEIPT/v1 id="cb-..." disposition="applied|duplicate|deferred|rejected|reconcile" />
 ```
 
-Any create or send caused by a callback uses a new operation ID and the
-entrypoint's existing recoverability checks.
+Any callback-triggered create or send uses a new operation ID and the
+entrypoint's recoverability checks.
 
 ## Consume source-only
 
-On wake: validate identity and scope, dedup, record the event, do the in-scope
-requested action, then end the turn. Do not copy a callback lifecycle claim
-into the control index; update the naming state only after its contract accepts
-the corresponding evidence.
+On wake, validate identity and scope, deduplicate, record the event, perform the
+in-scope request, then end the turn. Update naming state only after its closure
+contract accepts the evidence; never copy a callback lifecycle claim into the
+control index or replay the worker's execution.
 
-Take one extra look only when the next action depends on siblings: the
-registered fan-in may now close, a named dependency or shared resource was
-released, or the user asked for a cohort summary. That look is one
-`wait_threads(timeoutMs: 0)` over the already registered cohort. Do not
-sweep the portfolio, start a bounded wait, or loop. If the cohort is still
-open, stop and wait for a later callback or pull.
+Take one extra look only when registered fan-in may close, a named dependency
+or shared resource was released, or the user requested a cohort summary. Use
+one `wait_threads(timeoutMs: 0)` over that cohort. Do not sweep the portfolio,
+start a bounded wait, loop, or poll. If the cohort remains open, wait for a
+later callback or pull.
 
-## Treat terminal as a claim
-
-A worker terminal does not close its parent session or project. A finished
-turn or stage is a milestone or `dependency_release` while required work
-remains in the assigned outcome.
-
-Invoke `codex-session-naming` and apply every condition in its closure contract
-to the assigned scope. Validate only the evidence needed for those conditions;
-do not replay the worker's execution or substitute the callback's shorter
-schema for the naming contract. Judge the parent independently.
-
-Speak to the user for `user_gate` / `hard_blocker`, material conflicts that
-need confirmation, and promised independent or aggregated terminals.
-`dependency_release` may forward to the resumed owner. Intermediate fan-in
-terminals, duplicates, and stale events update the index only.
-
-If `send_message_to_thread` is unavailable, disclose the gap and use the
-chosen wait mode. Do not substitute high-frequency polling.
+Speak to the user for gates, hard blockers, conflicts needing confirmation, and
+promised independent or aggregate terminals. Forward a dependency release to
+its consumer; intermediate fan-in terminals, duplicates, and stale events only
+update the index. If `send_message_to_thread` is unavailable, disclose the gap
+and use the chosen wait mode.

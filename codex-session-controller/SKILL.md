@@ -2,9 +2,10 @@
 name: codex-session-controller
 description: >-
   Codex App-only control of top-level Codex sessions across projects and hosts,
-  including global and project controllers, routing, monitoring, deduplication,
-  and handoff. Depends on codex-session-naming for session titles; use when the
-  user explicitly invokes this controller workflow.
+  including global and project controllers, routing, monitoring, callbacks,
+  closure, deduplication, and handoff. Depends on codex-session-naming for
+  session titles; use when the user explicitly invokes this controller
+  workflow.
 disable-model-invocation: true
 ---
 
@@ -20,6 +21,36 @@ worker-level subagents to the owned sessions. A controller may perform only the
 small read-only checks needed to resolve hosts, saved projects, repositories,
 existing owners, and acceptance evidence. Do not use `spawn_agent` from a
 controller workflow.
+
+## Own the control plan
+
+The controller owns the user's single entry point and the control plan: recover
+the latest valid intent, choose the outcome and owner, preserve scope and
+authorization, order dependencies, define acceptance, detect cross-session
+conflicts, synthesize evidence, and present real user gates. Think far enough to
+route correctly and judge closure, but stop before reproducing worker research
+or implementation.
+
+Answer directly when the question concerns priorities, ownership, scope,
+authorization, dependencies, acceptance, or facts already established by the
+owned sessions. Delegate or continue an owner when a reliable answer requires
+new repository or external evidence, sustained tool use, technical design,
+implementation, diagnosis, or testing. Synthesize when the claims that affect
+the user's next action have evidence; ask the owner for one targeted gap instead
+of inferring technical detail from a controller summary.
+
+The user should normally need to talk only to the controller. Recommend opening
+a worker directly only for a high-bandwidth technical or artifact discussion.
+A direct user decision in a worker takes effect there; if it materially changes
+scope, priority, resources, acceptance, or a settled decision, the worker must
+send that change back to its controller. The controller records the newer
+decision rather than asking the user to repeat it.
+
+Keep only a lightweight control index for active outcomes: owner
+`(hostId, threadId)`, outcome, current authorization/scope version, state, and
+an event-shaped next-check trigger. The owned transcript remains authoritative;
+do not build a second project-management database or a timer-based polling
+state machine.
 
 ## Resolve the invocation
 
@@ -152,6 +183,11 @@ include it in the task or directive so it is preserved in rollout history:
 <controller_operation id="csc-..." source="hostId:threadId">
 ```
 
+The operation ID correlates and deduplicates one logical create or send; it is
+not authentication, authorization, or session identity. Generate a new ID for
+each new logical operation. Reuse the same ID only while resolving or retrying
+an unknown result from that operation.
+
 Before create, resolve the exact target `(hostId, projectId)` and search that
 scope for an owner and for the operation ID. When creation returns only a
 pending/client identifier, wait for the formal `(hostId, threadId)`. Once the
@@ -185,17 +221,28 @@ Boundary:
 [Read/write scope, authority, irreversible actions, excluded work.]
 
 Deliverable and acceptance:
-[Result, checks, evidence, and completion gates.]
+[Success outcome and observable user-facing validation criteria/context.]
+[Procedural verification requirements and evidence.]
+[Acceptance mode, validator, acceptor, evidence/decision reference, and gates.]
+
+Callback and re-entry:
+[Parent controller, operation/cohort IDs, callback policy, report events, and
+the next-check trigger.]
 
 Pause and report if:
-[User decision, credentials, destructive action, ownership conflict, or
-unresolvable ambiguity.]
+[A required user decision is missing, or credentials, destructive action,
+ownership conflict, or unresolvable ambiguity blocks progress.]
 ```
 
 Include the operation ID and parent controller identity. Preserve exact paths,
 links, constraints, decisions, and acceptance criteria; omit the raw controller
 history, unrelated sessions, speculative solutions, and verbose orchestration
 instructions.
+
+Choose the acceptance mode and success criteria from the latest user intent,
+then carry the `codex-session-naming` closure contract into the brief. This
+keeps a worker's procedural checks distinct from outcome validation and the
+authorized acceptance decision.
 
 When the global controller sends a directive to a project controller, label the
 source, original user intent, authorized boundary, and requested report event.
@@ -226,12 +273,61 @@ Use `/goal` only inside a project controller whose project has one durable
 objective, a verifiable stopping condition, and an explicit user request such
 as “continue until I need to intervene.” A global portfolio is not one goal.
 
+## Dispatch and re-enter
+
+Choose one wait mode at dispatch; ordinary background work defaults to the
+first:
+
+- **Dispatch-return:** verify the formal owner identity, report its linked
+  title, callback policy, and event-shaped next check, then end the turn.
+- **One bounded wait:** use one `wait_threads` call only when this same response
+  must observe a short result or a serial dependency. An event or timeout ends
+  the wait; timeout and silence are non-terminal, and neither starts another
+  wait automatically.
+- **User pull:** when the user next asks, take one relevant
+  `wait_threads(timeoutMs: 0)` snapshot or equivalent read. Do not refresh
+  unrelated sessions.
+- **Explicit heartbeat:** configure periodic monitoring only when the user asks
+  for continuous or unattended follow-up. Define its targets, notification and
+  stop conditions; a heartbeat is periodic wake-up, not a completion event.
+
+`wait_threads` can wait for an event only while the current controller turn is
+running. A worker can also use `send_message_to_thread` to create an
+application-level callback that starts a new controller turn; Codex does not
+provide a native worker-completion push. Do not replace either mechanism with
+high-frequency polling. If new user input arrives during a wait, handle the new
+intent and reassess the control plan before resuming prior coordination.
+
+For every dispatched outcome, read
+[references/callbacks.md](references/callbacks.md) before selecting its policy,
+writing its callback contract, or consuming a callback. Its policies are
+`terminal_once`, `urgent_only`, `cohort_lead`, and `heartbeat-pull`; routine
+progress does not callback by default.
+
+## Accept completion claims
+
+Treat a worker terminal callback as a claim about the assigned outcome, never
+as automatic closure of its parent session or project. A completed turn or
+stage is a milestone or dependency release when required work remains in the
+same assigned outcome.
+
+Before accepting a terminal claim, invoke `codex-session-naming` and apply its
+full closure contract as the single source of truth. The callback reference
+defines how to validate the claim without replaying the worker's execution.
+Accept and release the assigned owner only after every naming condition holds;
+evaluate the parent outcome independently before changing a parent or project
+title.
+
+If later user feedback or new evidence challenges an original acceptance
+criterion, reopen that outcome under the naming contract and preserve the old
+claim as history. Route a genuinely additive or independent request as new
+scope instead of rewriting a valid earlier closure.
+
 ## Monitor and report
 
-Do not poll continuously by default. Read status when the user asks, when a
-dependency or resource boundary changes, or when continuous monitoring was
-explicitly requested. Prefer event-driven `wait_threads` when available; when
-it is absent, check meaningful checkpoints and disclose the monitoring gap.
+Read status when the user asks, a registered callback arrives, or a dependency
+or resource boundary changes. When the chosen wait capability is absent, use
+the nearest safe mode above and disclose the monitoring gap.
 
 Default global-controller reports should lead with:
 
@@ -261,8 +357,8 @@ Use these controller-role titles unless the user requests another style:
 Current controllers keep their role title while waiting or blocked; report that
 state in the controller summary. A global controller remains current when its
 portfolio is temporarily empty and closes only on explicit user request. A
-project controller gains `✅` only after its project outcome and all required
-human/device/production gates complete. Only an accepted successor may retitle
+project controller gains `✅` only when its main project outcome satisfies the
+`codex-session-naming` closure contract. Only an accepted successor may retitle
 the predecessor with `🗑️`.
 
 Keep completed sessions unarchived unless the user sets a narrower retention

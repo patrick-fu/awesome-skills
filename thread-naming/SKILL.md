@@ -9,40 +9,34 @@ description: >-
 
 # Codex Session Naming
 
-Maintain titles at lifecycle changes, not after every message or tool call.
-Apply this skill to user-visible top-level Codex sessions; exclude ChatGPT
-chats, internal subagents, and controller-role titles. This skill is the
-single source of truth for title state semantics and the session closure
-contract.
+Maintain titles at lifecycle changes, not after every message or tool call. This
+is the single source of truth for title states and session closure. Exclude
+ChatGPT chats, internal subagents, and controller-role titles.
 
 ## Update the title
 
-1. Confirm authority. A normal session may rename only itself. A controller may
-   rename sessions it owns, on the same host unless the user names another.
-   The first bulk rename needs user authorization. Only a successor may mark a
-   non-controller predecessor `⚰️`. This skill never archives or deletes.
-2. Determine the main goal, verified lifecycle state, and current gate from the
-   whole task and its actual artifacts. The leading state belongs to the
-   session's current main outcome, not a turn, node, worker, or milestone.
-   Treat `idle`, `active`, timestamps, and similar runtime signals as evidence,
-   not business state. Read history when the visible context is insufficient.
+1. Confirm authority. A normal session may rename only itself; a controller may
+   rename sessions it owns, on the same host unless the user names another. The
+   first bulk rename needs user authorization; otherwise report the mismatch or
+   change only the state prefix. Only a successor may mark a non-controller
+   predecessor `⚰️`. This skill never archives or deletes.
+2. Infer the main goal, verified lifecycle state, and current gate from the whole
+   task and artifacts. State describes the session's main outcome, never a turn,
+   node, worker, or milestone. Runtime signals such as `idle`, `active`, and
+   timestamps are evidence, not business state; read history when needed.
 3. Form the title:
 
    ```text
    <state> [scope][facet] <main goal> · <current gate>
    ```
 
-4. Call the available title tool only when the title's meaning materially
-   changes.
-
-Re-evaluate after the goal or scope changes, on entering or leaving a wait or
-block, before reporting completion, after takeover, and when a resumed session's
-title is visibly stale.
+4. Re-evaluate after goal or scope change, wait/block transitions, before a
+   completion claim, after takeover, or when resumed with a stale title. Call the
+   title tool only when meaning materially changes.
 
 ## Choose the state
 
-Use one leading state according to the owner of the next meaningful step on the
-current main outcome:
+Choose by the owner of the next meaningful step on the current main outcome:
 
 - `✅` — the session closure contract is satisfied.
 - `⚰️` — a named successor accepted the unfinished ownership; completed work
@@ -58,88 +52,69 @@ A worker, turn, phase, or node reporting done does not close the session.
 
 ## Close the session
 
-Build the scope contract from the original request, newer direct user
+Derive the scope contract from the original request, newer direct user
 corrections, promised in-scope deliverables, observable success criteria, and
-acceptance authority. A worker, controller summary, or later status request
-cannot silently narrow it.
+acceptance authority. Workers, controller summaries, and status requests cannot
+narrow it.
 
 `✅` applies only when every condition holds for the latest valid user intent:
 
-1. **Scope delivered** — that intent's current main outcome is in hand.
-2. **Procedural verification** — the required checks met their declared result
-   with evidence.
-3. **Outcome validation** — in the expected context, the observed result meets
-   the success outcome.
+1. **Scope delivered** — the intended main outcome is in hand.
+2. **Procedural verification** — required checks met declared results with evidence.
+3. **Outcome validation** — observed results meet success in the expected context.
 4. **Required acceptance** — the matching acceptance mode is satisfied.
-5. **Open work** — no `required-to-close` or `external-user-gate` item remains.
-6. **Owner release** — no owner still owes a next meaningful step on this
-   outcome.
+5. **Open work** — no `required-to-close` or `external-user-gate` remains.
+6. **Owner release** — no owner owes a next meaningful step on this outcome.
 
 ### Acceptance mode
 
-Use a prewritten mode when the task supplies one. Otherwise judge conservatively
-from the outcome, without sending every session to the user:
+Use a supplied mode; otherwise infer conservatively from the outcome without
+sending every session to the user. Record mode, validator, acceptor, evidence or
+decision reference, and open acceptance gates:
 
-- `evidence` — objective artifact or behavior evidence in the expected context
-  proves the user-facing result. Procedure-only checks cannot satisfy outcome
-  validation.
-- `explicit_user` — the user must personally accept, confirm, or sign off.
+- `evidence` — objective artifact or behavior evidence proves the user-facing
+  result in context; procedure-only checks do not validate the outcome.
+- `explicit_user` — the user makes a direct decision referring to the result.
+  Silence, idle state, or an unrelated “continue” is not acceptance.
 - `external` — a named device, production environment, reviewer, or other
-  outside validator observes and accepts the success outcome. A successful
-  build or deployment step alone proves only its procedure.
+  outside validator accepts the outcome; build or deploy alone proves procedure.
 - `hybrid` — each required part of the mix is satisfied on its own mode.
-
-Record the mode, validator, acceptor, evidence or decision reference, and open
-acceptance gates. These fields record authority as well as state.
-
-For `explicit_user`, require a direct decision that refers to the result;
-silence, idle state, or an unrelated “continue” is not acceptance.
 
 ### Remaining work
 
 Classify every leftover item before closing:
 
 - `required-to-close` — the success outcome fails if this is never done.
-- `external-user-gate` — the user or an outside system still owns a required
-  gate.
-- `independent-optional-follow-up` — later work that does not change the
-  current success outcome.
+- `external-user-gate` — the user or an outside system owns a required gate.
+- `independent-optional-follow-up` — later work that cannot change current success.
 - `out-of-scope` — outside the latest valid intent.
 
 Only the last two may coexist with `✅`. Apply the counterfactual: if skipping
 the item would fail the current success outcome, it is required, not optional.
 
-A user waiver or scope revision changes the latest valid intent only when it
-is explicit. Record the named gate, decision, scope, and residual risk; a
-waiver does not make that gate verified or bypass a safety, permission, or
-policy boundary. Silence, thanks, or an unrelated ask is not a waiver.
+A waiver or scope revision changes intent only when explicit. Record its gate,
+decision, scope, and residual risk. It neither verifies the gate nor bypasses
+safety, permission, or policy; silence, thanks, and unrelated asks do not waive.
 
-After `✅`, mark closure challenged and reopen if user feedback or new evidence
-shows that an original criterion failed. A truly independent new request does
-not reopen; start or suggest a separate outcome. On takeover or audit, treat a
-green title as a claim, not proof. Downgrade a confirmed open gate; if evidence
-is unavailable, report `closure_unverified` and preserve the owner rather than
-archiving, replacing, or rerouting it. Without bulk-rename authorization,
-report the mismatch or update only the state prefix.
+After `✅`, mark closure challenged and reopen when feedback or evidence shows an
+original criterion failed; an independent request starts a separate outcome. On
+takeover or audit, treat green as a claim. Downgrade a proven open gate; without
+evidence report `closure_unverified` and preserve the owner—do not archive,
+replace, or reroute it.
 
 ## Keep the title stable
 
-Use at most two tags: an exceptional scope such as `[Project]` or `[OpenSource]`,
-then the most searchable facet such as `[Jira]`, `[Wiki]`, `[iOS]`, `[Mac]`,
-`[Skill]`, or `[研究]`. Omit the ordinary personal scope. Keep one stable
-spelling per concept.
+Use at most two tags: exceptional scope, then the most searchable facet. Omit
+ordinary personal scope and keep one spelling per concept.
 
-Preserve user-chosen project names, issue IDs, entities, and distinctive
-phrasing. Normalize their structure and add only verified state or gate detail.
-During controller-led maintenance without bulk-rename authorization, avoid a
-silent body rewrite: report the mismatch or update only the state prefix.
+Preserve user-chosen names, issue IDs, entities, and distinctive phrasing;
+normalize structure and add only verified state or gate detail.
 
-Keep the main goal while side work supports the same deliverable. Update the
-gate only when the side work blocks the goal, becomes the real next step, lasts
-multiple steps, or changes risk or the waiting owner. Replace the main goal
-when the old goal is complete, abandoned, or paused and a new independent
-deliverable takes over. Suggest separate sessions when independent outcomes
-remain active together; when direction is unclear, keep the existing goal.
+Keep the main goal while side work supports it. Update the gate only when side
+work blocks it, becomes the real next step, lasts multiple steps, or changes
+risk or waiting owner. Replace the goal when it is complete, abandoned, or
+paused and an independent deliverable takes over. Separate concurrently active
+independent outcomes; when unclear, keep the existing goal.
 
 The title is complete when the sidebar alone tells the user what the session is
 and who or what owns its next gate.

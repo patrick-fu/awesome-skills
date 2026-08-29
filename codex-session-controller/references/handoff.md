@@ -93,8 +93,8 @@ creation leaves the predecessor title and ownership unchanged.
 
 After acceptance:
 
-- the successor replaces only the predecessor title's leading role/status with
-  `🗑️`, preserving the remaining scope name and date
+- the successor removes any retired lifecycle prefix, then prefixes the
+  predecessor's stable role title with `🔀`, preserving scope and date
 - archive the predecessor by default unless the user asked to keep it visible;
   never delete it
 - continue managing existing child sessions rather than rebuilding them

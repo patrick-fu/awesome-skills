@@ -37,8 +37,8 @@ One callback states one fact; retries reuse its event id.
 - `dependency_release`: the smallest registered owner can resume.
 - `material_change`: scope, acceptance, a settled decision, or a shared
   resource changes for another owner.
-- `milestone`: only an intermediate result named by the brief; never closure.
-- `terminal`: at most once when policy requires it.
+- `milestone`: a checkpoint named as a report event closes while the session continues.
+- `terminal`: assigned work ends; send at most once when policy requires it.
 - `routine_progress`: never send.
 
 ## Use the wire schema
@@ -52,6 +52,7 @@ controller: hostId, threadId
 operation: csc-...
 cohort: [stable fan-in id, if any]
 kind: user_gate | hard_blocker | dependency_release | material_change | milestone | terminal
+completion_role: checkpoint | final [required iff milestone or terminal; omit otherwise]
 seq: [per-source diagnostic counter]
 outcome: none | blocked | released | changed | succeeded | partial | failed | cancelled
 summary: [one-line fact]
@@ -68,8 +69,16 @@ with the originating controller operation. Neither grants authority or replaces
 session identity. `cohort` names a registered fan-in. `seq` is diagnostic, not
 a cross-worker clock. `request` asks for action; it does not authorize it.
 
+A milestone is always `checkpoint`, even inside final-assigned work. A terminal
+echoes its dispatched role. Missing or conflicting completion roles require
+reconciliation; other event kinds omit the field.
+
+For an explicit-acceptance `user_gate`, put the outcome in `summary`, observed
+criteria in `evidence`, the acceptor in `gate`, and the decision asked in
+`request`. It is not a completion claim.
+
 Add `from`, `to`, and `impact` to `material_change`. Add this projection to
-`terminal`:
+`milestone` and `terminal`:
 
 ```text
 verification:
@@ -101,7 +110,9 @@ remaining:
 release_requested: [true when worker asks to release its assigned outcome]
 ```
 
-Every terminal field is a worker claim. Never use `accepted=true` or
+Every completion field is a worker claim. A `checkpoint` can support `☑️`
+but never close its parent delivery boundary; only `final` can qualify for `🏁`.
+Never use `accepted=true` or
 `closed=true` to retitle, archive, or close any outcome. Invoke
 `codex-session-naming`: the controller independently checks remaining work and
 owner release, and callback enums cannot close an assigned or parent outcome.
@@ -109,8 +120,8 @@ A waiver covers only its named gate and cannot replace missing validation.
 User-facing validation cannot use procedure-only evidence; `explicit_user`
 needs a direct user `decision_ref`, `external` needs named-authority outcome
 evidence or decision, and `hybrid` needs every component. While acceptance is
-pending, do not send `terminal`: send `user_gate` for explicit user acceptance,
-or a named `milestone` for external/hybrid only when requested. Failed,
+pending, do not send a completion claim: send `user_gate` for explicit user
+acceptance; external or hybrid work waits for its event or chosen pull. Failed,
 partial, or cancelled terminals never request successful closure.
 
 ## Deliver ambiguously, consume once
@@ -142,9 +153,10 @@ entrypoint's recoverability checks.
 ## Consume source-only
 
 On wake, validate identity and scope, deduplicate, record the event, perform the
-in-scope request, then end the turn. Update naming state only after its closure
-contract accepts the evidence; never copy a callback lifecycle claim into the
-control index or replay the worker's execution.
+in-scope request, then end the turn. For a completion event, update naming only
+after its `completion_role` contract accepts the evidence; for other events,
+apply the evidenced ordinary state transition. Never copy a lifecycle claim into
+the control index or replay the worker's execution.
 
 Take one extra look only when registered fan-in may close, a named dependency
 or shared resource was released, or the user requested a cohort summary. Use

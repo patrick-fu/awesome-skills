@@ -106,38 +106,43 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 适合任务真的开始跑偏时，而不是仅仅因为它很长。
 
+### 🎛️ 主控 Session
+
 #### 🎛️ [`codex-session-controller`](./codex-session-controller)
 
-仅用于 Codex App 的顶层会话控制面，覆盖跨项目、跨 host 路由、监控、去重和安全 handoff；
-标题依赖 `codex-session-naming` 维护。
+把一个 Codex App 顶层 task/session 设为主控 Session，作为统一用户入口与薄控制面。
+主控在控制计划层维护目标、权限、owner、依赖、等待和 callback 策略，并负责路由、去重、
+验收与 handoff；研究、实现和测试仍由 worker 承担。用户通常只需与主控对话，无需频繁
+切换 worker。
 
 #### 🏷️ [`codex-session-naming`](./codex-session-naming)
 
-让 Codex App 中用户可见的顶层会话标题随生命周期、当前 gate 和 ownership 更新；排除
-subagent 和 controller-role 标题。
+维护 Codex App 用户可见顶层 task/session 的生命周期标题，让状态、next gate、next owner、
+checkpoint、final 和 handoff 一眼可见。严格 closure contract 防止把阶段完成误标为最终
+完成；它只负责标题与 closure 语义，不负责调度。
 
-#### 🧑‍💻 外部编码代理
+### 🧑‍💻 外部编码代理
 
 这四个 coding-agent 指南共用一套流程：保留选定的 CLI wrapper、发现当前模型和推理
 控制、监控语义输出、尊重 permission 与 sandbox，并由宿主验证 diff 和测试。每个 Skill
 只在对应 CLI 被明确选为执行器时触发。
 
-##### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
+#### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
 
 把 Claude Code CLI 作为明确选择的外部编码执行器来运行。它会保留给定的 wrapper，从
 当前 CLI 发现可用选项，并通过 verbose streaming JSON 监控耗时任务。
 
-##### 🟢 [`codex-coding-agent`](./codex-coding-agent)
+#### 🟢 [`codex-coding-agent`](./codex-coding-agent)
 
 把 Codex CLI 作为明确选择的外部编码执行器来运行。它使用 `codex exec --json`，review
 时显式选择 read-only sandbox，已批准的实现则使用 workspace-write sandbox。
 
-##### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
+#### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
 
 把 Cursor CLI 作为明确选择的外部编码执行器来运行。由于通用的 `agent` launcher 可能
 指向其他产品，流程会先验证身份，再决定是否信任它。
 
-##### ⚡ [`grok-coding-agent`](./grok-coding-agent)
+#### ⚡ [`grok-coding-agent`](./grok-coding-agent)
 
 把 Grok Build CLI 作为明确选择的外部编码执行器来运行。它把 approval policy 和 sandbox
 访问视为两项独立控制，并显式选择合适的 read-only 或 workspace sandbox。

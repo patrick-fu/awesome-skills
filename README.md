@@ -120,43 +120,51 @@ longer serves the goal, and resumes only where new acceptance evidence appears.
 
 Use it when a task is genuinely drifting—not merely because it is long.
 
+### 🎛️ Controller sessions
+
 #### 🎛️ [`codex-session-controller`](./codex-session-controller)
 
-Codex App-only control plane for top-level sessions across projects and hosts.
-It routes work, monitors ownership, deduplicates operations, and handles safe
-handoff; it depends on `codex-session-naming` for titles.
+Turn a top-level Codex App task or session into a controller session: one user
+entry point backed by a thin control plane. It keeps goals, authorization,
+owners, dependencies, waits, and callback policy in the control plan, then
+handles routing, deduplication, acceptance, and handoff while workers own
+research, implementation, and testing. Users normally stay with the controller
+instead of switching among workers.
 
 #### 🏷️ [`codex-session-naming`](./codex-session-naming)
 
-Keep user-visible top-level Codex App session titles aligned with lifecycle,
-active gate, and ownership. It excludes subagents and controller-role titles.
+Maintain lifecycle titles for user-visible top-level Codex App tasks and
+sessions, keeping state, next gate and owner, checkpoint, final, and handoff
+visible at a glance. A strict closure contract prevents checkpoints from being
+mislabeled as final completion. It defines title and closure semantics; it does
+not dispatch work.
 
-#### 🧑‍💻 External coding agents
+### 🧑‍💻 External coding agents
 
 These four coding-agent guides share one workflow: preserve the selected CLI
 wrapper, discover current model and reasoning controls, monitor semantic output,
 respect permissions and sandboxes, and verify diffs and tests from the host.
 Each guide triggers only when its CLI is explicitly selected as the executor.
 
-##### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
+#### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
 
 Run Claude Code CLI as the explicitly selected external coding executor. It
 preserves the supplied wrapper, discovers current options from the CLI, and
 monitors long-running work through verbose streaming JSON.
 
-##### 🟢 [`codex-coding-agent`](./codex-coding-agent)
+#### 🟢 [`codex-coding-agent`](./codex-coding-agent)
 
 Run Codex CLI as the explicitly selected external coding executor. It uses
 `codex exec --json` with an explicit read-only sandbox for review or a
 workspace-write sandbox for approved implementation.
 
-##### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
+#### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
 
 Run Cursor CLI as the explicitly selected external coding executor. Because the
 generic `agent` launcher can point to another product, the workflow verifies its
 identity before trusting it.
 
-##### ⚡ [`grok-coding-agent`](./grok-coding-agent)
+#### ⚡ [`grok-coding-agent`](./grok-coding-agent)
 
 Run Grok Build CLI as the explicitly selected external coding executor. It
 treats approval policy and sandbox access as separate controls and chooses the

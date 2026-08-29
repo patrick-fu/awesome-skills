@@ -189,6 +189,7 @@ Boundary:
 [Read/write scope, authority, irreversible actions, excluded work.]
 
 Deliverable and acceptance:
+[Completion role: checkpoint | final; parent delivery boundary if checkpoint.]
 [Success outcome and observable user-facing validation criteria/context.]
 [Procedural verification requirements and evidence.]
 [Acceptance mode, validator, acceptor, evidence/decision reference, and gates.]
@@ -205,7 +206,8 @@ ownership conflict, or unresolvable ambiguity blocks progress.]
 Include the operation ID and parent identity. Preserve paths, links,
 constraints, decisions, and acceptance criteria; omit raw history, unrelated
 sessions, speculation, and verbose orchestration. Derive success and acceptance
-from the latest intent and carry the `codex-session-naming` closure contract.
+from the latest intent. Set `completion_role` from the promised delivery, not
+thread hierarchy, and carry the `codex-session-naming` completion contract.
 
 When the global controller sends a directive to a project controller, label the
 source, original intent, authorized boundary, and report event. A newer direct
@@ -262,14 +264,15 @@ progress does not callback by default.
 
 ## Accept completion claims
 
-A worker terminal is a claim about the assigned outcome, not parent or project
-closure. A finished turn or stage is only a milestone or dependency release
-while required work remains. Before accepting a terminal, invoke
-`codex-session-naming` and apply its full closure contract. Use
-[references/callbacks.md](references/callbacks.md) only to validate the claim
-without replaying the worker. Release the assigned owner only after every
-naming condition holds; evaluate the parent outcome independently before
-changing a parent or project title.
+A milestone closes a named checkpoint while its session continues. A terminal
+ends the assigned work and echoes its dispatched `completion_role`; a mismatch
+requires reconciliation. A completed turn or tool call is neither.
+
+Before accepting either claim, invoke `codex-session-naming` and use
+[references/callbacks.md](references/callbacks.md) only to validate it without
+replaying the worker. A `checkpoint` may earn `☑️` and release its assigned
+owner but never its parent delivery boundary. A `final` may earn `🏁` only
+after the full contract holds. Evaluate parent and project outcomes separately.
 
 If later feedback or evidence challenges original acceptance, invoke naming to
 reopen that outcome and preserve the old claim. Route an independent request as
@@ -301,16 +304,18 @@ Use these controller-role titles unless the user requests another style:
 ```text
 🕹️ 全局主控 · YYYY-MM-DD
 🗂️ <Project> 项目主控 · YYYY-MM-DD
-✅ 🗂️ <Project> 项目主控 · YYYY-MM-DD
-🗑️ <旧主控名称>
+🏁 🕹️ 全局主控 · YYYY-MM-DD
+🏁 🗂️ <Project> 项目主控 · YYYY-MM-DD
+🔀 🕹️ 全局主控 · YYYY-MM-DD
+🔀 🗂️ <Project> 项目主控 · YYYY-MM-DD
 ```
 
 Current controllers keep their role title while waiting or blocked; report that
 state in the controller summary. A global controller remains current when its
-portfolio is temporarily empty and closes only on explicit user request. A
-project controller gains `✅` only when its main project outcome satisfies the
-`codex-session-naming` closure contract. Only an accepted successor may retitle
-the predecessor with `🗑️`.
+portfolio is temporarily empty and gains `🏁` only when the user explicitly
+ends its role. A project controller gains `🏁` only when its main project
+delivery satisfies the `codex-session-naming` final contract. Only an accepted
+successor may retitle the predecessor with `🔀`.
 
 Keep completed sessions unarchived unless the user sets a narrower retention
 policy. Confirmed accidental duplicates and accepted predecessor controllers

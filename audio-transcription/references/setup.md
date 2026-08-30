@@ -2,6 +2,8 @@
 
 Use this branch only after the user explicitly asks to set up or repair local transcription.
 
+Local setup is supported only on macOS Apple Silicon (arm64). Other hosts must not run setup. Setup downloads pinned third-party model weights; licenses are listed in [NOTICE.md](../NOTICE.md).
+
 1. Run `scripts/manage-runtime inspect --json`.
 2. Explain the recommended profile, approximate download size, missing system dependencies, and whether lower quantization changes quality.
 3. Total unified memory below the standard profile threshold is a recommendation for `low-memory`, not proof that inference will succeed. Ask before selecting lower quantization.

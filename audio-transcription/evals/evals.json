@@ -34,7 +34,7 @@
     {
       "id": 6,
       "prompt": "帮我 setup 本地语音转写环境。",
-      "expected_output": "The skill should inspect the host and unified memory, explain the recommended profile and low-quantization tradeoff, then run the deterministic bundled setup only after the explicit setup request. Setup must keep staging inactive until validation and must not install a stable CLI entry by default.",
+      "expected_output": "The skill should inspect the host and unified memory, require macOS Apple Silicon (arm64) for local setup, explain the recommended profile and low-quantization tradeoff, then run the deterministic bundled setup only after the explicit setup request. Setup must keep staging inactive until validation and must not install a stable CLI entry by default.",
       "files": []
     },
     {

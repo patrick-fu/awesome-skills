@@ -55,6 +55,12 @@
         "./home-config-sync",
         "./local-file-organizer"
       ]
+    },
+    {
+      "name": "media-and-audio",
+      "skills": [
+        "./audio-transcription"
+      ]
     }
   ]
 }

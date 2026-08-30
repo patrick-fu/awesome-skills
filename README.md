@@ -5,7 +5,7 @@
 **[中文说明](README.zh-CN.md)**
 
 My personal collection of agent skills for coding, planning, knowledge capture,
-slides, multi-agent work, and day-to-day setup.
+transcription, slides, multi-agent work, and day-to-day setup.
 
 This is not a warehouse of every Skill I could install. It is the smaller set I
 actually reach for: useful enough to earn a place, compact enough to browse. 🧰
@@ -242,6 +242,28 @@ and build a reversible ledger before moving, renaming, or deduplicating anything
 
 Use it when a directory needs a safe, explainable reorganization rather than a
 blind cleanup.
+
+### 🎧 Audio and media
+
+#### 🎙️ [`audio-transcription`](./audio-transcription)
+
+Transcribe local audio and video files with two independent local engines:
+Qwen3-ASR for speech recognition and MOSS for diarized transcription. The
+default flow is fully offline, keeps each model's result separate for
+cross-checking, and never uploads your media.
+
+Requires macOS on Apple Silicon (arm64). First use downloads pinned, versioned
+models into an app-managed runtime; transcription itself makes no network
+calls. An optional Doubao (Volcengine) worker transcribes through the cloud,
+but only after you explicitly ask for online or upload-based transcription,
+and it uploads a converted copy of the media.
+
+Use it when you explicitly ask an agent to transcribe or extract a transcript
+from a local audio or video file. When the agent reports `SETUP_REQUIRED`,
+approve the one-time local runtime setup yourself.
+
+MIT covers this skill's own code. Third-party models and the Doubao API keep
+their own licenses and terms; see [`NOTICE.md`](./audio-transcription/NOTICE.md).
 
 ## 📄 License
 

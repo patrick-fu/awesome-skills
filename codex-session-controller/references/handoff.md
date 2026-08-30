@@ -33,7 +33,8 @@ controller_context: [sourced facts; non-binding candidates]
 owned_threads: [identity, purpose, state, next evidence]
 frontier: [outcomes, dependencies, user gates]
 resources: [owner, contenders, release condition]
-pending_events: [callback id, source, receiver, kind, disposition, next action]
+pending_events: [callback key|unkeyed, key class, source, receiver, kind,
+                 disposition, effects gate, next action]
 unknown_operations: [operation id, create/send, target, last evidence]
 constraints_and_gaps: [authority, safety, repository, host, capability]
 END_HANDOFF_MANIFEST
@@ -47,17 +48,24 @@ reconstruct every field; validate carriers under the entrypoint. If any material
 field remains unresolved across available authoritative carriers, report the gap
 and stop transfer; leave predecessor and children unchanged.
 
+Preserve each pending event's gate across transfer. A successor never upgrades
+an unkeyed, deferred, reconciled, or effects-gated event to `applied`, nor
+replays its repeatable effects, without the original admission, key, authority,
+and evidence becoming valid.
+
 ## Accept
 
 Transfer ownership only after the successor:
 
 1. has formal `(hostId, threadId)` identity
-2. reads a trustworthy manifest or reconstructs every material field from
+2. passes the entrypoint's saved-project, environment, and permission-profile
+   qualification; projectless, restricted, or approval-pending candidates fail
+3. reads a trustworthy manifest or reconstructs every material field from
    available `read_thread` records and the owning host's rollout when needed
-3. locates and minimally verifies current owned sessions
-4. checks contracts, provenance, frontier, gates, resources, pending events,
+4. locates and minimally verifies current owned sessions
+5. checks contracts, provenance, frontier, gates, resources, pending events,
    and unknown operations
-5. announces `HANDOFF_ACCEPTED`
+6. announces `HANDOFF_ACCEPTED`
 
 After acceptance, prefix the predecessor's stable controller title with `🔀`
 and archive it unless the user asked to keep it visible. Continue its children;

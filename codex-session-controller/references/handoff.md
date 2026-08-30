@@ -1,102 +1,69 @@
 # Controller handoff
 
-Use `read_thread` as the primary history interface. When it is empty,
-unavailable, or suspicious, follow the entrypoint's session-evidence fallback
-and inspect the owning host's persisted rollout before drawing lifecycle or
-ownership conclusions. Do not maintain a periodic checkpoint, registry file,
-or controller database. A handoff manifest is an on-demand transfer aid that
-the successor can reconstruct and verify.
+Apply the entrypoint's identity, evidence, Relay, and operation rules. This file
+adds only ownership transfer. Never use `fork_thread`.
 
-## Entry paths
+## Recover
 
-- No current controller: establish one and inventory the relevant scope.
-- Old controller initiates: create a successor after the user's explicit
-  request, then remain owner until acceptance.
-- New session takes over: search for or read the specified predecessor; the
-  current session becomes successor unless the user asks to create another.
+Resolve the predecessor through the entrypoint. It remains owner until
+acceptance. Treat identity and evidence as independent gates:
 
-Search every connected host for global-controller candidates. For a project
-controller, use the natural project identity and recent history. Read multiple
-candidates and ask the user to disambiguate rather than choosing by title or
-recency alone.
+- resolve candidate ambiguity from the user's choice or verified history
+- reconstruct every material control field from `read_thread`, the owning
+  host's persisted rollout, or another authoritative carrier
 
-## Normal transfer
+The user names the intended predecessor; do not require the user to carry its
+manifest or history. New user clarification or restored owning-host evidence
+reopens only the gate it resolves. Transfer remains blocked until identity is
+unique and every material field is verified.
 
-When the predecessor is readable, synthesize this compact manifest from its
-current history:
+## Manifest
+
+Synthesize from verified history:
 
 ```text
 HANDOFF_MANIFEST
-controller_scope: global | project
-project: [natural project name, if applicable]
+scope: [global | project; natural project]
 predecessor: [hostId, threadId]
-handoff_reason: [context, capability, runtime, user-requested, other]
-owned_threads:
-  - [hostId, threadId, purpose, current state, next evidence]
-frontier:
-  - [current outcomes and dependency gates]
-settled_decisions:
-  - [decision, evidence/artifact, affected scope]
-pending_user:
-  - [decision or action and why it blocks]
-resources:
-  - [resource, owner, contenders, release condition]
-unknown_operations:
-  - [operation ID, create/send, target, last evidence]
-constraints:
-  - [authority, safety, repository, host, or product boundaries]
-capability_gaps:
-  - [missing tool/schema and current degradation]
+reason: [user-requested cause]
+user_contract: [outcomes, details, corrections, grants, decisions]
+control_contract: [owners, authority, completion/acceptance, callback,
+                   delivery dimensions]
+controller_context: [sourced facts; non-binding candidates]
+owned_threads: [identity, purpose, state, next evidence]
+frontier: [outcomes, dependencies, user gates]
+resources: [owner, contenders, release condition]
+pending_events: [callback id, source, receiver, kind, disposition, next action]
+unknown_operations: [operation id, create/send, target, last evidence]
+constraints_and_gaps: [authority, safety, repository, host, capability]
 END_HANDOFF_MANIFEST
 ```
 
-Include accepted and rejected decisions, because terse replies such as “ok,”
-“continue,” or numbered choices are not recoverable without the question and
-affected artifact. Keep long logs, command output, and raw reasoning out of the
-manifest; the successor can reopen them when a specific item needs proof.
+Preserve the question and affected artifact behind terse decisions such as
+“ok” or a numbered choice. The manifest carries pointers, not raw payloads.
 
-## Recovery from history
+Without a trustworthy manifest, traverse every available predecessor turn and
+reconstruct every field; validate carriers under the entrypoint. If any material
+field remains unresolved across available authoritative carriers, report the gap
+and stop transfer; leave predecessor and children unchanged.
 
-When no trustworthy manifest exists, traverse all available predecessor turns
-from `read_thread`. If the session-evidence fallback triggers, reconstruct the
-missing or disputed history from the owning host's persisted rollout. Extract:
+## Accept
 
-- user goals, corrections, decisions, grants, and direction changes
-- create/send/read operations and operation IDs
-- owned `(hostId, threadId)` pairs and title/state changes
-- accepted results, remaining gates, and user actions
-- resource ownership and conflicts
-- timeouts, unknown results, failures, and capability gaps
+Transfer ownership only after the successor:
 
-Scan the complete history, but place only the structured result in successor
-context. Open detailed business output only when restoring that individual
-task. Treat cached previews, catalog state, and synchronized timestamps as
-discovery evidence rather than proof of work.
-
-If verified history and the owning host's rollout are both unavailable, produce
-a recovery-gap report and stop before ownership transfer. Keep the predecessor
-and its children unchanged; do not announce acceptance, retitle, archive,
-replace, or reroute them until sufficient evidence is restored.
-
-## Acceptance protocol
-
-Controller ownership changes only after the successor:
-
-1. has a formal `(hostId, threadId)`, not a pending/client identifier
-2. reads the manifest or reconstructs available history
+1. has formal `(hostId, threadId)` identity
+2. reads a trustworthy manifest or reconstructs every material field from
+   available `read_thread` records and the owning host's rollout when needed
 3. locates and minimally verifies current owned sessions
-4. reports the recovered frontier, pending user items, resources, and unknowns
+4. checks contracts, provenance, frontier, gates, resources, pending events,
+   and unknown operations
 5. announces `HANDOFF_ACCEPTED`
 
-Until then, keep the predecessor current. A failed or ambiguous successor
-creation leaves the predecessor title and ownership unchanged.
+After acceptance, prefix the predecessor's stable controller title with `🔀`
+and archive it unless the user asked to keep it visible. Continue its children;
+notify the global controller when a project controller changes owner. Replace a
+child only when confirmed failed or unreachable, or when the user asks. Never
+delete a session.
 
-After acceptance:
-
-- the successor removes any retired lifecycle prefix, then prefixes the
-  predecessor's stable role title with `🔀`, preserving scope and date
-- archive the predecessor by default unless the user asked to keep it visible;
-  never delete it
-- continue managing existing child sessions rather than rebuilding them
-- notify the global controller when a project controller changes owner
-- replace a child only when it is confirmed failed/unreachable or the user asks
+A failed or ambiguous successor creation changes neither predecessor title nor
+ownership. Before `HANDOFF_ACCEPTED`, do not prefix `🔀` or archive it.

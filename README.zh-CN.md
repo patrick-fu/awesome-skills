@@ -4,7 +4,7 @@
 
 **[English README](README.md)**
 
-这是我的个人 Agent Skills 集合，覆盖编码、计划、知识沉淀、slides 制作、多 Agent
+这是我的个人 Agent Skills 集合，覆盖编码、计划、知识沉淀、语音转写、slides 制作、多 Agent
 协作和日常环境设置。
 
 不打算把能装的 Skill 都挂满墙。这里只留我真的会反复用到的：值得占一个位置，也方便
@@ -206,6 +206,24 @@ push。它的 work tree 是整个 home 目录，所以安全边界本身就是�
 逐文件盘点混乱目录，按真实用途重分类，并在移动、重命名或去重前建立可回滚账本。
 
 适合需要安全、可解释地重组目录，而不是盲目“清理一下”的场景。
+
+### 🎧 音频与媒体
+
+#### 🎙️ [`audio-transcription`](./audio-transcription)
+
+转写本地音频和视频文件，默认同时使用两个相互独立的本地模型：Qwen3-ASR 负责语音识别，
+MOSS 负责带说话人区分的转写。默认流程完全离线，两个模型的结果分开保留以便交叉核对，
+不会上传你的媒体。
+
+仅支持 macOS Apple Silicon (arm64)。首次使用会下载固定版本的模型到应用管理的 runtime；
+之后转写过程不访问网络。可选豆包（火山引擎）云端转写只有在用户明确要求在线或上传后才执行，
+并且会上传一份转换后的媒体副本。
+
+适合你明确要求 Agent 转写或提取本地音视频逐字稿时使用。Agent 报告 `SETUP_REQUIRED` 后，
+需要你主动批准一次性本地 runtime 安装。
+
+MIT 只覆盖本 Skill 自身代码。第三方模型和豆包 API 仍适用各自的许可证与条款，详见
+[`NOTICE.md`](./audio-transcription/NOTICE.md)。
 
 ## 📄 License
 

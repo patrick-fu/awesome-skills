@@ -114,5 +114,25 @@ class HelpContractTests(unittest.TestCase):
         self.assertNotIn("allow_implicit_invocation: false", openai)
 
 
+    def test_public_disclosure_names_platform_upload_and_licenses(self):
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("Apple Silicon", skill)
+        self.assertIn("NOTICE.md", skill)
+        notice = (ROOT / "NOTICE.md").read_text(encoding="utf-8")
+        for value in (
+            "Apache-2.0",
+            "Doubao",
+            "Volcengine",
+            "mlx-audio",
+            "uploads a converted copy",
+        ):
+            self.assertIn(value, notice)
+        privacy = (ROOT / "scripts" / "help" / "privacy.txt").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("uploads a converted copy", privacy)
+        self.assertIn("Doubao/Volcengine", privacy)
+
+
 if __name__ == "__main__":
     unittest.main()

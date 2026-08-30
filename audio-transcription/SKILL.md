@@ -2,13 +2,14 @@
 name: audio-transcription
 description: >-
   Transcribe or extract transcripts from local audio/video files. Use only when
-  the user explicitly requests transcription or transcript extraction. Online
-  transcription requires explicit cloud/upload intent.
+  the user explicitly requests transcription or transcript extraction. Local
+  offline transcription requires macOS Apple Silicon (arm64). Online Doubao
+  transcription uploads audio and requires explicit cloud/upload intent.
 ---
 
 # Audio Transcription
 
-默认用本 Skill 内置的 `local-transcribe` 运行 Qwen 与 MOSS，本地顺序执行、完全离线、分别保留结果。
+默认用本 Skill 内置的 `local-transcribe` 运行 Qwen 与 MOSS，本地顺序执行、完全离线、分别保留结果。本地离线路径只支持 macOS Apple Silicon（arm64）。
 
 ## 路由
 
@@ -23,5 +24,7 @@ description: >-
 ## 事实源
 
 参数、默认值、副作用、输出协议、错误码和恢复动作以各脚本的 `--help`、`help <topic>` 与 `--json` 为准；不要从本文或 reference 猜测。
+
+平台限制、在线上传和第三方许可证见 [setup.md](references/setup.md)、[online-transcription.md](references/online-transcription.md) 与 [NOTICE.md](NOTICE.md)。
 
 不要改写或删除输入文件。不要把完整逐字稿塞进回复；除非用户要求，返回模式、状态、产物路径和重要存疑点即可。

@@ -11,5 +11,7 @@ LOCAL STORAGE
   User-selected output directories contain transcripts and raw model results.
 
 ONLINE COMMAND
-  Doubao is a separate bundled worker and requires explicit cloud/upload intent plus its
-  --online-consent boundary flag. See scripts/online-transcribe --help before using it.
+  Doubao is a separate bundled worker. It uploads a converted copy of the supplied
+  media to Doubao/Volcengine and requires explicit cloud/upload intent plus
+  --online-consent. Do not use it for audio that must stay on-device. See
+  scripts/online-transcribe --help before using it.

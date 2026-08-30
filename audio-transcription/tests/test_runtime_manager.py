@@ -80,6 +80,7 @@ class RuntimeManagerTests(unittest.TestCase):
             return model
 
         with (
+            patch("runtime_manager.disk_free_gib", return_value=99.9),
             patch("runtime_manager.ensure_system_dependencies"),
             patch("runtime_manager.run", side_effect=fake_run),
             patch("runtime_manager.download_model", side_effect=fake_download),
@@ -109,6 +110,7 @@ class RuntimeManagerTests(unittest.TestCase):
             return model
 
         with (
+            patch("runtime_manager.disk_free_gib", return_value=99.9),
             patch("runtime_manager.ensure_system_dependencies"),
             patch("runtime_manager.run", side_effect=fake_run),
             patch("runtime_manager.download_model", side_effect=fake_download),

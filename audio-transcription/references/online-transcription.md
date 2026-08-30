@@ -1,6 +1,6 @@
 # Online transcription
 
-This branch uploads a converted copy of the supplied media to Doubao. Enter it only when the user explicitly asks for online/cloud/Doubao transcription, explicitly permits upload, or asks for a local-versus-online comparison.
+This branch uploads a converted copy of the supplied media to Doubao/Volcengine. Converted audio leaves the machine. Do not enter this branch for media that must remain local. Enter it only when the user explicitly asks for online/cloud/Doubao transcription, explicitly permits upload, or asks for a local-versus-online comparison.
 
 - “双模型”“并行”“交叉验证” alone mean the two local models and do not authorize upload.
 - “只用豆包/只用在线” runs only the online worker.

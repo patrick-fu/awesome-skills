@@ -102,8 +102,10 @@ an existing saved-project target.
 
 Create and follow-up inherit model and reasoning settings unless the user
 changes them in that turn. A normal follow-up uses only `threadId`, `hostId`,
-and natural-language `prompt`. Use `codex-session-naming` for owned
-non-controller titles and carry that requirement into new tasks.
+and natural-language `prompt`. Every new task establishes its own title at
+entry, so a brief carries the outcome rather than the naming protocol. Invoke
+`codex-session-naming` to rename or verify owned non-controller titles,
+including missing or stale titles.
 
 Coordinate independent work only when dependencies and exclusive resources
 allow. Track each shared resource's owner and release condition. Project
@@ -197,11 +199,10 @@ New user input supersedes an active wait.
 ## Accept and report
 
 Verify a worker's evidence before changing lifecycle, releasing a dependency,
-or accepting writes. Determine from the latest user intent whether the report
-concerns an intermediate checkpoint or the promised final boundary. Invoke
-`codex-session-naming` and apply its completion contract without replaying the
-worker. Closure advances when the evidence resolves the claim; until then the
-owner, archive state, and dependent work stay unchanged.
+or accepting writes. Invoke `codex-session-naming` and judge the resulting
+completion claim with its closure rules, without replaying the worker or
+restating those rules. Closure advances when the evidence resolves the claim;
+until then the owner, archive state, and dependent work stay unchanged.
 
 Report user actions first, real exceptions second, then one compact portfolio
 summary. Link every listed non-current session as

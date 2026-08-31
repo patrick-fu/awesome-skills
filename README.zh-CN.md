@@ -111,7 +111,7 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 #### 🎛️ [`codex-session-controller`](./codex-session-controller)
 
 把一个 Codex App 顶层 task/session 设为主控 Session，作为统一用户入口与薄控制面。
-主控在控制计划层维护目标、权限、owner、依赖、等待和 callback 策略，并负责路由、去重、
+主控在控制计划层维护目标、权限、owner、依赖、等待和回报节奏，并负责路由、去重、
 验收与 handoff；研究、实现和测试仍由 worker 承担。用户通常只需与主控对话，无需频繁
 切换 worker。
 

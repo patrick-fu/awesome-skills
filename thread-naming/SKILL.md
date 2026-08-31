@@ -42,9 +42,9 @@ prior checkpoints only in the suffix or report.
 
 ## Completion contracts
 
-Derive `completion_role` from latest user intent, never thread hierarchy.
-`checkpoint` is an explicit intermediate deliverable; `final` is the promised
-boundary and alone may become `🏁`.
+Derive the promised boundary from latest user intent, never thread hierarchy.
+A checkpoint is an explicit intermediate deliverable; only the promised final
+boundary may become `🏁`.
 
 **Checkpoint:** require delivery, verification, outcome validation, defined
 acceptance, and no checkpoint work. It never releases the final boundary.
@@ -59,8 +59,11 @@ user accepts working-tree delivery. Lacking commit authority is an
 `external-user-gate`. Push, review, release, or publication is required only by
 user intent or an explicit repository delivery rule.
 
-**Acceptance:** use `evidence`, `explicit_user`, `external`, or `hybrid`; record
-authority and proof. Procedure, idle, silence, and unrelated messages do not count.
+**Acceptance:** follow the authority agreed with the user and the nature of the
+result. Objective work may close on reliable evidence; subjective, device,
+production, external-system, or user-review outcomes wait for the required
+decision or observation. Procedure, idle, silence, and unrelated messages do
+not count.
 
 **Remainder:** classify work as `required-to-close`, `external-user-gate`,
 `independent-optional-follow-up`, or `out-of-scope`. Only the last two allow
@@ -71,9 +74,9 @@ residual risk. It changes intent but does not verify the gate or bypass safety,
 permission, or policy.
 
 **Challenge:** reopen when evidence disproves completion; independent requests
-start new boundaries. Audit completion as a claim. Without evidence report
-`closure_unverified`, preserve owner and title, and do not archive, replace, or
-reroute.
+start new boundaries. Audit completion as a claim. Without evidence, say what
+cannot yet be verified, preserve owner and title, and do not archive, replace,
+or reroute.
 
 ## Stability
 

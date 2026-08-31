@@ -126,7 +126,7 @@ Use it when a task is genuinely drifting—not merely because it is long.
 
 Turn a top-level Codex App task or session into a controller session: one user
 entry point backed by a thin control plane. It keeps goals, authorization,
-owners, dependencies, waits, and callback policy in the control plan, then
+owners, dependencies, waits, and reporting cadence in the control plan, then
 handles routing, deduplication, acceptance, and handoff while workers own
 research, implementation, and testing. Users normally stay with the controller
 instead of switching among workers.

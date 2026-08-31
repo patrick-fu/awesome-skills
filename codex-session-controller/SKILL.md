@@ -1,16 +1,17 @@
 ---
 name: codex-session-controller
 description: >-
-  Use only in a user-designated top-level Codex App controller session to
-  establish or resume control, route work, preserve user intent, handle natural
-  worker reports, verify closure, and hand off ownership. Do not use in workers.
+  Use in a user-designated top-level Codex App controller session to establish
+  or resume control, route work, preserve user intent, handle natural worker
+  reports, verify closure, and hand off ownership.
 ---
 
 # Codex Session Controller
 
 Control user-visible top-level Codex tasks through thread tools. Treat task,
-thread, session, chat, and conversation as the same object. Do not use
-`spawn_agent` or `fork_thread` in this workflow.
+thread, session, chat, and conversation as the same object. Controlled workers
+and successors are user-visible top-level tasks created with `create_thread` or
+continued by formal `(hostId, threadId)` identity.
 
 ## Control
 
@@ -18,6 +19,8 @@ thread, session, chat, and conversation as the same object. Do not use
 and user gates. Workers own domain research, design, implementation, diagnosis,
 review, and testing. Stop exploring as soon as those control dimensions are
 clear enough to route faithfully; ask the worker for missing domain evidence.
+The controller runs this control loop; each worker executes and reports its
+assigned outcome.
 
 The user normally talks only to the controller. Recommend direct worker
 discussion only for high-bandwidth technical or artifact iteration. Relay a
@@ -27,13 +30,13 @@ to repeat it.
 **Re-enter:** apply this control loop whenever a user-designated controller
 receives a worker report or resumes after compaction. Role evidence comes from
 the user request, owned transcript, or this session's `🕹️`/`🗂️` controller
-title, never from a worker appointing itself. A `🔀` title, an explicit user
-role end, or another session's accepted ownership of this scope ends this role;
+title. A `🔀` title, an explicit user role end, or another session's accepted
+ownership of this scope ends this role;
 late reports route to the accepted successor when one exists.
 
 Keep a lightweight active-outcome index: `(hostId, threadId)`, outcome,
 authority, state, and the next evidence that could change the action. The owned
-transcript is authoritative; the index is not a second database or timer.
+transcript is authoritative; the index is its lightweight view.
 
 Classify each invocation before changing state:
 
@@ -54,49 +57,48 @@ are `list_projects`, `list_threads`, `read_thread`, `create_thread`,
 and share are optional; disclose degradation and use the nearest safe path.
 
 **Identity:** a non-current session is `(hostId, threadId)` and a saved project
-is `(hostId, projectId)`. Titles, paths, previews, timestamps, and status are
-signals, not identity or completion evidence. Read a complete known identity
-directly. Search all connected hosts only when owner identity is ambiguous or
-when establishing or taking over global control. Read competing candidates and
-ask the user to choose.
+is `(hostId, projectId)`. Establish identity and completion from complete task
+records; use titles, paths, previews, timestamps, and status to locate
+candidates. Read a known identity directly. Search all connected hosts when
+owner identity is ambiguous or when establishing or taking over global control.
+Read competing candidates and ask the user to choose.
 
 **Evidence:** use `read_thread` first. Treat empty or failed reads, repeated
 blank turns, missing user/assistant/tool-call records, and contradictions as
 suspicious. Then inspect the owning host's persisted rollout under
 `$CODEX_HOME/sessions` (normally `~/.codex/sessions`) by `threadId`; tolerate
 schema drift and read only the needed records. Persisted rollout wins for
-persisted history. Missing local rollout says nothing about another host.
+persisted history; query it on the owning host.
 
 Only an actual tool call, delivered message, or assistant report proves a
 relay. A quoted prompt, example, command, or tool output is only a search lead.
 Idle, silence, timeout, `notLoaded`, empty turns, refreshed timestamps, and
-missing local rollout are non-terminal. With an evidence gap, preserve session
-and owner; do not archive, replace, hand off, or reroute them.
+missing local rollout leave state unresolved. An evidence gap preserves the
+session, owner, lifecycle, and routing.
 
 ## Route
 
 Continue the existing owner for the same outcome. Create a normal task only for
 an independent outcome, and a project controller only on explicit request.
-Routing authority does not authorize handoff, cross-host execution, or
-irreversible external action.
+Handoff, cross-host execution, and irreversible external action retain their
+specific authority gates.
 
 Default work to the controller host; use another host only when the user chooses
 it. Before every create, call `list_projects` and resolve an existing saved
 project from host, natural project, repository or path, and user intent. Use
 only a `projectId` returned for that host. Multiple safe candidates or no safe
 match is a user gate: ask the user to choose an existing project or save one.
-Do not guess an unrelated project.
 
 Before sending, search that project for an existing owner. Retain the source
-controller, target project and environment, exact brief, and call window as a
-private delivery fingerprint; do not expose it as a message protocol.
+controller, target project and environment, exact brief, and the before/after
+task set as internal delivery evidence.
 
 Create in that project's local/direct environment by default, including
 non-repository work, current-tree or cross-directory access, read-only state,
 aggregate projects, and requests for Full Access. Use a Codex-managed worktree
 only for independent writes in a verified Git project when current uncommitted
-state is not required. Never run `git worktree` manually. Every new task uses a
-saved-project target; `target.type=projectless` is forbidden.
+state is not required. Let Codex create managed worktrees. Every new task uses
+an existing saved-project target.
 
 Create and follow-up inherit model and reasoning settings unless the user
 changes them in that turn. A normal follow-up uses only `threadId`, `hostId`,
@@ -109,7 +111,7 @@ controllers keep ordinary reports internal; they notify global control only for
 a user gate, cross-project conflict, hard blocker, portfolio-affecting change,
 project final, or handoff. For fan-in, workers report to one lead and the lead
 sends one consolidated report. Use `/goal` only for an explicit durable project
-objective with a verifiable stop; never for a global portfolio.
+objective with a verifiable stop.
 
 ## Relay
 
@@ -119,90 +121,78 @@ Keep user requirements distinct from sourced control facts and explicitly
 non-binding suggestions. Add only the smallest boundary required by platform,
 safety, permission, existing authorization, or repository rules.
 
-A new worker brief should read like a normal assignment. It must be sufficient
-without this conversation: name the owner and outcome, preserve every user
-detail and permission boundary, state the evidence and acceptance needed,
-identify where the worker should report, and say when it must pause for a
-decision, credential, unsafe action, or owner conflict. Tell the worker to
-report in ordinary prose when it finishes, is blocked, needs a decision, or is
-ready to hand off: what it did, supporting evidence, and what remains or needs a
-decision. Do not add labels, protocol fields, identifiers, tag blocks, or an
-event catalogue.
+A new worker brief reads like a normal assignment and stands on its own. State
+the outcome, user details, permission boundary, evidence and acceptance needed,
+reporting destination, and decisions or access that require a pause. Ask for a
+concise report at meaningful completion, hard blocker, or user decision: actual
+result, evidence, remaining work, and the impact of each choice.
 
-New sessions inherit neither conversation nor attachments. Pass accessible
-paths, links, or necessary content; if no safe carrier exists, stop and request
-one. Omit raw history, unrelated sessions, and unrelated controller research.
-Before send, check for dropped user detail, invented duties or prohibitions, and
-silent changes to owner, acceptance, publication, write, timing, tool, or host
-scope. Ask when ambiguity would change direction; otherwise normalize without
-changing meaning.
+Give a new session the accessible paths, links, or content it needs. If these
+cannot carry the work safely, request a suitable carrier. **Fidelity:** compare
+the brief with the user request so every detail remains traceable and owner,
+acceptance, publication, write, timing, tool, and host scope stay unchanged.
+Ask when ambiguity would change direction; otherwise normalize meaning.
 
 ## Recover delivery
 
 `create_thread` and `send_message_to_thread` may return an unknown result. Use
-the environment as the ledger instead of adding protocol identifiers. Missing
-or delayed projections do not prove non-delivery.
+the environment, actual messages, and formal task records as the delivery
+ledger. Treat delivery as uncertain until that evidence resolves it.
 
-**Create:** a pending client identifier is not a formal session identity. Report
-setup as pending; verify it on the next user pull without polling. After an
-unknown result, list and read the resolved project:
+**Create:** formal identity begins at `(hostId, threadId)`. While client setup is
+pending, report that state and verify it on the next user pull. After an unknown
+result, list and read the resolved project:
 
-- one matching task with no independent user input or artifact is the result;
-  reuse it
+- one matching task that has only the dispatched work is the result; reuse it
 - multiple matching tasks require evidence review; keep valid independent work
   and retire only a confirmed duplicate when archive is available
-- no match remains an evidence gap unless the tool definitively proves that no
-  task was created; only then may one identical bounded retry occur
-- ambiguity preserves the current owner and becomes an evidence gap
+- a definitive non-creation result permits one identical bounded retry
+- no match or an incomplete projection keeps delivery unresolved
+- unresolved delivery preserves the current owner; a retry requires explicit
+  tool evidence that creation did not occur
 
-A new task's first empty projection is not a rollout trigger. Once formal
-`(hostId, threadId)` exists, verify host, project, environment, permission
-profile, and the initial brief. Projectless placement, managed restriction,
-awaiting approval, or a profile below the required access makes any new task
-ineligible to own the work; re-resolve the saved project instead.
+After formal identity exists, verify host, saved project, environment,
+permission profile, and initial brief. Inspect rollout when the resulting task
+projection is suspicious. Ownership begins after the task satisfies those
+qualifications and its access meets the assignment; otherwise re-resolve the
+saved project.
 
-**Follow-up:** after an unknown send, read the target. If the same natural
-delta is delivered, do not resend. Absence alone does not authorize repetition:
-retry the identical delta once only after definitive non-delivery, or when its
-repetition is demonstrably harmless. Otherwise preserve scope and report the
-evidence gap. Never rewrite the whole task, expand scope, or poll.
+**Follow-up:** after an unknown send, read the target and classify delivery.
+Delivered work ends recovery. Definitive non-delivery or a demonstrably harmless
+repeat permits one identical retry. An absent message remains unresolved until
+delivery evidence settles it; the original scope, owner, and evidence gap stay
+unchanged.
 
 ## Reports and return
 
-Application-level `send_message_to_thread` starts a new controller turn; it is
-not native completion push. Independent workers normally report once at a
-meaningful finish. Urgent blockers, user decisions, dependency releases, and
-material changes report immediately. Routine progress stays silent. In a
-fan-in, workers report only to the lead and the lead reports once when the group
-can move.
+Application-level `send_message_to_thread` starts a new controller turn.
+Independent workers report once at meaningful completion. Urgent blockers,
+user decisions, dependency releases, and material changes report immediately.
+In a fan-in, workers report to the lead and the lead reports when the group can
+move.
 
-**Understand:** read a report by meaning, not format. Actual delivery identifies
-the source and receiver. A sufficient report explains what happened, points to
-evidence, and says what remains or what decision is needed. If that is clear,
-acknowledge naturally and state the next step. If it is not, ask one focused
-natural-language question; do not reject a clear report for missing labels or
-fields.
+**Understand:** read a report by meaning. Actual delivery identifies the source
+and receiver. A sufficient report explains what happened, points to evidence,
+and says what remains or what decision is needed. Acknowledge clear reports and
+state the next step; ask one focused question for material gaps.
 
 **Deduplicate:** use the actual message or turn locator when stable. Otherwise
-compare source identity, the substantive claim, and its evidence. The same fact
-and evidence are handled once; a repeated report gets no repeated downstream
-effect. Conflicting reports require evidence review or clarification. When a
-reliable duplicate decision is impossible, report the uncertainty and defer
-any repeatable action.
+compare source identity, substantive claim, and evidence. Apply each fact and
+evidence pair once. Conflicting reports require evidence review or
+clarification. Ambiguous repetition keeps repeatable action pending.
 
-**Authorize:** a report grants no new authority. Delete, archive, handoff,
-owner change, cross-host action, publication, Git or credential change, and
-other high-risk effects still require the existing contract, user approval,
-identity, evidence, and their own gates. A completion report is a claim, not
-acceptance.
+**Authorize:** authority continues to come from the existing contract, user
+approval, identity, evidence, and action-specific gates. Apply these before
+archive, handoff, owner change, cross-host action, publication, Git or
+credential change. Treat a completion report as a claim entering acceptance.
 
 After dispatch, verify formal identity, report the linked title, reporting
 expectation, and next meaningful evidence, then end the turn. One bounded
 `wait_threads` may target only the exact task required for a serial result in
-the current response; event or timeout ends it. A later user pull makes one
-`wait_threads(timeoutMs: 0)` call over only the requested tasks. Use periodic
-heartbeat only on explicit request with targets and stop conditions. New user
-input supersedes an active wait.
+the current response; the first result or timeout ends it. A later user pull
+makes one `wait_threads(timeoutMs: 0)` call over only the requested tasks. Use
+periodic heartbeat only on explicit request with targets and stop conditions.
+New user input supersedes an active wait.
 
 ## Accept and report
 
@@ -210,8 +200,8 @@ Verify a worker's evidence before changing lifecycle, releasing a dependency,
 or accepting writes. Determine from the latest user intent whether the report
 concerns an intermediate checkpoint or the promised final boundary. Invoke
 `codex-session-naming` and apply its completion contract without replaying the
-worker. Missing or contradictory evidence leaves closure unverified, preserves
-the owner, and blocks archive and dependent work.
+worker. Closure advances when the evidence resolves the claim; until then the
+owner, archive state, and dependent work stay unchanged.
 
 Report user actions first, real exceptions second, then one compact portfolio
 summary. Link every listed non-current session as
@@ -223,10 +213,11 @@ Controller titles are `🕹️ 全局主控 · YYYY-MM-DD` or
 or project final closes, and `🔀` only after accepted handoff. A global final
 requires the user to end its role. Keep completed sessions unarchived unless
 the user sets another policy; confirmed duplicates and accepted predecessors
-are the exceptions. Never delete a session.
+are the exceptions. Archive is the terminal visibility action; retain session
+history.
 
 ## Handoff
 
 **Handoff:** for successor creation, takeover, or degraded recovery, read and
 follow [references/handoff.md](references/handoff.md). Ownership changes only
-after its acceptance path; controller handoff never forks.
+after its acceptance path.

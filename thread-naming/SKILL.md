@@ -34,7 +34,8 @@ Choose by next-step owner; completion and handoff override:
 - `⛔` no valid path
 - `⏸️` user pause
 - `⏳` owned queue not started
-- `🏃‍♂️` active work
+- `🏃‍♂️` Agent-owned active work; its working Agent may use one self-explanatory
+  emoji for its current action. Fall back to `🏃‍♂️`; all other states stay fixed.
 
 Turns and tool calls are not checkpoints. On the next gate, use its state; keep
 prior checkpoints only in the suffix or report.

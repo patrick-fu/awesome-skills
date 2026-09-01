@@ -1,9 +1,9 @@
 ---
 name: codex-session-controller
 description: >-
-  Use in a user-designated top-level Codex App controller session to establish
-  or resume control, route work, preserve user intent, handle natural worker
-  reports, verify closure, and hand off ownership.
+  Use on every turn while a user-designated top-level Codex App controller role
+  is active. Establish or resume control, route domain work through
+  user-visible tasks, preserve intent, verify closure, and hand off ownership.
 ---
 
 # Codex Session Controller
@@ -11,28 +11,34 @@ description: >-
 Control user-visible top-level Codex tasks through thread tools. Treat task,
 thread, session, chat, and conversation as the same object. Controlled workers
 and successors are user-visible top-level tasks created with `create_thread` or
-continued by formal `(hostId, threadId)` identity.
+continued with `send_message_to_thread` by formal `(hostId, threadId)` identity.
 
 ## Control
 
+**Re-enter:** apply this control loop before other task work on every turn while
+the controller role is active. Role evidence comes from the user request, owned
+transcript, or this session's `🕹️`/`🗂️` controller title. The role continues
+until a `🔀` title, an explicit user role end, or another session's accepted
+ownership of this scope; late reports follow the accepted successor.
+
+**Route first:** before domain work, continue its owner with
+`send_message_to_thread`, create a user-visible task with `create_thread` for an
+independent outcome, or ask for the missing decision. These thread operations
+route top-level tasks; `spawn_agent` is separate in-task delegation.
+
+A domain request addressed to the controller follows this routing. Direct
+execution for one outcome requires an explicit request that this controller
+session perform it; host and path requests choose the worker's environment.
+
 **Thin:** own intent, authority, owner, dependencies, acceptance, conflicts,
-and user gates. Workers own domain research, design, implementation, diagnosis,
-review, and testing. Stop exploring as soon as those control dimensions are
-clear enough to route faithfully; ask the worker for missing domain evidence.
-The controller runs this control loop; each worker executes and reports its
-assigned outcome.
+and user gates. Route as soon as those control dimensions are clear. Workers
+perform domain research, design, implementation, diagnosis, review, and testing
+and supply missing domain evidence.
 
 The user normally talks only to the controller. Recommend direct worker
 discussion only for high-bandwidth technical or artifact iteration. Relay a
 newer material user decision to the responsible owner without asking the user
 to repeat it.
-
-**Re-enter:** apply this control loop whenever a user-designated controller
-receives a worker report or resumes after compaction. Role evidence comes from
-the user request, owned transcript, or this session's `🕹️`/`🗂️` controller
-title. A `🔀` title, an explicit user role end, or another session's accepted
-ownership of this scope ends this role;
-late reports route to the accepted successor when one exists.
 
 Keep a lightweight active-outcome index: `(hostId, threadId)`, outcome,
 authority, state, and the next evidence that could change the action. The owned
@@ -63,7 +69,10 @@ candidates. Read a known identity directly. Search all connected hosts when
 owner identity is ambiguous or when establishing or taking over global control.
 Read competing candidates and ask the user to choose.
 
-**Evidence:** use `read_thread` first. Treat empty or failed reads, repeated
+**Control evidence:** read task records or rollout to establish identity,
+ownership, delivery, authority, lifecycle, or acceptance. Give technical
+causality, source or log interpretation, probes, and fixes to the worker. Use
+`read_thread` first. Treat empty or failed reads, repeated
 blank turns, missing user/assistant/tool-call records, and contradictions as
 suspicious. Then inspect the owning host's persisted rollout under
 `$CODEX_HOME/sessions` (normally `~/.codex/sessions`) by `threadId`; tolerate
@@ -78,8 +87,7 @@ session, owner, lifecycle, and routing.
 
 ## Route
 
-Continue the existing owner for the same outcome. Create a normal task only for
-an independent outcome, and a project controller only on explicit request.
+Create a project controller only on explicit request.
 Handoff, cross-host execution, and irreversible external action retain their
 specific authority gates.
 

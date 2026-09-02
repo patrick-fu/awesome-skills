@@ -21,7 +21,7 @@ IDs, and entities. Controller-role titles belong to
 ## When
 
 1. **Entry:** before the first response, write the headline from available
-   evidence. With no usable mandate, use `🙋‍♂️ 新会话 · 等待目标`.
+   evidence. With no usable mandate, use `🙋 新会话 · 等待目标`.
 2. **Semantic transition:** before the response that ends a turn, rewrite
    only when the headline is false; if true, leave it. Judge from user
    intent, delivered or verified work, and actual blockers—not recency or
@@ -54,13 +54,13 @@ selects the state. Completion and handoff override:
 - `🏁` mandate discharged
 - `☑️` checkpoint passed and parked
 - `🔀` accepted successor owns unfinished work
-- `🙋‍♂️` user decision, authorization, or action
+- `🙋` user decision, authorization, or action
 - `🕒` time, device, review, build, or external system
 - `⛔` no valid path
 - `⏸️` user pause
 - `⏳` owned queue not started
-- `🏃‍♂️` Agent-owned active work; its working Agent may use one self-explanatory
-  emoji for its current action. Fall back to `🏃‍♂️`; all other states stay fixed.
+- `🏃` Agent-owned active work; its working Agent may use one self-explanatory
+  emoji for its current action. Fall back to `🏃`; all other states stay fixed.
 
 Turns and tool calls are not checkpoints; ordinary progress belongs in the
 transcript or report.

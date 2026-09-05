@@ -16,6 +16,9 @@ description: >-
 1. 多个媒体按用户给出的顺序逐个完成；前一个命令退出后再开始下一个，不并发启动 Agent、进程或在线任务。
 2. 每个媒体先运行 `scripts/local-transcribe plan "<media>" --json`。
 3. `SETUP_REQUIRED`：读取 [setup.md](references/setup.md)。用户明确要求 setup 后再安装。
+   用户明确要求外置盘、持久化运行时或持久化转写目录时，先运行
+   `scripts/manage-runtime storage status --json`；在其确认四个独立目录后，运行
+   `storage configure`，再继续 setup。此配置只保存路径，不迁移既有数据，也不构成上传授权。
 4. 普通转写：运行 `scripts/local-transcribe "<media>" --json`，再读取 manifest 指向的产物。
 5. 用户明确要求豆包、在线、云端或允许上传：读取 [online-transcription.md](references/online-transcription.md)。仅“双模型、并行、交叉验证”不构成上传授权。
 6. 需要核对多份结果：读取 [transcript-review.md](references/transcript-review.md)。

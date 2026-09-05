@@ -21,13 +21,18 @@ class RuntimeManagerTests(unittest.TestCase):
         self.root = Path(self.temporary.name)
         self.old_app = os.environ.get("AUDIO_TRANSCRIPTION_APP_ROOT")
         self.old_cache = os.environ.get("AUDIO_TRANSCRIPTION_CACHE_ROOT")
+        self.old_storage = os.environ.get("AUDIO_TRANSCRIPTION_STORAGE_CONFIG")
         os.environ["AUDIO_TRANSCRIPTION_APP_ROOT"] = str(self.root / "app")
         os.environ["AUDIO_TRANSCRIPTION_CACHE_ROOT"] = str(self.root / "cache")
+        os.environ["AUDIO_TRANSCRIPTION_STORAGE_CONFIG"] = str(
+            self.root / "storage.json"
+        )
 
     def tearDown(self):
         for name, value in (
             ("AUDIO_TRANSCRIPTION_APP_ROOT", self.old_app),
             ("AUDIO_TRANSCRIPTION_CACHE_ROOT", self.old_cache),
+            ("AUDIO_TRANSCRIPTION_STORAGE_CONFIG", self.old_storage),
         ):
             if value is None:
                 os.environ.pop(name, None)
@@ -72,7 +77,9 @@ class RuntimeManagerTests(unittest.TestCase):
             if len(command) >= 2 and command[1] == "venv":
                 runtime = Path(command[-1])
                 (runtime / "bin").mkdir(parents=True)
-                (runtime / "bin" / "python").write_text("python")
+                python = runtime / "bin" / "python"
+                python.write_text("python")
+                python.chmod(0o755)
 
         def fake_download(_python, root, name, _spec):
             model = root / "models" / name

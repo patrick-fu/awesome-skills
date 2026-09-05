@@ -3,8 +3,7 @@ set -eu
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 HELP_DIR="$SCRIPT_DIR/help"
-APP_ROOT=${AUDIO_TRANSCRIPTION_APP_ROOT:-"$HOME/Library/Application Support/audio-transcription"}
-ACTIVE_PYTHON_FILE="$APP_ROOT/active-python"
+BOOTSTRAP_ACTIVE_PYTHON_FILE="$HOME/Library/Application Support/audio-transcription/active-python"
 
 skill_version() {
   /usr/bin/awk -F '"' '/"runtime_version"/ { print $4; exit }' "$SCRIPT_DIR/../runtime/models.lock.json"
@@ -44,6 +43,14 @@ fi
 if [ "$#" -gt 2 ] && [ "$1" = cache ] && [ "${3:-}" = --help ]; then
   show_topic cache
   exit 0
+fi
+
+if [ -n "${AUDIO_TRANSCRIPTION_APP_ROOT:-}" ]; then
+  ACTIVE_PYTHON_FILE="$AUDIO_TRANSCRIPTION_APP_ROOT/active-python"
+elif [ -f "$BOOTSTRAP_ACTIVE_PYTHON_FILE" ]; then
+  ACTIVE_PYTHON_FILE="$BOOTSTRAP_ACTIVE_PYTHON_FILE"
+else
+  ACTIVE_PYTHON_FILE="$HOME/Library/Application Support/audio-transcription/active-python"
 fi
 
 if [ -f "$ACTIVE_PYTHON_FILE" ]; then

@@ -1,0 +1,19 @@
+manage-runtime storage — Persist or inspect local storage locations
+
+USAGE
+  manage-runtime storage status [--json]
+  manage-runtime storage configure --app-root DIR --cache-root DIR --temp-root DIR --transcript-root DIR [--json]
+  manage-runtime storage reset [--json]
+
+STATUS
+Read-only. Reports the effective roots and whether each comes from an environment override,
+persisted storage configuration, or the original default.
+
+CONFIGURE
+Writes only a small local path configuration. It creates the four dedicated directories but does
+not move existing models, cache entries, temporary files, or transcripts, and does not install a
+runtime. Roots must be distinct absolute directories. Use setup after changing app-root.
+
+RESET
+Removes only the local path configuration and its local launcher pointer. It never deletes a
+runtime, models, cache, temporary files, transcripts, or media.

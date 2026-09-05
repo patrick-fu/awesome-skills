@@ -5,6 +5,7 @@ USAGE
   manage-runtime setup --profile <standard|low-memory> [--json]
   manage-runtime doctor [--json]
   manage-runtime install-cli --bin-dir DIR [--json]
+  manage-runtime storage <status|configure|reset> [options] [--json]
   manage-runtime cleanup <options> [--json]
   manage-runtime help <topic>
 
@@ -18,6 +19,7 @@ MORE HELP
   manage-runtime setup --help
   manage-runtime doctor --help
   manage-runtime install-cli --help
+  manage-runtime storage --help
   manage-runtime cleanup --help
 
 Help and inspect work before the ML runtime is installed.

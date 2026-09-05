@@ -17,7 +17,14 @@ from pathlib import Path
 from typing import Any
 
 from . import cache
-from .config import SKILL_ROOT, app_root, load_active, write_json_atomic
+from .config import (
+    SKILL_ROOT,
+    app_root,
+    load_active,
+    temp_root,
+    transcript_root,
+    write_json_atomic,
+)
 from .errors import CliError
 from .media import (
     chunk_ranges,
@@ -394,7 +401,10 @@ def _markdown(manifest: dict[str, Any], output: Path) -> None:
 
 def _prepare_output(requested: Path | None) -> Path:
     if requested is None:
-        path = Path(tempfile.mkdtemp(prefix="audio-transcription-"))
+        root = transcript_root()
+        path = Path(
+            tempfile.mkdtemp(prefix="audio-transcription-", dir=root) if root else tempfile.mkdtemp(prefix="audio-transcription-")
+        )
         os.chmod(path, 0o700)
         return path.resolve()
     path = requested.expanduser().resolve()
@@ -474,7 +484,10 @@ def _transcribe_resolved(
         "models": {},
     }
     write_json_atomic(output / "manifest.json", manifest)
-    with tempfile.TemporaryDirectory(prefix="audio-transcription-work-") as temporary:
+    temporary_kwargs = {"dir": temp_root()} if temp_root() else {}
+    with tempfile.TemporaryDirectory(
+        prefix="audio-transcription-work-", **temporary_kwargs
+    ) as temporary:
         wav = Path(temporary) / "input.wav"
         transcode_wav(
             Path(resolved["input"]["path"]),

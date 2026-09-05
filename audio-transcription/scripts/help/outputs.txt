@@ -9,7 +9,8 @@ ARTIFACT DIRECTORY
   moss/transcript.txt MOSS text when MOSS succeeds.
 
 DEFAULT LOCATION
-  A new private system temporary directory. Use --output-dir for a durable destination.
+  A new private system temporary directory. When persistent transcript storage is configured, a
+  new private directory is created below that root instead. Use --output-dir to override either.
   Existing non-empty destinations are rejected to prevent accidental overwrite.
 
 MANIFEST STATUS

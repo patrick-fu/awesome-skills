@@ -3,122 +3,208 @@
   "evals": [
     {
       "id": 1,
-      "name": "natural-dispatch",
-      "prompt": "Create a worker for the saved Billing project to investigate why invoice retries duplicate charges. Preserve my request exactly and have it report back to this controller.",
-      "expected_output": "The controller should resolve the saved project and send a concise natural-language assignment that a worker can execute without this conversation. It should preserve every user requirement, name the outcome and acceptance evidence, identify the reporting destination, and ask the worker to summarize results, evidence, and remaining work.",
-      "files": [],
-      "expectations": [
-        "The brief gives the worker a self-contained outcome and scope.",
-        "Every requirement traces to the user's request or a sourced authority boundary.",
-        "The brief names the acceptance evidence and reporting destination.",
-        "The requested report covers result, evidence, and remaining work."
-      ]
-    },
-    {
-      "id": 2,
-      "name": "natural-terminal-report",
-      "prompt": "A worker reports: 'I fixed the retry race, committed 8f31a2c, and the targeted integration test now passes. Production deployment was not requested, and nothing remains in the agreed scope.' Handle the report.",
-      "expected_output": "The controller should understand the report, verify the cited evidence, distinguish checkpoint from final scope, route the claim through the naming acceptance contract, and respond naturally with the accepted result or next step.",
+      "name": "load-is-not-role",
+      "prompt": "A worker brief says: 'Return the finished patch to the controller.' This session has no own controller title, no user controller designation, and no accepted handoff; only the brief mentions a controller, and the controller skill is loaded.",
+      "expected_output": "The session must not assume controller authority from skill loading or the brief's controller mention. It should continue its existing worker mandate and return the patch to the stated direct owner.",
       "files": []
     },
     {
+      "id": 2,
+      "name": "global-pull",
+      "prompt": "You are the user-designated global controller. Create a controller for the saved Billing project.",
+      "expected_output": "The global controller should resolve the saved project, establish the project controller, report its linked title and host, and end its turn on Pull. It should not wait for tickets, receive ticket callbacks, or inspect ticket detail without an inventory request.",
+      "files": [],
+      "expectations": [
+        "The project controller receives a formal identity.",
+        "The global-to-project edge remains Pull.",
+        "The global report links the controller title."
+      ]
+    },
+    {
       "id": 3,
-      "name": "insufficient-report",
-      "prompt": "A worker sends only: 'Done.' The work would release another worker that is waiting on its migration output. Handle it.",
-      "expected_output": "The controller should ask one focused natural-language question for the evidence and remaining-work status. The source remains owner, its archive and final state stay unchanged, and the dependent worker continues waiting.",
+      "name": "global-inventory",
+      "prompt": "You are the global controller. Your index lost two entries, and you manage ten direct children across project controllers and standalone tasks. The user asks for a status inventory.",
+      "expected_output": "The controller should rebuild the complete direct set from known identities and list_threads, take one snapshot pass in wait_threads batches of at most eight, report each non-current child as [<title>](codex://threads/<threadId>) with its hostId and one-line state, then end. It should not recurse into project tickets or begin a monitoring loop.",
       "files": []
     },
     {
       "id": 4,
-      "name": "duplicate-and-conflict",
-      "prompt": "The same worker repeats an earlier evidence-backed report, then sends a new message contradicting the earlier test result. Handle both messages.",
-      "expected_output": "The controller should apply the repeated fact once, producing one downstream effect, then inspect evidence or ask one focused question about the conflicting test result. It should compare the delivered message or source, substantive claim, and evidence.",
+      "name": "project-callback-confirmation",
+      "prompt": "The user asks you to become the project controller and run an active implementation frontier. No child return policy has been chosen.",
+      "expected_output": "The controller should recommend Callback-first for the active frontier and obtain one explicit confirmation of the child default. After confirmation, new ticket edges inherit Callback without repeated asks; the project-to-global edge remains Pull unless separately changed.",
       "files": [],
       "expectations": [
-        "The repeated fact produces one downstream effect in total.",
-        "The conflict produces an evidence check or one focused clarification.",
-        "Ownership and lifecycle stay unchanged while the conflict is unresolved."
+        "Callback is user-confirmed, not inferred from work shape.",
+        "The confirmed policy covers later child edges.",
+        "The project-to-global edge stays Pull."
       ]
     },
     {
       "id": 5,
-      "name": "unknown-create-result",
-      "prompt": "Creating a worker returned an unknown result. You had already resolved one saved project and sent a complete natural-language brief. Recover safely.",
-      "expected_output": "The controller should list and read tasks in the resolved project, compare the before/after task set, source controller, project, environment, and exact brief, then reuse one verified result or review multiple candidates. No match or an incomplete projection remains unresolved; only explicit tool evidence of non-creation permits one identical bounded retry, and the current owner remains responsible until then.",
-      "files": []
+      "name": "per-edge-return",
+      "prompt": "A project controller owns one Pull research edge and one user-confirmed Callback edge. Handle dispatch and an incoming callback.",
+      "expected_output": "The Pull worker should be dispatched and the turn ended without waiting. The Callback worker reports only to the project controller, which verifies evidence before releasing its dependency. Mode choice does not alter either worker's scope, owner, authority, or acceptance.",
+      "files": [],
+      "expectations": [
+        "Pull does not wait, callback, or schedule.",
+        "Callback wakes only the direct owner.",
+        "Return mode does not change ownership or acceptance."
+      ]
     },
     {
       "id": 6,
-      "name": "unknown-followup-result",
-      "prompt": "Sending a user's steering delta to an existing worker returned an unknown result. Recover without changing scope.",
-      "expected_output": "The controller should read the exact target and classify delivery. A delivered delta ends recovery; an absent message remains unresolved; definitive non-delivery or a harmless exact repeat permits one identical retry. The original scope, owner, and evidence gap stay unchanged while delivery is unresolved.",
-      "files": []
+      "name": "batch-explicit-only",
+      "prompt": "The user explicitly chooses Batch for ten wide-fan-in workers after the controller explains interruption, token, latency, and response effects.",
+      "expected_output": "The controller should echo and use that choice, cover the cohort with one heartbeat and one snapshot per run, and set targets, cadence, a TTL or run cap, stop conditions, and automatic pause. Ordinary completion stays batched; any immediate-event exception must match the confirmed choice and be disclosed.",
+      "files": [],
+      "expectations": [
+        "Batch has explicit user authorization.",
+        "One heartbeat covers one cohort.",
+        "Ordinary results do not bypass Batch.",
+        "The heartbeat pauses automatically."
+      ]
     },
     {
       "id": 7,
-      "name": "projectless-successor-rejected",
-      "prompt": "A proposed successor controller exists but was created without a saved project and is waiting for approval. The predecessor is still healthy. Complete the handoff.",
-      "expected_output": "The predecessor should remain owner while the controller asks for the saved-project and permission gates to be resolved. Ownership transfers only after an eligible successor completes the verified acceptance path.",
+      "name": "wrong-level-report",
+      "prompt": "A ticket completion report arrives at the global controller, but the sender's brief named a project controller as its direct owner.",
+      "expected_output": "The global controller should not accept or act on the ticket result. It should verify the direct owner, forward the report unchanged with an address correction, or ask the sender to resend from its own records if the owner cannot be verified.",
       "files": []
     },
     {
       "id": 8,
-      "name": "rollout-fallback",
-      "prompt": "read_thread shows several blank turns for a worker and no user, assistant, or tool activity, but the runtime status looks idle. Decide whether it is done.",
-      "expected_output": "The controller should inspect the owning host's persisted rollout and derive lifecycle state from the recovered task evidence. If evidence remains unresolved, the worker, owner, and lifecycle state remain unchanged.",
+      "name": "unknown-create-result",
+      "prompt": "Creating a worker in a resolved saved project returned an unknown result after a complete brief was sent.",
+      "expected_output": "The controller should list and read project tasks, compare source, project, environment, exact brief, and before/after task set, then reuse one verified match or review multiple candidates. Only explicit evidence of non-creation permits one identical bounded retry; unresolved delivery preserves current responsibility.",
       "files": []
     },
     {
       "id": 9,
-      "name": "natural-handoff",
-      "prompt": "Take over an existing project controller whose work includes two active workers, one unresolved user decision, and one follow-up whose delivery is uncertain.",
-      "expected_output": "The initial brief or follow-up should naturally designate the successor controller role. The successor should reconstruct a concise transfer from authoritative history, verify every worker identity and pending gate, state naturally that it accepts ownership and what remains next, and deliver that report to the predecessor unless this is a user-authorized direct takeover. The accepting actor may then change the predecessor title, archive it, and redirect each active worker's future reports to the successor; late reports follow that route.",
+      "name": "unknown-followup-result",
+      "prompt": "Sending a user's steering delta to an existing worker returned an unknown result.",
+      "expected_output": "The controller should read the exact target and classify delivery. A delivered delta ends recovery; definitive non-delivery or a harmless exact repeat permits one bounded retry; an absent message leaves scope, owner, and state unchanged.",
       "files": []
     },
     {
       "id": 10,
-      "name": "misplaced-worker-rejected",
-      "prompt": "A newly created ordinary worker was requested in a saved project, but verification shows it landed projectless, is approval-pending, and has less access than the task requires. Decide whether it owns the work.",
-      "expected_output": "The existing owner remains responsible while the controller re-resolves the saved project, required environment, and permission profile. The new worker becomes eligible only after those qualifications match the assignment.",
+      "name": "rollout-fallback",
+      "prompt": "A worker's read_thread shows blank turns, but runtime status looks idle.",
+      "expected_output": "The controller should inspect the owning host's persisted rollout and decide only from recovered task evidence. If evidence remains unresolved, owner and lifecycle state stay unchanged.",
       "files": []
     },
     {
       "id": 11,
-      "name": "controller-report-reentry",
-      "prompt": "This is an established user-designated project controller. After context compaction, a worker sends a natural-language completion report with a commit and test evidence.",
-      "expected_output": "The controller skill should trigger again from the established controller role and incoming natural-language worker report, reconstruct ownership from the transcript, verify the evidence, and apply the normal acceptance path. Any clarification should concern the work or its evidence.",
+      "name": "misplaced-worker-rejected",
+      "prompt": "A requested worker landed projectless, approval-pending, and with less access than its brief requires.",
+      "expected_output": "The candidate should not own the work. The existing owner remains responsible while the controller re-resolves saved project, environment, and permissions; eligibility begins only when all qualifications match.",
       "files": []
     },
     {
       "id": 12,
-      "name": "controller-role-reopen",
-      "prompt": "A project controller completed a prior final boundary and has a final title. The user now gives contrary evidence that reopens that outcome. In a separate direct-takeover example, the current successor has just accepted ownership itself.",
-      "expected_output": "Contrary evidence should reopen the original boundary under the naming contract. A user-authorized direct-takeover successor remains active after its own acceptance; an explicit user role end, a handed-off title, or another session's accepted ownership ends the prior controller role.",
-      "files": []
+      "name": "lossless-steering-delta",
+      "prompt": "A worker must simplify a retry path, preserve its public API, add targeted tests, and commit without pushing. The user now says: 'For the retry path, prefer the queue-based direction.'",
+      "expected_output": "The controller should send only the queue-based direction. API stability, tests, commit delivery, no-push boundary, owner, and acceptance remain unchanged and traceable.",
+      "files": [],
+      "expectations": [
+        "The follow-up carries only the new direction.",
+        "Unmentioned requirements remain unchanged.",
+        "No new goal, implementation obligation, or permission appears."
+      ]
     },
     {
       "id": 13,
-      "name": "worker-stays-task-scoped",
-      "prompt": "You are the implementation worker for one assigned bug fix. Your brief names a separate project controller and asks you to return the result, evidence, and remaining work there.",
-      "expected_output": "The worker should stay scoped to the assigned bug fix and report its result to the named controller. Portfolio routing, other workers, controller titles, and ownership remain with the controller.",
-      "files": [],
-      "expectations": [
-        "The worker performs or reports only the assigned outcome.",
-        "The worker sends the result, evidence, and remaining work to the named controller.",
-        "The existing controller retains portfolio and ownership decisions."
-      ]
+      "name": "closure-evidence",
+      "prompt": "A project worker reports a commit and passing targeted test, says production deployment was not requested, and claims the agreed scope is complete.",
+      "expected_output": "The direct owner should verify the cited evidence, distinguish final from checkpoint scope, apply the naming skill's closure rules, and advance only when evidence resolves the claim.",
+      "files": []
     },
     {
       "id": 14,
-      "name": "lossless-steering-delta",
-      "prompt": "A worker was assigned A: simplify the retry path, B: keep the public API stable, and C: provide targeted tests; acceptance requires a commit but no push. The user now says: 'For A, prefer the queue-based direction.' Relay this steering.",
-      "expected_output": "The controller should send only the new queue-based direction for A. The public API boundary, targeted tests, commit delivery, push boundary, owner, and acceptance remain unchanged and traceable to the original request.",
+      "name": "mode-specific-handoff",
+      "prompt": "A predecessor project controller owns callback workers, a batch cohort, and pull workers. The successor has just accepted ownership.",
+      "expected_output": "The predecessor should rebind only callback edges where it is the direct return target, drain unconfirmed late callbacks unchanged, and retire after that routing. It should pause the Batch heartbeat without worker rebind and leave Pull edges unchanged. A global successor would not touch project-internal tickets.",
       "files": [],
       "expectations": [
-        "The follow-up carries the user's new direction for A.",
-        "B, C, delivery, owner, and acceptance stay unchanged.",
-        "The follow-up adds no new product goal, implementation obligation, or permission boundary."
+        "Only direct callback edges receive a destination delta.",
+        "Late callbacks are forwarded before successor deduplication.",
+        "Batch pauses and Pull does not rebind.",
+        "Retirement follows return routing."
       ]
+    },
+    {
+      "id": 15,
+      "name": "controller-report-reentry",
+      "prompt": "After context compaction, a callback wakes the session and the controller skill loads automatically. The visible transcript no longer contains the user designation or accepted-handoff record; the only role evidence is this session's own controller title, which was established before compaction.",
+      "expected_output": "The session should restore the previously established controller from its own controller title, process the callback as the direct owner, and apply the normal evidence-based acceptance path. Automatic skill loading and the callback alone remain insufficient to create authority.",
+      "files": [],
+      "expectations": [
+        "The own pre-compaction title restores the established role.",
+        "Skill loading and the callback alone do not create authority.",
+        "The restored owner applies evidence-based acceptance."
+      ]
+    },
+    {
+      "id": 16,
+      "name": "closure-challenge-reopens",
+      "prompt": "A project controller previously reported final closure, but the user now supplies contrary evidence that a required acceptance case fails.",
+      "expected_output": "The controller should treat the contrary evidence as reopening the original outcome under the naming skill's closure rules rather than ending its role merely because a final title exists. It should preserve the evidence and advance only a control action supported by the reopened record.",
+      "files": [],
+      "expectations": [
+        "Contrary acceptance evidence reopens the final claim.",
+        "The controller role is not closed by challenged final state alone.",
+        "Lifecycle advances only through evidence-backed acceptance."
+      ]
+    },
+    {
+      "id": 17,
+      "name": "insufficient-report-blocks-dependency",
+      "prompt": "A worker sends only 'Done.' Its claimed output would release another worker that is waiting on a migration result.",
+      "expected_output": "The controller should ask one focused question for evidence and remaining work. It should not release the dependency, advance the dependent worker, archive the source, or treat the bare claim as acceptance.",
+      "files": []
+    },
+    {
+      "id": 18,
+      "name": "duplicate-and-conflict",
+      "prompt": "The same worker repeats an evidence-backed report, then sends a new message contradicting its earlier test result.",
+      "expected_output": "The controller should apply the repeated fact once by source, substantive claim, and evidence; it should resolve the conflict by evidence review or one focused clarification and leave ownership and lifecycle unchanged until resolved.",
+      "files": [],
+      "expectations": [
+        "The repeated fact has one downstream effect.",
+        "The conflict receives evidence review or one clarification.",
+        "Unresolved conflict blocks lifecycle change."
+      ]
+    },
+    {
+      "id": 19,
+      "name": "handoff-acceptance-gate",
+      "prompt": "A proposed project-controller successor has read the transfer summary but has not verified all owned sessions or stated acceptance.",
+      "expected_output": "The predecessor should remain owner. Ownership transfers only after the successor completes formal identity, project and permission qualification, material reconstruction, owned-session verification, control-state checks, and an explicit acceptance statement.",
+      "files": []
+    },
+    {
+      "id": 20,
+      "name": "projectless-successor-rejected",
+      "prompt": "A proposed successor controller is projectless and approval-pending while the healthy predecessor remains available.",
+      "expected_output": "The successor fails the handoff qualification gate. The predecessor remains owner until an eligible successor completes the full acceptance path.",
+      "files": []
+    },
+    {
+      "id": 21,
+      "name": "direct-takeover-acceptance",
+      "prompt": "The user authorizes direct takeover of a project controller by a new session.",
+      "expected_output": "The new session reconstructs the predecessor's material control facts from authoritative history and explicitly accepts ownership; ownership transfers only after that acceptance, and the predecessor remains owner until then.",
+      "files": [],
+      "expectations": [
+        "Direct takeover still requires reconstruction and acceptance.",
+        "The predecessor remains owner until transfer is accepted."
+      ]
+    },
+    {
+      "id": 22,
+      "name": "one-shot-stays-unowned",
+      "prompt": "The user asks this session to inspect one task and report whether its last message contains test evidence.",
+      "expected_output": "The session should perform only that bounded inspection and report the finding. It should not assume controller role, create ownership or an active index, or expand into managing the task's outcome.",
+      "files": []
     }
   ]
 }

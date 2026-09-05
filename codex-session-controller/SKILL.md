@@ -1,232 +1,130 @@
 ---
 name: codex-session-controller
 description: >-
-  Use on every turn while a user-designated top-level Codex App controller role
-  is active. Establish or resume control, route domain work through
-  user-visible tasks, preserve intent, verify closure, and hand off ownership.
+  Use when a user establishes this Codex session as a global or project
+  controller, accepts a controller handoff, or operates an already established
+  controller. Loading alone grants no controller role.
 ---
 
 # Codex Session Controller
 
-Control user-visible top-level Codex tasks through thread tools. Treat task,
-thread, session, chat, and conversation as the same object. Controlled workers
-and successors are user-visible top-level tasks created with `create_thread` or
-continued with `send_message_to_thread` by formal `(hostId, threadId)` identity.
+Control user-visible Codex tasks through thread tools. Workers and successors
+are separate tasks identified by formal `(hostId, threadId)`; a saved project is
+`(hostId, projectId)`.
 
-## Control
+## Role
 
-**Re-enter:** apply this control loop before other task work on every turn while
-the controller role is active. Role evidence comes from the user request, owned
-transcript, or this session's `🕹️`/`🗂️` controller title. The role continues
-until a `🔀` title, an explicit user role end, or another session's accepted
-ownership of this scope; late reports follow the accepted successor.
+**Load is not role.** Restore controller authority only from this session's own
+transcript: explicit user designation, verified accepted handoff, or the
+session's own controller title for a role established before compaction. A title
+can restore, not create; worker mentions and other sessions' titles grant none.
+Without an authorized source, continue the existing mandate.
 
-**Route first:** before domain work, continue its owner with
-`send_message_to_thread`, create a user-visible task with `create_thread` for an
-independent outcome, or ask for the missing decision. These thread operations
-route top-level tasks; `spawn_agent` is separate in-task delegation.
+**Re-enter:** when the role is active, apply this flow before other task work.
+Keep at most one current global controller and one controller per project. The
+role ends when the user ends it or another accepted owner covers that scope.
 
-A domain request addressed to the controller follows this routing. Direct
-execution for one outcome requires an explicit request that this controller
-session perform it; host and path requests choose the worker's environment.
+A **one-shot** performs one user-requested session inspection or operation
+without claiming controller role, ownership, or an active index; a project
+domain request routes losslessly to its project controller.
 
-**Thin:** own intent, authority, owner, dependencies, acceptance, conflicts,
-and user gates. Route as soon as those control dimensions are clear. Workers
-perform domain research, design, implementation, diagnosis, review, and testing
-and supply missing domain evidence.
+A **global** controller manages portfolio-level outcomes, project controllers,
+direct standalone tasks, but not project-internal tickets. Every direct child
+edge defaults to Pull. Inventory takes one bounded snapshot of those children,
+without ticket detail unless the user asks.
 
-The user normally talks only to the controller. Recommend direct worker
-discussion only for high-bandwidth technical or artifact iteration. Relay a
-newer material user decision to the responsible owner without asking the user
-to repeat it.
-
-Keep a lightweight active-outcome index: `(hostId, threadId)`, outcome,
-authority, state, and the next evidence that could change the action. The owned
-transcript is authoritative; the index is its lightweight view.
-
-Classify each invocation before changing state:
-
-- **one-shot:** inspect or operate on sessions without changing this role
-- **global:** explicitly requested portfolio control
-- **project:** explicitly requested multi-outcome control for one named project
-- **successor:** explicit takeover or handoff
-
-The current session assumes the requested role unless the user asks for a new
-one. Keep at most one current global controller and one per project. Route
-unrelated work to the global controller and narrow work to its project owner.
-
-## Resolve
-
-Inspect current thread-tool schemas before use; schemas drift. Core operations
-are `list_projects`, `list_threads`, `read_thread`, `create_thread`,
-`send_message_to_thread`, and `set_thread_title`. `wait_threads`, archive, pin,
-and share are optional; disclose degradation and use the nearest safe path.
-
-**Identity:** a non-current session is `(hostId, threadId)` and a saved project
-is `(hostId, projectId)`. Establish identity and completion from complete task
-records; use titles, paths, previews, timestamps, and status to locate
-candidates. Read a known identity directly. Search all connected hosts when
-owner identity is ambiguous or when establishing or taking over global control.
-Read competing candidates and ask the user to choose.
-
-**Control evidence:** read task records or rollout to establish identity,
-ownership, delivery, authority, lifecycle, or acceptance. Give technical
-causality, source or log interpretation, probes, and fixes to the worker. Use
-`read_thread` first. Treat empty or failed reads, repeated
-blank turns, missing user/assistant/tool-call records, and contradictions as
-suspicious. Then inspect the owning host's persisted rollout under
-`$CODEX_HOME/sessions` (normally `~/.codex/sessions`) by `threadId`; tolerate
-schema drift and read only the needed records. Persisted rollout wins for
-persisted history; query it on the owning host.
-
-Only an actual tool call, delivered message, or assistant report proves a
-relay. A quoted prompt, example, command, or tool output is only a search lead.
-Idle, silence, timeout, `notLoaded`, empty turns, refreshed timestamps, and
-missing local rollout leave state unresolved. An evidence gap preserves the
-session, owner, lifecycle, and routing.
+A **project** controller owns one project's outcome map, backlog, frontier,
+dependencies, concurrency and resource limits, acceptance, next dispatch, and
+project synthesis. It may do light control work. Domain research,
+implementation, diagnosis, review, testing, and artifact iteration belong to
+workers; direct execution requires an explicit user request to this session.
 
 ## Route
 
-Create a project controller only on explicit request.
-Handoff, cross-host execution, and irreversible external action retain their
-specific authority gates.
+Inspect current thread-tool schemas before first use; schemas drift. Resolve the
+owner before doing domain work: continue an existing owner, create a task for an
+independent outcome, or ask the missing decision. `spawn_agent` is separate
+in-task delegation, not a controller worker.
 
-Default work to the controller host; use another host only when the user chooses
-it. Before every create, call `list_projects` and resolve an existing saved
-project from host, natural project, repository or path, and user intent. Use
-only a `projectId` returned for that host. Multiple safe candidates or no safe
-match is a user gate: ask the user to choose an existing project or save one.
+**Saved project:** before every create, call `list_projects`; resolve one saved
+project from host, natural project, repository/path, and intent, using only its
+host-returned `projectId`. Search for an existing owner before duplicate. Create
+local/direct by default; use a managed worktree only for independent writes when
+current uncommitted state is unnecessary.
 
-Before sending, search that project for an existing owner. Retain the source
-controller, target project and environment, exact brief, and the before/after
-task set as internal delivery evidence.
+Formal identity comes from returned `(hostId, threadId)` or `(hostId,
+projectId)`. Establish ownership, delivery, lifecycle, and acceptance from the
+owned transcript, complete task records, or persisted rollout. For a failed or
+suspicious read, unknown create/send, or misplaced worker, read
+[references/delivery.md](references/delivery.md).
 
-Create in that project's local/direct environment by default, including
-non-repository work, current-tree or cross-directory access, read-only state,
-aggregate projects, and requests for Full Access. Use a Codex-managed worktree
-only for independent writes in a verified Git project when current uncommitted
-state is not required. Let Codex create managed worktrees. Every new task uses
-an existing saved-project target.
+## Dispatch
 
-Create and follow-up inherit model and reasoning settings unless the user
-changes them in that turn. A normal follow-up uses only `threadId`, `hostId`,
-and natural-language `prompt`. Every new task establishes its own title at
-entry, so a brief carries the outcome rather than the naming protocol. Invoke
-`codex-session-naming` to rename or verify owned non-controller titles,
-including missing or stale titles.
+**Lossless:** the initial brief carries the complete user request; steering
+carries only its delta. Every unmentioned dimension remains unchanged. State the
+outcome, user details, permission and host boundary, acceptance evidence,
+decisions that pause work, and the direct owner's formal identity as the report
+destination. Keep the brief self-contained and distinguish requirements from
+non-binding suggestions. Give the worker accessible paths, links, or content.
 
-Coordinate independent work only when dependencies and exclusive resources
-allow. Track each shared resource's owner and release condition. Project
-controllers keep ordinary reports internal; they notify global control only for
-a user gate, cross-project conflict, hard blocker, portfolio-affecting change,
-project final, or handoff. For fan-in, workers report to one lead and the lead
-sends one consolidated report. Use `/goal` only for an explicit durable project
-objective with a verifiable stop.
+Invoke `codex-session-naming` to establish a worker title; the brief carries the
+outcome, not a naming protocol. Track a minimal active index: formal identity,
+outcome, direct owner, state or next evidence, and return mode. A Batch cohort
+may group those edges; no other hierarchy is inferred.
 
-## Relay
+## Return
 
-**Lossless:** initial dispatch carries the complete user request; later
-steering carries only its delta. Every unmentioned dimension stays unchanged.
-Keep user requirements distinct from sourced control facts and explicitly
-non-binding suggestions. Add only the smallest boundary required by platform,
-safety, permission, existing authorization, or repository rules.
+Return belongs to one direct owner→child edge. Workers report only to their
+direct owner; a report never leapfrogs to a grandparent. Before dispatch, choose
+one mode for that edge:
 
-A new worker brief reads like a normal assignment and stands on its own. State
-the outcome, user details, permission boundary, evidence and acceptance needed,
-reporting destination, and decisions or access that require a pause. Ask for a
-concise report at meaningful completion, hard blocker, or user decision: actual
-result, evidence, remaining work, and the impact of each choice.
+- **Pull** is the default for every unselected edge and global→project,
+  switchable only by explicit user choice. It is dispatch-and-return: verify
+  formal identity, report the linked title and next evidence, then end without
+  `wait_threads`, callback, or schedule. For inventory, rebuild the named or
+  directly owned set from the index, known identities, and `list_threads`; take
+  one snapshot pass in `wait_threads` batches of at most eight, report links,
+  hosts, and one-line states, then end.
+- **Callback** and **Batch** require the user to choose directly or to confirm
+  after the controller explains effects on response speed, interruption, token
+  use, and latency. Echo an explicit user choice and use it without asking
+  again. Work shape alone never upgrades a mode.
 
-Give a new session the accessible paths, links, or content it needs. If these
-cannot carry the work safely, request a suitable carrier. **Fidelity:** compare
-the brief with the user request so every detail remains traceable and owner,
-acceptance, publication, write, timing, tool, and host scope stay unchanged.
-Ask when ambiguity would change direction; otherwise normalize meaning.
+Mode changes only return behavior; scope, owner, authority, and acceptance stay
+unchanged. A project controller→ticket edge may be Callback when the user chose
+that default for active work; project→global stays Pull unless the user
+explicitly switches that edge. Pull keeps blocker/final/handoff state in the
+project task until global pull. For Callback/Batch mechanics, wrong-level
+reports, or handoff return routing, read [references/return.md](references/return.md).
 
-## Recover delivery
-
-`create_thread` and `send_message_to_thread` may return an unknown result. Use
-the environment, actual messages, and formal task records as the delivery
-ledger. Treat delivery as uncertain until that evidence resolves it.
-
-**Create:** formal identity begins at `(hostId, threadId)`. While client setup is
-pending, report that state and verify it on the next user pull. After an unknown
-result, list and read the resolved project:
-
-- one matching task that has only the dispatched work is the result; reuse it
-- multiple matching tasks require evidence review; keep valid independent work
-  and retire only a confirmed duplicate when archive is available
-- a definitive non-creation result permits one identical bounded retry
-- no match or an incomplete projection keeps delivery unresolved
-- unresolved delivery preserves the current owner; a retry requires explicit
-  tool evidence that creation did not occur
-
-After formal identity exists, verify host, saved project, environment,
-permission profile, and initial brief. Inspect rollout when the resulting task
-projection is suspicious. Ownership begins after the task satisfies those
-qualifications and its access meets the assignment; otherwise re-resolve the
-saved project.
-
-**Follow-up:** after an unknown send, read the target and classify delivery.
-Delivered work ends recovery. Definitive non-delivery or a demonstrably harmless
-repeat permits one identical retry. An absent message remains unresolved until
-delivery evidence settles it; the original scope, owner, and evidence gap stay
-unchanged.
-
-## Reports and return
-
-Application-level `send_message_to_thread` starts a new controller turn.
-Independent workers report once at meaningful completion. Urgent blockers,
-user decisions, dependency releases, and material changes report immediately.
-In a fan-in, workers report to the lead and the lead reports when the group can
-move.
-
-**Understand:** read a report by meaning. Actual delivery identifies the source
-and receiver. A sufficient report explains what happened, points to evidence,
-and says what remains or what decision is needed. Acknowledge clear reports and
-state the next step; ask one focused question for material gaps.
-
-**Deduplicate:** use the actual message or turn locator when stable. Otherwise
-compare source identity, substantive claim, and evidence. Apply each fact and
-evidence pair once. Conflicting reports require evidence review or
-clarification. Ambiguous repetition keeps repeatable action pending.
-
-**Authorize:** authority continues to come from the existing contract, user
-approval, identity, evidence, and action-specific gates. Apply these before
-archive, handoff, owner change, cross-host action, publication, Git or
-credential change. Treat a completion report as a claim entering acceptance.
-
-After dispatch, verify formal identity, report the linked title, reporting
-expectation, and next meaningful evidence, then end the turn. One bounded
-`wait_threads` may target only the exact task required for a serial result in
-the current response; the first result or timeout ends it. A later user pull
-makes one `wait_threads(timeoutMs: 0)` call over only the requested tasks. Use
-periodic heartbeat only on explicit request with targets and stop conditions.
-New user input supersedes an active wait.
+When establishing a project controller, recommend and obtain one confirmation
+for its child default return policy; **Callback-first** suits an active
+frontier. That confirmed policy supplies the return mode for later ticket edges
+without asking per worker. If unconfirmed, each edge remains Pull.
 
 ## Accept and report
 
-Verify a worker's evidence before changing lifecycle, releasing a dependency,
-or accepting writes. Invoke `codex-session-naming` and judge the resulting
-completion claim with its closure rules, without replaying the worker or
-restating those rules. Closure advances when the evidence resolves the claim;
-until then the owner, archive state, and dependent work stay unchanged.
+Read a report by meaning: what happened, cited evidence, remaining work, and any
+decision needed. Deduplicate by stable message or turn locator, otherwise source
+identity plus substantive claim plus evidence. Apply each fact once. Resolve
+conflicts by evidence or one focused question; ambiguity leaves lifecycle,
+dependency release, and archive unchanged.
 
-Report user actions first, real exceptions second, then one compact portfolio
-summary. Link every listed non-current session as
-`[<title>](codex://threads/<threadId>)` and show its `hostId`. Share only on
-explicit request.
+Treat completion as a claim entering acceptance. Verify evidence before
+changing lifecycle, releasing a dependency, or accepting writes. Invoke
+`codex-session-naming`, apply its closure rules, and do not replay the worker.
+Report user actions, exceptions, then a compact summary. Link each non-current
+session as `[<title>](codex://threads/<threadId>)` and show its `hostId`.
 
 Controller titles are `🕹️ 全局主控 · YYYY-MM-DD` or
-`🗂️ <Project> 项目主控 · YYYY-MM-DD`. Prefix `🏁` only after the role
-or project final closes, and `🔀` only after accepted handoff. A global final
-requires the user to end its role. Keep completed sessions unarchived unless
-the user sets another policy; confirmed duplicates and accepted predecessors
-are the exceptions. Archive is the terminal visibility action; retain session
-history.
+`🗂️ <Project> 项目主控 · YYYY-MM-DD`; prefix `🏁` only after final closure
+(global requires explicit user role end) and `🔀` only after accepted handoff.
+Keep completed sessions unarchived unless the user sets another policy; accepted
+predecessors and duplicates are exceptions.
 
 ## Handoff
 
-**Handoff:** for successor creation, takeover, or degraded recovery, read and
-follow [references/handoff.md](references/handoff.md). Ownership changes only
-after its acceptance path.
+For successor creation, direct takeover, or degraded recovery, read
+[references/handoff.md](references/handoff.md). Ownership transfers only after
+acceptance. When accepted ownership includes a Callback or Batch edge, read
+[references/return.md](references/return.md) for its return routing.

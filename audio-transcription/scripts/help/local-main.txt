@@ -13,7 +13,8 @@ DEFAULT BEHAVIOR
   Accepts one media file per invocation. Multiple media files run one invocation at a time,
   in input order; a shared local lock makes concurrent callers wait.
   Does not access the network and never uploads media.
-  Writes artifacts to a new system temporary directory unless --output-dir is used.
+  Writes artifacts to a new system temporary directory unless --output-dir is used or persistent
+  transcript storage has been configured.
   Prints a compact manifest; use --print to print the complete Markdown transcript.
   A result is usable when at least one model succeeds; use --require-all for strict runs.
 

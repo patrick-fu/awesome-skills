@@ -21,8 +21,13 @@ from audio_transcription.config import (
     SKILL_ROOT,
     active_config_path,
     app_root,
+    configure_storage,
     load_active,
     load_lock,
+    reset_storage,
+    storage_status,
+    temp_root,
+    write_bootstrap_active_python,
     write_json_atomic,
 )
 from audio_transcription.errors import CliError
@@ -110,6 +115,7 @@ def inspect() -> dict[str, Any]:
             and platform.machine() == "arm64",
         },
         "runtime": {"active": active, "lock_version": lock["runtime_version"]},
+        "storage": storage_status(),
         "dependencies": {"missing": missing, "homebrew": shutil.which("brew")},
         "profile": {
             "recommended": recommendation,
@@ -290,7 +296,10 @@ def smoke(
             "TOKENIZERS_PARALLELISM": "false",
         }
     )
-    with tempfile.TemporaryDirectory(prefix="audio-transcription-smoke-") as temporary:
+    temporary_kwargs = {"dir": temp_root()} if temp_root() else {}
+    with tempfile.TemporaryDirectory(
+        prefix="audio-transcription-smoke-", **temporary_kwargs
+    ) as temporary:
         root = Path(temporary)
         audio = root / "smoke.wav"
         _make_smoke_audio(audio)
@@ -440,6 +449,7 @@ def setup(profile: str) -> dict[str, Any]:
             }
             write_json_atomic(active_config_path(), active)
             _write_active_python(root, python)
+            write_bootstrap_active_python(python)
             return {
                 "status": "ready",
                 "active": active,
@@ -634,6 +644,28 @@ def cleanup(*, cache_only: bool, all_data: bool, dry_run: bool) -> dict[str, Any
     return {"status": "ready", "dry_run": False, "targets": targets}
 
 
+def storage(args: argparse.Namespace) -> dict[str, Any]:
+    if args.storage_command == "status":
+        return {"status": "ready", **storage_status()}
+    if args.storage_command == "configure":
+        value = configure_storage(
+            app=args.app_root,
+            cache=args.cache_root,
+            temporary=args.temp_root,
+            transcripts=args.transcript_root,
+        )
+        return {
+            "status": "ready",
+            "storage": value,
+            "next_actions": [
+                {"command": "manage-runtime inspect --json"},
+                {"command": "manage-runtime setup --profile <standard|low-memory> --json"},
+            ],
+        }
+    removed = reset_storage()
+    return {"status": "ready", "removed": str(removed) if removed else None}
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument(
@@ -657,6 +689,18 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     clean.add_argument("--cache", action="store_true")
     clean.add_argument("--all", action="store_true")
     clean.add_argument("--json", action="store_true")
+    storage_parser = sub.add_parser("storage", add_help=False)
+    storage_sub = storage_parser.add_subparsers(dest="storage_command", required=True)
+    storage_status_parser = storage_sub.add_parser("status", add_help=False)
+    storage_status_parser.add_argument("--json", action="store_true")
+    storage_configure = storage_sub.add_parser("configure", add_help=False)
+    storage_configure.add_argument("--app-root", type=Path, required=True)
+    storage_configure.add_argument("--cache-root", type=Path, required=True)
+    storage_configure.add_argument("--temp-root", type=Path, required=True)
+    storage_configure.add_argument("--transcript-root", type=Path, required=True)
+    storage_configure.add_argument("--json", action="store_true")
+    storage_reset = storage_sub.add_parser("reset", add_help=False)
+    storage_reset.add_argument("--json", action="store_true")
     return parser.parse_args(argv)
 
 
@@ -678,6 +722,8 @@ def main(argv: list[str] | None = None) -> int:
             value = doctor()
         elif args.command == "install-cli":
             value = install_cli(args.bin_dir)
+        elif args.command == "storage":
+            value = storage(args)
         else:
             value = cleanup(
                 cache_only=args.cache,

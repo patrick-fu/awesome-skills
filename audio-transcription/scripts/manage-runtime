@@ -13,6 +13,7 @@ show_topic() {
   case "$topic" in
     main|runtime-main) file="$HELP_DIR/runtime-main.txt" ;;
     inspect) file="$HELP_DIR/runtime-inspect.txt" ;;
+    storage) file="$HELP_DIR/runtime-storage.txt" ;;
     doctor) file="$HELP_DIR/runtime-doctor.txt" ;;
     setup) file="$HELP_DIR/runtime-setup.txt" ;;
     install-cli) file="$HELP_DIR/runtime-install-cli.txt" ;;

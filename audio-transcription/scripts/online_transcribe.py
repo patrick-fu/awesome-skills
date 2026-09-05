@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from audio_transcription.config import write_json_atomic
+from audio_transcription.config import temp_root, transcript_root, write_json_atomic
 from audio_transcription.errors import CliError
 from audio_transcription.media import probe, require_command
 
@@ -171,10 +171,15 @@ def execute(args: argparse.Namespace) -> dict[str, Any]:
     source = args.input.expanduser().resolve()
     metadata = probe(source)
     credentials, auth_mode = auth()
+    root = transcript_root()
     output = (
         args.output_dir.expanduser().resolve()
         if args.output_dir
-        else Path(tempfile.mkdtemp(prefix="audio-transcription-online-"))
+        else Path(
+            tempfile.mkdtemp(prefix="audio-transcription-online-", dir=root)
+            if root
+            else tempfile.mkdtemp(prefix="audio-transcription-online-")
+        )
     )
     if output.exists() and (not output.is_dir() or any(output.iterdir())):
         raise CliError(
@@ -183,7 +188,10 @@ def execute(args: argparse.Namespace) -> dict[str, Any]:
     output.mkdir(parents=True, exist_ok=True)
     os.chmod(output, 0o700)
     task_id = str(uuid.uuid4())
-    with tempfile.TemporaryDirectory(prefix="audio-transcription-upload-") as temporary:
+    temporary_kwargs = {"dir": temp_root()} if temp_root() else {}
+    with tempfile.TemporaryDirectory(
+        prefix="audio-transcription-upload-", **temporary_kwargs
+    ) as temporary:
         if args.doubao_audio_url:
             audio = {"url": args.doubao_audio_url, "format": args.audio_format}
             transport = "documented-url"

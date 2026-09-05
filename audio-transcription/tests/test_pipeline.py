@@ -46,8 +46,12 @@ class PipelineTests(unittest.TestCase):
         self.input.write_bytes(b"audio")
         self.old_cache = os.environ.get("AUDIO_TRANSCRIPTION_CACHE_ROOT")
         self.old_app = os.environ.get("AUDIO_TRANSCRIPTION_APP_ROOT")
+        self.old_storage = os.environ.get("AUDIO_TRANSCRIPTION_STORAGE_CONFIG")
         os.environ["AUDIO_TRANSCRIPTION_CACHE_ROOT"] = str(self.root / "cache")
         os.environ["AUDIO_TRANSCRIPTION_APP_ROOT"] = str(self.root / "app")
+        os.environ["AUDIO_TRANSCRIPTION_STORAGE_CONFIG"] = str(
+            self.root / "storage.json"
+        )
         (self.root / "app").mkdir()
 
     def tearDown(self):
@@ -59,6 +63,10 @@ class PipelineTests(unittest.TestCase):
             os.environ.pop("AUDIO_TRANSCRIPTION_APP_ROOT", None)
         else:
             os.environ["AUDIO_TRANSCRIPTION_APP_ROOT"] = self.old_app
+        if self.old_storage is None:
+            os.environ.pop("AUDIO_TRANSCRIPTION_STORAGE_CONFIG", None)
+        else:
+            os.environ["AUDIO_TRANSCRIPTION_STORAGE_CONFIG"] = self.old_storage
         self.temporary.cleanup()
 
     @staticmethod

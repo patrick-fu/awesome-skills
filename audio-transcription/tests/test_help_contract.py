@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -41,7 +42,34 @@ class HelpContractTests(unittest.TestCase):
         ):
             result = self.run_script("local-transcribe", "help", topic)
             self.assertEqual(result.returncode, 0, topic)
-        for topic in ("inspect", "setup", "doctor", "install-cli", "cleanup"):
+
+    def test_local_help_works_when_persisted_storage_is_unavailable(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            config = Path(temporary) / "storage.json"
+            config.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "app_root": "/Volumes/missing/runtime",
+                        "cache_root": "/Volumes/missing/cache",
+                        "temp_root": "/Volumes/missing/tmp",
+                        "transcript_root": "/Volumes/missing/transcripts",
+                    }
+                )
+            )
+            environment = os.environ.copy()
+            environment["AUDIO_TRANSCRIPTION_STORAGE_CONFIG"] = str(config)
+            environment.pop("AUDIO_TRANSCRIPTION_APP_ROOT", None)
+            result = subprocess.run(
+                [str(ROOT / "scripts" / "local-transcribe"), "--help"],
+                text=True,
+                capture_output=True,
+                check=False,
+                env=environment,
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("DEFAULT BEHAVIOR", result.stdout)
+        for topic in ("inspect", "setup", "doctor", "install-cli", "storage", "cleanup"):
             result = self.run_script("manage-runtime", "help", topic)
             self.assertEqual(result.returncode, 0, topic)
 
@@ -69,7 +97,7 @@ class HelpContractTests(unittest.TestCase):
     def test_every_public_subcommand_has_pre_setup_help(self):
         commands = {
             "local-transcribe": ("transcribe", "plan", "doctor", "cache"),
-            "manage-runtime": ("inspect", "setup", "doctor", "install-cli", "cleanup"),
+            "manage-runtime": ("inspect", "setup", "doctor", "install-cli", "storage", "cleanup"),
         }
         for script, subcommands in commands.items():
             for command in subcommands:

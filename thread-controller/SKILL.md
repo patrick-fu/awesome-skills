@@ -68,9 +68,15 @@ destination. Keep the brief self-contained and distinguish requirements from
 non-binding suggestions. Give the worker accessible paths, links, or content.
 
 Invoke `codex-session-naming` to establish a worker title; the brief carries the
-outcome, not a naming protocol. Track a minimal active index: formal identity,
-outcome, direct owner, state or next evidence, and return mode. A Batch cohort
-may group those edges; no other hierarchy is inferred.
+outcome, not a naming protocol. Maintain a minimal active index. When durable
+orientation is useful across re-entry, Pull, or handoff, externalize the active
+control context in an existing controller document, or a small
+`controller-context.md` scoped to that controller and host. Keep the current
+outcome, active frontier, and each relevant direct edge's formal identity,
+direct owner, return mode, and decisive evidence or gate. Refresh the current picture
+after material control changes. Task records remain the evidence for
+acceptance, permissions, and detail. Prefer natural language or a small table.
+A Batch cohort may group edges; no other hierarchy is inferred.
 
 ## Return
 

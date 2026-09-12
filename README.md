@@ -122,6 +122,11 @@ Use it when a task is genuinely drifting—not merely because it is long.
 
 ### 🎛️ Controller sessions
 
+#### ⏰ [`codex-async-followup`](./codex-async-followup)
+
+Schedule a one-time Codex App wakeup after starting subagents, background commands,
+or external jobs, then continue from the conversation's existing context.
+
 #### 🎛️ [`codex-session-controller`](./codex-session-controller)
 
 Turn a top-level Codex App task or session into a controller session: one user

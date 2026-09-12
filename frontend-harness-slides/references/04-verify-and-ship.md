@@ -183,7 +183,8 @@ Common causes:
 
 ## Delivery Target
 
-Before building, confirm whether the final handoff is:
+Use the user's stated delivery target. If the final handoff is unresolved,
+confirm which output is needed before the choice affects implementation:
 
 - deployed online URL
 - PDF/static export

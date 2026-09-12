@@ -42,8 +42,9 @@ ids, order, and beat or frame counts.
 
 ### Fixed Stage
 
-Author slide content inside a fixed-ratio stage, usually 16:9. Confirm the base
-stage before implementation. Prefer `1920x1080` by default, but support
+Author slide content inside a fixed-ratio stage, usually 16:9. Use the user's
+specified base stage or the existing deck's stage. Ask only if an unresolved
+stage choice materially affects the result. Prefer `1920x1080` by default, but support
 `1280x720`, `2560x1440`, `4:3`, or custom ratios when the user chooses them.
 
 The stage scales as a whole to fit the viewport. Avoid viewport breakpoints

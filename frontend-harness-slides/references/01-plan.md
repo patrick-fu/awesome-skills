@@ -1,14 +1,15 @@
 # 01 Plan
 
 Use this before creating or substantially changing a deck. The goal is to turn a
-user brief into explicit implementation constraints, a content registry, and a
-small visual direction decision before scene code starts.
+user brief into implementation constraints, a content registry, and a visual
+direction before scene code starts. Small edits to an existing deck with explicit
+requirements can skip intake and start the change.
 
 ## Demand Alignment Interview
 
 Before planning the harness, align on the user's real presentation need. The
 intake is not a checklist collection exercise; it is the process that turns a
-vague request into a shared understanding the user can confirm.
+vague request into a shared understanding the agent can act on.
 
 Use a soft grilling posture: explore what can be known from files, repos, URLs,
 old decks, or source material before asking; then challenge unclear assumptions
@@ -36,14 +37,14 @@ downstream execution details:
 Ask one major decision branch at a time when the direction is unclear. Provide
 your recommended answer and rationale with each question so the user can react
 to a concrete proposal instead of inventing the deck from scratch. For compact
-or low-risk tasks, grouped confirmation is fine when it is ordered by decision
+or low-risk tasks, group remaining unknowns when that is ordered by decision
 priority and each important default is visible. Do not dump an unordered
 checklist of questions.
 
 If a question can be answered by exploring the user's files, source material,
 old deck, repository, or URL, inspect that source first. Then summarize the
-inference and ask the user to confirm or correct only the parts that materially
-affect the result.
+inference and ask only about unresolved parts that materially affect the result
+or scope.
 
 Useful first-turn pattern for a vague request:
 
@@ -56,36 +57,41 @@ style or implementation details.
 ```
 
 Before implementation, produce a compact shared-understanding snapshot. Treat it
-as the user's confirmation target, not slide copy. Start work only after the
-user confirms it or edits it into a direction they accept.
+as implementation memory, not slide copy. Start work when remaining unknowns do
+not materially affect the result or scope, or after those unknowns are resolved.
 
 ## Intake Gate
 
-For each important decision, give a recommended default with a reason and ask
-the user to confirm or adjust. Name candidate options only when the decision
-naturally has several useful directions, such as style, visual direction,
-content orientation, information density, motion direction, navigation style,
-delivery target, or technology stack. Do not only ask "is my default OK?"
-Keep all intake questions in normal chat text. Do not call `AskUserQuestion`,
-`AskQuestion`, `request_user_input`, or any structured single-choice,
-multiple-choice, or form-style question tool.
+Ask only unresolved decisions that materially affect the result or scope. For
+each of those, give a recommended default with a reason. Name candidate options
+only when the decision naturally has several useful directions, such as style,
+visual direction, content orientation, information density, motion direction,
+navigation style, delivery target, or technology stack. Do not only ask "is my
+default OK?" Keep all intake questions in normal chat text. Do not call
+`AskUserQuestion`, `AskQuestion`, `request_user_input`, or any structured
+single-choice, multiple-choice, or form-style question tool.
 
-Execution parameters should be concrete plans, not artificial option sets. For
-`deck root`, recommend one exact project location with a reason and ask the user
-to confirm or replace it. Use the same pattern for Context document location,
+Execution parameters should be concrete plans, not artificial option sets. Use
+a path the user already gave or the existing deck's root. If a long-term
+deliverable has no reliable specified target, recommend one exact `deck root`
+with a reason and confirm it before scaffolding. A user home directory or other
+broad workspace is not a reliable long-term `deck root`. Do not assume the
+current working directory is the deck root. State Context document location,
 testing requirement, harness contracts, visible-copy boundary, source material
-path, and fonts/CJK reminders unless a real constraint makes alternatives
-useful.
+path, and fonts/CJK reminders as plans unless a remaining unknown would change
+the result or scope.
 
 When the user provides substantial source material, inspect it before asking
-generic intake questions. First infer the story, likely format, content density,
-style cues, and missing decisions; then propose a direction with alternatives
-for confirmation. Inferred answers are not confirmation; they are the starting
-point for the Pre-Build Alignment.
+generic intake questions. Infer the story, likely format, content density,
+style cues, and missing decisions, then proceed from that inference. An
+inference is a working plan, not an explicit user requirement. Confirm only
+leftovers that still materially affect the result or scope.
 
-Use the format that fits the decision.
+Use the format that fits the decision. State a routine recommendation and
+continue when the choice is already decided or does not change result or scope.
+For a material unknown, ask a concrete confirmation and wait.
 
-For directional choices:
+For a material unknown:
 
 ```text
 Recommendation: <value> because <reason>.
@@ -93,39 +99,37 @@ Candidates:
 1. <option>: <why it may fit>
 2. <option>: <why it may fit>
 3. <option>: <why it may fit>
-Please confirm, adjust, or tell me to proceed with the recommendation.
+This still changes the result or scope. Please confirm or give the corrected
+value before I continue.
 ```
 
 These candidate options are plain-text discussion aids, not structured question
 tool choices.
 
-For execution parameters:
+For a routine recommendation:
 
 ```text
-Recommendation: <exact value or plan> because <reason>.
-Confirmation needed: please confirm this, or give me the corrected value before
-I create or change files.
+I'll use <exact value or plan> because <reason>.
 ```
 
 Minimum decisions:
 
-- **Content and presentation plan**: confirm what the deck should cover and what
-  it should leave out. Confirm the content orientation, presentation format,
-  expected duration, and rough content mix. Recommend a structure and offer
-  alternatives: teaching, persuasion, product demo, research readout,
-  retrospective, sales pitch, workshop, live talk, recording, internal review,
-  or reading-first document.
+- **Content and presentation plan**: lock what the deck should cover and what
+  it should leave out when those are still open. Use a given orientation,
+  presentation format, duration, and content mix. Recommend a structure and
+  offer alternatives when the format is still open: teaching, persuasion,
+  product demo, research readout, retrospective, sales pitch, workshop, live
+  talk, recording, internal review, or reading-first document.
 - **Mode and style**: recommend style directions from
   `references/style/index.md` using the user's material, audience, density,
   formality, delivery target, and references. Offer at least five style
   recommendations or refinements with reasons when the user has not already
   chosen a clear direction.
-- **Project location / deck root**: recommend the exact `deck root` before file
-  creation. Explain that this is the directory that owns deck source,
-  package/config files, assets, tests, and delivery commands. Give one
-  recommended path with rationale, then ask the user to confirm it or provide a
-  different path. Confirm whether to create or reuse it; do not assume the
-  current working directory is the deck root.
+- **Project location / deck root**: this is the directory that owns deck source,
+  package/config files, assets, tests, and delivery commands. Use a given path
+  or existing deck root. If a long-term deliverable has no reliable specified
+  target, give one recommended path with rationale and confirm it before
+  scaffolding. Do not assume the current working directory is the deck root.
 - **Language and CJK Check**: If the content contains Chinese, Japanese, or Korean (CJK) characters, select fonts and fallback stacks that cover CJK, and perform a browser check to ensure proper rendering. Avoid making this a heavy font audit process; keep the intake lightweight and focus on selecting reliable system fallbacks or bundled CJK fonts if needed.
 - **Information density**: recommend speaker-led, reading-first, or hybrid.
   Explain that this also sets the audit profile.
@@ -145,7 +149,7 @@ Minimum decisions:
   fine if the user prefers them; Next.js is useful inside an existing Next app
   but usually heavy for a pure deck; Astro/static generators fit content-heavy
   decks but need extra care for rich interactions.
-- **Testing plan**: confirm the test runner, test command, and required coverage
+- **Testing plan**: state the test runner, test command, and required coverage
   before implementation. The plan should cover render and visible stage content,
   frame addressing, navigation, interaction isolation, layout safety,
   console/runtime errors, asset/font loading, and build/export/deployment checks
@@ -154,11 +158,13 @@ Minimum decisions:
   checks. Testing is mandatory for created or modified HTML slide artifacts; do
   not present it as an optional preference. Mention alternatives only when
   project constraints make them relevant, and explain the coverage tradeoff.
-- **Delivery**: confirm online URL, PDF/static export, or both. If the user has
-  no hosting preference, recommend Vercel and mention GitHub Pages or Cloudflare
-  Pages as static-site alternatives.
+- **Delivery**: use the stated delivery target. If the long-term handoff is
+  still unresolved, recommend online URL, PDF/static export, or both and
+  confirm. If the user has no hosting preference, recommend Vercel and mention
+  GitHub Pages or Cloudflare Pages as static-site alternatives. Do not publish
+  or deploy without authorization.
 
-Summarize confirmed decisions as implementation constraints, not slide copy.
+Summarize the working decisions as implementation constraints, not slide copy.
 Duration, audience, density, style, stage size, navigation, delivery target, and
 tech stack should guide the work; render them only if the user explicitly wants
 the audience to see them.
@@ -171,7 +177,7 @@ docs for delivered decks and a temp path for explorations.
 
 Keep `deck_root` and `context_document` separate. The deck root owns the source
 project; the Context document records decisions and progress. They may live near
-each other, but confirming one does not confirm the other.
+each other, but choosing one does not choose the other.
 
 Useful grouped prompt:
 
@@ -184,26 +190,26 @@ or self-reading document, I will change the content ratio and slide density.
 
 ## Visual Preview Default
 
-Always ask about visual preview before implementation. Recommend a minimal
-interactive preview by default. When visual direction is unclear, recommend
-making three real interactive slide previews before building the full deck. If
-the user has already supplied a clear style or strong visual reference, confirm
-that direction, offer at least five same-style refinements or nearby style
-recommendations with reasons, and ask whether to make a small same-style
-preview to confirm details.
-Also send the Live Demo link during style alignment:
+Follow the user's explicit choice to make or skip a visual preview. Otherwise,
+recommend one when unresolved visual choices would benefit from comparison;
+proceed without one when the style is clear or the edit preserves the visual
+system. When visual direction is unclear and the user has not declined previews,
+recommend making three real interactive slide previews before building the full
+deck. If the user already supplied a clear style or strong visual reference, use
+that direction. Offer at least five same-style refinements or nearby style
+recommendations with reasons as optional inspiration, not a required extra
+question.
+Also send the Live Demo link during open style choice:
 `https://frontend-harness-slides-workbench.vercel.app/`. Explain that it is a dynamic
 Workbench Demo with multiple preset styles, transitions, animations, and motion
 examples, so the user can judge movement and density directly. Treat this as a
-parallel aid to real previews, not a substitute for them: still ask whether to
-make a few small previews using the user's actual content.
+parallel aid to real previews, not a substitute for them and not a required
+extra question.
 Use the same planned production stack, stage basis, and harness skeleton where
 possible so font loading, stage scaling, navigation, motion, and browser issues
-surface early. Use the user's actual title, content, screenshots, or data. Do
+surface early. Use the user's actual title, content, screenshots, or data.
 Render previews as real slides from the user's deck, with audience-facing copy
-on the slide surface and candidate rationale kept in chat or theme notes. Skip
-the preview only when the user explicitly declines or explicitly asks to proceed
-directly.
+on the slide surface and candidate rationale kept in chat or theme notes.
 
 Use the Density-Fit / Safe / Wildcard preview mix defined in
 `references/style/index.md` (the canonical definition); do not restate it here.
@@ -214,20 +220,11 @@ Each preview should include comparable interaction, beat/state change, and
 transition behavior. After the user chooses, summarize a selected theme notes
 before full expansion.
 
-When the user already chose a style, the preview question should still be
-explicit:
+When the user already chose a style, use it and proceed unless a remaining
+visual unknown would change the result or the user asked for a preview. A
+same-style preview is optional unless the user requested one.
 
-```text
-I understand the main style as <style>. I recommend a small same-style
-interactive preview first because it lets us verify typography, navigation,
-motion, and the actual visual tone before building the full deck. You can also
-open the dynamic Live Demo at https://frontend-harness-slides-workbench.vercel.app/ to
-see preset styles, transitions, and animation behavior. I can show nearby
-alternatives such as <option A>, <option B>, and <option C> if you want more
-inspiration. Should I make the preview first, or proceed directly?
-```
-
-Good default phrasing:
+Good default phrasing when visual direction is still open:
 
 ```text
 I recommend first making three real interactive slide previews using the same
@@ -258,7 +255,7 @@ exploratory work, `/tmp` or another agreed temp path is fine. Do not edit
 
 Useful things to track:
 
-- confirmed intake decisions
+- intake decisions
 - deck root and project location decision
 - narrative plan and content mix
 - registry draft
@@ -452,15 +449,16 @@ internal_constraints: 40-minute talk, low text density, 1920x1080 stage
 
 Before building:
 
-1. The intake decisions are confirmed or explicitly assumed.
-2. Recommended defaults were shown for key decisions, with alternatives only
-   where the decision naturally benefits from them.
+1. Material decisions are resolved. Routine defaults are recorded as
+   assumptions. Given path, style, and similar constraints were not re-asked.
+2. Recommended defaults were shown for remaining key decisions, with
+   alternatives only where the decision naturally benefits from them.
 3. Content orientation, presentation format, duration, and content mix are
-   confirmed or explicitly assumed.
+   known or explicitly assumed.
 4. Context location is clear when the task is long-running or deliverable.
 5. Non-trivial decks have a narrative plan before the registry draft.
-6. A three-direction interactive visual preview step was offered unless a clear
-   style or strong reference already exists.
+6. A visual preview was made or offered when the user asked for one, or when
+   the visual direction was unclear and a preview would reduce uncertainty.
 7. The decision snapshot separates constraints from slide copy.
 8. Non-trivial decks have a registry draft with `visible_copy`.
 9. Internal alignment details are not being treated as source content.

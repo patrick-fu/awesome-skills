@@ -3,7 +3,7 @@ interface:
   display_name: "Frontend Harness Slides"
   short_description: "Build checked, iteration-safe HTML slide decks"
   default_prompt: >-
-    Use $frontend-harness-slides to create an iteration-safe HTML slide deck.
-    Align content orientation, presentation format, duration, content mix,
-    style, density, animation, stage, technology, navigation, and delivery
-    before building.
+    Use $frontend-harness-slides to create or revise an iteration-safe HTML
+    slide deck. Use explicit requirements and existing-deck conventions;
+    inspect sources first; confirm only unresolved decisions that affect
+    result or scope.

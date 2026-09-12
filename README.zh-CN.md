@@ -106,12 +106,21 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 适合任务真的开始跑偏时，而不是仅仅因为它很长。
 
-### 🎛️ 主控 Session
+### 🎛️ Codex Session
 
 #### ⏰ [`codex-async-followup`](./codex-async-followup)
 
-在 Codex App 启动 subagent、后台命令或外部任务后，设一次定时唤醒，
-到时直接沿用会话上下文继续任务。
+减少主 agent 在等待异步任务时的空轮询。派出 subagent、启动后台编译、测试或外部任务后，
+Codex 有时会反复查询状态：任务还没跑完，也没有新信息，却持续消耗工具调用和推理 token。
+这个 skill 让主 agent 约好时间再回来，避免把等待变成一连串无效检查。
+
+机制很简单：设一次定时唤醒，结束当前 turn；到时沿用原会话上下文继续工作。
+唤醒 prompt 只需一个 `continue`。任务还需要时间，就再约一次；不再需要续跑时，清理自动化。
+无需另写 checkpoint 文档或维护额外记录。
+
+目的是减少无效轮询和 token 消耗，同时让主 agent 记得回来把事情做完。
+支持 model invocation，由模型按场景自动调用；专用于 Codex App 的定时唤醒能力。
+本地续跑需要电脑和应用保持运行。
 
 #### 🎛️ [`codex-session-controller`](./codex-session-controller)
 

@@ -30,7 +30,8 @@
         "./claude-code-coding-agent",
         "./codex-coding-agent",
         "./cursor-coding-agent",
-        "./grok-coding-agent"
+        "./grok-coding-agent",
+        "./codex-async-followup"
       ]
     },
     {

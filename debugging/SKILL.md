@@ -22,21 +22,13 @@ The workflow is simple:
 
 ## First move
 
-Before adding any logs, ask the user for a **log prefix**.
+Use the **log prefix** supplied by the user or established by the repository.
+If neither exists, choose a short, searchable prefix that is unique in the
+current codebase and tell the user which prefix to collect. This routine choice
+does not need confirmation.
 
-This is required, not optional. Explain why briefly: the prefix makes the new logs searchable and prevents them from being lost in normal application output.
-
-Good prefixes look like:
-- `Patrick`
-- `MyDebug`
-- `DebugTrace`
-
-Prefer a short prefix that:
-- is unique in the current codebase
-- is easy to grep
-- is unlikely to collide with existing production logs
-
-If the user does not care, ask for one and wait. Do not silently invent a prefix unless the user explicitly delegates that choice.
+Ask only when the user's requirements or repository logging conventions leave
+a material ambiguity that cannot be resolved by inspection.
 
 ## Logging strategy
 

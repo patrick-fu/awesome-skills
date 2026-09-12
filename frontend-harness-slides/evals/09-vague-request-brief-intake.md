@@ -2,7 +2,8 @@
 name: vague-request-brief-intake
 description: >-
   When the user only gives a broad slide topic, the skill should clarify
-  preferences before starting implementation.
+  unresolved decisions that affect result or scope before starting
+  implementation.
 difficulty: high
 tags: [brief-intake, preference-alignment]
 ---
@@ -15,7 +16,7 @@ tags: [brief-intake, preference-alignment]
 - [ ] Asks follow-up questions in plain text, without using `AskUserQuestion`, `AskQuestion`, `request_user_input`, or any structured single-choice, multiple-choice, or form-style question tool.
 - [ ] Prioritizes the next highest-impact decision branch instead of dumping a long unordered questionnaire.
 - [ ] Moves toward shared understanding by clarifying purpose, audience, desired outcome, and content boundary before lower-level build details.
-- [ ] Explicitly confirms slide style, information density, and motion direction; it does not only ask a generic "what style do you like?"
+- [ ] Recommends slide style, information density, and motion direction with rationale because those are still open and affect the result; it does not only ask a generic "what style do you like?"
 - [ ] Provides at least five style recommendations with brief reasons when the visual direction is unclear.
 - [ ] Covers or states assumptions for key gaps such as content angle, presentation format, duration, content mix, audience, project location/deck root, stage, navigation, technology stack, delivery target, source material, and visual preference.
 - [ ] Gives recommended defaults for key points, with credible alternatives for naturally directional choices where useful, without treating defaults as confirmed requirements.

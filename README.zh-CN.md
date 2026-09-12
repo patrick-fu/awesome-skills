@@ -108,6 +108,11 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 ### 🎛️ 主控 Session
 
+#### ⏰ [`codex-async-followup`](./codex-async-followup)
+
+在 Codex App 启动 subagent、后台命令或外部任务后，设一次定时唤醒，
+到时直接沿用会话上下文继续任务。
+
 #### 🎛️ [`codex-session-controller`](./codex-session-controller)
 
 把一个 Codex App 顶层 task/session 设为主控 Session，作为统一用户入口与薄控制面。

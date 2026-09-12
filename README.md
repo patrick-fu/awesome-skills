@@ -120,12 +120,24 @@ longer serves the goal, and resumes only where new acceptance evidence appears.
 
 Use it when a task is genuinely drifting—not merely because it is long.
 
-### 🎛️ Controller sessions
+### 🎛️ Codex sessions
 
 #### ⏰ [`codex-async-followup`](./codex-async-followup)
 
-Schedule a one-time Codex App wakeup after starting subagents, background commands,
-or external jobs, then continue from the conversation's existing context.
+Keep the main agent from spending tokens repeatedly checking work that is still
+running. After dispatching a subagent or starting a background build, test, or
+external job, Codex can fall into a loop of status checks with no new information.
+This skill replaces those empty checks with a scheduled return to the same task.
+
+The mechanism is small: schedule a one-time wakeup, end the turn, and continue
+from the existing conversation when it fires. The wakeup prompt is just `continue`.
+If the work needs more time, schedule another check; when the follow-up is no longer
+needed, remove it. There is no separate checkpoint document to maintain.
+
+The aim is to reduce wasted polling and token consumption while ensuring the main
+agent comes back to finish the work. It can be invoked automatically by the model
+and applies specifically to Codex App's scheduled wakeups. Local follow-ups require
+the computer and app to remain running.
 
 #### 🎛️ [`codex-session-controller`](./codex-session-controller)
 

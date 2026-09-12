@@ -13,90 +13,65 @@ project or require React, Vite, Tailwind, Playwright, or any other stack. Its
 unit is the **harness contract**: stable frame address, registry, fixed stage,
 frozen mode, audit surface, visual checks, and verified handoff.
 
-## **PRE-BUILD ALIGNMENT HARD GATE**
+## Pre-Build Alignment
 
-Before creating or modifying any HTML slide artifact, this is a hard gate.
-**DO NOT** create files, scaffold a project, write code, start a dev server, or
-begin implementation until the user has explicitly confirmed the Pre-Build
-Alignment in plain text.
+Use explicit user requirements. An inferred or recommended default is a working
+plan, not an explicit user requirement. For a small edit with clear requirements
+to an existing deck, preserve the current stack, `deck root`, and visual system
+except where the user requests a change, and proceed.
 
-Demand alignment is the first deliverable. Understand what the user is trying
-to accomplish, who will consume the deck, what the deck should include or
-exclude, and what outcome the presentation should drive. Walk the decision tree
-one branch at a time: purpose and audience, content boundary and story,
-presentation format and density, style and motion, then deck root, build,
-testing, and delivery. For each unresolved branch, ask a plain-text question
-with a recommended answer and rationale. If the answer can be found by reading
-source material, an existing deck, a repository, a deployed URL, or project
-files, inspect that source first and present the inference instead of asking a
-generic question. Keep each round focused on the next highest-impact decision;
-group low-risk execution confirmations only when that reduces back-and-forth
-without hiding uncertainty. Implementation begins only after the user confirms
-the final shared understanding.
+Inspect discoverable facts first: source material, the existing deck, the repo,
+a deployed URL, and project files. Ask only unresolved decisions that materially
+affect the result or scope. Do not re-ask a path, style, stage, stack, density,
+navigation, or delivery target the user already gave.
 
-Treat Pre-Build Alignment as focused, lightweight grilling-style alignment:
-explore discoverable facts first, challenge a vague brief when assumptions are
-unclear, expose the highest-impact tradeoffs, and keep moving toward a shared
-understanding the user can confirm. Do not turn the intake into a checklist dump
-or a form. Related low-risk confirmations can be grouped, but each key question
-still needs a recommended answer, rationale, and impact.
+When the brief is still vague, treat alignment as focused grilling: purpose and
+audience, content boundary and story, presentation format and density, then the
+remaining execution constraints. Keep each round on the next highest-impact
+unknown. Ask in normal chat text, with a recommended answer, rationale, and
+impact. Group related low-risk questions when that reduces back-and-forth. Do
+not call `AskUserQuestion`, `AskQuestion`, `request_user_input`, or any
+structured single-choice, multiple-choice, or form-style prompt. Candidate
+options may clarify a real directional choice, but they stay as plain text.
 
-Do not use structured question tools for this alignment. In particular, do not
-call `AskUserQuestion`, `AskQuestion`, `request_user_input`, or any structured
-single-choice, multiple-choice, or form-style prompt. Ask in normal chat text.
-Candidate options are fine when they clarify a real directional choice, but they
-must stay as plain text in the conversation.
-
-**INFERRED ANSWERS ARE NOT CONFIRMATION.** If the user provides substantial
-source material, inspect it first and state the inferred direction, but still ask
-the user to confirm or adjust the key decisions before implementation.
-
-Every key decision **MUST** include a recommendation, rationale, and explicit
-confirmation request. Offer candidate options for directional choices; for
-execution parameters such as `deck root`, Context document, testing, source path,
-or harness contracts, give one concrete plan and ask the user to confirm or
-correct it.
-
-Cover these Pre-Build Alignment decisions, at the level the task needs:
+Cover these decisions at the level the task needs. This is a decision surface,
+not a confirmation ritual:
 
 - **Content plan**: scope, non-goals, orientation, presentation format, duration,
   and content mix.
 - **Design plan**: style, density, audit profile, motion direction, visual
-  references, and whether a preview is useful.
-- **Project location plan**: confirmed `deck root`, whether it is new, existing,
+  references, and whether a preview would reduce visual uncertainty.
+- **Project location plan**: the `deck root`, whether it is new, existing,
   inside a parent repo, an independent repo, or temporary, and which files are
-  expected there. Recommend one exact path and ask the user to confirm or
-  replace it.
+  expected there. Use a path the user already gave or the existing deck's root.
+  A user home directory or other broad workspace is not a reliable long-term
+  `deck root`. If a long-term deliverable has no reliable specified target,
+  recommend one exact path and confirm before scaffolding. Do not scaffold into
+  the current working directory just because the agent started there.
 - **Build plan**: fixed stage, navigation/touch expectations, technology stack,
-  source material, and delivery target.
+  source material, and delivery target. Do not publish or deploy without
+  authorization.
 - **Testing plan**: test runner, test command, and required coverage across
   render, frame addressing, navigation, interaction isolation, layout safety,
-  runtime errors, assets/fonts, and build/export/deployment checks.
+  runtime errors, assets/fonts, and build/export/deployment checks. Testing is
+  required for created or modified HTML slide artifacts; do not present it as a
+  preference to confirm.
 - **Context document plan**: where the Context document will live, when it will be
   updated, and whether the user wants a different location.
 
-Project location is part of the hard gate. **DO NOT** scaffold into the current
-working directory by default. Confirm the exact `deck root` in plain text before
-creating files, even when the current directory looks plausible.
+Follow the user's explicit choice to make or skip a style preview. Otherwise,
+recommend one when unresolved visual choices would benefit from comparison;
+proceed without one when the style is clear or the edit preserves the visual
+system. For open-ended style selection,
+use a three-candidate preview mix: Density-Fit, Safe, and Wildcard. Choose those
+candidates from the user's material, audience, density, formality, risk level,
+delivery target, and visual references. Read `references/style/index.md` first,
+then load only the individual style files needed for shortlisted candidates.
 
-Style preview **MUST** be asked before implementation. Recommend a minimal
-interactive preview by default; skip it only when the user explicitly declines or
-explicitly asks to proceed directly. If style is vague, recommend real
-interactive previews. If the user already gave a clear style, confirm that style,
-offer style recommendations or refinements with reasons, and ask whether to
-create a same-style minimal preview.
-
-For open-ended style selection, use a three-candidate preview mix:
-Density-Fit, Safe, and Wildcard. Choose those candidates from the user's
-material, audience, density, formality, risk level, delivery target, and visual
-references. Read `references/style/index.md` first, then load only the individual
-style files needed for shortlisted candidates.
-
-During style alignment, send the user the Live Demo link as a reference:
-`https://frontend-harness-slides-workbench.vercel.app/`. Explain that it is a dynamic
-Workbench Demo with multiple preset styles, transitions, animations, and motion
-examples. This does not replace the preview question: still ask whether to make
-a few small, content-specific style previews before the full build.
+During open style choice, send the Live Demo link as a reference:
+`https://frontend-harness-slides-workbench.vercel.app/`. It is a dynamic Workbench
+Demo with preset styles, transitions, animations, and motion examples. It does
+not replace a content-specific preview and is not a required extra question.
 
 Keep alignment details as implementation constraints, not slide copy. Do not
 render duration, audience, density, stage size, delivery target, navigation
@@ -115,8 +90,8 @@ it before choosing stage, scaling, animation, and interaction contracts.
 ## Reference Loading
 
 If the task is exploratory discussion, answer from this file and load only the
-needed reference. Once the user confirms an HTML slide build, import, or
-substantial edit, read the stage references before implementation:
+needed reference. Once the task is an HTML slide build, import, or substantial edit, read the
+stage references before implementation:
 
 1. `references/01-plan.md`
 2. `references/style/index.md`
@@ -124,7 +99,7 @@ substantial edit, read the stage references before implementation:
 4. `references/03-build.md`
 5. `references/04-verify-and-ship.md`
 
-Do not build from `SKILL.md` alone after production is confirmed. The references
+Do not build from `SKILL.md` alone once production implementation starts. The references
 are the single source of truth for planning detail, visual systems, harness
 implementation, verification, deployment, and handoff.
 
@@ -150,15 +125,15 @@ lists the decision surface.
 
 ## Project And Stack
 
-Use the confirmed `deck root` for slide project files. The `deck root` is the
-filesystem directory that owns the deck source, package/config files, assets,
-tests, and delivery commands. For a new deck, prefer a new clean directory; an
-existing deck project, a subdirectory inside a parent repo, an independent repo,
-or a temporary exploration path are all acceptable when confirmed. Do not
-scatter files into a non-empty directory or scaffold into the current working
-directory just because the agent started there. If the confirmed root is inside
-a broad workspace or parent repo, briefly confirm key generated files are
-tracked or ignored as expected.
+Use the `deck root` for slide project files. The `deck root` is the filesystem
+directory that owns the deck source, package/config files, assets, tests, and
+delivery commands. For a new deck, prefer a new clean directory; an existing
+deck project, a subdirectory inside a parent repo, an independent repo, or a
+temporary exploration path is fine when that is the target. Do not scatter
+files into a non-empty directory or scaffold into the current working directory
+just because the agent started there. If the root is inside a broad workspace
+or parent repo, check that key generated files are tracked or ignored as
+expected.
 
 Prefer the user's existing stack. For a new deck with no preference, React +
 Vite + Playwright is a reasonable default, but the skill's identity is the
@@ -202,7 +177,7 @@ is ready to iterate only when these contracts exist:
    the chosen stack, keep tests moving with the implementation, and update the
    Context document after major implementation milestones.
 5. **Verify and ship** with `references/04-verify-and-ship.md`; deliver a live
-   URL, PDF/static export, or both according to the confirmed target, then record
+   URL, PDF/static export, or both according to the delivery target, then record
    final delivery and verification status in the Context document when one
    exists.
 
@@ -213,7 +188,10 @@ after skipped checks and residual risks are reported clearly.
 ## Anti-Patterns
 
 - Starting implementation from a vague prompt.
-- Treating recommendations as user-confirmed requirements.
+- Re-asking a path, style, or other decision the user already made.
+- Treating the agent's own recommendations or inferences as explicit user
+  requirements.
+- Blocking on confirmation of defaults that do not change result or scope.
 - Rendering internal planning context on the slide surface.
 - Treating this skill as a mandate for a specific framework.
 - Creating or modifying HTML slide artifacts without a runnable test command and

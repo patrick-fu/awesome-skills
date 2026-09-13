@@ -206,6 +206,14 @@ checkpoint、final 和 handoff 一眼可见。严格 closure contract 防止把�
 
 适合改动已经完成，但能直接复制使用的 commit message 还没写出来的时候。
 
+#### 🗂️ [`git-task-workspace`](./git-task-workspace)
+
+基于上游代码母池管理以任务为维度的 Git worktree 隔离工作区。保持母池主干只读纯净，
+将跨仓联调的多个 worktree 平铺在同一个任务目录下，并在任务合并后一键清理收尾，
+零分支污染与磁盘残留。
+
+适合为新任务创建隔离工作区、拉取多仓 worktree、中途加仓、完工收尾或初始化目录布局。
+
 ### 🏠 个人环境
 
 #### 🔄 [`home-config-sync`](./home-config-sync)

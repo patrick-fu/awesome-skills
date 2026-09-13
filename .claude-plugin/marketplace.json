@@ -47,7 +47,8 @@
       "skills": [
         "./write-unit-test",
         "./log-driven-debugging",
-        "./generate-commit-message"
+        "./generate-commit-message",
+        "./git-task-workspace"
       ]
     },
     {

@@ -241,6 +241,17 @@ conventional prefix, and optional bullets for the important changes.
 
 Use it when the change is ready but the copy-ready commit message is not.
 
+#### 🗂️ [`git-task-workspace`](./git-task-workspace)
+
+Manage isolated, task-oriented Git worktree workspaces from an upstream source
+pool. Keep trunk repositories clean, co-locate multi-repo worktrees under a
+single task directory, and tear down finished sandboxes without leftover branch
+friction.
+
+Use it when creating an isolated task workspace, checking out worktrees, adding
+multi-repo dependencies, tearing down workspaces, or setting up the directory
+layout.
+
 ### 🏠 Personal setup
 
 #### 🔄 [`home-config-sync`](./home-config-sync)

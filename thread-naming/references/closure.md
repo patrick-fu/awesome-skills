@@ -1,56 +1,28 @@
-# Closure
+# Completion and handoff
 
-Reached from [SKILL.md](../SKILL.md) when a headline would say the work is
-done or parked, or when someone else's completion claim needs judging.
-Mandate, gate, owner, and authority stay in SKILL.md.
+Use this reference when a title or report would claim completion, a checkpoint,
+or a handoff, or when reviewing someone else's claim.
 
-## Boundary
+Compare the claim with the session's overall task, the user's latest intent,
+and available results. Reuse valid delivery and verification evidence. Look
+into material gaps or contradictions; a title change alone does not call for
+another review, test run, or approval.
 
-Audit against the mandate defined in SKILL.md, not the latest turn or thread
-hierarchy. A checkpoint is an explicit intermediate deliverable, not a
-progress database; ordinary progress belongs in the transcript or report.
+For final completion, check whether the agreed outcome is delivered and any
+required acceptance or user action remains. Optional follow-ups and unrelated
+work can remain without keeping the original task open. Required deployment,
+push, publication, or unresolved in-scope changes still count when they are part
+of the user's requested delivery.
 
-## Checkpoint
+Use a checkpoint state when the user or task already defines an intermediate
+result and work is being parked there. Ordinary progress can stay in the active
+state; it does not need an invented checkpoint.
 
-Require delivery, verification, outcome validation, defined acceptance, and
-no checkpoint work. It never discharges the mandate.
+A handoff means a successor has accepted the remaining responsibility. For
+controller handoffs, use `codex-session-controller` to verify acceptance and
+routing before representing the transfer as complete.
 
-## Final
-
-Audit the mandate. Require all six: mandate delivered; procedure verified;
-outcome validated in context; acceptance satisfied; no `required-to-close`
-or `external-user-gate`; owner released.
-
-## Delivery audit
-
-In-scope dirty changes keep a versioned task open unless the user accepts
-working-tree delivery. Lacking commit authority is an `external-user-gate`.
-Push, review, release, or publication is required only by user intent or an
-explicit repository delivery rule.
-
-## Acceptance
-
-Follow the authority agreed with the user and the nature of the result.
-Objective work may close on reliable evidence; subjective, device, production,
-external-system, or user-review outcomes wait for the required decision or
-observation. Procedure, idle, silence, and unrelated messages do not count.
-
-## Remainder
-
-Relative to the mandate, classify remaining work as `required-to-close`,
-`external-user-gate`, `independent-optional-follow-up`, or `out-of-scope`.
-If skipping remaining work would defeat the mandate, classify it as
-`required-to-close`. Only the last two categories allow final closure.
-
-## Waiver
-
-Require an explicit decision; record gate, scope, reference, and residual
-risk. It changes intent but does not verify the gate or bypass safety,
-permission, or policy.
-
-## Accept or challenge
-
-Audit completion as a claim about the mandate. Reopen the same mandate when
-evidence disproves it. A new mandate starts only after the current one ends
-under SKILL.md. Without evidence, say what cannot yet be verified, preserve
-owner and headline, and do not archive, replace, or reroute.
+When new evidence challenges a completion claim, reassess the original task.
+If the outcome is still incomplete, reflect the remaining work. If the task is
+complete and the user has moved to another, use the new task as the main line.
+Where evidence is unclear, describe what is known and what remains to check.

@@ -2,60 +2,76 @@
 name: codex-session-naming
 description: >-
   Name user-visible top-level Codex App sessions, including controllers.
-  Keep the main task stable, reflect meaningful progress, and check completion
-  claims. Excludes chats and subagents.
+  Keep work titles aligned with progress and controller titles recognizable
+  by role. Check completion claims. Excludes chats and subagents.
 ---
 
 # Codex Session Naming
 
-Use this default headline for work tasks and controllers:
+Choose the headline for the session's established role. Ordinary work titles
+show progress; controller titles keep the coordination role recognizable.
+Localize wording to the user's preferred language and preserve their names,
+IDs, and terminology. A supplied name normally becomes the main line within
+the appropriate format; an explicit request for a different format takes
+precedence.
+
+## Work tasks
+
+Use this default headline:
 
 `<state> [tags] <mandate> · <focus>`
 
-Keep the state emoji, one or two useful tags, and two-part structure. Write tag
-content, the main task, and current focus in the user's preferred language,
-preserving their names, IDs, and terminology. An explicit request for a different
-format takes precedence.
+Keep the state emoji, one or two useful scope or facet tags, and two-part
+structure. The **mandate** is the overall task this session is responsible for.
+Prefer a stable main line through questions, temporary detours, experiments,
+and changes of approach. Refine it when the user's clarification changes how
+the same task should be described. Normally switch to a new main line when the
+previous task is complete and the user moves to the next; a clear replacement
+or cancellation can also change it.
 
-For a global controller without a naming preference, use the localized form of
-Global Controller as the main line. Use the project name for a project
-controller; machine or project tags can distinguish known scopes. A stable
-`YYYY-MM-DD` start date is a useful second part for an ongoing controller when
-there is no current focus to highlight. These are recommendations, not fixed
-strings or required dates.
+The **focus** describes the current bottleneck, decision, or useful next step.
+Choose what helps the user understand progress without turning the title into
+an activity log or adding a new approval or acceptance requirement.
+
+## Controllers
+
+Use `codex-session-controller` to determine whether this session has an
+established global or project role, its scope, and when that responsibility
+ends. Apply these role-specific defaults:
+
+| Role | Recommended headline |
+| --- | --- |
+| Global | `🕹️ <scope or global controller name> · YYYY-MM-DD` |
+| Project | `🗂️ <project controller name> · YYYY-MM-DD` |
+
+Without a naming preference, use a localized Global Controller name, such as
+`全局主控` or `Global Controller`; for a project, include its name and controller
+role. User-supplied names such as `Mac mini 主控` or `MacBook Coordinator` fit
+in the same role format. Known scope can distinguish controllers without
+forcing a particular language or a literal role name.
+
+Keep the role emoji and main line through routine checks, waits, and child
+milestones. Prefer a stable `YYYY-MM-DD` start date for the second part, using
+the existing controller date or known session start date. If unavailable,
+omitting the date is reasonable. Ongoing work belongs in progress reports;
+these titles normally retain the date instead of switching to a worker focus.
+
+For final role closure or an accepted handoff, prefix the role title with `🏁`
+or `🔀` respectively, using Claim below. Completed workers alone do not end
+an ongoing controller role.
 
 ## When
 
 At entry, establish a headline from the available context or retain a suitable
-existing one. As work progresses, normally update only the state and current
-focus when they materially change. Routine tool calls need no title update.
-Use the conversation to judge transitions; naming does not require a separate
-confirmation step.
-
-## Mandate
-
-The **mandate** is the overall task this session is responsible for. Prefer a
-stable main line through questions, temporary detours, experiments, and changes
-of approach. Refine it when the user's clarification changes how the same task
-should be described. Normally switch to a new main line when the previous task
-is complete and the user moves to the next; a clear replacement or cancellation
-can also change it.
-
-For a controller, the mandate is its coordination responsibility. Routine checks
-and child milestones do not end that responsibility. Use
-`codex-session-controller` to determine its role, scope, and termination.
-
-## Focus
-
-The second part describes the current bottleneck, decision, or useful next step.
-Choose what helps the user understand progress without turning the title into
-an activity log. It describes existing work rather than adding a new approval
-or acceptance requirement.
+existing one. During ongoing work, normally update work titles for meaningful
+state or focus changes, and controller titles for role, scope, or lifecycle
+changes. Routine tool calls need no title update. Use the conversation to judge
+transitions; naming does not require a separate confirmation step.
 
 ## Owner
 
-Choose the state emoji from who acts next and the actual task state. Use this
-vocabulary by default:
+For work titles, choose the state emoji from who acts next and the actual task
+state. Use this vocabulary by default:
 
 - `🏁` mandate completed
 - `☑️` an agreed checkpoint reached and work parked

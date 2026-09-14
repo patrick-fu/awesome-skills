@@ -18,12 +18,14 @@ successor; it reconstructs the same facts itself.
 The predecessor remains owner until acceptance. User identification and control
 evidence are independent gates. Reconstruct history from `read_thread`, the
 owning host's rollout, or another authoritative carrier. Write a concise natural
-transfer summary preserving scope, role source, latest outcomes and corrections,
-permissions, decisions, acceptance expectations, every owned session's formal
-identity and return mode, unfinished work, dependencies, user gates, resource
-ownership, actionable reports, unresolved create/send attempts, and evidence
-gaps. Preserve the question behind a terse answer; link evidence instead of
-copying transcripts.
+transfer summary from the current index, preserving the role source, unfinished
+outcomes, latest user decisions and authorization limits, ownership, return
+modes, schedule references, resource holds, and unresolved dependencies or
+delivery. Reconcile recent user steering in workers before carrying old
+controller assumptions forward. Preserve the question behind a terse answer;
+link evidence instead of copying transcripts.
+Notify only tasks whose next action or return path changes; routine transfer
+needs no broadcast to every historical task.
 
 If a material fact remains unresolved after available history and rollout, stop:
 predecessor, children, titles, and ownership stay unchanged. A report with an
@@ -48,6 +50,7 @@ After acceptance, read [return routing](return.md) before changing report
 destinations or retiring. Prefix the predecessor's stable controller title with
 `🔀` and archive it when those rules permit retirement, unless the user asks to
 keep it visible. Record the successor in the project task for the global
-controller's next Pull; notify immediately only when the user has explicitly
-switched that direct project→global edge to Callback. Retain history; replace a
-child only when it is confirmed failed or unreachable or the user asks.
+controller's next scheduled or on-demand check; notify immediately only when the
+user has explicitly selected Callback on that direct project→global edge.
+Retain history; replace a child only when it is confirmed failed or unreachable
+or the user asks.

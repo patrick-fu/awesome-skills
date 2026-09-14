@@ -1,8 +1,8 @@
 ---
 name: codex-session-controller
 description: >-
-  Use when a user establishes this Codex session as a global or project
-  controller, accepts a controller handoff, or operates an already established
+  Use when a user establishes this Codex session as a controller,
+  accepts a controller handoff, or operates an already established
   controller. Loading alone grants no controller role.
 ---
 
@@ -16,8 +16,12 @@ a saved project is `(hostId, projectId)`.
 
 **Authority** comes from the user's designation or an accepted handoff. Recover
 that designation or acceptance from this session's history; its pre-compaction
-controller title can also restore an established role. Keep one controller per
-scope until the user ends the role or an accepted successor takes over.
+controller title can also restore an established role. Keep one active
+controller per scope.
+
+The user defines the coordination scope, which may cover a machine, a project,
+or a portfolio. When resuming, recover that scope from the assignment or control
+index. Global and project describe responsibilities, not required names.
 
 A **one-shot** performs one user-requested session inspection or operation
 without claiming controller role, ownership, or an active index; a project
@@ -33,12 +37,11 @@ and user alignment happen in workers, as do implementation, diagnosis, review,
 and testing. Clear tasks can start directly. Domain execution by the controller
 requires an explicit user request to this session.
 
-Controller titles are `🕹️ 全局主控 · YYYY-MM-DD` or
-`🗂️ <Project> 项目主控 · YYYY-MM-DD`; prefix `🏁` only after final closure
-(global requires explicit user role end) and `🔀` only after accepted handoff.
-Use `codex-session-naming` for worker titles and closure criteria. Keep completed
-sessions unarchived unless the user sets another policy; accepted predecessors
-and duplicates are exceptions.
+Use `codex-session-naming` for controller and worker titles, lifecycle expression,
+and closure checks. A global controller's mandate ends only when the user ends
+the role or an accepted successor takes over; a project controller's outcome
+must pass acceptance. Keep completed sessions unarchived unless the user sets
+another policy; accepted predecessors and duplicates are exceptions.
 
 ## Route
 
@@ -53,8 +56,8 @@ report its linked title and next evidence, then end the turn. For a failed or
 suspicious read, uncertain create/send, or wrong target, read
 [references/delivery.md](references/delivery.md).
 
-Keep a small control index of outcomes, direct owners, follow-up modes, schedule
-references, dependencies, resource holds, and next evidence or user decisions.
+Keep a small control index of scope, outcomes, direct owners, follow-up modes,
+schedule references, dependencies, resource holds, and next evidence or user decisions.
 Refresh it after material changes and link task records for detail. Use an
 existing control document, or `controller-context.md` when durable orientation
 is useful; the index is not a worker brief.

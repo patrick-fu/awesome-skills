@@ -4,4 +4,5 @@ interface:
   short_description: "Keep Codex task titles aligned with lifecycle state"
   default_prompt: >-
     Use $codex-session-naming to name this top-level Codex task and keep its
-    title aligned with its mandate, gate, owner, and closure state.
+    title aligned with its main task, current focus, owner, and completion
+    state.

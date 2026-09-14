@@ -341,15 +341,29 @@
     {
       "id": 38,
       "name": "machine-scope-user-title",
-      "prompt": "The user designates this task to coordinate work only on Mac mini and chooses the exact title 'Mac mini 主控'. A MacBook controller already exists. Establish the role and title.",
-      "expected_output": "Keep the user's title without adding a date or global label. Record Mac mini as the assigned scope, use the common naming skill for presentation, and preserve the independent MacBook owner. Machine naming does not grant cross-machine authority or require a new controller type.",
+      "prompt": "The user designates this task as the global controller for Mac mini only and suggests the name 'Mac mini 主控'. A MacBook controller already exists. Establish the role and title.",
+      "expected_output": "Use the suggested wording within the naming skill's default emoji, tags, and two-part headline. Record Mac mini as this global controller's scope and preserve the independent MacBook owner. No scope question is needed; a machine scope is not a third controller role. Date and focus wording follow context rather than a fixed Chinese template.",
       "files": []
     },
     {
       "id": 39,
       "name": "controller-title-does-not-close-role",
-      "prompt": "The user calls this ongoing global controller 'MacBook Coordinator' and asks to keep that exact name. All currently tracked workers finish, but the user has not ended the coordination role or designated a successor.",
-      "expected_output": "Accept supported worker outcomes and report the empty current workload while keeping the controller role and fixed name. Do not mark the controller finished or archive it merely because its children finished. Use codex-session-naming for title and claim semantics without enforcing Chinese, a global label, a date, or state marker.",
+      "prompt": "The user refers to this ongoing global controller as 'MacBook Coordinator' and prefers English titles. All currently tracked workers finish, but the user has not ended the coordination role or designated a successor.",
+      "expected_output": "Accept supported worker outcomes and report the empty current workload while retaining the controller main line. Keep the default emoji, tag, and two-part structure in English; update only meaningful state or focus information. Do not mark the controller complete or create a checkpoint merely because its workers finished.",
+      "files": []
+    },
+    {
+      "id": 40,
+      "name": "single-machine-global-default",
+      "prompt": "The user says 'Be my global controller'. Only one machine is known, there is no naming preference, and the conversation is in English.",
+      "expected_output": "Establish the global role for the available scope without asking a redundant scope question. Use an English Global Controller main line within the naming default emoji, tags, and two-part structure. A stable start date is a reasonable second part when there is no more useful current focus.",
+      "files": []
+    },
+    {
+      "id": 41,
+      "name": "multiple-machines-optional-alignment",
+      "prompt": "The user asks you to coordinate their work, without specifying the machine scope. Context shows Mac mini and MacBook, with some already assigned work on Mac mini.",
+      "expected_output": "Recognize the possible all-machine versus current-machine scope choice. A brief question may help if history does not clarify the preference; it is not a mandatory setup checkpoint. Continue the already assigned Mac mini work without assuming authority for additional machines.",
       "files": []
     }
   ]

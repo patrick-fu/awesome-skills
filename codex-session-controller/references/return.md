@@ -13,9 +13,12 @@ in batches allowed by the current schema. Read task history where a decision
 needs more evidence. A missing task or failed read remains unresolved; report
 partial coverage when it affects the answer.
 
-Process new evidence and continue work already authorized through its owner.
-Healthy progress needs no steering. Under On-demand, return the requested
-assessment after this pass; it establishes no ongoing monitoring.
+Select active tasks from substantive user or work activity. Controller notices
+and title changes do not make a historical task active. For a bulk operation,
+keep the pre-operation selection stable; expand it only on independent evidence.
+
+Process new evidence through its owner under the entrypoint's intervention and
+acceptance rules. Under On-demand, return the assessment after this pass.
 
 ## Scheduled
 
@@ -30,22 +33,19 @@ non-actionable; notify on meaningful changes under the agreed policy. Continue
 independent work, then end the turn while awaiting the next check. A worker
 handles an uncovered internal wait through `codex-async-followup` in its own task.
 
-Pause checks that can no longer advance work, preserving the reason and the
-condition for resumption. Apply the entrypoint's dependent-wait rule when a
-schedule stops or changes. Verify the saved schedule and target before claiming
-it is active; a failed update does not establish a future check.
+Pause a schedule when only user action can unblock its work. When a schedule
+stops or changes, resolve waits that depend on it: arrange an
+authorized replacement path or surface the remaining decision. Preserve resource
+holds until resolved; workers must not await a poll that no longer exists.
+Verify the saved schedule and target before claiming it is active.
 
 ## Callback
 
 Use the user's selected events, typically completion or a blocker requiring the
-owner. Provide the child with that destination and those triggers. The direct
-owner checks the report, accepts supported results, and continues authorized
-work. Normal progress remains in the child unless selected for reporting.
+owner. Provide the child with that destination and those triggers.
 
-When Callback supplements Scheduled, apply the same evidence once regardless
-of which path delivers it first. A callback leaves the schedule in place unless
-its stopping condition or the user changes it. Avoid acknowledgment exchanges
-when no recipient action changes.
+A callback leaves Scheduled checks in place unless a stopping condition or the
+user changes them. Apply the entrypoint's acceptance and deduplication rules.
 
 ## Wrong level
 

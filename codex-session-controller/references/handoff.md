@@ -1,8 +1,6 @@
 # Controller handoff
 
 Read this file for successor creation, direct takeover, or degraded recovery.
-It adds only ownership transfer; identity, saved-project, delivery, and return
-rules stay in their entrypoint or reference homes.
 
 ## Actors
 
@@ -15,15 +13,14 @@ successor; it reconstructs the same facts itself.
 
 ## Recover
 
-The predecessor remains owner until acceptance. User identification and control
-evidence are independent gates. Reconstruct history from `read_thread`, the
-owning host's rollout, or another authoritative carrier. Write a concise natural
-transfer summary from the current index, preserving the role source, unfinished
-outcomes, latest user decisions and authorization limits, ownership, return
-modes, schedule references, resource holds, and unresolved dependencies or
-delivery. Reconcile recent user steering in workers before carrying old
-controller assumptions forward. Preserve the question behind a terse answer;
-link evidence instead of copying transcripts.
+The predecessor remains owner until acceptance. Reconstruct history from
+`read_thread`, the owning host's rollout, or another authoritative carrier.
+Select tasks using the [check procedure](return.md#check). Build the transfer
+summary from the [control index](../SKILL.md#route), adding
+the role source, authorization limits, and unresolved delivery or evidence gaps.
+Reconcile recent user steering in workers before carrying old controller
+assumptions forward. Preserve the question behind a terse answer; link evidence
+instead of copying transcripts.
 Notify only tasks whose next action or return path changes; routine transfer
 needs no broadcast to every historical task.
 
@@ -36,19 +33,16 @@ unresolved evidence or authority gate keeps that gate after transfer.
 Transfer ownership only after the successor:
 
 1. has formal `(hostId, threadId)` identity
-2. passes saved-project, environment, and permission qualification;
-   projectless, restricted, or approval-pending candidates fail
-3. reads the verified summary or reconstructs every material fact
-4. locates and minimally verifies all current owned sessions
-5. checks intent, authority, unfinished work, gates, resources, pending
-   reports, and unresolved delivery attempts
-6. states in normal language that it accepts ownership and what remains next
+2. matches the assigned host/project and has the access required for its role
+3. verifies the transfer summary against current directly owned tasks and
+   resolves material gaps
+4. states in normal language that it accepts ownership and what remains next
 
 Only that evidence-backed statement, delivered to and verified by the
 predecessor or made after user-authorized direct takeover, transfers ownership.
 After acceptance, read [return routing](return.md) before changing report
-destinations or retiring. Prefix the predecessor's stable controller title with
-`🔀` and archive it when those rules permit retirement, unless the user asks to
+destinations or retiring. Apply the entrypoint's handoff title and archive the
+predecessor when routing permits retirement, unless the user asks to
 keep it visible. Record the successor in the project task for the global
 controller's next scheduled or on-demand check; notify immediately only when the
 user has explicitly selected Callback on that direct project→global edge.

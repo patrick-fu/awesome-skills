@@ -95,8 +95,8 @@
     {
       "id": 11,
       "name": "misplaced-worker-rejected",
-      "prompt": "A requested worker landed projectless, approval-pending, and with less access than its brief requires.",
-      "expected_output": "The candidate should not own the work. The existing owner remains responsible while the controller re-resolves saved project, environment, and permissions; eligibility begins only when all qualifications match.",
+      "prompt": "A requested worker for a saved repository project landed without that project and cannot access files required by its brief.",
+      "expected_output": "The target does not match its assignment and cannot yet do the work. Preserve existing responsibility while resolving the correct context and access; do not treat a wrong target as a successful dispatch.",
       "files": []
     },
     {
@@ -183,9 +183,9 @@
     },
     {
       "id": 20,
-      "name": "projectless-successor-rejected",
-      "prompt": "A proposed successor controller is projectless and approval-pending while the healthy predecessor remains available.",
-      "expected_output": "The successor fails the handoff qualification gate. The predecessor remains owner until an eligible successor completes the full acceptance path.",
+      "name": "insufficient-successor-access",
+      "prompt": "A proposed successor for a saved repository project lands without that project and is waiting for access required to manage the project, while the healthy predecessor remains available.",
+      "expected_output": "The successor does not yet match its assignment or have usable access. The predecessor remains owner until an eligible successor completes reconstruction and accepts responsibility.",
       "files": []
     },
     {
@@ -294,13 +294,6 @@
       "name": "scheduled-with-selected-callback",
       "prompt": "The user chose Scheduled checks every 30 minutes plus a Callback only for complete tickets or blockers. A ticket completion was already accepted and its dependent task dispatched from a Callback. The next scheduled snapshot contains the same evidence. Handle the snapshot.",
       "expected_output": "Deduplicate the already-applied completion; do not dispatch the dependent task twice or request an acknowledgment. Preserve the existing Scheduled check for remaining work and the selected Callback events.",
-      "files": []
-    },
-    {
-      "id": 31,
-      "name": "legacy-mode-names",
-      "prompt": "You inherit records saying global→project Pull and project→workers Batch every 30 minutes, plus an explicit final/blocker Callback exception. The user asks you to use the updated skill terminology.",
-      "expected_output": "Describe the existing behavior as On-demand and Scheduled with the selected Callback events. Preserve cadence, recipients, authorization and schedules; renaming alone needs no new automation, broadcast or reconfirmation.",
       "files": []
     },
     {

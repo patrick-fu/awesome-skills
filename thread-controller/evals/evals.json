@@ -10,13 +10,13 @@
     },
     {
       "id": 2,
-      "name": "global-pull",
+      "name": "global-on-demand",
       "prompt": "You are the user-designated global controller. Create a controller for the saved Billing project.",
-      "expected_output": "The global controller should resolve the saved project, establish the project controller, report its linked title and host, and end its turn on Pull. It should not wait for tickets, receive ticket callbacks, or inspect ticket detail without an inventory request.",
+      "expected_output": "The global controller should resolve the saved project, establish the project controller, report its linked title and host, and end its turn on On-demand. It should not wait for tickets, receive ticket callbacks, or inspect ticket detail without an inventory request.",
       "files": [],
       "expectations": [
         "The project controller receives a formal identity.",
-        "The global-to-project edge remains Pull.",
+        "The global-to-project edge remains On-demand.",
         "The global report links the controller title."
       ]
     },
@@ -29,46 +29,46 @@
     },
     {
       "id": 4,
-      "name": "project-callback-confirmation",
-      "prompt": "The user asks you to become the project controller and run an active implementation frontier. No child return policy has been chosen.",
-      "expected_output": "The controller should recommend Callback-first for the active frontier and obtain one explicit confirmation of the child default. After confirmation, new ticket edges inherit Callback without repeated asks; the project-to-global edge remains Pull unless separately changed.",
+      "name": "project-schedule-default",
+      "prompt": "The user makes this session the Billing project controller and explicitly authorizes it to keep progressing through the active implementation frontier. They have not selected Callback or another per-edge mode. Establish the project's return behavior.",
+      "expected_output": "Because continued progress is explicitly authorized for this project, the controller should establish a bounded Scheduled child default with targets, cadence, and stop conditions. The project-to-global edge remains On-demand. Callback must not be inferred from active work or introduced without a separate explicit choice.",
       "files": [],
       "expectations": [
-        "Callback is user-confirmed, not inferred from work shape.",
-        "The confirmed policy covers later child edges.",
-        "The project-to-global edge stays Pull."
+        "Explicit continuing-project authorization selects Scheduled with a cadence and stopping conditions.",
+        "Callback is not inferred from the active frontier.",
+        "The project-to-global edge stays On-demand."
       ]
     },
     {
       "id": 5,
       "name": "per-edge-return",
-      "prompt": "A project controller owns one Pull research edge and one user-confirmed Callback edge. Handle dispatch and an incoming callback.",
-      "expected_output": "The Pull worker should be dispatched and the turn ended without waiting. The Callback worker reports only to the project controller, which verifies evidence before releasing its dependency. Mode choice does not alter either worker's scope, owner, authority, or acceptance.",
+      "prompt": "A project controller owns one On-demand research edge and one user-confirmed Callback edge. Handle dispatch and an incoming callback.",
+      "expected_output": "The On-demand worker should be dispatched and the turn ended without waiting. The Callback worker reports only to the project controller, which verifies evidence before releasing its dependency. Mode choice does not alter either worker's scope, owner, authority, or acceptance.",
       "files": [],
       "expectations": [
-        "Pull does not wait, callback, or schedule.",
+        "On-demand establishes no automatic owner monitoring and leaves internal worker continuation unchanged.",
         "Callback wakes only the direct owner.",
         "Return mode does not change ownership or acceptance."
       ]
     },
     {
       "id": 6,
-      "name": "batch-explicit-only",
-      "prompt": "The user explicitly chooses Batch for ten wide-fan-in workers after the controller explains interruption, token, latency, and response effects.",
-      "expected_output": "The controller should echo and use that choice, cover the cohort with one heartbeat and one snapshot per run, and set targets, cadence, a TTL or run cap, stop conditions, and automatic pause. Ordinary completion stays batched; any immediate-event exception must match the confirmed choice and be disclosed.",
+      "name": "explicit-scheduled-cohort",
+      "prompt": "The user explicitly chooses Scheduled checks every 30 minutes for ten workers until the project is complete or all remaining work requires a user decision. No Callback was chosen.",
+      "expected_output": "Use one controller heartbeat for this cohort, preserving the 30-minute cadence and stopping conditions. Each run checks the full cohort once in tool-sized batches and handles authorized next actions. Ordinary results remain in workers until the check. Do not infer Callback or add a separate check per worker.",
       "files": [],
       "expectations": [
-        "Batch has explicit user authorization.",
+        "Scheduled has explicit user authorization.",
         "One heartbeat covers one cohort.",
-        "Ordinary results do not bypass Batch.",
-        "The heartbeat pauses automatically."
+        "Ordinary results do not bypass Scheduled.",
+        "Cadence and stop conditions bound the schedule."
       ]
     },
     {
       "id": 7,
       "name": "wrong-level-report",
       "prompt": "A ticket completion report arrives at the global controller, but the sender's brief named a project controller as its direct owner.",
-      "expected_output": "The global controller should not accept or act on the ticket result. It should verify the direct owner, forward the report unchanged with an address correction, or ask the sender to resend from its own records if the owner cannot be verified.",
+      "expected_output": "Verify the direct owner and forward the report unchanged with an address correction. Leave acceptance and ticket decisions to that owner. If routing is unresolved, preserve the report while resolving its destination; do not invent an owner or accept the result globally.",
       "files": []
     },
     {
@@ -121,14 +121,14 @@
     {
       "id": 14,
       "name": "mode-specific-handoff",
-      "prompt": "A predecessor project controller owns callback workers, a batch cohort, and pull workers. The successor has just accepted ownership.",
-      "expected_output": "The predecessor should rebind only callback edges where it is the direct return target, drain unconfirmed late callbacks unchanged, and retire after that routing. It should pause the Batch heartbeat without worker rebind and leave Pull edges unchanged. A global successor would not touch project-internal tickets.",
+      "prompt": "A predecessor project controller owns Callback workers, a Scheduled cohort, and On-demand workers. The successor has just accepted ownership.",
+      "expected_output": "Rebind Callback destinations that named the predecessor and forward late reports unchanged for successor deduplication. Transfer Scheduled checks only if the tool supports changing the target; otherwise the successor creates its replacement and the predecessor retires the old check. Verify the successor recipient and preserve active/paused state, cadence, expiry and pending waits with one active check per purpose. On-demand needs no rebind. A global handoff leaves project-internal routes with their project controller.",
       "files": [],
       "expectations": [
         "Only direct callback edges receive a destination delta.",
         "Late callbacks are forwarded before successor deduplication.",
-        "Batch pauses and Pull does not rebind.",
-        "Retirement follows return routing."
+        "Scheduled routing is verified against the actual saved recipient and preserves active/paused state, cadence, expiry and pending waits.",
+        "On-demand does not rebind, and retirement waits for required routing changes."
       ]
     },
     {
@@ -159,7 +159,7 @@
       "id": 17,
       "name": "insufficient-report-blocks-dependency",
       "prompt": "A worker sends only 'Done.' Its claimed output would release another worker that is waiting on a migration result.",
-      "expected_output": "The controller should ask one focused question for evidence and remaining work. It should not release the dependency, advance the dependent worker, archive the source, or treat the bare claim as acceptance.",
+      "expected_output": "Read available task evidence to determine what was delivered and what remains. If the evidence is still insufficient, request the specific missing evidence without releasing the dependency, archiving the source, or accepting the bare claim.",
       "files": []
     },
     {
@@ -204,6 +204,145 @@
       "name": "one-shot-stays-unowned",
       "prompt": "The user asks this session to inspect one task and report whether its last message contains test evidence.",
       "expected_output": "The session should perform only that bounded inspection and report the finding. It should not assume controller role, create ownership or an active index, or expand into managing the task's outcome.",
+      "files": []
+    },
+    {
+      "id": 23,
+      "name": "lossless-relay-and-context-delta",
+      "prompt": "Your user gives a short Billing request: 'Find why webhook retries duplicate deliveries and propose the smallest fix.' In a longer discussion they add: 'We might need to preserve the old event schema; only change it if traces prove it is necessary. A queue change is one option, not a decision. I am unsure whether to patch the producer or consumer.' The worker can read the repository and task history but cannot see a controller-verified cross-project release freeze ending Friday. Dispatch the initial brief, then relay this later user decision: 'Keep the old schema for this release.'",
+      "expected_output": "The initial brief should retain the short request and summarize the longer discussion without turning 'might,' 'only if traces prove,' 'one option,' or the producer/consumer uncertainty into commitments. It may add only the inaccessible release-freeze fact because it affects timing. The later follow-up should carry only the schema decision; unchanged scope, owner, acceptance, and general control policy stay out of it. It must not invent an implementation route, approval gate, or deliverable.",
+      "files": [],
+      "expectations": [
+        "Short user wording and long-discussion qualifiers remain faithful and uncertainty is preserved.",
+        "Initial context adds only the inaccessible, task-affecting release-freeze fact.",
+        "The later message contains only the new schema decision and leaves prior scope and acceptance intact.",
+        "No extra implementation choice, approval, deliverable, or control protocol is invented."
+      ]
+    },
+    {
+      "id": 24,
+      "name": "worker-user-ambiguity-alignment",
+      "prompt": "An authorized project controller receives the open request: 'Make sync faster; I do not know whether batching or caching is right.' The assigned worker has repository context and may ask the user questions directly. No deadline, API change, architecture, or acceptance boundary has been chosen.",
+      "expected_output": "The controller should route the open outcome with its uncertainty intact. The worker may ask focused questions and profile alternatives with the user, while the controller avoids inventing a complete plan, choosing batching or caching, or adding an approval gate before that alignment. A resulting choice is recorded only after the user and worker resolve it.",
+      "files": [],
+      "expectations": [
+        "The unresolved choice is carried to the worker and user for direct alignment.",
+        "The controller does not manufacture a design, implementation route, or approval stage.",
+        "New scope or acceptance decisions appear only after the ambiguity is resolved."
+      ]
+    },
+    {
+      "id": 25,
+      "name": "intervention-reads-latest-worker-decision",
+      "prompt": "A project's controller index still says 'migrate the API now'. Before intervening, the controller sees signs of drift and considers interrupting the worker. The worker's latest transcript contains the user's decision: 'Keep the current API for this release and defer migration until after launch,' plus an authorized next step to run compatibility checks.",
+      "expected_output": "The controller should read the worker's latest transcript first, replace the stale controller note with the user's decision, and preserve the worker and owner. Only then may it send a narrow continuation for the authorized compatibility checks; it should not interrupt or reassign the worker or resume migration from stale notes. Any update carries only the changed decision and next step.",
+      "files": [],
+      "expectations": [
+        "The latest user decision in the worker supersedes the stale controller index.",
+        "The controller checks the worker transcript before interrupting or reassigning.",
+        "Any follow-up preserves ownership and contains only the changed decision or concrete next step."
+      ]
+    },
+    {
+      "id": 26,
+      "name": "manual-task-observation-and-authorized-continuation",
+      "prompt": "The user explicitly asks the global controller to include manually created Billing tasks in this inventory. It discovers two tasks: A is awaiting a schema decision with no owner edge or continuation authorization. B names the existing Billing project controller as owner, and the user has authorized the concrete next step run the approved compatibility check now. Report and handle both discoveries.",
+      "expected_output": "The inventory should include both tasks as observed identities and states with evidence. Task A stays observational and unchanged: the controller must not claim it, resume its unresolved discussion, or create a duplicate. After verifying Task B's project, owner, and authorization, the controller may hand only that concrete next step to the existing owner; discovery alone creates no authority or new worker.",
+      "files": [],
+      "expectations": [
+        "Both manually created tasks appear in the observable inventory with evidence.",
+        "The task without authorization remains unchanged and unowned by the controller.",
+        "Only the authorized concrete next step is handed to the verified existing owner.",
+        "Discovery does not create duplicate ownership or a replacement worker."
+      ]
+    },
+    {
+      "id": 27,
+      "name": "acceptance-reuses-worker-evidence",
+      "prompt": "A worker reports a migration step complete with a commit, passing targeted tests, a completed technical review note, and the dependency artifact consumed by its successor. The report matches the agreed goal, and no reviewer or user message raises a material contradiction. The project controller is considering rerunning the technical tests and review before accepting.",
+      "expected_output": "The controller should check the report against the agreed goal, evidence, and dependency release, then reuse valid worker-provided test and review evidence rather than repeating technical work merely because it owns acceptance. It may accept or advance when those facts resolve the claim; deeper investigation is for a material contradiction, missing acceptance evidence, or cross-task effect, and any unresolved gap keeps the dependency blocked.",
+      "files": [],
+      "expectations": [
+        "Acceptance checks the agreed goal, supporting evidence, and dependency state.",
+        "Technical testing and review remain worker responsibilities when their evidence is valid.",
+        "The controller does not duplicate a consistent technical review without a material reason.",
+        "A material evidence gap or contradiction blocks dependency release."
+      ]
+    },
+    {
+      "id": 28,
+      "name": "schedule-pause-preserves-dependent-waits",
+      "prompt": "An explicitly authorized project Scheduled is paused after its TTL expires. Worker A still holds a shared schema lock, worker B is waiting on A's result, and the global controller uses On-demand. No replacement schedule, Callback, or release authorization has been given. Handle the pause.",
+      "expected_output": "The controller should pause the schedule without declaring A or B complete: keep B's dependency wait and A's resource hold visible, and surface the decision or next action. It must not release B, create an unapproved replacement poll or callback, or leave workers waiting for a nonexistent heartbeat. Global On-demand remains unchanged; resumption or handoff needs explicit authority and a concrete return path.",
+      "files": [],
+      "expectations": [
+        "Pausing the schedule preserves the dependent wait and makes it visible.",
+        "The underlying resource hold is not silently released or reassigned.",
+        "No replacement schedule, Callback, or dependency release occurs without authorization.",
+        "The global-to-project edge remains On-demand."
+      ]
+    },
+    {
+      "id": 29,
+      "name": "worker-internal-continuation",
+      "prompt": "A worker uses On-demand toward its project controller. Inside the worker, an authorized test run has 12 minutes left and no independent work remains. The worker can schedule a one-time wakeup in its own task. The controller has no timer. State the worker and controller actions.",
+      "expected_output": "The worker may arrange its own one-time continuation and end the turn. It neither sends an unselected Callback nor starts owner monitoring. On-demand does not forbid internal asynchronous continuation.",
+      "files": []
+    },
+    {
+      "id": 30,
+      "name": "scheduled-with-selected-callback",
+      "prompt": "The user chose Scheduled checks every 30 minutes plus a Callback only for complete tickets or blockers. A ticket completion was already accepted and its dependent task dispatched from a Callback. The next scheduled snapshot contains the same evidence. Handle the snapshot.",
+      "expected_output": "Deduplicate the already-applied completion; do not dispatch the dependent task twice or request an acknowledgment. Preserve the existing Scheduled check for remaining work and the selected Callback events.",
+      "files": []
+    },
+    {
+      "id": 31,
+      "name": "legacy-mode-names",
+      "prompt": "You inherit records saying global→project Pull and project→workers Batch every 30 minutes, plus an explicit final/blocker Callback exception. The user asks you to use the updated skill terminology.",
+      "expected_output": "Describe the existing behavior as On-demand and Scheduled with the selected Callback events. Preserve cadence, recipients, authorization and schedules; renaming alone needs no new automation, broadcast or reconfirmation.",
+      "files": []
+    },
+    {
+      "id": 32,
+      "name": "unrelated-runnable-branch",
+      "prompt": "A Scheduled project has two independent branches. A is waiting for a user design decision; B has completed a reviewed patch and was authorized to continue to its next ticket after acceptance. The next check is due.",
+      "expected_output": "Surface A's decision while accepting B's supported result and continuing B through its owner. Preserve the project check while it can advance B; a gate in one branch does not stop unrelated work.",
+      "files": []
+    },
+    {
+      "id": 33,
+      "name": "partial-status-inventory",
+      "prompt": "The user asks an On-demand global controller for an inventory of ten known direct children. Eight snapshot reads succeed; two fail and available history cannot resolve their current status.",
+      "expected_output": "Report the eight verified states and the two unresolved reads as partial coverage. Do not report all tasks healthy or completed, create replacement owners, or start an ongoing timer solely to conceal the missing results.",
+      "files": []
+    },
+    {
+      "id": 34,
+      "name": "stale-wakeup-prompt",
+      "prompt": "A project timer still names old ticket T1 as current, but the controller index and latest task evidence show T1 completed and T2 authorized and active. The user asks to shorten the wakeup prompt.",
+      "expected_output": "Use a short stable reminder to recover current state; keep changing ticket IDs and progress in the index. Continue with T2 based on current evidence rather than replaying T1. Preserve the existing timer, cadence and notification policy.",
+      "files": []
+    },
+    {
+      "id": 35,
+      "name": "different-wakeup-recipients",
+      "prompt": "A project controller checks its workers every 30 minutes. Worker W is waiting for an internal subagent expected to finish in 8 minutes; W has no independent work or its own wakeup. The project check only observes status and does not itself resume W.",
+      "expected_output": "The project timer does not cover W's internal continuation. W may use an existing suitable self-wakeup or arrange one through codex-async-followup. Avoid a duplicate wakeup to the same recipient and purpose; do not disable the project timer or infer Callback.",
+      "files": []
+    },
+    {
+      "id": 36,
+      "name": "control-notice-is-not-activity",
+      "prompt": "The user authorizes handoff only of recently active unfinished tasks. W1 has real recent user discussion. W2 finished weeks ago, but its updated_at is fresh because this controller just sent a handoff notice and renamed it. Decide the handoff set.",
+      "expected_output": "Use substantive user/work activity from before the bulk operation. W1 qualifies; control-induced timestamps do not reactivate W2 or expand the selection. Inspect W2 history if needed, and do not send another handoff or create its successor based on that notice.",
+      "files": []
+    },
+    {
+      "id": 37,
+      "name": "handoff-retains-resource-hold",
+      "prompt": "A Scheduled project is handing off after its timer expires. Worker A still holds the shared test device, B is waiting for the device, and no release or replacement schedule has been authorized. The successor can read the control records.",
+      "expected_output": "Preserve A's resource hold, B's wait, the expired schedule reference, current authorization and the resumption decision in the transfer context. Ownership acceptance does not release the device, start B, or renew the expired timer. The successor surfaces the unresolved decision.",
       "files": []
     }
   ]

@@ -135,7 +135,7 @@
       "id": 15,
       "name": "controller-report-reentry",
       "prompt": "After context compaction, a callback wakes the session and the controller skill loads automatically. The visible transcript no longer contains the user designation or accepted-handoff record; the only role evidence is this session's own title 'MacBook Coordinator', established for its authorized machine scope before compaction.",
-      "expected_output": "Restore the previously established controller role without translating or normalizing its title to a fixed global/project template. Recover its assigned scope from the task record, process the callback as the direct owner, and apply evidence-based acceptance. The title restores the established role, not authority over unrelated machines; skill loading and the callback alone create no authority.",
+      "expected_output": "Restore the previously established controller role while preserving the user's name and language. Recover its assigned scope from the task record, process the callback as the direct owner, and apply evidence-based acceptance. The title restores the established role, not authority over unrelated machines; skill loading and the callback alone create no authority.",
       "files": [],
       "expectations": [
         "The own pre-compaction title restores the established role.",
@@ -342,21 +342,21 @@
       "id": 38,
       "name": "machine-scope-user-title",
       "prompt": "The user designates this task as the global controller for Mac mini only and suggests the name 'Mac mini 主控'. A MacBook controller already exists. Establish the role and title.",
-      "expected_output": "Use the suggested wording within the naming skill's default emoji, tags, and two-part headline. Record Mac mini as this global controller's scope and preserve the independent MacBook owner. No scope question is needed; a machine scope is not a third controller role. Date and focus wording follow context rather than a fixed Chinese template.",
+      "expected_output": "Use the suggested wording in the global controller format, such as '🕹️ Mac mini 主控 · YYYY-MM-DD' with a known stable start date. Record Mac mini as this global controller's scope and preserve the independent MacBook owner. No scope question is needed; a machine scope is not a third controller role.",
       "files": []
     },
     {
       "id": 39,
       "name": "controller-title-does-not-close-role",
       "prompt": "The user refers to this ongoing global controller as 'MacBook Coordinator' and prefers English titles. All currently tracked workers finish, but the user has not ended the coordination role or designated a successor.",
-      "expected_output": "Accept supported worker outcomes and report the empty current workload while retaining the controller main line. Keep the default emoji, tag, and two-part structure in English; update only meaningful state or focus information. Do not mark the controller complete or create a checkpoint merely because its workers finished.",
+      "expected_output": "Accept supported worker outcomes and report the empty current workload while retaining the ongoing global controller's 🕹️ role marker, MacBook Coordinator main line, and stable date when available. Do not substitute a worker progress title, mark the controller complete, or create a checkpoint merely because its workers finished.",
       "files": []
     },
     {
       "id": 40,
       "name": "single-machine-global-default",
       "prompt": "The user says 'Be my global controller'. Only one machine is known, there is no naming preference, and the conversation is in English.",
-      "expected_output": "Establish the global role for the available scope without asking a redundant scope question. Use an English Global Controller main line within the naming default emoji, tags, and two-part structure. A stable start date is a reasonable second part when there is no more useful current focus.",
+      "expected_output": "Establish the global role for the available scope without asking a redundant scope question. Use the English default '🕹️ Global Controller' with a stable start date as the recommended second part when available. The controller keeps its role identity through routine work; no fixed Chinese wording or worker focus is required.",
       "files": []
     },
     {
@@ -364,6 +364,13 @@
       "name": "multiple-machines-optional-alignment",
       "prompt": "The user asks you to coordinate their work, without specifying the machine scope. Context shows Mac mini and MacBook, with some already assigned work on Mac mini.",
       "expected_output": "Recognize the possible all-machine versus current-machine scope choice. A brief question may help if history does not clarify the preference; it is not a mandatory setup checkpoint. Continue the already assigned Mac mini work without assuming authority for additional machines.",
+      "files": []
+    },
+    {
+      "id": 42,
+      "name": "project-controller-role-title",
+      "prompt": "This session is the established Mimo 去重 project controller. It started on 2026-09-14; today is 2026-09-15. Its current title is '🏃 [Android][三源] Mimo 去重项目主控 · 验收机内 mock Gate'. The user says: '按照项目主控规则改 session 名'. A worker is still running the mock acceptance checks. Choose the title.",
+      "expected_output": "Use the project controller role format, such as '🗂️ Mimo 去重项目主控 · 2026-09-14'. Preserve the project identity and stable start date rather than today's date or the worker's current milestone. The rename neither changes ownership nor claims completion.",
       "files": []
     }
   ]

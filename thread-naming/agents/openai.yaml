@@ -2,7 +2,6 @@
 interface:
   display_name: "Codex Session Naming"
   short_description: "Keep Codex task titles aligned with lifecycle state"
-  default_prompt: >-
-    Use $codex-session-naming to name this top-level Codex task and keep its
-    title aligned with its main task, current focus, owner, and completion
-    state.
+  default_prompt: "Use $codex-session-naming to name this top-level Codex task
+    and keep its title aligned with its main task, established role, and
+    lifecycle state."

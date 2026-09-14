@@ -2,31 +2,36 @@
 name: codex-session-naming
 description: >-
   Apply the session title lifecycle to every user-visible top-level Codex App
-  session. Write a stable sidebar headline at entry, rewrite it only when its
-  mandate, gate, or owner makes it false, and audit closure claims.
-  Excludes chats, subagents, and controller-role titles.
+  session. Keep a stable sidebar headline aligned with user intent,
+  mandate, gate, and owner, and audit closure claims.
+  Includes controllers; excludes chats and subagents.
 ---
 
 # Codex Session Naming
 
-A user-visible top-level domain work session owes one **mandate**. The
-session title is the **headline**:
+A user-visible top-level session owes one **mandate**. Its title is a stable
+**headline**. Honor the user's chosen name, language, and format. Otherwise,
+choose a concise title in the conversation's language. A recommended work-task
+format is:
 
 `<state> [tags] <mandate> · <gate>`
 
-Tags are at most two searchable scope or facet labels. Keep user phrasing,
-IDs, and entities. Controller-role titles belong to
-`codex-session-controller`.
+Include only useful parts; tags, when useful, are at most two searchable scope
+or facet labels. Keep user phrasing, IDs, and entities.
+For a controller, prefer a stable scope-and-role headline, such as `MacBook 主控`
+or `Billing Coordinator`.
+With a fixed user-selected name, report changing status in the conversation.
 
 ## When
 
-1. **Entry:** before the first response, write the headline from available
-   evidence. With no usable mandate, use `🙋 新会话 · 等待目标`.
+1. **Entry:** before the first response, preserve a suitable existing headline
+   or write one from available evidence. With no usable mandate, describe that
+   the task is awaiting a goal in the chosen language.
 2. **Semantic transition:** before the response that ends a turn, rewrite
-   only when the headline is false; if true, leave it. Judge from user
-   intent, delivered or verified work, and actual blockers—not recency or
-   runtime alone.
-3. **Closure:** decide `🏁` and `☑️` under Claim.
+   when the user requests it or the headline is false; otherwise leave it.
+   Judge from user intent, delivered or verified work, and actual blockers—not
+   recency or runtime alone.
+3. **Closure:** decide completion and checkpoint claims under Claim.
 
 ## Mandate
 
@@ -39,6 +44,10 @@ evaluated under Gate, not as a new mandate. It ends only when **revoked**
 mandate starts only on evidence that this session now owes another final
 boundary. With no new mandate, the closing headline keeps the old one.
 
+A controller's mandate is its ongoing coordination scope. Routine checks and
+child milestones do not end that mandate. Role authorization, scope, and
+termination conditions belong to `codex-session-controller`.
+
 ## Gate
 
 The **gate** is the mandate's one bottleneck: the hold or step that first
@@ -49,7 +58,7 @@ bottleneck does not enter the headline.
 ## Owner
 
 The **owner** is who must take the next step through the chosen gate, and
-selects the state. Completion and handoff override:
+selects the state. These markers are optional; their meanings apply when used:
 
 - `🏁` mandate discharged
 - `☑️` checkpoint passed and parked
@@ -60,20 +69,20 @@ selects the state. Completion and handoff override:
 - `⏸️` user pause
 - `⏳` owned queue not started
 - `🏃` Agent-owned active work; its working Agent may use one self-explanatory
-  emoji for its current action. Fall back to `🏃`; all other states stay fixed.
+  emoji for its current action. Fall back to `🏃`.
 
 Turns and tool calls are not checkpoints; ordinary progress belongs in the
 transcript or report.
 
 ## Claim
 
-`🏁` and `☑️` are claims that the mandate is discharged or parked, not that
-a gate or the latest turn finished. Read
-[references/closure.md](references/closure.md) before writing, accepting, or
-challenging either one.
+Completion or checkpoint wording, including `🏁` and `☑️`, claims that the
+mandate is discharged or parked. Read [references/closure.md](references/closure.md)
+before writing, accepting, or challenging such a claim, regardless of its
+language or format.
 
 ## Authority
 
 Rename your own session; a controller may rename work sessions it owns.
-The first bulk rename needs user authorization, and `🔀` needs an accepted
-successor. Naming never archives or deletes.
+The first bulk rename needs user authorization. A handoff claim, including `🔀`,
+needs an accepted successor. Naming never archives or deletes.

@@ -8,9 +8,9 @@ description: >-
 
 # Codex Session Controller
 
-Control user-visible Codex tasks through thread tools. Workers and successors
-are separate tasks identified by formal `(hostId, threadId)`; a saved project is
-`(hostId, projectId)`.
+Coordinate user-visible Codex tasks so the user can focus on decisions and
+workers can execute independently. Tasks use formal `(hostId, threadId)`;
+a saved project is `(hostId, projectId)`.
 
 ## Role
 
@@ -29,15 +29,20 @@ without claiming controller role, ownership, or an active index; a project
 domain request routes losslessly to its project controller.
 
 A **global** controller manages portfolio-level outcomes, project controllers,
-direct standalone tasks, but not project-internal tickets. Every direct child
-edge defaults to Pull. Inventory takes one bounded snapshot of those children,
-without ticket detail unless the user asks.
+and direct standalone tasks. It works through project controllers for their
+internal tasks. Include manually created tasks in observation within the user's
+controller scope; discovery alone does not authorize new work or resume a
+paused task or unresolved discussion.
 
-A **project** controller owns one project's outcome map, backlog, frontier,
-dependencies, concurrency and resource limits, acceptance, next dispatch, and
-project synthesis. It may do light control work. Domain research,
-implementation, diagnosis, review, testing, and artifact iteration belong to
-workers; direct execution requires an explicit user request to this session.
+Select active tasks from substantive user or work activity. Controller notices
+and title changes do not make a historical task active. For a bulk operation,
+keep the pre-operation selection stable; expand it only on independent evidence.
+
+A **project** controller owns the outcome map, agreed task breakdown,
+dependencies, coordination, acceptance, and project synthesis. Detailed design
+and user alignment happen in workers, as do implementation, diagnosis, review,
+and testing. Clear tasks can start directly. Domain execution by the controller
+requires an explicit user request to this session.
 
 ## Route
 
@@ -60,53 +65,70 @@ suspicious read, unknown create/send, or misplaced worker, read
 
 ## Dispatch
 
-**Lossless:** the initial brief carries the complete user request; steering
-carries only its delta. Every unmentioned dimension remains unchanged. State the
-outcome, user details, permission and host boundary, acceptance evidence,
-decisions that pause work, and the direct owner's formal identity as the report
-destination. Keep the brief self-contained and distinguish requirements from
-non-binding suggestions. Give the worker accessible paths, links, or content.
+**Faithful relay:** prefer the user's original wording for short requests;
+condense long discussions without changing scope, qualifiers, uncertainty, or
+confirmed decisions. An open question is a valid assignment: let the user and
+worker resolve it there. Decompose agreed outcomes without adding deliverables,
+restrictions, approval stages, or mandatory implementation choices.
 
-Invoke `codex-session-naming` to establish a worker title; the brief carries the
-outcome, not a naming protocol. Maintain a minimal active index. When durable
-orientation is useful across re-entry, Pull, or handoff, externalize the active
-control context in an existing controller document, or a small
-`controller-context.md` scoped to that controller and host. Keep the current
-outcome, active frontier, and each relevant direct edge's formal identity,
-direct owner, return mode, and decisive evidence or gate. Refresh the current picture
-after material control changes. Task records remain the evidence for
-acceptance, permissions, and detail. Prefer natural language or a small table.
-A Batch cohort may group edges; no other hierarchy is inferred.
+Supplement only information the worker is unlikely to obtain itself and that
+affects its task: user decisions and task-specific authorization limits outside
+its transcript, other tasks' findings, dependencies, or actual shared-resource
+conflicts. Provide accessible entry points. Distinguish verified facts and
+optional suggestions from user requirements; leave execution choices to the
+worker.
 
-## Return
+Before steering, read the target's latest user decisions and progress; direct
+user steering there supersedes stale controller notes. Follow-ups carry only
+the delta; unmentioned requirements remain unchanged. Keep general reminders,
+locally available rules, and unchanged control metadata out of the message.
+Supply routing details only when the worker must act on them, such as a Callback
+destination. Routine policy updates need no acknowledgment round or receipt timer.
 
-Return belongs to one direct owner→child edge. Workers report only to their
-direct owner; a report never leapfrogs to a grandparent. Before dispatch, choose
-one mode for that edge:
+Use `codex-session-naming` for titles. Keep a minimal controller index of current
+outcomes, direct owners and formal identities, return modes, active schedule
+references, dependencies, resource holds, and next evidence or user decisions.
+Refresh it after material changes; link task records for detail. Use an existing
+control document, or `controller-context.md` when durable orientation is useful.
+This index is for the controller, not a checklist to copy into worker messages.
 
-- **Pull** is the default for every unselected edge and global→project,
-  switchable only by explicit user choice. It is dispatch-and-return: verify
-  formal identity, report the linked title and next evidence, then end without
-  `wait_threads`, callback, or schedule. For inventory, rebuild the named or
-  directly owned set from the index, known identities, and `list_threads`; take
-  one snapshot pass in `wait_threads` batches of at most eight, report links,
-  hosts, and one-line states, then end.
-- **Callback** and **Batch** require the user to choose directly or to confirm
-  after the controller explains effects on response speed, interruption, token
-  use, and latency. Echo an explicit user choice and use it without asking
-  again. Work shape alone never upgrades a mode.
+## Intervene
 
-Mode changes only return behavior; scope, owner, authority, and acceptance stay
-unchanged. A project controller→ticket edge may be Callback when the user chose
-that default for active work; project→global stays Pull unless the user
-explicitly switches that edge. Pull keeps blocker/final/handoff state in the
-project task until global pull. For Callback/Batch mechanics, wrong-level
-reports, or handoff return routing, read [references/return.md](references/return.md).
+Normal progress needs no message. Check the target's latest authorization before
+sending: for user-paused work, report relevant findings to the user and leave
+the target paused. Otherwise, give the existing owner facts about a verified
+error, goal mismatch, or unmet dependency; let it choose the remedy. Resume work
+only with an authorized, executable next step. Controller coordination resolves
+real dependencies and resource conflicts. Treat an unverified concern as a
+question to check, not an established blocker.
 
-When establishing a project controller, recommend and obtain one confirmation
-for its child default return policy; **Callback-first** suits an active
-frontier. That confirmed policy supplies the return mode for later ticket edges
-without asking per worker. If unconfirmed, each edge remains Pull.
+## Follow-up modes
+
+A mode describes when one direct owner receives or checks a child's results:
+
+| Mode | Trigger |
+| --- | --- |
+| **On-demand** | The owner checks when asked or when its authorized work needs the result. |
+| **Scheduled** | A timer wakes the owner for a status check and any authorized next action. |
+| **Callback** | The child reports a selected event to its direct owner. |
+
+Keep existing choices. Interpret legacy **Pull** as On-demand and **Batch /
+Schedule** as Scheduled; renaming alone changes no cadence, authority, or routing.
+For new edges, On-demand is the global default and Scheduled is the child
+default of a project explicitly authorized to keep progressing. Other unselected
+edges use On-demand. Callback requires explicit user choice and may supplement
+Scheduled for selected events. A confirmed child policy applies to later tickets
+without changing the project's mode toward its own parent.
+
+A mode governs owner-child communication, not the worker's internal continuation.
+After dispatch, verify formal identity, report the linked title and next evidence,
+then end the turn. For checks, scheduling, Callback, or handoff routing, read
+[references/return.md](references/return.md).
+
+When stopping or changing a schedule, resolve waits that depend on it: arrange
+an authorized replacement path or surface the remaining decision. Preserve the
+underlying resource hold until resolved; workers must not await a poll that no
+longer exists.
 
 ## Accept and report
 
@@ -116,9 +138,12 @@ identity plus substantive claim plus evidence. Apply each fact once. Resolve
 conflicts by evidence or one focused question; ambiguity leaves lifecycle,
 dependency release, and archive unchanged.
 
-Treat completion as a claim entering acceptance. Verify evidence before
-changing lifecycle, releasing a dependency, or accepting writes. Invoke
-`codex-session-naming`, apply its closure rules, and do not replay the worker.
+Treat completion as a claim entering acceptance. Check the agreed outcome and
+supporting evidence before changing lifecycle or releasing a dependency.
+Technical reviews and tests belong to the worker; reuse their valid evidence.
+Investigate specific contradictions, missing acceptance evidence, or cross-task
+effects rather than routinely repeating the worker's technical review.
+Invoke `codex-session-naming` and apply its closure rules.
 Report user actions, exceptions, then a compact summary. Link each non-current
 session as `[<title>](codex://threads/<threadId>)` and show its `hostId`.
 
@@ -132,5 +157,5 @@ predecessors and duplicates are exceptions.
 
 For successor creation, direct takeover, or degraded recovery, read
 [references/handoff.md](references/handoff.md). Ownership transfers only after
-acceptance. When accepted ownership includes a Callback or Batch edge, read
+acceptance. When accepted ownership includes a Callback or Scheduled edge, read
 [references/return.md](references/return.md) for its return routing.

@@ -1,9 +1,9 @@
 ---
 name: codex-session-controller
 description: >-
-  Use when a user establishes this Codex session as a controller,
-  accepts a controller handoff, or operates an already established
-  controller. Loading alone grants no controller role.
+  Use when a user establishes this Codex session as a global or project
+  controller, accepts a controller handoff, or history identifies an
+  established controller role. Loading alone grants no controller role.
 ---
 
 # Codex Session Controller
@@ -14,34 +14,37 @@ a saved project is `(hostId, projectId)`.
 
 ## Role
 
-**Authority** comes from the user's designation or an accepted handoff. Recover
-that designation or acceptance from this session's history; its pre-compaction
-controller title can also restore an established role. Keep one active
-controller per scope.
+Determine this session's role from the user's designation, an accepted handoff,
+or its own history. Its pre-compaction controller title can help restore a
+previously established role. A worker's mention of a controller or skill loading
+alone does not assign that role; continue the existing mandate when no
+controller role is established.
 
-The user defines the coordination scope, which may cover a machine, a project,
-or a portfolio. When resuming, recover that scope from the assignment or control
-index. Global and project describe responsibilities, not required names.
+There are two controller roles. A **global** controller coordinates project
+controllers and standalone tasks within the user's chosen scope. Work through
+project controllers for their internal tasks. A **project** controller owns the
+project's outcomes, agreed task breakdown, dependencies, coordination, acceptance,
+and synthesis. Workers handle detailed design, user alignment, implementation,
+diagnosis, review, and testing. Domain execution by the controller requires the
+user to ask this session to do it.
 
-A **one-shot** performs one user-requested session inspection or operation
-without claiming controller role, ownership, or an active index; a project
-domain request routes losslessly to its project controller.
+Keep one active controller per scope and recover that scope from the assignment
+or control index. A global scope may cover one machine or several. With only
+one known machine, it is the natural default. When multiple machines are evident
+and intent is unclear, a brief question about all machines versus the current
+one can help. Use existing user preferences to judge whether to ask; an explicit
+global or machine-specific choice needs no repeated question. Continue already
+scoped work while any broader choice remains open.
 
-A **global** controller manages project controllers and standalone tasks. Work
-through project controllers for their internal tasks. Manually created tasks
-may be observed within the user's scope; discovery grants no execution authority.
+A **one-shot** performs a bounded user-requested inspection or operation without
+adopting ongoing controller responsibility. Route project work through its
+existing project controller. Manually created tasks can be observed within the
+requested scope; discovery alone does not authorize execution.
 
-A **project** controller owns the outcome map, agreed task breakdown,
-dependencies, coordination, acceptance, and project synthesis. Detailed design
-and user alignment happen in workers, as do implementation, diagnosis, review,
-and testing. Clear tasks can start directly. Domain execution by the controller
-requires an explicit user request to this session.
-
-Use `codex-session-naming` for controller and worker titles, lifecycle expression,
-and closure checks. A global controller's mandate ends only when the user ends
-the role or an accepted successor takes over; a project controller's outcome
-must pass acceptance. Keep completed sessions unarchived unless the user sets
-another policy; accepted predecessors and duplicates are exceptions.
+Use `codex-session-naming` for both controller and worker titles. A global role
+continues until the user ends it or an accepted successor takes over; a project
+outcome ends through acceptance. Keep completed sessions unarchived unless the
+user chooses another policy; accepted predecessors and duplicates are exceptions.
 
 ## Route
 

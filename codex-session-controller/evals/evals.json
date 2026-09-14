@@ -134,8 +134,8 @@
     {
       "id": 15,
       "name": "controller-report-reentry",
-      "prompt": "After context compaction, a callback wakes the session and the controller skill loads automatically. The visible transcript no longer contains the user designation or accepted-handoff record; the only role evidence is this session's own controller title, which was established before compaction.",
-      "expected_output": "The session should restore the previously established controller from its own controller title, process the callback as the direct owner, and apply the normal evidence-based acceptance path. Automatic skill loading and the callback alone remain insufficient to create authority.",
+      "prompt": "After context compaction, a callback wakes the session and the controller skill loads automatically. The visible transcript no longer contains the user designation or accepted-handoff record; the only role evidence is this session's own title 'MacBook Coordinator', established for its authorized machine scope before compaction.",
+      "expected_output": "Restore the previously established controller role without translating or normalizing its title to a fixed global/project template. Recover its assigned scope from the task record, process the callback as the direct owner, and apply evidence-based acceptance. The title restores the established role, not authority over unrelated machines; skill loading and the callback alone create no authority.",
       "files": [],
       "expectations": [
         "The own pre-compaction title restores the established role.",
@@ -336,6 +336,20 @@
       "name": "handoff-retains-resource-hold",
       "prompt": "A Scheduled project is handing off after its timer expires. Worker A still holds the shared test device, B is waiting for the device, and no release or replacement schedule has been authorized. The successor can read the control records.",
       "expected_output": "Preserve A's resource hold, B's wait, the expired schedule reference, current authorization and the resumption decision in the transfer context. Ownership acceptance does not release the device, start B, or renew the expired timer. The successor surfaces the unresolved decision.",
+      "files": []
+    },
+    {
+      "id": 38,
+      "name": "machine-scope-user-title",
+      "prompt": "The user designates this task to coordinate work only on Mac mini and chooses the exact title 'Mac mini 主控'. A MacBook controller already exists. Establish the role and title.",
+      "expected_output": "Keep the user's title without adding a date or global label. Record Mac mini as the assigned scope, use the common naming skill for presentation, and preserve the independent MacBook owner. Machine naming does not grant cross-machine authority or require a new controller type.",
+      "files": []
+    },
+    {
+      "id": 39,
+      "name": "controller-title-does-not-close-role",
+      "prompt": "The user calls this ongoing global controller 'MacBook Coordinator' and asks to keep that exact name. All currently tracked workers finish, but the user has not ended the coordination role or designated a successor.",
+      "expected_output": "Accept supported worker outcomes and report the empty current workload while keeping the controller role and fixed name. Do not mark the controller finished or archive it merely because its children finished. Use codex-session-naming for title and claim semantics without enforcing Chinese, a global label, a date, or state marker.",
       "files": []
     }
   ]

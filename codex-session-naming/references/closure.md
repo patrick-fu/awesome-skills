@@ -39,8 +39,8 @@ observation. Procedure, idle, silence, and unrelated messages do not count.
 
 Relative to the mandate, classify remaining work as `required-to-close`,
 `external-user-gate`, `independent-optional-follow-up`, or `out-of-scope`.
-Only the last two allow `🏁`; if skipping it would defeat the mandate, it
-is required.
+If skipping remaining work would defeat the mandate, classify it as
+`required-to-close`. Only the last two categories allow final closure.
 
 ## Waiver
 

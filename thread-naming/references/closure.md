@@ -18,9 +18,13 @@ Use a checkpoint state when the user or task already defines an intermediate
 result and work is being parked there. Ordinary progress can stay in the active
 state; it does not need an invented checkpoint.
 
-A handoff means a successor has accepted the remaining responsibility. For
-controller handoffs, use `codex-session-controller` to verify acceptance and
-routing before representing the transfer as complete.
+A handoff transfers remaining responsibility from the predecessor to the
+successor. Judge the title from the named session's side: the predecessor has
+handed off its work; the successor now owns work that is still ongoing. A
+receiving worker uses its actual work state, and a receiving controller uses
+its normal role headline. For controller handoffs, use
+`codex-session-controller` to verify acceptance and routing before representing
+the transfer as complete.
 
 When new evidence challenges a completion claim, reassess the original task.
 If the outcome is still incomplete, reflect the remaining work. If the task is

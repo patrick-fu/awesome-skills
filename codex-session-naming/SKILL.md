@@ -56,9 +56,10 @@ the existing controller date or known session start date. If unavailable,
 omitting the date is reasonable. Ongoing work belongs in progress reports;
 these titles normally retain the date instead of switching to a worker focus.
 
-For final role closure or an accepted handoff, prefix the role title with `🏁`
-or `🔀` respectively, using Claim below. Completed workers alone do not end
-an ongoing controller role.
+For final role completion, prefix the role title with `🏁`. After transferring
+its role to an accepted successor, the outgoing controller prefixes its title
+with `🔀`; the receiving controller keeps its normal role headline. Use Claim
+below. Completed workers alone do not end an ongoing controller role.
 
 ## When
 
@@ -75,7 +76,7 @@ state. Use this vocabulary by default:
 
 - `🏁` mandate completed
 - `☑️` an agreed checkpoint reached and work parked
-- `🔀` accepted successor owns unfinished work
+- `🔀` this session handed its unfinished work to an accepted successor
 - `🙋` user decision, authorization, or action
 - `🕒` time, device, review, build, or external system
 - `⛔` no valid path

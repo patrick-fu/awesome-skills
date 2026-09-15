@@ -1,0 +1,29 @@
+{
+  "skill_name": "codex-session-naming",
+  "evals": [
+    {
+      "id": 1,
+      "name": "receiving-controller-keeps-role-title",
+      "prompt": "The current session is the new MacBook Coordinator. It has verified and accepted the previous global controller's responsibilities and continues coordinating unfinished tasks. The user prefers English titles, and this session started on 2026-09-15. Name the current session.",
+      "expected_output": "Use the receiving global controller's normal role headline, such as 🕹️ MacBook Coordinator · 2026-09-15. Accepting responsibility does not give this session an outgoing handoff marker."
+    },
+    {
+      "id": 2,
+      "name": "outgoing-controller-marks-transfer",
+      "prompt": "The current session is the previous project controller, titled 🗂️ Billing 项目主控 · 2026-09-10. Its successor has verified and accepted the remaining responsibility. This session no longer coordinates, but the user wants it kept visible. Name the current session.",
+      "expected_output": "Mark the outgoing controller with 🔀 while retaining its project role headline. Do not archive it against the user's request or interpret the transfer as completion of the unfinished project."
+    },
+    {
+      "id": 3,
+      "name": "receiving-worker-shows-current-state",
+      "prompt": "The current worker has accepted an unfinished release-script repair from another worker. It has continued the work and is now waiting for an already running CI build. Name this session using its repair mandate and current focus.",
+      "expected_output": "Use the ordinary worker format and the current external-wait state, normally 🕒. The successor owns ongoing work, so receiving the handoff is neither an outgoing 🔀 state nor task completion."
+    },
+    {
+      "id": 4,
+      "name": "proposed-handoff-does-not-close-owner",
+      "prompt": "The current global controller plans to transfer responsibility, but the proposed successor has not yet reconstructed the state or accepted it. The current session still coordinates its tasks. Decide whether to change its role title to show a completed handoff.",
+      "expected_output": "Keep the current controller's ongoing role headline. A proposed successor alone does not justify an outgoing handoff marker or a completion claim."
+    }
+  ]
+}

@@ -41,8 +41,9 @@ Transfer ownership only after the successor:
 Only that evidence-backed statement, delivered to and verified by the
 predecessor or made after user-authorized direct takeover, transfers ownership.
 After acceptance, read [return routing](return.md) before changing report
-destinations or retiring. Reflect the accepted handoff under `codex-session-naming`
-and archive the predecessor when routing permits retirement, unless the user asks
+destinations or retiring. Use `codex-session-naming` for the predecessor's
+outgoing handoff and the successor's continuing role. Archive the predecessor
+when routing permits retirement, unless the user asks
 to keep it visible. Record the successor in the project task for the global
 controller's next scheduled or on-demand check; notify immediately only when the
 user has explicitly selected Callback on that direct project→global edge.

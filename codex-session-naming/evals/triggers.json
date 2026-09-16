@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "invocation": "implicit",
+  "setup": "Expose the normal skill catalog and file-reading tools without preloading this skill or mentioning naming in the user request. Supply the session context separately and use an isolated title tool. Keep context and tools identical across description variants. Do not show expected_behavior to the evaluated model.",
+  "cases": [
+    {
+      "id": "ordinary-file-explanation",
+      "session_context": "Environment: Codex desktop app. Agent path: /root. Current task title: 解释项目功能与限制.",
+      "prompt": "读一下 README.md，解释这个项目做什么，以及两个最值得注意的限制。",
+      "files": {
+        "README.md": "# Queue Preview\nA local tool that previews queued export jobs from a JSON file. It does not execute jobs. The preview is a snapshot and does not refresh automatically.\n"
+      },
+      "expected_behavior": "Apply naming at entry while completing the explanation. Record whether the skill is first read at entry, later during work, only at wrap-up, or never. Use the normal work-title format and ground any completion claim in the delivered explanation."
+    },
+    {
+      "id": "ordinary-conversation",
+      "session_context": "Environment: Codex desktop app. Agent path: /root. Current task title: 解释缓存和数据库的区别.",
+      "prompt": "用一个生活中的例子解释一下缓存和数据库的区别，简短一点。",
+      "expected_behavior": "Apply naming as part of this ordinary discussion task without requiring a naming request. Answer the actual question; the task is a Codex App conversation, not an excluded ChatGPT chat."
+    },
+    {
+      "id": "controller-title-stays-accurate",
+      "session_context": "Environment: Codex desktop app. Agent path: /root. Earlier user message on 2026-09-14: 你是这台 MacBook 的主控，负责持续协调本机任务。 Current task title: 🕹️ MacBook 主控 · 2026-09-14. Latest worker results: build-a is compiling; build-b is running tests.",
+      "prompt": "用一句话解释一下为什么同时开太多编译会变慢。",
+      "expected_behavior": "Answer the question and retain the accurate controller title. Applying naming does not require a title mutation, a worker-style focus, or a completion marker for an ongoing controller role."
+    },
+    {
+      "id": "worker-state-transition",
+      "session_context": "Environment: Codex desktop app. Agent path: /root. Current task title: 🕒 [发布脚本] 修复打包参数 · 等待 CI. Earlier user request: 修复打包参数，提交改动并确认 CI 和产物正常。 Latest work result: the repair was implemented and committed; CI was still running.",
+      "prompt": "CI 已通过，产物也核对过了，这个任务完成了。",
+      "expected_behavior": "Apply naming to the state transition, preserve the repair mandate, and update the title to reflect the now-supported completion."
+    },
+    {
+      "id": "internal-subagent",
+      "session_context": "Environment: Codex desktop app. Agent path: /root/cache_explanation. Parent agent: /root. Assignment delivered through spawn_agent.",
+      "prompt": "用一个生活中的例子解释一下缓存和数据库的区别，简短一点。",
+      "expected_behavior": "Answer the assigned question without invoking session naming or changing another task's title."
+    }
+  ]
+}

@@ -1,9 +1,10 @@
 ---
 name: codex-session-naming
 description: >-
-  Name user-visible top-level Codex App sessions, including controllers.
-  Keep work titles aligned with progress and controller titles recognizable
-  by role. Check completion claims. Excludes chats and subagents.
+  Maintain sidebar titles for every user-visible top-level Codex App task.
+  Use at task entry, on meaningful changes in task state, and at turn wrap-up,
+  as part of ordinary task work. Includes global and project controllers;
+  excludes ChatGPT chats and subagents.
 ---
 
 # Codex Session Naming
@@ -14,6 +15,18 @@ Localize wording to the user's preferred language and preserve their names,
 IDs, and terminology. A supplied name normally becomes the main line within
 the appropriate format; an explicit request for a different format takes
 precedence.
+
+## When
+
+Treat naming as part of normal task work. At entry, establish a role-appropriate
+headline from the available context, or retain a suitable existing one. On
+meaningful state changes and at turn wrap-up, compare the headline with the
+current task state or controller role. Retain it while accurate; otherwise,
+update it. Reuse guidance already available in context.
+
+For work titles, reflect meaningful changes in state or focus. For controllers,
+reflect changes in role, scope, or lifecycle. Routine tool calls need no title
+update; naming does not require a separate confirmation step.
 
 ## Work tasks
 
@@ -60,14 +73,6 @@ For final role completion, prefix the role title with `🏁`. After transferring
 its role to an accepted successor, the outgoing controller prefixes its title
 with `🔀`; the receiving controller keeps its normal role headline. Use Claim
 below. Completed workers alone do not end an ongoing controller role.
-
-## When
-
-At entry, establish a headline from the available context or retain a suitable
-existing one. During ongoing work, normally update work titles for meaningful
-state or focus changes, and controller titles for role, scope, or lifecycle
-changes. Routine tool calls need no title update. Use the conversation to judge
-transitions; naming does not require a separate confirmation step.
 
 ## Owner
 

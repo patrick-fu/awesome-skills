@@ -18,7 +18,7 @@ and title changes do not make a historical task active. For a bulk operation,
 keep the pre-operation selection stable; expand it only on independent evidence.
 
 Process new evidence through its owner under the entrypoint's intervention and
-acceptance rules. Under On-demand, return the assessment after this pass.
+acceptance rules. Under Poll, return the assessment after this pass.
 
 ## Scheduled
 
@@ -30,22 +30,22 @@ state the cadence and stopping conditions when establishing it.
 
 Each wakeup takes one check pass. Stay quiet while the result is unchanged or
 non-actionable; notify on meaningful changes under the agreed policy. Continue
-independent work, then end the turn while awaiting the next check. A worker
-handles an uncovered internal wait through `codex-async-followup` in its own task.
+independent work, then end the turn while awaiting the next check.
 
 Pause a schedule when only user action can unblock its work. When a schedule
 stops or changes, resolve waits that depend on it: arrange an
 authorized replacement path or surface the remaining decision. Preserve resource
-holds until resolved; workers must not await a poll that no longer exists.
-Verify the saved schedule and target before claiming it is active.
+holds until resolved and update affected workers with the current resumption
+path. Verify the saved schedule and target before claiming it is active.
 
 ## Callback
 
 Use the user's selected events, typically completion or a blocker requiring the
 owner. Provide the child with that destination and those triggers.
 
-A callback leaves Scheduled checks in place unless a stopping condition or the
-user changes them. Apply the entrypoint's acceptance and deduplication rules.
+Process each report through the entrypoint's acceptance and deduplication rules.
+When the user has selected both Callback and Scheduled, keep the agreed check
+schedule alongside event reports.
 
 ## Wrong level
 
@@ -63,5 +63,5 @@ Transfer Scheduled checks only when the tool supports the target change;
 otherwise the successor establishes the replacement and the predecessor retires
 the old check. Verify the saved recipient, active/paused state, cadence, expiry,
 and pending waits before retiring the predecessor, with one active check per
-purpose. On-demand needs no rebind. A global handoff leaves project-internal
+purpose. Poll needs no rebind. A global handoff leaves project-internal
 routes with their project controller.

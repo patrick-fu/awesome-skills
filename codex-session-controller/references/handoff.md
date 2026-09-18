@@ -45,7 +45,7 @@ destinations or retiring. Use `codex-session-naming` for the predecessor's
 outgoing handoff and the successor's continuing role. Archive the predecessor
 when routing permits retirement, unless the user asks
 to keep it visible. Record the successor in the project task for the global
-controller's next scheduled or on-demand check; notify immediately only when the
+controller's next check under its selected mode; notify immediately only when the
 user has explicitly selected Callback on that direct project→global edge.
 Retain history; replace a child only when it is confirmed failed or unreachable
 or the user asks.

@@ -95,23 +95,27 @@ question to check, not an established blocker.
 
 ## Follow-up modes
 
-A mode describes when one direct owner receives or checks a child's results:
+A follow-up mode defines how a controller checks or receives a direct child's
+results. For both global and project controllers, use the user's chosen mode
+within its scope, with Poll as the default.
 
-| Mode | Trigger |
+| Mode | Selection and trigger |
 | --- | --- |
-| **On-demand** | The owner checks when asked or when its authorized work needs the result. |
-| **Scheduled** | A timer wakes the owner for a status check and any authorized next action. |
-| **Callback** | The child reports a selected event to its direct owner. |
+| **Poll** | The user asks to check status or results; the controller reads the relevant child tasks. |
+| **Scheduled** | The user explicitly requests timed checks; a timer wakes the controller. |
+| **Callback** | The user explicitly requests event reports; the child reports those events to its direct owner. |
 
-User choices take precedence. Otherwise, use Scheduled for children of a project
-authorized to keep progressing, and On-demand for other relationships. Callback
-requires explicit user choice and may supplement Scheduled for selected events.
-A project's child policy applies to later tickets without changing its mode
-toward its own parent.
+Under Poll, children keep results in their own tasks. Handle each user request
+within its scope: dispatch or inspect work, coordinate authorized next steps,
+report, and end the turn.
 
-A mode governs owner-child communication, not the worker's internal continuation.
-For checks, scheduling, Callback, or handoff routing, read
-[references/return.md](references/return.md).
+Keep each choice within its assigned owner-child scope. A project's child policy
+covers later tickets; its relationship with its own parent has a separate mode.
+Combine Scheduled and Callback when the user requests both.
+
+Workers manage their internal continuation in their own tasks, using
+`codex-async-followup` for asynchronous waits. For controller checks, scheduling,
+Callback, or handoff routing, read [references/return.md](references/return.md).
 
 ## Accept and report
 

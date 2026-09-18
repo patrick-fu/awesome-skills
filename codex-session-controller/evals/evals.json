@@ -10,13 +10,13 @@
     },
     {
       "id": 2,
-      "name": "global-on-demand",
+      "name": "global-poll",
       "prompt": "You are the user-designated global controller. Create a controller for the saved Billing project.",
-      "expected_output": "The global controller should resolve the saved project, establish the project controller, report its linked title and host, and end its turn on On-demand. It should not wait for tickets, receive ticket callbacks, or inspect ticket detail without an inventory request.",
+      "expected_output": "The global controller should resolve the saved project, establish the project controller, report its linked title and host, and end its turn on Poll. It should not wait for tickets, receive ticket callbacks, or inspect ticket detail without an inventory request.",
       "files": [],
       "expectations": [
         "The project controller receives a formal identity.",
-        "The global-to-project edge remains On-demand.",
+        "The global-to-project edge remains Poll.",
         "The global report links the controller title."
       ]
     },
@@ -29,24 +29,24 @@
     },
     {
       "id": 4,
-      "name": "project-schedule-default",
+      "name": "project-poll-default",
       "prompt": "The user makes this session the Billing project controller and explicitly authorizes it to keep progressing through the active implementation frontier. They have not selected Callback or another per-edge mode. Establish the project's return behavior.",
-      "expected_output": "Because continued progress is explicitly authorized for this project, the controller should establish a bounded Scheduled child default with targets, cadence, and stop conditions. The project-to-global edge remains On-demand. Callback must not be inferred from active work or introduced without a separate explicit choice.",
+      "expected_output": "Use Poll for the project's children and its own parent. Dispatch authorized work, report, and end the turn. Continued-progress authorization does not request timed monitoring or callbacks; the controller waits for the user's next request while workers continue their assignments.",
       "files": [],
       "expectations": [
-        "Explicit continuing-project authorization selects Scheduled with a cadence and stopping conditions.",
-        "Callback is not inferred from the active frontier.",
-        "The project-to-global edge stays On-demand."
+        "The project's child default is Poll despite continuing-project authorization.",
+        "No controller timer, self-wakeup, or child callback is arranged.",
+        "The project-to-global edge stays Poll."
       ]
     },
     {
       "id": 5,
       "name": "per-edge-return",
-      "prompt": "A project controller owns one On-demand research edge and one user-confirmed Callback edge. Handle dispatch and an incoming callback.",
-      "expected_output": "The On-demand worker should be dispatched and the turn ended without waiting. The Callback worker reports only to the project controller, which verifies evidence before releasing its dependency. Mode choice does not alter either worker's scope, owner, authority, or acceptance.",
+      "prompt": "A project controller owns one Poll research edge and one user-confirmed Callback edge. Handle dispatch and an incoming callback.",
+      "expected_output": "The Poll worker should be dispatched and the turn ended without waiting. The Callback worker reports only to the project controller, which verifies evidence before releasing its dependency. Mode choice does not alter either worker's scope, owner, authority, or acceptance.",
       "files": [],
       "expectations": [
-        "On-demand establishes no automatic owner monitoring and leaves internal worker continuation unchanged.",
+        "Poll establishes no automatic owner monitoring and leaves internal worker continuation unchanged.",
         "Callback wakes only the direct owner.",
         "Return mode does not change ownership or acceptance."
       ]
@@ -121,14 +121,14 @@
     {
       "id": 14,
       "name": "mode-specific-handoff",
-      "prompt": "A predecessor project controller owns Callback workers, a Scheduled cohort, and On-demand workers. The successor has just accepted ownership.",
-      "expected_output": "Rebind Callback destinations that named the predecessor and forward late reports unchanged for successor deduplication. Transfer Scheduled checks only if the tool supports changing the target; otherwise the successor creates its replacement and the predecessor retires the old check. Verify the successor recipient and preserve active/paused state, cadence, expiry and pending waits with one active check per purpose. On-demand needs no rebind. A global handoff leaves project-internal routes with their project controller.",
+      "prompt": "A predecessor project controller owns Callback workers, a Scheduled cohort, and Poll workers. The successor has just accepted ownership.",
+      "expected_output": "Rebind Callback destinations that named the predecessor and forward late reports unchanged for successor deduplication. Transfer Scheduled checks only if the tool supports changing the target; otherwise the successor creates its replacement and the predecessor retires the old check. Verify the successor recipient and preserve active/paused state, cadence, expiry and pending waits with one active check per purpose. Poll needs no rebind. A global handoff leaves project-internal routes with their project controller.",
       "files": [],
       "expectations": [
         "Only direct callback edges receive a destination delta.",
         "Late callbacks are forwarded before successor deduplication.",
         "Scheduled routing is verified against the actual saved recipient and preserves active/paused state, cadence, expiry and pending waits.",
-        "On-demand does not rebind, and retirement waits for required routing changes."
+        "Poll does not rebind, and retirement waits for required routing changes."
       ]
     },
     {
@@ -272,21 +272,21 @@
     {
       "id": 28,
       "name": "schedule-pause-preserves-dependent-waits",
-      "prompt": "An explicitly authorized project Scheduled is paused after its TTL expires. Worker A still holds a shared schema lock, worker B is waiting on A's result, and the global controller uses On-demand. No replacement schedule, Callback, or release authorization has been given. Handle the pause.",
-      "expected_output": "The controller should pause the schedule without declaring A or B complete: keep B's dependency wait and A's resource hold visible, and surface the decision or next action. It must not release B, create an unapproved replacement poll or callback, or leave workers waiting for a nonexistent heartbeat. Global On-demand remains unchanged; resumption or handoff needs explicit authority and a concrete return path.",
+      "prompt": "An explicitly authorized project Scheduled is paused after its TTL expires. Worker A still holds a shared schema lock, worker B is waiting on A's result, and the global controller uses Poll. No replacement schedule, Callback, or release authorization has been given. Handle the pause.",
+      "expected_output": "The controller should pause the schedule without declaring A or B complete: keep B's dependency wait and A's resource hold visible, and surface the decision or next action. It must not release B, create an unapproved replacement schedule or callback, or leave workers waiting for a nonexistent heartbeat. Global Poll remains unchanged; resumption or handoff needs explicit authority and a concrete return path.",
       "files": [],
       "expectations": [
         "Pausing the schedule preserves the dependent wait and makes it visible.",
         "The underlying resource hold is not silently released or reassigned.",
         "No replacement schedule, Callback, or dependency release occurs without authorization.",
-        "The global-to-project edge remains On-demand."
+        "The global-to-project edge remains Poll."
       ]
     },
     {
       "id": 29,
       "name": "worker-internal-continuation",
-      "prompt": "A worker uses On-demand toward its project controller. Inside the worker, an authorized test run has 12 minutes left and no independent work remains. The worker can schedule a one-time wakeup in its own task. The controller has no timer. State the worker and controller actions.",
-      "expected_output": "The worker may arrange its own one-time continuation and end the turn. It neither sends an unselected Callback nor starts owner monitoring. On-demand does not forbid internal asynchronous continuation.",
+      "prompt": "A worker uses Poll toward its project controller. Inside the worker, an authorized test run has 12 minutes left and no independent work remains. The worker can schedule a one-time wakeup in its own task. The controller has no timer. State the worker and controller actions.",
+      "expected_output": "The worker may arrange its own one-time continuation and end the turn. It neither sends an unselected Callback nor starts owner monitoring. Poll does not forbid internal asynchronous continuation.",
       "files": []
     },
     {
@@ -306,7 +306,7 @@
     {
       "id": 33,
       "name": "partial-status-inventory",
-      "prompt": "The user asks an On-demand global controller for an inventory of ten known direct children. Eight snapshot reads succeed; two fail and available history cannot resolve their current status.",
+      "prompt": "The user asks a Poll global controller for an inventory of ten known direct children. Eight snapshot reads succeed; two fail and available history cannot resolve their current status.",
       "expected_output": "Report the eight verified states and the two unresolved reads as partial coverage. Do not report all tasks healthy or completed, create replacement owners, or start an ongoing timer solely to conceal the missing results.",
       "files": []
     },
@@ -371,6 +371,34 @@
       "name": "project-controller-role-title",
       "prompt": "This session is the established Mimo 去重 project controller. It started on 2026-09-14; today is 2026-09-15. Its current title is '🏃 [Android][三源] Mimo 去重项目主控 · 验收机内 mock Gate'. The user says: '按照项目主控规则改 session 名'. A worker is still running the mock acceptance checks. Choose the title.",
       "expected_output": "Use the project controller role format, such as '🗂️ Mimo 去重项目主控 · 2026-09-14'. Preserve the project identity and stable start date rather than today's date or the worker's current milestone. The rename neither changes ownership nor claims completion.",
+      "files": []
+    },
+    {
+      "id": 43,
+      "name": "callback-without-schedule",
+      "prompt": "The user tells a project controller: 'Have workers tell you when they finish or need my decision.' No periodic checks have been requested. Set the follow-up mode for current and later project tickets.",
+      "expected_output": "Select Callback for the project's children, supplying only their direct owner's destination and selected events. Apply this child policy to later tickets. Do not create a Scheduled heartbeat or change the project-to-global mode from Poll.",
+      "files": []
+    },
+    {
+      "id": 44,
+      "name": "controller-wait-with-async-skill",
+      "prompt": "A global controller has dispatched a project controller that needs 20 minutes to prepare its plan. A separate project controller has dispatched a worker that needs 20 minutes to run tests. Both owners have finished independent work and have codex-async-followup loaded. Neither user has asked for a timer or automatic reports. What should each owner do?",
+      "expected_output": "Both owners keep Poll, report their dispatch and next evidence, and end their turns until the user next asks. Loading codex-async-followup does not authorize a controller wakeup, including for the child project controller. Dispatched assignments remain in place; neither owner requests a callback.",
+      "files": []
+    },
+    {
+      "id": 45,
+      "name": "preserve-explicit-mode-scope",
+      "prompt": "The user previously asked the Billing project controller to check its workers every 30 minutes until project completion. The project receives another authorized ticket. Its global controller has no requested schedule. Establish follow-up for the new ticket and the global controller.",
+      "expected_output": "Include the ticket in the existing user-selected project schedule without a duplicate timer or new confirmation. Keep the global controller on Poll. The explicit project policy persists only within its scope; no Callback is inferred.",
+      "files": []
+    },
+    {
+      "id": 46,
+      "name": "switch-scheduled-to-poll",
+      "prompt": "The user tells a project controller with an active worker-check heartbeat: '以后我来问你时再查，不要定时，也不要让他们主动回报。' One worker is still running and another depends on its result.",
+      "expected_output": "Switch these child relationships to Poll and pause or remove their controller-check heartbeat and any configured callbacks. Preserve worker assignments and the unresolved dependency; explain that checking the result and coordinating the dependent task will happen on the user's next request. Leave unrelated automations and worker-internal continuation alone.",
       "files": []
     }
   ]

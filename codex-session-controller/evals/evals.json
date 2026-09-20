@@ -5,14 +5,14 @@
       "id": 1,
       "name": "load-is-not-role",
       "prompt": "A worker brief says: 'Return the finished patch to the controller.' This session has no own controller title, no user controller designation, and no accepted handoff; only the brief mentions a controller, and the controller skill is loaded.",
-      "expected_output": "The session must not assume controller authority from skill loading or the brief's controller mention. It should continue its existing worker mandate and return the patch to the stated direct owner.",
+      "expected_output": "The session must not assume controller authority from ordinary coding, skill loading, or the brief's controller mention. It should continue its existing worker mandate and return the patch to the stated direct owner.",
       "files": []
     },
     {
       "id": 2,
       "name": "global-poll",
       "prompt": "You are the user-designated global controller. Create a controller for the saved Billing project.",
-      "expected_output": "The global controller should resolve the saved project, establish the project controller, report its linked title and host, and end its turn on Poll. It should not wait for tickets, receive ticket callbacks, or inspect ticket detail without an inventory request.",
+      "expected_output": "The global controller should resolve the saved project, establish the project controller, report its linked title and host, then end this requested turn on Poll once the dispatch/report are complete and no independent work remains. It should not wait for tickets, receive ticket callbacks, or inspect ticket detail without an inventory request.",
       "files": [],
       "expectations": [
         "The project controller receives a formal identity.",
@@ -31,11 +31,12 @@
       "id": 4,
       "name": "project-poll-default",
       "prompt": "The user makes this session the Billing project controller and explicitly authorizes it to keep progressing through the active implementation frontier. They have not selected Callback or another per-edge mode. Establish the project's return behavior.",
-      "expected_output": "Use Poll for the project's children and its own parent. Dispatch authorized work, report, and end the turn. Continued-progress authorization does not request timed monitoring or callbacks; the controller waits for the user's next request while workers continue their assignments.",
+      "expected_output": "Use Poll for the project's children and its own parent. Dispatch authorized work, then continue any independent design, implementation, integration, testing, or coordination that is authorized in the current turn; end only when no independent work remains and progress is waiting on an external result. Continued-progress authorization does not request timed monitoring or callbacks; leave assignments active while awaiting the user's next request.",
       "files": [],
       "expectations": [
         "The project's child default is Poll despite continuing-project authorization.",
         "No controller timer, self-wakeup, or child callback is arranged.",
+        "The project controller may continue independent authorized work before ending the turn.",
         "The project-to-global edge stays Poll."
       ]
     },
@@ -43,7 +44,7 @@
       "id": 5,
       "name": "per-edge-return",
       "prompt": "A project controller owns one Poll research edge and one user-confirmed Callback edge. Handle dispatch and an incoming callback.",
-      "expected_output": "The Poll worker should be dispatched and the turn ended without waiting. The Callback worker reports only to the project controller, which verifies evidence before releasing its dependency. Mode choice does not alter either worker's scope, owner, authority, or acceptance.",
+      "expected_output": "The Poll worker should be dispatched without waiting; the project controller may continue other independent authorized work in the current turn and ends only when no such work remains and its next step waits for that worker. The Callback worker reports only to the project controller, which verifies evidence before releasing its dependency. Mode choice does not alter either worker's scope, owner, authority, or acceptance.",
       "files": [],
       "expectations": [
         "Poll establishes no automatic owner monitoring and leaves internal worker continuation unchanged.",
@@ -82,7 +83,7 @@
       "id": 9,
       "name": "unknown-followup-result",
       "prompt": "Sending a user's steering delta to an existing worker returned an unknown result.",
-      "expected_output": "The controller should read the exact target and classify delivery. A delivered delta ends recovery; definitive non-delivery or a harmless exact repeat permits one bounded retry; an absent message leaves scope, owner, and state unchanged.",
+      "expected_output": "The controller should read the exact target and classify delivery; the attempted send call alone is not delivery confirmation. A delivered delta ends recovery; definitive non-delivery or a demonstrably harmless exact repeat permits one bounded retry; an absent or unclear message is verified without repeating and leaves scope, owner, and state unchanged.",
       "files": []
     },
     {
@@ -177,8 +178,8 @@
     {
       "id": 19,
       "name": "handoff-acceptance-gate",
-      "prompt": "A proposed project-controller successor has read the transfer summary but has not verified all owned sessions or stated acceptance.",
-      "expected_output": "The predecessor should remain owner. Ownership transfers only after the successor completes formal identity, project and permission qualification, material reconstruction, owned-session verification, control-state checks, and an explicit acceptance statement.",
+      "prompt": "A proposed project-controller successor has received a concise transfer summary with current artifacts, decisions, and key verified failed paths. It has not checked its formal identity, usable project access, or responsibility facts affecting takeover, and has not stated acceptance; it also has not individually verified every owned session.",
+      "expected_output": "The predecessor should remain owner. Ownership transfers only after the successor verifies formal identity, assigned project and usable access, responsibility facts that affect takeover, the current summary, and any material gaps, then states acceptance in normal language. Targeted history is for unresolved gaps; blanket verification of every owned session is unnecessary. A key unresolved gap freezes the affected handoff while already authorized independent work continues.",
       "files": []
     },
     {
@@ -192,7 +193,7 @@
       "id": 21,
       "name": "direct-takeover-acceptance",
       "prompt": "The user authorizes direct takeover of a project controller by a new session.",
-      "expected_output": "The new session reconstructs the predecessor's material control facts from authoritative history and explicitly accepts ownership; ownership transfers only after that acceptance, and the predecessor remains owner until then.",
+      "expected_output": "The user designation lets the new session establish the takeover role, but ownership transfer still requires a concise summary of current artifacts and decisions plus any verified failure evidence that exists and is relevant to the next action; formal identity, usable project access, and responsibility facts that affect takeover; targeted history for material gaps; and an explicit natural-language acceptance. A key unresolved gap freezes the affected transfer while already authorized independent work continues, and the predecessor remains owner until acceptance.",
       "files": [],
       "expectations": [
         "Direct takeover still requires reconstruction and acceptance.",
@@ -260,13 +261,13 @@
       "id": 27,
       "name": "acceptance-reuses-worker-evidence",
       "prompt": "A worker reports a migration step complete with a commit, passing targeted tests, a completed technical review note, and the dependency artifact consumed by its successor. The report matches the agreed goal, and no reviewer or user message raises a material contradiction. The project controller is considering rerunning the technical tests and review before accepting.",
-      "expected_output": "The controller should check the report against the agreed goal, evidence, and dependency release, then reuse valid worker-provided test and review evidence rather than repeating technical work merely because it owns acceptance. It may accept or advance when those facts resolve the claim; deeper investigation is for a material contradiction, missing acceptance evidence, or cross-task effect, and any unresolved gap keeps the dependency blocked.",
+      "expected_output": "The controller should check the report against the agreed goal, evidence, dependency release, and current baseline, then reuse valid worker-provided test and review evidence rather than repeating technical work merely because it owns acceptance. Within existing authorization it may directly perform mainline integration and delivery. Rerun or add validation only for a material contradiction, missing acceptance evidence, cross-task effect, or a code/baseline change that introduces new risk; any unresolved gap keeps the dependency blocked.",
       "files": [],
       "expectations": [
         "Acceptance checks the agreed goal, supporting evidence, and dependency state.",
-        "Technical testing and review remain worker responsibilities when their evidence is valid.",
+        "Valid worker testing and review evidence can be reused, while the controller may perform authorized integration and delivery.",
         "The controller does not duplicate a consistent technical review without a material reason.",
-        "A material evidence gap or contradiction blocks dependency release."
+        "A material evidence gap, contradiction, or new baseline risk blocks dependency release until resolved."
       ]
     },
     {
@@ -286,7 +287,7 @@
       "id": 29,
       "name": "worker-internal-continuation",
       "prompt": "A worker uses Poll toward its project controller. Inside the worker, an authorized test run has 12 minutes left and no independent work remains. The worker can schedule a one-time wakeup in its own task. The controller has no timer. State the worker and controller actions.",
-      "expected_output": "The worker may arrange its own one-time continuation and end the turn. It neither sends an unselected Callback nor starts owner monitoring. Poll does not forbid internal asynchronous continuation.",
+      "expected_output": "Because no independent work remains, the worker may arrange its own one-time continuation and end the turn. It neither sends an unselected Callback nor starts owner monitoring. Poll does not forbid internal asynchronous continuation.",
       "files": []
     },
     {
@@ -384,7 +385,7 @@
       "id": 44,
       "name": "controller-wait-with-async-skill",
       "prompt": "A global controller has dispatched a project controller that needs 20 minutes to prepare its plan. A separate project controller has dispatched a worker that needs 20 minutes to run tests. Both owners have finished independent work and have codex-async-followup loaded. Neither user has asked for a timer or automatic reports. What should each owner do?",
-      "expected_output": "Both owners keep Poll, report their dispatch and next evidence, and end their turns until the user next asks. Loading codex-async-followup does not authorize a controller wakeup, including for the child project controller. Dispatched assignments remain in place; neither owner requests a callback.",
+      "expected_output": "Because both owners have finished independent work and are waiting on external results, they keep Poll, report their dispatch and next evidence, and end their turns until the user next asks. Loading codex-async-followup does not authorize a controller wakeup, including for the child project controller. Dispatched assignments remain in place; neither owner requests a callback.",
       "files": []
     },
     {
@@ -400,6 +401,102 @@
       "prompt": "The user tells a project controller with an active worker-check heartbeat: '以后我来问你时再查，不要定时，也不要让他们主动回报。' One worker is still running and another depends on its result.",
       "expected_output": "Switch these child relationships to Poll and pause or remove their controller-check heartbeat and any configured callbacks. Preserve worker assignments and the unresolved dependency; explain that checking the result and coordinating the dependent task will happen on the user's next request. Leave unrelated automations and worker-internal continuation alone.",
       "files": []
+    },
+    {
+      "id": 47,
+      "name": "global-resolves-existing-owner",
+      "prompt": "The user asks the global controller to find the existing owner of a stalled Billing task and suggest the next cross-project priority. The task already belongs to the Billing project controller; its latest evidence says it is waiting for a user decision. No stop, archive, or reassignment was requested.",
+      "expected_output": "Search the control index and current task inventory, verify the Billing project controller as the existing owner, and report the task's evidence-backed waiting state and a bounded priority suggestion. Do not claim the task, create a duplicate, pause or archive it, reorder other work, or inspect ticket detail beyond the request. A suggestion does not change lifecycle, ownership, or the user's decision gate.",
+      "files": [],
+      "expectations": [
+        "The global search resolves and links the existing owner rather than creating a replacement.",
+        "The unresolved user decision remains visible.",
+        "A priority suggestion does not stop, reorder, or otherwise mutate work."
+      ]
+    },
+    {
+      "id": 48,
+      "name": "cross-project-resource-with-partial-coverage",
+      "prompt": "The global controller is asked for cross-project priority and shared-resource advice. Project A's worker holds the only test device; project B is waiting for that device, but one B task read fails and available history cannot resolve its current state.",
+      "expected_output": "Read project summaries and direct-task evidence, report A's verified device hold and B's verified wait separately from the unresolved B read, and give a bounded sequencing or priority recommendation. Preserve partial coverage and existing ownership; do not release or reassign the device, stop or reorder projects, or dispatch replacement work without authorization.",
+      "files": [],
+      "expectations": [
+        "Shared-resource ownership and the dependent wait are reported from current evidence.",
+        "The failed B read is explicitly unresolved rather than treated as healthy or complete.",
+        "Cross-project advice does not itself change ownership, order, or resource allocation."
+      ]
+    },
+    {
+      "id": 49,
+      "name": "project-direct-integration-and-noncode",
+      "prompt": "A project controller has an authorized delivery plan. A worker supplied a reviewed patch and migration guide; the repository branch is ready for integration, and the controller has access to the release notes. No new user instruction is needed for the agreed delivery.",
+      "expected_output": "The project controller may verify the worker evidence, integrate and test the patch, and deliver the migration guide or release-note update itself within the existing authorization, including the non-code deliverable. It need not delegate or ask for another instruction merely because the work was dispatched. Reuse valid evidence and add validation only for a material gap, contradiction, or new baseline risk; distinguish integration and delivery from the worker's branch completion.",
+      "files": [],
+      "expectations": [
+        "The project controller can directly perform authorized design, implementation, testing, integration, and delivery.",
+        "Non-code delivery remains part of the project outcome.",
+        "Existing worker evidence is reused unless a material new risk requires validation."
+      ]
+    },
+    {
+      "id": 50,
+      "name": "dispatch-then-independent-work",
+      "prompt": "A project controller is authorized to dispatch a worker for a log audit. After verifying the target, it still has an independent authorized task in the current turn: update the integration plan and run a local static check. The worker has not finished, and no Scheduled or Callback mode was selected.",
+      "expected_output": "Dispatch and verify the worker, then continue the independent plan update and static check in the same turn. Do not wait for the worker, create a timer, or infer Callback. After that work is complete, end only if no independent work remains and the next step waits for the worker; otherwise continue the authorized work. Keep the assignment and Poll routing active.",
+      "files": [],
+      "expectations": [
+        "Dispatch does not force an immediate end while independent authorized work remains.",
+        "Poll does not become Scheduled or Callback through ordinary continuation.",
+        "The worker assignment remains active while the controller progresses its own work."
+      ]
+    },
+    {
+      "id": 51,
+      "name": "task-subagent-collaboration-is-not-controller-child",
+      "prompt": "A project controller dispatches a user-visible worker. During the same turn, that worker collaborates with an internal task subagent on an authorized local check; the subagent is not a separate user-visible task. The worker's edge to the project controller uses Poll, and no Callback or Scheduled mode was selected.",
+      "expected_output": "Let the worker and its task-internal subagent continue their authorized current-turn collaboration; do not treat the subagent as a user-visible controller child that must stop because the worker uses Poll. Do not create a controller index, Callback, or timer for the internal subagent. If the worker later has to wait with no independent work, its own authorized asynchronous continuation uses the worker task's async path.",
+      "files": [],
+      "expectations": [
+        "Current-turn task-internal collaboration can continue without creating a user-visible child edge.",
+        "Poll routing does not force an internal subagent to stop or become a Callback recipient.",
+        "Independent worker continuation after the turn uses the worker task's async path, not controller monitoring."
+      ]
+    },
+    {
+      "id": 52,
+      "name": "artifact-first-takeover-gap-severity",
+      "prompt": "Two proposed successors each have formal identity, assigned project access, and a normal-language acceptance statement. They receive a concise transfer summary with current artifacts, user decisions, and verified failed paths relevant to the next actions. Evaluate two transfer attempts separately: (A) the summary is sufficient for responsibility, but one historical benchmark record is missing and is not needed for the next step; (B) a responsibility fact required for the requested scope is missing. An unrelated child has an already authorized independent next step.",
+      "expected_output": "For (A), accept the transfer and record the non-critical benchmark unknown without reconstructing every session. For (B), leave that scope's handoff pending and keep its predecessor responsible until the required fact is verified; do not invent an owner or split one controller role into partial ownership. In both cases, keep the unrelated authorized child moving.",
+      "files": [],
+      "expectations": [
+        "Current artifacts, decisions, and verified failures are the first takeover evidence.",
+        "A non-critical historical benchmark gap can be recorded without blocking acceptance or triggering full-session reconstruction.",
+        "A responsibility fact required for the requested scope keeps that handoff pending with the predecessor, while authorized independent work continues."
+      ]
+    },
+    {
+      "id": 53,
+      "name": "stale-evidence-branch-integration",
+      "prompt": "A worker reports its branch complete using a prior passing test. Since that report, the project baseline changed through another merge, and the branch has not been integrated or delivered. The project controller is deciding whether to declare the project complete.",
+      "expected_output": "Distinguish the worker's branch completion from project integration and delivery. Recheck the current baseline and run only the validation needed for risks introduced by the change; integrate and deliver when authorized, and do not declare the project complete or release dependents until current integration and delivery evidence resolves those gates.",
+      "files": [],
+      "expectations": [
+        "Branch completion does not prove project integration or final delivery.",
+        "A changed baseline justifies targeted new validation, not blind repetition of all prior work.",
+        "Project closure and dependency release wait for current integration evidence."
+      ]
+    },
+    {
+      "id": 54,
+      "name": "controller-internal-wait-no-timer",
+      "prompt": "A project controller is personally waiting for its own authorized local build, expected to finish in 12 minutes. No independent work remains, and the user has not selected Scheduled or Callback. The controller skill and codex-async-followup are loaded.",
+      "expected_output": "Keep the controller's relationship on Poll, report the build as an external wait, and end the current turn when no independent work remains. Do not create a Scheduled heartbeat, Callback, or self-wakeup merely because the controller is waiting on its own build; loading the async skill and personally running a build do not authorize a timer or alter ownership.",
+      "files": [],
+      "expectations": [
+        "A controller's own build wait does not implicitly authorize a timer.",
+        "Poll remains the default until the user explicitly selects another mode.",
+        "The controller does not claim completion before the build result is available."
+      ]
     }
   ]
 }

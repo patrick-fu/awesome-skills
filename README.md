@@ -187,6 +187,13 @@ Run Grok Build CLI as the explicitly selected external coding executor. It
 treats approval policy and sandbox access as separate controls and chooses the
 appropriate read-only or workspace sandbox explicitly.
 
+#### 🛰️ [`antigravity-coding-agent`](./antigravity-coding-agent)
+
+Run Google Antigravity CLI (`agy`) as the explicitly selected external coding
+executor. It preserves the supplied wrapper, discovers current options from the
+CLI, and monitors long-running work through semantic streaming JSON, with
+account OAuth and API-key modes.
+
 ### 🧭 Thinking and planning
 
 #### 💡 [`brainstorm`](./brainstorm)

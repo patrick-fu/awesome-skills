@@ -161,6 +161,12 @@ checkpoint、final 和 handoff 一眼可见。严格 closure contract 防止把�
 把 Grok Build CLI 作为明确选择的外部编码执行器来运行。它把 approval policy 和 sandbox
 访问视为两项独立控制，并显式选择合适的 read-only 或 workspace sandbox。
 
+#### 🛰️ [`antigravity-coding-agent`](./antigravity-coding-agent)
+
+把 Google Antigravity CLI（`agy`）作为明确选择的外部编码执行器来运行。它保留给定的
+wrapper，从当前 CLI 发现可用选项，并通过语义流式 JSON 监控耗时任务；账号 OAuth 与
+API key 两种认证模式都支持。
+
 ### 🧭 思考与规划
 
 #### 💡 [`brainstorm`](./brainstorm)

@@ -38,7 +38,7 @@ tool results, or assistant text when a short action summary is enough.
 If current help lacks `streaming-messages-json`, fall back to:
 
 ```bash
-<launcher> --output-format streaming-json --sandbox read-only --always-approve -p "Your task"
+<launcher> --output-format streaming-json --sandbox read-only --permission-mode dontAsk --no-subagents --tools "read_file,grep,list_dir" --deny 'MCPTool(*)' -p "Your task"
 ```
 
 The fallback emits fine-grained `thought` and `text` records. Drop those token
@@ -61,17 +61,21 @@ the OS PID.
 If the host has no resumable process facility, redirect stdout and stderr into a
 directory created under `${TMPDIR:-/tmp}`, retain the PID, and poll both process
 liveness and newly appended complete lines. Temporary captures may be left for
-system cleanup.
+system cleanup. A host may terminate background children when a tool call ends;
+prefer a retained foreground session when available and verify liveness before
+claiming an asynchronous run is underway.
 
 ## Terminal and Error Handling
 
 - `result` is the preferred stream's terminal record; `end` terminates the
   fallback stream.
-- A nonzero exit before any stream record (for example a sandbox initialization
-  failure) is a failed start: classify it from the exit code and stderr; do not
-  wait for a terminal record that will never come.
+- A nonzero exit before any stream record is a failed start: classify it from
+  the exit code and stderr; do not wait for a terminal record that will never
+  come. A built-in sandbox can instead warn and continue without enforcement;
+  treat that warning as an isolation failure even when the run exits zero.
 - Combine the terminal record with process exit. A plausible final-looking
-  assistant message is not sufficient completion evidence.
+  assistant message is not sufficient completion evidence. Confirm successful
+  results for the tool actions the task needed before claiming task success.
 - Preserve stderr for diagnosis, but do not classify an otherwise successful
   run as failed solely because stderr contains warnings.
 - If output ends with an incomplete JSON line, report an incomplete stream

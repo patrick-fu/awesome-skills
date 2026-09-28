@@ -27,7 +27,8 @@ the external executor.
    only when the task is clearly trivial and short.
 5. Run from the intended repository or workspace, pass a bounded task contract,
    and wait for the external process to finish.
-6. Inspect the resulting diff, tests, and final answer before claiming success.
+6. Verify completion evidence before claiming success: findings plus an
+   untouched worktree for read-only tasks; diff and tests for write tasks.
 
 ## Model and Effort
 
@@ -41,7 +42,10 @@ launching:
   or cost, and after checking whether that tier has additional behavior.
 
 Do not hardcode model names or effort levels from this skill; the launcher's
-current help is authoritative.
+current help is authoritative. A wrapper may inject the model instead of
+exposing a catalog: the stream's init event reports the effective model and
+effort state, and stderr may warn `unrecognized_model` for wrapper aliases.
+Report what actually ran instead of silently overriding it.
 
 ## Monitor Mode (Default)
 
@@ -55,12 +59,17 @@ Use Claude Code's semantic JSON stream without requesting partial messages:
 printf '%s' "$TASK_PROMPT" | <launcher> --print --output-format stream-json --verbose
 ```
 
-For a read-only review, when current help supports these tools, keep the prompt
-on stdin and restrict capabilities explicitly:
+For a read-only review, restrict capabilities explicitly and verify the
+restriction took effect:
 
 ```bash
-printf '%s' "$TASK_PROMPT" | <launcher> --print --output-format stream-json --verbose --tools Read Grep Glob
+printf '%s' "$TASK_PROMPT" | <launcher> --print --output-format stream-json --verbose --restricted --strict-mcp-config --tools Read Grep Glob
 ```
+
+After the init event, check that its `tools` list is exactly `Glob`, `Grep`,
+`Read`. Unknown tool names silently empty the list, and a wrapper that injects
+a bypass flag reduces the guarantee to this allowlist — say so in the report.
+`--strict-mcp-config` excludes configured MCP servers from this review.
 
 Never append a bare positional prompt after `--tools`, `--allowedTools`,
 `--add-dir`, or another variadic option.
@@ -96,6 +105,11 @@ printf '%s' "$TASK_PROMPT" | <launcher> --print
 - State explicitly whether the task may edit files. Keep review and explanation
   prompts read-only and findings-first.
 - Follow the current help and wrapper contract for permissions and tool access.
+- Never add `--dangerously-skip-permissions`, `--permission-mode
+  bypassPermissions`, or `--allow-dangerously-skip-permissions` without the
+  user's explicit authorization for that task, and do not pass `-w/--worktree`;
+  when the task contract forbids worktrees, also forbid `EnterWorktree` in the
+  prompt.
 - Do not silently create worktrees, commit, push, deploy, or widen task scope.
 - Put optional captures in the system temporary directory. Cleanup is optional.
 

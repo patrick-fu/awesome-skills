@@ -45,7 +45,7 @@ verify the effective policy or use host isolation when strict read-only matters.
 | `thread.started` or `turn.started` | `running` |
 | `item.started` | `working — <item> started` |
 | `item.completed` | `working — <item> completed` |
-| `turn.completed` with a successful exit | `completed` |
+| `turn.completed` with a successful exit | `turn ended; verify task evidence` |
 | `turn.failed` or nonzero exit | `failed` |
 
 Items may represent command execution, file changes, or agent messages. Ignore
@@ -72,9 +72,14 @@ PID.
 5. If no semantic record arrives but the process is alive, retain `running`.
 6. Finish only after a terminal turn event and process exit have been observed.
 
+For any named report or stream file, use a fresh path for this invocation even
+when the host retains the process. A prior run's file is not this run's result.
+
 If the host has no resumable process facility, redirect stdout and stderr into a
-directory created under `${TMPDIR:-/tmp}`, retain the PID, and poll both process
-liveness and newly appended complete lines. Verify that the child survives its
+fresh directory for each invocation under `${TMPDIR:-/tmp}`, retain the PID and
+have the launch wrapper write the child's exit code to a file when it ends.
+Poll process liveness and newly appended complete lines; a later shell cannot
+recover an exit code from a PID alone. Verify that the child survives its
 launching shell; some hosts reap `nohup ... &` children on shell exit. Prefer a
 foreground host session when available. Temporary captures may be left for
 system cleanup.

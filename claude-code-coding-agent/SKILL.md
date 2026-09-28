@@ -94,10 +94,11 @@ live process merely because it has produced no recent semantic event.
 
 ## Final Mode
 
-For a clearly trivial, short task, wait for one final response:
+For a clearly trivial, short task that needs no tools, wait for one final
+response. Tasks that need file reads or other tool evidence use monitor mode:
 
 ```bash
-printf '%s' "$TASK_PROMPT" | <launcher> --print
+printf '%s' "$TASK_PROMPT" | <launcher> --print --restricted --strict-mcp-config --tools ""
 ```
 
 ## Task Boundaries

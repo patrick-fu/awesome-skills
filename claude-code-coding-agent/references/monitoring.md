@@ -83,7 +83,9 @@ the OS PID.
 
 If the host has no resumable process facility, redirect stdout and stderr into a
 directory created under `${TMPDIR:-/tmp}`, retain the PID, and poll both process
-liveness and newly appended complete lines. Temporary captures may be left for
+liveness and newly appended complete lines. Verify that the child survives its
+launching shell; some hosts reap `nohup ... &` children on shell exit. Prefer a
+foreground host session when available. Temporary captures may be left for
 system cleanup.
 
 ## Terminal and Error Handling
@@ -91,6 +93,9 @@ system cleanup.
 - A terminal `result` is the stream-level completion marker.
 - Combine it with the process exit code; neither a PID disappearing nor a
   plausible final-looking message is sufficient by itself.
+- For tasks that depend on file reads, commands, or edits, verify the matching
+  successful tool results. A terminal success with rejected or absent tool
+  evidence does not verify the task outcome.
 - Preserve stderr for diagnosis, but do not convert an otherwise successful run
   into failure solely because stderr contains warnings.
 - If output ends with an incomplete JSON line, report an incomplete stream

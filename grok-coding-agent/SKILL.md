@@ -78,7 +78,7 @@ Reduce the stream to small liveness signals such as:
 running — process alive
 working — Read completed
 running — no new semantic event; process alive
-completed
+turn ended — verify task evidence
 ```
 
 Ignore raw thinking/reasoning and token deltas. Do not add

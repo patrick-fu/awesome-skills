@@ -43,7 +43,7 @@ Useful event classes:
 | `type=system`, `subtype=init` | `running` — check `tools` and `permissionMode` here |
 | assistant message containing a tool call | `working — <tool> started` |
 | tool result | `working — <tool> completed` |
-| `type=result` with `is_error` not true and exit 0 | `completed` |
+| `type=result` with `is_error` not true and exit 0 | `turn ended; verify task evidence` |
 | `is_error: true` (e.g. `terminal_reason=api_error`), or nonzero exit | `failed` |
 
 The result event's `subtype` (for example `success`) is not success evidence on
@@ -81,9 +81,14 @@ the OS PID.
 5. If no semantic record arrives but the process is alive, retain `running`.
 6. Finish only after terminal output and process exit have been observed.
 
+For any named report or stream file, use a fresh path for this invocation even
+when the host retains the process. A prior run's file is not this run's result.
+
 If the host has no resumable process facility, redirect stdout and stderr into a
-directory created under `${TMPDIR:-/tmp}`, retain the PID, and poll both process
-liveness and newly appended complete lines. Verify that the child survives its
+fresh directory for each invocation under `${TMPDIR:-/tmp}`, retain the PID and
+have the launch wrapper write the child's exit code to a file when it ends.
+Poll process liveness and newly appended complete lines; a later shell cannot
+recover an exit code from a PID alone. Verify that the child survives its
 launching shell; some hosts reap `nohup ... &` children on shell exit. Prefer a
 foreground host session when available. Temporary captures may be left for
 system cleanup.

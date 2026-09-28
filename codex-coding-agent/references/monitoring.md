@@ -30,9 +30,13 @@ assume native defaults apply.
 The compact monitoring baselines are:
 
 ```bash
-<launcher> exec --json --sandbox read-only --ephemeral "Review or explain"
+<launcher> -a never exec --json --sandbox read-only --ignore-rules --ephemeral "Review or explain"
 <launcher> exec --json --sandbox workspace-write "Implement the change"
 ```
+
+`--ignore-rules` skips user and project `.rules`, not managed requirements.
+An allow rule from managed requirements can still bypass the shell sandbox;
+verify the effective policy or use host isolation when strict read-only matters.
 
 `--json` changes stdout to JSONL events. Useful event classes:
 
@@ -70,7 +74,9 @@ PID.
 
 If the host has no resumable process facility, redirect stdout and stderr into a
 directory created under `${TMPDIR:-/tmp}`, retain the PID, and poll both process
-liveness and newly appended complete lines. Temporary captures may be left for
+liveness and newly appended complete lines. Verify that the child survives its
+launching shell; some hosts reap `nohup ... &` children on shell exit. Prefer a
+foreground host session when available. Temporary captures may be left for
 system cleanup.
 
 ## Terminal and Error Handling
@@ -78,6 +84,9 @@ system cleanup.
 - `turn.completed` and `turn.failed` are terminal turn events.
 - Combine the terminal event with process exit. A final-message file or a
   plausible agent message is not sufficient completion evidence.
+- For tasks that require commands or edits, inspect their completed item results
+  and output. A successful turn after blocked or missing task-critical items
+  does not verify the requested outcome.
 - A nonterminal warning or error-shaped item can occur in a successful turn.
   Do not classify the whole run from one item alone.
 - Stderr may contain recoverable warnings. Preserve it for diagnosis, but use

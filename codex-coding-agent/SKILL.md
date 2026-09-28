@@ -65,12 +65,13 @@ Reduce the stream to small liveness signals such as:
 running — process alive
 working — command completed
 running — no new semantic event; process alive
-completed
+turn ended — verify task evidence
 ```
 
 Ignore raw thinking/reasoning and token deltas. Treat the terminal turn event
-together with process exit as completion evidence; do not kill a live process
-merely because it has produced no recent semantic event.
+and process exit as turn completion evidence. Verify task-critical items before
+claiming task success; do not kill a live process merely because it has produced
+no recent semantic event.
 
 ## Final Mode
 

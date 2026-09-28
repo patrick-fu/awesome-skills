@@ -45,7 +45,7 @@ The stream is JSONL. Useful event classes:
 | `system/init` | `running` |
 | `tool_call` started | `working — <tool> started` |
 | `tool_call` completed | `working — <tool> completed` |
-| terminal `result` with a successful exit | `completed` |
+| terminal `result` with a successful exit | `turn ended; verify task evidence` |
 | terminal failure or nonzero exit | `failed` |
 
 Tool calls appear under typed keys such as `globToolCall`, `grepToolCall`, and
@@ -74,12 +74,20 @@ PID.
 5. If no semantic record arrives but the process is alive, retain `running`.
 6. Finish only after terminal output and process exit have been observed.
 
+For any named report or stream file, use a fresh path for this invocation even
+when the host retains the process. A prior run's file is not this run's result.
+
 If the host has no resumable process facility, redirect stdout and stderr into a
-directory created under `${TMPDIR:-/tmp}`, retain the PID, and poll both process
-liveness and newly appended complete lines. Verify that the child survives its
-launching shell; some hosts reap `nohup ... &` children on shell exit. Prefer a
-foreground host session when available. Temporary captures may be left for
-system cleanup.
+fresh directory for each invocation under `${TMPDIR:-/tmp}`, retain the PID and
+have the launch wrapper write the child's exit code to a file when it ends.
+Poll process liveness and newly appended complete lines; a later shell cannot
+recover an exit code from a PID alone.
+Accept a report artifact only when it was produced for this invocation and its
+content agrees with the completed tool and terminal events; an old `response.md`
+can survive an aborted run while a later run writes a different report. Verify
+that the child survives its launching shell; some hosts reap `nohup ... &`
+children on shell exit. Prefer a foreground host session when available.
+Temporary captures may be left for system cleanup.
 
 ## Terminal and Error Handling
 

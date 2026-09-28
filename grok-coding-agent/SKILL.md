@@ -42,7 +42,10 @@ current account's model list before launching:
   or cost, and after checking whether that tier has additional behavior.
 
 Do not hardcode model names or effort levels from this skill; the launcher's
-current help and model list are authoritative.
+current help and model list are authoritative. Current help and `models` may
+not list which effort values each model supports; when unclear, keep the
+launcher's default effort or consult the current official model docs instead
+of guessing.
 
 ## Monitor Mode (Default)
 
@@ -75,6 +78,12 @@ Ignore raw thinking/reasoning and token deltas. Do not add
 together with process exit as completion evidence; do not kill a live process
 merely because it has produced no recent semantic event. If the preferred
 format is unavailable, use the filtered fallback in the monitoring reference.
+
+The sandbox is applied at startup: on hosts where it cannot be initialized
+(for example a symlinked `/var/run/docker.sock`), the CLI refuses to start
+with exit 1 before any stream output. Treat a pre-stream nonzero exit as a
+failed run; dropping the sandbox to force a start is an explicit-authorization
+decision, not a fallback.
 
 ## Final Mode
 

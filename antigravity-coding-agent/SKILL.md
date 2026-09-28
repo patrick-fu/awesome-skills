@@ -93,12 +93,20 @@ For a clearly trivial, short task, wait for one final response:
 ```
 
 Add `--output-format json` when the caller wants a single JSON object with
-`status`, `response`, and usage instead of prose.
+`status`, `response`, and usage instead of prose. Use `stream-json` when
+headless file or command tool execution must be verified; final text or JSON
+alone does not prove which tools ran.
 
 ## Task Boundaries
 
 - For read-only review or explanation, keep the prompt findings-first and
   consider `--mode plan`, which researches and plans without making changes.
+  In headless file reviews, list target paths host-side, add any external
+  directories with `--add-dir`, and ask the agent to use `view_file`. In the
+  `stream-json` output, confirm a `view_file` `DONE` event for each required
+  path with usable `tool_info.output` and no `tool_info.error`; also require
+  terminal success, a non-empty response, and no `denied_actions`. Plan mode
+  does not grant shell permission.
 - Headless runs cannot show permission prompts: any tool permission that is not
   pre-approved is auto-denied, and the process can still exit 0. Judge
   completion by the terminal `result` status or the visible final answer, never
@@ -106,7 +114,9 @@ Add `--output-format json` when the caller wants a single JSON object with
   references/monitoring.md for the recovery pattern.
 - `--dangerously-skip-permissions` auto-approves every tool request and is the
   supported headless path for write tasks. Add it only when the user explicitly
-  authorizes that execution scope for the task at hand.
+  authorizes that execution scope for the task at hand. Use an isolated
+  workspace for experiments and verify completed command events and their
+  output or artifacts; a model's explanation alone is not experimental evidence.
 - Follow the current help and wrapper contract for sandbox and mode options.
 - Do not silently create worktrees, commit, push, deploy, or widen task scope.
 - Put optional captures in the system temporary directory. Cleanup is optional.

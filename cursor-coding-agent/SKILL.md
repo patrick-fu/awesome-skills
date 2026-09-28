@@ -13,10 +13,13 @@ the external executor.
 ## Minimal Workflow
 
 1. Set `<launcher>` to the requested Cursor binary, absolute path, alias, or
-   wrapper. Verify `<launcher> --version` identifies Cursor because the generic
-   command name `agent` can resolve to another product. Preserve a provided
-   wrapper; it may inject model, authentication, or permission settings,
-   including bypass permissions.
+   wrapper. Verify identity by finding `Start the Cursor Agent` in `--help`;
+   `--version` prints only a version number, and the generic command name
+   `agent` can resolve to another product. Preserve a provided wrapper; it may inject model,
+   authentication, or permission settings, including bypass permissions. Treat
+   wrappers as opaque: discover their contract only through `<launcher>
+   --version` and `<launcher> --help`; do not print alias bodies, wrapper
+   source, or their environment.
 2. Run `<launcher> --help` before composing version-sensitive flags. Use model
    listing or subcommand help only when needed.
 3. Choose the model and thinking effort deliberately, following the guidance
@@ -39,7 +42,9 @@ current account's model list before launching:
   or cost, and after checking whether that tier has additional behavior.
 
 Do not hardcode model names or effort levels from this skill; the launcher's
-current help and model list are authoritative.
+current help and model list are authoritative. Model listing requires
+authentication: if `--list-models` or `models` exits nonzero with an
+authentication error, report that and stop instead of guessing a model name.
 
 ## Monitor Mode (Default)
 
@@ -48,6 +53,17 @@ Use Cursor's semantic JSON stream without requesting partial assistant output:
 ```bash
 <launcher> --print --trust --output-format stream-json "Your task"
 ```
+
+For file-only review add `--mode ask`. For command-based review or implementation,
+omit `--mode`: current help offers only the read-only `ask` and `plan` modes.
+`--trust` trusts the workspace but does not approve shell execution. When shell
+execution is authorized, check current help for approval and sandbox flags,
+then run one harmless command with the intended flags and confirm its tool
+result completed rather than `rejected`. Recent versions use `--force` (alias
+`--yolo`) to auto-approve commands unless explicitly denied; it is not a
+file-write-only flag. Change the sandbox only when the authorized scope
+requires it. For implementation, inspect tool results and `git status --short`
+(including untracked files), not exit status or `git diff` alone.
 
 Start the command with the host's long-running process facility. Keep the task ID
 returned by the host, then use the host's wait, poll, or resume facility to read
@@ -77,8 +93,11 @@ For a clearly trivial, short task, wait for one final response:
 
 ## Task Boundaries
 
-- For read-only review or explanation, use the current help's read-only mode.
-  Do not use a read-only mode for tasks expected to modify files.
+- For file-only review or explanation, use `--mode ask`. For command-based
+  review, omit `--mode` and treat the run as write-capable. A separate checkout
+  is isolation, not write protection; use host-enforced read-only access when
+  writes are outside the authorized scope. Verify tool events and final state.
+  Do not auto-approve shell commands unless that execution scope is authorized.
 - Follow the current help and wrapper contract for trust, permissions, sandbox,
   and automatic tool approval.
 - Do not silently create worktrees, commit, push, deploy, or widen task scope.

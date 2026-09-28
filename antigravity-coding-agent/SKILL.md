@@ -64,7 +64,8 @@ stream:
 
 The prompt must be the `-p` value; a trailing positional prompt exits 2.
 Place repeatable options such as `--add-dir` ahead of `-p`. Bound long tasks
-explicitly with `--print-timeout`; the default waits until the turn completes,
+explicitly with a unit-bearing `--print-timeout` value such as `15m`; a bare
+number is invalid. The current default `0s` waits until the turn completes,
 with background tasks waited up to a 30-minute cap.
 
 Start the command with the host's long-running process facility. Keep the task
@@ -77,12 +78,15 @@ Reduce the stream to small liveness signals such as:
 running — process alive
 working — step started (step_type)
 running — no new semantic event; process alive
-completed — result.status SUCCESS
+turn ended — result.status SUCCESS
 ```
 
-Ignore raw thinking/reasoning and token deltas. Treat the terminal `result`
-event together with process exit as completion evidence; do not kill a live
-process merely because it has produced no recent semantic event.
+Ignore raw thinking/reasoning and token deltas. A successful terminal `result`
+and process exit only establish that the turn ended; verify the response,
+denied actions, stderr timeout warnings, and task-critical tool results before
+claiming task success. A `--print-timeout` can return partial output with exit 0.
+Do not kill a live process merely because it has produced no recent semantic
+event.
 
 ## Final Mode
 
@@ -106,12 +110,16 @@ alone does not prove which tools ran.
   `stream-json` output, confirm a `view_file` `DONE` event for each required
   path with usable `tool_info.output` and no `tool_info.error`; also require
   terminal success, a non-empty response, and no `denied_actions`. Plan mode
-  does not grant shell permission.
+  does not grant shell permission or provide a host-enforced read-only boundary.
+  For command-based review, prepare the diff and file list host-side where
+  possible. If command execution is essential, enforce read-only access at the
+  host before granting broader CLI permissions; do not treat
+  `--dangerously-skip-permissions` as a read-only flag.
 - Headless runs cannot show permission prompts: any tool permission that is not
   pre-approved is auto-denied, and the process can still exit 0. Judge
-  completion by the terminal `result` status or the visible final answer, never
-  by the exit code alone. Even a read-only run can no-op this way; see
-  references/monitoring.md for the recovery pattern.
+  tool-dependent work by the terminal `result` and required tool results, never
+  by exit code or a final-looking answer alone. Even a read-only run can no-op
+  this way; see references/monitoring.md for the recovery pattern.
 - `--dangerously-skip-permissions` auto-approves every tool request and is the
   supported headless path for write tasks. Add it only when the user explicitly
   authorizes that execution scope for the task at hand. Use an isolated

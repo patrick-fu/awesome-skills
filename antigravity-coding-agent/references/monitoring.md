@@ -46,17 +46,39 @@ Useful event classes:
 | `init` (model, cwd, tools, permission_mode) | `running` |
 | `step_update` with `state: ACTIVE` | `working — <step_type> started` |
 | `step_update` with `state: DONE` | `working — <step_type> completed` |
-| terminal `result` with `status: SUCCESS` and exit 0 | `completed` |
+| terminal `result` with `status: SUCCESS` and exit 0 | `turn ended; verify task evidence` |
 | `result` with a non-SUCCESS status, `AGY_ERROR` on stderr, or exit 3 | `failed` |
 
 `text_delta` is a field on `step_update`, not a separate event; ignore its
 content for liveness. Short replies can go straight to `state: DONE` without a
 visible `ACTIVE` state.
 
+Parse the `event` key, not `type`. The terminal envelope is
+`{"event":"result","result":{"status":"SUCCESS","response":"..."}}`:
+`result` is an object and the answer is `result.response`. For a single-turn
+read-only review, this extracts a non-empty successful answer from a saved
+JSONL stream (and fails if no matching terminal record exists):
+
+```bash
+jq -er '
+  select(.event == "result")
+  | .result
+  | select(.status == "SUCCESS" and ((.denied_actions // []) | length) == 0)
+  | .response
+  | select(length > 0)
+' "$STREAM_FILE"
+```
+
+This is only an extraction check; also verify the process exit and required
+tool results and inspect stderr for a timeout warning. Do not filter the live
+stream through `grep` or `tail` as the sole capture: that can hide terminal
+records and the CLI exit status.
+
 ## Exit Codes and Completion Evidence
 
 - Exit 0 with a terminal `result.status: SUCCESS` and a non-empty response —
-  completed.
+  turn completed; verify task-critical tool results and no timeout warning
+  before claiming success.
 - Exit 0 with `result.status: SUCCESS` but an empty response and
   `denied_actions` in the result — headless permission auto-denial; not a
   completed task (see below).
@@ -75,6 +97,12 @@ visible `ACTIVE` state.
 - Invalid `--output-format` values are silently treated as text.
 - If output ends with an incomplete JSON line, report an incomplete stream
   rather than manufacturing completion.
+- If the process exits or its explicit `--print-timeout` expires without a
+  terminal `event: result`, retain the partial stream and report an incomplete
+  run. A zero-byte final-answer file is not a successful review.
+- Since 1.2.6, `--print-timeout` expiry can return partial output and exit 0
+  with a warning on stderr. Treat that warning as an incomplete run even when
+  the stream contains a non-empty response.
 
 ## Headless Permissions
 
@@ -142,12 +170,19 @@ the OS PID.
 5. If no semantic record arrives but the process is alive, retain `running`.
 6. Finish only after terminal output and process exit have been observed.
 
+For any named report or stream file, use a fresh path for this invocation even
+when the host retains the process. A prior run's file is not this run's result.
+
 If the host has no resumable process facility, redirect stdout and stderr into
-a directory created under `${TMPDIR:-/tmp}`, retain the PID, and poll both
-process liveness and newly appended complete lines. Verify that the process
-survives the launching shell: some hosts reap `nohup ... &` children as soon as
-that shell exits. Prefer a foreground host session when available. Temporary
-captures may be left for system cleanup.
+a fresh directory for each invocation under `${TMPDIR:-/tmp}`, retain the PID,
+and have the launch wrapper write the child's exit code to a file when it ends.
+Poll process liveness and newly appended complete lines; a later shell cannot
+recover an exit code from a PID alone. Only accept artifacts created for that
+invocation; a pre-existing report file can be residue from an aborted run.
+Verify that the process survives the launching shell: some hosts reap
+`nohup ... &` children as soon as that shell
+exits. Prefer a foreground host session when available. Temporary captures may
+be left for system cleanup.
 
 ## Terminal and Error Handling
 

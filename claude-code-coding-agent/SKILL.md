@@ -84,13 +84,14 @@ Reduce the stream to small liveness signals such as:
 running — process alive
 working — Read completed
 running — no new semantic event; process alive
-completed
+turn ended — verify task evidence
 ```
 
 Ignore raw thinking/reasoning and token deltas. Do not add
 `--include-partial-messages` for ordinary monitoring. Treat the terminal
-`result` event together with process exit as completion evidence; do not kill a
-live process merely because it has produced no recent semantic event.
+`result` event together with process exit as turn completion evidence. Verify
+task-critical tool results before claiming task success; do not kill a live
+process merely because it has produced no recent semantic event.
 
 ## Final Mode
 

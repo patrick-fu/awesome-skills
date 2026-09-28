@@ -49,7 +49,7 @@ Use Codex's semantic JSON event stream and select the sandbox for the task:
 
 ```bash
 # Review, explanation, or other read-only work
-<launcher> exec --json --sandbox read-only --ephemeral "Your task"
+<launcher> -a never exec --json --sandbox read-only --ignore-rules --ephemeral "Your task"
 
 # Approved implementation in the workspace
 <launcher> exec --json --sandbox workspace-write "Your task"
@@ -74,16 +74,22 @@ merely because it has produced no recent semantic event.
 
 ## Final Mode
 
-For a clearly trivial, short task, use the same task-appropriate sandbox without
-`--json` and wait for the final response.
+For a clearly trivial, short task, use the complete task-appropriate invocation
+above without `--json` and wait for the final response. Keep `-a never` and
+`--ignore-rules` for read-only work.
 
 ## Task Boundaries
 
 - Use a read-only sandbox and read-only prompt for review or explanation. Use
-  workspace-write only for tasks expected to edit files. If a wrapper injects
-  an approval or sandbox override, `--sandbox read-only` alone does not prove
-  the run is read-only; verify the effective isolation first, otherwise do not
-  claim read-only.
+  workspace-write only for tasks expected to edit files. For read-only work,
+  disable approval prompts and user/project exec-policy rules as shown above:
+  an explicitly allowed command can run outside the sandbox. Managed
+  requirements may still supply allow rules even with `--ignore-rules`; check
+  the effective policy or use host-enforced isolation before claiming a strict
+  read-only boundary. Do the same if current help lacks these controls or a
+  wrapper injects an approval or sandbox override. The CLI sandbox governs
+  shell commands, not external MCP side effects; constrain MCP tools separately
+  when that boundary matters.
 - Follow current subcommand help before using review selectors, resume, profiles,
   or configuration overrides.
 - Do not silently bypass approvals or sandboxing, create worktrees, commit, push,

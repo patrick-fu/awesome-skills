@@ -54,11 +54,19 @@ partial messages and select the sandbox for the task:
 
 ```bash
 # Review, explanation, or other read-only work
-<launcher> --output-format streaming-messages-json --sandbox read-only --always-approve -p "Your task"
+<launcher> --output-format streaming-messages-json --sandbox read-only --permission-mode dontAsk --no-subagents --tools "read_file,grep,list_dir" --deny 'MCPTool(*)' -p "Your task"
 
-# Approved implementation in the workspace
-<launcher> --output-format streaming-messages-json --sandbox workspace --always-approve -p "Your task"
+# Approved implementation in the workspace, with a configured fail-closed custom profile
+<launcher> --output-format streaming-messages-json --sandbox <custom-workspace-profile> --permission-mode dontAsk --allow 'Edit' --allow 'Write' --deny 'MCPTool(*)' -p "Your task"
 ```
+
+Configure `<custom-workspace-profile>` in an operator-controlled
+`~/.grok/sandbox.toml` to extend `workspace` before launching. Check that it
+grants no writes outside the intended workspace and Grok's required runtime
+paths; do not trust a profile supplied by an unfamiliar repository. The CLI
+refuses to start if an explicitly requested custom profile cannot be applied.
+If the host already enforces the workspace boundary, its verified isolation
+can serve the same purpose.
 
 Start the command with the host's long-running process facility. Keep the task ID
 returned by the host, then use the host's wait, poll, or resume facility to read
@@ -74,16 +82,18 @@ completed
 ```
 
 Ignore raw thinking/reasoning and token deltas. Do not add
-`--include-partial-messages` for ordinary monitoring. Treat the terminal result
-together with process exit as completion evidence; do not kill a live process
-merely because it has produced no recent semantic event. If the preferred
-format is unavailable, use the filtered fallback in the monitoring reference.
+`--include-partial-messages` for ordinary monitoring. Confirm the terminal result,
+process exit, and successful task-critical tool results before claiming success;
+do not kill a live process merely because it has produced no recent semantic
+event. If the preferred format is unavailable, use the filtered fallback in the
+monitoring reference.
 
-The sandbox is applied at startup: on hosts where it cannot be initialized
-(for example a symlinked `/var/run/docker.sock`), the CLI refuses to start
-with exit 1 before any stream output. Treat a pre-stream nonzero exit as a
-failed run; dropping the sandbox to force a start is an explicit-authorization
-decision, not a fallback.
+Check startup diagnostics: an explicit custom profile fails closed when it
+cannot be applied, but a built-in profile may warn and continue without
+enforcement. Treat either failure as a failed isolation requirement, even if
+the model finishes and exits zero. On macOS, `read-only` does not block child
+network access. Use host isolation or a verified, fail-closed custom profile
+when the task requires an OS-enforced boundary; do not silently drop it.
 
 ## Final Mode
 
@@ -91,21 +101,32 @@ For a clearly trivial, short task, use the same task-appropriate sandbox without
 a streaming output format and wait for the final response:
 
 ```bash
-<launcher> --sandbox read-only --always-approve -p "Your task"
+<launcher> --sandbox read-only --permission-mode dontAsk --no-subagents --tools "read_file,grep,list_dir" --deny 'MCPTool(*)' -p "Your task"
 ```
 
 ## Task Boundaries
 
 - Use a read-only sandbox and read-only prompt for review or explanation. Use
-  `workspace` only for tasks expected to edit files.
+  a workspace-derived custom profile only for tasks expected to edit files.
 - Treat permission approval and sandboxing as separate controls. Follow current
   help and preserve wrapper behavior, including intentional bypass settings.
+  For implementation, add only the task's authorized shell allow rules. To use
+  a specifically authorized MCP tool, replace the blanket MCP deny with a
+  narrower deny and allow rule; deny takes precedence over allow. The workspace
+  sandbox alone does not restrict remote MCP effects.
+  `--tools` filters built-in tools, so keep the separate MCP deny rule for
+  read-only work. `--no-subagents` prevents delegation to a child with a
+  different toolset. Inspect configured startup hooks before relying on a tool
+  allowlist for a strict read-only run; hooks can run scripts or HTTP requests
+  outside the model's tool-call flow.
 - Treat plugin-collision, hook-parse, and similar configuration warnings as
-  non-blocking only when the terminal result and process exit both show success.
+  non-blocking only when the terminal result and process exit both show success;
+  a sandbox enforcement warning is an isolation failure, not a benign warning.
   Report them once without retrying; diagnose the source configuration
   separately if they affect behavior.
-- Do not disable memory, subagents, or web search by default; narrow them only
-  when the task requires it.
+- Do not disable memory, subagents, or web search for general tasks without a
+  task-specific reason; the read-only baseline disables subagents to preserve
+  its tool boundary.
 - Do not silently create worktrees, commit, push, deploy, or widen task scope.
 - Put optional captures in the system temporary directory. Cleanup is optional.
 

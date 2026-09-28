@@ -12,8 +12,10 @@ against the selected launcher before use.
 <launcher> models
 ```
 
-Confirm that `<launcher>` identifies Cursor CLI. The bare executable name
-`agent` is not globally unique and may resolve to a different product.
+Confirm identity by finding `Start the Cursor Agent` in `--help`; it is not the
+first output line. `--version` prints only a version number, and the bare
+executable name `agent` is not globally unique. Do not use another subcommand
+to probe an opaque wrapper.
 
 Current help exposes `--model`, model listing, `--print`, and
 `--output-format stream-json`. Some models expose effort as a model parameter
@@ -46,6 +48,13 @@ The stream is JSONL. Useful event classes:
 | terminal `result` with a successful exit | `completed` |
 | terminal failure or nonzero exit | `failed` |
 
+Tool calls appear under typed keys such as `globToolCall`, `grepToolCall`, and
+`readToolCall`; the generic `tool_call.name` can be empty, so read the typed
+key for the tool name. A shell or write call with `result.rejected` did not
+execute, even if the terminal result says success. Classify any conclusion
+depending on that call as unverified; preserve the rejection and rerun only
+after the execution scope is authorized and the flags are corrected.
+
 Ignore thinking events and raw reasoning. Do not enable
 `--stream-partial-output` unless a separate live-text interface truly needs
 character deltas. Partial mode can emit duplicate assistant flushes and is
@@ -67,7 +76,9 @@ PID.
 
 If the host has no resumable process facility, redirect stdout and stderr into a
 directory created under `${TMPDIR:-/tmp}`, retain the PID, and poll both process
-liveness and newly appended complete lines. Temporary captures may be left for
+liveness and newly appended complete lines. Verify that the child survives its
+launching shell; some hosts reap `nohup ... &` children on shell exit. Prefer a
+foreground host session when available. Temporary captures may be left for
 system cleanup.
 
 ## Terminal and Error Handling
@@ -77,9 +88,18 @@ system cleanup.
   observe the process exit.
 - Preserve stderr for diagnosis, but do not treat stderr output alone as
   failure.
+- For implementation, compare the intended outcome with completed tool calls,
+  `git status --short` (including untracked files), and the relevant diff or
+  artifacts. Exit 0 with an empty tracked-file diff alone proves neither
+  application nor failure. `--force`/`--yolo` auto-approves commands unless
+  explicitly denied; use it only when shell execution is authorized.
+- For command-based reviews or ablations, require completed command events and
+  their output or artifacts. A prose-only conclusion after rejected calls is
+  an unverified hypothesis, not an experiment.
 - If output ends with an incomplete JSON line, report an incomplete stream
   rather than manufacturing completion.
 
-Cursor's protocol or cloud-worker commands serve different integration models.
-Inspect their own help only when a workflow explicitly requires protocol-level
-control or remote workers; they are not needed for ordinary monitoring.
+Ordinary monitoring does not need Cursor's hidden integration subcommands
+(`acp` for the Agent Client Protocol, `worker` for cloud workers); there is no
+command literally named `protocol`. Inspect their own help only when a workflow
+explicitly requires them.

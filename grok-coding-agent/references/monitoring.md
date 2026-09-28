@@ -15,26 +15,14 @@ Current Grok Build CLI help exposes `--model`, `--reasoning-effort`, `-p`,
 sandbox selection, and multiple output formats. Use current help and model output
 for the exact syntax and supported values.
 
-`<launcher>` is `grok`, its absolute path, or a user-provided Grok wrapper. Do
-not use the generic `agent` alias. A wrapper may inject model, authentication,
-permission, sandbox, or bypass settings. Preserve those semantics and do not
-assume native defaults apply. Treat wrappers as opaque because their definitions
-or environments may contain credentials: discover their contract only through
-`<launcher> --version` and `<launcher> --help`; do not print definitions, source,
-or environment contents.
+Wrapper semantics (including the ban on the generic `agent` alias and the
+no-printing rule) are defined in the skill body; treat wrappers as opaque.
 
 ## Semantic Stream
 
-When current help exposes `streaming-messages-json`, use these compact monitoring
-baselines:
-
-```bash
-<launcher> --output-format streaming-messages-json --sandbox read-only --always-approve -p "Review or explain"
-<launcher> --output-format streaming-messages-json --sandbox workspace --always-approve -p "Implement the change"
-```
-
-Do not add `--include-partial-messages`. Consume complete JSONL records and
-reduce them to these states:
+Use the sandbox-selected baselines from the skill body. Do not add
+`--include-partial-messages`. Consume complete JSONL records and reduce them to
+these states:
 
 | Grok event | Compact host state |
 |---|---|
@@ -79,14 +67,13 @@ system cleanup.
 
 - `result` is the preferred stream's terminal record; `end` terminates the
   fallback stream.
+- A nonzero exit before any stream record (for example a sandbox initialization
+  failure) is a failed start: classify it from the exit code and stderr; do not
+  wait for a terminal record that will never come.
 - Combine the terminal record with process exit. A plausible final-looking
   assistant message is not sufficient completion evidence.
 - Preserve stderr for diagnosis, but do not classify an otherwise successful
   run as failed solely because stderr contains warnings.
-- Plugin-collision or hook-parse warnings are non-blocking only when the terminal
-  result and process exit both show success. Surface them once without rerunning
-  the task; investigate the source configuration separately only when they
-  affect behavior.
 - If output ends with an incomplete JSON line, report an incomplete stream
   rather than manufacturing completion.
 

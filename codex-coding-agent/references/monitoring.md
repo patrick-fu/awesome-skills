@@ -14,7 +14,9 @@ against the selected launcher before use.
 ```
 
 Current help exposes `--model`, `--json`, and sandbox selection. The model
-catalog reports available models and their supported reasoning levels. Inspect
+catalog reports available models and their supported reasoning levels. The raw
+`debug models` output is very large: extract only each model's slug,
+visibility, and supported reasoning levels instead of loading it whole. Inspect
 current configuration help or reference material for the exact reasoning-effort
 override rather than copying a stale key or value from this skill.
 
@@ -45,6 +47,13 @@ The compact monitoring baselines are:
 Items may represent command execution, file changes, or agent messages. Ignore
 raw reasoning and avoid forwarding full command output when a short action
 summary is enough.
+
+Stdout mixes JSONL events with CLI status lines such as `Reading additional
+input from stdin...`; parse only complete JSON lines. From each event, extract
+the event type, item type, and state, and drop large `aggregated_output`
+payloads from command items — a single poll can carry tens of thousands of
+tokens. Classify the run from the terminal turn event plus the process's real
+exit code, never from the item stream alone.
 
 ## Polling Contract
 

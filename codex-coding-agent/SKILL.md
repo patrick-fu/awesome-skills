@@ -14,7 +14,10 @@ the external executor.
 
 1. Set `<launcher>` to the requested Codex binary, absolute path, alias, or
    wrapper. Preserve a provided wrapper; it may inject model, authentication, or
-   permission settings, including bypass permissions.
+   permission settings, including bypass permissions. Treat wrappers as opaque:
+   discover their contract only through `<launcher> --version` and
+   `<launcher> --help`; do not print alias bodies, wrapper source, or their
+   environment.
 2. Run `<launcher> --help` and `<launcher> exec --help` before composing
    version-sensitive flags. Use other subcommand help only when needed.
 3. Choose the model and thinking effort deliberately, following the guidance
@@ -23,7 +26,8 @@ the external executor.
    only when the task is clearly trivial and short.
 5. Run from the intended repository or workspace, pass a bounded task contract,
    and wait for the external process to finish.
-6. Inspect the resulting diff, tests, and final answer before claiming success.
+6. Verify completion evidence before claiming success: the final answer plus
+   task evidence, and for write tasks the resulting diff and tests.
 
 ## Model and Effort
 
@@ -76,7 +80,10 @@ For a clearly trivial, short task, use the same task-appropriate sandbox without
 ## Task Boundaries
 
 - Use a read-only sandbox and read-only prompt for review or explanation. Use
-  workspace-write only for tasks expected to edit files.
+  workspace-write only for tasks expected to edit files. If a wrapper injects
+  an approval or sandbox override, `--sandbox read-only` alone does not prove
+  the run is read-only; verify the effective isolation first, otherwise do not
+  claim read-only.
 - Follow current subcommand help before using review selectors, resume, profiles,
   or configuration overrides.
 - Do not silently bypass approvals or sandboxing, create worktrees, commit, push,

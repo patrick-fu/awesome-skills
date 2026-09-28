@@ -21,7 +21,9 @@ permission, or bypass settings. Preserve those semantics and do not assume the
 raw `claude` defaults apply. Treat wrappers as opaque because their definitions
 or environments may contain credentials: discover their contract only through
 `<launcher> --version` and `<launcher> --help`; do not print definitions, source,
-or environment contents.
+or environment contents. To verify effective settings without printing a
+wrapper or process arguments, read the init event's `model` and
+`permissionMode`. If these fields are absent, report the uncertainty.
 
 ## Semantic Stream
 
@@ -38,23 +40,33 @@ Useful event classes:
 
 | Claude event | Compact host state |
 |---|---|
-| initialization | `running` |
+| `type=system`, `subtype=init` | `running` — check `tools` and `permissionMode` here |
 | assistant message containing a tool call | `working — <tool> started` |
 | tool result | `working — <tool> completed` |
-| terminal `result` with a successful exit | `completed` |
-| terminal failure or nonzero exit | `failed` |
+| `type=result` with `is_error` not true and exit 0 | `completed` |
+| `is_error: true` (e.g. `terminal_reason=api_error`), or nonzero exit | `failed` |
+
+The result event's `subtype` (for example `success`) is not success evidence on
+its own: an authentication failure can carry `subtype=success` with
+`is_error: true` and exit 1.
 
 Ignore thinking blocks and raw reasoning. Do not enable
 `--include-partial-messages` unless a separate live-text interface truly needs
 token deltas; it is noisy and unnecessary for liveness monitoring. Some
 launchers may still emit thinking-token counters without that flag; ignore them.
 
+A `type=system` event with `subtype=api_retry` reports model-call retries
+(minutes between attempts, up to ten). It is a liveness signal, not progress:
+if attempts stall near the limit with no new tool calls, stop the run through
+the host instead of waiting indefinitely.
+
 Options such as `--tools`, `--allowedTools`, and `--add-dir` accept multiple
 values and can consume a trailing positional prompt. Pass the prompt through
 stdin whenever a variadic option is present. If Claude reports
 `Input must be provided either through stdin or as a prompt argument when using
 --print`, move the prompt to stdin and retry once; do not keep rearranging flags
-blindly.
+blindly. Print mode also requires `--verbose` for stream-json — the error only
+appears at runtime, not in `--help`.
 
 ## Polling Contract
 

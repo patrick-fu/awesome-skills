@@ -68,6 +68,10 @@ visible `ACTIVE` state.
   failure; the JSON carries `status`, `error_code`, `retryable`, and
   `error_id`. Since 1.2.10 this includes runs that streamed partial output
   before failing; older versions could exit 0 after partial output.
+- When `AGY_ERROR.retryable` is false, stop retrying or resuming the same run.
+  Keep complete JSONL records and any intermediate artifacts, then report
+  which work was verified and which result was never produced. A fresh,
+  smaller task is a separate attempt, not a successful resume.
 - Invalid `--output-format` values are silently treated as text.
 - If output ends with an incomplete JSON line, report an incomplete stream
   rather than manufacturing completion.
@@ -140,8 +144,10 @@ the OS PID.
 
 If the host has no resumable process facility, redirect stdout and stderr into
 a directory created under `${TMPDIR:-/tmp}`, retain the PID, and poll both
-process liveness and newly appended complete lines. Temporary captures may be
-left for system cleanup.
+process liveness and newly appended complete lines. Verify that the process
+survives the launching shell: some hosts reap `nohup ... &` children as soon as
+that shell exits. Prefer a foreground host session when available. Temporary
+captures may be left for system cleanup.
 
 ## Terminal and Error Handling
 

@@ -74,6 +74,13 @@ PID.
 5. If no semantic record arrives but the process is alive, retain `running`.
 6. Finish only after terminal output and process exit have been observed.
 
+A live headless process can be waiting for an approval that no terminal can
+provide. One Cursor run allowed file writes with `--trust` but stalled for five
+minutes on a shell command. Set a host-side deadline for the task; if it stays
+silent, inspect permission mode and tool events before diagnosing model slowness.
+Stop only the blocked run, preserve its stream, and rerun with scoped approval
+only when shell execution was authorized. `--trust` alone does not approve it.
+
 For any named report or stream file, use a fresh path for this invocation even
 when the host retains the process. A prior run's file is not this run's result.
 

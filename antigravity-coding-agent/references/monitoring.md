@@ -1,7 +1,8 @@
 # Antigravity Monitoring Reference
 
-This reference contains version-sensitive operational details, verified against
-Antigravity CLI 1.2.11. Verify them against the selected launcher before use.
+This reference contains version-sensitive operational details, observed on
+Antigravity CLI 1.2.11 and 1.2.12. Verify them against the selected launcher
+before use.
 
 ## Discover Current Capabilities
 
@@ -43,15 +44,20 @@ Useful event classes:
 
 | Antigravity event | Compact host state |
 |---|---|
-| `init` (model, cwd, tools, permission_mode) | `running` |
+| `init` (cwd, tools, permission_mode; optional model) | `running` |
 | `step_update` with `state: ACTIVE` | `working — <step_type> started` |
 | `step_update` with `state: DONE` | `working — <step_type> completed` |
 | terminal `result` with `status: SUCCESS` and exit 0 | `turn ended; verify task evidence` |
-| `result` with a non-SUCCESS status, `AGY_ERROR` on stderr, or exit 3 | `failed` |
+| non-SUCCESS `result` with a non-empty response and exit 0 | `error; inspect and independently verify partial work` |
+| non-SUCCESS `result` with empty response, `AGY_ERROR`, or nonzero exit | `failed or incomplete` |
 
 `text_delta` is a field on `step_update`, not a separate event; ignore its
 content for liveness. Short replies can go straight to `state: DONE` without a
 visible `ACTIVE` state.
+The `init.model` field may be absent when `--model` was omitted. For model
+comparisons, pin `--model`, record the requested model outside the stream, and
+check `init.model` when emitted. If it is missing, report the effective model
+as unverified; do not infer the default from a missing field.
 
 Parse the `event` key, not `type`. The terminal envelope is
 `{"event":"result","result":{"status":"SUCCESS","response":"..."}}`:
@@ -72,7 +78,8 @@ jq -er '
 This is only an extraction check; also verify the process exit and required
 tool results and inspect stderr for a timeout warning. Do not filter the live
 stream through `grep` or `tail` as the sole capture: that can hide terminal
-records and the CLI exit status.
+records and the CLI exit status. This clean-success check intentionally rejects
+non-SUCCESS records even when they contain a usable partial response.
 
 ## Exit Codes and Completion Evidence
 
@@ -82,6 +89,12 @@ records and the CLI exit status.
 - Exit 0 with `result.status: SUCCESS` but an empty response and
   `denied_actions` in the result — headless permission auto-denial; not a
   completed task (see below).
+- Exit 0 with `result.status: ERROR` and a non-empty response — keep the run's
+  error classification and inspect `result.error`. A 1.2.12 high-concurrency
+  run produced correct answers after interrupted API streams while retaining
+  `ERROR`; accept any useful result only after independent checks of the
+  answer, required tools, and artifacts. Do not silently count it as a clean
+  success or discard verified work.
 - Exit 1 — model or effort selection conflicts, such as a mismatched
   `--model`/`--effort` pair.
 - Exit 2 — usage errors: unknown flags, a trailing positional prompt, or
@@ -89,10 +102,11 @@ records and the CLI exit status.
 - Exit 3 with an `AGY_ERROR: {...}` JSON line on stderr — model, agent, or API
   failure; the JSON carries `status`, `error_code`, `retryable`, and
   `error_id`. Since 1.2.10 this includes runs that streamed partial output
-  before failing; older versions could exit 0 after partial output.
+  before failing; older versions could exit 0 after partial output. Retain the
+  complete stream, stderr, and artifacts for every such run before deciding
+  whether to retry; never overwrite this attempt's capture.
 - When `AGY_ERROR.retryable` is false, stop retrying or resuming the same run.
-  Keep complete JSONL records and any intermediate artifacts, then report
-  which work was verified and which result was never produced. A fresh,
+  Report which work was verified and which result was never produced. A fresh,
   smaller task is a separate attempt, not a successful resume.
 - Invalid `--output-format` values are silently treated as text.
 - If output ends with an incomplete JSON line, report an incomplete stream
@@ -103,6 +117,11 @@ records and the CLI exit status.
 - Since 1.2.6, `--print-timeout` expiry can return partial output and exit 0
   with a warning on stderr. Treat that warning as an incomplete run even when
   the stream contains a non-empty response.
+- Measure elapsed time at the host for watchdogs and capacity planning. In one
+  1.2.12 load test, a failed job took 164 seconds externally while
+  `result.duration_seconds` reported 31; do not use that field as the only
+  timeout clock. Record model, endpoint, task mix, error rate, and wall time
+  before generalizing a concurrency limit.
 
 ## Headless Permissions
 

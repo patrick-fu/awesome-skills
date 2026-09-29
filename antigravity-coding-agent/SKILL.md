@@ -52,6 +52,9 @@ current help and model catalog are authoritative. In API-key mode the built-in
 default model may not exist on the configured endpoint and fails with a 400
 unknown-provider error; pick a model the endpoint's catalog actually serves
 (references/api-mode.md).
+For reproducible comparisons or custom endpoints, pass the chosen `--model`
+explicitly and record the effective route without exposing credentials. An
+`init` event may omit `model` when the CLI default was used.
 
 ## Monitor Mode (Default)
 
@@ -85,6 +88,8 @@ Ignore raw thinking/reasoning and token deltas. A successful terminal `result`
 and process exit only establish that the turn ended; verify the response,
 denied actions, stderr timeout warnings, and task-critical tool results before
 claiming task success. A `--print-timeout` can return partial output with exit 0.
+An error status with a non-empty answer still needs independent verification;
+preserve the error instead of counting the run as clean success.
 Do not kill a live process merely because it has produced no recent semantic
 event.
 

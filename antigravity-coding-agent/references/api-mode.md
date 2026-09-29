@@ -41,6 +41,25 @@ Gemini API request shape and authenticate the key the way the Gemini API does.
 Gemini-compatible relays commonly accept `x-goog-api-key`, `?key=`, and
 `Authorization: Bearer`.
 
+## Verify the Effective Route
+
+Non-interactive runs inherit their host process environment; they do not
+necessarily load the same shell profile as an interactive terminal. A 1.2.12
+load test silently used a different endpoint and key from the operator's
+interactive `agy` session. Before comparing models, costs, or concurrency,
+confirm the intended endpoint and credential source in the actual launch
+context. Use the intended wrapper or scoped process configuration, and verify
+the destination through diagnostics or proxy logs only after redacting query
+parameters and auth headers. Do not print keys, dump the full environment, or
+inspect an opaque wrapper's source.
+
+A successful model-list request only shows that the endpoint answered that
+request. It does not prove a provider has a usable generation credential: a
+relay may return models while generation fails with `503 auth_unavailable`.
+Use the response error code and verified route to distinguish a wrong
+endpoint/key pair from unavailable upstream credentials; HTTP `401` or `503`
+alone does not establish either cause.
+
 ## Gotchas
 
 - A `model` field in `settings.json` pins the default model and takes the
@@ -49,8 +68,9 @@ Gemini-compatible relays commonly accept `x-goog-api-key`, `?key=`, and
   ignored (observed on 1.2.11).
 - The built-in default model can be absent from a limited or relayed catalog;
   the run then fails with `400 ... unknown provider for model ...`. Pick a
-  model the endpoint actually serves and pass `--model` with `--effort`
-  explicitly.
+  model the endpoint actually serves and pass `--model` explicitly. Add
+  `--effort` only when required by that model ID; a tiered ID already carries
+  its effort and can reject a conflicting flag.
 - With `modelProvider: "gemini"` but no `GEMINI_API_KEY`, the CLI exits at
   startup with an explicit message. Startup only checks that the key is
   non-empty; an invalid or revoked key surfaces on the first model request.

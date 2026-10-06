@@ -2,13 +2,19 @@
 name: codex-async-followup
 description: >-
   Schedule follow-ups in Codex App for long asynchronous waits when no
-  independent work remains; resume work when the scheduled wakeup arrives.
+  independent work remains and no existing Goal covers the wait; resume work
+  when the scheduled wakeup arrives.
 ---
 
 # Codex Async Follow-up
 
-Resume asynchronous work from the conversation's existing context. Choose the
-continuation path for the session's role:
+Resume asynchronous work from the conversation's existing context.
+
+Check the current thread's Goal (`get_goal` when available). If a Goal already
+covers this wait, follow its continuation and stopping rules, and retire this
+skill's automatic heartbeat for the same wait.
+
+For other waits, choose the continuation path for the session's role:
 
 - Global and project controllers use `codex-session-controller` for follow-up
   mode selection, checks, and scheduling.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Verifier"
+  short_description: "Build and maintain project verification skills"
+  default_prompt: "Use $build-verifier to create or maintain this project's reusable verification skill."

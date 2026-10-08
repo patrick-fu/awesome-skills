@@ -1,0 +1,4 @@
+interface:
+  display_name: "Debugging"
+  short_description: "Diagnose difficult failures with causal evidence"
+  default_prompt: "Use $debugging to investigate this failure, verify the supported cause, and complete any requested fix against the original scenario."

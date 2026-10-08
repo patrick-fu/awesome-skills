@@ -1,0 +1,100 @@
+{
+  "skill_name": "build-verifier",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a project-local Atlas verifier that a fresh agent can execute. The repo has a documented public CLI export, uses Codex and Claude Code, and sessions often begin outside the repository. Product code is read-only.",
+      "expected_output": "Creates one canonical project-level English skill with matched OpenAI metadata and grounded discovery, runs a mapped path, retains proof and distinguishes map coverage from live verification.",
+      "files": [],
+      "expectations": [
+        "Keeps product know-how in the project",
+        "Uses existing repo commands and compatible discovery conventions",
+        "Produces English instructions and aligned UI metadata",
+        "Runs generated instructions and preserves proof",
+        "Includes scoped after-run drift feedback"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "A verification run fails because the verifier calls --source, while the current CLI and README require --input. Repair only the encountered verifier path.",
+      "expected_output": "Corrects the verifier-owned recipe using source and re-drives the real command.",
+      "files": [],
+      "expectations": [
+        "Identifies actual recipe drift",
+        "Keeps changes within verifier-owned files",
+        "Preserves intended results",
+        "Executes changed instructions before claiming repair"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The documented export command works and returns zero, but the real CSV loses Unicode titles. Source and intended product behavior require preserving titles. Maintain the verifier if justified; product fixes are outside this task.",
+      "expected_output": "Preserves the failing expectation and reports a product failure rather than weakening verification.",
+      "files": [],
+      "expectations": [
+        "Checks actual output beyond exit status",
+        "Retains intended Unicode expectations",
+        "Keeps product fixes in the product task",
+        "Does not treat failure alone as verifier drift"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The verifier recipe matches current source, the real run passes, and no new reusable prerequisite or recipe drift was found. Reassess maintenance after this run.",
+      "expected_output": "Leaves verifier files unchanged and reports the scoped result.",
+      "files": [],
+      "expectations": [
+        "Clean run with no grounded gap is a no-op",
+        "Does not expand into a full audit",
+        "Reports only actually verified paths"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "A run lacks entitlement and cannot export. The source and canonical instructions already document the required access. This task cannot grant access. Check for justified maintenance.",
+      "expected_output": "Retains the coverage gap and avoids encoding temporary access loss as product behavior.",
+      "files": [],
+      "expectations": [
+        "Keeps denied paths unverified",
+        "Does not grant access",
+        "Requires source-backed workflow gaps for edits",
+        "A proven omitted readiness check may be added without claiming behavior passed"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "The cleanup recipe targets a process name, but this run only owns one recorded process and the app is borrowed. The ownership contract and runtime evidence identify the mismatch.",
+      "expected_output": "Repairs the owned cleanup recipe and verifies it preserves borrowed resources and evidence.",
+      "files": [],
+      "expectations": [
+        "Treats ownership/cleanup drift as a maintenance trigger",
+        "Touches only run-owned resources",
+        "Proof survives teardown",
+        "Re-drives the corrected recipe"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Audit the complete feature map. No features are missing, but one existing feature points at a removed route and stale success criterion; source and live behavior document the replacement.",
+      "expected_output": "Checks existing mapped paths as well as missing features and proves corrections within the audit scope.",
+      "files": [],
+      "expectations": [
+        "Reconciles existing map with current source",
+        "Uses scoped live evidence",
+        "Checks unmapped features during full audit",
+        "Keeps uncertain intent unresolved"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "An ordinary feature task already has a working verifier. Verify only the current feature; no authoring or workflow drift is present.",
+      "expected_output": "Uses the project verifier without initiating Build Verifier authoring or maintenance.",
+      "files": [],
+      "expectations": [
+        "Keeps the meta-skill trigger narrow",
+        "Does not create duplicate infrastructure",
+        "Preserves ordinary acceptance scope"
+      ]
+    }
+  ]
+}

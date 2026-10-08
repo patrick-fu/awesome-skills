@@ -1,0 +1,89 @@
+{
+  "skill_name": "review-and-improve",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Explicitly review two sessions where the canonical check returned success after a forbidden import. Propose improvements only. An existing dedicated check rejects both historical mistakes but is not invoked by the canonical command.",
+      "expected_output": "Identifies the wiring gap and existing owner, retains scope, and proposes replay of the historical cases plus legitimate controls.",
+      "files": [],
+      "expectations": [
+        "Repairs existing control before duplicating it",
+        "Cites both occurrences",
+        "Proposes rather than implements",
+        "Defines rejection and legitimate-case evidence"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review and implement the authorized guard repair. A connected substring check rejects legal comments as well as forbidden imports. Both past illegal imports and valid comment-only files are available.",
+      "expected_output": "Repairs the guard without weakening the forbidden-import contract, proves historical rejection and legitimate acceptance, and retains independent review evidence.",
+      "files": [],
+      "expectations": [
+        "Preserves the behavior contract",
+        "Executes the canonical path",
+        "Historical cases fail for the intended reason",
+        "Legitimate cases pass",
+        "Runs three independent lenses and synthesis or reports coverage gaps"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review a session that read a clear check-before-commit rule, ignored an actual nonzero check, and called the task verified. The user also requested English for this one PR.",
+      "expected_output": "Distinguishes execution failure from missing instructions and scopes the one-off choice to that task.",
+      "files": [],
+      "expectations": [
+        "Does not duplicate clear guidance",
+        "Checks the actual failure and command owner",
+        "Does not turn a one-off choice into a global preference",
+        "Keeps product code and trackers outside review-only authorization"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Review a clean session with working canonical checks, wired CI, verified output and no recurring friction.",
+      "expected_output": "Allows no retained improvements rather than inventing rules or tools.",
+      "files": [],
+      "expectations": [
+        "Empty result is valid",
+        "Does not count suggestion volume as quality",
+        "Keeps review-only scope"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Review an identified session whose primary history is unavailable. A digest and a current diff are accessible, but the working tree includes another agent's changes.",
+      "expected_output": "Reports the history gap, uses the digest with explicit limits and does not attribute all current changes to the session.",
+      "files": [],
+      "expectations": [
+        "Verifies session and project scope",
+        "Labels digest evidence",
+        "Separates current state from historical attribution",
+        "Avoids unrelated session mining"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Use the authorized review results to implement one repeated mistake class. A legacy import remains possible; several historical violations exist. The user requested one commit per class and cannot provide CI access.",
+      "expected_output": "Examines architecture, types and deterministic enforcement in order, uses a ratchet if appropriate, records the enforcement owner and reports CI as pending.",
+      "files": [],
+      "expectations": [
+        "Retains architecture-first priority",
+        "Explains why higher levels do not fit",
+        "Keeps implementation and proof in the class commit",
+        "Maintains the scoped enforcement table",
+        "Does not claim unavailable CI ran"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "The user is midway through a feature task and corrects a typo. No retrospective skill was explicitly requested.",
+      "expected_output": "The runtime keeps this user-only skill out of implicit invocation; ordinary work continues.",
+      "files": [],
+      "expectations": [
+        "SKILL.md disables model invocation",
+        "OpenAI policy disables implicit invocation",
+        "Does not use a typo as permission for environment audit"
+      ]
+    }
+  ]
+}

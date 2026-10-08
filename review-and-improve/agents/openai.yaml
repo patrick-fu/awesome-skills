@@ -1,0 +1,6 @@
+interface:
+  display_name: "Review And Improve"
+  short_description: "Review agent sessions and improve future workflows"
+  default_prompt: "Use $review-and-improve to review this session and propose durable workflow improvements."
+policy:
+  allow_implicit_invocation: false

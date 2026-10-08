@@ -1,0 +1,4 @@
+interface:
+  display_name: "Long Task Control"
+  short_description: "Correct task drift and close on verified outcomes"
+  default_prompt: "Use $long-task-control to reassess this task, preserve valid work, and continue toward verified completion."

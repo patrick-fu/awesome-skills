@@ -10,7 +10,7 @@
         "Explicitly reconstructs the intended outcome and acceptance evidence before proposing continuation",
         "Challenges the ROI and redundancy of the proposed agent topology",
         "Produces a concrete pruned continuation rather than only an audit report",
-        "Uses independent review only when its independence addresses a concrete failure mode"
+        "Preserves the required independent adversarial reviews while pruning unsupported planning councils and redundant execution roles"
       ]
     },
     {
@@ -69,7 +69,7 @@
       "expectations": [
         "Separates worker liveness and observable progress from terminal completion",
         "Does not infer stagnation from silence or elapsed time alone",
-        "Uses the dirty diff, active process, and generated artifacts as progress evidence",
+        "Checks whether the dirty diff, active process and generated artifacts are relevant indicators of task progress rather than treating liveness as completion",
         "Preserves the current worker and recoverable work while the valuable command remains active"
       ]
     },
@@ -95,6 +95,78 @@
         "Waits for and consumes the current review instead of assuming child state will persist",
         "Does not replace the reviewer solely because its final response is delayed",
         "Creates a compact continuation record only after required delegated work is terminal and consumed"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "A coordinator wants to cancel a worker because no acceptance result has arrived since the last boundary. The worker is installing the required browser package: consecutive telemetry shows downloaded bytes rising from 120000 to 510000 of 800000. Acceptance has not started and accepted implementation is unchanged. Reassess and choose the next action.",
+      "expected_output": "Continue necessary preparation toward its checkpoint; missing acceptance output is not evidence of a stall.",
+      "files": [],
+      "expectations": [
+        "Preserves the worker and accepted work",
+        "Treats measured preparation as progress",
+        "Waits for the installation checkpoint before acceptance",
+        "A missed checkpoint prompts diagnosis rather than automatic replacement"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "The implementation is accepted and the necessary security reviewer remains running. Another controller has accepted the unfinished task. A receiver-side probe can read the immutable review input and recover the running task with the correct identity and owner. Decide whether to hand off now and what remains pending.",
+      "expected_output": "Allow the proven recoverable handoff while keeping overall acceptance pending.",
+      "files": [],
+      "expectations": [
+        "Verifies receiver access and continuation",
+        "Preserves single write ownership",
+        "Records the required review as pending",
+        "Does not declare completion or cancel the review"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "The worker is active and emits heartbeats, but fourteen export attempts have identical timeout traces, no hypothesis has changed, and the last successful checkpoint was yesterday. Accepted implementation remains valid. Reassess.",
+      "expected_output": "Stop unchanged attempts and obtain a new diagnostic signal while preserving accepted work.",
+      "files": [],
+      "expectations": [
+        "Distinguishes liveness from progress",
+        "Stops the unproductive route without abandoning the target",
+        "Preserves accepted work",
+        "Chooses a hypothesis or probe that can add information"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "A previous agent marked the delivered CLI export complete. The cached passing result belongs to an older revision and an ASCII-only configuration. Current acceptance requires two real CSV rows with exact Unicode titles. The export command exits zero but produces caf instead of caf\u00e9 and an empty title instead of \u4e1c\u4eac. Audit completion; product changes are outside this verification task.",
+      "expected_output": "Reject the completion claim based on actual output while retaining valid earlier work.",
+      "files": [],
+      "expectations": [
+        "Binds evidence to current revision and configuration",
+        "Checks content and side effects beyond exit status",
+        "Preserves the Unicode expectation and reports product failure",
+        "Keeps unexecuted review or integration paths explicit"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "A current delivered CLI export was checked through the real command. The CSV has the expected two rows and exact Unicode titles, and the version matches delivery. The task is verification only; new reviewers cannot be launched. Required cumulative independent review results are absent. Report behavior and the delivery status.",
+      "expected_output": "Separate verified behavior from unproven overall delivery and report the review gap.",
+      "files": [],
+      "expectations": [
+        "Accepts the demonstrated scoped behavior",
+        "Does not invent a verifier-building task",
+        "Reports missing independent review evidence",
+        "Does not claim complete overall delivery"
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "A durable pending review is about to be handed to a receiver who accepted assignment. The receiver recovery probe exits three with permission denied; only the sender can access the input and resume task. Reassess the boundary.",
+      "expected_output": "Hold ownership until receiver access and continuation are actually established.",
+      "files": [],
+      "expectations": [
+        "A saved handle and assignment acknowledgement do not substitute for access",
+        "Does not cross the unsafe handoff boundary",
+        "Preserves pending work and sender ownership",
+        "Names a concrete recovery repair and repeat probe"
       ]
     }
   ]

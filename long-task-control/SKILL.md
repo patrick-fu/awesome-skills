@@ -8,82 +8,77 @@ description: >-
 
 # Long Task Control
 
-Run a control loop that preserves verified work while correcting the course.
-Its governing principle: **constrain the process, leave the tactics free** —
-the gates below are hard, but how the agent improvises within them is not.
+Preserve verified work while correcting the course. Constrain acceptance and
+ownership; leave execution tactics free. This workflow needs no other skill.
 
-Reconstruct the **target** on every invocation from the original request,
-later authorized changes, and acceptance criteria. Newer authorized changes
-override older intent; keep unresolved conflicts visible.
+## Target
 
-1. **Observe.** Read the actual artifacts, checks, remaining work, history or
-   rollout, and active agents — and trust *these*, not an agent's reported
-   activity or self-claimed progress. Distinguish delegate liveness, observable
-   progress, and completion: silence or elapsed time proves neither progress nor
-   failure; active commands, dirty artifacts, and new check results are
-   progress; only a terminal result backed by acceptance evidence is completion.
-   Read that state from direct telemetry, and wait on defined checkpoints rather
-   than prompting a delegate for running narration. Do not redo accepted work;
-   optional work may be stopped once it can no longer change the outcome.
-2. **Compare.** At each boundary, compare artifacts and trajectory against the
-   target: missing outcomes, unsupported completion claims, scope drift,
-   repeated loops, or effort that no longer moves acceptance. Redo this after
-   every major phase, not only at the end.
-3. **Challenge — run an adversarial pass by default.** At each major phase
-   boundary challenge the work on two axes:
-   - **Design Challenger:** ROI, design soundness, and **gold-plating** — scope
-     creep, over-engineering, and redundant complexity the executor added on
-     its own (加戏).
-   - **Drift Watchdog:** alignment with the original intent, real progress since
-     the last boundary, evidence quality, repeated work, and stale delegation.
+Reconstruct the outcome, scope and acceptance criteria from the original request
+and later authorized changes. Newer authorized intent wins; expose unresolved
+conflicts. Compare the work against this target at each major phase boundary.
 
-   Finish any challenge that can change the contract, interface, or acceptance
-   boundary before a writer begins; run only non-blocking guards concurrently.
-   Run these as separate clean-context, read-only reviewers whenever the surface
-   is non-trivial or the phase touched shared state; collapse to a single inline
-   check only for a small, low-risk surface. Then give **one owner** the job of
-   merging all findings: deduplicate, resolve conflicts, and classify each as
-   actionable, boundary-only, overdesign, or false-positive. For each finding
-   handed to a human, give its rationale with a code snippet so the call is
-   reviewable item by item, not a bare label. Never staple reviewer outputs
-   together as the decision, and let the agent that fixes differ from the one
-   that reviewed.
-4. **Correct.** Disposition each material finding — keep, prune, repair,
-   replan, or escalate. When the Design Challenger flags gold-plating or drift,
-   re-decompose the remaining work into commit-sized units before continuing,
-   so the executor cannot smuggle in unrequested scope. Before interrupting an
-   active delegate, inspect its status, dirty diff, active processes, and
-   generated artifacts directly, and preserve and consume recoverable work; if
-   an execution delegate with valuable context terminates with only a plan, give
-   it one narrower outcome and exit condition before replacement. Reuse an agent
-   whose context still serves the target; retire stale agents and their
-   descendant work once it has no remaining outcome. Keep the three evidence
-   types distinct — review yields candidate findings, runtime checks yield
-   behavioral evidence, walkthroughs recover human understanding — and never let
-   one stand in for another. After a correction, recheck the affected surface
-   and any broader acceptance surface it may have disturbed.
-5. **Continue, and close on evidence.** Resume work, but stop and replan the
-   moment retries, polling, or agent activity produce no new acceptance evidence
-   since the last boundary — the gate is "no new evidence," not a retry count.
-   Interim passes review the current phase's diff; the terminal pass before
-   closing reviews the **entire cumulative diff**, not just the last phase's. A
-   typical rhythm: architecture-review + fix, then general-review + fix, once per
-   module, then the same pair twice over the full diff at the end — adjust to the
-   work, this is illustrative, not a fixed count. Before a turn, continuation, or
-   handoff boundary, make every required delegated result terminal and consume
-   it rather than assuming child-agent state will persist. Close only when that
-   work is consumed and acceptance evidence supports completion; otherwise
-   continue or surface the real blocker.
+## Observe
 
-**Runlog.** At a durable boundary or handoff, leave a runlog — one line each:
+Inspect artifacts, commands, checks and delegate state directly. Separate
+liveness, progress toward the target and verified completion. Silence, elapsed
+time, an active process or a dirty diff alone establishes neither progress nor
+failure. Useful diagnosis and necessary preparation count as progress before
+acceptance checks finish.
 
-- Surprises the run hit that the plan did not predict
-- Adapted decisions: tactics you changed on your own, and why
-- Unresolved judgments waiting on a human to decide
-- Follow-ups deferred
-- Evidence pointers: where the acceptance proof lives
+Wait for a meaningful checkpoint while work advances or a known dependency is
+pending. A missed checkpoint prompts targeted diagnosis, not automatic
+replacement. Repeated failures without changed conditions, a new hypothesis or
+diagnostic information call for a new route. Preserve accepted work; stop the
+unproductive attempts, not the overall task.
 
-A control pass is complete when the target is current, the adversarial pass has
-run, every material finding has a disposition, stale work is retired, the
-runlog is current at a boundary, and the next action or completion evidence is
-clear.
+## Challenge
+
+Default to separate, clean-context, read-only reviewers at major phase
+boundaries. Challenge **Design** (soundness, ROI, gold-plating) and **Drift**
+(intent, progress, evidence, stale work). Reviewers form their findings
+independently before reconciliation. Complete contract-changing review before
+dependent writing; non-blocking review may run concurrently.
+
+Give one owner the findings: deduplicate, check the evidence, resolve conflicts
+and classify actionable defects, boundary notes, overdesign and false positives.
+Explain material findings with concrete evidence. Separate review and repair
+ownership. Re-review material repairs. At closure, run both lenses twice over
+the entire cumulative delivery; preserve any stronger requested review cadence.
+Report unavailable independence or incomplete required rounds as review gaps.
+
+## Correct
+
+Disposition material findings: keep, prune, repair, replan or escalate. Break
+remaining work into independently verifiable outcomes. Preserve useful context
+and artifacts while retiring stale work and its descendants.
+
+For delegated work or handoff, read [Delegation](references/delegation.md).
+
+## Verify
+
+Map the scoped acceptance criteria to real artifacts, actions and observable
+outcomes. Identify the delivered version and relevant configuration; confirm the
+instance and prerequisites before driving it. Use canonical repository checks
+and public user paths, including relevant side effects and required failure or
+rollback cases. For documents, check the actual output against its sources.
+Existing project verification instructions may supply recipes; their absence
+does not prevent direct verification.
+
+Retain the actions, actual results, artifact identity and evidence locations.
+Separate review findings from observed behavior. Diagnose environment or driver
+failure separately from product failure; preserve the intended expectation.
+Repair within scope, then repeat the affected checks and disturbed integration
+paths. Reuse evidence that still applies. Clean only this run's resources and
+keep its proof readable.
+
+## Continue and close
+
+Continue with the next action that advances the target. Claim task completion
+only after necessary delegated results and required reviews are consumed,
+material findings are resolved, and applicable acceptance checks pass. Report
+failed, blocked and unexecuted paths explicitly.
+
+At a durable boundary, update the existing run record with surprises, changed
+decisions and reasons, unresolved judgments, deferred work, evidence pointers
+and the next action. A control pass can end with a corrected next action while
+the overall task remains pending.

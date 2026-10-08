@@ -1,148 +1,89 @@
 ---
-name: log-driven-debugging
+name: debugging
 description: >-
-  Diagnose a rerunnable bug with targeted logs and the user's rerun. Use only
-  when logging is requested, logs are provided, or static diagnosis has
-  stalled.
+  Diagnose bugs or performance regressions when static inspection stalls,
+  attempted fixes fail, or runtime evidence needs interpretation.
 ---
 
-When the bug is slippery, stop guessing and build observability.
+# Debugging
 
-This skill is for situations where:
-- the visible symptom is known, but the actual failure layer is not
-- static code reading is no longer enough
-- one execution with good logs can collapse a large search space
+Build causal evidence for the reported failure. Match the request: diagnosis
+ends with findings and remaining uncertainty; a fix request includes the
+related repair and verification. Use project conventions and relevant domain
+or architecture documentation. Redact secrets from shared commands, outputs,
+and captures; pass credentials through the environment.
 
-The workflow is simple:
-1. decide where to instrument
-2. add high-signal logs
-3. have the user rerun the scenario
-4. analyze the returned logs
-5. only then propose or implement the real fix
+## Anchor
 
-## First move
+Identify the expected behavior, actual symptom, affected scenario, and relevant
+artifact/version, configuration, and state. Distinguish observations from
+hypotheses. Reuse prior evidence when its identity and conditions still match.
 
-Use the **log prefix** supplied by the user or established by the repository.
-If neither exists, choose a short, searchable prefix that is unique in the
-current codebase and tell the user which prefix to collect. This routine choice
-does not need confirmation.
+Keep the original scenario as the acceptance target. A nearby error, mock-only
+failure, or different instance is not a substitute for the reported symptom.
 
-Ask only when the user's requirements or repository logging conventions leave
-a material ambiguity that cannot be resolved by inspection.
+## Observe
 
-## Logging strategy
+Choose the smallest available evidence that can distinguish likely causes.
+Start with the relevant route; load further references only when the evidence
+gap requires them.
 
-Do not scatter random prints everywhere. Instrument the execution path deliberately.
+- **Reproduce:** run a symptom-specific test, request, CLI, replay, or harness.
+  Verify that it actually fails on this bug. Tighten or minimize the loop where
+  useful, retaining the original inputs and conditions.
+- **Instrument:** when a running path needs observation, read
+  [instrumentation](references/instrumentation.md).
+- **Forensics:** for existing captures or profiling a live process, read
+  [forensics](references/forensics.md).
+- **Flaky:** for intermittent, concurrent, or order-dependent failures, read
+  [flaky failures](references/flaky-failures.md).
 
-Choose logs around:
-- entry points where the user action first enters the system
-- state transitions where data changes shape
-- serialization or conversion boundaries
-- async handoff points
-- final outbound effects such as send, save, render, request, or callback
+Use credible logs, captures, and source evidence even when a full reproducer is
+unavailable. State which claims they support and which remain untested.
+Run reachable checks yourself. When a device, permission, or physical action
+requires the user, request the smallest concrete action and evidence return.
 
-For each log, include enough structure to reconstruct the flow:
-- the shared prefix
-- a timestamp
-- a short tag for the subsystem or phase
-- the minimum fields needed to compare expected vs actual behavior
+## Probe
 
-Treat the timestamp as part of the standard format, not a nice-to-have. For tricky bugs, ordering is often as important as values.
+Rank plausible alternatives. For each useful probe, state its prediction:
+"If X causes the failure, observing or changing Y should produce Z."
+Change one discriminating factor where practical and compare the result with
+the prediction. Trace the first divergence back through boundaries and callers
+to the originating state or input. Negative results narrow the search too.
 
-Prefer logs that answer:
-- Did this code path run?
-- In what order did the steps happen?
-- What data existed at this point?
-- Where did duplication, loss, mutation, or branching first appear?
+Keep hypotheses provisional until evidence distinguishes their mechanism from
+credible alternatives. Choose the next probe from the remaining evidence gap.
 
-Avoid:
-- giant object dumps unless they are truly needed
-- vague messages like "here" or "called"
-- logging so much that the signal disappears
+## Reframe
 
-## What to log
+When failed attempts repeat without distinguishing causes, inspect the premise
+they share before another patch. Check artifact identity, actors, inputs,
+state, ordering, lifetime, and environment; change the evidence channel when
+needed. Revert your refuted speculative changes while preserving user edits.
+If access or evidence blocks progress, report what was tried and the smallest
+missing action or artifact.
 
-The exact fields depend on the bug, but in general log:
-- identifiers
-- counts
-- ranges or indexes
-- booleans for state
-- input and output summaries
-- boundary transformations
+## Fix
 
-Examples:
-- `count=4`
-- `state=editing`
-- `range={loc=12,len=3}`
-- `contentList=[0] mention | [1] text`
-- `requestID=...`
+Apply the smallest repair supported by the evidence and requested scope.
+At a seam that exercises the real failure pattern, turn the reproducer into a
+regression check and observe its failure before the repair when feasible.
+If deliberately mutating code to establish that a check catches the bug,
+verify the mutation landed against a pristine copy before trusting the result.
+Document a missing seam or baseline rather than manufacturing a passing proxy.
 
-Prefer a consistent line shape such as:
+## Verify
 
-```text
-[<PREFIX>][2026-03-28T13:45:27.870+08:00][Serializer] contentList=[0] mention | [1] text
-```
+Run the original, unminimized scenario against the repaired artifact and run
+the applicable regression and affected-path checks. For intermittent or
+performance failures, retain comparable conditions and report the actual
+observations. A green reduced test alone does not establish original-scenario
+success. Keep unavailable or inconclusive checks explicit.
 
-When strings are important, escape newlines so one logical log stays on one physical line.
-
-## Handoff to the user
-
-After instrumenting, tell the user exactly what to do next:
-- rebuild or rerun the app/program
-- reproduce the issue once
-- collect the logs containing the chosen prefix
-- send those logs back
-
-Be explicit that they should return **only the lines with the prefix** when possible.
-
-Recommend a filter like:
-
-```bash
-rg "\\[<PREFIX>\\]" <log-file>
-```
-
-or an equivalent grep/search flow in their environment.
-
-## Analysis pass
-
-When the user sends logs back, do not jump straight to a fix. Reconstruct the path first.
-
-Read the logs in order and answer:
-1. What is the first confirmed event?
-2. What state is proven correct?
-3. What is the first line where reality diverges from expectation?
-4. Which layer owns that divergence?
-5. Is the bug caused by duplication, missing data, wrong boundary detection, stale state, or ordering/race?
-
-Call out the precise transition where the bug begins, not just where it becomes visible.
-
-If the logs prove the current instrumentation is insufficient, ask for one more round and specify the next smallest set of logs needed. Do not ask for a broad second pass if one or two extra logs will do.
-
-## Output expectations
-
-Your response after log analysis should be crisp and causal:
-- what the logs prove
-- where the root cause starts
-- what is not the root cause
-- what code should change next
-
-If proposing a fix, tie it directly to the observed divergence in logs.
-
-## Scope
-
-Keep this skill general. It applies to:
-- app bugs
-- backend handlers
-- UI flows
-- serialization problems
-- async ordering issues
-- duplicated side effects
-- state machine bugs
-
-It is not tied to any single language, framework, or repository.
-
-## Practical rule
-
-The user runs the instrumented build. You analyze the prefixed logs.
-
-That division of labor is the whole point of this skill.
+Remove this investigation's temporary instrumentation, processes, and debug
+resources; preserve existing product logs, user work, and useful evidence.
+When cleanup changes executable behavior or measurement conditions, recheck
+the original scenario on the cleaned artifact. Report any unverified final
+artifact explicitly.
+Report the supported cause, relevant change, executed checks and outcomes,
+and remaining limitations. Claim resolution only to the extent verified.

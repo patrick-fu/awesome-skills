@@ -198,12 +198,13 @@ API key 两种认证模式都支持。
 
 适合生产代码：契约被破坏时测试要红，无害的内部重构则保持绿。
 
-#### 🔦 [`log-driven-debugging`](./log-driven-debugging)
+#### 🔦 [`debugging`](./debugging)
 
-加入带前缀的聚焦日志，让用户重新跑真实场景，再根据返回的证据定位第一个有意义的分歧点。
-静态读码不够时，用可观测性代替猜。
+为难查的 bug 和性能回归建立因果证据。按条件选择复现、定向观测、已有 capture 分析
+或偶发失败调查，并用原始场景验收用户要求的修复。
 
-适合能够复现、但根因还藏着的 bug。
+适合静态检查卡住、多次修复失败，或需要解释运行时证据的任务。
+替代原 `log-driven-debugging`。
 
 #### 📝 [`generate-commit-message`](./generate-commit-message)
 

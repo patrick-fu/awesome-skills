@@ -233,13 +233,14 @@ and asserts observable effects.
 Use it for production code where breaking the contract should turn the test red
 while harmless internal refactoring stays green.
 
-#### 🔦 [`log-driven-debugging`](./log-driven-debugging)
+#### 🔦 [`debugging`](./debugging)
 
-Add focused, prefixed logs, have the user rerun the real scenario, and inspect
-the returned evidence to locate the first meaningful divergence. When static
-reading is not enough, observability replaces guesswork.
+Build causal evidence for difficult bugs and performance regressions. Choose
+reproduction, targeted instrumentation, capture analysis, or flaky-failure
+investigation, then verify any requested repair against the original scenario.
 
-Use it for reproducible bugs whose root cause is still hiding.
+Use it when static inspection stalls, attempted fixes fail, or runtime
+evidence needs interpretation. Replaces `log-driven-debugging`.
 
 #### 📝 [`generate-commit-message`](./generate-commit-message)
 

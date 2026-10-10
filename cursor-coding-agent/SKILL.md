@@ -7,102 +7,74 @@ description: >-
 
 # Cursor Coding Agent
 
-Use Cursor CLI only after the user or active workflow explicitly selects it as
-the external executor.
+Use the selected launcher to carry a bounded task through execution and host
+verification. Preserve the user's model, permissions, workspace, and scope.
 
-## Minimal Workflow
+## Establish the run
 
-1. Set `<launcher>` to the requested Cursor binary, absolute path, alias, or
-   wrapper. Verify identity by finding `Start the Cursor Agent` in `--help`;
-   `--version` prints only a version number, and the generic command name
-   `agent` can resolve to another product. Preserve a provided wrapper; it may inject model,
-   authentication, or permission settings, including bypass permissions. Treat
-   wrappers as opaque: discover their contract only through `<launcher>
-   --version` and `<launcher> --help`; do not print alias bodies, wrapper
-   source, or their environment.
-2. Run `<launcher> --help` before composing version-sensitive flags. Use model
-   listing or subcommand help only when needed.
-3. Choose the model and thinking effort deliberately, following the guidance
-   below and the choices currently exposed by the launcher.
-4. Use monitor mode by default for any task that may take time. Use final mode
-   only when the task is clearly trivial and short.
-5. Run from the intended repository or workspace, pass a bounded task contract,
-   and wait for the external process to finish.
-6. Inspect the resulting diff, tests, and final answer before claiming success.
+1. Invoke the requested binary or wrapper with `--version` and `--help`.
+   Confirm `Start the Cursor Agent` in help: the generic name `agent` and a
+   version number do not establish product identity. Keep wrappers opaque;
+   definitions, source, arguments, and full environments may contain
+   credentials. Discover behavior through help and diagnostics.
+2. Honor explicit model/effort choices; otherwise select supported settings
+   suited to the task using current help and authenticated model listing.
+   Stop and report a model-list authentication failure rather than guessing.
+   Record requested and effective settings separately; absent effective
+   settings stay unverified.
+3. Fix the absolute workspace, permitted actions, and acceptance evidence.
+   Experiments use isolated workspaces; parallel writers need separate
+   workspaces or a single writer. A separate checkout isolates state but does
+   not prevent writes. Verify host protection when strict read-only is required.
 
-## Model and Effort
+Read [monitoring](references/monitoring.md) before a monitored run, permission
+recovery, partial failure, or session resume.
 
-Honor explicit model or effort choices. Otherwise inspect current help and the
-current account's model list before launching:
+## Execute
 
-- For routine, bounded work, prefer a balanced model and moderate effort.
-- For deep review, ambiguous debugging, cross-module design, or other high-risk
-  work, prefer a frontier model and high or maximum supported effort.
-- Use the highest tier only when its quality benefit justifies the extra latency
-  or cost, and after checking whether that tier has additional behavior.
-
-Do not hardcode model names or effort levels from this skill; the launcher's
-current help and model list are authoritative. Model listing requires
-authentication: if `--list-models` or `models` exits nonzero with an
-authentication error, report that and stop instead of guessing a model name.
-
-## Monitor Mode (Default)
-
-Use Cursor's semantic JSON stream without requesting partial assistant output:
+Use monitor mode whenever the task needs tools or may take time:
 
 ```bash
 <launcher> --print --trust --output-format stream-json "Your task"
 ```
 
-For file-only review add `--mode ask`. For command-based review or implementation,
-omit `--mode`: current help offers only the read-only `ask` and `plan` modes.
-`--trust` trusts the workspace but does not approve shell execution. When shell
-execution is authorized, check current help for approval and sandbox flags,
-then run one harmless command with the intended flags and confirm its tool
-result completed rather than `rejected`. Recent versions use `--force` (alias
-`--yolo`) to auto-approve commands unless explicitly denied; it is not a
-file-write-only flag. Change the sandbox only when the authorized scope
-requires it. For implementation, inspect tool results and `git status --short`
-(including untracked files), not exit status or `git diff` alone.
+For file-only review add `--mode ask`. For command-based review or
+implementation, omit `--mode`: current help's `ask` and `plan` modes are
+read-only. Treat command-based review as write-capable and enforce its boundary.
+`--trust` trusts the workspace; it does not approve shell execution.
 
-Start the command with the host's long-running process facility. Keep the task ID
-returned by the host, then use the host's wait, poll, or resume facility to read
-only newly available output while the process runs.
+When shell execution is authorized, check current approval/sandbox flags and
+confirm a harmless command completed rather than `result.rejected`. Recent
+`--force`/`--yolo` auto-approves commands unless explicitly denied; it is not a
+file-write-only flag. Change the sandbox only within the authorized scope.
 
-Reduce the stream to small liveness signals such as:
+Retain the host process handle and fresh stdout/stderr captures under system
+temp. Consume complete records continuously; show short new semantic signals,
+not thinking or token deltas. Keep partial assistant streaming off. Choose a
+task-appropriate host deadline. A quiet live process remains running; inspect
+tool/permission state at a missed checkpoint before diagnosing model slowness.
 
-```text
-running — process alive
-working — Read completed
-running — no new semantic event; process alive
-turn ended — verify task evidence
-```
-
-Ignore raw thinking/reasoning and token deltas. Do not add
-`--stream-partial-output` for ordinary monitoring. Treat the terminal `result`
-event and process exit as turn completion evidence. Verify task-critical tool
-results before claiming task success; do not kill a live process merely because
-it has produced no recent semantic event.
-
-## Final Mode
-
-For a clearly trivial, short task, wait for one final response:
+For a trivial task needing no tool evidence, final mode is sufficient:
 
 ```bash
 <launcher> --print --trust "Your task"
 ```
 
-## Task Boundaries
+## Accept or recover
 
-- For file-only review or explanation, use `--mode ask`. For command-based
-  review, omit `--mode` and treat the run as write-capable. A separate checkout
-  is isolation, not write protection; use host-enforced read-only access when
-  writes are outside the authorized scope. Verify tool events and final state.
-  Do not auto-approve shell commands unless that execution scope is authorized.
-- Follow the current help and wrapper contract for trust, permissions, sandbox,
-  and automatic tool approval.
-- Do not silently create worktrees, commit, push, deploy, or widen task scope.
-- Put optional captures in the system temporary directory. Cleanup is optional.
+Observe the terminal result and actual process exit, then inspect the answer,
+required completed tools, stderr, and actual artifacts. A `result.rejected`
+call did not execute. Include untracked files when checking implementation;
+exit zero with an empty tracked diff proves neither application nor failure.
+Run checks appropriate to the authorized task and state those not performed.
+Execution success and artifact acceptance are separate conclusions; retain
+an error classification even when independently verified partial work is useful.
 
-For event mapping, terminal-state handling, launcher identity, and current
-capability discovery, read [references/monitoring.md](references/monitoring.md).
+Before retrying or resuming, inspect completed actions and partial artifacts
+so work or side effects are not repeated. Keep attempts separate. Stop a
+canceled or superseded task's owned processes and confirm exit before releasing
+its workspace. Clean only this run's runtime/captures and retain evidence for
+acceptance or an unresolved failure.
+
+Commit, push, deploy, worktree creation, and broader permissions require the
+corresponding user authorization; the skill supplies no extra scope.

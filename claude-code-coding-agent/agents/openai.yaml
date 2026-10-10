@@ -1,0 +1,4 @@
+interface:
+  display_name: "Claude Code Coding Agent"
+  short_description: "Execute bounded tasks with Claude Code CLI"
+  default_prompt: "Use $claude-code-coding-agent to execute this bounded task with the selected CLI."

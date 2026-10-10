@@ -7,128 +7,82 @@ description: >-
 
 # Grok Coding Agent
 
-Use Grok Build CLI only after the user or active workflow explicitly selects it
-as the external executor.
+Use the selected launcher to carry a bounded task through execution and host
+verification. Preserve the user's model, permissions, workspace, and scope.
 
-## Minimal Workflow
+## Establish the run
 
-1. Set `<launcher>` to `grok`, its absolute path, or a user-provided Grok
-   wrapper. Do not substitute the generic `agent` alias. Preserve a provided
-   wrapper; it may inject model, authentication, or permission settings,
-   including bypass permissions. Treat wrappers as opaque: discover their
-   contract only by invoking `<launcher> --version` or `<launcher> --help`; do
-   not run inspection commands that may print an alias or function definition,
-   open or print wrapper source, or dump its environment because it may contain
-   credentials.
-2. Run `<launcher> --help` before composing version-sensitive flags. Use model
-   listing or subcommand help only when needed.
-3. Choose the model and thinking effort deliberately, following the guidance
-   below and the choices currently exposed by the launcher.
-4. Use monitor mode by default for any task that may take time. Use final mode
-   only when the task is clearly trivial and short.
-5. Run from the intended repository or workspace, pass a bounded task contract,
-   and wait for the external process to finish.
-6. Inspect the resulting diff, tests, and final answer before claiming success.
+1. Invoke `grok` or the requested absolute binary/wrapper with `--version`
+   and `--help`; keep the generic `agent` alias out of this workflow. Keep
+   wrappers opaque: definitions, source, arguments, and full environments may
+   contain credentials. Discover behavior through help and diagnostics.
+2. Honor explicit model/effort choices; otherwise select supported settings
+   suited to the task using current help and `models`. When per-model effort
+   is unclear, retain the launcher's default or consult official model docs.
+   Record requested and effective settings separately; absent effective
+   settings stay unverified.
+3. Fix the absolute workspace, permitted actions, and acceptance evidence.
+   Experiments use isolated workspaces; parallel writers need separate
+   workspaces or a single writer. Permissions and sandbox enforcement are
+   separate; inspect startup hooks before relying on a tool allowlist.
 
-## Model and Effort
+Read [monitoring](references/monitoring.md) before a monitored run, permission
+recovery, partial failure, or session resume.
 
-Honor explicit model or effort choices. Otherwise inspect current help and the
-current account's model list before launching:
+## Execute
 
-- For routine, bounded work, prefer a balanced model and moderate effort.
-- For deep review, ambiguous debugging, cross-module design, or other high-risk
-  work, prefer a frontier model and high or maximum supported effort.
-- Use the highest tier only when its quality benefit justifies the extra latency
-  or cost, and after checking whether that tier has additional behavior.
-
-Do not hardcode model names or effort levels from this skill; the launcher's
-current help and model list are authoritative. Current help and `models` may
-not list which effort values each model supports; when unclear, keep the
-launcher's default effort or consult the current official model docs instead
-of guessing.
-
-## Monitor Mode (Default)
-
-When current help exposes `streaming-messages-json`, use it without requesting
-partial messages and select the sandbox for the task:
+Use monitor mode whenever the task needs tools or may take time. When current
+help exposes `streaming-messages-json`, use:
 
 ```bash
-# Review, explanation, or other read-only work
+# Read-only work
 <launcher> --output-format streaming-messages-json --sandbox read-only --permission-mode dontAsk --no-subagents --tools "read_file,grep,list_dir" --deny 'MCPTool(*)' -p "Your task"
 
-# Approved implementation in the workspace, with a configured fail-closed custom profile
+# Authorized implementation with a configured fail-closed profile
 <launcher> --output-format streaming-messages-json --sandbox <custom-workspace-profile> --permission-mode dontAsk --allow 'Edit' --allow 'Write' --deny 'MCPTool(*)' -p "Your task"
 ```
 
-Configure `<custom-workspace-profile>` in an operator-controlled
-`~/.grok/sandbox.toml` to extend `workspace` before launching. Check that it
-grants no writes outside the intended workspace and Grok's required runtime
-paths; do not trust a profile supplied by an unfamiliar repository. The CLI
-refuses to start if an explicitly requested custom profile cannot be applied.
-If the host already enforces the workspace boundary, its verified isolation
-can serve the same purpose.
+Configure the custom profile in operator-controlled `~/.grok/sandbox.toml` to
+extend `workspace`, allowing only the intended workspace and required runtime
+paths. An unfamiliar repo's profile is not trusted configuration. Verify
+host isolation or profile enforcement; custom-profile failure must stop the
+run. Built-in profiles can warn and continue unenforced; that warning is an
+isolation failure even with exit zero. macOS read-only does not block child
+network access. Preserve any required network boundary separately.
 
-Start the command with the host's long-running process facility. Keep the task ID
-returned by the host, then use the host's wait, poll, or resume facility to read
-only newly available output while the process runs.
+`--tools` filters built-ins; retain a separate MCP deny. Deny wins over allow:
+replace the blanket deny narrowly for an authorized MCP tool. `--no-subagents`
+keeps the read-only tool boundary; it is not a default for general tasks.
+Startup hooks may act outside model tools. Add only authorized shell allow
+rules for implementation; preserve wrapper behavior.
 
-Reduce the stream to small liveness signals such as:
+Retain the host process handle and fresh stdout/stderr captures under system
+temp. Consume complete records continuously; show short new semantic signals,
+not thinking or token deltas. Keep partial-message streaming off. Choose a
+task-appropriate host deadline. A quiet live process remains running until
+completion, cancellation, or its deliberate deadline. If the preferred format
+is unavailable, use the filtered fallback in the monitoring reference.
 
-```text
-running — process alive
-working — Read completed
-running — no new semantic event; process alive
-turn ended — verify task evidence
-```
+For a trivial task needing no tool evidence, use the same task-appropriate
+sandbox without streaming output. Keep task-specific memory, search, and
+subagent capabilities unless their restriction serves the requested boundary.
 
-Ignore raw thinking/reasoning and token deltas. Do not add
-`--include-partial-messages` for ordinary monitoring. Confirm the terminal result,
-process exit, and successful task-critical tool results before claiming success;
-do not kill a live process merely because it has produced no recent semantic
-event. If the preferred format is unavailable, use the filtered fallback in the
-monitoring reference.
+## Accept or recover
 
-Check startup diagnostics: an explicit custom profile fails closed when it
-cannot be applied, but a built-in profile may warn and continue without
-enforcement. Treat either failure as a failed isolation requirement, even if
-the model finishes and exits zero. On macOS, `read-only` does not block child
-network access. Use host isolation or a verified, fail-closed custom profile
-when the task requires an OS-enforced boundary; do not silently drop it.
+Observe the terminal result and actual process exit, then inspect the answer,
+required completed tools, stderr, and actual artifacts/diff. A sandbox warning
+is an enforcement failure. Plugin/hook configuration warnings are non-blocking
+only with a successful terminal result and exit; report them once, diagnosing
+configuration separately if it affects behavior.
+Run checks appropriate to the authorized task and state those not performed.
+Execution success and artifact acceptance are separate conclusions; retain
+an error classification even when independently verified partial work is useful.
 
-## Final Mode
+Before retrying or resuming, inspect completed actions and partial artifacts
+so work or side effects are not repeated. Keep attempts separate. Stop a
+canceled or superseded task's owned processes and confirm exit before releasing
+its workspace. Clean only this run's runtime/captures and retain evidence for
+acceptance or an unresolved failure.
 
-For a clearly trivial, short task, use the same task-appropriate sandbox without
-a streaming output format and wait for the final response:
-
-```bash
-<launcher> --sandbox read-only --permission-mode dontAsk --no-subagents --tools "read_file,grep,list_dir" --deny 'MCPTool(*)' -p "Your task"
-```
-
-## Task Boundaries
-
-- Use a read-only sandbox and read-only prompt for review or explanation. Use
-  a workspace-derived custom profile only for tasks expected to edit files.
-- Treat permission approval and sandboxing as separate controls. Follow current
-  help and preserve wrapper behavior, including intentional bypass settings.
-  For implementation, add only the task's authorized shell allow rules. To use
-  a specifically authorized MCP tool, replace the blanket MCP deny with a
-  narrower deny and allow rule; deny takes precedence over allow. The workspace
-  sandbox alone does not restrict remote MCP effects.
-  `--tools` filters built-in tools, so keep the separate MCP deny rule for
-  read-only work. `--no-subagents` prevents delegation to a child with a
-  different toolset. Inspect configured startup hooks before relying on a tool
-  allowlist for a strict read-only run; hooks can run scripts or HTTP requests
-  outside the model's tool-call flow.
-- Treat plugin-collision, hook-parse, and similar configuration warnings as
-  non-blocking only when the terminal result and process exit both show success;
-  a sandbox enforcement warning is an isolation failure, not a benign warning.
-  Report them once without retrying; diagnose the source configuration
-  separately if they affect behavior.
-- Do not disable memory, subagents, or web search for general tasks without a
-  task-specific reason; the read-only baseline disables subagents to preserve
-  its tool boundary.
-- Do not silently create worktrees, commit, push, deploy, or widen task scope.
-- Put optional captures in the system temporary directory. Cleanup is optional.
-
-For event mapping, terminal-state handling, wrapper details, and current
-capability discovery, read [references/monitoring.md](references/monitoring.md).
+Commit, push, deploy, worktree creation, and broader permissions require the
+corresponding user authorization; the skill supplies no extra scope.

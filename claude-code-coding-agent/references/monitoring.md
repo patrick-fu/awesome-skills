@@ -3,7 +3,7 @@
 This reference contains version-sensitive operational details. Verify them
 against the selected launcher before use.
 
-## Discover Current Capabilities
+## Discover current capabilities
 
 ```bash
 <launcher> --version
@@ -11,19 +11,7 @@ against the selected launcher before use.
 <launcher> agents --help
 ```
 
-Current Claude Code help exposes `--model`, `--effort`, `--print`, and
-`--output-format stream-json`. Use current help for supported model aliases,
-effort levels, permission modes, and option placement.
-
-`<launcher>` is a placeholder. It may be `claude`, an absolute path, or a
-user-provided wrapper. A wrapper may inject model, authentication, provider,
-permission, or bypass settings. Preserve those semantics and do not assume the
-raw `claude` defaults apply. Treat wrappers as opaque because their definitions
-or environments may contain credentials: discover their contract only through
-`<launcher> --version` and `<launcher> --help`; do not print definitions, source,
-or environment contents. To verify effective settings without printing a
-wrapper or process arguments, read the init event's `model` and
-`permissionMode`. If these fields are absent, report the uncertainty.
+Inspect current model aliases, effort, and permission flags. Read emitted init settings rather than wrapper definitions. Use `agents --help` only for native background-agent work.
 
 ## Semantic Stream
 
@@ -68,30 +56,29 @@ stdin whenever a variadic option is present. If Claude reports
 blindly. Print mode also requires `--verbose` for stream-json — the error only
 appears at runtime, not in `--help`.
 
-## Polling Contract
+## Retain the process and its evidence
 
-The host's running-task ID is not the Claude conversation/session ID and is not
-the OS PID.
+Use the host's resumable process facility. Its handle, OS PID, and CLI session
+ID are different identities. Save fresh captures for each attempt under system
+temp and continuously consume new complete lines. An old report is not this
+run's result. Preserve full evidence while returning only compact signals.
 
-1. Start the process through the host facility that can yield while retaining
-   the child process.
-2. Save the returned running-task ID.
-3. Reuse that ID with the host's wait, poll, or resume operation.
-4. Parse only new complete JSONL records.
-5. If no semantic record arrives but the process is alive, retain `running`.
-6. Finish only after terminal output and process exit have been observed.
+Without a retained host session, arrange for a supervisor to save the child's
+real exit code. A later shell cannot recover it from a vanished PID. Verify
+that the child survives its launching shell; some hosts reap `nohup ... &`
+children. Prefer a retained foreground session when available.
 
-For any named report or stream file, use a fresh path for this invocation even
-when the host retains the process. A prior run's file is not this run's result.
+Choose a task-appropriate host deadline, allowing any CLI deadline time to
+finish shutdown. Distinguish actual deadline expiry, permission blockage,
+stream failure and cancellation. Silence alone is not a failure. Inspect
+relevant semantic events and process state at a missed checkpoint.
 
-If the host has no resumable process facility, redirect stdout and stderr into a
-fresh directory for each invocation under `${TMPDIR:-/tmp}`, retain the PID and
-have the launch wrapper write the child's exit code to a file when it ends.
-Poll process liveness and newly appended complete lines; a later shell cannot
-recover an exit code from a PID alone. Verify that the child survives its
-launching shell; some hosts reap `nohup ... &` children on shell exit. Prefer a
-foreground host session when available. Temporary captures may be left for
-system cleanup.
+Before another attempt, check completed tools and partial artifacts to avoid
+repeating side effects. Resume only through current CLI capabilities and verify
+continuation identity when emitted. Keep failed and recovered attempts distinct.
+For cancellation or supersession, stop owned processes and confirm exit before
+releasing the workspace. Clean only this run's state, preserving its useful
+acceptance and unresolved-failure evidence.
 
 ## Terminal and Error Handling
 

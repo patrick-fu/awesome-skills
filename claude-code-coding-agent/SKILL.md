@@ -7,113 +7,76 @@ description: >-
 
 # Claude Code Coding Agent
 
-Use Claude Code only after the user or active workflow explicitly selects it as
-the external executor.
+Use the selected launcher to carry a bounded task through execution and host
+verification. Preserve the user's model, permissions, workspace, and scope.
 
-## Minimal Workflow
+## Establish the run
 
-1. Set `<launcher>` to the requested Claude Code binary, absolute path, alias, or
-   wrapper. Preserve a provided wrapper; it may inject model, authentication, or
-   permission settings, including bypass permissions. Treat wrappers as opaque:
-   discover their contract only by invoking `<launcher> --version` or
-   `<launcher> --help`; do not run inspection commands that may print an alias or
-   function definition, open or print wrapper source, or dump its environment
-   because it may contain credentials.
-2. Run `<launcher> --help` before composing version-sensitive flags. Use other
-   subcommand help only when the task needs it.
-3. Choose the model and thinking effort deliberately, following the guidance
-   below and the choices currently exposed by the launcher.
-4. Use monitor mode by default for any task that may take time. Use final mode
-   only when the task is clearly trivial and short.
-5. Run from the intended repository or workspace, pass a bounded task contract,
-   and wait for the external process to finish.
-6. Verify completion evidence before claiming success: findings plus an
-   untouched worktree for read-only tasks; diff and tests for write tasks.
+1. Invoke the requested binary or wrapper with `--version` and `--help`.
+   Keep wrappers opaque: definitions, source, arguments, and full environments
+   may contain credentials. Discover behavior through help and diagnostics;
+   redact secret values from captures.
+2. Honor explicit model/effort choices; otherwise select supported settings
+   suited to the task. Use current help, not cached model names. A wrapper may
+   supply the model; check emitted init settings and alias warnings. Record
+   requested and effective settings separately; absent fields stay unverified.
+3. Fix the absolute workspace, permitted actions, and acceptance evidence.
+   Experiments use isolated workspaces; parallel writers need separate
+   workspaces or a single writer. Verify effective capabilities when a strict
+   read-only boundary is required.
 
-## Model and Effort
+Read [monitoring](references/monitoring.md) before a monitored run, permission
+recovery, partial failure, or session resume. Use subcommand help only for
+capabilities the task needs.
 
-Honor explicit model or effort choices. Otherwise inspect current help before
-launching:
+## Execute
 
-- For routine, bounded work, prefer a balanced model and moderate effort.
-- For deep review, ambiguous debugging, cross-module design, or other high-risk
-  work, prefer a frontier model and high or maximum supported effort.
-- Use the highest tier only when its quality benefit justifies the extra latency
-  or cost, and after checking whether that tier has additional behavior.
-
-Do not hardcode model names or effort levels from this skill; the launcher's
-current help is authoritative. A wrapper may inject the model instead of
-exposing a catalog: the stream's init event reports the effective model and
-effort state, and stderr may warn `unrecognized_model` for wrapper aliases.
-Report what actually ran instead of silently overriding it.
-
-## Monitor Mode (Default)
-
-Put the bounded task contract in a task-specific `TASK_PROMPT` variable and pass
-it through stdin. This remains unambiguous when options such as `--tools` accept
-multiple values and would otherwise consume a trailing positional prompt.
-
-Use Claude Code's semantic JSON stream without requesting partial messages:
+Use monitor mode whenever the task needs tools or may take time. Pass the
+bounded prompt through stdin: variadic options such as `--tools`,
+`--allowedTools`, and `--add-dir` can consume a positional prompt.
 
 ```bash
 printf '%s' "$TASK_PROMPT" | <launcher> --print --output-format stream-json --verbose
 ```
 
-For a read-only review, restrict capabilities explicitly and verify the
-restriction took effect:
+For file-only read-only work:
 
 ```bash
 printf '%s' "$TASK_PROMPT" | <launcher> --print --output-format stream-json --verbose --restricted --strict-mcp-config --tools Read Grep Glob
 ```
 
-After the init event, check that its `tools` list is exactly `Glob`, `Grep`,
-`Read`. Unknown tool names silently empty the list, and a wrapper that injects
-a bypass flag reduces the guarantee to this allowlist — say so in the report.
-`--strict-mcp-config` excludes configured MCP servers from this review.
+Check that init lists exactly `Glob`, `Grep`, and `Read`. Unknown tool names
+can empty the list. `--strict-mcp-config` excludes configured MCP servers;
+a wrapper's bypass flag reduces the guarantee to the verified tool allowlist.
+Permission bypass flags require authorization for this run. Preserve a ban on
+worktree creation, including `EnterWorktree`, when it is part of the task.
 
-Never append a bare positional prompt after `--tools`, `--allowedTools`,
-`--add-dir`, or another variadic option.
+Retain the host process handle and fresh stdout/stderr captures under system
+temp. Consume complete records continuously; show short new semantic signals,
+not thinking or token deltas. Keep partial-message streaming off for ordinary
+monitoring. Choose a task-appropriate host deadline; a quiet live process
+remains running until completion, cancellation, or its deliberate deadline.
 
-Start the command with the host's long-running process facility. Keep the task ID
-returned by the host, then use the host's wait, poll, or resume facility to read
-only newly available output while the process runs.
-
-Reduce the stream to small liveness signals such as:
-
-```text
-running — process alive
-working — Read completed
-running — no new semantic event; process alive
-turn ended — verify task evidence
-```
-
-Ignore raw thinking/reasoning and token deltas. Do not add
-`--include-partial-messages` for ordinary monitoring. Treat the terminal
-`result` event together with process exit as turn completion evidence. Verify
-task-critical tool results before claiming task success; do not kill a live
-process merely because it has produced no recent semantic event.
-
-## Final Mode
-
-For a clearly trivial, short task that needs no tools, wait for one final
-response. Tasks that need file reads or other tool evidence use monitor mode:
+For a trivial task needing no tool evidence, final mode is sufficient:
 
 ```bash
 printf '%s' "$TASK_PROMPT" | <launcher> --print --restricted --strict-mcp-config --tools ""
 ```
 
-## Task Boundaries
+## Accept or recover
 
-- State explicitly whether the task may edit files. Keep review and explanation
-  prompts read-only and findings-first.
-- Follow the current help and wrapper contract for permissions and tool access.
-- Never add `--dangerously-skip-permissions`, `--permission-mode
-  bypassPermissions`, or `--allow-dangerously-skip-permissions` without the
-  user's explicit authorization for that task, and do not pass `-w/--worktree`;
-  when the task contract forbids worktrees, also forbid `EnterWorktree` in the
-  prompt.
-- Do not silently create worktrees, commit, push, deploy, or widen task scope.
-- Put optional captures in the system temporary directory. Cleanup is optional.
+Observe the terminal result and actual process exit, then inspect the answer,
+required completed tools, stderr, and actual artifacts/diff. Check `is_error`;
+`subtype=success` alone can still describe an authentication failure. Run
+checks appropriate to the authorized task and state those not performed.
+Execution success and artifact acceptance are separate conclusions; retain
+an error classification even when independently verified partial work is useful.
 
-For event mapping, terminal-state handling, wrapper details, and current
-capability discovery, read [references/monitoring.md](references/monitoring.md).
+Before retrying or resuming, inspect completed actions and partial artifacts
+so work or side effects are not repeated. Keep attempts separate. Stop a
+canceled or superseded task's owned processes and confirm exit before releasing
+its workspace. Clean only this run's runtime/captures and retain evidence for
+acceptance or an unresolved failure.
+
+Commit, push, deploy, worktree creation, and broader permissions require the
+corresponding user authorization; the skill supplies no extra scope.

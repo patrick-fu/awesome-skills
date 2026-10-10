@@ -3,7 +3,7 @@
 This reference contains version-sensitive operational details. Verify them
 against the selected launcher before use.
 
-## Discover Current Capabilities
+## Discover current capabilities
 
 ```bash
 <launcher> --version
@@ -13,17 +13,7 @@ against the selected launcher before use.
 <launcher> debug models
 ```
 
-Current help exposes `--model`, `--json`, and sandbox selection. The model
-catalog reports available models and their supported reasoning levels. The raw
-`debug models` output is very large: extract only each model's slug,
-visibility, and supported reasoning levels instead of loading it whole. Inspect
-current configuration help or reference material for the exact reasoning-effort
-override rather than copying a stale key or value from this skill.
-
-`<launcher>` is a placeholder. It may be `codex`, an absolute path, or a
-user-provided wrapper. A wrapper may inject model, authentication, profile,
-approval, sandbox, or bypass settings. Preserve those semantics and do not
-assume native defaults apply.
+Extract only needed model slugs, visibility, and reasoning levels; raw `debug models` can be large. Discover effort override syntax in current help. `--ignore-rules` skips user/project rules, not managed requirements; verify effective policy when strict protection matters.
 
 ## Semantic Stream
 
@@ -59,30 +49,29 @@ payloads from command items — a single poll can carry tens of thousands of
 tokens. Classify the run from the terminal turn event plus the process's real
 exit code, never from the item stream alone.
 
-## Polling Contract
+## Retain the process and its evidence
 
-The host's running-task ID is not the Codex thread/session ID and is not the OS
-PID.
+Use the host's resumable process facility. Its handle, OS PID, and CLI session
+ID are different identities. Save fresh captures for each attempt under system
+temp and continuously consume new complete lines. An old report is not this
+run's result. Preserve full evidence while returning only compact signals.
 
-1. Start the process through the host facility that can yield while retaining
-   the child process.
-2. Save the returned running-task ID.
-3. Reuse that ID with the host's wait, poll, or resume operation.
-4. Parse only new complete JSONL records.
-5. If no semantic record arrives but the process is alive, retain `running`.
-6. Finish only after a terminal turn event and process exit have been observed.
+Without a retained host session, arrange for a supervisor to save the child's
+real exit code. A later shell cannot recover it from a vanished PID. Verify
+that the child survives its launching shell; some hosts reap `nohup ... &`
+children. Prefer a retained foreground session when available.
 
-For any named report or stream file, use a fresh path for this invocation even
-when the host retains the process. A prior run's file is not this run's result.
+Choose a task-appropriate host deadline, allowing any CLI deadline time to
+finish shutdown. Distinguish actual deadline expiry, permission blockage,
+stream failure and cancellation. Silence alone is not a failure. Inspect
+relevant semantic events and process state at a missed checkpoint.
 
-If the host has no resumable process facility, redirect stdout and stderr into a
-fresh directory for each invocation under `${TMPDIR:-/tmp}`, retain the PID and
-have the launch wrapper write the child's exit code to a file when it ends.
-Poll process liveness and newly appended complete lines; a later shell cannot
-recover an exit code from a PID alone. Verify that the child survives its
-launching shell; some hosts reap `nohup ... &` children on shell exit. Prefer a
-foreground host session when available. Temporary captures may be left for
-system cleanup.
+Before another attempt, check completed tools and partial artifacts to avoid
+repeating side effects. Resume only through current CLI capabilities and verify
+continuation identity when emitted. Keep failed and recovered attempts distinct.
+For cancellation or supersession, stop owned processes and confirm exit before
+releasing the workspace. Clean only this run's state, preserving its useful
+acceptance and unresolved-failure evidence.
 
 ## Terminal and Error Handling
 

@@ -46,7 +46,7 @@
     {
       "name": "engineering-workflow",
       "skills": [
-        "./write-unit-test",
+        "./testing",
         "./debugging",
         "./generate-commit-message",
         "./git-task-workspace"

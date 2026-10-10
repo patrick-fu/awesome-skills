@@ -227,14 +227,13 @@ answer.
 
 ### 🛠️ Engineering workflow
 
-#### 🧪 [`write-unit-test`](./write-unit-test)
+#### 🧪 [`testing`](./testing)
 
-Write, review, or improve unit tests around behavior, regressions, and domain
-rules. It starts from a caller-visible contract, keeps decisive inputs visible,
-and asserts observable effects.
+Protect production behavior with the smallest useful test set. Use ordinary
+tests, regressions, or requested red-green-refactor loops, with independent
+oracles and bounded async checks. Tautological tests considered harmful.
 
-Use it for production code where breaking the contract should turn the test red
-while harmless internal refactoring stays green.
+Replaces `write-unit-test`; test-first and test-quality details load on demand.
 
 #### 🔦 [`debugging`](./debugging)
 

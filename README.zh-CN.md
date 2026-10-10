@@ -192,12 +192,12 @@ API key 两种认证模式都支持。
 
 ### 🛠️ 工程工作流
 
-#### 🧪 [`write-unit-test`](./write-unit-test)
+#### 🧪 [`testing`](./testing)
 
-围绕行为、回归和领域规则编写、审查或改进单元测试。从调用方可观察的契约出发，让关键
-输入在调用点可见，并断言可观察的效果。
+用最少的有效测试保护生产行为，覆盖普通测试、回归和用户要求的红绿重构流程。
+预期来自独立契约，异步等待有界。强调 Tautological tests considered harmful。
 
-适合生产代码：契约被破坏时测试要红，无害的内部重构则保持绿。
+替代 `write-unit-test`；按需加载 TDD 和测试质量细节。
 
 #### 🔦 [`debugging`](./debugging)
 

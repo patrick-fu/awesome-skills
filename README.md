@@ -80,14 +80,17 @@ local X session after approval; the Jina fallback is opt-in.
 
 ### ✍️ Communication and writing
 
-#### 🔁 [`say-that-again`](./say-that-again)
+#### 🔎 [`explain`](./explain)
 
-A user-invoked reset for explanations that did not land. It adds only the
-necessary context, keeps established terminology, and explains the point again
-in clear, concise, unambiguous Chinese.
+Re-explain a topic, walk through code or design, visualize a difficult
+relationship, recover a named task, or draft PR/MR text, issue replies, and
+QA notes. It follows the requested language and preserves consequential facts
+and uncertainty.
 
-Use it when you did not follow the previous response and want a clearer Chinese
-explanation rather than a lasting response style.
+Orientation, delivery, and visual guidance load only when the request needs
+them. Routine implementation and its completion summary stay in their existing
+workflow. Invoke `$explain` explicitly or let the model select it for a matching
+request.
 
 #### 🧹 [`deslop`](./deslop)
 

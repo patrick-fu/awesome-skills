@@ -1,8 +1,4 @@
----
 interface:
   display_name: "Codex Session Controller"
-  short_description: "Coordinate global work and deliver project outcomes"
-  default_prompt: >-
-    Use $codex-session-controller to coordinate my global work or take
-    responsibility for a project's mainline and delivery within the scope
-    I assign.
+  short_description: "Coordinate assigned project or global work"
+  default_prompt: "Use $codex-session-controller to coordinate project or global work within the responsibility I assign."

@@ -1,4 +1,4 @@
 interface:
   display_name: "Antigravity Coding Agent"
   short_description: "Execute bounded tasks with Antigravity CLI"
-  default_prompt: "Use $antigravity-coding-agent to execute this bounded task with the selected CLI."
+  default_prompt: "Use $antigravity-coding-agent to execute this bounded task with the explicitly selected Antigravity CLI."

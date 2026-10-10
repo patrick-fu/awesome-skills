@@ -1,8 +1,6 @@
----
 interface:
-  display_name: "Explore and Plan"
+  display_name: "Explore And Plan"
   short_description: "Turn a decided direction into an executable plan"
-  default_prompt: "Use $explore-and-plan to create an executable plan."
-
+  default_prompt: "Use $explore-and-plan to turn this sufficiently decided direction into an executable plan."
 policy:
   allow_implicit_invocation: false

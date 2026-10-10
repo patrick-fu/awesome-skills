@@ -2,8 +2,9 @@
 name: explain
 description: >-
   Use for explicit requests to re-explain, walk through code/design, visualize,
-  recover a named prior task, or draft PR/MR text, incident replies, or QA notes.
-  Routine implementation and completion summaries stay in their existing workflow.
+  recover a named prior task, or draft PR/MR text, issue/incident replies, or
+  QA notes. Routine implementation and completion summaries stay in their
+  existing workflow.
 ---
 
 # Explain

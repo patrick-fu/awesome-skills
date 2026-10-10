@@ -3,7 +3,7 @@
 This reference contains version-sensitive operational details. Verify them
 against the selected launcher before use.
 
-## Discover Current Capabilities
+## Discover current capabilities
 
 ```bash
 <launcher> --version
@@ -12,19 +12,7 @@ against the selected launcher before use.
 <launcher> models
 ```
 
-Confirm identity by finding `Start the Cursor Agent` in `--help`; it is not the
-first output line. `--version` prints only a version number, and the bare
-executable name `agent` is not globally unique. Do not use another subcommand
-to probe an opaque wrapper.
-
-Current help exposes `--model`, model listing, `--print`, and
-`--output-format stream-json`. Some models expose effort as a model parameter
-rather than a standalone flag. Use current help and model output for the exact
-syntax and supported values.
-
-`<launcher>` may be an absolute path or a user-provided wrapper. A wrapper may
-inject model, authentication, permission, sandbox, or bypass settings. Preserve
-those semantics and do not assume native defaults apply.
+Confirm `Start the Cursor Agent` in help; a version or the generic `agent` name is insufficient. Use authenticated listing for exact model and effort syntax; report an authentication failure. Discover opaque wrappers only through the supported help/version entry points.
 
 ## Semantic Stream
 
@@ -61,40 +49,34 @@ character deltas. Partial mode can emit duplicate assistant flushes and is
 unnecessary for liveness monitoring. Thinking deltas may still appear without
 that flag; ignore them.
 
-## Polling Contract
+## Retain the process and its evidence
 
-The host's running-task ID is not the Cursor chat/session ID and is not the OS
-PID.
+Use the host's resumable process facility. Its handle, OS PID, and CLI session
+ID are different identities. Save fresh captures for each attempt under system
+temp and continuously consume new complete lines. An old report is not this
+run's result. Preserve full evidence while returning only compact signals.
 
-1. Start the process through the host facility that can yield while retaining
-   the child process.
-2. Save the returned running-task ID.
-3. Reuse that ID with the host's wait, poll, or resume operation.
-4. Parse only new complete JSONL records.
-5. If no semantic record arrives but the process is alive, retain `running`.
-6. Finish only after terminal output and process exit have been observed.
-
-A live headless process can be waiting for an approval that no terminal can
-provide. One Cursor run allowed file writes with `--trust` but stalled for five
-minutes on a shell command. Set a host-side deadline for the task; if it stays
-silent, inspect permission mode and tool events before diagnosing model slowness.
-Stop only the blocked run, preserve its stream, and rerun with scoped approval
-only when shell execution was authorized. `--trust` alone does not approve it.
-
-For any named report or stream file, use a fresh path for this invocation even
-when the host retains the process. A prior run's file is not this run's result.
-
-If the host has no resumable process facility, redirect stdout and stderr into a
-fresh directory for each invocation under `${TMPDIR:-/tmp}`, retain the PID and
-have the launch wrapper write the child's exit code to a file when it ends.
-Poll process liveness and newly appended complete lines; a later shell cannot
-recover an exit code from a PID alone.
-Accept a report artifact only when it was produced for this invocation and its
-content agrees with the completed tool and terminal events; an old `response.md`
-can survive an aborted run while a later run writes a different report. Verify
+Without a retained host session, arrange for a supervisor to save the child's
+real exit code. A later shell cannot recover it from a vanished PID. Verify
 that the child survives its launching shell; some hosts reap `nohup ... &`
-children on shell exit. Prefer a foreground host session when available.
-Temporary captures may be left for system cleanup.
+children. Prefer a retained foreground session when available.
+
+Choose a task-appropriate host deadline, allowing any CLI deadline time to
+finish shutdown. Distinguish actual deadline expiry, permission blockage,
+stream failure and cancellation. Silence alone is not a failure. Inspect
+relevant semantic events and process state at a missed checkpoint.
+
+Before another attempt, check completed tools and partial artifacts to avoid
+repeating side effects. Resume only through current CLI capabilities and verify
+continuation identity when emitted. Keep failed and recovered attempts distinct.
+For cancellation or supersession, stop owned processes and confirm exit before
+releasing the workspace. Clean only this run's state, preserving its useful
+acceptance and unresolved-failure evidence.
+
+A live headless process may be waiting for approval. `--trust` allowed file
+writes in an observed run but shell approval remained blocked. Inspect
+`result.rejected` and permission state; correct flags only within authorized
+execution scope, with a harmless completed-command probe.
 
 ## Terminal and Error Handling
 

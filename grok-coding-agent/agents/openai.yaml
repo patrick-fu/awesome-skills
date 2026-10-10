@@ -1,0 +1,4 @@
+interface:
+  display_name: "Grok Coding Agent"
+  short_description: "Execute bounded tasks with Grok Build CLI"
+  default_prompt: "Use $grok-coding-agent to execute this bounded task with the selected CLI."

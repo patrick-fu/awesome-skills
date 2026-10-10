@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Coding Agent"
+  short_description: "Execute bounded tasks with Codex CLI"
+  default_prompt: "Use $codex-coding-agent to execute this bounded task with the selected CLI."

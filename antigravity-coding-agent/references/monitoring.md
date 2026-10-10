@@ -1,213 +1,124 @@
-# Antigravity Monitoring Reference
+# Antigravity Monitoring
 
-This reference contains version-sensitive operational details, observed on
-Antigravity CLI 1.2.11 and 1.2.12. Verify them against the selected launcher
-before use.
+Read this for stream parsing, completion decisions, permission recovery, or
+resume. The launch and authorization contract is in [SKILL.md](../SKILL.md).
+Behavioral observations below cover 1.2.11–1.2.12; help was rechecked on
+1.3.3. Verify version-sensitive behavior with the selected launcher.
 
-## Discover Current Capabilities
+## Retain the process and its evidence
 
-```bash
-<launcher> --version
-<launcher> --help
-<launcher> help <subcommand>
-<launcher> models
-<launcher> changelog
-```
+Use the host's resumable process facility; save its task handle and consume
+new complete stdout/stderr lines continuously. The host handle, OS PID, and
+Antigravity conversation ID identify different things. Keep fresh captures
+for each attempt; an earlier report is not evidence for this one.
 
-Current help exposes `--model`, `--effort` (`low|medium|high|max`), `--print`
-(`-p`), `--print-timeout`, `--output-format` (`text|json|stream-json`),
-`--continue`/`--conversation`, `--mode` (`accept-edits|plan`), `--sandbox`, and
-`--dangerously-skip-permissions`. `<launcher> models` lists the account or
-endpoint catalog with effort-tiered display names. `<launcher> changelog` is
-the authoritative record of behavioral changes between versions.
+Without that facility, capture to a fresh system-temp directory, retain the
+PID, and arrange for the launch wrapper to save the child's exit code. A later
+shell cannot recover that code from a vanished PID. Verify the child survives
+its launching shell; some hosts reap even `nohup ... &` children. Prefer a
+foreground host session when available.
 
-`<launcher>` is a placeholder. It may be `agy`, an absolute path, or a
-user-provided wrapper. A wrapper may inject model, authentication, provider,
-permission, or bypass settings. Preserve those semantics and do not assume the
-raw `agy` defaults apply. Treat wrappers as opaque because their definitions or
-environments may contain credentials: discover their contract only through
-`<launcher> --version` and `<launcher> --help`; do not print definitions,
-source, or environment contents.
+Measure deadlines with host wall time. `result.duration_seconds` differed
+substantially from elapsed time in a 1.2.12 failure. Choose the CLI deadline
+deliberately and give a host watchdog time for CLI shutdown. Distinguish an
+observed timeout warning, watchdog action, stream failure, and user cancel;
+quiet output alone is not a termination signal.
 
-## Semantic Stream
+## Parse the selected output
 
-The compact monitoring baseline is:
+| Format | Evidence available |
+| --- | --- |
+| `text` | Final prose |
+| `json` | One object: `conversation_id`, `status`, `response`, duration, `num_turns`, usage; failure may add `error` |
+| `stream-json` | JSONL `init`, `step_update`, terminal `result`; use for required tool evidence |
 
-```bash
-<launcher> -p "$TASK_PROMPT" --output-format stream-json
-```
+`--input-format stream-json` accepts NDJSON turns on stdin and requires
+`--output-format stream-json`. Invalid output-format values were silently
+treated as text; use a supported value.
 
-The stream is JSONL. Consume complete lines continuously so the child process
-cannot block on a full stdout pipe.
+Parse `event`, not `type`. In
+`{"event":"result","result":{"status":"SUCCESS","response":"..."}}`,
+the answer is `result.response`. `step_update.text_delta` is a field, not a
+separate event; omit thinking and token deltas from progress reports.
 
-Useful event classes:
+| Event | Host interpretation |
+| --- | --- |
+| `init` | Running; record cwd, tools, permission mode, conversation ID and model when emitted |
+| `step_update.state: ACTIVE` | Step started |
+| `step_update.state: DONE` | Step ended; inspect tool output/error before calling it successful |
+| `result` | Classify the turn below, then confirm actual process exit |
 
-| Antigravity event | Compact host state |
-|---|---|
-| `init` (cwd, tools, permission_mode; optional model) | `running` |
-| `step_update` with `state: ACTIVE` | `working — <step_type> started` |
-| `step_update` with `state: DONE` | `working — <step_type> completed` |
-| terminal `result` with `status: SUCCESS` and exit 0 | `turn ended; verify task evidence` |
-| non-SUCCESS `result` with a non-empty response and exit 0 | `error; inspect and independently verify partial work` |
-| non-SUCCESS `result` with empty response, `AGY_ERROR`, or nonzero exit | `failed or incomplete` |
+Short replies may have no ACTIVE step. Missing `init.model` leaves the
+effective model unverified; retain the explicit requested model separately.
+Preserve full captures while parsing, rather than keeping only grep/tail
+output. An incomplete final JSON line is incomplete stream evidence.
 
-`text_delta` is a field on `step_update`, not a separate event; ignore its
-content for liveness. Short replies can go straight to `state: DONE` without a
-visible `ACTIVE` state.
-The `init.model` field may be absent when `--model` was omitted. For model
-comparisons, pin `--model`, record the requested model outside the stream, and
-check `init.model` when emitted. If it is missing, report the effective model
-as unverified; do not infer the default from a missing field.
+## Decide completion
 
-Parse the `event` key, not `type`. The terminal envelope is
-`{"event":"result","result":{"status":"SUCCESS","response":"..."}}`:
-`result` is an object and the answer is `result.response`. For a single-turn
-read-only review, this extracts a non-empty successful answer from a saved
-JSONL stream (and fails if no matching terminal record exists):
+| Observed evidence | Decision |
+| --- | --- |
+| SUCCESS, exit 0, nonempty response, required tools completed, no denied actions or timeout | Turn completed; independently accept or reject the answer/artifacts |
+| SUCCESS/exit 0, empty response or `denied_actions` | Task not established; inspect permission/tool failures |
+| ERROR with nonempty response, even exit 0 | Keep ERROR; inspect `result.error` and independently verify useful partial work |
+| No terminal result, partial JSON, or timeout warning on stderr | Incomplete; preserve partial evidence even with response text or exit 0 |
+| Other non-SUCCESS status, structured failure, or nonzero exit | Failed/interrupted/not completed; retain the actual status and cause |
+
+Ordinary stderr warnings alone do not invalidate a successful turn. Since
+1.2.6, print-timeout expiry can return partial output and exit 0 with a warning.
+A zero-byte answer or disappearing PID does not establish completion.
+
+For answer extraction only, after saving a stream:
 
 ```bash
 jq -er '
-  select(.event == "result")
-  | .result
+  select(.event == "result") | .result
   | select(.status == "SUCCESS" and ((.denied_actions // []) | length) == 0)
-  | .response
-  | select(length > 0)
+  | .response | select(length > 0)
 ' "$STREAM_FILE"
 ```
 
-This is only an extraction check; also verify the process exit and required
-tool results and inspect stderr for a timeout warning. Do not filter the live
-stream through `grep` or `tail` as the sole capture: that can hide terminal
-records and the CLI exit status. This clean-success check intentionally rejects
-non-SUCCESS records even when they contain a usable partial response.
+This does not check the exit, timeout, completed tools, or artifact correctness.
 
-## Exit Codes and Completion Evidence
+| Exit | Diagnostic to inspect |
+| --- | --- |
+| 1 | Model/effort selection conflict |
+| 2 | Usage: unknown flag, positional prompt, or incompatible input/output formats |
+| 3 | `AGY_ERROR: {...}` on stderr: `status`, `error_code`, `retryable`, `error_id` |
 
-- Exit 0 with a terminal `result.status: SUCCESS` and a non-empty response —
-  turn completed; verify task-critical tool results and no timeout warning
-  before claiming success.
-- Exit 0 with `result.status: SUCCESS` but an empty response and
-  `denied_actions` in the result — headless permission auto-denial; not a
-  completed task (see below).
-- Exit 0 with `result.status: ERROR` and a non-empty response — keep the run's
-  error classification and inspect `result.error`. A 1.2.12 high-concurrency
-  run produced correct answers after interrupted API streams while retaining
-  `ERROR`; accept any useful result only after independent checks of the
-  answer, required tools, and artifacts. Do not silently count it as a clean
-  success or discard verified work.
-- Exit 1 — model or effort selection conflicts, such as a mismatched
-  `--model`/`--effort` pair.
-- Exit 2 — usage errors: unknown flags, a trailing positional prompt, or
-  `--input-format stream-json` without `--output-format stream-json`.
-- Exit 3 with an `AGY_ERROR: {...}` JSON line on stderr — model, agent, or API
-  failure; the JSON carries `status`, `error_code`, `retryable`, and
-  `error_id`. Since 1.2.10 this includes runs that streamed partial output
-  before failing; older versions could exit 0 after partial output. Retain the
-  complete stream, stderr, and artifacts for every such run before deciding
-  whether to retry; never overwrite this attempt's capture.
-- When `AGY_ERROR.retryable` is false, stop retrying or resuming the same run.
-  Report which work was verified and which result was never produced. A fresh,
-  smaller task is a separate attempt, not a successful resume.
-- Invalid `--output-format` values are silently treated as text.
-- If output ends with an incomplete JSON line, report an incomplete stream
-  rather than manufacturing completion.
-- If the process exits or its explicit `--print-timeout` expires without a
-  terminal `event: result`, retain the partial stream and report an incomplete
-  run. A zero-byte final-answer file is not a successful review.
-- Since 1.2.6, `--print-timeout` expiry can return partial output and exit 0
-  with a warning on stderr. Treat that warning as an incomplete run even when
-  the stream contains a non-empty response.
-- Measure elapsed time at the host for watchdogs and capacity planning. In one
-  1.2.12 load test, a failed job took 164 seconds externally while
-  `result.duration_seconds` reported 31; do not use that field as the only
-  timeout clock. Record model, endpoint, task mix, error rate, and wall time
-  before generalizing a concurrency limit.
+Since 1.2.10, exit 3 can follow partial streamed output; older versions could
+exit 0. Preserve this attempt's stream, stderr and artifacts before recovery.
+If `AGY_ERROR.retryable` is false, stop retrying/resuming that run; a fresh
+bounded task is a separate attempt. HTTP success does not prove a complete
+model stream: an interrupted response needs its actual finish/error evidence.
 
-## Headless Permissions
+## Recover permissions or resume
 
-The default `permission_mode` is `request-review`: in a TTY, file writes pause
-for an interactive diff review. In headless runs nothing can approve, so any
-tool request needing an un-granted permission is auto-denied. Verified against
-1.2.11:
+Headless tools cannot obtain interactive approval. Soft denial may still
+exit 0; check `denied_actions`, tool errors and actual output. In 1.2.11 a
+settings `permissions.allow` rule did not rescue a write request; current
+[headless documentation](https://antigravity.google/docs/cli/headless/)
+describes scoped allow rules and auto-allowed workspace writes. Probe the
+intended permission setup before relying on either version's behavior.
 
-- `permissions.allow` rules in `settings.json` did not rescue a `write_file`
-  request in one 1.2.11 observation, and the binary carries conflicting
-  messages about them; treat headless allow-rules as unverified and test
-  before relying on them.
-- The process exits 0 even when a tool was auto-denied; the empty response and
-  `denied_actions` in the result are the tell.
-- `--dangerously-skip-permissions` auto-approves all tool requests and is the
-  supported headless path for write tasks. See the skill body for the
-  authorization boundary.
+For file-only recovery, list paths host-side, supply them in the prompt and
+request `view_file`. Require DONE reads with usable output and no tool error
+for every required target, then a nonempty successful answer and no denial.
+Since 1.2.7 a missing listing tool could lead to denied `run_command` instead.
+If commands are essential, establish the authorized host boundary before
+broader approval. `--dangerously-skip-permissions` approves every tool.
 
-### Read-only no-op recovery
+Tool permission modes and `--mode` are separate. Observed execution modes
+are `accept-edits` and `plan`; omit the flag for default (`--mode default`
+errors). Planning does not enforce an OS read-only boundary. Discover current
+permission fields/flags through help rather than guessing presets.
 
-Since 1.2.7 the default toolset has no directory-listing tools, so a headless
-run over an unfamiliar repo probes with `run_command`, whose permission is
-auto-denied; the run can end `SUCCESS` with an empty response. Recover without
-bypass: list the files host-side (`git ls-files` or `ls -R`), put the list
-into the prompt, and instruct the run to read only through `view_file`, which
-is auto-approved for workspace paths. Confirm recovery by `denied_actions`
-disappearing and a non-empty `response`.
+After the partial-action checks in the main skill, `--continue`/`-c` resumes
+the latest conversation; `--conversation <id>` selects one. Verify the same
+`conversation_id` and increasing `num_turns`. An unknown ID can warn and
+start fresh with exit 0, so exit alone does not prove resume.
 
-Permission modes (`request-review`, `always-proceed`, `strict`,
-`proceed-in-sandbox`) and the `--mode` execution modes are separate controls;
-`--mode` accepts `accept-edits` and `plan` only (omitting it is the implicit
-default; passing `default` errors), and `plan` researches and plans without
-making changes. Treat `toolPermission` and permission-preset fields in
-`settings.json` as version-sensitive; prefer documented CLI flags.
-
-## Session Resume
-
-`--continue` (or `-c`) resumes the most recent conversation in headless mode;
-`--conversation <id>` targets a specific one. Each `-p` run against the same
-conversation increments `num_turns` in the `result` and JSON output. An
-unknown `--conversation` id only warns and starts a fresh conversation with
-exit 0, so verify a resume by the matching `conversation_id` and an
-incremented `num_turns` in the JSON result, not by exit status.
-
-## Output Formats
-
-- `text` (default): final-answer prose only.
-- `json`: one JSON object with `conversation_id`, `status`, `response`,
-  `duration_seconds`, `num_turns`, and token usage; failures add an `error`
-  field. Parse this when the caller needs machine-readable final output.
-- `stream-json`: the JSONL event stream used for monitoring. `--input-format
-  stream-json` additionally accepts NDJSON turns on stdin for multi-turn
-  driving and requires `--output-format stream-json`.
-
-## Polling Contract
-
-The host's running-task ID is not the Antigravity conversation ID and is not
-the OS PID.
-
-1. Start the process through the host facility that can yield while retaining
-   the child process.
-2. Save the returned running-task ID.
-3. Reuse that ID with the host's wait, poll, or resume operation.
-4. Parse only new complete JSONL records.
-5. If no semantic record arrives but the process is alive, retain `running`.
-6. Finish only after terminal output and process exit have been observed.
-
-For any named report or stream file, use a fresh path for this invocation even
-when the host retains the process. A prior run's file is not this run's result.
-
-If the host has no resumable process facility, redirect stdout and stderr into
-a fresh directory for each invocation under `${TMPDIR:-/tmp}`, retain the PID,
-and have the launch wrapper write the child's exit code to a file when it ends.
-Poll process liveness and newly appended complete lines; a later shell cannot
-recover an exit code from a PID alone. Only accept artifacts created for that
-invocation; a pre-existing report file can be residue from an aborted run.
-Verify that the process survives the launching shell: some hosts reap
-`nohup ... &` children as soon as that shell
-exits. Prefer a foreground host session when available. Temporary captures may
-be left for system cleanup.
-
-## Terminal and Error Handling
-
-- A terminal `result` is the stream-level completion marker; combine it with
-  the process exit code; neither a PID disappearing nor a plausible
-  final-looking message is sufficient by itself.
-- Preserve stderr for diagnosis; `AGY_ERROR` is the structured failure record.
-- Do not convert an otherwise successful run into failure solely because stderr
-  contains warnings.
+For capabilities not needed by an ordinary run, use `help <subcommand>` or
+`changelog` on demand. Current help and online documentation can disagree:
+1.3.3 help shows timeout default 0s and effort xhigh/max, while the online
+reference still lists 5m and low/medium/high. Use the selected launcher's help
+and model catalog; a global effort enum does not prove model-specific support.

@@ -1,47 +1,60 @@
 ---
-name: write-unit-test
+name: testing
 description: >-
-  Use when writing, reviewing, or improving unit tests for production business
-  code, including regression, async, integration-boundary, and mock-heavy cases.
+  Write, improve, or prune automated tests for production software; run
+  test-first development when requested. Not for skill or prompt evaluations.
 ---
 
-# Write Unit Tests
+# Testing
 
-Use this advisory skill for production product or business code. Prompt, skill,
-and agent-behavior evaluation need different methods.
+Protect meaningful behavior with the smallest useful test set. Match the
+request: ordinary testing, regression work, or a requested test-first loop.
+A tests-only request keeps production changes outside its scope.
 
-## Method
+## Contract
 
-1. Read the exported surface, its callers, nearby tests, and shared test
-   utilities. State one caller-visible contract and the regression risk it
-   guards.
-2. Write one test whose name states the expected outcome. Keep the decisive
-   input visible at the call site; split distinct behaviors.
-3. Assert observable effects: returned values, public state, stable error types
-   or codes, persistence, emitted events, rendered UI, or a boundary call when
-   that call is itself the contract.
-4. Build the smallest realistic setup. Match real data and error shapes;
-   isolate only the lowest true external boundary.
-5. For a regression or test-first change, confirm the test is red for the
-   intended reason before relying on it.
-6. Run the focused test and relevant suite. Finish only when breaking the
-   stated contract would fail the test while harmless internal refactoring
-   would not.
+Read the relevant public surface, callers, existing tests and repository
+conventions. Identify the caller-visible contract, important failure risk and
+cheapest boundary that exercises it. Reuse accepted decisions; resolve only
+real contract ambiguity. Keep production APIs product-driven.
 
-## Judgment
+## Minimum
 
-- Prefer exact domain outcomes and meaningful fields. Use full snapshots or
-  full error messages only when the entire representation is the contract.
-- Use a real dependency or small fake when its behavior matters. Mocks fit
-  slow, flaky, costly, or external boundaries; verify collaborator calls only
-  when the call is externally meaningful.
-- Wait for the condition or event that proves async completion. Use a
-  controlled clock or fixed delay only when timing itself is the contract.
-- Keep contract-relevant fields in test doubles; partial mock shapes can hide
-  downstream assumptions.
-- Let builders remove noise while exposing the value that makes the case
-  meaningful.
-- Treat private-state access as a coupling signal. Keep test-only affordances
-  in test utilities and production APIs product-driven.
-- Match the repository's existing framework, naming, placement, and helper
-  conventions.
+Reuse checks that already protect the change. Add tests for distinct uncovered
+risks, not edited lines. Behavior-preserving refactors may need only existing
+checks. Prefer one readable test for one outcome, with the relevant assertions;
+split when independent behaviors or setups would obscure failures. Minimize
+redundancy without deleting distinct protection.
+
+## Mode
+
+- **Tests:** exercise the subject with concrete inputs and independent expected
+  outcomes. Choose the smallest realistic setup and true external boundary.
+- **TDD / regression:** read [Test-first](references/test-first.md) for the
+  red → green loop, failing-before evidence and after-fix sensitivity checks.
+- **Quality:** also read [Test quality](references/test-quality.md) before
+  writing async tests or boundary doubles, and when pruning tests or evaluating
+  suspect assertions, constants or overlapping coverage.
+
+## Proof
+
+A useful test distinguishes a relevant defect while accepting equivalent
+implementations. Observe returned values, public state, persistence, events or
+boundary interactions when those interactions are the contract. Use real
+mechanisms or small faithful fakes where their behavior matters.
+
+**Tautological tests considered harmful.** A result compared with itself has
+no independent oracle; obtain expectations from the contract or a worked
+example. Copying an algorithm can share its bug but is not necessarily a
+strictly tautological assertion.
+
+Internal constant, prompt-string or source-shape pins usually protect no
+behavior; exercise the mechanism instead. Independently specified public
+values and absence of forbidden effects can be real contracts.
+
+## Evidence
+
+Run focused checks and the relevant suite. Report actual commands, results and
+coverage gaps. Distinguish reproduction of the original bug, sensitivity to a
+mutation, and passing-after evidence. Missing required automated tests or
+execution remain pending; an alternative check does not waive the request.

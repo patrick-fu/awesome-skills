@@ -1,0 +1,4 @@
+interface:
+  display_name: "Testing"
+  short_description: "Minimal behavior tests and test-first loops"
+  default_prompt: "Use $testing to protect the critical behavior with the smallest useful test set."

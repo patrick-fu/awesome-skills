@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cursor Coding Agent"
+  short_description: "Execute bounded tasks with Cursor CLI"
+  default_prompt: "Use $cursor-coding-agent to execute this bounded task with the selected CLI."

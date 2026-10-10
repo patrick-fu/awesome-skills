@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Async Followup"
+  short_description: "Arrange follow-ups for otherwise idle async waits"
+  default_prompt: "Use $codex-async-followup to arrange a follow-up for this asynchronous wait when no independent work or existing Goal covers it."

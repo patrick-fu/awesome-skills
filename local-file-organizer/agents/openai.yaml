@@ -1,11 +1,6 @@
----
 interface:
   display_name: "Local File Organizer"
-  short_description: "逐文件拆解、归类并安全重组本地资料"
-  default_prompt: >-
-    Use $local-file-organizer to recursively inspect each safe atomic unit,
-    classify it by actual purpose and ownership, and propose a reversible
-    ledger before any authorized changes.
-
+  short_description: "Organize files with a reversible change ledger"
+  default_prompt: "Use $local-file-organizer to inspect this directory and propose a reversible organization plan before making authorized changes."
 policy:
   allow_implicit_invocation: false

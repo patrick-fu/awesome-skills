@@ -1,11 +1,11 @@
 ---
-name: testing
+name: tdd
 description: >-
   Write, improve, or prune automated tests for production software; run
   test-first development when requested. Not for skill or prompt evaluations.
 ---
 
-# Testing
+# TDD
 
 Protect meaningful behavior with the smallest useful test set. Match the
 request: ordinary testing, regression work, or a requested test-first loop.

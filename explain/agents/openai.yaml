@@ -1,6 +1,4 @@
----
 interface:
   display_name: "Explain"
-  short_description: "Clarify, visualize, resume context, or write change notes"
-  default_prompt: "Use $explain to clarify this topic or prepare the requested
-    change note."
+  short_description: "Clarify topics, recover context, and draft change notes"
+  default_prompt: "Use $explain to clarify this topic or prepare the requested change note at the depth I ask for."

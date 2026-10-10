@@ -1,0 +1,4 @@
+interface:
+  display_name: "Faster Learning Coach"
+  short_description: "Learn through practice, feedback, and teach-back"
+  default_prompt: "Use $faster-learning-coach to help me learn this topic through practice, feedback, and teach-back."

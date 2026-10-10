@@ -1,0 +1,4 @@
+interface:
+  display_name: "Brainstorm"
+  short_description: "Explore possibilities before choosing a direction"
+  default_prompt: "Use $brainstorm to broaden the possible approaches to this idea before choosing a direction."

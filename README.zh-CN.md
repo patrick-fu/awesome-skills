@@ -192,12 +192,13 @@ API key 两种认证模式都支持。
 
 ### 🛠️ 工程工作流
 
-#### 🧪 [`testing`](./testing)
+#### 🧪 [`tdd`](./tdd)
 
 用最少的有效测试保护生产行为，覆盖普通测试、回归和用户要求的红绿重构流程。
 预期来自独立契约，异步等待有界。强调 Tautological tests considered harmful。
 
-替代 `write-unit-test`；按需加载 TDD 和测试质量细节。
+替代 `testing` 和 `write-unit-test`；按需加载 TDD 和测试质量细节，并承接上游的
+`tdd` 技能调用。
 
 #### 🔦 [`debugging`](./debugging)
 

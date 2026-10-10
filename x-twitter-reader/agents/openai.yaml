@@ -1,0 +1,4 @@
+interface:
+  display_name: "X Twitter Reader"
+  short_description: "Read original X posts, threads, articles, and media"
+  default_prompt: "Use $x-twitter-reader to read the original content and relevant thread from this X URL."

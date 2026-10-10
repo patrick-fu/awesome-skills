@@ -1,12 +1,6 @@
----
 interface:
   display_name: "Parallel Goal Workflows"
-  short_description: >
-    User-invoked workflow for delegated goals with clean local briefs.
-  default_prompt: >
-    Use $parallel-goal-workflows for a complex task that benefits from
-    delegated goal ownership, focused helpers, review, repair, acceptance, and
-    a concise final report. Describe the goal, constraints, scope, and evidence
-    you want.
+  short_description: "Assign goal ownership through verified acceptance"
+  default_prompt: "Use $parallel-goal-workflows to assign each top-level goal to one owner and carry the work through verified acceptance."
 policy:
   allow_implicit_invocation: false

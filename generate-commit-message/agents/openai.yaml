@@ -1,0 +1,4 @@
+interface:
+  display_name: "Generate Commit Message"
+  short_description: "Draft clear and concise Git commit messages"
+  default_prompt: "Use $generate-commit-message to draft a concise commit message for these changes."

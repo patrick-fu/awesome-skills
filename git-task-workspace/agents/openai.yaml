@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Task Workspace"
+  short_description: "Manage task workspaces, worktrees, and dependencies"
+  default_prompt: "Use $git-task-workspace to manage the task workspace and required repository dependencies."

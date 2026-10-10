@@ -1,9 +1,4 @@
----
 interface:
-  display_name: Audio Transcription
-  short_description: Transcribe local media offline on Apple Silicon, or online with explicit upload.
-  default_prompt: >-
-    Use $audio-transcription for an explicit local media transcription request.
-    Start with the bundled plan command. Local Qwen plus MOSS requires macOS
-    Apple Silicon (arm64). Use Doubao only when the user explicitly requests
-    cloud transcription or permits upload; that path uploads audio.
+  display_name: "Audio Transcription"
+  short_description: "Transcribe local or approved cloud audio"
+  default_prompt: "Use $audio-transcription to transcribe this media using the explicitly requested local or cloud route."

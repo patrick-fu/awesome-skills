@@ -227,13 +227,14 @@ answer.
 
 ### 🛠️ Engineering workflow
 
-#### 🧪 [`testing`](./testing)
+#### 🧪 [`tdd`](./tdd)
 
 Protect production behavior with the smallest useful test set. Use ordinary
 tests, regressions, or requested red-green-refactor loops, with independent
 oracles and bounded async checks. Tautological tests considered harmful.
 
-Replaces `write-unit-test`; test-first and test-quality details load on demand.
+Replaces `testing` and `write-unit-test`; test-first and test-quality details
+load on demand. The `tdd` entrypoint also serves upstream TDD skill calls.
 
 #### 🔦 [`debugging`](./debugging)
 

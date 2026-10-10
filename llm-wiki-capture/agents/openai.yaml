@@ -1,10 +1,6 @@
----
 interface:
   display_name: "LLM Wiki Capture"
-  short_description: >
-    Capture sessions and sources, audit a Wiki, or bootstrap one from zero.
-  default_prompt: >
-    Use $llm-wiki-capture to route this request into Session Capture, Source
-    Ingest, Full Integration, Bootstrap, or review-only for an LLM Wiki.
+  short_description: "Capture material through the authorized Wiki workflow"
+  default_prompt: "Use $llm-wiki-capture to capture the supplied material within the authorized LLM Wiki workflow."
 policy:
   allow_implicit_invocation: false

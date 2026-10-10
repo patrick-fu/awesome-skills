@@ -1,4 +1,4 @@
 interface:
   display_name: "Long Task Control"
-  short_description: "Correct task drift and close on verified outcomes"
-  default_prompt: "Use $long-task-control to reassess this task, preserve valid work, and continue toward verified completion."
+  short_description: "Re-anchor drifting work toward verified completion"
+  default_prompt: "Use $long-task-control to re-anchor this task, preserve valid work, and continue toward verified completion."

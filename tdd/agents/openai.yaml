@@ -1,4 +1,4 @@
 interface:
-  display_name: "Testing"
-  short_description: "Minimal behavior tests and test-first loops"
-  default_prompt: "Use $testing to protect the critical behavior with the smallest useful test set."
+  display_name: "TDD"
+  short_description: "Develop and test behavior with minimal meaningful checks"
+  default_prompt: "Use $tdd to run a minimal test-first loop with independent expected outcomes."

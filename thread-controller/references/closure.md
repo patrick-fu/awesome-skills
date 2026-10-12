@@ -1,7 +1,7 @@
 # Completion and handoff
 
-Use this reference when a title or report would claim completion, a checkpoint,
-or a handoff, or when reviewing someone else's claim.
+Use for completion, checkpoint, or handoff decisions about assigned work,
+including claims whose acceptance would release a dependency.
 
 Compare the claim with the session's overall task, the user's latest intent,
 and available results. Reuse valid delivery and verification evidence. Look
@@ -18,13 +18,9 @@ Use a checkpoint state when the user or task already defines an intermediate
 result and work is being parked there. Ordinary progress can stay in the active
 state; it does not need an invented checkpoint.
 
-A handoff transfers remaining responsibility from the predecessor to the
-successor. Judge the title from the named session's side: the predecessor has
-handed off its work; the successor now owns work that is still ongoing. A
-receiving worker uses its actual work state, and a receiving controller uses
-its normal role headline. For controller handoffs, use
-`codex-session-controller` to verify acceptance and routing before representing
-the transfer as complete.
+A handoff transfers remaining responsibility after the successor accepts it.
+The predecessor has handed off unfinished work; the successor owns ongoing work.
+For controller transfers, use [handoff.md](handoff.md) for acceptance and routing.
 
 When new evidence challenges a completion claim, reassess the original task.
 If the outcome is still incomplete, reflect the remaining work. If the task is

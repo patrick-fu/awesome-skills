@@ -20,9 +20,9 @@
     },
     {
       "id": "controller-title-stays-accurate",
-      "session_context": "Environment: Codex desktop app. Agent path: /root. Earlier user message on 2026-09-14: 你是这台 MacBook 的主控，负责持续协调本机任务。 Current task title: 🕹️ MacBook 主控 · 2026-09-14. Latest worker results: build-a is compiling; build-b is running tests.",
+      "session_context": "Environment: Codex desktop app. Agent path: /root. Earlier user message on 2026-09-14: 你是这台 MacBook 的主控，负责持续协调本机任务。 Current task title: 🕹️ MacBook 主控. Latest worker results: build-a is compiling; build-b is running tests.",
       "prompt": "用一句话解释一下为什么同时开太多编译会变慢。",
-      "expected_behavior": "Answer the question and retain the accurate controller title. Applying naming does not require a title mutation, a worker-style focus, or a completion marker for an ongoing controller role."
+      "expected_behavior": "Answer the question and retain the accurate controller title from the established role. Applying naming does not require loading controller procedures, a title mutation, a worker-style focus, or a completion marker for an ongoing controller role."
     },
     {
       "id": "worker-state-transition",

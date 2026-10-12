@@ -21,8 +21,16 @@ evidence for the described artifact.
 
 **Frame.** Answer first, or establish the current position when catching up.
 Reframe a confusing explanation with a different structure, example, or view.
-Use stable terms, explain unfamiliar ones locally, and keep each section around
-one idea. Match the requested depth.
+Apply ISO 24495-1's outcome standard: the intended reader can find,
+understand, and use the result. Borrow ASD-STE100's controlled-expression
+discipline—stable terms, direct sentence patterns, and explicit actions or
+conditions—without importing its English-only word list. Explain unfamiliar
+terms locally, keep each section around one idea, and match the requested depth.
+
+**Re-entry.** When the user names ADHD or asks for low cognitive load,
+optimize resuming rather than simplifying away substance: foreground the
+current position and next action, use short labeled units, and attach
+conditions to the decision they constrain.
 
 **Route.** Load only the branches the request needs; combine them when useful.
 

@@ -5,12 +5,12 @@
       "id": 1,
       "name": "receiving-controller-keeps-role-title",
       "prompt": "The current session is the new MacBook Coordinator. It has verified and accepted the previous global controller's responsibilities and continues coordinating unfinished tasks. The user prefers English titles, and this session started on 2026-09-15. Name the current session.",
-      "expected_output": "Use the receiving global controller's normal role headline, such as 🕹️ MacBook Coordinator · 2026-09-15. Accepting responsibility does not give this session an outgoing handoff marker."
+      "expected_output": "Use the receiving global controller's normal role headline, such as 🕹️ MacBook Coordinator, without adding a date suffix from the known start date. Accepting responsibility does not give this session an outgoing handoff marker."
     },
     {
       "id": 2,
       "name": "outgoing-controller-marks-transfer",
-      "prompt": "The current session is the previous project controller, titled 🗂️ Billing 项目主控 · 2026-09-10. Its successor has verified and accepted the remaining responsibility. This session no longer coordinates, but the user wants it kept visible. Name the current session.",
+      "prompt": "The current session is the previous project controller, titled 🗂️ Billing 项目主控. Its successor has verified and accepted the remaining responsibility. This session no longer coordinates, but the user wants it kept visible. Name the current session.",
       "expected_output": "Mark the outgoing controller with 🔀 while retaining its project role headline. Do not archive it against the user's request or interpret the transfer as completion of the unfinished project."
     },
     {
@@ -24,6 +24,30 @@
       "name": "proposed-handoff-does-not-close-owner",
       "prompt": "The current global controller plans to transfer responsibility, but the proposed successor has not yet reconstructed the state or accepted it. The current session still coordinates its tasks. Decide whether to change its role title to show a completed handoff.",
       "expected_output": "Keep the current controller's ongoing role headline. A proposed successor alone does not justify an outgoing handoff marker or a completion claim."
+    },
+    {
+      "id": 5,
+      "name": "follow-up-preserves-task-title",
+      "prompt": "The current task is repairing duplicate uploads. Its title is 🏃 [同步] 修复重复上传 · 验证重试行为. The user asks: '这个重试和限流有什么区别？' The repair is still active and the focus remains accurate. Maintain the session title while answering the question.",
+      "expected_output": "Keep the accurate title and repair mandate. The follow-up explanation does not replace the task with a retries-versus-rate-limits topic or require a rename. Use the supplied task facts without loading a coordination workflow."
+    },
+    {
+      "id": 6,
+      "name": "turn-end-does-not-complete-delivery",
+      "prompt": "The user asked to repair the release script, commit the change, and push it. The previous turn ended after the repair and commit; push remains authorized and has not happened. Maintain the task title as work continues.",
+      "expected_output": "Keep the repair mandate with an active state such as 🏃 and a concise focus on the pending push. The previous turn ending does not justify 🏁. Naming uses the known delivery state without starting another test or review."
+    },
+    {
+      "id": 7,
+      "name": "explicit-format-overrides-default",
+      "prompt": "The user explicitly says: '这个会话就叫同步机制调研，不要加 emoji、标签或后缀。' Name this ordinary Codex App task.",
+      "expected_output": "Use the exact title 同步机制调研. The explicit format request overrides the default state, tags, and focus format."
+    },
+    {
+      "id": 8,
+      "name": "clear-replacement-changes-mandate",
+      "prompt": "The current title is 🏃 [同步] 修复重复上传 · 验证重试行为. The user says: '重复上传先不做了，这个会话改为调研离线缓存方案。' Maintain the title for the new task.",
+      "expected_output": "Change the mandate to the offline-cache research task, using a suitable active state and concise focus. Preserve the user's cancellation of the prior work; do not retain the old repair mandate or label it completed."
     }
   ]
 }

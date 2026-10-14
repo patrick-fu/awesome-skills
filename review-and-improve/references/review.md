@@ -28,14 +28,15 @@ supports prioritization, not correctness; a singleton needs stronger evidence.
 
 Return:
 
-- **Accepted:** actionable instruction or environment proposals with routing.
+- **Accepted:** evidence-backed proposals worth adopting, with their repair
+  route. Acceptance does not authorize implementation.
 - **Rejected:** duplicates, transient facts, unsupported causes or already clear
   guidance; explain why each was dropped.
-- **Backlog:** structural enforcement candidates and work outside the selected
-  change set; name the mechanism and owner.
+- **Backlog:** retained proposals deferred or outside the selected change set;
+  name the remedy, owner and reason for deferral.
 
 The parent independently checks these decisions. A cheap reliable mechanism
-routes a prose proposal to Guardrails. Select scoped work from Backlog when the
-user requested implementation. Preserve important disagreements and resolve
-them with artifact checks or fresh independent review. Re-review meaningful
-repairs; close with evidence, not vote counts.
+routes a prose proposal to Guardrails; the repair type does not determine its
+Accepted or Backlog status. Preserve important disagreements and resolve them
+with artifact checks or fresh independent review. Close with evidence, not vote
+counts.

@@ -1,6 +1,8 @@
 # Structural Enforcement
 
-For each repeated mistake class, try the highest level that works within scope:
+For each retained structural finding, try the highest level that works within
+scope. A single incident can justify repair; two observed occurrences are needed
+to call it a repeated mistake class.
 
 1. **Architecture:** one owner and supported path; remove duplicate truth,
    exposed internals and legacy examples agents would copy. Explain why this
@@ -20,9 +22,13 @@ change. Prioritize the most frequent classes. Keep each implementation scoped.
 
 ## Prove
 
-Replay a real historical mistake through the repaired contributor path and
-confirm rejection. Preserve its checked target and context; success on a
-narrower scope does not repair the original failure.
+For proposals, specify this proof; execute it when implementing an authorized
+repair. Replay the real incident through the repaired contributor path and
+confirm the corrected outcome against the original contract: reject previously
+missed violations, and accept legitimate inputs previously blocked in error.
+Preserve the checked target and context; success on a narrower scope does not
+repair the original failure. Distinguish new control cases from historical
+incidents.
 Also exercise legitimate cases to detect false positives. Run the canonical
 command locally and in CI when access permits; report an unexecuted CI path as
 pending. Verify the guard is wired into the contributor path, not just runnable.

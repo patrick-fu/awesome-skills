@@ -84,6 +84,66 @@
         "OpenAI policy disables implicit invocation",
         "Does not use a typo as permission for environment audit"
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "Implement a previously selected and authorized correction to a stale command in an existing skill. The incident, owner, proposed edit and unchanged current target can all be verified. No new cause or broader repair is involved.",
+      "expected_output": "Reuses the verified conclusion, loads Instructions for the edit, and validates the affected command without restarting the retrospective.",
+      "files": [],
+      "expectations": [
+        "Verifies prior evidence, current target and authorization",
+        "Does not restart three-lens retrospective to implement an unchanged conclusion",
+        "Loads only the applicable repair reference",
+        "Executes the corrected command and preserves unrelated guidance"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Implement an authorized guard precision repair. The only recorded incidents are two legal comment-only inputs that the canonical guard rejected. The contract bans actual legacy_api imports, not mentions in comments. No historical forbidden-import incident is available.",
+      "expected_output": "Makes historical legal inputs pass, checks forbidden imports using clearly labelled new control cases, and preserves the original canonical path and scope.",
+      "files": [],
+      "expectations": [
+        "Historical false-positive inputs become accepted",
+        "Does not invent a historical forbidden-import incident",
+        "New violation controls remain rejected",
+        "Reports actual proof through the canonical command"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Implement two selected authorized findings: the canonical check drops explicit target arguments, and the same target contract is buried in an existing skill. Current source and incident evidence confirm both findings.",
+      "expected_output": "Routes the execution repair to Guardrails and the placement repair to Instructions, retaining both causes and their separate verification.",
+      "files": [],
+      "expectations": [
+        "Routes each finding rather than classifying the whole task once",
+        "Allows both repair references for a mixed cause",
+        "Keeps structural repair type separate from Accepted or Backlog status",
+        "Scopes any executors to their own findings and rules"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Implement a previously approved wiring repair. Inspection now shows the dedicated guard was removed and the canonical command has changed; the previous incident receipts refer to the old entry point. Another selected instruction edit is unchanged.",
+      "expected_output": "Reopens the changed finding for evidence and independent review, preserves the unaffected conclusion, and does not implement the obsolete wiring proposal.",
+      "files": [],
+      "expectations": [
+        "Verifies current target before reusing conclusions",
+        "Revisits the changed cause or remedy",
+        "Preserves unaffected findings",
+        "Does not apply stale authorization to a materially different repair"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Review a single incident where a documented guard failed to inspect an explicitly requested target. Propose improvements only; no writes, commits or tracker publication are authorized.",
+      "expected_output": "Runs the new-retrospective review, retains a supported structural proposal without inventing recurrence, and specifies its proof as pending.",
+      "files": [],
+      "expectations": [
+        "Retains three independent lenses and separate synthesis for new review",
+        "A single incident may justify a structural finding",
+        "Does not call one incident a repeated class",
+        "Proposes verification without implementing or reconciling unchanged guidance"
+      ]
     }
   ]
 }

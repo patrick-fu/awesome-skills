@@ -12,6 +12,18 @@ Turn execution evidence into improvements to the agent's environment. A request
 to review produces proposals; a request to implement authorizes the specified
 changes. Current user instructions govern scope and permissions.
 
+## Stage
+
+For a new retrospective or an unresolved cause, gather the evidence below,
+then read [independent review](references/review.md) and run its three lenses
+and separate synthesizer before selecting changes. An empty result is valid.
+
+For implementation of selected findings, first verify their incident evidence,
+owner, proposed change, current target state and authorization. When these still
+hold, reuse the conclusions and go directly to Route. If new evidence changes
+the cause or remedy, review the affected finding again; preserve unaffected
+conclusions.
+
 ## Evidence
 
 Read the specified sessions, or the current session, using the host's session
@@ -36,21 +48,17 @@ Scan these lenses:
   instructions that do not change behavior.
 - **Tools:** costly calls, repeated manual work and missing diagnostic access.
 
-## Review
-
-Read [independent review](references/review.md). Run its three independent
-lenses and synthesizer before choosing changes. Inspect existing owners and
-controls; distinguish missed discovery, buried guidance, stale context and
-ignored clear guidance. An empty result is valid.
-
 ## Route
 
-Read only the references needed for retained findings:
+Choose the remedy for each retained finding, then read its relevant references.
+The routes may combine when each addresses part of the cause:
 
 - **Guardrails:** [structural enforcement](references/guardrails.md) for code,
   types, lint, CI or behavioral checks.
 - **Instructions:** [skill and instruction repair](references/instructions.md)
   for reusable guidance and skill discovery.
+
+Give a scoped executor only its findings, evidence and applicable repair rules.
 
 Keep progress in handoff state and reusable facts in their canonical project
 documentation. Global preferences require evidence of that scope. Preserve the
@@ -64,6 +72,9 @@ Apply the user's requested or approved subset; existing authorization counts.
 Keep other items as proposals, and publish backlog only within authorized scope.
 
 For applied changes, report actual checks, results, commits and unresolved gaps.
+Independently review meaningful repairs against the affected contract, reusing
+relevant evidence rather than restarting the whole retrospective. Reconcile
+guidance actually superseded by the changes.
 For proposals, state hypotheses and unexecuted verification separately from
 observed facts. Finish when every retained item is either verified or explicitly
-pending, and superseded guidance has been reconciled.
+pending.

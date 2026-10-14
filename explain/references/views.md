@@ -1,11 +1,16 @@
 # Views
 
-**Select.** Choose the smallest view that exposes the difficult relationship.
+**Select.** Choose the smallest view that exposes the relationship or change.
+Keep only calls, files, properties, states, and boundaries needed for the current
+question. Place each visual beside the brief text it supports; use several only
+when they answer different parts of the question.
 
 | Question | View |
 | --- | --- |
 | Logic, algorithm, or state | Pseudocode or flowchart |
-| Calls, components, or file roles | Shallow tree, labeled by type |
+| Runtime call path | Call tree preserving order and branches |
+| UI structure and state ownership | Component tree preserving relevant state and module boundaries |
+| File responsibility or refactor scope | Shallow file tree |
 | Ownership or dependencies | Responsibility tree or architecture diagram |
 | Messages and concurrent work | Sequence diagram |
 | Contract or local structural change | Before/after or structural diff |
@@ -26,16 +31,18 @@ limit. Further environment search is unnecessary for a text diagram.
 ## Shape
 
 Show the behavioral delta with enough unchanged context to preserve ownership
-and order. Use the complete target when most is new or the user needs a
-copyable block. These fictional sketches illustrate shape, not test evidence.
+and order. Match the structural diff to calls, components, files, contracts,
+or states; label additions and removals. Use the complete target when most is
+new, omitted context would hide ownership or order, or the user needs a copyable
+block. These fictional sketches illustrate shape, not test evidence.
 
 ```diff
- onSave()
+ on save
 +  if saving: return
-+  saving = true
--  await saveRecord()
-+  try: await saveRecord()
-+  finally: saving = false
++  mark saving
+-  await save record
++  try: await save record
++  finally: clear saving flag
 ```
 
 ```diff
@@ -49,11 +56,10 @@ copyable block. These fictional sketches illustrate shape, not test evidence.
 For a new UI, a component tree can expose state ownership:
 
 ```text
-ReviewPanel
-  owns selected item
-  ItemSelector
-  ReviewStatus
-  ConfirmAction (enabled only when review is complete)
+Review panel (owns selected item)
+  Item selector
+  Review status
+  Confirm action (enabled only when review is complete)
 ```
 
 For a contract change, show what callers observe and when they must adapt:

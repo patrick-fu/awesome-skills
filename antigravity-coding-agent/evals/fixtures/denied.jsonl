@@ -1,0 +1,2 @@
+{"event":"init","init":{"model":"gemini-3.8-flash-high","cwd":"/workspace/probe","conversation_id":"fixture-denied"}}
+{"event":"result","result":{"status":"SUCCESS","response":"","denied_actions":["RunCommand"]}}

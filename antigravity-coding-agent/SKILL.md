@@ -32,18 +32,34 @@ monitored run, permission recovery, partial failure, or session resume.
 
 ## Execute
 
-Use monitor mode for tool-dependent or potentially long work:
+Use [agy_run.py](scripts/agy_run.py) as the only supported entry point for
+task execution. Write the task to a prompt file, then launch in the host's
+resumable process facility:
 
 ```bash
-<launcher> --output-format stream-json -p "$TASK_PROMPT"
+python3 "$SKILL_DIR/scripts/agy_run.py" \
+  --cwd "$WORKSPACE" --prompt-file "$PROMPT_FILE" \
+  --label review --print-timeout 45m --agy-bin "$LAUNCHER" \
+  -- --model "$MODEL"
 ```
 
-The prompt is the `-p` value. Put repeatable options before it. Choose an
-explicit, unit-bearing `--print-timeout` for bounded work; check current help
-rather than relying on a default. Retain the host process handle and fresh
-stdout/stderr captures under the system temporary directory. Consume streams
-continuously, showing only new short semantic signals; omit thinking and token deltas. A quiet live process remains
-running until completion, cancellation, or its deliberate deadline.
+`SKILL_DIR` is this installed skill's directory. Other launcher arguments go
+unchanged after `--`; the script owns prompt, output format, and deadline.
+It prints the attempt directory immediately and a typed receipt on exit.
+Monitor that directory as described in [monitoring](references/monitoring.md),
+showing only new short semantic signals; omit thinking and token deltas.
+A quiet live process remains running until completion, cancellation, or its
+deliberate deadline. The script does not retry, elevate permissions, manage
+conversations, change HOME, or clean old attempts.
+
+| Rule | Owning mechanism in `agy_run.py` |
+| --- | --- |
+| G0: deadline grammar | Argument validation before launch |
+| G1: workspace boundary | Resolved directory validation before launch |
+| G2: prompt source | Prompt-file validation before launch |
+| G3: capture identity | Exclusive per-attempt temporary directory and files |
+| G4: process exit | Direct child execution and `rc.txt` |
+| G5: completion evidence | Stream parser and typed `receipt.json` |
 
 For file-only read-only work, list target files host-side, add authorized
 external directories with `--add-dir`, and request reads through `view_file`.
@@ -51,12 +67,6 @@ Require completed reads for the target paths. Planning mode is not an OS read-on
 exit zero: inspect tool errors and `denied_actions`. For writes,
 `--dangerously-skip-permissions` requires explicit authorization for that run;
 it approves every tool, so retain the authorized workspace boundary.
-
-For a trivial task needing no tool evidence, final mode is sufficient:
-
-```bash
-<launcher> -p "$TASK_PROMPT"
-```
 
 ## Accept or recover
 

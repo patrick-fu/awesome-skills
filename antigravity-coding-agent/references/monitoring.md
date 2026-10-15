@@ -7,16 +7,22 @@ Behavioral observations below cover 1.2.11–1.2.12; help was rechecked on
 
 ## Retain the process and its evidence
 
-Use the host's resumable process facility; save its task handle and consume
-new complete stdout/stderr lines continuously. The host handle, OS PID, and
-Antigravity conversation ID identify different things. Keep fresh captures
-for each attempt; an earlier report is not evidence for this one.
+Monitor the attempt directory printed by `agy_run.py`: `stream.jsonl` and
+`stderr.log` are live captures; `rc.txt` and `receipt.json` are populated after
+the child exits. Save the host's resumable process handle; that handle, OS PID,
+and Antigravity conversation ID identify different things.
 
-Without that facility, capture to a fresh system-temp directory, retain the
-PID, and arrange for the launch wrapper to save the child's exit code. A later
-shell cannot recover that code from a vanished PID. Verify the child survives
-its launching shell; some hosts reap even `nohup ... &` children. Prefer a
-foreground host session when available.
+The receipt prints `status`, `exit`, `model`, `cwd`, `denied_actions`,
+`response_bytes`, `incomplete_final_line`, and `timeout_warning`. Unavailable
+values are the string `UNKNOWN`; known values retain their JSON types.
+`status` is the evidence verdict (`SUCCESS`, `FAILED`, or `INCOMPLETE`);
+`result_status` preserves the CLI's terminal status. Model and cwd come from
+`init`, never from requested settings. `SUCCESS` still requires host acceptance
+of required tools and artifacts. The launcher returns the child's nonzero exit
+(signals use 128 + signal number), or 1 for incomplete evidence with child exit
+0; `rc.txt` always records the child's return code, including negative signals.
+Temporary captures are not permanent archives; retain needed evidence before
+system cleanup.
 
 Measure deadlines with host wall time. `result.duration_seconds` differed
 substantially from elapsed time in a 1.2.12 failure. Choose the CLI deadline
@@ -40,6 +46,9 @@ Parse `event`, not `type`. In
 `{"event":"result","result":{"status":"SUCCESS","response":"..."}}`,
 the answer is `result.response`. `step_update.text_delta` is a field, not a
 separate event; omit thinking and token deltas from progress reports.
+Init fields are nested too: `init.model` and `init.cwd`, not top-level fields.
+The parser ignores unknown event kinds while retaining their original bytes;
+unknown events cannot substitute for init or result evidence.
 
 | Event | Host interpretation |
 | --- | --- |
@@ -66,6 +75,8 @@ output. An incomplete final JSON line is incomplete stream evidence.
 Ordinary stderr warnings alone do not invalidate a successful turn. Since
 1.2.6, print-timeout expiry can return partial output and exit 0 with a warning.
 A zero-byte answer or disappearing PID does not establish completion.
+Under `--dangerously-skip-permissions`, `denied_actions` is always empty;
+use the authorization tree/status-diff as boundary evidence instead.
 
 For answer extraction only, after saving a stream:
 
@@ -82,7 +93,7 @@ This does not check the exit, timeout, completed tools, or artifact correctness.
 | Exit | Diagnostic to inspect |
 | --- | --- |
 | 1 | Model/effort selection conflict |
-| 2 | Usage: unknown flag, positional prompt, or incompatible input/output formats |
+| 2 | Usage: unknown flag, positional prompt, incompatible input/output formats, or `missing unit in duration` |
 | 3 | `AGY_ERROR: {...}` on stderr: `status`, `error_code`, `retryable`, `error_id` |
 
 Since 1.2.10, exit 3 can follow partial streamed output; older versions could
@@ -122,3 +133,13 @@ For capabilities not needed by an ordinary run, use `help <subcommand>` or
 1.3.3 help shows timeout default 0s and effort xhigh/max, while the online
 reference still lists 5m and low/medium/high. Use the selected launcher's help
 and model catalog; a global effort enum does not prove model-specific support.
+
+## Offline regression checks
+
+Run `python3 evals/check_launch_guards.py` and `python3 evals/check_stream_parser.py`
+from this skill directory. They inject a local stub and never call real agy.
+`evals/fixtures/denied.jsonl` is a manually reconstructed equivalent of the
+historical probe, whose original temporary capture was unavailable: nested
+init model/cwd, denied RunCommand, empty response, and a complete SUCCESS result
+line. Its workspace and conversation ID are synthetic. Truncated final lines,
+missing model, unknown events, failures and positive controls are replayed too.

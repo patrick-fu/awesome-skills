@@ -49,7 +49,9 @@
         "./tdd",
         "./debugging",
         "./generate-commit-message",
-        "./git-task-workspace"
+        "./git-task-workspace",
+        "./build-verifier",
+        "./review-and-improve"
       ]
     },
     {

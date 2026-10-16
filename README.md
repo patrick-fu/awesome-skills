@@ -229,21 +229,39 @@ answer.
 
 #### 🧪 [`tdd`](./tdd)
 
-Protect production behavior with the smallest useful test set. Use ordinary
-tests, regressions, or requested red-green-refactor loops, with independent
-oracles and bounded async checks. Tautological tests considered harmful.
+Write and maintain tests around real requirements, covering everyday development,
+bug regressions, and red-green-refactor cycles. Choose the right test level for
+each change and build on the project's existing tools to check key behavior.
 
-Replaces `testing` and `write-unit-test`; test-first and test-quality details
-load on demand. The `tdd` entrypoint also serves upstream TDD skill calls.
+Use it when adding features, fixing bugs, or refining a test suite to keep useful,
+reliable feedback close to the code.
 
 #### 🔦 [`debugging`](./debugging)
 
-Build causal evidence for difficult bugs and performance regressions. Choose
-reproduction, targeted instrumentation, capture analysis, or flaky-failure
-investigation, then verify any requested repair against the original scenario.
+Trace difficult bugs and performance regressions from symptoms to root causes.
+Combine reproduction, targeted instrumentation, capture analysis, and
+flaky-failure investigation, then verify repairs against the original scenario.
 
 Use it when static inspection stalls, attempted fixes fail, or runtime
-evidence needs interpretation. Replaces `log-driven-debugging`.
+evidence needs interpretation.
+
+#### 🛠️ [`build-verifier`](./build-verifier)
+
+Turn a project's build commands, feature paths, and acceptance checks into a
+reusable `verify-<app>` skill. A fresh agent can run the checks, retain results,
+and keep the verification workflow in step with the project.
+
+Use it for products that need repeated acceptance checks, keeping practical
+verification knowledge beside the code for development, regressions, and handoffs.
+
+#### 🔄 [`review-and-improve`](./review-and-improve)
+
+Review agent sessions, code changes, and execution results through three
+independent lenses: judgement, tooling, and counterexamples. Find concrete
+improvements to workflows, checks, and instructions.
+
+Invoke it after a complex task or when similar problems recur to turn experience
+into reusable tools and guidance for future work.
 
 #### 📝 [`generate-commit-message`](./generate-commit-message)
 

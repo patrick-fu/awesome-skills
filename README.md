@@ -123,6 +123,21 @@ longer serves the goal, and resumes only where new acceptance evidence appears.
 
 Use it when a task is genuinely drifting—not merely because it is long.
 
+#### 🧭 [`attention-frontier`](./attention-frontier)
+
+Keep a personal follow-up workbench across parallel projects and agent
+conversations. Reconcile pending decisions, reviews, and coordination against
+current evidence, then order them by business priority while keeping the full
+unfinished queue accessible.
+
+Use it to reduce manual status checks and context recovery. The default HTML
+workbench stays current; notifications briefly describe meaningful changes.
+It guides the agent without requiring a particular platform or renderer, with
+optional Codex App guidance.
+
+Invoke explicitly with `$attention-frontier` in the chat designated to maintain
+the workbench; scheduled continuation follows that chat's agreed task.
+
 ### 🎛️ Codex sessions
 
 #### ⏰ [`codex-async-followup`](./codex-async-followup)

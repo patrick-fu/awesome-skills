@@ -32,7 +32,8 @@
         "./cursor-coding-agent",
         "./grok-coding-agent",
         "./codex-async-followup",
-        "./antigravity-coding-agent"
+        "./antigravity-coding-agent",
+        "./attention-frontier"
       ]
     },
     {

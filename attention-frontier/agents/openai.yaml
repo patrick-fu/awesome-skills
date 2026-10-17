@@ -1,0 +1,7 @@
+interface:
+  display_name: "Attention Frontier"
+  short_description: "Prioritize personal follow-ups across parallel work"
+  default_prompt: "Use $attention-frontier to update my follow-up workbench and summarize what changed."
+
+policy:
+  allow_implicit_invocation: false

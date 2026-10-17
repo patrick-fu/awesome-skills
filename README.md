@@ -128,7 +128,8 @@ Use it when a task is genuinely drifting—not merely because it is long.
 Keep a personal follow-up workbench across parallel projects and agent
 conversations. Reconcile pending decisions, reviews, and coordination against
 current evidence, then order them by business priority while keeping the full
-unfinished queue accessible.
+unfinished queue accessible. Recommend what to do next, with a short prompt
+ready to send to each matter's owning conversation.
 
 Use it to reduce manual status checks and context recovery. The default HTML
 workbench stays current; notifications briefly describe meaningful changes.

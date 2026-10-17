@@ -18,7 +18,17 @@ current user actions prominent, with active work, external waits, and unresolved
 evidence easy to inspect. Emphasis follows actual priority; choose the amount
 of detail for the workload, with every unfinished matter still reachable.
 
-Keep the action, reason, recommendation, next owner, and source link together.
+Keep two fields visible for each matter: **Next step** and **Suggested prompt**.
+Put the reason, next owner, and source link beside them. Make the prompt a short,
+copyable instruction addressed to the linked owning conversation. Reuse that
+conversation's context and name the concrete action or desired outcome; omit
+defensive boilerplate. For example: “跑一遍移动端验收，把结果和截图给我。”
+
+For work already progressing or waiting on an external event, show the actual
+next step and its owner or trigger. When a message would not advance it, mark
+the prompt field “No message needed now.” If nothing needs the person, say so
+in the opening recommendation.
+
 Put supporting history and evidence behind details where useful. Distinguish
 the person's completed action from the project's completion; keep observed
 work visible and restore it to the action area when needed again.

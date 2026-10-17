@@ -51,12 +51,15 @@ at a stable entry point by default; adapt the medium to the environment.
 Read [presentation.md](references/presentation.md) when creating or updating it.
 In Codex App, also read [codex.md](references/codex.md).
 
-Show the current user action, why it matters now, a recommendation where useful,
-the next owner, and the relevant source entry. Reflect priority, overdue status,
-and uncertainty in the workbench whenever they change. Keep polling replies to
-a sentence or two about meaningful changes plus the entry link; stay quiet
-when nothing substantive changed. An unresolved item remains visible without
-requiring repeated identical messages.
+Use the independent view across matters to recommend the most useful next move
+and briefly explain why. Lead with that recommendation when user action is
+ready. For each matter, show the next step, next owner, reason, source entry,
+and a short suggested prompt the person can send to its owning conversation.
+
+Reflect priority, overdue status, and uncertainty whenever they change. Keep
+polling replies to a sentence or two about meaningful changes plus the entry
+link; stay quiet when nothing substantive changed. An unresolved item remains
+visible without requiring repeated identical messages.
 
 ## Continue
 

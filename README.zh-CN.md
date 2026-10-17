@@ -107,6 +107,16 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 适合任务真的开始跑偏时，而不是仅仅因为它很长。
 
+#### 🧭 [`attention-frontier`](./attention-frontier)
+
+跨项目、跨 Agent 会话维护个人跟进工作台。核实真正待你决策、验收或协调的事项，
+按业务优先级排列，同时保留完整的未结队列。
+
+适合减少手动查进度和恢复上下文的负担。默认持续更新 HTML 工作台，通知只简述有意义
+的变化。Skill 提供判断指导，具体平台和呈现工具由 Agent 适配，附可选 Codex App 指引。
+
+在专门维护工作台的会话中显式调用 `$attention-frontier`，后续按该会话约定的任务定时续跑。
+
 ### 🎛️ Codex Session
 
 #### ⏰ [`codex-async-followup`](./codex-async-followup)

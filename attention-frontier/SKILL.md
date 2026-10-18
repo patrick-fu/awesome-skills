@@ -19,7 +19,10 @@ scope and existing task map. Establish an initial baseline, then discover new
 work and read source increments. Recent activity is a discovery window, not an
 expiry date for older unfinished work.
 
-Group related conversations by business matter; retain distinct user actions.
+Group related conversations by business matter; retain distinct user actions
+and unfinished side or parallel tasks, including those within one conversation.
+Recover the main objective and relevant backstory from source context when a
+recent turn only describes a local step.
 Reconcile candidates against current user instructions, related conversations,
 and relevant delivery evidence. Later resolutions must retire stale requests.
 Distinguish an agent's finished turn, compilation, tests, delivered artifacts,
@@ -53,8 +56,9 @@ In Codex App, also read [codex.md](references/codex.md).
 
 Use the independent view across matters to recommend the most useful next move
 and briefly explain why. Lead with that recommendation when user action is
-ready. For each matter, show the next step, next owner, reason, source entry,
-and a short suggested prompt the person can send to its owning conversation.
+ready. Orient the reader to each matter's purpose, background, and related work
+before showing the next step, next owner, reason, source entry, and a short
+suggested prompt the person can send to its owning conversation.
 
 Reflect priority, overdue status, and uncertainty whenever they change. Keep
 polling replies to a sentence or two about meaningful changes plus the entry

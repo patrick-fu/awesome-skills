@@ -1,0 +1,4 @@
+{"type":"system","subtype":"init","cwd":"/workspace/probe","session_id":"fixture-session","tools":["Glob","Grep","Read"],"model":"deepseek-flash","permissionMode":"bypassPermissions","mcp_servers":[]}
+{"type":"assistant","parent_tool_use_id":null,"message":{"content":[{"type":"tool_use","id":"read-1","name":"Read","input":{"file_path":"/workspace/probe/target.txt"}}]}}
+{"type":"user","parent_tool_use_id":null,"message":{"content":[{"type":"tool_result","tool_use_id":"read-1","content":"1\tprobe-marker\n2\t"}]}}
+{"type":"result","subtype":"success","is_error":false,"result":"probe-marker","session_id":"fixture-session","stop_reason":"end_turn","permission_denials":[]}

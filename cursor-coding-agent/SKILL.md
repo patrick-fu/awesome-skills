@@ -1,80 +1,52 @@
 ---
 name: cursor-coding-agent
-description: >-
-  Run Cursor CLI as an external coding executor. Use only when explicitly
-  selected by name.
+description: Run bounded tasks through Cursor CLI or its wrapper, when explicitly selected.
 ---
 
 # Cursor Coding Agent
 
-Use the selected launcher to carry a bounded task through execution and host
-verification. Preserve the user's model, permissions, workspace, and scope.
+## Scope
 
-## Establish the run
+Confirm `Start the Cursor Agent` in `--help`; a generic `agent` name is not
+product identity. Use `--version`, authenticated `models` and current help
+to choose supported model/effort settings. Honor explicit choices; keep wrappers
+opaque because their source and environment may contain credentials. Compare
+requested settings with observed evidence, leaving absent values unverified.
 
-1. Invoke the requested binary or wrapper with `--version` and `--help`.
-   Confirm `Start the Cursor Agent` in help: the generic name `agent` and a
-   version number do not establish product identity. Keep wrappers opaque;
-   definitions, source, arguments, and full environments may contain
-   credentials. Discover behavior through help and diagnostics.
-2. Honor explicit model/effort choices; otherwise select supported settings
-   suited to the task using current help and authenticated model listing.
-   Stop and report a model-list authentication failure rather than guessing.
-   Record requested and effective settings separately; absent effective
-   settings stay unverified.
-3. Fix the absolute workspace, permitted actions, and acceptance evidence.
-   Experiments use isolated workspaces; parallel writers need separate
-   workspaces or a single writer. A separate checkout isolates state but does
-   not prevent writes. Verify host protection when strict read-only is required.
+Fix the workspace, permitted actions and acceptance evidence. Experiments and
+parallel writers need isolated workspaces. **Boundary:** before file-only work,
+strict confinement or permission recovery, read
+[Boundaries](references/monitoring.md#boundaries). The skill grants no extra scope.
 
-Read [monitoring](references/monitoring.md) before a monitored run, permission
-recovery, partial failure, or session resume.
+## Run
 
-## Execute
-
-Use monitor mode whenever the task needs tools or may take time:
+For ordinary bounded headless tasks, use [cursor_run.py](scripts/cursor_run.py):
 
 ```bash
-<launcher> --print --trust --output-format stream-json "Your task"
+python3 "$SKILL_DIR/scripts/cursor_run.py" run \
+  --launcher "$LAUNCHER" --cwd "$WORKSPACE" --prompt-file "$PROMPT_FILE" \
+  --timeout-seconds 600 -- --model "$MODEL"
 ```
 
-For file-only review add `--mode ask`. For command-based review or
-implementation, omit `--mode`: current help's `ask` and `plan` modes are
-read-only. Treat command-based review as write-capable and enforce its boundary.
-`--trust` trusts the workspace; it does not approve shell execution.
+`SKILL_DIR` is this skill's directory. Choose the deadline deliberately
+(0 is unbounded); pass authorized Cursor options after `--`.
+Omit model overrides supplied by an opaque wrapper.
 
-When shell execution is authorized, check current approval/sandbox flags and
-confirm a harmless command completed rather than `result.rejected`. Recent
-`--force`/`--yolo` auto-approves commands unless explicitly denied; it is not a
-file-write-only flag. Change the sandbox only within the authorized scope.
+| Owner | Responsibility |
+| --- | --- |
+| Script | Target/prompt validation, native transport, unique captures, real child exit, compact receipt |
+| Agent | Model, permissions, required successful actions, artifacts, recovery |
 
-Retain the host process handle and fresh stdout/stderr captures under system
-temp. Consume complete records continuously; show short new semantic signals,
-not thinking or token deltas. Keep partial assistant streaming off. Choose a
-task-appropriate host deadline. A quiet live process remains running; inspect
-tool/permission state at a missed checkpoint before diagnosing model slowness.
+Retain the host process handle. The runner prints `run_dir`, then its receipt;
+use `python3 "$SKILL_DIR/scripts/cursor_run.py" inspect "$RUN_DIR"` while
+waiting. Quiet output alone is not failure.
 
-For a trivial task needing no tool evidence, final mode is sufficient:
+## Accept
 
-```bash
-<launcher> --print --trust "Your task"
-```
-
-## Accept or recover
-
-Observe the terminal result and actual process exit, then inspect the answer,
-required completed tools, stderr, and actual artifacts. A `result.rejected`
-call did not execute. Include untracked files when checking implementation;
-exit zero with an empty tracked diff proves neither application nor failure.
-Run checks appropriate to the authorized task and state those not performed.
-Execution success and artifact acceptance are separate conclusions; retain
-an error classification even when independently verified partial work is useful.
-
-Before retrying or resuming, inspect completed actions and partial artifacts
-so work or side effects are not repeated. Keep attempts separate. Stop a
-canceled or superseded task's owned processes and confirm exit before releasing
-its workspace. Clean only this run's runtime/captures and retain evidence for
-acceptance or an unresolved failure.
-
-Commit, push, deploy, worktree creation, and broader permissions require the
-corresponding user authorization; the skill supplies no extra scope.
+`COMPLETED` means process/stream completion, not task acceptance. Read
+`answer.txt`; check necessary successful tools, refusals and artifacts/diff,
+including untracked files. Missing or empty candidate text may be legitimate;
+judge against Scope. Report unperformed checks.
+**Decode:** for schema questions, read [Stream](references/monitoring.md#stream).
+**Recover:** before cancellation recovery, another attempt or native resume,
+read [Recovery](references/monitoring.md#recovery).

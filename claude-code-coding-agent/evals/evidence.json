@@ -1,0 +1,45 @@
+{
+  "observed_on": "2026-10-16",
+  "cli_version": "2.1.283",
+  "launcher": "user-selected opaque wrapper",
+  "effective_model": "deepseek-flash",
+  "fixture": {
+    "file": "fixtures/read.jsonl",
+    "source": "Successful file-only wrapper probe: selected init, Read call/result and terminal fields from the captured stream.",
+    "redactions": "Workspace, marker, session and tool IDs replaced; unrelated metadata and thinking removed. Numbered Read content shape retained."
+  },
+  "observed_startup_failures": [
+    "restricted plus wrapper bypass fails before init; adding dontAsk does not resolve it",
+    "stream-json without verbose fails before init",
+    "empty stdin without a positional prompt fails before init",
+    "a positional prompt after variadic tools with empty stdin produces the same missing-input failure"
+  ],
+  "constructed_controls": [
+    "nonzero child exit followed by successful outer shell command",
+    "missing, duplicate or truncated terminal event",
+    "success subtype with is_error true",
+    "missing optional model, unknown events, ordinary stderr warning",
+    "unpaired or conflicting tool results, recovered tool error, permission denial",
+    "structured answer, nested terminal, invalid response Unicode",
+    "host deadline and cancellation",
+    "complete JSON without final newline versus truncated JSON",
+    "shutdown exit 0 with a complete result still records cancellation",
+    "cancel one process group and its worker without affecting another attempt",
+    "signals during process handoff, after observed exit and during receipt finalization"
+  ],
+  "ablation": {
+    "command": "python3 evals/check_ablation.py",
+    "method": "Create temporary copies with one mechanism removed; run the same observable subprocess checks against each copy. Compare shell baseline, guarded launch with exit-only classification, and guarded launch with stream classification.",
+    "limits": "Deterministic fault replay measures mechanical protection, not how often a language model follows instructions. No repeated model trials or claimed prompt-compliance rates."
+  },
+  "design_decisions": {
+    "keep": "One launch/inspect script, one conditional Boundary/Recovery reference, mechanical fault replays, contract lint.",
+    "reject": "Post-hoc classification alone cannot prevent bad launches. Three references add navigation without a demonstrated benefit at this size. Permission presets, automatic fallback and task-specific acceptance remain outside the launcher.",
+    "fault_replays": "All seven mechanism removals restored a regression. Exit-only classification falsely accepted missing-result and is_error controls; full classification rejected both and accepted the successful control.",
+    "ordinary_context_words": {"before": 1201, "after": 269},
+    "context_budget": "Words are reported as a context-size proxy, not a hard CI limit or an exact token count. Launcher-example protocol and link checks remain, without a fixed code-block count.",
+    "cancellation": "The 2026-10-17 controls extend handlers from before Popen through receipt publication. Signals only set pending state; synchronous supervision handles cancellation. Once exit has been observed, late signals cannot erase the result. A cancelled child returning 0 still records stopped and FAILED. Same-group workers are covered on POSIX, detached processes are not. Denied termination names the owned PID and leaves evidence UNFINALIZED; the shutdown grace is not proof that an OS-unreapable process exited.",
+    "lifecycle_review": "Sol independently reproduced startup/finalization races and rechecked the pending-signal repair. DeepSeek completed a read-only review through the selected wrapper; its stop-permission error finding has an injected-EPERM regression. Cancellation cause and actual child exit intentionally remain separate. An earlier external review timed out and is retained as failed, not independent completion evidence.",
+    "review": "Independent Sol and Grok design judgments were cross-checked against source and raw probes. Sol's orphan/conflicting tool-result findings were reproduced and fixed. Grok's design text was available but its process exceeded the deadline; the separate implementation review also timed out, so neither is recorded as a passed execution check."
+  }
+}

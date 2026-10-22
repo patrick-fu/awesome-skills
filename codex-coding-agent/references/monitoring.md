@@ -1,93 +1,63 @@
-# Codex CLI Monitoring Reference
+# Codex CLI Reference
 
-This reference contains version-sensitive operational details. Verify them
-against the selected launcher before use.
+## Boundaries
 
-## Discover current capabilities
+For read-only work, choose exec options `-c 'approval_policy="never"'`,
+`--sandbox read-only`, `--ignore-rules`, and optional `--ephemeral` when supported.
+The runner forwards **exec** options: root `-a`/`--ask-for-approval` is not an
+exec option. Use the selected native exec configuration, not a permission
+fallback or automatic policy rewrite. `--ephemeral` controls persistence,
+not read-only protection; retain persistence when continuation is needed.
 
-```bash
-<launcher> --version
-<launcher> --help
-<launcher> exec --help
-<launcher> review --help
-<launcher> debug models
-```
+Sandbox, approval and remote MCP effects are separate controls. User/project
+execpolicy allow rules can bypass the shell sandbox; `--ignore-rules` skips
+those rules, not managed requirements. Verify effective policy, including
+wrapper overrides, or use host enforcement before claiming strict confinement.
+For authorized writes, select the appropriate sandbox and roots deliberately;
+`--add-dir` adds writable roots. Profile `-p` is not a prompt option.
 
-Extract only needed model slugs, visibility, and reasoning levels; raw `debug models` can be large. Discover effort override syntax in current help. `--ignore-rules` skips user/project rules, not managed requirements; verify effective policy when strict protection matters.
+## Stream
 
-## Semantic Stream
+| Event | Evidence |
+| --- | --- |
+| `thread.started` | Session identity, not effective model/cwd |
+| `turn.started` | Turn started |
+| `item.started/updated/completed` | Item type and lifecycle; command exit/status are separate outcomes |
+| `item.completed` agent_message | Last complete text becomes candidate answer |
+| `turn.completed/failed` | Terminal turn plus real child exit classify the run |
 
-The compact monitoring baselines are:
+Diagnostic `error` items and nonterminal error events may precede a successful
+turn. Completed items need not all have a started event. Unknown optional
+metadata stays UNKNOWN; request flags are not effective-setting evidence.
+Large command `aggregated_output` and reasoning stay in raw captures. A final
+message file alone is not completion evidence.
 
-```bash
-<launcher> -a never exec --json --sandbox read-only --ignore-rules --ephemeral "Review or explain"
-<launcher> exec --json --sandbox workspace-write "Implement the change"
-```
+Known `Reading additional input from stdin...` status text is tolerated on
+stdout for compatibility; the current probe emitted it on stderr. Other
+non-JSON stdout remains a parse anomaly, not silently discarded text.
 
-`--ignore-rules` skips user and project `.rules`, not managed requirements.
-An allow rule from managed requirements can still bypass the shell sandbox;
-verify the effective policy or use host isolation when strict read-only matters.
+Complete JSON without a trailing newline is valid; truncated JSON, duplicate
+terminal records and unfinished known tool lifecycles remain incomplete.
+Unknown event kinds are counted without inventing their meaning. Missing
+initialization metadata does not block a valid terminal and real exit.
 
-`--json` changes stdout to JSONL events. Useful event classes:
+## Recovery
 
-| Codex event | Compact host state |
-|---|---|
-| `thread.started` or `turn.started` | `running` |
-| `item.started` | `working — <item> started` |
-| `item.completed` | `working — <item> completed` |
-| `turn.completed` with a successful exit | `turn ended; verify task evidence` |
-| `turn.failed` or nonzero exit | `failed` |
+A final receipt is published only after observed child exit; `UNFINALIZED`
+does not prove either liveness or death. Use the retained host handle. Signal
+or deadline stop is separate from the actual child rc, even if the child handles
+termination and returns zero. POSIX cancellation targets this attempt's process
+group; detached workers, unkillable processes and non-POSIX child-only shutdown
+are outside that guarantee. A stop/reap error leaves evidence unfinalized;
+resolve the owned process state and confirm exit before releasing its workspace.
 
-Items may represent command execution, file changes, or agent messages. Ignore
-raw reasoning and avoid forwarding full command output when a short action
-summary is enough.
+Inspect completed actions and partial artifacts before retrying or resuming;
+keep attempts distinct. The runner neither retries nor widens permissions,
+manages sessions, isolates HOME, or cleans captures. System temp is not permanent
+storage: retain useful acceptance/failure evidence deliberately.
 
-Stdout mixes JSONL events with CLI status lines such as `Reading additional
-input from stdin...`; parse only complete JSON lines. From each event, extract
-the event type, item type, and state, and drop large `aggregated_output`
-payloads from command items — a single poll can carry tens of thousands of
-tokens. Classify the run from the terminal turn event plus the process's real
-exit code, never from the item stream alone.
-
-## Retain the process and its evidence
-
-Use the host's resumable process facility. Its handle, OS PID, and CLI session
-ID are different identities. Save fresh captures for each attempt under system
-temp and continuously consume new complete lines. An old report is not this
-run's result. Preserve full evidence while returning only compact signals.
-
-Without a retained host session, arrange for a supervisor to save the child's
-real exit code. A later shell cannot recover it from a vanished PID. Verify
-that the child survives its launching shell; some hosts reap `nohup ... &`
-children. Prefer a retained foreground session when available.
-
-Choose a task-appropriate host deadline, allowing any CLI deadline time to
-finish shutdown. Distinguish actual deadline expiry, permission blockage,
-stream failure and cancellation. Silence alone is not a failure. Inspect
-relevant semantic events and process state at a missed checkpoint.
-
-Before another attempt, check completed tools and partial artifacts to avoid
-repeating side effects. Resume only through current CLI capabilities and verify
-continuation identity when emitted. Keep failed and recovered attempts distinct.
-For cancellation or supersession, stop owned processes and confirm exit before
-releasing the workspace. Clean only this run's state, preserving its useful
-acceptance and unresolved-failure evidence.
-
-## Terminal and Error Handling
-
-- `turn.completed` and `turn.failed` are terminal turn events.
-- Combine the terminal event with process exit. A final-message file or a
-  plausible agent message is not sufficient completion evidence.
-- For tasks that require commands or edits, inspect their completed item results
-  and output. A successful turn after blocked or missing task-critical items
-  does not verify the requested outcome.
-- A nonterminal warning or error-shaped item can occur in a successful turn.
-  Do not classify the whole run from one item alone.
-- Stderr may contain recoverable warnings. Preserve it for diagnosis, but use
-  terminal state and exit code to classify the run.
-- If output ends with an incomplete JSON line, report an incomplete stream
-  rather than manufacturing completion.
-
-`codex app-server` exposes deeper lifecycle and steering capabilities in some
-versions. It is a separate integration surface; inspect its current help only
-when protocol-level control is specifically required.
+Inspect current `exec resume`/`fork` help separately: flags accepted after those
+subcommands differ from fresh exec. Preserve native continuation rather than
+forcing it through a generic option router; verify the selected session ID
+against emitted identity and account for completed actions first. Native review
+and app-server are separate integrations.

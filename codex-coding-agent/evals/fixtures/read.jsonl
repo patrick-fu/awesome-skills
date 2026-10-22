@@ -1,0 +1,9 @@
+{"type": "thread.started", "thread_id": "session-redacted"}
+{"type": "item.completed", "item": {"id": "item_0", "type": "error", "message": "Codex is ignoring 1 unrecognized configuration setting. Check for typos or deprecated settings.\n  user (/home/operator/.codex/config.toml): `model_supports_reasoning_summaries` is ignored."}}
+{"type": "item.completed", "item": {"id": "item_1", "type": "error", "message": "Codex is ignoring 1 unrecognized configuration setting. Check for typos or deprecated settings.\n  user (/home/operator/.codex/config.toml): `model_supports_reasoning_summaries` is ignored."}}
+{"type": "turn.started"}
+{"type": "item.completed", "item": {"id": "item_2", "type": "agent_message", "text": "我会只读取 input.json，并根据其中内容计算结果。"}}
+{"type": "item.started", "item": {"id": "item_3", "type": "command_execution", "command": "/bin/zsh -lc 'cat input.json'", "aggregated_output": "", "exit_code": null, "status": "in_progress"}}
+{"type": "item.completed", "item": {"id": "item_3", "type": "command_execution", "command": "/bin/zsh -lc 'cat input.json'", "aggregated_output": "{\"marker\": \"fixture-marker\", \"numbers\": [19, 37]}\n", "exit_code": 0, "status": "completed"}}
+{"type": "item.completed", "item": {"id": "item_4", "type": "agent_message", "text": "fixture-marker|56"}}
+{"type": "turn.completed", "usage": {"input_tokens": 50249, "cached_input_tokens": 32000, "cache_write_input_tokens": 0, "output_tokens": 77, "reasoning_output_tokens": 0}}

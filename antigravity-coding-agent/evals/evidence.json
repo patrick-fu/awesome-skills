@@ -1,0 +1,50 @@
+{
+  "source": "User-provided Antigravity incident review, 2026-10-11 through 2026-10-15",
+  "historical_incidents": [
+    "failed cd still launched with empty prompt and wrote captures in HOME",
+    "bare 240 and 2700 print-timeout values failed after instructions had been read",
+    "reused temporary capture names overwrote prior stderr and confused later analysis",
+    "outer shell success masked the child failure",
+    "top-level model/cwd lookups missed nested init fields"
+  ],
+  "fixture": {
+    "file": "fixtures/denied.jsonl",
+    "source": "Manually reconstructed because the original temporary probe was unavailable: nested init model/cwd, RunCommand denial, empty response, complete SUCCESS result line.",
+    "synthetic_fields": "Workspace and conversation ID. This is not a recovered original capture."
+  },
+  "live_success_fixture": {
+    "file": "fixtures/success-1.3.6.jsonl",
+    "source": "Actual agy 1.3.6 read-only comparison on 2026-10-16: exit 0, nested identity, completed view_file and correct nonempty response, with denied_actions omitted. Selected events retained; unrelated events and tools omitted.",
+    "sanitization": "Conversation ID, workspace, filename and response marker replaced. Tool output summary and terminal usage/timing preserved. This is a sanitized projection, not a reconstructed incident.",
+    "verdict": "Omitted denials remain UNKNOWN. Known denials are retained for task acceptance, not a completion veto. Invalid types, empty answers and missing identity still prevent completion. SUCCESS never proves confinement."
+  },
+  "preserved_contract": "G0-G5, the specified single-unit duration grammar including 0, unchanged launch arguments, UNKNOWN evidence, answer-only jq boundary; no automatic retry, elevation, resume, cleanup or HOME isolation.",
+  "constructed_controls": [
+    "normal success and ordinary warnings",
+    "denial with a nonempty answer and empty answer without denial",
+    "CLI timeout with exit 0, malformed or duplicate results, wrong schema and Unicode",
+    "complete result while child remains alive; abandoned capture without final receipt",
+    "step deltas retained in raw capture but omitted from compact inspect output",
+    "answer extraction on successful, denied and failed terminal results",
+    "complete final JSON without newline versus truly truncated JSON",
+    "auxiliary telemetry timeout versus explicit print-timeout expiry",
+    "cancellation with a complete result and child shutdown exit 0; forced termination when ignored",
+    "two simultaneous attempts: cancel one parent and its same-group worker, preserve the other",
+    "signals during Popen handoff, after observed child exit and during receipt parsing"
+  ],
+  "ablation": {
+    "command": "python3 evals/check_ablation.py",
+    "method": "Execute temporary one-mechanism removals against offline process stubs; compare child-exit-only and full evidence verdicts. Preserve positive controls.",
+    "limits": "Mechanical fault replay, not measured model obedience. No real agy calls. Word counts are context-size proxies, not exact token counts."
+  },
+  "decisions": {
+    "keep": "Eight isolated removals expose lost protection or telemetry while positive controls pass. Retain duration, HOME, prompt, unique capture, real exit, denial observation, explicit CLI timeout and duplicate-terminal checks.",
+    "context": "Scope / Run / Accept stays in the main document. Boundaries and Recovery load conditionally; API configuration remains a separate branch. A finalized receipt and extracted answer make the ordinary path self-contained.",
+    "inspect": "A complete result while a stub child still lives remains UNFINALIZED. Atomically publish the receipt after child exit and capture close; an abandoned attempt does not imply a live process.",
+    "completion": "The 2026-10-17 relaxation separates mechanical completion from task acceptance. Denials remain observable; only explicit print-timeout expiry affects the timeout verdict. Valid JSON without a trailing newline is accepted; malformed/truncated records remain incomplete. Word counts are reported, not hard CI limits. The original single-unit duration grammar is unchanged.",
+    "cancellation": "POSIX children start in a new process group. Pending signals are recorded before Popen and handled synchronously, without throwing across process handoff. Interrupted groups are terminated and stopped is retained independently of child rc. Handlers remain through receipt publication, ignoring signals after observed exit. Independent review reproduced startup leakage and finalization evidence loss in the first implementation; both now have permanent offline regression checks. Detached processes are outside this guarantee. Denied termination names the owned PID and leaves evidence UNFINALIZED instead of manufacturing process exit.",
+    "lifecycle_review": "On 2026-10-17 Sol reproduced and rechecked startup, finalization and pending-then-natural-exit paths with real offline stub processes. DeepSeek reviewed through the selected Claude wrapper; its stop-permission error finding was reproduced with an injected EPERM and fixed. Its claim that cancellation cause and actual child signal must match was rejected: these are distinct facts. SIGKILL may not promptly reap an OS-unreapable child; retain UNFINALIZED evidence and ownership rather than claim exit. A first external review exceeded its deadline and is not counted as completed.",
+    "unchanged_policy": "Do not copy Claude stdin transport, tool-pairing schema, permission presets or automatic recovery. No global process discovery, cross-session cancel registry, HOME isolation or capture cleanup.",
+    "review": "Sol and DeepSeek (through the user-selected Claude wrapper) reviewed independently. Sol's omitted pre-retry partial-action check was restored. DeepSeek's ordinary-answer dependency was resolved with answer.txt. Its claimed absence of inspect coverage was disproved by actual stream-parser tests. Grok's additional design run timed out and is not counted as a pass."
+  }
+}

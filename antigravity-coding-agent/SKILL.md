@@ -1,40 +1,26 @@
 ---
 name: antigravity-coding-agent
-description: >-
-  Run Google Antigravity CLI (`agy`) as an external coding executor. Use only
-  when explicitly selected by name.
+description: Run bounded tasks through Antigravity CLI (agy) or its wrapper, when explicitly selected.
 ---
 
 # Antigravity Coding Agent
 
-Use the selected launcher to carry a bounded task through execution and host
-verification. Preserve the user's model, permissions, workspace, and scope.
+## Scope
 
-## Establish the run
+Check the selected launcher's `--version`, `--help`, and `models`. Tiered model
+IDs already carry effort; add `--effort` only when needed. Honor explicit
+choices and compare requested settings with emitted values. Keep wrappers
+opaque: source, arguments and environment may contain credentials.
 
-1. Invoke the requested binary or wrapper with `--version` and `--help`.
-   Preserve wrappers as opaque: their source, definitions, arguments, and full
-   environment may contain credentials. Discover behavior through help and
-   emitted diagnostics, keeping secret values out of captures.
-2. Use `models` to select a supported model/effort. A tiered model ID already
-   carries effort; add `--effort` only when the selected entry requires it.
-   Honor explicit choices; otherwise match capability and effort to the task.
-   Record requested settings and verify effective settings when emitted.
-3. Fix the absolute workspace, permitted actions, and acceptance evidence.
-   Use isolated workspaces for experiments. Parallel writers need separate
-   workspaces or an explicit single writer.
-   Permissions grant actions; isolation constrains their effects. Verify the
-   effective boundary when strict read-only or confined writes are required.
+Fix workspace, permitted actions and acceptance evidence; isolate experiments
+and parallel writers. **Boundary:** before file-only work, confined writes or
+permission recovery, read [Boundaries](references/monitoring.md#boundaries).
+**API:** before key/endpoint setup or route verification, read
+[API mode](references/api-mode.md). The skill grants no extra authorization.
 
-Read [API mode](references/api-mode.md) before API-key/custom-endpoint setup
-or route verification. Read [monitoring](references/monitoring.md) before a
-monitored run, permission recovery, partial failure, or session resume.
+## Run
 
-## Execute
-
-Use [agy_run.py](scripts/agy_run.py) as the only supported entry point for
-task execution. Write the task to a prompt file, then launch in the host's
-resumable process facility:
+Use [agy_run.py](scripts/agy_run.py) as the only supported entry point:
 
 ```bash
 python3 "$SKILL_DIR/scripts/agy_run.py" \
@@ -43,45 +29,22 @@ python3 "$SKILL_DIR/scripts/agy_run.py" \
   -- --model "$MODEL"
 ```
 
-`SKILL_DIR` is this installed skill's directory. Other launcher arguments go
-unchanged after `--`; the script owns prompt, output format, and deadline.
-It prints the attempt directory immediately and a typed receipt on exit.
-Monitor that directory as described in [monitoring](references/monitoring.md),
-showing only new short semantic signals; omit thinking and token deltas.
-A quiet live process remains running until completion, cancellation, or its
-deliberate deadline. The script does not retry, elevate permissions, manage
-conversations, change HOME, or clean old attempts.
+`SKILL_DIR` is this skill's directory. Choose the CLI deadline deliberately;
+0 is unbounded. Pass other authorized launcher arguments unchanged after `--`.
 
-| Rule | Owning mechanism in `agy_run.py` |
+| Owner | Responsibility |
 | --- | --- |
-| G0: deadline grammar | Argument validation before launch |
-| G1: workspace boundary | Resolved directory validation before launch |
-| G2: prompt source | Prompt-file validation before launch |
-| G3: capture identity | Exclusive per-attempt temporary directory and files |
-| G4: process exit | Direct child execution and `rc.txt` |
-| G5: completion evidence | Stream parser and typed `receipt.json` |
+| Script | G0 duration, G1 cwd, G2 prompt, G3 unique captures, G4 child exit, G5 typed receipt |
+| Agent | Model, permissions, required tool evidence, artifact acceptance, recovery |
 
-For file-only read-only work, list target files host-side, add authorized
-external directories with `--add-dir`, and request reads through `view_file`.
-Require completed reads for the target paths. Planning mode is not an OS read-only guarantee. Headless permission denial can still
-exit zero: inspect tool errors and `denied_actions`. For writes,
-`--dangerously-skip-permissions` requires explicit authorization for that run;
-it approves every tool, so retain the authorized workspace boundary.
+Retain the host process handle. The script prints `run_dir`, then the final
+receipt. Use `python3 "$SKILL_DIR/scripts/agy_run.py" inspect "$RUN_DIR"` for
+compact evidence while waiting. Quiet output alone is not failure.
 
-## Accept or recover
+## Accept
 
-Observe both the terminal result and actual process exit. Then inspect the
-answer, required completed tools, denied actions, stderr timeouts, and actual
-artifacts/diff. Run task-appropriate checks only within the authorized scope;
-report checks not performed. Execution success and artifact acceptance are
-separate conclusions. Keep a run's error classification even if independently
-verified work is useful.
-
-Before retrying or resuming, inspect completed actions and partial artifacts
-so work or side effects are not repeated. Keep attempts separate. A canceled
-or superseded task needs its owned processes stopped and exit confirmed before
-its workspace is released. Clean only runtime/captures owned by this run,
-retaining the evidence needed for its acceptance or unresolved failure.
-
-Commit, push, deploy, worktree creation, and broader permissions require the
-corresponding user authorization; the skill supplies no extra scope.
+`SUCCESS` is an evidence verdict, not artifact acceptance. Read `answer.txt`;
+check required completed tools and actual artifacts/diff against Scope; report
+unperformed checks. **Recover:** for failed/incomplete evidence, timeout,
+cancellation, raw-stream diagnosis or resume, read
+[Recovery](references/monitoring.md#recovery) before another attempt.

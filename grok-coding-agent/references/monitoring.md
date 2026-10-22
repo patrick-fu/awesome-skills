@@ -1,85 +1,65 @@
-# Grok Build CLI Monitoring Reference
+# Grok CLI Reference
 
-This reference contains version-sensitive operational details. Verify them
-against the selected launcher before use.
+## Boundaries
 
-## Discover current capabilities
+For file-only work, choose `--sandbox read-only --permission-mode dontAsk
+--no-subagents --tools read_file,grep,list_dir --deny 'MCPTool(*)'` when supported.
+Tool filtering, permission policy and OS sandboxing are separate controls:
+startup hooks and discovery tools require their own consideration. An init
+list containing `search_tool`/`use_tool` is not proof that MCP access occurred,
+nor that every possible path is confined. Deny wins over allow; replace a
+blanket MCP deny narrowly only for an authorized tool.
 
-```bash
-<launcher> --version
-<launcher> --help
-<launcher> models
-```
+For strict workspace writes, use an operator-configured fail-closed profile
+extending workspace with the intended roots and required runtime paths. Repo
+configuration is not trusted operator configuration. Verify enforcement;
+explicit sandbox-disabled/unenforced warnings are isolation failures even if
+exit is zero. Other configuration/plugin warnings are diagnostic, not blanket
+failures. Built-in profiles can warn and continue; macOS read-only does not
+block child network access. Preserve required network boundaries separately.
+Do not impose read-probe restrictions on unrelated authorized implementations.
 
-Use current help and `models` for model, effort, sandbox and output-format syntax. Wrapper identity and opacity are defined in the main skill.
+## Stream
 
-## Semantic Stream
+The runner requires `streaming-messages-json`:
 
-Use the sandbox-selected baselines from the skill body. Do not add
-`--include-partial-messages`. Consume complete JSONL records and reduce them to
-these states:
+| Event | Evidence |
+| --- | --- |
+| root `system/init` | Observed model/cwd/permissionMode/tools/session ID; absent values UNKNOWN |
+| assistant `tool_use` | ID records a call, names and payload remain in raw capture |
+| user `tool_result` | Matching tool_use_id and is_error record the outcome |
+| root `result` | subtype/is_error plus child exit classify the turn; result text is candidate answer |
 
-| Grok event | Compact host state |
-|---|---|
-| system initialization | `running` |
-| assistant message containing `tool_use` | `working — <tool> started` |
-| user message containing `tool_result` | `working — <tool> completed` |
-| terminal `result` with successful exit | `turn ended; verify task evidence` |
-| terminal failure or nonzero exit | `failed` |
+Nested tool identities include their parent ID. Tool errors and permission
+telemetry do not veto mechanical completion; the host judges necessary actions.
+Missing denial telemetry stays UNKNOWN. Suppress thinking/token deltas in host
+updates, retaining raw evidence.
 
-Ignore `thinking` blocks and raw reasoning. Do not forward full tool arguments,
-tool results, or assistant text when a short action summary is enough.
+If this transport is unavailable, report the capability gap. Native
+`streaming-json` is a different ACP schema terminating with `end`; it needs a
+separately verified host integration, not this parser with renamed fields.
 
-If current help lacks `streaming-messages-json`, fall back to:
+Complete JSON without a trailing newline is valid; truncated JSON, duplicate
+terminal records and unfinished known tool lifecycles remain incomplete.
+Unknown event kinds are counted without inventing their meaning. Missing
+initialization metadata does not block a valid terminal and real exit.
 
-```bash
-<launcher> --output-format streaming-json --sandbox read-only --permission-mode dontAsk --no-subagents --tools "read_file,grep,list_dir" --deny 'MCPTool(*)' -p "Your task"
-```
+## Recovery
 
-The fallback emits fine-grained `thought` and `text` records. Drop those token
-deltas. Use tool-call lifecycle records for `working` and the terminal `end`
-record plus process exit for completion.
+A final receipt is published only after observed child exit; `UNFINALIZED`
+does not prove either liveness or death. Use the retained host handle. Signal
+or deadline stop is separate from the actual child rc, even if the child handles
+termination and returns zero. POSIX cancellation targets this attempt's process
+group; detached workers, unkillable processes and non-POSIX child-only shutdown
+are outside that guarantee. A stop/reap error leaves evidence unfinalized;
+resolve the owned process state and confirm exit before releasing its workspace.
 
-## Retain the process and its evidence
+Inspect completed actions and partial artifacts before retrying or resuming;
+keep attempts distinct. The runner neither retries nor widens permissions,
+manages sessions, isolates HOME, or cleans captures. System temp is not permanent
+storage: retain useful acceptance/failure evidence deliberately.
 
-Use the host's resumable process facility. Its handle, OS PID, and CLI session
-ID are different identities. Save fresh captures for each attempt under system
-temp and continuously consume new complete lines. An old report is not this
-run's result. Preserve full evidence while returning only compact signals.
-
-Without a retained host session, arrange for a supervisor to save the child's
-real exit code. A later shell cannot recover it from a vanished PID. Verify
-that the child survives its launching shell; some hosts reap `nohup ... &`
-children. Prefer a retained foreground session when available.
-
-Choose a task-appropriate host deadline, allowing any CLI deadline time to
-finish shutdown. Distinguish actual deadline expiry, permission blockage,
-stream failure and cancellation. Silence alone is not a failure. Inspect
-relevant semantic events and process state at a missed checkpoint.
-
-Before another attempt, check completed tools and partial artifacts to avoid
-repeating side effects. Resume only through current CLI capabilities and verify
-continuation identity when emitted. Keep failed and recovered attempts distinct.
-For cancellation or supersession, stop owned processes and confirm exit before
-releasing the workspace. Clean only this run's state, preserving its useful
-acceptance and unresolved-failure evidence.
-
-## Terminal and Error Handling
-
-- `result` is the preferred stream's terminal record; `end` terminates the
-  fallback stream.
-- A nonzero exit before any stream record is a failed start: classify it from
-  the exit code and stderr; do not wait for a terminal record that will never
-  come. A built-in sandbox can instead warn and continue without enforcement;
-  treat that warning as an isolation failure even when the run exits zero.
-- Combine the terminal record with process exit. A plausible final-looking
-  assistant message is not sufficient completion evidence. Confirm successful
-  results for the tool actions the task needed before claiming task success.
-- Preserve stderr for diagnosis, but do not classify an otherwise successful
-  run as failed solely because stderr contains warnings.
-- If output ends with an incomplete JSON line, report an incomplete stream
-  rather than manufacturing completion.
-
-Grok session resume, worktree support, ACP stdio, WebSocket, and leader commands
-are separate integration surfaces. Inspect their current help only when a
-workflow explicitly requires them; they are not needed for ordinary monitoring.
+Use current resume/continue/fork help and verify the intended session identity.
+`--session-id` creates a new session; it does not resume one. Conversation
+resume does not imply code restore; `--restore-code`/worktree behavior needs
+separate authorization. ACP/leader/WebSocket are separate integrations.

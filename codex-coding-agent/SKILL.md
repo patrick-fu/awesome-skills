@@ -1,77 +1,52 @@
 ---
 name: codex-coding-agent
-description: >-
-  Run local Codex CLI (`codex`) as an external coding executor. Use only when
-  explicitly selected by name.
+description: Run bounded tasks through Codex CLI or its wrapper, when explicitly selected.
 ---
 
 # Codex Coding Agent
 
-Use the selected launcher to carry a bounded task through execution and host
-verification. Preserve the user's model, permissions, workspace, and scope.
+## Scope
 
-## Establish the run
+Use the selected launcher's `--version`, `--help`, `exec --help` and model
+catalog (`debug models`; extract only model/effort fields)
+to choose supported model/effort settings. Honor explicit choices; keep wrappers
+opaque because their source and environment may contain credentials. Compare
+requested settings with observed evidence, leaving absent values unverified.
 
-1. Invoke the requested binary or wrapper with `--version`, `--help`, and
-   `exec --help`. Keep wrappers opaque: definitions, source, arguments, and
-   full environments may contain credentials. Discover behavior through help
-   and diagnostics; redact secret values from captures.
-2. Honor explicit model/effort choices; otherwise select supported settings
-   suited to the task. Use current help and the model catalog. Extract only
-   the needed model fields from large catalogs. Record requested and effective
-   settings separately; absent effective settings stay unverified.
-3. Fix the absolute workspace, permitted actions, and acceptance evidence.
-   Experiments use isolated workspaces; parallel writers need separate
-   workspaces or a single writer. Sandbox and approval policy are separate
-   controls; constrain remote MCP effects separately when relevant.
+Fix the workspace, permitted actions and acceptance evidence. Experiments and
+parallel writers need isolated workspaces. **Boundary:** before file-only work,
+strict confinement or permission recovery, read
+[Boundaries](references/monitoring.md#boundaries). The skill grants no extra scope.
 
-Read [monitoring](references/monitoring.md) before a monitored run, permission
-recovery, partial failure, or session resume. Discover profiles, review
-selectors, and configuration overrides through current subcommand help.
+## Run
 
-## Execute
-
-Use monitor mode whenever the task needs tools or may take time:
+For ordinary bounded headless tasks, use [codex_run.py](scripts/codex_run.py):
 
 ```bash
-# Read-only work
-<launcher> -a never exec --json --sandbox read-only --ignore-rules --ephemeral "Your task"
-
-# Authorized implementation
-<launcher> exec --json --sandbox workspace-write "Your task"
+python3 "$SKILL_DIR/scripts/codex_run.py" run \
+  --launcher "$LAUNCHER" --cwd "$WORKSPACE" --prompt-file "$PROMPT_FILE" \
+  --timeout-seconds 600 -- --model "$MODEL"
 ```
 
-For read-only work, disable approval prompts and user/project exec-policy
-rules: an allowed command can run outside the shell sandbox. `--ignore-rules`
-does not remove managed requirements. Verify effective policy, including
-wrapper overrides, or use host-enforced isolation before claiming a strict
-boundary. If these controls are unavailable, preserve the requirement rather
-than silently weakening it.
+`SKILL_DIR` is this skill's directory. Choose the deadline deliberately
+(0 is unbounded); pass authorized Codex **exec** options after `--`.
+Omit model overrides supplied by an opaque wrapper.
 
-Retain the host process handle and fresh stdout/stderr captures under system
-temp. Consume complete records continuously; show short new semantic signals,
-not reasoning or full command payloads. Stdout may mix JSON and status lines;
-filter status text and summarize large `aggregated_output` values. Choose a
-task-appropriate host deadline. A quiet live process remains running until
-completion, cancellation, or its deliberate deadline.
+| Owner | Responsibility |
+| --- | --- |
+| Script | Target/prompt validation, native transport, unique captures, real child exit, compact receipt |
+| Agent | Model, permissions, required successful actions, artifacts, recovery |
 
-For a trivial task needing no tool evidence, use the same task-appropriate
-invocation without `--json`; preserve the read-only flags when applicable.
+Retain the host process handle. The runner prints `run_dir`, then its receipt;
+use `python3 "$SKILL_DIR/scripts/codex_run.py" inspect "$RUN_DIR"` while
+waiting. Quiet output alone is not failure.
 
-## Accept or recover
+## Accept
 
-Observe `turn.completed` or `turn.failed` and actual process exit, then inspect
-the answer, required completed items, stderr, and actual artifacts/diff.
-A final-message file or a nonterminal error alone does not classify the run.
-Run checks appropriate to the authorized task and state those not performed.
-Execution success and artifact acceptance are separate conclusions; retain
-an error classification even when independently verified partial work is useful.
-
-Before retrying or resuming, inspect completed actions and partial artifacts
-so work or side effects are not repeated. Keep attempts separate. Stop a
-canceled or superseded task's owned processes and confirm exit before releasing
-its workspace. Clean only this run's runtime/captures and retain evidence for
-acceptance or an unresolved failure.
-
-Commit, push, deploy, worktree creation, and broader permissions require the
-corresponding user authorization; the skill supplies no extra scope.
+`COMPLETED` means process/stream completion, not task acceptance. Read
+`answer.txt`; check necessary successful tools, refusals and artifacts/diff,
+including untracked files. Missing or empty candidate text may be legitimate;
+judge against Scope. Report unperformed checks.
+**Decode:** for schema questions, read [Stream](references/monitoring.md#stream).
+**Recover:** before cancellation recovery, another attempt or native resume,
+read [Recovery](references/monitoring.md#recovery).

@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import signal
 import subprocess
 import sys
@@ -19,13 +20,12 @@ from datetime import datetime, timezone
 UNKNOWN = "UNKNOWN"
 DURATION = re.compile(r"(?:0|[0-9]+(?:\.[0-9]+)?(?:ns|us|µs|ms|s|m|h))")
 TIMEOUT = re.compile(
-    r"print[- ]timeout.*(?:reached|exceeded|expired)|timed out|"
-    r"timeout (?:reached|exceeded|expired)|deadline exceeded",
+    r"print[- ]timeout\b.*(?:reached|exceeded|expired|timed out)",
     re.IGNORECASE,
 )
 
 
-def parse_stream(stream_path: Path, stderr_path: Path, exit_code=UNKNOWN) -> dict:
+def parse_stream(stream_path: Path, stderr_path: Path, exit_code=UNKNOWN, answer_file=None) -> dict:
     receipt = {
         "status": UNKNOWN,
         "exit": exit_code,
@@ -39,6 +39,7 @@ def parse_stream(stream_path: Path, stderr_path: Path, exit_code=UNKNOWN) -> dic
     }
     malformed = False
     structured_error = False
+    answer = None
     seen = set()
     try:
         with stream_path.open("rb") as stream:
@@ -82,11 +83,15 @@ def parse_stream(stream_path: Path, stderr_path: Path, exit_code=UNKNOWN) -> dic
                     )
                     denied = payload.get("denied_actions")
                     receipt["denied_actions"] = denied if isinstance(denied, list) else UNKNOWN
+                    if "denied_actions" in payload and not isinstance(denied, list):
+                        malformed = True
                     response = payload.get("response")
                     try:
                         receipt["response_bytes"] = (
                             len(response.encode("utf-8")) if isinstance(response, str) else UNKNOWN
                         )
+                        if isinstance(response, str):
+                            answer = response
                     except UnicodeError:
                         malformed = True
                     if payload.get("error"):
@@ -114,14 +119,14 @@ def parse_stream(stream_path: Path, stderr_path: Path, exit_code=UNKNOWN) -> dic
         or receipt["result_status"] != "SUCCESS"
         or receipt["model"] == UNKNOWN
         or receipt["cwd"] == UNKNOWN
-        or receipt["denied_actions"] != []
         or receipt["response_bytes"] in (UNKNOWN, 0)
-        or receipt["incomplete_final_line"] is not False
         or receipt["timeout_warning"] is not False
     ):
         receipt["status"] = "INCOMPLETE"
     else:
         receipt["status"] = "SUCCESS"
+    if answer_file is not None and answer is not None:
+        answer_file.write(answer)
     return receipt
 
 
@@ -165,6 +170,7 @@ def run(args: argparse.Namespace) -> int:
     if not temp_root.is_absolute() or not temp_root.is_dir():
         raise ValueError("G3: set TMPDIR to an absolute, writable existing temporary directory.")
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+    previous_handlers = {}
     try:
         run_dir = Path(tempfile.mkdtemp(
             prefix=f"agy-{args.label}-{timestamp}-{os.getpid()}-", dir=temp_root
@@ -173,55 +179,129 @@ def run(args: argparse.Namespace) -> int:
             stream = files.enter_context((run_dir / "stream.jsonl").open("xb"))
             stderr = files.enter_context((run_dir / "stderr.log").open("xb"))
             rc_file = files.enter_context((run_dir / "rc.txt").open("x", encoding="utf-8"))
-            receipt_file = files.enter_context((run_dir / "receipt.json").open("x", encoding="utf-8"))
+            receipt_file = files.enter_context((run_dir / "receipt.pending").open("x", encoding="utf-8"))
+            answer_file = files.enter_context((run_dir / "answer.txt").open("x", encoding="utf-8"))
             print(json.dumps({"run_dir": str(run_dir)}), flush=True)
             exit_code = UNKNOWN
             launch_error = None
+            stopped = None
+            pending_signal = None
+            child = None
+
+            def forward_signal(signum, frame):
+                nonlocal pending_signal
+                if child is None or child.returncode is None:
+                    pending_signal = signal.Signals(signum).name
+
+            for signum in (signal.SIGINT, signal.SIGTERM):
+                previous_handlers[signum] = signal.signal(signum, forward_signal)
             try:
+                executable = shutil.which(args.agy_bin)
+                if not executable:
+                    raise FileNotFoundError(args.agy_bin)
                 child = subprocess.Popen(
-                    [args.agy_bin, *forwarded, "--output-format", "stream-json",
+                    [os.path.abspath(executable), *forwarded, "--output-format", "stream-json",
                      "--print-timeout", args.print_timeout, "-p", prompt],
                     cwd=cwd, stdin=subprocess.DEVNULL, stdout=stream, stderr=stderr,
+                    start_new_session=(os.name == "posix"),
                 )
-                previous_handlers = {}
-
-                def forward_signal(signum, frame):
-                    if child.poll() is None:
-                        child.send_signal(signum)
-
-                try:
-                    for signum in (signal.SIGINT, signal.SIGTERM):
-                        previous_handlers[signum] = signal.signal(signum, forward_signal)
-                    exit_code = child.wait()
-                finally:
-                    for signum, handler in previous_handlers.items():
-                        signal.signal(signum, handler)
+                while True:
+                    if pending_signal:
+                        stopped = pending_signal
+                        try:
+                            if os.name == "posix":
+                                os.killpg(child.pid, signal.SIGTERM)
+                            else:
+                                child.terminate()
+                        except ProcessLookupError:
+                            pass
+                        try:
+                            exit_code = child.wait(timeout=5)
+                        except subprocess.TimeoutExpired:
+                            if os.name == "posix":
+                                try:
+                                    os.killpg(child.pid, signal.SIGKILL)
+                                except ProcessLookupError:
+                                    pass
+                            else:
+                                child.kill()
+                            exit_code = child.wait()
+                        if os.name == "posix":
+                            try:
+                                os.killpg(child.pid, signal.SIGKILL)
+                            except ProcessLookupError:
+                                pass
+                        break
+                    try:
+                        exit_code = child.wait(timeout=0.1)
+                        if not pending_signal:
+                            break
+                    except subprocess.TimeoutExpired:
+                        pass
             except OSError as error:
+                if child is not None:
+                    raise ValueError(
+                        f"G4: cannot stop or reap this attempt's owned PID {child.pid}; keep its host handle, "
+                        "resolve the process permission/state and confirm exit before releasing the workspace. "
+                        "Evidence remains UNFINALIZED; do not broaden permissions automatically."
+                    ) from error
                 launch_error = "G4: cannot execute --agy-bin; supply an executable binary or wrapper."
                 stderr.write(f"{launch_error} {error}\n".encode("utf-8"))
             stderr.flush()
             rc_file.write(f"{exit_code}\n")
             rc_file.flush()
-            receipt = parse_stream(run_dir / "stream.jsonl", run_dir / "stderr.log", exit_code)
+            receipt = parse_stream(run_dir / "stream.jsonl", run_dir / "stderr.log", exit_code, answer_file)
+            receipt["stopped"] = stopped
+            if stopped:
+                receipt["status"] = "FAILED"
             if launch_error:
                 receipt["status"] = "FAILED"
                 print(launch_error, file=sys.stderr)
             receipt["run_dir"] = str(run_dir)
+            receipt["answer_file"] = str(run_dir / "answer.txt")
             serialized = json.dumps(receipt)
             receipt_file.write(serialized + "\n")
             receipt_file.flush()
-            print(serialized, flush=True)
+        (run_dir / "receipt.pending").replace(run_dir / "receipt.json")
+        print(serialized, flush=True)
     except OSError as error:
         raise ValueError(
             "G3/G5: cannot create or save attempt evidence; fix TMPDIR permissions/free space."
         ) from error
+    finally:
+        for signum, handler in previous_handlers.items():
+            signal.signal(signum, handler)
     if isinstance(exit_code, int) and exit_code != 0:
         return exit_code if exit_code > 0 else 128 - exit_code
     return 0 if receipt["status"] == "SUCCESS" else 1
 
 
+def inspect_attempt(argv) -> int:
+    parser = argparse.ArgumentParser(description="Inspect evidence without claiming an unfinished process has exited.")
+    parser.add_argument("run_dir", type=Path)
+    args = parser.parse_args(argv)
+    directory = args.run_dir
+    try:
+        if not directory.is_dir() or not (directory / "stream.jsonl").is_file() or not (directory / "stderr.log").is_file():
+            raise ValueError("use an existing attempt directory containing stream.jsonl and stderr.log")
+        final = directory / "receipt.json"
+        if final.is_file() and final.stat().st_size:
+            receipt = json.loads(final.read_text(encoding="utf-8"))
+        else:
+            receipt = parse_stream(directory / "stream.jsonl", directory / "stderr.log")
+            receipt.update(status="UNFINALIZED", run_dir=str(directory))
+        print(json.dumps(receipt))
+        return 0
+    except (OSError, ValueError) as error:
+        print(f"Inspect: {error}. Check the capture path and retained host handle.", file=sys.stderr)
+        return 2
+
+
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
+    if sys.argv[1:2] == ["inspect"]:
+        return inspect_attempt(sys.argv[2:])
+    parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False,
+                                     epilog="Inspect a live or finished attempt: agy_run.py inspect RUN_DIR")
     parser.add_argument("--cwd", required=True)
     parser.add_argument("--prompt-file", required=True)
     parser.add_argument("--print-timeout", required=True)

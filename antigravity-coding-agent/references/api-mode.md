@@ -32,7 +32,7 @@ and secret query parameters. Avoid environment dumps and wrapper inspection.
 Startup checks only key nonemptiness. The interactive `Gemini API key` header
 identifies mode; successful `models` does not establish generation access.
 Put a minimal request in a prompt file and run it with the selected model via
-the [Execute entry point](../SKILL.md#execute); verify result and exit using
+the [Run entry point](../SKILL.md#run); verify result and exit using
 [monitoring](monitoring.md).
 
 | Claim | Evidence |

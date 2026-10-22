@@ -1,82 +1,48 @@
-# Antigravity Monitoring
+# Antigravity Boundaries and Recovery
 
-Read this for stream parsing, completion decisions, permission recovery, or
-resume. The launch and authorization contract is in [SKILL.md](../SKILL.md).
-Behavioral observations below cover 1.2.11–1.2.12; help was rechecked on
-1.3.3. Verify version-sensitive behavior with the selected launcher.
+## Boundaries
 
-## Retain the process and its evidence
+For file-only work, list target paths host-side, pass authorized external
+directories with `--add-dir`, and request `view_file`. Require DONE reads with
+usable output and no tool error for each target. A missing listing capability
+can instead lead to denied `run_command`; exit 0 does not establish completion.
 
-Monitor the attempt directory printed by `agy_run.py`: `stream.jsonl` and
-`stderr.log` are live captures; `rc.txt` and `receipt.json` are populated after
-the child exits. Save the host's resumable process handle; that handle, OS PID,
-and Antigravity conversation ID identify different things.
+Planning mode is not OS read-only isolation. Permission modes and `--mode` are
+separate; observed modes are `plan` and `accept-edits`, while default means
+omitting the flag. Check the selected launcher's current capabilities.
+Headless tools cannot obtain interactive approval; permission behavior has
+changed across versions, so verify the intended boundary before relying on it.
 
-The receipt prints `status`, `exit`, `model`, `cwd`, `denied_actions`,
-`response_bytes`, `incomplete_final_line`, and `timeout_warning`. Unavailable
-values are the string `UNKNOWN`; known values retain their JSON types.
-`status` is the evidence verdict (`SUCCESS`, `FAILED`, or `INCOMPLETE`);
-`result_status` preserves the CLI's terminal status. Model and cwd come from
-`init`, never from requested settings. `SUCCESS` still requires host acceptance
-of required tools and artifacts. The launcher returns the child's nonzero exit
-(signals use 128 + signal number), or 1 for incomplete evidence with child exit
-0; `rc.txt` always records the child's return code, including negative signals.
-Temporary captures are not permanent archives; retain needed evidence before
-system cleanup.
+`--dangerously-skip-permissions` approves every tool and requires explicit
+authorization for that run. Under skip-permissions, `denied_actions` is always
+empty; use the authorization tree/status-diff as boundary evidence instead.
+Neither correct `init.cwd` nor absent denials proves confinement.
 
-Measure deadlines with host wall time. `result.duration_seconds` differed
-substantially from elapsed time in a 1.2.12 failure. Choose the CLI deadline
-deliberately and give a host watchdog time for CLI shutdown. Distinguish an
-observed timeout warning, watchdog action, stream failure, and user cancel;
-quiet output alone is not a termination signal.
+## Evidence
 
-## Parse the selected output
+`stream.jsonl` and `stderr.log` retain raw evidence; `rc.txt` records the actual
+child exit; `answer.txt` extracts the first terminal response, including useful
+partial text from a failed run. `receipt.json` is published atomically after exit. Before then,
+`inspect` reports `UNFINALIZED`, which does not prove the process is alive.
+Use the retained host handle. Inspect exit 0 means the snapshot was obtained,
+not that the task succeeded. Host handle, PID and conversation ID are distinct.
+Temporary captures are not archives; preserve needed evidence before cleanup.
 
-| Format | Evidence available |
-| --- | --- |
-| `text` | Final prose |
-| `json` | One object: `conversation_id`, `status`, `response`, duration, `num_turns`, usage; failure may add `error` |
-| `stream-json` | JSONL `init`, `step_update`, terminal `result`; use for required tool evidence |
+The parser owns the `event` schema: `init.model`/`init.cwd` are nested, and the
+answer is `result.response`. Unknown values are the string `UNKNOWN`; known
+values retain JSON types. `result_status` preserves the CLI terminal status;
+receipt `status` combines it with exit, response, parseable records and
+stderr timeout/error evidence. Unknown event kinds remain in raw captures and
+cannot substitute for init/result. `step_update` ACTIVE/DONE describes tool
+lifecycle; DONE still requires checking tool output/errors. Omit thinking and
+text deltas from progress reports.
 
-`--input-format stream-json` accepts NDJSON turns on stdin and requires
-`--output-format stream-json`. Invalid output-format values were silently
-treated as text; use a supported value.
-
-Parse `event`, not `type`. In
-`{"event":"result","result":{"status":"SUCCESS","response":"..."}}`,
-the answer is `result.response`. `step_update.text_delta` is a field, not a
-separate event; omit thinking and token deltas from progress reports.
-Init fields are nested too: `init.model` and `init.cwd`, not top-level fields.
-The parser ignores unknown event kinds while retaining their original bytes;
-unknown events cannot substitute for init or result evidence.
-
-| Event | Host interpretation |
-| --- | --- |
-| `init` | Running; record cwd, tools, permission mode, conversation ID and model when emitted |
-| `step_update.state: ACTIVE` | Step started |
-| `step_update.state: DONE` | Step ended; inspect tool output/error before calling it successful |
-| `result` | Classify the turn below, then confirm actual process exit |
-
-Short replies may have no ACTIVE step. Missing `init.model` leaves the
-effective model unverified; retain the explicit requested model separately.
-Preserve full captures while parsing, rather than keeping only grep/tail
-output. An incomplete final JSON line is incomplete stream evidence.
-
-## Decide completion
-
-| Observed evidence | Decision |
-| --- | --- |
-| SUCCESS, exit 0, nonempty response, required tools completed, no denied actions or timeout | Turn completed; independently accept or reject the answer/artifacts |
-| SUCCESS/exit 0, empty response or `denied_actions` | Task not established; inspect permission/tool failures |
-| ERROR with nonempty response, even exit 0 | Keep ERROR; inspect `result.error` and independently verify useful partial work |
-| No terminal result, partial JSON, or timeout warning on stderr | Incomplete; preserve partial evidence even with response text or exit 0 |
-| Other non-SUCCESS status, structured failure, or nonzero exit | Failed/interrupted/not completed; retain the actual status and cause |
-
-Ordinary stderr warnings alone do not invalidate a successful turn. Since
-1.2.6, print-timeout expiry can return partial output and exit 0 with a warning.
-A zero-byte answer or disappearing PID does not establish completion.
-Under `--dangerously-skip-permissions`, `denied_actions` is always empty;
-use the authorization tree/status-diff as boundary evidence instead.
+In observed 1.3.6 successful streams, `denied_actions` can be omitted. Preserve
+`UNKNOWN` without invalidating completion; it does not establish an empty denial
+list or a permission boundary. Known denials remain visible but do not veto
+completion: check whether required work was denied or recovered. Invalid field
+types still prevent `SUCCESS`. A complete final JSON object without a newline
+sets `incomplete_final_line=true` but is not a truncated record.
 
 For answer extraction only, after saving a stream:
 
@@ -90,56 +56,50 @@ jq -er '
 
 This does not check the exit, timeout, completed tools, or artifact correctness.
 
-| Exit | Diagnostic to inspect |
-| --- | --- |
-| 1 | Model/effort selection conflict |
-| 2 | Usage: unknown flag, positional prompt, incompatible input/output formats, or `missing unit in duration` |
-| 3 | `AGY_ERROR: {...}` on stderr: `status`, `error_code`, `retryable`, `error_id` |
+## Recovery
 
-Since 1.2.10, exit 3 can follow partial streamed output; older versions could
-exit 0. Preserve this attempt's stream, stderr and artifacts before recovery.
-If `AGY_ERROR.retryable` is false, stop retrying/resuming that run; a fresh
-bounded task is a separate attempt. HTTP success does not prove a complete
-model stream: an interrupted response needs its actual finish/error evidence.
+Before retrying or resuming, inspect completed actions and partial artifacts
+so work and side effects are not repeated.
 
-## Recover permissions or resume
+- **SUCCESS:** independently accept the answer/artifacts and required tools.
+- **FAILED:** retain the error even if partial work is useful. Inspect stderr:
+  exit 1 can indicate model/effort conflict; exit 2 usage/format errors or
+  `missing unit in duration`; exit 3 can carry `AGY_ERROR` with `error_code`,
+  `retryable`, and `error_id`. If retryable is false, stop retrying/resuming that
+  run; a fresh bounded task is a separate attempt.
+- **INCOMPLETE:** inspect empty response, missing identity/result,
+  malformed or truncated JSONL, duplicate terminal events and timeout warnings.
+  Since 1.2.6 a print timeout can return partial output with exit 0.
+  Only explicit print-timeout expiry diagnostics set `timeout_warning`;
+  auxiliary `timed out` messages remain in stderr for diagnosis.
+- **Deadline / Cancel:** measure host wall time; `result.duration_seconds` has
+  disagreed with elapsed time. Give a host watchdog time for CLI shutdown.
+  Distinguish CLI timeout, watchdog, stream interruption and user cancellation.
+  Cancel through the retained host handle, not process-name matching. On POSIX,
+  the script terminates its own process group, escalating after a five-second
+  child grace period and stopping remaining group members. It records
+  `stopped` (the host cancellation cause) separately from actual rc; interrupted
+  runs cannot claim success even if the child handles termination with exit 0. Signals after observed
+  child exit do not change that outcome. Detached processes outside the group
+  need separate ownership; non-POSIX termination covers the direct child only.
+  If termination is denied, the script reports its owned PID and leaves evidence
+  `UNFINALIZED`. An OS-unreapable child can outlast escalation; never infer exit
+  from the grace period alone.
+  Confirm owned work has stopped before releasing the workspace.
+  Signal exits are negative in `rc.txt` and returned as 128 + signal number.
+- **Resume:** `--continue` / `-c` selects the latest conversation;
+  `--conversation <id>` selects one.
+  Verify conversation ID and increasing `num_turns`: an unknown ID can silently
+  start fresh with exit 0. HTTP success alone does not prove a complete stream.
 
-Headless tools cannot obtain interactive approval. Soft denial may still
-exit 0; check `denied_actions`, tool errors and actual output. In 1.2.11 a
-settings `permissions.allow` rule did not rescue a write request; current
-[headless documentation](https://antigravity.google/docs/cli/headless/)
-describes scoped allow rules and auto-allowed workspace writes. Probe the
-intended permission setup before relying on either version's behavior.
+The script never retries, elevates permissions, manages conversations, changes
+HOME or cleans attempts. Use `help <subcommand>` / `changelog` for capabilities
+outside print tasks. Protocol observations span 1.2.11–1.3.6; current launcher
+help and model catalog take precedence over cached flags and online defaults.
 
-For file-only recovery, list paths host-side, supply them in the prompt and
-request `view_file`. Require DONE reads with usable output and no tool error
-for every required target, then a nonempty successful answer and no denial.
-Since 1.2.7 a missing listing tool could lead to denied `run_command` instead.
-If commands are essential, establish the authorized host boundary before
-broader approval. `--dangerously-skip-permissions` approves every tool.
+## Maintenance
 
-Tool permission modes and `--mode` are separate. Observed execution modes
-are `accept-edits` and `plan`; omit the flag for default (`--mode default`
-errors). Planning does not enforce an OS read-only boundary. Discover current
-permission fields/flags through help rather than guessing presets.
-
-After the partial-action checks in the main skill, `--continue`/`-c` resumes
-the latest conversation; `--conversation <id>` selects one. Verify the same
-`conversation_id` and increasing `num_turns`. An unknown ID can warn and
-start fresh with exit 0, so exit alone does not prove resume.
-
-For capabilities not needed by an ordinary run, use `help <subcommand>` or
-`changelog` on demand. Current help and online documentation can disagree:
-1.3.3 help shows timeout default 0s and effort xhigh/max, while the online
-reference still lists 5m and low/medium/high. Use the selected launcher's help
-and model catalog; a global effort enum does not prove model-specific support.
-
-## Offline regression checks
-
-Run `python3 evals/check_launch_guards.py` and `python3 evals/check_stream_parser.py`
-from this skill directory. They inject a local stub and never call real agy.
-`evals/fixtures/denied.jsonl` is a manually reconstructed equivalent of the
-historical probe, whose original temporary capture was unavailable: nested
-init model/cwd, denied RunCommand, empty response, and a complete SUCCESS result
-line. Its workspace and conversation ID are synthetic. Truncated final lines,
-missing model, unknown events, failures and positive controls are replayed too.
+Run `python3 evals/check_launch_guards.py`, `python3 evals/check_stream_parser.py`,
+`python3 evals/check_cancel.py` and `python3 evals/check_ablation.py` from this
+skill directory. These inject offline stubs. [Evidence](../evals/evidence.json) separates historical incidents,
+the reconstructed denied fixture, constructed controls and ablation limits.

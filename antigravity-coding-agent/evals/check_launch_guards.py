@@ -19,7 +19,7 @@ from unittest.mock import patch
 
 
 SKILL_DIR = Path(__file__).resolve().parents[1]
-SCRIPT = SKILL_DIR / "scripts" / "agy_run.py"
+SCRIPT = Path(os.environ.get("AGY_RUN_SCRIPT", SKILL_DIR / "scripts" / "agy_run.py"))
 
 
 class Harness:
@@ -34,8 +34,8 @@ class Harness:
         self.stub = root / "stub agy"
         shutil.copyfile(SKILL_DIR / "evals" / "stub_agy.py", self.stub)
         self.stub.chmod(0o700)
-        self.env = dict(os.environ, HOME=str(self.home), TMPDIR=str(self.captures))
-        for key in ("STUB_STREAM", "STUB_EXIT", "STUB_STDERR"):
+        self.env = dict(os.environ, HOME=str(self.home), TMPDIR=str(self.captures), PYTHONDONTWRITEBYTECODE="1")
+        for key in ("STUB_STREAM", "STUB_EXIT", "STUB_STDERR", "STUB_SLEEP"):
             self.env.pop(key, None)
 
     def command(self, timeout="45m", cwd=None, prompt=None, extra=()):
@@ -45,7 +45,7 @@ class Harness:
 
     def invoke(self, env=None, **options):
         return subprocess.run(self.command(**options), cwd=self.home,
-                              env=dict(self.env, **(env or {})), capture_output=True, text=True)
+                              env=dict(self.env, **(env or {})), capture_output=True, text=True, timeout=15)
 
     def rejected(self, guard, **options):
         home_before = sorted(str(path) for path in self.home.rglob("*"))
@@ -69,9 +69,29 @@ def receipt_from(result):
     assert json.loads((directory / "receipt.json").read_text()) == receipt
     assert (directory / "rc.txt").read_text().strip() == str(receipt["exit"])
     assert {path.name for path in directory.iterdir()} == {
-        "stream.jsonl", "stderr.log", "rc.txt", "receipt.json"
+        "stream.jsonl", "stderr.log", "rc.txt", "receipt.json", "answer.txt"
     }
     return directory, receipt
+
+
+def check_launcher_identity(harness):
+    original = (SKILL_DIR / "evals" / "stub_agy.py").read_text()
+    for directory, marker in ((harness.home, "selected host wrapper"), (harness.cwd, "target wrapper")):
+        wrapper = directory / "selected-wrapper"
+        wrapper.write_text(original.replace('os.environ.get("STUB_STDERR", "ordinary warning\\n")', repr(marker)))
+        wrapper.chmod(0o700)
+    command = harness.command()
+    environment = dict(harness.env, PATH="." + os.pathsep + os.environ["PATH"])
+    for launcher, expected in (("selected-wrapper", "selected host wrapper"),
+                               (str(harness.cwd / "selected-wrapper"), "target wrapper")):
+        command[command.index("--agy-bin") + 1] = launcher
+        result = subprocess.run(command, cwd=harness.home, env=environment,
+                                capture_output=True, text=True, timeout=15)
+        assert result.returncode == 0, result.stderr
+        directory, receipt = receipt_from(result)
+        assert (directory / "stderr.log").read_text() == expected
+        assert receipt["cwd"] == str(harness.cwd)
+    print("PASS G4: relative PATH selection survives child cwd change; absolute override is honored")
 
 
 def check_docs():
@@ -102,6 +122,16 @@ jq -er '
 This does not check the exit, timeout, completed tools, or artifact correctness.'''
     assert extraction in monitoring
     assert "authorization tree/status-diff" in monitoring
+    for document in (SKILL_DIR / "SKILL.md", *sorted((SKILL_DIR / "references").glob("*.md"))):
+        for target in re.findall(r"\]\(([^)]+)\)", document.read_text(encoding="utf-8")):
+            if "://" in target:
+                continue
+            relative, _, anchor = target.partition("#")
+            destination = document.parent / relative
+            assert destination.is_file(), (document, target)
+            if anchor:
+                headings = re.findall(r"^#+ (.+)$", destination.read_text(encoding="utf-8"), re.MULTILINE)
+                assert anchor in [heading.lower().replace(" ", "-") for heading in headings], (document, target)
     print("PASS docs: obsolete recipes removed; answer-only jq boundary unchanged")
 
 
@@ -137,11 +167,14 @@ def main() -> int:
             assert receipt["model"] == "stub-model"
             assert receipt["cwd"] == str(harness.cwd)
             assert receipt["response_bytes"] == 6
+            assert Path(receipt["answer_file"]).read_text(encoding="utf-8") == "完成"
             observed = json.loads((harness.cwd / "invoked.json").read_text())
             assert observed["args"] == ["--output-format", "stream-json", "--print-timeout", timeout,
                                         "-p", harness.prompt.read_text()]
             assert observed["home"] == str(harness.home)
             print(f"PASS allowed G0–G5: {timeout}, valid cwd/prompt, rc=0, SUCCESS")
+
+        check_launcher_identity(harness)
 
         extra = ["--model", "chosen-model", "--effort", "high", "--add-dir", "space and ; literal",
                  "--add-dir", "cwd", "--conversation", "chosen-id", "--continue", "--mode", "accept-edits"]

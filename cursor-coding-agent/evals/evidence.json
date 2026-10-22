@@ -1,0 +1,21 @@
+{
+  "observed_on": "2026-10-17",
+  "cli": "2026.10.14-941492e",
+  "source": "Real local bounded read-only probe; selected protocol events, not a constructed success fixture.",
+  "redactions": [
+    "Workspace paths, session IDs and randomized markers replaced; Cursor call IDs replaced preserving multiline shape. Thinking and unrelated init metadata omitted."
+  ],
+  "fixtures": {
+    "read.jsonl": {
+      "original_sha256": "489590e30f0220098d6f3097147b573552a7089cacf6dff73f07759eba71b5eb",
+      "original_events": 13,
+      "selected_events": 7
+    },
+    "rejected.jsonl": {
+      "original_sha256": "b5c4db07149f215856dda4aa6d8411e2113bdf8f585e6d5cab8f4f97e5bb5a14",
+      "original_events": 11,
+      "selected_events": 7
+    }
+  },
+  "negative_controls": "Constructed mutations of these fixtures; not additional historical incidents."
+}

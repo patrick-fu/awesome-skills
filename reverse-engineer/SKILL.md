@@ -58,3 +58,4 @@ Workflow (find commands via `rea --llms | rg -i "ghidra|decompile|analyze|xrefs"
 
 - Massive Electron/ASAR evidence slicing: read [references/slicing.md](references/slicing.md).
 - Layer 3 deep Ghidra specifics (cache quirks, raw-binary edge cases): read [references/ghidra.md](references/ghidra.md).
+- Installing missing tools: read [references/install-tools.md](references/install-tools.md).

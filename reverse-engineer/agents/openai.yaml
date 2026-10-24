@@ -2,5 +2,3 @@ interface:
   display_name: "Reverse Engineer"
   short_description: "Reverse-engineer shipped software in three layers"
   default_prompt: "Use $reverse-engineer to investigate this target and trace its implementation."
-policy:
-  allow_implicit_invocation: false

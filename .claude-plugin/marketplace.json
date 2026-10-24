@@ -52,7 +52,8 @@
         "./generate-commit-message",
         "./git-task-workspace",
         "./build-verifier",
-        "./review-and-improve"
+        "./review-and-improve",
+        "./reverse-engineer"
       ]
     },
     {

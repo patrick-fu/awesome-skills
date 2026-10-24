@@ -280,6 +280,15 @@ improvements to workflows, checks, and instructions.
 Invoke it after a complex task or when similar problems recur to turn experience
 into reusable tools and guidance for future work.
 
+#### 🔬 [`reverse-engineer`](./reverse-engineer)
+
+Reverse-engineer shipped software in three escalating layers: native Unix
+tools for fast recon, the REA CLI for structured Evidence, and Ghidra
+pseudocode for function-level analysis. Zero MCP, zero hard-coded subcommands,
+zero version lock-in.
+
+Use it when source is absent.
+
 #### 📝 [`generate-commit-message`](./generate-commit-message)
 
 Draft a concise English commit message with a sentence-case subject, no

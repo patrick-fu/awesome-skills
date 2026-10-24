@@ -231,6 +231,13 @@ Agent 能直接运行检查、保留结果，并随着项目变化更新验证�
 
 适合在复杂任务收尾或同类问题反复出现时显式调用，把一次任务的经验转化为后续可复用的工具和规则。
 
+#### 🔬 [`reverse-engineer`](./reverse-engineer)
+
+三层递进的逆向工作流：原生 Unix 工具做快速侦察，REA CLI 获取结构化
+Evidence，Ghidra 生成函数级伪代码。零 MCP，零硬编码子命令，零版本锁死。
+
+适用于没有源码的场景。
+
 #### 📝 [`generate-commit-message`](./generate-commit-message)
 
 草拟精简的英文 commit message：sentence-case 标题、不加 conventional prefix，重要改动

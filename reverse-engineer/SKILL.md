@@ -1,7 +1,6 @@
 ---
 name: reverse-engineer
-description: Reverse-engineer shipped software with native Unix tools and the local REA CLI, in three escalating layers.
-disable-model-invocation: true
+description: Reverse-engineer shipped software with native Unix tools and the local REA CLI when source is absent.
 ---
 
 # Reverse engineer

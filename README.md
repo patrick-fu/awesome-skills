@@ -53,6 +53,17 @@ static export, or in all three forms.
 
 📦 Standalone repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
+#### 🖌️ [`patrick-visual-language`](./patrick-visual-language)
+
+Patrick Fu's personal visual language for HTML: an engineering-whiteboard
+canvas with pencil-line rough cards, marker-yellow highlights, sticky notes and
+tape, and hand-annotated diagrams that explain systems beat by beat. Tokens,
+components, font subsets, examples, and acceptance gates are all embedded, so
+the style reproduces offline.
+
+Use it for any page, report, explainer, dashboard, or deck that should look
+like Patrick's own deliverables.
+
 ### 🧠 Knowledge and memory
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture)

@@ -50,6 +50,14 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 📦 独立仓库：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
+#### 🖌️ [`patrick-visual-language`](./patrick-visual-language)
+
+Patrick Fu 的个人 HTML 视觉语言：工程白板画布、铅笔线 rough card、荧光黄高亮、便签与
+胶带、手绘批注式图示，一拍一拍把复杂系统讲清楚。token、组件、字体子集、范例与验收
+门禁全部自闭环内嵌，离线即可复现。
+
+适合任何需要"像 Patrick 自己交付物"的页面、报告、讲解页、工作台或 deck。
+
 ### 🧠 知识与记忆
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture)

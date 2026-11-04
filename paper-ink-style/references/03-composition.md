@@ -1,72 +1,90 @@
-# Composition: one core, pluggable extensions
+# Composition: options per element
 
-There is no menu of styles here. The **core** is always on: base.css tokens and
-components, and the grammar and identity invariants in `01-grammar.md`. An **extension** is a bounded subset of those same components plus
-an explicit allowlist of overrides, loaded only when the content asks for it.
-Two pages that load different extensions must still look like the same hand.
+One hand, many dials. Each element below lists its options and the content
+signals that suit each; pick per element instead of reaching for a bundled
+preset. The known-good combinations at the end are examples of the dials set
+well, not templates to apply.
 
-Extensions are documentation-level modules, not extra stylesheets. Everything
-they activate already lives in `assets/base.css`; an extension tells you *when*
-to reach for it and *how far* you may go.
+## Canvas
 
-## Step 1 — read the content, then pick the minimum set
+- **true white** (default) — projected pages, short crisp explainers, anything
+  that should feel like a whiteboard under bright light.
+- **warm paper** (`data-surface="paper"`) — reading that lasts minutes: long
+  reports, mechanism explainers, incident records; also ops surfaces revisited
+  daily, where white glares.
+- **dotted paper** (`data-surface="dot"`) — scene-by-scene walkthroughs and
+  annotated tours, where the canvas should feel like a notebook page.
+- Paper and dot both set the surface tokens: choose one per page.
 
-| Signal in the content | Extension | File |
-|---|---|---|
-| read for minutes, evidence-heavy, long scroll | warm paper surface | `extensions/surface-paper.md` |
-| explaining what a user sees on a real screen | device frame + pencil annotation | `extensions/device-real.md` |
-| scene-by-scene walkthrough, notebook canvas | dotted paper | `extensions/surface-dot.md` |
-| revisited daily, action-first, 6–12 stable tiles | board tiles + dense scan type + lime marker | `extensions/card-board.md` |
-| secondary evidence that would crowd the argument | dashed fold / tech layer | `extensions/fold-deep.md` |
-| projected, one thesis per beat, revealed in steps | fixed stage + beat motion | `extensions/stage-deck.md` |
+## Card
 
-Conflicts: `surface-paper` and `surface-dot` both set `--pvl-surface` — pick
-one. `stage-deck` keeps true white and never takes `data-dense`.
-Everything else composes freely (`surface-paper` + `card-board`,
-`surface-dot` + `device-real`, `surface-paper` + `fold-deep`, …).
+- **rough** (`.pvl-card`, default) — the argument unit; irregular pencil radius.
+- **clean** (`.pvl-card--clean`) — report blocks on paper, where the rough
+  radius would fight long prose.
+- **board** (`.pvl-card--board`) — tiles on surfaces that are used rather than
+  read: workbenches, queues, dashboards.
+- **alt radius** (`.pvl-card--alt`) — neighbour variation so cards don't clone.
 
-## Step 2 — density is a dial, not a mode
+## Sticky note
 
-Roughly, per screen: 1 thesis (stage) · 1 scene (walkthrough) · 3–5 cards
-(report) · 6–12 stable tiles (workbench). Only one switch is declared:
-`<html data-dense="true">`, which lowers the sans floor to 10.5–13px for scan
-surfaces and in-device system UI. Continuous reading prose stays >= 14px
-everywhere; nothing ever goes below 10.5px.
+- Translucent tints (`--pink/--blue/--green`) sit well on true white.
+- Opaque tints (`--mint/--sky/--rose`) survive warm paper.
+- No note is fine; a note is a human aside, not a layout slot.
 
-## Step 3 — hold the identity, whatever you composed
+## Tape
 
-- Load the fewest extensions that serve the content. Every extension you add
-  is surface area for drift.
-- **>= 2 distinct hand-made markers must appear on the page**, and at least one
-  of them on the first screen: scribble title, tape, sticky note, rough card,
-  band highlight, pencil annotation. `audit.py` fails a page that has fewer.
-  Stickers and plain yellow highlights do not count toward this number — they
-  are core, not craft.
-- Titles stay verdicts, the TL;DR callout stays first, diagrams still carry the
-  explanation, and each teaching beat still ends in a takeaway lane.
+- Beige on white, warm (`--warm`) on paper, or none. Tape attaches a card to
+  the canvas; one or two per page is plenty.
 
-## Known-good compositions (examples, not a closed set)
+## Highlight
 
-- **Report / mechanism explainer** — `surface-paper` + `fold-deep`; clean or
-  alt-rough cards, band highlight on the verdict, warm tape, anchors for long
-  scroll, technical layer behind the density toggle, evidence in mono. Length is
-  fine; crowding is not — merge related facts into one card.
-- **Experience walkthrough** — `surface-dot` + `device-real`; narrow column,
-  one scene at a time, real UI inside the frame in system sans, pencil
-  annotation cards and pen-blue arrows outside. Verified 2026-11-03.
-- **Workbench / ops dashboard** — `surface-paper` + `card-board` (+ `fold-deep`
-  for deep rows); `data-dense="true"`, board tiles, lime marker, pastel tags
-  from the semantic kit, whole-card expand with remembered state.
-  `[correction: whole-card click, no hover]` Verified 2026-11-03.
-- **Talk deck** — `stage-deck` alone; true white, beat reveal via `--pvl-d`,
-  takeaway lane on key beats, stickers on real nodes.
+- **yellow block** (default) — the verdict phrase.
+- **band** (`--band`) — underline-band emphasis inside long prose on paper.
+- **lime** (`--lime`, on `.pvl-highlight`) — board tiles; it replaces yellow on
+  that surface, never joins it. One focal accent per screen either way.
 
-## Inventing a new combination
+## Annotation
 
-Allowed and expected — the four recipes above are field-tested starting points,
-not a taxonomy. Before shipping a new combination, check it the way you would
-check any page: strip the content down to boxes and lines, then ask whether it
-still looks like the same hand (pencil line, one focal accent, three type
-voices, >= 2 hand-made markers). If a new need recurs, the component goes into
-`base.css` and the recipe gets written up as an extension note — never as page
-CSS.
+- None by default.
+- Pencil annotation cards (`.pvl-annot`) plus pen-blue arrows when a realistic
+  device frame (`.pvl-device`) is on the page: real UI inside in system sans,
+  the hand outside explaining it.
+
+## Density and stage
+
+- Normal reading by default; the handwritten face carries the body.
+- `<html data-dense="true">` for scan surfaces (workbench tiles, in-device
+  rows): body voice switches to system sans and the sans floor drops to
+  10.5–13px. Continuous prose elsewhere stays >= 14px; nothing below 10.5px.
+- Scrolling page by default; a fixed stage with beat reveals (`--pvl-d`) when
+  the page is presented rather than read. Stage pages keep true white and never
+  go dense.
+
+## Known-good combinations (examples, not presets)
+
+- **Report / mechanism explainer** — paper canvas, clean or alt-rough cards,
+  band highlight, warm tape, dashed fold (`.pvl-fold`) for deep evidence,
+  technical layer behind the density toggle.
+- **Experience walkthrough** — dotted canvas, device frame with pencil
+  annotation outside, one scene at a time.
+- **Workbench / ops dashboard** — paper canvas, board tiles, dense scan type,
+  lime marker, pastel tags from the semantic kit, whole-card expand with
+  remembered state.
+- **Talk deck** — true white, fixed stage, beat reveals, takeaway lane on key
+  beats, stickers on real nodes.
+
+New combinations are welcome: set the dials the content asks for and check the
+hand below.
+
+## Self-check before delivering
+
+Look at the page once, as a reader would:
+
+- Can you name the current question and the verdict at a glance?
+- Are the main relations drawn rather than described?
+- One focal accent on this screen? Two or more hand-made marks on the page,
+  one of them early?
+- Does the body read in the handwritten voice, with sans only where real UI or
+  scan density lives?
+- At 390px: nothing overflows sideways, grids collapse, notes stay inside?
+- Does it feel right? Open the specimens in `assets/examples/` and compare the hand.

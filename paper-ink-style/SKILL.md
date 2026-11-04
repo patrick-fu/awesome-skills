@@ -9,45 +9,54 @@ description: >-
 
 # Paper Ink Style
 
-My personal visual style for HTML — a paper-and-pencil engineering whiteboard.
-One core (`assets/base.css`: tokens + components) plus six bounded extensions
-that change density and surface, never the hand. Everything lives in this
-directory; never fetch external fonts, pages, or docs.
+A style guide, not a template and not a linter: a paper-and-pencil engineering
+whiteboard where pencil-line cards, marker highlights, sticky notes and tape,
+and hand-annotated diagrams lead a reader through a complex system. The
+vocabulary lives in `assets/base.css`; the judgment lives here and in
+`references/`. Nothing in this skill is a gate — read it as guidance and keep
+the hand.
 
-## Workflow
+## The hand
 
-1. Read `assets/base.css` and `references/01-grammar.md`; keep
-   `references/04-anti-patterns.md` open while writing.
-2. Pick the minimum extension set from the content signals in
-   `references/03-composition.md`; read only those notes under
-   `references/extensions/`.
-3. Compose from `assets/snippets/` with parameters from
-   `references/02-components.md`: link base.css, copy structure, replace
-   content.
-4. Run `python3 scripts/audit.py <page.html>` and
-   `python3 scripts/render.py <page.html> <out-dir>`; iterate to PASS.
-5. Pass `references/05-acceptance.md` gate 3 against
-   `assets/examples/canonical-desktop.png`.
+- Pencil-line ink in three alphas, never pure black; shadows are small hard
+  offsets or soft paper lifts.
+- One focal marker accent per screen; the highlight sits on the phrase that
+  carries the verdict.
+- The handwritten face is the reading voice: titles, annotations and body all
+  speak it. System sans appears only inside realistic device frames and on
+  dense scan surfaces; mono speaks for precise objects (versions, files, logs).
+- Titles are verdicts or questions; open with a TL;DR stamp card; diagrams carry
+  the argument and prose carries verdicts, conditions, key facts; close each
+  teaching beat with a takeaway lane.
+- Leave hand-made marks on the page — scribble underline, tape, sticky note,
+  rough card, band highlight, pencil annotation; two or more, one of them early,
+  is what keeps a page from reading as a generic report.
+- Emoji are semantic objects on nodes, roles, files, incidents; never floating
+  in prose.
 
-## Hard rules
+## Working with it
 
-- Link or inline `base.css` verbatim; never redefine `--pvl-*` tokens or
-  reimplement components in page CSS. A new component goes into base.css with
-  a version bump.
-- >= 2 distinct hand-made markers per page, one on the first screen: scribble
-  title, tape, sticky note, rough card, band highlight, pencil annotation.
-  audit.py enforces this and prints the markers.
-- One focal accent per screen; <= 1 highlight per card, <= 3 per section.
-- Hover never expands or reveals layout; expand is a whole-card click with
-  `aria-expanded`.
-- Body >= 14px, mono >= 10.5px; `<html data-dense="true">` opts scan surfaces
-  into 10.5-13px. No horizontal overflow at 390px.
-- Ink `#2a2a2a` (paper `#202723`); no pure black, brand gradients, glossy
-  shadows, decorative motion; emoji attach to nodes, never float in prose.
-- Edit before layering: merge, compress, draw; secondary material goes behind
-  a fold, whole-card expand, or the density toggle.
+1. Look at the content first. `references/03-composition.md` lists each element
+   (canvas, card, note, tape, highlight, annotation, density, stage) with its
+   options and the content signals that suit each; pick per element, and let
+   known-good combinations serve as examples rather than presets.
+2. Deliver a single HTML file by default: inline `base.css` in a `<style>`
+   block, embed the font subsets when their size is acceptable, otherwise let
+   the system Kai fallbacks carry the handwritten voice. Split into multiple
+   files only when the reader asks or the deliverable genuinely needs it.
+3. Compose from the vocabulary: `references/02-components.md` for parameters,
+   `assets/snippets/` as specimens — copy structure, replace content, keep the
+   classes. `references/01-grammar.md` is how this style leads a reader; keep
+   `references/04-anti-patterns.md` in mind while writing.
+4. Before delivering, look at the page once more against the self-check at the
+   end of `references/03-composition.md`. If you want eyes on it,
+   `scripts/render.py <page.html> <out-dir>` screenshots 1440 and 390 widths.
 
-Identity invariants and the freedoms each extension may take live in
-`references/01-grammar.md` and `references/extensions/`. Production corrections
-enter `references/04-anti-patterns.md` first; the base.css header carries
-the version and git history is the changelog.
+## Where things live
+
+- `assets/base.css` — the vocabulary: tokens and components (v1.3.0).
+- `assets/snippets/`, `assets/examples/` (+ renders), `assets/fonts/` (LXGW
+  WenKai Lite subsets, SIL OFL).
+- `references/` — 01 grammar, 02 components, 03 composition and self-check,
+  04 anti-patterns, 05 provenance.
+- `scripts/render.py` — optional screenshots and a truthful 390px measure.

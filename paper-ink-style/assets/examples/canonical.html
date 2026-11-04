@@ -12,8 +12,9 @@
   <h1 class="pvl-title">CI 为什么慢了四十分钟：<br><span class="pvl-scribble">不是机器慢，是队列在等一把锁</span></h1>
   <p class="pvl-lede">这篇记录把一次 CI 变慢的排查过程摊开：先给结论，再画清楚谁在等谁，最后留下三条可以复用的门禁。读完你应该能认出自己项目里同一种等待。</p>
 
-  <div class="pvl-callout pvl-callout--path">
-    <b>TL;DR</b>
+  <div class="pvl-card">
+    <span class="pvl-tape"></span>
+    <p style="margin:0 0 6px"><span class="pvl-badge" style="background:var(--pvl-path)">TL;DR</span></p>
     <ul>
       <li>慢的不是编译，是 <span class="pvl-highlight">全局 mutation 锁</span>：所有 job 串行排队。</li>
       <li>证据：queue wait 中位数从 2 分钟涨到 31 分钟，build 时长没变。</li>

@@ -3,37 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>一套核心，六个拓展 · paper-ink-style 拓展展示页</title>
+<title>一套词汇，八组旋钮 · paper-ink-style 组合展示页</title>
 <!--
-  Extension showcase · paper-ink-style v1.2.0
+  Combination showcase · paper-ink-style v1.3.0
 
-  canonical.html is the pure-core reference (no extension loaded). This page is
-  the extension reference: it walks all six extension notes in
-  references/extensions/ on one canvas, to show they are the same hand at
-  different density and surface, not six styles.
+  canonical.html shows the vocabulary at its defaults. This page turns the
+  dials listed in references/03-composition.md — canvas, card, note, tape,
+  highlight, annotation, density, stage — one group at a time, to show that
+  different option sets stay the same hand.
 
-  Order: surface-paper -> card-board -> surface-dot + device-real -> fold-deep
-  -> stage-deck. Rendered screenshots: extensions-desktop.png /
-  extensions-mobile.png. Regenerate with:
-    python3 scripts/render.py assets/examples/extensions.html assets/examples --name extensions
+  Rendered screenshots: combinations-desktop.png / combinations-mobile.png.
+  Regenerate:
+    python3 scripts/render.py assets/examples/combinations.html <tmp-out-dir>
+    then copy the two PNGs back here.
 -->
 <link rel="stylesheet" href="../base.css">
 </head>
 <body>
 <main class="pvl-wrap">
-  <p class="pvl-kicker">Extension showcase · v1.2.0 · 六个拓展，一张画布</p>
-  <h1 class="pvl-title">一套核心，<span class="pvl-scribble">六个拓展</span></h1>
-  <p class="pvl-lede">拓展不是皮肤。每个拓展只激活 base.css 里已有的一小组组件，并且写清自己允许改哪些 token。页面按内容信号选最少的拓展，选完就贯穿全页——这一页是例外，它把六个都摊开给你看。</p>
+  <p class="pvl-kicker">Combination showcase · v1.3.0 · 八个旋钮，一张画布</p>
+  <h1 class="pvl-title">一套词汇，<span class="pvl-scribble">八组旋钮</span></h1>
+  <p class="pvl-lede">这是一份 style guide，不是模板：canvas、card、note、tape、highlight、annot、density、stage 各自有几档可选，按内容信号逐元素去拧，拧完贯穿全页。这一页是例外，它把每组旋钮都摊开给你看。</p>
 
-  <div class="pvl-callout"><b>TL;DR</b>
+  <div class="pvl-card">
+    <span class="pvl-tape pvl-tape--warm"></span>
+    <p style="margin:0 0 6px"><span class="pvl-badge">TL;DR</span></p>
     <ul>
-      <li>纯核心的样子看 <span class="pvl-mono">canonical.html</span>；这一页看拓展能走多远。</li>
-      <li>表面只能选一个：paper 与 dot 都改 <span class="pvl-mono">--pvl-surface</span>，不能叠。</li>
-      <li>不管怎么组合，<span class="pvl-highlight--band">至少两个手作标记</span>要在页面上，首屏至少一个。</li>
+      <li>默认长相看 <span class="pvl-mono">canonical.html</span>；这一页看旋钮能走多远。</li>
+      <li>canvas 只能选一档：paper 与 dot 都改 <span class="pvl-mono">--pvl-surface</span>，不能叠。</li>
+      <li>不管怎么拧，<span class="pvl-highlight--band">手作标记要留在页面上</span>，首屏至少一个。</li>
     </ul>
   </div>
 
-  <h2>surface-paper：暖纸 + clean 卡 + band 高亮</h2>
+  <h2>canvas 暖纸 + card clean + highlight band</h2>
   <div class="pvl-card pvl-card--clean pvl-card--alt">
     <span class="pvl-tape pvl-tape--warm"></span>
     <div class="pvl-kicker">长卷报告的表面</div>
@@ -42,7 +44,7 @@
     <div class="pvl-note pvl-note--rose pvl-note--inline">胶带换 --warm，米色在纸面上会消失。</div>
   </div>
 
-  <h2>card-board：board 瓦片 + 密排扫描字 + 柠檬黄</h2>
+  <h2>card board + density dense + highlight lime</h2>
   <div class="pvl-cols">
     <div class="pvl-card pvl-card--board">
       <span class="pvl-tape"></span>
@@ -59,7 +61,7 @@
     </div>
   </div>
 
-  <h2>surface-dot + device-real：点阵纸 + 拟真设备 + 铅笔批注</h2>
+  <h2>canvas 点阵 + device 拟真框 + annot 铅笔批注</h2>
   <div data-surface="dot" style="padding:22px;border-radius:16px">
     <div class="pvl-cols">
       <div class="pvl-device">
@@ -75,7 +77,7 @@
     </div>
   </div>
 
-  <h2>fold-deep：虚线折叠，把证据放到一层之下</h2>
+  <h2>fold 虚线折叠：证据放到一层之下</h2>
   <div class="pvl-card">
     <div class="pvl-kicker">论证保持干净，事实一层可达</div>
     <p>结论只需要一句：窗口从 28 秒缩到 9 秒。矩阵和原始日志不进正文。</p>
@@ -85,7 +87,7 @@
     </details>
   </div>
 
-  <h2>stage-deck：固定舞台 + beat 揭示（这里用滚动页演示动效）</h2>
+  <h2>stage 固定舞台 + beat 揭示（这里用滚动页演示动效）</h2>
   <div class="pvl-card pvl-card--clean">
     <div class="pvl-flow">
       <div style="text-align:center"><span class="pvl-sticker">📝</span><div class="pvl-kicker">Spec</div></div>
@@ -95,7 +97,7 @@
       <div style="text-align:center"><span class="pvl-sticker" style="border-color:var(--pvl-ok)">✅</span><div class="pvl-kicker">Verify</div></div>
     </div>
     <p class="pvl-reveal" style="--pvl-d:.1s">舞台档只留纯白，一个场景一个论点，字号往大走，不加 <span class="pvl-mono">data-dense</span>。</p>
-    <p class="pvl-takeaway pvl-reveal" style="--pvl-d:.3s">拓展决定密度与表面，<span class="pvl-highlight">手迹决定这是谁的页面</span>。</p>
+    <p class="pvl-takeaway pvl-reveal" style="--pvl-d:.3s">旋钮决定密度与表面，<span class="pvl-highlight">手迹决定这是谁的页面</span>。</p>
   </div>
 </main>
 </body>

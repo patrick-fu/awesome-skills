@@ -52,14 +52,9 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 #### 🖌️ [`patrick-visual-language`](./patrick-visual-language)
 
-Patrick Fu 的个人 HTML 视觉语言：工程白板画布、铅笔线 rough card、荧光黄高亮、便签与
-胶带、手绘批注式图示，一拍一拍把复杂系统讲清楚。token、组件、字体子集、范例与验收
-门禁全部自闭环内嵌，离线即可复现。
+我的个人视觉风格：纸面画布、铅笔线卡片、荧光笔高亮、便签与胶带、手写批注图示。
 
-一套核心加六份有边界的拓展（暖纸/点阵纸、board 瓦片、拟真设备框、虚线折叠、演讲
-舞台）按内容适配而不换手迹，静态门禁强制每页保留手作标记。
-
-适合任何需要"像 Patrick 自己交付物"的页面、报告、讲解页、工作台或 deck。
+任何页面、报告、讲解页、工作台或 deck 想用这套风格时加载它。
 
 ### 🧠 知识与记忆
 

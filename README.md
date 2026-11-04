@@ -55,18 +55,12 @@ static export, or in all three forms.
 
 #### 🖌️ [`patrick-visual-language`](./patrick-visual-language)
 
-Patrick Fu's personal visual language for HTML: an engineering-whiteboard
-canvas with pencil-line rough cards, marker-yellow highlights, sticky notes and
-tape, and hand-annotated diagrams that explain systems beat by beat. Tokens,
-components, font subsets, examples, and acceptance gates are all embedded, so
-the style reproduces offline.
+My personal visual style for HTML: a paper-and-pencil canvas with rough
+pencil-line cards, marker highlights, sticky notes and tape, and hand-annotated
+diagrams.
 
-One core plus six bounded extensions (warm/dotted paper, board tiles, real
-device frame, deep fold, talk stage) adapt it to the content without changing
-the hand, and a static gate enforces the identity markers on every page.
-
-Use it for any page, report, explainer, dashboard, or deck that should look
-like Patrick's own deliverables.
+Load it whenever a page, report, explainer, workbench, or deck should use this
+style.
 
 ### 🧠 Knowledge and memory
 

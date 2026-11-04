@@ -23,13 +23,13 @@ well, not templates to apply.
   radius would fight long prose.
 - **board** (`.pvl-card--board`) — tiles on surfaces that are used rather than
   read: workbenches, queues, dashboards.
-- **alt radius** (`.pvl-card--alt`) — neighbour variation so cards don't clone.
+- **alt radius** (`.pvl-card--alt`) — neighbour variation: adjacent cards keep their own shape.
 
 ## Sticky note
 
 - Translucent tints (`--pink/--blue/--green`) sit well on true white.
 - Opaque tints (`--mint/--sky/--rose`) survive warm paper.
-- No note is fine; a note is a human aside, not a layout slot.
+- A note is a human aside; skip it when the page has no aside.
 
 ## Tape
 
@@ -40,8 +40,8 @@ well, not templates to apply.
 
 - **yellow block** (default) — the verdict phrase.
 - **band** (`--band`) — underline-band emphasis inside long prose on paper.
-- **lime** (`--lime`, on `.pvl-highlight`) — board tiles; it replaces yellow on
-  that surface, never joins it. One focal accent per screen either way.
+- **lime** (`--lime`, on `.pvl-highlight`) — board tiles, where it is the
+  focal accent in place of yellow. One focal accent per screen either way.
 
 ## Annotation
 
@@ -55,10 +55,11 @@ well, not templates to apply.
 - Normal reading by default; the handwritten face carries the body.
 - `<html data-dense="true">` for scan surfaces (workbench tiles, in-device
   rows): body voice switches to system sans and the sans floor drops to
-  10.5–13px. Continuous prose elsewhere stays >= 14px; nothing below 10.5px.
+  10.5–13px. Continuous prose elsewhere stays >= 14px; 10.5px is the floor
+  everywhere.
 - Scrolling page by default; a fixed stage with beat reveals (`--pvl-d`) when
-  the page is presented rather than read. Stage pages keep true white and never
-  go dense.
+  the page is presented rather than read. Stage pages stay true white at
+  reading-large type.
 
 ## Known-good combinations (examples, not presets)
 
@@ -86,5 +87,6 @@ Look at the page once, as a reader would:
   one of them early?
 - Does the body read in the handwritten voice, with sans only where real UI or
   scan density lives?
-- At 390px: nothing overflows sideways, grids collapse, notes stay inside?
+- At 390px: everything fits — grids collapse, tables scroll inside their
+  card, notes stay inside?
 - Does it feel right? Open the specimens in `assets/examples/` and compare the hand.

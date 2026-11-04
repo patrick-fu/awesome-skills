@@ -53,7 +53,7 @@ static export, or in all three forms.
 
 📦 Standalone repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
-#### 🖌️ [`patrick-visual-language`](./patrick-visual-language)
+#### 🖌️ [`paper-ink-style`](./paper-ink-style)
 
 My personal visual style for HTML: a paper-and-pencil canvas with rough
 pencil-line cards, marker highlights, sticky notes and tape, and hand-annotated

@@ -50,7 +50,7 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 📦 独立仓库：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
-#### 🖌️ [`patrick-visual-language`](./patrick-visual-language)
+#### 🖌️ [`paper-ink-style`](./paper-ink-style)
 
 我的个人视觉风格：纸面画布、铅笔线卡片、荧光笔高亮、便签与胶带、手写批注图示。
 

@@ -1,0 +1,4 @@
+LXGW WenKai Lite is licensed under the SIL Open Font License, Version 1.1.
+Subsets (latin, cjk-common) retrieved from the canonical deck's self-hosted
+font files. Full license text: https://scripts.sil.org/OFL (offline copy of
+the OFL-1.1 terms applies; no modification of the font binaries).

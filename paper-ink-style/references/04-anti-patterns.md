@@ -1,7 +1,7 @@
 # Anti-patterns (production corrections, distilled)
 
-Each rule exists because a real deliverable got corrected. audit.py enforces
-the mechanical ones. Rules 13-14 came out of the v1.2 blind batch, where four
+Each entry exists because a real deliverable got corrected. They are ways the
+hand gets lost, not gates; entries 13-14 came out of a blind batch where four
 pages built from the same skill drifted into four different looks.
 
 1. **Too many highlights = no highlight.** <=1 `.pvl-highlight` per card,
@@ -38,11 +38,13 @@ pages built from the same skill drifted into four different looks.
     plus a yellow block plus a sans title is a generic report; it loses the
     hand. Every page needs >= 2 distinct markers among scribble title, tape,
     sticky note, rough card, band highlight, pencil annotation, and one of them
-    on the first screen. audit.py fails this.
-14. **Extension soup, or extensions as costumes.** Loading every extension
-    "because they exist" crowds the page and mixes surfaces; loading a
-    different extension set per section turns one deliverable into a collage of
-    styles. Load the minimum set the content signals justify
-    (`03-composition.md`), keep it for the whole page, and never exceed the
-    override allowlist in the extension note. Two pages built with different
-    extension sets must still look like the same hand.
+    on the first screen.
+14. **Option soup, or options as costumes.** Setting every dial "because it
+    exists" crowds the page and mixes canvases; re-setting the dials per
+    section turns one deliverable into a collage of styles. Set the options
+    the content signals justify (`03-composition.md`) and keep them for the
+    whole page. Two pages built with different options must still look like
+    the same hand.
+15. **A filled colour block with a side rule is not this style.** The old
+    callout shape reads as a generic blockquote. Frame asides with pencil
+    lines: rough cards, stamps, notes, folds.

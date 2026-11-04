@@ -11,13 +11,17 @@ given page takes.
 - One focal marker accent per screen (yellow family; lime replaces it on board
   tiles); the highlight carries the verdict
 - Stickers as semantic objects on real nodes; dashed connectors; verdict-sentence titles
-- TL;DR callout opening; takeaway lane closing each teaching beat
-- Three type voices: handwritten display/annotation, system sans reading, mono
+- TL;DR stamp card opening (a rough card carrying a TL;DR stamp and the
+  verdicts); takeaway lane closing each teaching beat
+- The handwritten face is the reading voice: titles, annotations and body;
+  system sans only inside device frames and on dense scan surfaces; mono for
   precise objects
 - Diagrams carry the explanation; prose carries verdicts, conditions, key facts
-- >= 2 distinct hand-made markers per page, one of them on the first screen
+- Hand-made marks on the page: scribble, tape, sticky note, rough card, band
+  highlight, pencil annotation — two or more kinds, one of them on the first
+  screen
 
-## Freedoms (vary by content; each owned by an extension note)
+## Freedoms (vary by content; each is a dial in `03-composition.md`)
 
 - Surface preset: true white / warm paper / dotted paper
 - Card family: irregular rough vs clean 16px vs board 20px
@@ -45,7 +49,10 @@ Text next to a diagram states verdicts, conditions, and key facts only.
 Never restate what the diagram already shows.
 
 ## Layered reading
-- Open with a TL;DR callout: 3-6 bullets, bold the verdicts.
+- Open with a TL;DR stamp card: a rough card, a mono/badge stamp, 3-6 bullets
+  with the verdicts bolded. The stamp card is a composition, not a component —
+  no filled colour block with a side rule; the pencil line does the framing.
+ 
 - Plain layer first (experience, consequences, conditions); technical layer
   (events, processes, logs, experiments) behind `data-density="tech"` and
   whole-card expand. The switch must change what the reader processes, not

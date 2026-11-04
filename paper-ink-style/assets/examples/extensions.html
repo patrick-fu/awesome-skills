@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN" data-surface="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>一套核心，六个拓展 · paper-ink-style 拓展展示页</title>
+<!--
+  Extension showcase · paper-ink-style v1.2.0
+
+  canonical.html is the pure-core reference (no extension loaded). This page is
+  the extension reference: it walks all six extension notes in
+  references/extensions/ on one canvas, to show they are the same hand at
+  different density and surface, not six styles.
+
+  Order: surface-paper -> card-board -> surface-dot + device-real -> fold-deep
+  -> stage-deck. Rendered screenshots: extensions-desktop.png /
+  extensions-mobile.png. Regenerate with:
+    python3 scripts/render.py assets/examples/extensions.html assets/examples --name extensions
+-->
+<link rel="stylesheet" href="../base.css">
+</head>
+<body>
+<main class="pvl-wrap">
+  <p class="pvl-kicker">Extension showcase · v1.2.0 · 六个拓展，一张画布</p>
+  <h1 class="pvl-title">一套核心，<span class="pvl-scribble">六个拓展</span></h1>
+  <p class="pvl-lede">拓展不是皮肤。每个拓展只激活 base.css 里已有的一小组组件，并且写清自己允许改哪些 token。页面按内容信号选最少的拓展，选完就贯穿全页——这一页是例外，它把六个都摊开给你看。</p>
+
+  <div class="pvl-callout"><b>TL;DR</b>
+    <ul>
+      <li>纯核心的样子看 <span class="pvl-mono">canonical.html</span>；这一页看拓展能走多远。</li>
+      <li>表面只能选一个：paper 与 dot 都改 <span class="pvl-mono">--pvl-surface</span>，不能叠。</li>
+      <li>不管怎么组合，<span class="pvl-highlight--band">至少两个手作标记</span>要在页面上，首屏至少一个。</li>
+    </ul>
+  </div>
+
+  <h2>surface-paper：暖纸 + clean 卡 + band 高亮</h2>
+  <div class="pvl-card pvl-card--clean pvl-card--alt">
+    <span class="pvl-tape pvl-tape--warm"></span>
+    <div class="pvl-kicker">长卷报告的表面</div>
+    <p>广播到达后 <span class="pvl-highlight--band">1.8 秒建联、28 秒执行窗口</span>，三次重启均复现。纸面把语义 kit 一起换成暖色，卡片族换成 1.6px 墨线 + 16px 圆角。</p>
+    <div class="pvl-note pvl-note--mint pvl-note--inline">暖纸上便签要用不透明色，f2 半透明会糊。</div>
+    <div class="pvl-note pvl-note--rose pvl-note--inline">胶带换 --warm，米色在纸面上会消失。</div>
+  </div>
+
+  <h2>card-board：board 瓦片 + 密排扫描字 + 柠檬黄</h2>
+  <div class="pvl-cols">
+    <div class="pvl-card pvl-card--board">
+      <span class="pvl-tape"></span>
+      <div class="pvl-kicker">现在最该顺手办的</div>
+      <p>orig-build orig-device 固件包出包后回归。</p>
+      <p><span class="pvl-badge" style="background:var(--pvl-warn)">WAITING</span> <span class="pvl-mono" style="padding:2px 8px;border-radius:999px;background:var(--pvl-path-bg)">Jira</span></p>
+      <p>标记色在这一档换成 <span class="pvl-highlight pvl-highlight--lime">柠檬黄 #dff56b</span>，替代而不是叠加。</p>
+    </div>
+    <div class="pvl-card pvl-card--board">
+      <div class="pvl-kicker">搁置但别丢</div>
+      <p>orig-ab 口径等 Confluence 评审。</p>
+      <p><span class="pvl-badge" style="background:var(--pvl-extra)">PARKED</span></p>
+      <p class="pvl-mono">data-dense="true" 只降扫描字号下限到 10.5px，连续阅读的正文仍然 &gt;= 14px。</p>
+    </div>
+  </div>
+
+  <h2>surface-dot + device-real：点阵纸 + 拟真设备 + 铅笔批注</h2>
+  <div data-surface="dot" style="padding:22px;border-radius:16px">
+    <div class="pvl-cols">
+      <div class="pvl-device">
+        <div class="pvl-device__status"><span>9:41</span><div class="pvl-device__island"></div><span style="font-size:13px">5G</span></div>
+        <div class="pvl-device__sheet" style="margin:10px 12px;padding:14px">
+          <p style="margin:0;font-size:15px;font-weight:600">配件选择</p>
+          <p style="margin:6px 0 0;font-size:13px;color:var(--pvl-muted)">系统 Picker 原样保留。</p>
+        </div>
+      </div>
+      <div class="pvl-annot" style="padding:12px 16px;transform:rotate(-.6deg)">
+        框内是真实界面，用系统 sans；框外才是手写声部。<span style="color:var(--pvl-pen-blue)">箭头从批注指进框里真正变化的那一步。</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>fold-deep：虚线折叠，把证据放到一层之下</h2>
+  <div class="pvl-card">
+    <div class="pvl-kicker">论证保持干净，事实一层可达</div>
+    <p>结论只需要一句：窗口从 28 秒缩到 9 秒。矩阵和原始日志不进正文。</p>
+    <details class="pvl-fold">
+      <summary>实验矩阵与原始日志</summary>
+      <p class="pvl-mono">orig-report ka · B+C+D patches · 2026-10-30 · run 3/3 复现<br>queue wait p50 2m → 31m · build duration 未变</p>
+    </details>
+  </div>
+
+  <h2>stage-deck：固定舞台 + beat 揭示（这里用滚动页演示动效）</h2>
+  <div class="pvl-card pvl-card--clean">
+    <div class="pvl-flow">
+      <div style="text-align:center"><span class="pvl-sticker">📝</span><div class="pvl-kicker">Spec</div></div>
+      <div class="pvl-connector"></div>
+      <div style="text-align:center"><span class="pvl-sticker" style="border-color:var(--pvl-path)">🔁</span><div class="pvl-kicker">Loop</div></div>
+      <div class="pvl-connector"></div>
+      <div style="text-align:center"><span class="pvl-sticker" style="border-color:var(--pvl-ok)">✅</span><div class="pvl-kicker">Verify</div></div>
+    </div>
+    <p class="pvl-reveal" style="--pvl-d:.1s">舞台档只留纯白，一个场景一个论点，字号往大走，不加 <span class="pvl-mono">data-dense</span>。</p>
+    <p class="pvl-takeaway pvl-reveal" style="--pvl-d:.3s">拓展决定密度与表面，<span class="pvl-highlight">手迹决定这是谁的页面</span>。</p>
+  </div>
+</main>
+</body>
+</html>

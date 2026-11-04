@@ -1,6 +1,6 @@
 # Grammar
 
-The style is a way of leading a reader, not a paint job. The invariants below
+The style leads a reader through the material; the paint serves the leading. The invariants below
 are the contract for "one core plus extensions": they hold at every density and
 with every extension set; `03-composition.md` decides which of the freedoms a
 given page takes.

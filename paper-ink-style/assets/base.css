@@ -8,7 +8,7 @@
    the system Kai fallbacks speak.
    v1.3.0: body reading voice is the handwritten face (--pvl-font-body, sans
    only on dense scan surfaces and inside device frames); .pvl-callout removed
-   (TL;DR is a composition, not a component). */
+   (TL;DR became a stamp-card composition). */
 
 @font-face{font-family:"LXGW WenKai Lite";src:url("fonts/lxgw-wenkai-lite-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"LXGW WenKai Lite";src:url("fonts/lxgw-wenkai-lite-cjk-common.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
@@ -21,13 +21,13 @@
   --pvl-ink:#2a2a2a;
   --pvl-muted:#6b7280;
   --pvl-rule:#e5e7eb;
-  /* pencil: three alphas of the ink, never pure black */
+  /* pencil: three alphas of the ink */
   --pvl-pencil-line:rgba(42,42,42,.85);
   --pvl-pencil-light:rgba(42,42,42,.40);
   --pvl-pencil-faint:rgba(42,42,42,.15);
   /* marker */
   --pvl-highlight:#ffe066;
-  /* semantic kit: labels in the argument, never brand gradients */
+  /* semantic kit: labels in the argument */
   --pvl-path:#2563eb;   --pvl-path-bg:#eff6ff;
   --pvl-ok:#16a34a;     --pvl-ok-bg:#f0fdf4;
   --pvl-risk:#dc2626;   --pvl-risk-bg:#fef2f2;
@@ -96,12 +96,12 @@ h2,h3{font-family:var(--pvl-font-display);color:var(--pvl-ink)}
 /* two-layer reading: plain layer by default, technical layer on demand.
    The layer switch must change what the reader processes, not hide mess. */
 html:not([data-density="tech"]) .pvl-tech-only{display:none}
-/* whole-card expand: the entire card toggles; hover must never expand. */
+/* whole-card expand: the entire card toggles on click. */
 .pvl-expand__body{display:none}
 .pvl-expand[aria-expanded="true"] .pvl-expand__body{display:block}
 .pvl-expand{cursor:pointer}
 
-/* ---------- beat motion (explanation unfolding, never decoration) ---------- */
+/* ---------- beat motion (explanation unfolding) ---------- */
 @keyframes pvl-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes pvl-stamp{from{opacity:0;transform:scale(1.25)}to{opacity:1;transform:scale(1)}}
 @keyframes pvl-sweep{from{background-size:0% 100%}to{background-size:100% 100%}}

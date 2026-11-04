@@ -10,7 +10,7 @@ disagree, fix both and bump the base.css version.
 
 | Token | Value | Role |
 |---|---|---|
-| ink | `#2a2a2a` (paper `#202723`, dot `#1c1c1e`) | reading ink; never pure black |
+| ink | `#2a2a2a` (paper `#202723`, dot `#1c1c1e`) | reading ink, pencil family |
 | pencil alphas | ink at .85 / .40 / .15 | borders, lines, folds, connectors |
 | canvas white | `#ffffff`, card `#ffffff` | default canvas |
 | canvas paper | `#f4efe3`, card `#fffdf8` | reading that lasts minutes; ops surfaces |
@@ -24,7 +24,7 @@ disagree, fix both and bump the base.css version.
 | tape | beige `#f5f5dc` b3→66 gradient; warm `#ffe8a3` | attach a card to the canvas |
 | pen blue | `#0066cc` | annotation arrows outside device frames |
 | radii | rough `255px 15px 225px/15px 225px 15px 255px`; alt `14px 6px 14px 6px/6px 14px 6px 14px`; clean `16px`; board `20px`; note `2px 15px`; fold `11px`; device `48px`; pill `999px` | the shape allowlist |
-| shadows | card `2px 2px` ink .05; note `3px 5px 12px` .08; hard `3px 4px 0` .12; lift `7px 8px 0` .12; pencil `2.5px 3px 0` .85; device layered | hard offsets or paper lifts, never glossy |
+| shadows | card `2px 2px` ink .05; note `3px 5px 12px` .08; hard `3px 4px 0` .12; lift `7px 8px 0` .12; pencil `2.5px 3px 0` .85; device layered | hard offsets or paper lifts |
 | type roles | handwritten face = titles, annotations, body; system sans = inside device frames and dense scan; mono = precise objects | the three voices |
 | type floors | body >= 14px; mono >= 10.5px; dense scan 10.5-13px sans | readability |
 
@@ -45,7 +45,7 @@ Web, reproduce parameters elsewhere.
 | connector | core | route between nodes | 3px dashed path-blue at .55 | `.pvl-connector` |
 | takeaway | core | bottom lane of a teaching beat | display face 19px centered + `.pvl-highlight` on key phrase | `.pvl-takeaway` |
 | reading layers | density | plain vs technical layer | `html:not([data-density="tech"]) .pvl-tech-only{display:none}` | `.pvl-tech-only`, `[data-density]` |
-| whole-card expand | core | deep layer on click | body hidden unless `aria-expanded="true"`; hover must never expand | `.pvl-expand` + `aria-expanded` |
+| whole-card expand | core | deep layer on click | body shows on `aria-expanded="true"`; hover leaves layout untouched | `.pvl-expand` + `aria-expanded` |
 | beat reveal | stage | explanation unfolding | in/stamp keyframes; reduced-motion safe | `.pvl-reveal`, `.pvl-reveal--stamp`, `--pvl-d` |
 
 Type voices: the handwritten face `--pvl-font-display` (LXGW WenKai Lite,
@@ -56,9 +56,9 @@ device frames and on dense scan surfaces (`data-dense` swaps
 `--pvl-font-mono`. Continuous reading body >= 14px; mono labels >= 10.5px;
 dense scan surfaces opt into 10.5-13px sans.
 
-TL;DR is a composition, not a component: a rough card carrying a `.pvl-badge`
-stamp in the semantic colour plus the verdict bullets. There is no filled
-callout block in this vocabulary.
+TL;DR and framed asides are compositions: a rough card carrying a
+`.pvl-badge` stamp in the semantic colour plus the verdict bullets; pencil
+lines do the framing.
 
 Surfaces: default true white (`--pvl-surface:#fff`); warm paper via
 `<html data-surface="paper">` (`#f4efe3` family); dotted paper via
@@ -74,9 +74,9 @@ keep classes, replace content.
 |---|---|---|---|---|
 | clean card | card / note / tape / highlight | report blocks on paper | 1.6px ink border, radius 16px, shadow `3px 4px 0 rgba(32,39,35,.12)` | `.pvl-card--clean` |
 | board card | card / density / highlight | workbench tiles | 1.6px ink border, radius 20px, shadow `7px 8px 0 rgba(32,39,35,.12)` | `.pvl-card--board` |
-| alt rough radius | card / note / tape / highlight | variation so cards don't clone | `14px 6px 14px 6px/6px 14px 6px 14px` | `.pvl-card--alt` |
+| alt rough radius | card / note / tape / highlight | neighbour variation: adjacent cards keep their own shape | `14px 6px 14px 6px/6px 14px 6px 14px` | `.pvl-card--alt` |
 | band highlight | card / note / tape / highlight | underline-band emphasis (report) | gradient band `#ffe28a` 58%-92%, no block | `.pvl-highlight--band` |
-| lime marker | card / density / highlight | workbench marker variant, modifier on `.pvl-highlight` | `#dff56b`, same geometry as `.pvl-highlight`; replaces yellow on board tiles, never joins it | `.pvl-highlight--lime` |
+| lime marker | card / density / highlight | workbench marker variant, modifier on `.pvl-highlight` | `#dff56b`, same geometry as `.pvl-highlight`; on board tiles it is the focal accent in place of yellow | `.pvl-highlight--lime` |
 | opaque notes | card / note / tape / highlight | paper-surface notes | `#dff3e4 / #e3efff / #ffe1da` | `.pvl-note--mint/--sky/--rose` |
 | warm tape | card / note / tape / highlight | report tape | `#ffe8a3` | `.pvl-tape--warm` |
 | dashed fold | fold / density | deep evidence layer | 2px dashed pencil-light, radius 11px, bg `rgba(255,255,255,.55)`, pill summary, ▸/▾ | `.pvl-fold` + `summary` |

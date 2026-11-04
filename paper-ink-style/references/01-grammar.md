@@ -5,9 +5,9 @@ are the contract for "one core plus extensions": they hold at every density and
 with every extension set; `03-composition.md` decides which of the freedoms a
 given page takes.
 
-## Identity invariants (never vary)
+## Identity invariants (always hold)
 
-- Ink and three-alpha pencil line; no pure black; hard-offset or paper-lift shadows
+- Ink and three-alpha pencil line; hard-offset or paper-lift shadows
 - One focal marker accent per screen (yellow family; lime replaces it on board
   tiles); the highlight carries the verdict
 - Stickers as semantic objects on real nodes; dashed connectors; verdict-sentence titles
@@ -32,8 +32,8 @@ given page takes.
 
 ## One screen, one thesis
 - Every block answers "what should the reader look at right now".
-- Titles are verdicts or questions, never labels: "不是机器慢，是队列在等一把锁",
-  "同一个开关，差别在消息闭环".
+- Titles are verdicts or questions: "不是机器慢，是队列在等一把锁", "同一个开关，
+  差别在消息闭环".
 - A mono/sans kicker carries meta (date, duration, scope) so the title stays clean.
 
 ## Diagrams do the explaining
@@ -45,42 +45,41 @@ given page takes.
 | condition combinations | matrix |
 | who owns what | layers / swimlanes |
 | what the user will see | realistic scene |
-Text next to a diagram states verdicts, conditions, and key facts only.
-Never restate what the diagram already shows.
+Text next to a diagram states verdicts, conditions, and key facts; the
+diagram carries the rest.
 
 ## Layered reading
 - Open with a TL;DR stamp card: a rough card, a mono/badge stamp, 3-6 bullets
-  with the verdicts bolded. The stamp card is a composition, not a component —
-  no filled colour block with a side rule; the pencil line does the framing.
- 
+  with the verdicts bolded; the pencil line does the framing.
 - Plain layer first (experience, consequences, conditions); technical layer
   (events, processes, logs, experiments) behind `data-density="tech"` and
-  whole-card expand. The switch must change what the reader processes, not
-  hide unedited mess.
+  whole-card expand: the switch changes what the reader processes.
+ 
 - Edit first (merge duplicates, compress sentences, draw relations), then
-  layer. Hiding complexity is not organizing it.
+  layer: the organizing happens in the edit.
 
 ## Emphasis discipline
-- One focal accent per screen; highlight marks the phrase that carries the
-  verdict, not every important word.
+- One focal accent per screen; the highlight marks the phrase that carries
+  the verdict.
 - Semantic kit: yellow = look here, blue = path/mechanism, green = passes,
   red = blocks/risk, purple = occasional agent/model state. Colors are labels
-  in the argument, never brand gradients.
+  in the argument.
 
 ## Emoji and stickers
 - Emoji are semantic objects attached to nodes, roles, files, tools,
-  incidents. Naked floating emoji in running prose reads childish.
+  incidents.
 - Keep one mark per meaning; secondary marks step back.
 
 ## Voice
 - Plain, concrete, engineering-toned: "现在卡在哪", "谁叫醒谁", "先看结论".
 - Numbers, versions, experiment conditions stated exactly; mono face for them.
-- First person is welcome in opinion/practice pieces; drop it in source-level
-  comparisons. No defensive boilerplate.
+- First person is welcome in opinion/practice pieces; source-level
+  comparisons stay impersonal and state real constraints with conditions and
+  impact.
 - End each teaching beat with a takeaway lane: one sentence, marker highlight
   over the key phrase.
 
 ## Cross-referencing
 - Documents cite each other and embed artifacts (HTML cards, decks) instead of
   restating them. In self-contained outputs, embed the artifact or link the
-  reader to a sibling file; never duplicate the same fact in two places.
+  reader to a sibling file; each fact lives in one place.

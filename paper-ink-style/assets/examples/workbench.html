@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN" data-surface="paper" data-dense="true">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>固件跟进工作台 · paper-ink-style specimen</title>
+<!--
+  Specimen · paper-ink-style · dials: canvas=paper, card=board, density=dense,
+  highlight=lime, tape=warm, note=opaque, stage=scroll.
+  A specimen, not a template: look at the hand, then compose your own.
+-->
+<link rel="stylesheet" href="../base.css">
+</head>
+<body>
+<main class="pvl-wrap">
+  <p class="pvl-kicker">Ops workbench · 每天打开两次 · 位置稳定</p>
+  <h1 class="pvl-title"><span class="pvl-scribble">先办会过期的那件</span>，其余保持可见</h1>
+
+  <div class="pvl-card pvl-card--board pvl-expand" aria-expanded="false">
+    <span class="pvl-tape pvl-tape--warm"></span>
+    <div class="pvl-kicker">现在最该顺手办的</div>
+    <p>orig-build orig-device 固件包出包后回归，<span class="pvl-highlight pvl-highlight--lime">今晚 cutoff 前</span>要有结论。</p>
+    <p><span class="pvl-badge" style="background:var(--pvl-warn)">WAITING</span> <span class="pvl-mono" style="padding:2px 8px;border-radius:999px;background:var(--pvl-path-bg)">Jira</span></p>
+    <div class="pvl-expand__body"><p class="pvl-mono">推进条件：orig-rig + orig-patch 基线；缺任一就改排明早首件。</p></div>
+  </div>
+
+  <div class="pvl-cols">
+    <div class="pvl-card pvl-card--board">
+      <div class="pvl-kicker">搁置但别丢</div>
+      <p>orig-ab 口径等 Confluence 评审。</p>
+      <p><span class="pvl-badge" style="background:var(--pvl-extra)">PARKED</span> <span class="pvl-mono" style="padding:2px 8px;border-radius:999px;background:var(--pvl-extra-bg)">Confluence</span></p>
+    </div>
+    <div class="pvl-card pvl-card--board">
+      <div class="pvl-kicker">在跑不用盯</div>
+      <p>队列审计周报每周一早自动出。</p>
+      <p><span class="pvl-badge" style="background:var(--pvl-ok)">AUTO</span></p>
+    </div>
+  </div>
+
+  <div class="pvl-note pvl-note--rose pvl-note--inline">Jira 那个源昨天才开始报，别当老账翻。</div>
+  <p class="pvl-mono">queue wait p50 2m → 31m · build duration 未变 · 窗口 28s → 9s</p>
+</main>
+</body>
+</html>

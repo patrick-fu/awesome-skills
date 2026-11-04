@@ -48,8 +48,8 @@ self-check at the end of `references/03-composition.md`.
    specimens (`references/05-web-instance.md`); on any other carrier reproduce
    the parameters in that platform's idiom. On the Web, one HTML file is the
    default deliverable.
-3. Look at `assets/examples/` — four specimens set to different dials — for
-   the range of the hand; then compose your own page.
+3. Look at `assets/examples/` — one specimen at default dials, one with every
+   dial turned — for the range of the hand; then compose your own page.
 4. Before delivering, run the self-check at the end of
    `references/03-composition.md`.
 
@@ -59,4 +59,4 @@ self-check at the end of `references/03-composition.md`.
   and self-check, 04 practice, 05 web instance.
 - `assets/base.css` — the Web instance of the vocabulary (v1.3.0).
 - `assets/fonts/` — LXGW WenKai Lite subsets (SIL OFL) for the handwritten voice.
-- `assets/snippets/`, `assets/examples/` (+ renders) — Web specimens.
+- `assets/snippets/`, `assets/examples/` — Web specimens; open them in a browser.

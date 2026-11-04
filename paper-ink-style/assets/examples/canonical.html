@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CI 为什么慢了四十分钟 · 一次排查的现场记录</title>
+<link rel="stylesheet" href="../base.css">
+</head>
+<body>
+<main class="pvl-wrap">
+  <p class="pvl-kicker">Incident explainer · 2026-11-02 · 约 8 分钟</p>
+  <h1 class="pvl-title">CI 为什么慢了四十分钟：<br><span class="pvl-scribble">不是机器慢，是队列在等一把锁</span></h1>
+  <p class="pvl-lede">这篇记录把一次 CI 变慢的排查过程摊开：先给结论，再画清楚谁在等谁，最后留下三条可以复用的门禁。读完你应该能认出自己项目里同一种等待。</p>
+
+  <div class="pvl-callout pvl-callout--path">
+    <b>TL;DR</b>
+    <ul>
+      <li>慢的不是编译，是 <span class="pvl-highlight">全局 mutation 锁</span>：所有 job 串行排队。</li>
+      <li>证据：queue wait 中位数从 2 分钟涨到 31 分钟，build 时长没变。</li>
+      <li>修法：锁按设备分组；门禁加上 queue wait 的 p95 报警。</li>
+    </ul>
+  </div>
+
+  <h2>先看现场：谁在等谁</h2>
+  <div class="pvl-flow">
+    <div style="text-align:center"><span class="pvl-sticker">🧑‍💻</span><div class="pvl-kicker">提交</div><div class="pvl-mono">(push → trigger)</div></div>
+    <div class="pvl-connector"></div>
+    <div style="text-align:center"><span class="pvl-sticker" style="border-color:var(--pvl-risk)">🔒</span><div class="pvl-kicker">全局锁</div><div class="pvl-mono">(一次只放一个)</div></div>
+    <div class="pvl-connector"></div>
+    <div style="text-align:center"><span class="pvl-sticker" style="border-color:var(--pvl-ok)">⚙️</span><div class="pvl-kicker">执行</div><div class="pvl-mono">(时长没变)</div></div>
+  </div>
+  <div class="pvl-note pvl-note--pink" style="position:static;display:inline-block;transform:rotate(-.8deg)">
+    直觉会说"机器不够"。先看 queue wait 再下结论。
+  </div>
+
+  <h2>两种解释，并排看</h2>
+  <div class="pvl-cols">
+    <div class="pvl-card pvl-reveal">
+      <span class="pvl-tape"></span>
+      <div class="pvl-kicker">解释 A · 算力不足</div>
+      <p>build 时长应该一起涨。实测 <span class="pvl-mono">build p50 = 6m12s</span>，与上月持平。</p>
+      <p><span class="pvl-badge" style="background:var(--pvl-risk)">REJECTED</span></p>
+    </div>
+    <div class="pvl-card pvl-reveal" style="--pvl-d:.12s;border-color:var(--pvl-ok)">
+      <span class="pvl-tape"></span>
+      <div class="pvl-kicker">解释 B · 锁串行化</div>
+      <p>queue wait <span class="pvl-mono">p50 2m → 31m</span>；并发度从 8 掉到 1。</p>
+      <p><span class="pvl-badge" style="background:var(--pvl-ok)">CONFIRMED</span></p>
+    </div>
+  </div>
+  <p class="pvl-takeaway">排队时间也是交付时间：<span class="pvl-highlight">等锁不算"没在跑"</span>。</p>
+
+  <h2>条件组合：什么时候会踩到</h2>
+  <div class="pvl-scroll"><div class="pvl-card" style="border-radius:12px;padding:0;overflow:hidden">
+    <table style="width:100%;border-collapse:collapse;font-size:14px">
+      <tr style="background:var(--pvl-path-bg)"><th style="text-align:left;padding:8px 12px;border-bottom:2px solid var(--pvl-pencil-line)">并发改动数</th><th style="text-align:left;padding:8px 12px;border-bottom:2px solid var(--pvl-pencil-line)">持有锁的 job</th><th style="text-align:left;padding:8px 12px;border-bottom:2px solid var(--pvl-pencil-line)">结果</th></tr>
+      <tr><td style="padding:8px 12px">≤2</td><td style="padding:8px 12px">短（&lt;5m）</td><td style="padding:8px 12px"><span style="color:var(--pvl-ok)">无感</span></td></tr>
+      <tr><td style="padding:8px 12px">≥4</td><td style="padding:8px 12px">短</td><td style="padding:8px 12px"><span style="color:var(--pvl-warn)">可感但可忍</span></td></tr>
+      <tr><td style="padding:8px 12px">≥4</td><td style="padding:8px 12px">长（固件烧录）</td><td style="padding:8px 12px"><span style="color:var(--pvl-risk)">雪崩</span></td></tr>
+    </table>
+  </div></div>
+
+  <h2>留下三条门禁 <span class="pvl-mono">点击卡片展开技术层</span></h2>
+  <section class="pvl-card pvl-expand" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true')">
+    <h3>1. queue wait 进报警，不看平均值</h3>
+    <p>白话层：排队排到半小时，就该有人被叫起来。</p>
+    <div class="pvl-expand__body"><div class="pvl-tech-only">
+      <p class="pvl-mono">alert: ci_queue_wait_p95 &gt; 10m for 15m</p>
+      <p>技术层：p50 会被空闲时段稀释；p95 才代表最惨的那条提交。</p>
+    </div></div>
+  </section>
+  <section class="pvl-card pvl-expand" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true')">
+    <h3>2. 锁按设备分组，不按仓库全局</h3>
+    <p>白话层：烧 A 设备的固件，不该挡住 B 设备的测试。</p>
+    <div class="pvl-expand__body"><div class="pvl-tech-only">
+      <p class="pvl-mono">lock_key = device_group(job.labels)</p>
+    </div></div>
+  </section>
+
+  <p class="pvl-takeaway">先量等待，再谈算力：<span class="pvl-highlight">瓶颈多半在你没计时的地方</span>。</p>
+  <p class="pvl-mono">证据：CI 平台 queue 指标导出 2026-10-27..11-02 · 复现脚本见仓库 scripts/ci-queue-audit</p>
+</main>
+<script>
+document.documentElement.addEventListener('click',function(e){
+  var b=e.target.closest('[data-density-toggle]');if(!b)return;
+  var h=document.documentElement;h.setAttribute('data-density',h.getAttribute('data-density')==='tech'?'plain':'tech');
+},true);
+</script>
+<p style="text-align:center;margin:0 0 40px"><button data-density-toggle style="font:600 12px var(--pvl-font-mono);padding:6px 14px;border:1px solid var(--pvl-pencil-light);border-radius:999px;background:var(--pvl-surface-card);cursor:pointer">切换 技术层 / 白话层</button></p>
+</body>
+</html>

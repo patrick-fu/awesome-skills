@@ -1,0 +1,195 @@
+/* paper-ink-style · base.css v1.2.0
+   Single source of truth for tokens and components of Patrick Fu's personal
+   visual language (engineering whiteboard: true-white canvas, pencil-line
+   rough cards, marker-yellow highlights, sticky notes and tape, hand-annotated
+   diagrams). Baseline extracted from the canonical deck CSS.
+   HARD RULE: generated HTML must link this file (or inline it verbatim) and
+   must not redefine these tokens or reimplement these components.
+   Core vs extensions: every class here is always available; the extension
+   notes in references/extensions/ say which content signals should make you
+   reach for which subset, and which overrides that subset is allowed to use.
+   v1.2.0 adds --pvl-highlight-lime / .pvl-highlight--lime (was documented for
+   the workbench composition but missing from the tokens). */
+
+@font-face{font-family:"LXGW WenKai Lite";src:url("fonts/lxgw-wenkai-lite-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"LXGW WenKai Lite";src:url("fonts/lxgw-wenkai-lite-cjk-common.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+
+:root{
+  color-scheme:light;
+  /* surface */
+  --pvl-surface:#ffffff;
+  --pvl-surface-card:#ffffff;
+  --pvl-ink:#2a2a2a;
+  --pvl-muted:#6b7280;
+  --pvl-rule:#e5e7eb;
+  /* pencil: three alphas of the ink, never pure black */
+  --pvl-pencil-line:rgba(42,42,42,.85);
+  --pvl-pencil-light:rgba(42,42,42,.40);
+  --pvl-pencil-faint:rgba(42,42,42,.15);
+  /* marker */
+  --pvl-highlight:#ffe066;
+  /* semantic kit: labels in the argument, never brand gradients */
+  --pvl-path:#2563eb;   --pvl-path-bg:#eff6ff;
+  --pvl-ok:#16a34a;     --pvl-ok-bg:#f0fdf4;
+  --pvl-risk:#dc2626;   --pvl-risk-bg:#fef2f2;
+  --pvl-warn:#d97706;   --pvl-warn-bg:#fffbeb;
+  --pvl-extra:#9333ea;  --pvl-extra-bg:#faf5ff;
+  /* sticky-note tints */
+  --pvl-note-yellow:#fffdf0f2;
+  --pvl-note-pink:#ffebeef2;
+  --pvl-note-blue:#e3f2fdf2;
+  --pvl-note-green:#e8f5e9f2;
+  /* three type voices */
+  --pvl-font-display:"LXGW WenKai Lite","Kaiti SC","STKaiti",cursive;
+  --pvl-font-sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  --pvl-font-mono:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  /* shape + shadow allowlist */
+  --pvl-radius-rough:255px 15px 225px/15px 225px 15px 255px;
+  --pvl-radius-note:2px 15px;
+  --pvl-radius-pill:999px;
+  --pvl-shadow-card:2px 2px rgba(42,42,42,.05);
+  --pvl-shadow-note:3px 5px 12px rgba(0,0,0,.08);
+  --pvl-shadow-soft:0 10px 24px -18px rgba(31,36,48,.30);
+}
+/* second surface preset of the same style: warm paper (reports / workbench).
+   Components and grammar are identical; only surface tokens change. */
+[data-surface="paper"]{
+  --pvl-surface:#f4efe3;
+  --pvl-surface-card:#fffdf8;
+  --pvl-ink:#202723;
+  --pvl-muted:#59625d;
+  --pvl-rule:#d5cebf;
+  --pvl-pencil-line:rgba(32,39,35,.85);
+  --pvl-pencil-light:rgba(32,39,35,.40);
+  --pvl-pencil-faint:rgba(32,39,35,.15);
+}
+
+/* ---------- page frame ---------- */
+.pvl-wrap{max-width:1040px;margin:0 auto;padding:20px 22px 70px}
+.pvl-title{font-family:var(--pvl-font-display);font-size:clamp(34px,6vw,56px);line-height:1.3;letter-spacing:-.025em;margin:12px 0 24px;color:var(--pvl-ink)}
+.pvl-lede{font-family:var(--pvl-font-sans);font-size:17px;line-height:1.8;color:var(--pvl-ink);max-width:940px}
+.pvl-kicker{font-family:var(--pvl-font-sans);font-weight:600;font-size:12px;line-height:1.4;letter-spacing:.08em;text-transform:uppercase;color:var(--pvl-muted);margin:0 0 8px}
+.pvl-mono{font-family:var(--pvl-font-mono);font-size:12px;line-height:1.55;color:var(--pvl-muted)}
+body{margin:0;background:var(--pvl-surface);color:var(--pvl-ink);font-family:var(--pvl-font-sans);font-size:15px;line-height:1.7}
+h2,h3{font-family:var(--pvl-font-display);color:var(--pvl-ink)}
+
+/* ---------- components ---------- */
+.pvl-card{background:var(--pvl-surface-card);border:2px solid var(--pvl-pencil-line);border-radius:var(--pvl-radius-rough);box-shadow:var(--pvl-shadow-card);padding:18px 22px;position:relative}
+.pvl-highlight{position:relative;display:inline-block;z-index:0}
+.pvl-highlight:before{content:"";position:absolute;inset:-2px -8px;z-index:-1;background:var(--pvl-highlight);opacity:.6;mix-blend-mode:multiply;border-radius:3px 8px 4px 6px;transform:rotate(-1deg)}
+.pvl-scribble{position:relative;display:inline-block}
+.pvl-scribble:after{content:"";pointer-events:none;position:absolute;bottom:-8px;left:-2%;width:104%;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 15' preserveAspectRatio='none'%3E%3Cpath d='M2,10 Q25,2 50,8 T98,10 M5,13 Q30,5 60,11 T95,13' fill='none' stroke='%232a2a2a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") 50%/100% 100% no-repeat}
+.pvl-note{position:absolute;z-index:20;font-family:var(--pvl-font-display);background:var(--pvl-note-yellow);border:1px solid var(--pvl-pencil-light);border-radius:var(--pvl-radius-note);box-shadow:var(--pvl-shadow-note);backdrop-filter:blur(2px);padding:10px 14px;font-size:14px;line-height:1.6;max-width:240px}
+.pvl-note--pink{background:var(--pvl-note-pink)}
+.pvl-note--blue{background:var(--pvl-note-blue)}
+.pvl-note--green{background:var(--pvl-note-green)}
+.pvl-note--inline{position:static;display:inline-block;max-width:none;margin:6px 8px 6px 0;transform:rotate(-.6deg)}
+.pvl-tape{position:absolute;top:-12px;left:50%;width:80px;height:24px;transform:translate(-50%) rotate(-2deg);background:linear-gradient(#f5f5dcb3,#f5f5dc66);border:1px solid var(--pvl-pencil-faint);z-index:10}
+.pvl-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--pvl-font-mono);font-size:12px;font-weight:700;letter-spacing:.04em;color:#fff;background:var(--pvl-muted);border-radius:var(--pvl-radius-pill);padding:6px 14px}
+.pvl-sticker{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:2px dashed var(--pvl-risk);border-radius:50%;font-size:22px;background:var(--pvl-surface-card)}
+.pvl-connector{border-top:3px dashed var(--pvl-path);opacity:.55;height:0}
+.pvl-callout{border-left:8px solid var(--pvl-warn);background:var(--pvl-warn-bg);padding:9px 14px;margin:11px 0;border-radius:0 12px 12px 0}
+.pvl-callout--path{border-left-color:var(--pvl-path);background:var(--pvl-path-bg)}
+.pvl-callout--ok{border-left-color:var(--pvl-ok);background:var(--pvl-ok-bg)}
+.pvl-callout--risk{border-left-color:var(--pvl-risk);background:var(--pvl-risk-bg)}
+.pvl-takeaway{font-family:var(--pvl-font-display);font-size:19px;line-height:1.7;text-align:center;margin:34px auto 10px;max-width:820px}
+
+/* ---------- reading layers ---------- */
+/* two-layer reading: plain layer by default, technical layer on demand.
+   The layer switch must change what the reader processes, not hide mess. */
+html:not([data-density="tech"]) .pvl-tech-only{display:none}
+/* whole-card expand: the entire card toggles; hover must never expand. */
+.pvl-expand__body{display:none}
+.pvl-expand[aria-expanded="true"] .pvl-expand__body{display:block}
+.pvl-expand{cursor:pointer}
+
+/* ---------- beat motion (explanation unfolding, never decoration) ---------- */
+@keyframes pvl-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pvl-stamp{from{opacity:0;transform:scale(1.25)}to{opacity:1;transform:scale(1)}}
+@keyframes pvl-sweep{from{background-size:0% 100%}to{background-size:100% 100%}}
+.pvl-reveal{animation:pvl-in .45s ease-out both;animation-delay:var(--pvl-d,0s)}
+.pvl-reveal--stamp{animation:pvl-stamp .3s cubic-bezier(.2,1.4,.4,1) both;animation-delay:var(--pvl-d,0s)}
+@media (prefers-reduced-motion:reduce){.pvl-reveal,.pvl-reveal--stamp{animation:none}}
+
+/* ---------- responsive diagram grammar ---------- */
+.pvl-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:14px;align-items:center;margin:26px 0}
+.pvl-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}
+.pvl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media (max-width:640px){
+  .pvl-flow{grid-template-columns:1fr;justify-items:center;gap:6px}
+  .pvl-flow .pvl-connector{width:0;height:26px;border-top:0;border-left:3px dashed var(--pvl-path)}
+  .pvl-cols{grid-template-columns:1fr}
+  .pvl-note{max-width:100%}
+  .pvl-wrap{padding:16px 14px 56px}
+}
+
+/* ---------- extended parameters: paper/dot surfaces, clean and board
+   cards, band and lime markers, fold, annotation, device frame ---------- */
+:root{
+  --pvl-shadow-hard:3px 4px 0 rgba(32,39,35,.12);
+  --pvl-shadow-lift:7px 8px 0 rgba(32,39,35,.12);
+  --pvl-shadow-pencil:2.5px 3px 0 rgba(42,42,42,.85);
+  --pvl-shadow-device:0 18px 46px rgba(0,0,0,.22),0 4px 12px rgba(0,0,0,.12),inset 0 0 0 2px rgba(255,255,255,.15);
+  --pvl-radius-clean:16px;
+  --pvl-radius-board:20px;
+  --pvl-radius-rough-alt:14px 6px 14px 6px/6px 14px 6px 14px;
+  --pvl-radius-fold:11px;
+  --pvl-radius-device:48px;
+  --pvl-note-mint:#dff3e4;
+  --pvl-note-sky:#e3efff;
+  --pvl-note-rose:#ffe1da;
+  --pvl-tape-warm:#ffe8a3;
+  --pvl-highlight-band:#ffe28a;
+  --pvl-highlight-lime:#dff56b;
+  --pvl-paper-dot:#e2ddd0;
+  --pvl-pen-blue:#0066cc;
+  --pvl-device-frame:#1c1c1e;
+  --pvl-device-border:#2c2c2e;
+  --pvl-ios-blue:#007aff;
+  --pvl-ios-green:#34c759;
+  --pvl-ios-orange:#ff9500;
+  --pvl-ios-red:#ff3b30;
+  --pvl-ios-card:#ffffff;
+  --pvl-ios-gray-bg:#f2f2f7;
+  --pvl-ios-gray-border:#e5e5ea;
+}
+/* paper surface carries the warm semantic kit */
+[data-surface="paper"]{
+  --pvl-path:#1769c2;   --pvl-path-bg:#e3efff;
+  --pvl-ok:#237a4b;     --pvl-ok-bg:#dff3e4;
+  --pvl-risk:#b52d25;   --pvl-risk-bg:#ffe1da;
+  --pvl-warn:#b7790a;   --pvl-warn-bg:#ffe8a3;
+  --pvl-extra:#8a4fbf;  --pvl-extra-bg:#f3eafb;
+}
+/* dotted paper surface for experience walkthroughs */
+[data-surface="dot"]{
+  --pvl-surface:#f8f7f2;
+  --pvl-surface-card:#ffffff;
+  --pvl-ink:#1c1c1e;
+  --pvl-muted:#545350;
+  --pvl-rule:#e2ddd0;
+  background-image:radial-gradient(var(--pvl-paper-dot) 1.2px, transparent 1.2px);
+  background-size:24px 24px;
+}
+.pvl-card--clean{border:1.6px solid var(--pvl-ink);border-radius:var(--pvl-radius-clean);box-shadow:var(--pvl-shadow-hard)}
+.pvl-card--board{border:1.6px solid var(--pvl-ink);border-radius:var(--pvl-radius-board);box-shadow:var(--pvl-shadow-lift)}
+.pvl-card--alt{border-radius:var(--pvl-radius-rough-alt)}
+.pvl-highlight--band{background:linear-gradient(transparent 58%,var(--pvl-highlight-band) 58% 92%,transparent 92%);padding:0 2px}
+.pvl-highlight--band:before{content:none}
+/* lime marker variant, modifier on .pvl-highlight; card-board extension only */
+.pvl-highlight--lime:before{background:var(--pvl-highlight-lime)}
+.pvl-note--mint{background:var(--pvl-note-mint)}
+.pvl-note--sky{background:var(--pvl-note-sky)}
+.pvl-note--rose{background:var(--pvl-note-rose)}
+.pvl-tape--warm{background:var(--pvl-tape-warm)}
+.pvl-fold{border:2px dashed var(--pvl-pencil-light);border-radius:var(--pvl-radius-fold);background:rgba(255,255,255,.55);margin:12px 0;padding:0 13px 10px}
+.pvl-fold>summary{cursor:pointer;display:inline-flex;align-items:center;gap:4px;list-style:none;font-family:var(--pvl-font-display);font-weight:700;font-size:14px;padding:9px 0 6px;color:var(--pvl-ink)}
+.pvl-fold>summary::-webkit-details-marker{display:none}
+.pvl-fold>summary:before{content:"\25B8";color:var(--pvl-path);font-size:10px}
+.pvl-fold[open]>summary:before{content:"\25BE"}
+.pvl-annot{border:2px solid var(--pvl-pencil-line);border-radius:var(--pvl-radius-rough);background:var(--pvl-surface-card);box-shadow:var(--pvl-shadow-pencil)}
+.pvl-device{width:300px;overflow:hidden;background:var(--pvl-ios-card);border:6px solid var(--pvl-device-border);outline:2px solid var(--pvl-device-frame);border-radius:var(--pvl-radius-device);box-shadow:var(--pvl-shadow-device);font-family:var(--pvl-font-sans);color:var(--pvl-ink)}
+.pvl-device__status{display:flex;justify-content:space-between;align-items:center;padding:10px 20px 6px;font-size:14px;font-weight:600}
+.pvl-device__island{width:70px;height:20px;border-radius:var(--pvl-radius-pill);background:var(--pvl-device-frame)}
+.pvl-device__sheet{background:var(--pvl-ios-gray-bg);border:1px solid var(--pvl-ios-gray-border);border-radius:var(--pvl-radius-clean)}
+@media (max-width:640px){.pvl-device{width:100%}}

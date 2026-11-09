@@ -149,7 +149,7 @@ user decisions, and actionable dependencies or priority recommendations. Give
 coverage and uncertainty where they affect the answer. Link non-current tasks as
 `[<title>](codex://threads/<threadId>)` with their `hostId` and next useful evidence.
 
-Use `codex-session-naming` to express established roles and states in titles.
+Use `thread-naming` to express established roles and states in titles.
 For completion, checkpoint, or handoff decisions, use
 [references/closure.md](references/closure.md).
 Distinguish a finished assignment from a continuing coordination role. A global

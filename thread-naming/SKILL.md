@@ -1,58 +1,31 @@
 ---
-name: codex-session-naming
+name: thread-naming
 description: >-
-  Maintain clear, accurate titles for top-level Codex App tasks at entry,
-  meaningful changes, and wrap-up. Excludes ChatGPT chats and subagents.
+  Title top-level threads and sessions at entry, state changes, and completion.
+  Skip subagents.
 ---
 
-# Codex Session Naming
+# Thread Naming
 
-Keep titles short, recognizable, and faithful to the conversation. Use the user's
-language and supplied names; preserve IDs and terminology. Explicit format
-requests override defaults.
+Format: `<emoji> [tags] <mandate> · <focus>`
 
-## Title
+- **Tags:** 1–2 short scope labels (`[repo]`, `[area]`).
+- **Mandate:** the overall goal. Keep stable across follow-ups and detours; replace only after completion or when the user replaces or cancels the task.
+- **Focus:** concise current result, blocker, decision, or next step.
 
-`<state> [tags] <mandate> · <focus>`
+Match the user's language and preserve IDs and key terms. Explicit user format requests override defaults.
 
-Use 1–2 useful scope tags and two parts:
+## Emoji
 
-- **Mandate:** the overall task or topic. Preserve through follow-up questions,
-  detours, experiments, and approach changes. Replace for a new task after
-  completion, or the user's clear replacement or cancellation.
-- **Focus:** the meaningful current result, bottleneck, decision, or next step.
-  Keep it concise rather than listing intermediate actions.
+Show **who acts next** and **current task state** from established facts (a finished turn is not a completed task):
 
-## Updates
+- **Attention / wait:** `🙋` user decision, approval, or input · `🕒` external job, CI, review, device, or timer · `⛔` blocked · `⏸️` user-paused · `⏳` queued, not started
+- **Closure:** `🏁` mandate completed · `☑️` parked at agreed checkpoint · `🔀` unfinished work handed off to an accepted successor (outgoing owner only)
+- **Controllers:** `🕹️ <scope>` global controller · `🗂️ <project>` project controller (keep role headline stable; prefix `🏁` or `🔀` only when closed or handed off after acceptance)
+- **Active work:** `🏃` or any self-explanatory action/domain emoji (`🐛`, `🔧`, `🧭`, `🧪`, `🔍`, `🧹`, `✍️`, etc.).
 
-At entry, meaningful state changes, and wrap-up, compare the title with the task:
-keep it while accurate; otherwise update it. Routine tool calls need no update.
-Reuse task facts and results already in context; naming introduces no new
-verification or coordination work.
+## Rules
 
-## State
-
-Express who acts next and the current task state from established facts.
-A finished turn is not a completed task.
-
-- `🏁` mandate completed
-- `☑️` agreed checkpoint reached; work parked
-- `🔀` unfinished work handed to an accepted successor
-- `🙋` user decision, authorization, or action
-- `🕒` time, device, review, build, or external system
-- `⛔` no valid path
-- `⏸️` user pause
-- `⏳` owned queue not started
-- `🏃` Agent-owned active work; a self-explanatory action emoji also fits
-
-## Controllers
-
-Established global controllers use `🕹️ <scope or name>`; project controllers use
-`🗂️ <project or name>`. Keep the role and name stable during routine progress;
-prefix `🏁` or `🔀` only for established completion or outgoing handoff.
-
-## Authority
-
-Rename your own session without confirmation; controllers may rename owned
-workers. First bulk rename needs user authorization. Naming does not archive or
-transfer ownership.
+- Compare the title with the task at entry, meaningful state shifts, and wrap-up: keep it while accurate; never update on routine tool steps or add extra verification just for naming.
+- Rename your own top-level thread silently via the host's title tool; controllers may rename owned workers. First bulk rename needs user approval. Naming does not archive or transfer ownership.
+- If the host has no title tool, output a title only when explicitly asked.

@@ -1,5 +1,5 @@
 {
-  "skill_name": "codex-session-naming",
+  "skill_name": "thread-naming",
   "evals": [
     {
       "id": 1,
@@ -40,7 +40,7 @@
     {
       "id": 7,
       "name": "explicit-format-overrides-default",
-      "prompt": "The user explicitly says: '这个会话就叫同步机制调研，不要加 emoji、标签或后缀。' Name this ordinary Codex App task.",
+      "prompt": "The user explicitly says: '这个会话就叫同步机制调研，不要加 emoji、标签或后缀。' Name this ordinary task.",
       "expected_output": "Use the exact title 同步机制调研. The explicit format request overrides the default state, tags, and focus format."
     },
     {

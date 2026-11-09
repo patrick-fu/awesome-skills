@@ -37,7 +37,7 @@ the matching Skill; it does not create a second copy.
 
 ### 🎨 Slides and visual delivery
 
-#### 🎞️ [`frontend-harness-slides`](./frontend-harness-slides)
+#### 🎞️ [`frontend-harness-slides`](./frontend-harness-slides/README.md)
 
 Build HTML slide decks with a frontend harness: stable scene URLs, a registry,
 a fixed stage, tests, visual checks, and verified delivery. Repeated edits stay
@@ -53,7 +53,7 @@ static export, or in all three forms.
 
 📦 Standalone repository: [`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
-#### 🖌️ [`paper-ink-style`](./paper-ink-style)
+#### 🖌️ [`paper-ink-style`](./paper-ink-style/SKILL.md)
 
 My personal visual style for HTML: a paper-and-pencil canvas with rough
 pencil-line cards, marker highlights, sticky notes and tape, and hand-annotated
@@ -64,7 +64,7 @@ style.
 
 ### 🧠 Knowledge and memory
 
-#### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture)
+#### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.md)
 
 Capture session lessons and external sources into a maintained, Git-backed LLM
 Wiki. It can also audit an existing Wiki or bootstrap one from zero while
@@ -75,7 +75,7 @@ Wiki's Git history over to opaque automation.
 
 📦 Standalone repository: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
 
-#### 🗞️ [`x-twitter-reader`](./x-twitter-reader)
+#### 🗞️ [`x-twitter-reader`](./x-twitter-reader/SKILL.md)
 
 Retrieve X/Twitter posts, reply threads, long-form Articles, metadata, links,
 and media before summarizing, translating, quoting, or archiving them. Source
@@ -89,7 +89,7 @@ local X session after approval; the Jina fallback is opt-in.
 
 ### ✍️ Communication and writing
 
-#### 🔎 [`explain`](./explain)
+#### 🔎 [`explain`](./explain/SKILL.md)
 
 Re-explain a topic, walk through code or design, visualize a difficult
 relationship, recover a named task, or draft PR/MR text, issue replies, and
@@ -101,7 +101,7 @@ them. Routine implementation and its completion summary stay in their existing
 workflow. Invoke `$explain` explicitly or let the model select it for a matching
 request.
 
-#### 🧹 [`deslop`](./deslop)
+#### 🧹 [`deslop`](./deslop/README.md)
 
 Review or rewrite Chinese, English, and mixed-language prose to remove
 formulaic AI patterns while preserving facts, intent, stance, register, and the
@@ -112,7 +112,7 @@ trigger for every writing task.
 
 ### 🤖 Agent orchestration
 
-#### 🧩 [`parallel-goal-workflows`](./parallel-goal-workflows)
+#### 🧩 [`parallel-goal-workflows`](./parallel-goal-workflows/README.md)
 
 Give each top-level goal one Goal Owner and a clean, task-local brief. The Owner
 handles execution, focused helpers when useful, review, repair, verification,
@@ -123,7 +123,7 @@ checks matter.
 
 📦 Standalone repository: [`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
 
-#### 🎯 [`long-task-control`](./long-task-control)
+#### 🎯 [`long-task-control`](./long-task-control/SKILL.md)
 
 Run an adversarial control loop over a long task: at each phase boundary a
 Design Challenger and Drift Watchdog test ROI, scope creep, and drift against
@@ -132,7 +132,7 @@ longer serves the goal, and resumes only where new acceptance evidence appears.
 
 Use it when a task is genuinely drifting—not merely because it is long.
 
-#### 🧭 [`attention-frontier`](./attention-frontier)
+#### 🧭 [`attention-frontier`](./attention-frontier/SKILL.md)
 
 Keep a personal follow-up workbench across parallel projects and agent
 conversations. Reconcile pending decisions, reviews, and coordination against
@@ -151,7 +151,7 @@ the workbench; scheduled continuation follows that chat's agreed task.
 
 ### 🎛️ Sessions and threads
 
-#### ⏰ [`codex-async-followup`](./codex-async-followup)
+#### ⏰ [`codex-async-followup`](./codex-async-followup/SKILL.md)
 
 Keep the main agent from spending tokens repeatedly checking work that is still
 running. After dispatching a subagent or starting a background build, test, or
@@ -168,7 +168,7 @@ agent comes back to finish the work. It can be invoked automatically by the mode
 and applies specifically to Codex App's scheduled wakeups. Local follow-ups require
 the computer and app to remain running.
 
-#### 🎛️ [`codex-session-controller`](./codex-session-controller)
+#### 🎛️ [`codex-session-controller`](./codex-session-controller/SKILL.md)
 
 Turn a top-level Codex App task or session into a controller session: one user
 entry point backed by a thin control plane. It keeps goals, authorization,
@@ -177,7 +177,7 @@ handles routing, deduplication, acceptance, and handoff while workers own
 research, implementation, and testing. Users normally stay with the controller
 instead of switching among workers.
 
-#### 🏷️ [`thread-naming`](./thread-naming)
+#### 🏷️ [`thread-naming`](./thread-naming/SKILL.md)
 
 Maintain concise lifecycle titles for user-visible top-level threads and
 sessions across agent hosts, keeping active work, next gate, waits, checkpoints,
@@ -192,31 +192,31 @@ wrapper, discover current model and reasoning controls, monitor semantic output,
 respect permissions and sandboxes, and verify diffs and tests from the host.
 Each guide triggers only when its CLI is explicitly selected as the executor.
 
-#### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
+#### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent/SKILL.md)
 
 Run Claude Code CLI as the explicitly selected external coding executor. It
 preserves the supplied wrapper, discovers current options from the CLI, and
 monitors long-running work through verbose streaming JSON.
 
-#### 🟢 [`codex-coding-agent`](./codex-coding-agent)
+#### 🟢 [`codex-coding-agent`](./codex-coding-agent/SKILL.md)
 
 Run Codex CLI as the explicitly selected external coding executor. It uses
 `codex exec --json` with an explicit read-only sandbox for review or a
 workspace-write sandbox for approved implementation.
 
-#### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
+#### 🔵 [`cursor-coding-agent`](./cursor-coding-agent/SKILL.md)
 
 Run Cursor CLI as the explicitly selected external coding executor. Because the
 generic `agent` launcher can point to another product, the workflow verifies its
 identity before trusting it.
 
-#### ⚡ [`grok-coding-agent`](./grok-coding-agent)
+#### ⚡ [`grok-coding-agent`](./grok-coding-agent/SKILL.md)
 
 Run Grok Build CLI as the explicitly selected external coding executor. It
 treats approval policy and sandbox access as separate controls and chooses the
 appropriate read-only or workspace sandbox explicitly.
 
-#### 🛰️ [`antigravity-coding-agent`](./antigravity-coding-agent)
+#### 🛰️ [`antigravity-coding-agent`](./antigravity-coding-agent/SKILL.md)
 
 Run Google Antigravity CLI (`agy`) as the explicitly selected external coding
 executor. It preserves the supplied wrapper, discovers current options from the
@@ -225,7 +225,7 @@ account OAuth and API-key modes.
 
 ### 🧭 Thinking and planning
 
-#### 💡 [`brainstorm`](./brainstorm)
+#### 💡 [`brainstorm`](./brainstorm/SKILL.md)
 
 Expand an idea or open problem into a possibility map spanning genuinely
 different dimensions before deciding where to go deeper.
@@ -233,7 +233,7 @@ different dimensions before deciding where to go deeper.
 Use it while the solution space is still open and breadth is more valuable than
 an early verdict.
 
-#### 🗺️ [`explore-and-plan`](./explore-and-plan)
+#### 🗺️ [`explore-and-plan`](./explore-and-plan/SKILL.md)
 
 Turn a mostly chosen direction into an executable plan: surface blocking
 decisions, map affected areas, order steps by dependency, and tie verification
@@ -242,7 +242,7 @@ to each outcome.
 Use it when the direction is settled enough that an implementer should not have
 to rediscover the intent.
 
-#### 🎓 [`faster-learning-coach`](./faster-learning-coach)
+#### 🎓 [`faster-learning-coach`](./faster-learning-coach/SKILL.md)
 
 Teach through short, active learning loops built around practice, teach-back,
 and review instead of defaulting to a long explanation. Each loop adapts to the
@@ -253,7 +253,7 @@ answer.
 
 ### 🛠️ Engineering workflow
 
-#### 🧪 [`tdd`](./tdd)
+#### 🧪 [`tdd`](./tdd/SKILL.md)
 
 Write and maintain tests around real requirements, covering everyday development,
 bug regressions, and red-green-refactor cycles. Choose the right test level for
@@ -262,7 +262,7 @@ each change and build on the project's existing tools to check key behavior.
 Use it when adding features, fixing bugs, or refining a test suite to keep useful,
 reliable feedback close to the code.
 
-#### 🔦 [`debugging`](./debugging)
+#### 🔦 [`debugging`](./debugging/SKILL.md)
 
 Trace difficult bugs and performance regressions from symptoms to root causes.
 Combine reproduction, targeted instrumentation, capture analysis, and
@@ -271,7 +271,7 @@ flaky-failure investigation, then verify repairs against the original scenario.
 Use it when static inspection stalls, attempted fixes fail, or runtime
 evidence needs interpretation.
 
-#### 🛠️ [`build-verifier`](./build-verifier)
+#### 🛠️ [`build-verifier`](./build-verifier/SKILL.md)
 
 Turn a project's build commands, feature paths, and acceptance checks into a
 reusable `verify-<app>` skill. A fresh agent can run the checks, retain results,
@@ -280,7 +280,7 @@ and keep the verification workflow in step with the project.
 Use it for products that need repeated acceptance checks, keeping practical
 verification knowledge beside the code for development, regressions, and handoffs.
 
-#### 🔄 [`review-and-improve`](./review-and-improve)
+#### 🔄 [`review-and-improve`](./review-and-improve/SKILL.md)
 
 Review agent sessions, code changes, and execution results through three
 independent lenses: judgement, tooling, and counterexamples. Find concrete
@@ -289,7 +289,7 @@ improvements to workflows, checks, and instructions.
 Invoke it after a complex task or when similar problems recur to turn experience
 into reusable tools and guidance for future work.
 
-#### 🔬 [`reverse-engineer`](./reverse-engineer)
+#### 🔬 [`reverse-engineer`](./reverse-engineer/SKILL.md)
 
 Reverse-engineer shipped software in three escalating layers: native Unix
 tools for fast recon, the REA CLI for structured Evidence, and Ghidra
@@ -298,14 +298,14 @@ zero version lock-in.
 
 Use it when source is absent.
 
-#### 📝 [`generate-commit-message`](./generate-commit-message)
+#### 📝 [`generate-commit-message`](./generate-commit-message/SKILL.md)
 
 Draft a concise English commit message with a sentence-case subject, no
 conventional prefix, and optional bullets for the important changes.
 
 Use it when the change is ready but the copy-ready commit message is not.
 
-#### 🗂️ [`git-task-workspace`](./git-task-workspace)
+#### 🗂️ [`git-task-workspace`](./git-task-workspace/SKILL.md)
 
 Manage isolated, task-oriented Git worktree workspaces from an upstream source
 pool. Keep trunk repositories clean, co-locate multi-repo worktrees under a
@@ -318,7 +318,7 @@ layout.
 
 ### 🏠 Personal setup
 
-#### 🔄 [`home-config-sync`](./home-config-sync)
+#### 🔄 [`home-config-sync`](./home-config-sync/SKILL.md)
 
 Maintain a personal `~/.dotfiles` bare-repository workflow: first-time setup,
 new-machine deployment, safe pulls and merges, and pushes. Its work tree is the
@@ -327,7 +327,7 @@ whole home directory, so the guardrails are part of the feature.
 Use it when dotfiles should be versioned without letting a convenience script
 treat the home directory casually.
 
-#### 🗂️ [`local-file-organizer`](./local-file-organizer)
+#### 🗂️ [`local-file-organizer`](./local-file-organizer/SKILL.md)
 
 Inventory cluttered directories file by file, classify content by its real use,
 and build a reversible ledger before moving, renaming, or deduplicating anything.
@@ -337,7 +337,7 @@ blind cleanup.
 
 ### 🎧 Audio and media
 
-#### 🎙️ [`audio-transcription`](./audio-transcription)
+#### 🎙️ [`audio-transcription`](./audio-transcription/SKILL.md)
 
 Transcribe local audio and video files with two independent local engines:
 Qwen3-ASR for speech recognition and MOSS for diarized transcription. The

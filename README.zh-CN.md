@@ -36,7 +36,7 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 ### 🎨 Slides 与视觉交付
 
-#### 🎞️ [`frontend-harness-slides`](./frontend-harness-slides)
+#### 🎞️ [`frontend-harness-slides`](./frontend-harness-slides/README.zh-CN.md)
 
 用前端 harness 制作 HTML slides：稳定 scene 地址、registry、固定 stage、测试、视觉检查
 和经过验证的交付链路都在流程里。反复改稿仍然可控，不会悄悄改坏前面的页面。
@@ -50,7 +50,7 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 📦 独立仓库：[`patrick-fu/frontend-harness-slides`](https://github.com/patrick-fu/frontend-harness-slides)
 
-#### 🖌️ [`paper-ink-style`](./paper-ink-style)
+#### 🖌️ [`paper-ink-style`](./paper-ink-style/SKILL.md)
 
 我的个人视觉风格：纸面画布、铅笔线卡片、荧光笔高亮、便签与胶带、手写批注图示。
 
@@ -58,7 +58,7 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 ### 🧠 知识与记忆
 
-#### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture)
+#### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.zh-CN.md)
 
 把 Session 教训和外部资料沉淀进长期维护、Git-backed 的 LLM Wiki，也能审计现有 Wiki，
 或从零搭建一个。provenance、canonical ownership 和仓库操作边界都会被保留下来。
@@ -67,7 +67,7 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 📦 独立仓库：[`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
 
-#### 🗞️ [`x-twitter-reader`](./x-twitter-reader)
+#### 🗞️ [`x-twitter-reader`](./x-twitter-reader/SKILL.md)
 
 在总结、翻译、引用或归档之前，先忠实抓取 X/Twitter 帖子、回复串、长文 Article、
 元数据、链接和媒体。抽取阶段不改写原文，下游加工等内容到手后再做。
@@ -79,7 +79,7 @@ fallback 只会显式启用。
 
 ### ✍️ 沟通与写作
 
-#### 🔎 [`explain`](./explain)
+#### 🔎 [`explain`](./explain/SKILL.md)
 
 重新解释当前话题、讲解代码或设计、用图说明关系、恢复指定任务的上下文，或撰写
 PR/MR、issue 回复和 QA 交接。遵循用户要求的语言，保留关键事实、限定与不确定性。
@@ -87,7 +87,7 @@ PR/MR、issue 回复和 QA 交接。遵循用户要求的语言，保留关键�
 理解与续接、交付写作、图示三个分支按需加载。普通实现与例行收尾沿用原有流程。
 可以显式调用 `$explain`，模型也可以在请求匹配时选择它。
 
-#### 🧹 [`deslop`](./deslop)
+#### 🧹 [`deslop`](./deslop/README.zh-CN.md)
 
 改写或审查中文、英文和中英混排文本，去掉模板化 AI 味，同时保留事实、意图、立场、
 语域和作者声音。
@@ -96,7 +96,7 @@ PR/MR、issue 回复和 QA 交接。遵循用户要求的语言，保留关键�
 
 ### 🤖 Agent 编排
 
-#### 🧩 [`parallel-goal-workflows`](./parallel-goal-workflows)
+#### 🧩 [`parallel-goal-workflows`](./parallel-goal-workflows/README.zh-CN.md)
 
 每个顶层目标交给一个 Goal Owner，再配一份干净的任务本地 brief。Owner 负责执行、按需
 派出聚焦 helper、review、repair、验证和最终报告，不让主会话被所有子任务淹没。
@@ -105,7 +105,7 @@ PR/MR、issue 回复和 QA 交接。遵循用户要求的语言，保留关键�
 
 📦 独立仓库：[`patrick-fu/parallel-goal-workflows`](https://github.com/patrick-fu/parallel-goal-workflows)
 
-#### 🎯 [`long-task-control`](./long-task-control)
+#### 🎯 [`long-task-control`](./long-task-control/SKILL.md)
 
 对长任务跑一个对抗式控制回路：每到一个阶段边界，由 Design Challenger 和 Drift
 Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留已经验证的工作，剪掉不再
@@ -113,7 +113,7 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 适合任务真的开始跑偏时，而不是仅仅因为它很长。
 
-#### 🧭 [`attention-frontier`](./attention-frontier)
+#### 🧭 [`attention-frontier`](./attention-frontier/SKILL.md)
 
 跨项目、跨 Agent 会话维护个人跟进工作台。核实真正待你决策、验收或协调的事项，
 按业务优先级排列，同时保留完整的未结队列。说明每项的主线、背景和未结支线，
@@ -126,7 +126,7 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 ### 🎛️ 会话与线程
 
-#### ⏰ [`codex-async-followup`](./codex-async-followup)
+#### ⏰ [`codex-async-followup`](./codex-async-followup/SKILL.md)
 
 减少主 agent 在等待异步任务时的空轮询。派出 subagent、启动后台编译、测试或外部任务后，
 Codex 有时会反复查询状态：任务还没跑完，也没有新信息，却持续消耗工具调用和推理 token。
@@ -140,14 +140,14 @@ Codex 有时会反复查询状态：任务还没跑完，也没有新信息，�
 支持 model invocation，由模型按场景自动调用；专用于 Codex App 的定时唤醒能力。
 本地续跑需要电脑和应用保持运行。
 
-#### 🎛️ [`codex-session-controller`](./codex-session-controller)
+#### 🎛️ [`codex-session-controller`](./codex-session-controller/SKILL.md)
 
 把一个 Codex App 顶层 task/session 设为主控 Session，作为统一用户入口与薄控制面。
 主控在控制计划层维护目标、权限、owner、依赖、等待和回报节奏，并负责路由、去重、
 验收与 handoff；研究、实现和测试仍由 worker 承担。用户通常只需与主控对话，无需频繁
 切换 worker。
 
-#### 🏷️ [`thread-naming`](./thread-naming)
+#### 🏷️ [`thread-naming`](./thread-naming/SKILL.md)
 
 跨 Agent 宿主维护用户可见顶层线程与会话的生命周期标题，让当前动作、next gate、等待、
 checkpoint、handoff 和最终完成一眼可见。固定控制信号结合灵活的动作与领域 emoji，避免
@@ -159,27 +159,27 @@ checkpoint、handoff 和最终完成一眼可见。固定控制信号结合灵�
 控制、监控语义输出、尊重 permission 与 sandbox，并由宿主验证 diff 和测试。每个 Skill
 只在对应 CLI 被明确选为执行器时触发。
 
-#### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent)
+#### 🟣 [`claude-code-coding-agent`](./claude-code-coding-agent/SKILL.md)
 
 把 Claude Code CLI 作为明确选择的外部编码执行器来运行。它会保留给定的 wrapper，从
 当前 CLI 发现可用选项，并通过 verbose streaming JSON 监控耗时任务。
 
-#### 🟢 [`codex-coding-agent`](./codex-coding-agent)
+#### 🟢 [`codex-coding-agent`](./codex-coding-agent/SKILL.md)
 
 把 Codex CLI 作为明确选择的外部编码执行器来运行。它使用 `codex exec --json`，review
 时显式选择 read-only sandbox，已批准的实现则使用 workspace-write sandbox。
 
-#### 🔵 [`cursor-coding-agent`](./cursor-coding-agent)
+#### 🔵 [`cursor-coding-agent`](./cursor-coding-agent/SKILL.md)
 
 把 Cursor CLI 作为明确选择的外部编码执行器来运行。由于通用的 `agent` launcher 可能
 指向其他产品，流程会先验证身份，再决定是否信任它。
 
-#### ⚡ [`grok-coding-agent`](./grok-coding-agent)
+#### ⚡ [`grok-coding-agent`](./grok-coding-agent/SKILL.md)
 
 把 Grok Build CLI 作为明确选择的外部编码执行器来运行。它把 approval policy 和 sandbox
 访问视为两项独立控制，并显式选择合适的 read-only 或 workspace sandbox。
 
-#### 🛰️ [`antigravity-coding-agent`](./antigravity-coding-agent)
+#### 🛰️ [`antigravity-coding-agent`](./antigravity-coding-agent/SKILL.md)
 
 把 Google Antigravity CLI（`agy`）作为明确选择的外部编码执行器来运行。它保留给定的
 wrapper，从当前 CLI 发现可用选项，并通过语义流式 JSON 监控耗时任务；账号 OAuth 与
@@ -187,20 +187,20 @@ API key 两种认证模式都支持。
 
 ### 🧭 思考与规划
 
-#### 💡 [`brainstorm`](./brainstorm)
+#### 💡 [`brainstorm`](./brainstorm/SKILL.md)
 
 把想法或开放问题展开成一张覆盖不同维度的可能性地图，再决定往哪里深入。
 
 适合方案空间还没有收窄、先看广面比过早下结论更有价值的阶段。
 
-#### 🗺️ [`explore-and-plan`](./explore-and-plan)
+#### 🗺️ [`explore-and-plan`](./explore-and-plan/SKILL.md)
 
 把基本确定的方向变成可执行计划：暴露阻塞决策、梳理受影响面、按依赖排序步骤，并把
 验证绑定到每个结果上。
 
 适合方向已经足够明确，执行者不该再重新猜一遍意图的时候。
 
-#### 🎓 [`faster-learning-coach`](./faster-learning-coach)
+#### 🎓 [`faster-learning-coach`](./faster-learning-coach/SKILL.md)
 
 用练习、teach-back 和复习组成短而主动的学习循环，而不是默认给一篇长解释。每轮会
 根据学习目标、当前证据和可用时间调整。
@@ -209,49 +209,49 @@ API key 两种认证模式都支持。
 
 ### 🛠️ 工程工作流
 
-#### 🧪 [`tdd`](./tdd)
+#### 🧪 [`tdd`](./tdd/SKILL.md)
 
 围绕真实需求编写和维护测试，覆盖日常开发、bug 回归和红绿重构。根据改动选择合适的
 测试层级，结合项目现有工具验证关键行为。
 
 适合新增功能、修复问题或整理测试集，让测试成为持续迭代时可信赖的反馈。
 
-#### 🔦 [`debugging`](./debugging)
+#### 🔦 [`debugging`](./debugging/SKILL.md)
 
 从症状追到根因，定位难查的 bug 和性能回归。结合问题复现、定向观测、运行记录分析
 和偶发失败调查，并用原始场景验证修复结果。
 
 适合静态检查卡住、多次修复失败，或需要解释运行时证据的任务。
 
-#### 🛠️ [`build-verifier`](./build-verifier)
+#### 🛠️ [`build-verifier`](./build-verifier/SKILL.md)
 
 把项目的构建入口、功能路径和验收方法整理成可复用的 `verify-<app>` skill，让新接手的
 Agent 能直接运行检查、保留结果，并随着项目变化更新验证流程。
 
 适合需要反复验收的产品项目，把每次摸索出的操作经验留在代码旁，方便后续开发、回归和交接。
 
-#### 🔄 [`review-and-improve`](./review-and-improve)
+#### 🔄 [`review-and-improve`](./review-and-improve/SKILL.md)
 
 从 Agent 会话、代码变更和实际执行结果中复盘工作方式，通过判断、工具和反例三个独立视角，
 找出值得改进的流程、检查和指令。
 
 适合在复杂任务收尾或同类问题反复出现时显式调用，把一次任务的经验转化为后续可复用的工具和规则。
 
-#### 🔬 [`reverse-engineer`](./reverse-engineer)
+#### 🔬 [`reverse-engineer`](./reverse-engineer/SKILL.md)
 
 三层递进的逆向工作流：原生 Unix 工具做快速侦察，REA CLI 获取结构化
 Evidence，Ghidra 生成函数级伪代码。零 MCP，零硬编码子命令，零版本锁死。
 
 适用于没有源码的场景。
 
-#### 📝 [`generate-commit-message`](./generate-commit-message)
+#### 📝 [`generate-commit-message`](./generate-commit-message/SKILL.md)
 
 草拟精简的英文 commit message：sentence-case 标题、不加 conventional prefix，重要改动
 可以用可选 bullet 补充。
 
 适合改动已经完成，但能直接复制使用的 commit message 还没写出来的时候。
 
-#### 🗂️ [`git-task-workspace`](./git-task-workspace)
+#### 🗂️ [`git-task-workspace`](./git-task-workspace/SKILL.md)
 
 基于上游代码母池管理以任务为维度的 Git worktree 隔离工作区。保持母池主干只读纯净，
 将跨仓联调的多个 worktree 平铺在同一个任务目录下，并在任务合并后一键清理收尾，
@@ -261,14 +261,14 @@ Evidence，Ghidra 生成函数级伪代码。零 MCP，零硬编码子命令，�
 
 ### 🏠 个人环境
 
-#### 🔄 [`home-config-sync`](./home-config-sync)
+#### 🔄 [`home-config-sync`](./home-config-sync/SKILL.md)
 
 维护个人 `~/.dotfiles` bare-repository 工作流：首次设置、新机器部署、安全 pull/merge 和
 push。它的 work tree 是整个 home 目录，所以安全边界本身就是功能的一部分。
 
 适合希望把 dotfiles 纳入版本管理，又不想让便利脚本随便对待整个家目录的场景。
 
-#### 🗂️ [`local-file-organizer`](./local-file-organizer)
+#### 🗂️ [`local-file-organizer`](./local-file-organizer/SKILL.md)
 
 逐文件盘点混乱目录，按真实用途重分类，并在移动、重命名或去重前建立可回滚账本。
 
@@ -276,7 +276,7 @@ push。它的 work tree 是整个 home 目录，所以安全边界本身就是�
 
 ### 🎧 音频与媒体
 
-#### 🎙️ [`audio-transcription`](./audio-transcription)
+#### 🎙️ [`audio-transcription`](./audio-transcription/SKILL.md)
 
 转写本地音频和视频文件，默认同时使用两个相互独立的本地模型：Qwen3-ASR 负责语音识别，
 MOSS 负责带说话人区分的转写。默认流程完全离线，两个模型的结果分开保留以便交叉核对，

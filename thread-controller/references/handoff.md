@@ -53,7 +53,7 @@ relationships that need it. Notify only tasks whose next action or return path
 changes. Preserve existing children; replacement is for confirmed failure or
 unreachability, or the user's request.
 
-Use `codex-session-naming` for the predecessor's outgoing handoff and the
+Use `thread-naming` for the predecessor's outgoing handoff and the
 successor's continuing role. Archive the predecessor once required routing
 changes permit retirement, unless the user wants it kept visible. Retain history.
 For a project handoff, record the successor in the project task for the global

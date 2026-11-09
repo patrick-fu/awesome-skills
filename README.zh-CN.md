@@ -124,7 +124,7 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 在专门维护工作台的会话中显式调用 `$attention-frontier`，后续按该会话约定的任务定时续跑。
 
-### 🎛️ Codex Session
+### 🎛️ 会话与线程
 
 #### ⏰ [`codex-async-followup`](./codex-async-followup)
 
@@ -147,11 +147,11 @@ Codex 有时会反复查询状态：任务还没跑完，也没有新信息，�
 验收与 handoff；研究、实现和测试仍由 worker 承担。用户通常只需与主控对话，无需频繁
 切换 worker。
 
-#### 🏷️ [`codex-session-naming`](./codex-session-naming)
+#### 🏷️ [`thread-naming`](./thread-naming)
 
-维护 Codex App 用户可见顶层 task/session 的生命周期标题，让状态、next gate、next owner、
-checkpoint、final 和 handoff 一眼可见。严格 closure contract 防止把阶段完成误标为最终
-完成；它只负责标题与 closure 语义，不负责调度。
+跨 Agent 宿主维护用户可见顶层线程与会话的生命周期标题，让当前动作、next gate、等待、
+checkpoint、handoff 和最终完成一眼可见。固定控制信号结合灵活的动作与领域 emoji，避免
+把单轮回复结束误标为任务完成。
 
 ### 🧑‍💻 外部编码代理
 

@@ -149,7 +149,7 @@ optional Codex App guidance.
 Invoke explicitly with `$attention-frontier` in the chat designated to maintain
 the workbench; scheduled continuation follows that chat's agreed task.
 
-### 🎛️ Codex sessions
+### 🎛️ Sessions and threads
 
 #### ⏰ [`codex-async-followup`](./codex-async-followup)
 
@@ -177,13 +177,13 @@ handles routing, deduplication, acceptance, and handoff while workers own
 research, implementation, and testing. Users normally stay with the controller
 instead of switching among workers.
 
-#### 🏷️ [`codex-session-naming`](./codex-session-naming)
+#### 🏷️ [`thread-naming`](./thread-naming)
 
-Maintain lifecycle titles for user-visible top-level Codex App tasks and
-sessions, keeping state, next gate and owner, checkpoint, final, and handoff
-visible at a glance. A strict closure contract prevents checkpoints from being
-mislabeled as final completion. It defines title and closure semantics; it does
-not dispatch work.
+Maintain concise lifecycle titles for user-visible top-level threads and
+sessions across agent hosts, keeping active work, next gate, waits, checkpoints,
+handoffs, and completion visible at a glance. Expressive action emojis pair with
+fixed attention and closure markers so a finished turn is never mistaken for a
+completed task.
 
 ### 🧑‍💻 External coding agents
 

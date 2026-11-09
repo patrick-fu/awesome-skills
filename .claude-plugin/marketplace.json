@@ -27,7 +27,7 @@
         "./parallel-goal-workflows",
         "./long-task-control",
         "./codex-session-controller",
-        "./codex-session-naming",
+        "./thread-naming",
         "./claude-code-coding-agent",
         "./codex-coding-agent",
         "./cursor-coding-agent",

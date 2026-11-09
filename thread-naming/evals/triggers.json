@@ -16,7 +16,7 @@
       "id": "ordinary-conversation",
       "session_context": "Environment: Codex desktop app. Agent path: /root. Current task title: 解释缓存和数据库的区别.",
       "prompt": "用一个生活中的例子解释一下缓存和数据库的区别，简短一点。",
-      "expected_behavior": "Apply naming as part of this ordinary discussion task without requiring a naming request. Answer the actual question; the task is a Codex App conversation, not an excluded ChatGPT chat."
+      "expected_behavior": "Apply naming as part of this ordinary discussion task without requiring a naming request. Answer the actual question; the task is a top-level agent thread, not an internal subagent."
     },
     {
       "id": "controller-title-stays-accurate",

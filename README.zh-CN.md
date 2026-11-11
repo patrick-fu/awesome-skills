@@ -77,6 +77,15 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 依赖 `uv` 和 Python 3.10+。固定版本的 `twitter-cli` 可能在授权后复用本地 X 会话；Jina
 fallback 只会显式启用。
 
+#### 🧭 [`work-context`](./work-context/SKILL.md)
+
+跨会话、跨 Harness、跨仓库维护可恢复的工作上下文。精简的日常主线负责查找已有
+事项、刷新来源、保存当前决定和恢复点；缺少配置时再加载初始化指引，连接本机入口、
+tracker、知识库与代码工作区。
+
+适合维护持续事项的共享 Context，或从零搭建相应环境。可以独立使用，也可与
+`git-task-workspace` 配合，衔接持久事项记录与临时代码现场。
+
 ### ✍️ 沟通与写作
 
 #### 🔎 [`explain`](./explain/SKILL.md)

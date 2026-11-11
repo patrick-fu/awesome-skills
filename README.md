@@ -87,6 +87,17 @@ a reliable source of the complete content.
 Requires `uv` and Python 3.10+. Its pinned `twitter-cli` dependency may reuse a
 local X session after approval; the Jina fallback is opt-in.
 
+#### 🧭 [`work-context`](./work-context/SKILL.md)
+
+Keep ongoing work recoverable across sessions, agent harnesses, and repositories.
+The compact daily workflow locates existing tasks, refreshes sources, and saves
+current decisions and recovery points. An on-demand setup guide connects local
+instructions, trackers, knowledge stores, and code workspaces.
+
+Use it to maintain shared task context or initialize that environment. It works
+independently of `git-task-workspace`; together they connect durable task records
+with disposable code workspaces.
+
 ### ✍️ Communication and writing
 
 #### 🔎 [`explain`](./explain/SKILL.md)

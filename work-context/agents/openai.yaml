@@ -1,0 +1,4 @@
+interface:
+  display_name: "Work Context"
+  short_description: "Maintain shared context across sessions and repositories"
+  default_prompt: "用 $work-context 维护当前事项的共享上下文；缺少配置时引导我初始化本机环境。"

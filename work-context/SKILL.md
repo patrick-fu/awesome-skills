@@ -1,9 +1,7 @@
 ---
 name: work-context
 description: >-
-  Initialize or reconfigure a shared context environment and its local agent
-  instructions. Use for first setup, migration, connecting another agent
-  harness, or repairing configuration drift.
+  Initialize or reconfigure a shared context environment and its agent instructions.
 ---
 
 # Work Context

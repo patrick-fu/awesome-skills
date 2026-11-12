@@ -1,9 +1,7 @@
 ---
 name: git-task-workspace
 description: >-
-  Initialize or reconfigure a source repository pool and task workspace layout.
-  Use for first setup, migration, connecting another agent harness, or repairing
-  workspace configuration drift.
+  Initialize or reconfigure a shared source pool and task workspaces.
 ---
 
 # Git Task Workspace

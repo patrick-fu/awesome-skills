@@ -1,4 +1,4 @@
 interface:
   display_name: "Work Context"
-  short_description: "Maintain shared context across sessions and repositories"
-  default_prompt: "Use $work-context to maintain task recovery records or initialize a shared context environment."
+  short_description: "Set up shared context and local agent instructions"
+  default_prompt: "Use $work-context to initialize my shared context environment and local agent instructions."

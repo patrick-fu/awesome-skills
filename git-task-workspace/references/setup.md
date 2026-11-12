@@ -1,139 +1,163 @@
 # Setup and Migration
 
-Establish a source repository pool and task worktree layout that fits the user's
-environment. Reuse working configuration and fill only the gaps. Present a short
-proposal of paths, defaults, and intended changes; resolve unknown durable
-locations or migration scope with the user when existing instructions do not
-settle them.
+Deliver a source pool and task workspace environment that agents can use without
+this skill installed. Reuse working configuration; resolve unknown permanent
+locations, migration scope, and preservation destinations before dependent edits.
 
-## 1. Discover the Existing Layout
+## 1. Discover the Environment
 
-Inspect known development directories and entry instructions for source clones,
-registered worktrees, task owners, branch rules, sync tools, and unfinished work.
-Check actual repository roots and remotes, not directory names alone.
+Inspect known development directories and loaded agent instructions for source
+clones, registered worktrees, active owners, baseline and branch rules, sync
+mechanisms, recovery destinations, and artifact retention. Verify Git roots and
+remotes instead of assigning roles from directory names.
 
-Locate any existing task-context destination, issue tracker, and artifact policy.
-An environment may already have these without a `work-context` skill installed.
-Keep unrelated repositories and active work intact.
+The context destination, source pool, and task workspace root are distinct roles.
+The user can name them freely. Preserve their actual names and paths, including
+layouts configured without either environment skill installed.
 
 ## 2. Choose Defaults and Local Variations
 
-Existing user choices take precedence. For a new layout, recommend:
+Existing choices take precedence. For a new layout, recommend:
 
 | Choice | Default recommendation | Customization |
 | --- | --- | --- |
-| Root | Reuse the development root, or propose one for the user to select | Path, disk, and organizational grouping |
-| Source pool | `<root>/source/<repo>` with clean source checkouts | Names, repository map, and per-repository trunk branches |
-| Task workspace | `<root>/workspace/<task>/<repo>` using linked worktrees | Names, task grouping, and branch naming |
-| Starting revision | The project's current approved baseline | A named branch, older revision, or existing task branch |
-| Migration | Gradual adoption; leave existing working repositories in place | Explicitly scoped full migration |
-| Source sync | Reuse the existing mechanism; otherwise sync on demand | Entry point, cadence, and responsible writer |
-| Durable notes | An existing issue, documentation location, or configured context store | Another durable destination selected by the user |
-| Artifacts and cleanup | Disposable task outputs in the workspace or system temp | Storage, retention, and archive destination |
+| Location | Reuse an appropriate development/storage root | Disk, directory names, grouping |
+| Source pool | `<root>/source/<repo>` with clean source checkouts | Repository map and per-repository baseline |
+| Workspace | `<root>/workspace/<task>/<repo>` linked worktrees | Task grouping and branch naming |
+| Starting revision | Project's approved baseline, resolved before checkout | Named branch, older revision, existing task branch |
+| Adoption | Gradual; preserve current working repositories | Explicitly scoped migration |
+| Source sync | Existing mechanism, otherwise on demand | Writer, cadence, and supported entry point |
+| Recovery | Existing issue, notes area, or configured context | Destination, owner, validation, save/sync policy |
+| Artifacts | `<workspace>/<task>/artifacts/`, outside code worktrees | Subdirectories, retention, storage, archive destination |
+| Cleanup | After task use ends and unique material is preserved | Owner, archive branch/location, required saves/syncs |
 
-Keep code and versioned project documentation in their repositories. Choose the
-notes destination before creating unique checkout-external material. The absence
-of a context skill does not require creating another repository.
+Workspace artifacts are local and normally outside Git: downloaded packages,
+screenshots, recordings, E2E evidence, experiments, and research output can survive
+restarts and handoffs until task cleanup. Use system temp for shorter-lived
+scratch. Keep durable conclusions in the recovery destination; code and versioned
+project documentation stay in their repositories.
 
-Record real paths, repository routes, baselines, task branch conventions, sync
-rules, notes locations, and cleanup responsibilities in local instructions.
-Source synchronization does not imply permission for a new scheduled job.
+Record chosen paths and policies in local instructions. A source or workspace
+root need not be a Git repository. Respect an existing parent repository's ignore
+policy so task outputs are not accidentally tracked. Source sync setup does not
+imply a new timer or scheduled job.
 
-## 3. Prepare or Migrate the Required Repositories
+## 3. Deploy the Daily Operating Rules
 
-Create only the directories and source clones needed for the first task. For
-each repository, verify its remote and approved baseline. Keep the source
-checkout for inspection and repository administration; use linked task worktrees
-for edits, builds, and generated output.
+Merge these fragments into the instructions the user's harnesses actually load.
+Replace placeholders with real paths and chosen policies, omit unused entries,
+and preserve unrelated content. Each detailed policy has one local owner.
 
-For a new task branch, adapt:
+### Global Agent Instructions
 
-```sh
-git -C "<source>/<repo>" worktree add -b "<task-branch>" \
-  "<workspace>/<task>/<repo>" "<start-point>"
+```markdown
+## Task Code Workspaces
+
+- Use <workspace>/<task>/ for task code and artifacts. Read <source>/AGENTS.md
+  for repository routing and <workspace>/AGENTS.md for task operations.
+- Find existing work and save durable recovery at <recovery-location>, following
+  <recovery-instructions>. Keep source checkouts for inspection and administration.
 ```
 
-For an existing branch or worktree, reuse its compatible state instead of creating
-a duplicate. Add repositories as the task requires them; the full dependency set
-need not be known before work begins.
+When a context entry already supplies routing, extend it instead of creating a
+second competing map. Verify each harness reads these instructions; use a thin
+`CLAUDE.md` or other supported adapter when needed.
 
-Under gradual adoption, keep existing working locations and direct new work into
-the new layout. For a full migration, inventory dirty, untracked, ignored, and
-unmerged work first; preserve it under the responsible owner's rules. Move
-registered worktrees using supported Git operations and verify their references
-and recovery paths before clearing old locations.
-
-## 4. Connect the Local Entry Instructions
-
-Integrate concise rules into existing instructions rather than replacing them
-with templates. Keep one maintained source for shared details. Adapt these
-examples with actual paths and remove unused entries.
-
-### Source Pool Entry
+### Source Root AGENTS.md
 
 ```markdown
 # Source Repositories
 
-- Use these checkouts for inspection, clone/fetch, and approved source sync.
-- Make task edits, run builds, and write task artifacts in <workspace>/<task>/.
-- Repository routes and approved baselines: <local-repository-map>.
+- Repository routes and approved baselines: <repository-map-or-inline-entries>.
+  Verify remote identity and current project rules before creating task worktrees.
+- Keep these checkouts clean for inspection and repository administration:
+  clone missing repositories here, fetch as needed, and use <source-sync-policy>
+  for approved baseline updates. Preserve unexpected local changes for their
+  owner. Make task edits and run builds in <workspace>/<task>/<repo>.
+- Read <workspace>/AGENTS.md when creating or expanding a task workspace.
+  Durable recovery: <recovery-location-and-instructions>.
 ```
 
-Keep the repository map coarse: repository identity, purpose, and baseline are
-enough to route work. Inspect repository content when deeper detail is needed.
+The repository map needs only identity, purpose, location, and baseline. Reuse an
+existing map; inspect repository content for implementation details.
 
-### Task Workspace Entry
+### Workspace Root AGENTS.md
 
-```markdown
+````markdown
 # Task Workspaces
 
-- Reuse the task's existing directory and worktrees; add linked worktrees from
-  <source> for missing repositories. Respect current owners and branch rules.
-- Keep durable task notes in <notes-location>; code and versioned project
-  documentation stay in their repositories. Put disposable outputs in <temporary>.
-- Before cleanup, confirm active users are finished, inspect all worktree and
-  checkout-external files, and preserve unique material and unmerged commits.
-  Verify required saves and syncs, then use git worktree remove and clear only
-  disposable outputs. Preserve management files and other tasks' working state.
-```
+- Find the existing task through <recovery-location>; reuse its directory,
+  owner, branches, and compatible worktrees. Read each repository's instructions
+  before editing. Shared workspace management files are persistent configuration.
+- Source pool: <source>; repository map and sync policy: <source>/AGENTS.md.
+  For a missing repository, clone it into the source pool first. Resolve the
+  project's approved starting revision and branch convention <branch-policy>.
+  Create only the worktrees needed now; add more as the task's scope grows.
 
-### Agent Entry Point
+  ```sh
+  git -C "<source>/<repo>" worktree add -b "<task-branch>" \
+    "<workspace>/<task>/<repo>" "<start-point>"
+  ```
 
-Add a short routing rule to the instructions the user's agent tools actually
-load, preserving their existing scope and content:
+- For an existing branch or worktree, inspect and reuse compatible state while
+  respecting its owner. Record each repository's worktree path, branch, and
+  relevant revision in the task recovery entry, including new dependencies.
+- Edit and build inside task worktrees. Keep downloads, screenshots, recordings,
+  E2E evidence, and other local task output in <workspace>/<task>/artifacts/.
+  These remain available across sessions until task cleanup. Use <scratch-path>
+  for disposable process scratch. Keep code and versioned project docs in Git.
+- Save concise conclusions and evidence paths in <recovery-location>, using
+  <recovery-write-and-sync-policy>. Flag evidence that is missing or moved.
+- Before cleanup, confirm active users and resource holders are finished.
+  Inspect tracked, untracked, ignored, and checkout-external files, plus commits
+  not integrated into the intended baseline. A clean Git status alone is
+  insufficient. Preserve unique material at <archive-destination> and unmerged
+  commits under <archive-branch-policy>; verify recovery and required saves/syncs
+  before removal. Update the recovery entry with preserved locations.
+- Remove worktrees with git worktree remove from their source repository, then
+  remove only disposable task output and task-owned temporary branches. Inspect
+  a removal refusal and preserve its cause before retrying; force removal needs
+  verified preservation and applicable authorization. Keep archive branches,
+  root management files, and other tasks' worktrees usable. Prune only stale
+  registrations after checking their paths.
+````
 
-```markdown
-## Code Workspaces
+Adapt the worktree command for an existing branch. For a hosted or managed
+worktree lifecycle, keep its required creation/removal API and record how it
+maps to these locations. Do not replace it with raw Git commands.
 
-- Use <workspace>/<task>/ for task code worktrees from <source>.
-- Read <source>/AGENTS.md for repository routing and <workspace>/AGENTS.md for
-  working and cleanup rules. Save durable task notes in <notes-location>.
-```
+If recovery already lives in a context repository, link its `AGENTS.md` and reuse
+its save policy. With only this skill installed, an existing issue or notes area
+is sufficient. When shared-context initialization is also requested,
+`work-context` can configure it if available in the current catalog. Missing peer
+skills do not require installation or another repository.
 
-Deployed instructions should be sufficient for ordinary work even without the
-skill installed. Optional guidance can name `git-task-workspace` when available;
-avoid hardcoded skill installation paths. Verify deployed content and reachable
-references from each normal starting location.
+## 4. Prepare or Migrate Only What Is Needed
 
-For a requested shared-context setup, consult `work-context` if available in the
-current skill catalog. Otherwise, use the existing issue or documentation
-workflow. When both environments exist, reuse the configured context destination
-and code paths; the later setup fills its own gaps without rebuilding the other.
+Create the selected roots and first required source clones. Verify remotes,
+baselines, worktree registrations, and recovery links. Add no speculative
+repository dependency set.
 
-## 5. Verify the First Task and Cleanup
+Gradual adoption leaves existing working checkouts in place and routes new work
+through the layout. A full migration starts with an inventory of owners, dirty,
+untracked, ignored, checkout-external, and unmerged material. Use supported Git
+worktree moves; preserve identities and verify recovery before clearing old paths.
 
-Use an authorized task or an isolated disposable example:
+## 5. Verify Without the Environment Skills
 
-1. Enter through the normal instructions and identify the correct repository,
-   baseline, owner, and notes destination.
-2. Create or reuse a linked worktree, confirm its Git registration, and inspect
-   its path, branch, and starting revision. Check that task output lands outside
-   the source checkout.
-3. Resume from the durable task record and verify that paths and versions match.
-4. For a disposable cleanup example, place unique material inside and outside a
-   worktree. Follow the preservation policy before removing it, verify recovery
-   from the destination, and check that management files and unrelated worktrees
-   remain usable. A removal refusal is a reason to inspect state, not force it.
+Use an authorized task or isolated disposable fixture. Give a fresh consumer only
+the deployed local instructions, with `git-task-workspace` and `work-context`
+absent from its skill catalog:
 
-Report actual results and unverified migration, synchronization, or cleanup paths.
-Timers, automated pruning, and other infrastructure are optional follow-up work.
+1. From a normal entry point, locate the repository, baseline, existing task,
+   owner, and recovery destination.
+2. Create or reuse a worktree; verify its Git registration, branch, and starting
+   revision. Add a second repository later and update the recovery record.
+3. Save task evidence outside the worktrees, resume in a new session, and read
+   the same artifact and code revisions from the recovery entry.
+4. In a disposable cleanup case, preserve unique tracked, untracked, ignored,
+   and checkout-external material plus an unmerged commit. Verify recovery
+   before removal and confirm management files and unrelated worktrees survive.
+
+Report actual results and unverified harness, migration, sync, or conflict paths.
+A written template alone is not an accepted operating environment.

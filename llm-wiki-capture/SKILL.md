@@ -35,8 +35,9 @@ branch or mutation stance is not fully clear, ask before acting.
 ## 2. Resolve The Wiki Target
 
 Read [`references/configuration-guide.md`](references/configuration-guide.md)
-when the Wiki path, repository, authority, or write policy is not already
-explicit in the current request.
+when the Wiki content root, containing Git repository, authority, or write
+policy is not already explicit in the current request. A Wiki can be standalone
+or embedded in a context or other repository; follow its actual local rules.
 
 Never enter Bootstrap merely because a Wiki was not found. Ask whether the user
 already has one and where it lives. Enter Bootstrap only after the user

@@ -66,12 +66,13 @@ style.
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.md)
 
-Capture session lessons and external sources into a maintained, Git-backed LLM
-Wiki. It can also audit an existing Wiki or bootstrap one from zero while
-preserving provenance, canonical ownership, and explicit repository boundaries.
+Turn reusable session lessons and external sources into a maintained LLM Wiki,
+with source evidence, canonical concepts, and linked navigation. Capture,
+ingest, audit an existing Wiki, or bootstrap a new one through an explicit request.
 
-Use it when knowledge should survive the current session without handing the
-Wiki's Git history over to opaque automation.
+The Wiki can own a Git repository or live inside a shared context repository.
+Its content rules stay local to the Wiki; commits and synchronization follow the
+containing repository's protocol.
 
 📦 Standalone repository: [`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
 
@@ -89,14 +90,18 @@ local X session after approval; the Jina fallback is opt-in.
 
 #### 🧭 [`work-context`](./work-context/SKILL.md)
 
-Keep ongoing work recoverable across sessions, agent harnesses, and repositories.
-The compact daily workflow locates existing tasks, refreshes sources, and saves
-current decisions and recovery points. An on-demand setup guide connects local
-instructions, trackers, knowledge stores, and code workspaces.
+Set up one starting repository for work across projects, agents, and harnesses.
+Enter through the same project, or start from any repository and follow its local
+routing to shared context. A task spanning several repositories keeps one place
+for its goal, current decisions, sources, and recovery point. The context can
+also contain an LLM Wiki for reusable knowledge.
 
-Use it to maintain shared task context or initialize that environment. It works
-independently of `git-task-workspace`; together they connect durable task records
-with disposable code workspaces.
+The skill initializes or adjusts the environment, using the user's chosen names
+and paths. It puts routing and daily rules in global and context-level
+`AGENTS.md` files. Ordinary work then follows those local rules, and the skill
+can retire until the setup changes. It works on its own; `git-task-workspace`
+can add task code and artifact storage, and an explicit `llm-wiki-capture`
+request can initialize or maintain the Wiki.
 
 ### ✍️ Communication and writing
 
@@ -318,14 +323,16 @@ Use it when the change is ready but the copy-ready commit message is not.
 
 #### 🗂️ [`git-task-workspace`](./git-task-workspace/SKILL.md)
 
-Manage isolated, task-oriented Git worktree workspaces from an upstream source
-pool. Keep source checkouts clean, co-locate multi-repo worktrees under a task
-directory, and preserve unique material and unmerged commits before cleanup.
-An on-demand setup guide offers defaults while respecting existing layouts.
+Set up a shared source pool and a workspace directory for each task. Start with
+the repositories needed now and add linked worktrees as dependencies emerge.
+The same task directory holds downloaded packages, screenshots, recordings,
+research, and E2E evidence across sessions, until the task is cleaned up.
 
-Use it when creating an isolated task workspace, checking out worktrees, adding
-multi-repo dependencies, tearing down workspaces, or setting up the directory
-layout.
+The skill initializes or adjusts the layout and writes daily operations into
+global, source, and workspace `AGENTS.md` files: create, expand, recover, preserve,
+and clean up. Names and paths follow the user's choices. Durable context can
+stay in an existing issue or notes area, or in a `work-context` environment;
+workspace artifacts remain local, normally outside Git.
 
 ### 🏠 Personal setup
 

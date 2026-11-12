@@ -1,38 +1,36 @@
-# Bootstrap A New LLM Wiki
+# Bootstrap a New LLM Wiki
 
 Enter this branch only after the user explicitly asks to create or initialize a
-Wiki. Failure to discover a Wiki is not authorization to bootstrap one.
+Wiki. Failure to discover one is not authorization to bootstrap it.
 
-## Confirm The Minimum Decisions
+## Resolve the Minimum Decisions
 
-Ask only for choices that materially change the result and cannot be discovered
-reliably:
+Ask only for choices that materially affect the result and cannot be discovered:
 
-- where the local repository should live
-- whether to use local Git only or a hosted remote
-- whether an existing notes repository should be upgraded in place
-- whether commit, remote creation, or push is authorized
+- the content location and whether it is standalone or embedded in an existing
+  repository, such as a shared context repository
+- whether an existing notes area should be upgraded in place
+- the applicable save protocol and authorization for commits or remote actions
 
-Recommend a private hosted repository when the user wants cross-machine sync
-and backup. A local Git repository is a complete safe fallback. Never default
-to a public remote, and never create a remote merely because credentials are
-available.
+An independent local Git repository is the default when no containing repository
+is selected. Recommend private hosting when cross-machine sync is wanted; an
+embedded Wiki uses its parent's existing remote and sync protocol. A new public
+remote requires the user's choice.
 
-If an existing notes repository may be reused, inspect it read-only first and
-then ask whether to upgrade it in place or create a separate Wiki.
+Inspect the resolved target, actual Git ownership, and nearby candidate Wikis.
+For an embedded target, read all applicable parent instructions before creating
+files. If the target contains existing content or colliding paths, inspect and
+resolve reuse or migration within the user's scope; preserve existing material.
+An explicit new module path inside a repository is not itself a collision with
+that repository. If standalone versus embedded ownership remains ambiguous,
+resolve it before initializing Git.
 
-Before creating files, inspect the resolved target and nearby candidate Wikis.
-If the target is non-empty, contains colliding paths, or another LLM Wiki may
-already own the knowledge, report what exists and ask whether to reuse, migrate,
-or create a separate repository. Never overwrite an existing path during
-Bootstrap.
+## Create a Small, Durable Core
 
-## Create A Small, Durable Core
-
-Follow the user's existing conventions when present. Otherwise start with:
+Follow existing conventions. A minimal content root can contain:
 
 ```text
-my-llm-wiki/
+<content-root>/
   AGENTS.md
   purpose.md
   schema.md
@@ -47,57 +45,78 @@ my-llm-wiki/
     wiki-maintenance
 ```
 
-Give each file one job:
+Give each part one job:
 
 - `purpose.md`: durable inclusion and exclusion boundary
-- `schema.md`: page types, provenance, links, canonical ownership, and update
-  rules
-- `raw/sources/`: source evidence with recoverable identity
-- `wiki/sources/`: source-level summaries when they add retrieval value
+- `schema.md`: page types, provenance, link/path conventions, canonical ownership,
+  and update rules
+- `raw/sources/`: evidence with recoverable identity
+- `wiki/sources/`: source summaries when they add retrieval value
 - `wiki/concepts/`: canonical durable knowledge
-- `wiki/index.md`: navigation and discovery
-- `wiki/log.md`: meaningful knowledge changes, not chat chronology
-- `AGENTS.md`: portable operating and validation instructions for this repo
+- `wiki/index.md`: navigation
+- `wiki/log.md`: meaningful knowledge changes
+- `AGENTS.md`: module operating rules, validator working directory, and the
+  actual Git root/save protocol or a pointer to its parent owner
 
-Do not prebuild a large taxonomy, query system, automation stack, or personal
-policy. Add those only after real content creates pressure for them.
+Choose names freely. Add taxonomy and automation only when real content needs
+them. Embedded content has a distinct knowledge scope even when task recovery
+and knowledge share one Git repository.
 
-## Install A Zero-Dependency Check
+## Install a Content-Scoped Check
 
-Create `scripts/wiki-maintenance` from day one, using only the language runtime
-already guaranteed by the environment. Its `check` command should at minimum:
+Create `scripts/wiki-maintenance` using a runtime already guaranteed by the
+environment. Its `check` command should:
 
-- verify required files and directories
-- validate the small frontmatter or provenance contract actually chosen for the
-  repository
-- find broken local Markdown links and resolvable Wiki links where practical
-- ensure every source summary points to recoverable source evidence
+- verify required module files and directories
+- validate the chosen frontmatter or provenance contract
+- report broken local Markdown links, including image targets, and resolvable
+  Wiki links where practical
+- ensure source summaries point to recoverable evidence
 - exit nonzero with actionable file-level errors
 
-Keep the first checker small enough to understand and modify. Extend it only as
-the schema gains real invariants. Run it successfully before declaring the
-Bootstrap complete.
+Anchor checks to the content root, not the Git root. Document path semantics and
+the command's working directory; sibling task records or parent documentation do
+not become Wiki pages. Run the check successfully and verify it detects a broken
+link or provenance error in a disposable example. Reuse parent-required checks
+as well. Keep the checker small enough to understand and modify.
 
-## Initialize Git Safely
+When setup is committed, run the checker against a saved-tree extraction as a
+fresh consumer. Ensure required files and empty-directory markers survive Git
+recovery, rather than relying on directories present only in the working copy.
 
-Initialize local Git and add an appropriate `.gitignore`. Show the initial diff
-or file inventory and validation result. Commit only after authorization.
+## Use the Chosen Git Lifecycle
 
-Create a hosted repository only after explicit authorization. Prefer private
-visibility, verify the resolved remote and branch, and push only after separate
-authorization. Report what was created and where.
+For a new standalone Wiki, initialize local Git and an appropriate ignore policy.
+For an embedded Wiki, use the existing parent repository; create no nested Git
+repository. Keep raw evidence and content under the chosen module path, while
+transient task artifacts follow the environment's artifact policy.
 
-## Delegation
+Inspect the parent Git status and index before editing. Follow its ownership,
+cleanliness, shared-save, and branch rules. For authorized commits, use the
+parent's coordinated save mechanism with the exact owned paths; preserve
+unrelated edits and staging. An explicit full-repository cleanliness rule still
+applies. If no safe save mechanism is available, retain the scoped changes and
+report the unsatisfied save step rather than capturing another writer's work.
 
-Use the main agent for a minimal local Bootstrap. Prefer valuable subagent
-perspectives when an existing notes repository needs migration analysis, a
-schema must serve several content types, or remote and validation design can be
-reviewed independently. Assign distinct questions rather than a fixed agent
-count.
+Show the file inventory or diff and validation results. Commit only within
+existing authorization. Create or push a remote only when authorized for that
+action, verifying the actual repository, remote, and branch. An embedded Wiki
+uses parent synchronization rather than creating or pushing its own remote.
 
-Bootstrap is complete when the repository exists at the confirmed target, its
-purpose and schema are understandable, `wiki-maintenance check` passes, and all
-remote, commit, and push actions match explicit authorization.
+Connect the chosen content root and read/write triggers to existing context or
+global navigation within the requested setup scope. If environment setup skills
+are absent, ordinary local instruction links suffice.
 
-In review-only mode, stop after presenting the proposed target, structure,
-schema choices, validation plan, and authorization gates. Create nothing.
+## Completion and Delegation
+
+Bootstrap is complete when the confirmed content root exists, purpose and schema
+are usable, content validation passes, local routing resolves, and Git/save
+behavior matches the selected mode and authorization. Report unperformed remote
+or save actions explicitly.
+
+Use the main agent for minimal local setup. Independent perspectives are useful
+for substantial notes migration, multi-type schemas, or complex validation.
+Assign distinct questions when delegation is warranted.
+
+In review-only mode, present the proposed target, mode, structure, schema,
+validation, and save plan. Create nothing.

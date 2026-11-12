@@ -1,138 +1,155 @@
-# 初始化与迁移
+# Setup and Migration
 
-目标是让本机的 Agent 能找到、恢复和更新同一件事。复用已有环境，按以下顺序
-补齐必要配置；每步检查实际落点。只有影响持久位置、权限或共享方式的未知选择
-才向用户确认，不因初始化重建已有项目管理系统。
+Make one ongoing task recoverable from the user's normal agent entry points.
+Reuse working configuration and fill only the gaps. Present a concise proposal
+with recommended defaults; resolve unknown durable locations, sharing boundaries,
+sync targets, or migration scope with the user when existing instructions do not
+settle them.
 
-## 1. 盘点现有入口
+## 1. Discover the Existing Environment
 
-在已知的配置和项目目录内检查：
+Inspect known configuration and project directories for:
 
-- 各 Harness 实际加载的 AGENTS.md、CLAUDE.md 或等效入口。
-- 已有事项记录、tracker、知识库与代码工作区，以及当前负责人和未提交改动。
-- Context 的持久位置、共享范围、读写权限、提交同步方式和可用校验器。
+- Instructions actually loaded by the agent tools in use, such as `AGENTS.md`
+  or `CLAUDE.md`.
+- Existing task records, trackers, knowledge stores, code workspaces, and owners.
+- Persistence, write, validation, and sync rules, including unfinished changes.
 
-目录名不代表其职责。启动目录、持久 Context 与代码操作目录可以不同；先确认
-工具实际识别的工作目录和仓库根，避免普通目录误归入上层无关的 Git 仓库。
+Distinguish the session's starting directory, the context store, and code working
+directories. Verify repository roots where Git is involved; an ordinary directory
+may otherwise be mistaken for an unrelated ancestor repository.
 
-完成条件：能区分已有配置、缺项和冲突。保留有效约定，只对未解决的选择提出建议。
+Separate existing choices, missing choices, and conflicts before proposing changes.
 
-## 2. 确定本地约定
+## 2. Choose Defaults and Local Variations
 
-把确定的选择记录在环境入口中，路径使用实际值：
+Existing user choices take precedence. For a new environment, recommend:
 
-| 选择 | 要明确什么 |
-| --- | --- |
-| 持久 Context | 用现有目录或仓库，还是新建；由谁读取与维护 |
-| 权威记录 | 哪些字段由 tracker、Context 或其他系统维护；视图如何刷新 |
-| 执行现场 | 代码仓、可选的源码池和任务工作区；临时产物的落点 |
-| 知识库 | 是否存在、何时可写；可以独立，也可以是 Context 中的模块 |
-| 共享写入 | 单写者、共享 checkout 的受控写入，或已有服务的原子更新 |
-| 保存与同步 | 何时保存、检查、提交或同步；目标和权限是什么 |
-| 产物生命周期 | 接收的内容、原件存储、清理责任及必要的大小或格式限制 |
+| Choice | Default recommendation | Customization |
+| --- | --- | --- |
+| Context store | A separate Git-managed `<root>/work-context/` | An existing directory, documentation area, or durable service |
+| Structure | A short index and task entries added as needed | Names, hierarchy, and task granularity |
+| Business fields | Keep existing tracker authority; context holds execution recovery | Field ownership and snapshot refresh rules |
+| Code workspace | Reuse current repositories and working directories | Ordinary checkouts, task worktrees, or remote execution |
+| Saving and sync | Local version history; commit validated milestones | Existing cadence, remote, and sync mechanism |
+| Sharing | One writer until concurrent writing is required | An existing atomic update service or coordinated shared checkout |
+| Artifacts | Concise text records; raw outputs outside the context store | Allowed formats, size limits, storage, and retention |
 
-保留已有 tracker 的业务状态、团队负责人和验收条件。需要本地恢复材料时再补
-Context，不为每张简单工单创建重复目录。Project 表达持续目标，Task 表达具体
-事项，Session 只标识执行现场；父子、阻塞和普通引用分别表达。
+Choose the root from the user's environment rather than inventing a permanent
+location. If there is no configured remote, keep the initial environment local;
+setting up context does not select a publication destination. Keep existing
+checkout and branch policies. A new single-writer context repository can use its
+ordinary checkout without task worktrees.
 
-Context 不要求独立 Git 仓库，也不要求固定分支或 worktree 模式。采用 Git 时，
-按共享方式确定 checkout 策略和同步目标，核实后再使用；初始化不会自动授权
-公开发布已有材料。
+A tracker may already be sufficient for simple work. Add local context only when
+recovery needs material the tracker does not hold. Projects express continuing
+goals, tasks express scoped work, and sessions identify execution instances.
+Keep parent, blocking, source, and ordinary reference links distinct.
 
-完成条件：每类信息都有明确落点和维护者，没有两个可独立修改的权威副本。
+Record the chosen locations, field owners, write method, sync policy, and cleanup
+responsibilities in local instructions. Knowledge-store setup is optional; reuse
+its existing access and capture policy.
 
-## 3. 建立最小恢复入口
+## 3. Create One Recovery Path
 
-已有结构可用就沿用。新环境可从下面的形态开始，仅创建本次需要的目录：
+Preserve an existing layout. A new local environment can start with:
 
 ```text
 <context>/
 ├── AGENTS.md
 ├── index.md
-├── projects/<project>/index.md
 └── tasks/<task>/index.md
 ```
 
-总入口负责路由，项目入口说明目标与责任，Task 入口保存当前恢复点。同一 Task
-可关联多个项目，正文保持一个稳定位置。项目内的任务列表或反向引用可从关联
-关系计算，避免要求每次更新同时改写所有索引。
+Create only the entries needed now. Add `projects/<project>/index.md` when project
+navigation becomes useful. A task may link to several projects while retaining
+one stable recovery entry. Derive reverse navigation from links where practical.
 
-Task 的最小内容示例，字段可由既有工单或结构化记录承接：
-
-```markdown
-# 事项名称
-
-目标与验收：
-当前负责人及会话定位：
-当前结论、未决问题与下一步：
-代码目录及相关版本：
-来源与已读范围/版本/位置：
-验证结果、证据入口及未验证项：
-```
-
-入口写当前状态，研究、决定或验证细节变长后再分文件。跨 Harness 所需的事实
-要实际可读；保留来源定位，不把整份聊天或日志复制成日常必读上下文。
-
-完成条件：从总入口能定位一件真实事项，并判断下一步该读什么、由谁推进。
-
-## 4. 连接日常入口
-
-在各 Harness 会实际加载、且适用范围正确的入口里补充短约定。与原文整合，
-保留已有规则；单一版本化正文配合各入口的引用或部署，减少副本漂移。
-
-可按本地配置改写以下片段：
+A minimal task entry can use existing tracker fields or this shape:
 
 ```markdown
-## 工作上下文
+# Task name
 
-- 跨会话事项先从 <context>/index.md 查找已有记录，核对负责人和最新恢复点。
-- 持久结论写回对应事项；代码使用 <code-workspace>，临时产物使用 <temporary>。
-- 更新 Context 时遵守 <write-protocol>，按 <save-and-sync-policy> 保存与同步。
-- 配置与维护指南：<context>/AGENTS.md；需要初始化或修正环境时使用 work-context。
+Goal and acceptance:
+Current owner and session locator:
+Current understanding, open questions, and next action:
+Code locations and relevant versions:
+Sources and reading scope, revision, or position:
+Verification results, evidence locations, and unverified paths:
 ```
 
-替换路径并删除不适用项。关键行为直接写在相关入口，详细命令按触发条件链接；
-部署后回读实际入口，确认引用可达、内容一致。把组织或项目专属授权放在相应
-作用域，个人全局入口保持通用。
+Keep the entry current; split research, decisions, or verification detail when it
+obscures recovery. Preserve meaningful source locations instead of copying entire
+chats or logs into the daily reading path.
 
-若使用 `git-task-workspace`，复用它配置的源码池与任务 worktree；在代码工作区
-入口注明持久 Context 的落点。两者通过目录、版本记录和清理边界协作，无需
-相互调用。未采用该 skill 的环境直接记录现有代码工作目录即可。
+For migration, work within each owner's scope. Extract current conclusions,
+update active links, and verify the destination and required sync before clearing
+the old location. Protect unique, unidentified, or actively written material;
+new cache rules do not retroactively make it disposable. Historical evidence
+retains its original identity.
 
-完成条件：从每种已接入 Harness 的正常启动位置都能读到关键规则和恢复入口。
-文件存在不能证明该 Harness 已加载它。
+## 4. Connect the Agent Entry Points
 
-## 5. 配置写入与迁移
+Integrate short rules into the instructions each agent tool actually loads,
+preserving existing content and scope. Keep shared details in one maintained
+location. Adapt this fragment with real paths and remove unused parts:
 
-优先沿用现成工具和校验器。没有可靠的并发更新机制时，先采用明确的单写者；
-需要多人或多 Agent 同写后，再选择适合存储的原子更新方式。
+```markdown
+## Work Context
 
-- 共享 checkout 可用版本前置条件检测过期写入，短锁覆盖校验和替换的临界区。
-  Git 暂存区和提交也需协调，精确保存本次负责的文件。
-- 本机文件锁只约束同一文件系统中遵守协议的写入者。跨设备用存储服务的
-  并发机制或约定的单写者；Git push 冲突需读取新版本后整合。
-- 版本校验不负责语义查重、授予接管权或唤醒其他 Agent。任务认领、交接和
-  后续执行沿用各自的明确约定。
+- Find ongoing work in <context>/index.md; check the goal, owner, and latest
+  recovery point before creating another task.
+- Save durable conclusions in the task record. Use <code-workspace> for code
+  and <temporary> for disposable outputs.
+- Follow <context>/AGENTS.md for writing, validation, and sync. Refresh sources
+  from their recorded reading positions before resuming work.
+```
 
-迁移旧材料时按责任范围逐批收拢：提炼当前结论，保留必要来源，更新活动引用，
-确认目标可读且按配置同步后再处理原位置。历史原文保持其证据身份；来源不明、
-仍在写入或尚未核实的唯一材料先保护，不套用新缓存规则删除。
+Inline the key behavior at the relevant entry point; link conditional details.
+Keep organization-specific paths and authorizations in their proper local scope.
+Verify the deployed instructions and links, rather than assuming a file is loaded
+because it exists. The environment should remain usable if the skill is removed.
 
-产物准入需要程序约束时，复用现有提交校验与 hook，并核验实际安装和拦截路径。
-按本地策略测试允许与拒绝的样例；仓内有 hook 源码不代表每个 clone 已生效。
-忽略规则只管理跟踪，缓存仍需清理责任，持久材料仍需可恢复的存储。
+If a source/worktree layout is already configured, reference its actual paths.
+For a requested worktree setup, consult `git-task-workspace` when available in the
+current skill catalog. Without it, retain the existing code workflow. Installation
+and environment configuration are separate facts; avoid installation-directory
+guesses and circular skill loading.
 
-完成条件：写入方式、冲突处理和同步边界可执行；迁移内容及未收拢材料可定位。
+## 5. Enable the Required Write Model
 
-## 6. 从消费者验证
+Reuse existing tools and validators. A new single-writer environment needs a
+clear writer and save policy, not a new locking framework.
 
-选一件真实事项，或在隔离目录内用脱敏样例验证：
+If concurrent writers are required now, choose a mechanism appropriate to the
+store before claiming the environment supports them. For a shared checkout,
+version preconditions can reject stale writes, with a short lock covering check
+and replacement. Coordinate the shared Git index and commit operations as well,
+preserving other writers' drafts and staging.
 
-1. 从正常入口启动一个干净会话，找到事项、负责人、关键来源和下一动作。
-2. 加入一条新的决定或来源更正，再从恢复点接续，确认读取增量并更新原结论。
-3. 核对代码工作目录与持久记录的版本对应关系，临时产物没有成为唯一恢复依据。
-4. 按配置实际执行保存、校验与同步；若声称支持并发，验证过期写入被拒绝且
-   有效更新保留。检查实际可用的目标内容，而非只看命令返回成功。
+A local file lock covers cooperating writers on that filesystem, not separate
+machines. Across devices, use the store's concurrency mechanism or a designated
+writer; integrate new remote revisions before retrying rejected Git syncs.
+Version checks do not provide semantic deduplication, transfer ownership, or wake
+another agent.
 
-仅在用户已授权的范围验证写入和外部同步。报告使用的入口、结果、尚未验证的
-Harness/设备/冲突路径及下一步；未测试的接入保持未验证状态。
+Add artifact admission checks or hooks only when needed, reusing existing ones.
+Verify actual installation with representative allowed and rejected content.
+Ignore rules control tracking; persistence and cleanup still need their own owners.
+
+## 6. Verify from the Consumer
+
+Use a real task within its authorization, or an isolated representative example:
+
+1. Enter through a normal agent entry point and locate the task, owner, sources,
+   and next action.
+2. Resume after a source update and check that its correction reaches the current
+   task record, including the new reading position.
+3. Follow the configured save, validation, and sync path; inspect the destination
+   content. Verify that code versions and recovery records agree.
+4. If concurrency is claimed, demonstrate stale-write rejection and preservation
+   of valid updates and unrelated staging. Otherwise, record the single-writer limit.
+
+Report the deployed entry points, actual results, and unverified agent tools,
+devices, or conflict paths. Timers, dashboards, and extra infrastructure are
+separate additions driven by a demonstrated need.

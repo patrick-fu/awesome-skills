@@ -1,54 +1,55 @@
 ---
 name: work-context
 description: >-
-  Maintain shared work context across sessions, agent harnesses, and repositories.
-  Use when organizing or resuming ongoing task context, or setting up its local
-  environment.
+  Maintain durable task context across sessions and agent tools. Use when
+  recovering ongoing work, updating shared task records, or setting up a
+  work-context environment.
 ---
 
 # Work Context
 
-按事项维护当前理解与恢复入口。会话可以替换，事项及其责任持续存在。
-沿用用户已有的目录、tracker 和协作约定；短任务可以直接使用已有工单。
+Keep ongoing work recoverable across sessions. Reuse existing task records and
+local persistence rules; a short task may need only its existing issue.
 
-## 接入
+For initialization, migration, or missing persistence configuration, read
+[Setup](references/setup.md). Otherwise, follow the daily workflow directly.
 
-先读现有入口，定位持久 Context、代码工作区、权威记录和写入方式。
-初始化环境、迁移旧材料或缺少必要配置时，读取
-[初始化指引](references/setup.md)，只补齐缺项；已配置的日常工作直接走下文。
+## Daily Workflow
 
-## 日常主线
+1. **Locate.** Search existing work by goal and scope before creating another
+   record. A task can serve several projects while keeping one recovery entry.
+   Identify its owner and authoritative sources; preserve established ownership
+   unless reassigned.
+2. **Refresh.** Read from the short entry point into relevant detail. Before
+   resuming or making a consequential decision, check source updates from the
+   recorded revision or reading position. Update superseded conclusions and
+   distinguish verified facts, assumptions, and unknowns.
+3. **Update.** Keep the goal, acceptance criteria, current understanding,
+   unresolved questions, and next action easy to find. Move detail out of the
+   entry point as needed. Link tracker-owned fields; label local snapshots with
+   their source and verification time.
+4. **Save and hand off.** Follow the configured write and sync protocol, saving
+   only owned changes. Re-read conflicting updates before integrating them.
+   Leave accessible recovery material, including relevant code locations,
+   revisions, verification limits, and outstanding waits or resource holds.
+   Ending a session does not close the task or release its resources.
 
-1. **定位事项。** 按目标、范围和项目查找已有工作，再决定沿用、关联或新建。
-   一个事项保留一份权威正文，可以关联多个项目；找到负责人不等于取得接管权。
-2. **恢复并刷新。** 从短入口进入本次需要的细节。续跑和关键决策前，按来源的
-   已读位置检查增量；记录来源、范围、版本或读取位置，把更正更新到原结论。
-   区分已证事实、假设和未验证项。
-3. **推进并保存。** 入口保留目标与验收、当前责任与进展、未决问题、下一步和
-   必要链接。形成重要决定或验证结果后更新当前状态，历史细节按需下沉。
-   业务状态若由 tracker 管理，本地只保留带核验时间的引用或快照。
-4. **协作与交接。** 沿用既有写入协议和提交同步策略，只保存自己负责的改动。
-   版本冲突时重读并整合，保留他人更新；状态陈旧时先核实，不自动抢占。
-   交接留下接续者可访问的恢复材料，不能只给另一个 Harness 无法读取的会话链接。
-5. **收尾。** 写清结果、遗留风险、下一动作及仍有效的等待或资源约定。
-   核对持久材料已按配置保存和同步，再清理自己的临时现场；保护在途代码和
-   尚未迁出的唯一材料。单次会话结束不自动关闭事项。
+## Content
 
-## 内容边界
+Keep code and versioned project documentation in their repositories. Task context
+holds concise conclusions, decisions, key excerpts, relevant versions, and
+reproduction steps. Put reusable knowledge in its configured store within the
+existing authorization. Views derive from authoritative records.
 
-| 内容 | 位置 |
-| --- | --- |
-| 目标、当前结论、决定、进展、恢复点、跨仓版本组合 | 对应事项的持久 Context |
-| 源码、测试、随代码版本维护的项目文档 | 对应代码仓 |
-| 经授权沉淀的跨任务知识 | 已配置的知识库 |
-| 下载、构建输出、完整日志、截图和生成预览 | 约定的临时目录或产物存储 |
+Store generated or bulky artifacts according to the local storage policy.
+Record their location and version when cited; identify evidence that is no longer
+available. Before clearing a workspace, preserve unique material and verify the
+required saves and syncs.
 
-Context 默认保存精简文本结论、关键摘录、验证条件、版本和复现方式，遵守本地
-产物准入规则。引用原件时注明位置与版本；原件已失效就说明不可复查，路径或
-哈希不能代替可访问的证据。工作台和摘要从权威记录派生，避免另起一份可编辑状态。
+## Optional Workspace Guidance
 
-## 与 Git Task Workspace 配合
-
-`git-task-workspace` 可独立管理源码池、任务 worktree 和清理；本 skill 维护事项的
-持久状态，记录所用目录、分支和版本。两者共享本地配置的 Context 目的地与收尾
-边界，互不要求安装；普通仓库、远程执行环境和非代码事项也可使用 Work Context。
+Use the existing code workspace. When task worktree management is needed,
+consult `git-task-workspace` if available in the current skill catalog; otherwise,
+follow the project's existing workspace workflow. The environment's configured
+paths and recovery records connect the two skills. Reuse guidance already read;
+neither skill requires installing or loading the other for routine work.

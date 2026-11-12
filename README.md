@@ -319,9 +319,9 @@ Use it when the change is ready but the copy-ready commit message is not.
 #### 🗂️ [`git-task-workspace`](./git-task-workspace/SKILL.md)
 
 Manage isolated, task-oriented Git worktree workspaces from an upstream source
-pool. Keep trunk repositories clean, co-locate multi-repo worktrees under a
-single task directory, and tear down finished sandboxes without leftover branch
-friction.
+pool. Keep source checkouts clean, co-locate multi-repo worktrees under a task
+directory, and preserve unique material and unmerged commits before cleanup.
+An on-demand setup guide offers defaults while respecting existing layouts.
 
 Use it when creating an isolated task workspace, checking out worktrees, adding
 multi-repo dependencies, tearing down workspaces, or setting up the directory

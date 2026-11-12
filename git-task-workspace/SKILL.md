@@ -1,40 +1,52 @@
 ---
 name: git-task-workspace
 description: >-
-  Manage task-oriented Git worktree workspaces from an upstream source pool.
-  Use when starting a task, checking out worktrees, adding multi-repo dependencies,
-  tearing down workspaces, or setting up the directory layout.
+  Manage task worktrees from a shared source repository pool. Use when preparing
+  or cleaning code workspaces, adding repositories to a task, or configuring the
+  source/workspace layout.
 ---
 
 # Git Task Workspace
 
-Operate isolated, task-oriented worktrees from an upstream repository pool.
+Group the repositories needed for one task under a dedicated task directory.
+Reuse the configured source pool, workspace layout, and persistence rules.
 
-## Invariants
+For initialization, migration, or missing layout configuration, read
+[Setup](references/setup.md). Otherwise, use the existing layout directly.
 
-- `source-pool`: Clean, read-only upstream repository pool tracking trunk branches.
-  Do not make dirty edits, run builds, or place temporary artifacts here.
-- `workspace`: Task directory root where every work item gets a dedicated
-  folder (`<workspace>/<task-name>/`). Worktrees are checked out here.
-- `single-owner`: A task directory belongs to one active work stream. Multi-repo
-  dependencies co-locate under that same task directory.
+## Boundaries
+
+- **Source pool:** Keep source checkouts clean for inspection and repository
+  administration, including clone and fetch. Make code changes, run builds, and
+  write task artifacts in task worktrees.
+- **Task workspace:** Keep related worktrees together and respect the task's
+  current owner and working state. Persistent workspace instructions and
+  management tools are not task caches.
+- **Durable material:** Use the configured destination for task notes and recovery
+  records. Code and versioned project documentation remain in their repositories.
 
 ## Workflow
 
-1. `start-task`: Create `<workspace>/<task-name>/`. For each required repository in
-   the source pool, add a worktree into the task directory:
-   `git -C <source>/<repo> worktree add <workspace>/<task-name>/<repo> -b <branch> [start-point]`
-   Start points can be the default trunk, an older commit, or an existing branch.
-2. `multi-repo`: When a task spans multiple repositories, check out worktrees
-   for all affected repositories directly into `<workspace>/<task-name>/`.
-3. `add-repo`: If an un-cloned dependency is needed mid-task, clone it into the
-   source pool first, then add a worktree into the active task directory.
-4. `tear-down`: After code is merged or abandoned, remove the task directory
-   (`rm -rf <workspace>/<task-name>`) and prune worktree references:
-   `git -C <source>/<repo> worktree prune`
-   The source pool remains pristine.
+1. **Locate.** Find the existing task directory and worktrees before creating
+   another. Verify the repository, remote, and intended starting revision against
+   current project rules. Preserve compatible working state.
+2. **Prepare.** Add linked worktrees from the source pool for the repositories
+   needed now. Clone a missing repository into the pool first, then add its task
+   worktree. Use the appropriate existing or new branch and explicit start point.
+3. **Work.** Edit and build in task worktrees. Add dependencies as the scope
+   becomes clear. Record paths, branches, and version combinations needed to
+   recover the task in its existing durable record.
+4. **Clean up.** Confirm the workspace is no longer needed by active work.
+   Inspect tracked, untracked, ignored, and checkout-external files. Preserve
+   unique material and unmerged commits in durable locations, and verify required
+   saves and syncs before removal. Use `git worktree remove` for worktrees, then
+   clear disposable outputs and stale registrations. Inspect removal refusals
+   before proceeding; preserve workspace management files and other tasks' state.
 
-## Setup and Migration
+## Optional Context Guidance
 
-To initialize a new source/workspace layout, generate local `AGENTS.md` rules,
-or migrate existing repositories, read [references/setup.md](references/setup.md).
+Save durable notes to the configured location. For substantial shared task-context
+organization, consult `work-context` if available in the current skill catalog;
+otherwise, use the existing issue or documentation workflow. Reuse guidance
+already read. Neither skill requires installing or loading the other for routine
+work; configured paths and task records connect their environments.

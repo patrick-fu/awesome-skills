@@ -11,6 +11,12 @@ files, task records, trackers, knowledge stores, code locations, and write/sync
 rules. Check unfinished work and existing owners before changing structure.
 Verify actual Git roots; a directory can belong to an unexpected ancestor repo.
 
+Within the selected repositories and known agent entry points, inventory shared
+instructions, skills, standards, and agent-facing docs. Identify each item's scope
+and authoritative maintenance location, including material managed by an external
+installer. Compare duplicate copies for divergent rules; resolve conflicts from
+ownership and actual use rather than modification time alone.
+
 Distinguish the session's starting directory, durable context, source repository
 pool, and task workspaces. Names identify user choices, not roles: `work-context`,
 `home-context`, or any other name can serve as the context root. Preserve existing
@@ -64,6 +70,11 @@ locations easy to recover.
 Merge the following fragments into existing instructions, replacing placeholders
 with actual paths and chosen policies. Omit unused roles. Daily instructions must
 point to local rules, not to installed skill files.
+
+Use the material inventory during setup or migration. Deploy missing pointers and
+reading conditions to authoritative material through the existing entry points.
+Keep repository-specific rules in their repositories and preserve existing skill
+sources and installation management.
 
 ### Global Agent Instructions
 
@@ -168,6 +179,11 @@ artifacts. Transfer current conclusions and links within scope, preserve source
 identity, and verify destination content and required sync before retiring the
 old location. New cache rules do not retroactively make old material disposable.
 
+For each approved material move or consolidation, record the current copies,
+authoritative destination, and affected consumer entry points. Update those
+pointers and verify the actual harness reads the intended rules before retiring
+old copies, including any retained repository-specific rules.
+
 Use an authorized task or isolated representative fixture. Start a fresh consumer
 with only the deployed local instructions and the two environment skills absent
 from its catalog:
@@ -182,6 +198,9 @@ from its catalog:
    artifact across sessions, and exercise safe cleanup using local rules.
 5. If concurrent writing is claimed, verify stale-write handling and preservation
    of valid updates and unrelated staging. Otherwise state the supported limit.
+6. If shared material moved or was consolidated, verify the authoritative source
+   and actual read path, resolution of divergent copies, and application of
+   retained repository-specific rules.
 
 Report deployed files, actual startup and consumer results, and unverified
 harnesses, devices, sync, or conflict paths. Setup is complete only for the paths

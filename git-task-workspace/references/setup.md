@@ -78,8 +78,21 @@ second competing map. Verify each harness reads these instructions; use a thin
   Durable recovery: <recovery-location-and-instructions>.
 ```
 
-The repository map needs only identity, purpose, location, and baseline. Reuse an
-existing map; inspect repository content for implementation details.
+The repository map needs only identity, purpose, location, and approved baseline.
+Reuse an existing map and maintain each repository entry in one place; inspect
+repository content for implementation details.
+
+Keep a short map flat. When navigation becomes difficult, use the existing domain
+grouping or split the map by domain. Deploy a brief use condition and index path
+for each domain in the source instructions, for example:
+
+```markdown
+- Client apps (UI and device behavior): see repos/client.md.
+- Services (APIs and background jobs): see repos/services.md.
+```
+
+After grouping, repository details belong in the domain indexes. Context and
+global instructions point to the map's entry point.
 
 ### Workspace Root AGENTS.md
 
@@ -150,7 +163,8 @@ the deployed local instructions, with `git-task-workspace` and `work-context`
 absent from its skill catalog:
 
 1. From a normal entry point, locate the repository, baseline, existing task,
-   owner, and recovery destination.
+   owner, and recovery destination. Follow deployed domain pointers when the map
+   is grouped.
 2. Create or reuse a worktree; verify its Git registration, branch, and starting
    revision. Add a second repository later and update the recovery record.
 3. Save task evidence outside the worktrees, resume in a new session, and read

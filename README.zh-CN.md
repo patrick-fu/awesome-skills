@@ -60,10 +60,11 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.zh-CN.md)
 
-把 Session 教训和外部资料沉淀进长期维护、Git-backed 的 LLM Wiki，也能审计现有 Wiki，
-或从零搭建一个。provenance、canonical ownership 和仓库操作边界都会被保留下来。
+把 Session 中可复用的经验和外部资料整理成持续维护的 LLM Wiki，保留原始依据、知识归属
+和相互链接。通过显式请求完成 capture、ingest、现有 Wiki 审计或从零初始化。
 
-适合希望知识跨 Session 留存，又不想把 Wiki 的 Git 历史交给不透明自动化的场景。
+Wiki 可以是独立 Git 仓库，也可以内嵌在共享 Context 仓库中。内容规范由 Wiki 自己维护，
+提交和同步沿用所在仓库的协议。
 
 📦 独立仓库：[`patrick-fu/llm-wiki-capture`](https://github.com/patrick-fu/llm-wiki-capture)
 
@@ -79,12 +80,15 @@ fallback 只会显式启用。
 
 #### 🧭 [`work-context`](./work-context/SKILL.md)
 
-跨会话、跨 Harness、跨仓库维护可恢复的工作上下文。精简的日常主线负责查找已有
-事项、刷新来源、保存当前决定和恢复点；缺少配置时再加载初始化指引，连接本机入口、
-tracker、知识库与代码工作区。
+把一个仓库设为所有任务的起点，让多个项目、Agent 和 Harness 共用同一个入口。
+所有会话可以从同一个 Project 进入，也可以在任意仓库通过本地规则找到共享 Context。
+跨多个仓库的任务仍在同一处维护目标、当前决定、来源与恢复点；Context 还可以包含
+LLM Wiki，存放跨任务复用的知识。
 
-适合维护持续事项的共享 Context，或从零搭建相应环境。可以独立使用，也可与
-`git-task-workspace` 配合，衔接持久事项记录与临时代码现场。
+Skill 负责初始化和调整环境，名称、路径由用户选择，并把路由与日常规则写进全局和
+Context 层的 `AGENTS.md`。此后日常工作沿用本地规则，直到配置变化才需要再次调用。
+它可以独立使用，也可由 `git-task-workspace` 配置代码现场和产物存放位置；通过显式
+调用 `llm-wiki-capture` 初始化或维护 Wiki。
 
 ### ✍️ 沟通与写作
 
@@ -262,11 +266,13 @@ Evidence，Ghidra 生成函数级伪代码。零 MCP，零硬编码子命令，�
 
 #### 🗂️ [`git-task-workspace`](./git-task-workspace/SKILL.md)
 
-基于源码池管理以任务为维度的 Git worktree 工作区。保持来源 checkout 干净，将跨仓
-联调的多个 worktree 放在同一个任务目录下；清理前保护唯一材料与未合并提交。
-按需加载的初始化指引提供默认方案，并沿用已有目录与配置。
+配置一个共享源码池，以及每个任务自己的 Workspace。先为当前需要的仓库检出 worktree，
+任务推进后再动态加仓。任务目录同时存放下载包、截图、录屏、调研材料和端到端测试证据，
+跨会话保留，直到任务收尾时处理。
 
-适合为新任务创建隔离工作区、拉取多仓 worktree、中途加仓、完工收尾或初始化目录布局。
+Skill 负责初始化和调整布局，把创建、扩展、恢复、保护材料和清理的日常规则写进全局、
+source 与 workspace 层的 `AGENTS.md`。名称和路径沿用用户的选择。持久上下文可以保存在
+既有 issue、笔记或 `work-context` 环境中；Workspace 产物保存在本机，通常不纳入 Git。
 
 ### 🏠 个人环境
 

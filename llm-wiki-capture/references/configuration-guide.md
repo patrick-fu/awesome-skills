@@ -1,83 +1,83 @@
-# Wiki Discovery And Configuration
+# Wiki Discovery and Configuration
 
 Read this reference when the target Wiki or its local policy is not already
 explicit in the user's current request.
 
 ## Configuration Ownership
 
-Resolve each concern from the authority that owns it instead of forcing one
-global precedence chain:
+Resolve each concern from the authority that owns it:
 
-- the user owns the objective, scope, target repository, mutation stance, and
-  commit or push authorization
-- the Wiki repository owns its schema, provenance model, navigation, validation
-  commands, and content conventions
-- local or global agent instructions may identify candidate paths and defaults
-- this public skill supplies defaults only where the user and repository are
-  silent
+- the user owns the objective, scope, target, mutation stance, and authorization
+- the Wiki module owns its schema, provenance, navigation, and content validation
+- the containing Git repository owns branch, shared-index, commit, and sync rules
+- local or global instructions may identify candidate paths and defaults
+- this public skill supplies defaults only where those authorities are silent
 
-Surface a material conflict and ask the user. Do not silently let a convenient
-default override the owner of that concern.
+An embedded Wiki inherits its parent's write protocol. A standalone Wiki owns
+both content and repository policy. Surface material conflicts for the user.
 
 ## Target Discovery
 
-Use this sequence:
-
 1. If the current request explicitly identifies the Wiki path or repository and
    its role is clear, use it.
-2. Otherwise perform read-only discovery in project and global instructions,
-   the current or ancestor directories, repository markers, and any configured
-   fixed path.
-3. Treat anything found outside the current request as a candidate. Inspect only
-   enough to identify it, report what was found, and ask the user to confirm it
-   before using it as the target for branch work.
-4. If nothing is found, ask whether the user already has a Wiki repository and
-   where it lives.
-5. Offer Bootstrap only after that question. Do not create a repository until
-   the user explicitly requests creation.
+2. Otherwise inspect known project/global instructions, current or ancestor
+   directories, repository markers, and configured paths read-only.
+3. Treat a discovered path as a candidate: inspect enough to identify it and ask
+   the user to confirm it before using it for branch work. Confirmation already
+   given in this session remains valid.
+4. If none is found, ask whether the user already has a Wiki and where it lives.
+   Offer Bootstrap only after that question and an explicit creation request.
 
-Do not interpret an arbitrary URL as the Wiki repository or as source-ingest
-intent without confirming its role.
+A URL alone establishes neither the Wiki target nor source-ingest intent.
+Directory names are user choices; a Wiki need not be named `my-llm-wiki` or own
+an independent Git repository.
 
-## Existing Notes Repositories
-
-If discovery finds an existing notes repository that is not clearly an LLM
-Wiki:
-
-1. inspect it read-only to understand structure, Git state, navigation,
-   provenance, and likely migration cost
-2. report the evidence and the smallest viable options
-3. ask whether to upgrade it in place or create a separate Wiki
-
-Even when the evidence strongly favors one option, let the user choose before
-changing structure.
+For an existing notes area that is not clearly an LLM Wiki, inspect structure,
+Git state, navigation, provenance, and migration cost read-only. Present the
+smallest viable options and let the user choose an in-place upgrade or a new
+Wiki before changing structure.
 
 ## Minimum Runtime Configuration
 
-Resolve only what the selected branch actually needs:
+Resolve only what the selected branch needs:
 
-- knowledge-base root
-- read-first repository instructions and schema files
-- canonical navigation or log files, when present
-- clean-worktree policy
-- branch policy
-- commit and push authorization
-- commit identity when a commit is authorized
+- **Content root:** the Wiki module containing its schema and content.
+- **Git root and mode:** standalone or embedded; resolve actual Git ownership,
+  including worktrees, instead of assuming `.git` is a directory at content root.
+- **Read-first files:** applicable ancestor instructions, Wiki instructions,
+  purpose, schema, navigation, and likely canonical pages.
+- **Path conventions:** which root anchors schema paths, provenance, and links.
+- **Validation:** content-scoped command and working directory, plus any required
+  parent repository checks.
+- **Writes and saves:** clean-worktree scope, ownership, shared save/index
+  coordination, branch policy, and commit/push authorization.
+- **Identity:** the required identity when a commit is authorized.
 
-Do not require a clone URL, hosted remote, fixed folder layout, or automation
-policy for a local or review-only workflow.
+A local or review-only workflow needs no hosted remote or fixed directory layout.
+For an embedded Wiki, capture the parent's actual save protocol, not a second
+independent Git policy. Preserve an explicit parent requirement for a clean
+repository; module-scoped checks do not relax it.
 
 ## Portable Local Instruction Example
 
+Replace paths and policies with the user's choices. Here the Wiki is embedded
+in a context repository; all Wiki-relative paths use the content root:
+
 ```markdown
 ## LLM Wiki
-- Root: ~/path/to/my-wiki
-- Read first: AGENTS.md, purpose.md, schema.md, wiki/index.md
-- Validate with: scripts/wiki-maintenance check
-- Require a clean worktree before edits: yes
-- Commit policy: ask
-- Push policy: ask
+
+- Content root: <context>/knowledge
+- Git root: <context> (embedded; use the parent's Git lifecycle)
+- Read first: <context>/AGENTS.md; then AGENTS.md, purpose.md, schema.md,
+  and wiki/index.md from the content root
+- Validate: scripts/wiki-maintenance check, working directory <context>/knowledge
+- Parent validation and save protocol: <context>/AGENTS.md
+- Clean-worktree scope: <parent-policy>
+- Commit policy: <parent-policy-or-user-choice>
+- Push policy: <parent-policy-or-user-choice>
 ```
 
-Keep machine-specific paths and personal preferences in the user's local
-instructions rather than in the public skill.
+For a standalone Wiki, the content and Git roots usually coincide and the Wiki's
+own instructions hold the save protocol. Keep machine paths and personal policy
+in local instructions; environment skills are optional setup aids, not runtime
+dependencies.

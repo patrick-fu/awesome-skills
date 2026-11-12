@@ -62,11 +62,12 @@ $llm-wiki-capture
 
 ### Bootstrap
 
-如果还没有 Wiki，需要明确让 Skill 创建。默认从一个小型本地 Git 仓库开始，包含 purpose、
-schema、raw source evidence、source summaries、canonical concepts、index、log，以及零依赖的
-`wiki-maintenance check`。
+明确请求创建 Wiki 后，可以选择独立仓库，也可以把它放在已有 Context 等仓库的子目录中。
+默认从小型本地 Git 仓库开始，包含 purpose、schema、raw source evidence、source summaries、
+canonical concepts、index、log，以及零依赖的 `wiki-maintenance check`。
 
-需要多端同步时会推荐私有托管仓库，但未经确认不会创建 remote 或公开发布。
+内嵌 Wiki 沿用父仓库的提交、共享 index 协调和同步协议，校验只覆盖自己的内容目录。
+需要多端同步时可以使用私有托管仓库，remote 创建和 push 沿用用户授权。
 
 ```text
 $llm-wiki-capture
@@ -95,12 +96,14 @@ $llm-wiki-capture
 
 ```markdown
 ## LLM Wiki
-- Root: ~/path/to/my-wiki
-- Read first: AGENTS.md, purpose.md, schema.md, wiki/index.md
-- Validate with: scripts/wiki-maintenance check
-- Require a clean worktree before edits: yes
-- Commit policy: ask
-- Push policy: ask
+- Content root: ~/path/to/my-context/knowledge
+- Git root: ~/path/to/my-context (embedded)
+- Read first: parent AGENTS.md, then module AGENTS.md, purpose.md, schema.md, wiki/index.md
+- Validate with: scripts/wiki-maintenance check, from the content root
+- Save and sync protocol: parent AGENTS.md
+- Clean-worktree scope: follow parent policy
+- Commit policy: follow parent policy
+- Push policy: follow parent policy
 ```
 
 仓库发现和配置权责见

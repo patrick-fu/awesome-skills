@@ -1,55 +1,47 @@
 ---
 name: work-context
 description: >-
-  Maintain durable task context across sessions and agent tools. Use when
-  recovering ongoing work, updating shared task records, or setting up a
-  work-context environment.
+  Initialize or reconfigure a shared context environment and its local agent
+  instructions. Use for first setup, migration, connecting another agent
+  harness, or repairing configuration drift.
 ---
 
 # Work Context
 
-Keep ongoing work recoverable across sessions. Reuse existing task records and
-local persistence rules; a short task may need only its existing issue.
+Set up a common starting place for work across projects, sessions, and agent
+harnesses. Deliver the daily recovery and persistence rules into the user's
+local instructions, so ordinary work continues without this skill installed.
 
-For initialization, migration, or missing persistence configuration, read
-[Setup](references/setup.md). Otherwise, follow the daily workflow directly.
+## Workflow
 
-## Daily Workflow
+Read [Setup and Migration](references/setup.md) for discovery, defaults, local
+instruction templates, optional Wiki integration, and acceptance checks.
 
-1. **Locate.** Search existing work by goal and scope before creating another
-   record. A task can serve several projects while keeping one recovery entry.
-   Identify its owner and authoritative sources; preserve established ownership
-   unless reassigned.
-2. **Refresh.** Read from the short entry point into relevant detail. Before
-   resuming or making a consequential decision, check source updates from the
-   recorded revision or reading position. Update superseded conclusions and
-   distinguish verified facts, assumptions, and unknowns.
-3. **Update.** Keep the goal, acceptance criteria, current understanding,
-   unresolved questions, and next action easy to find. Move detail out of the
-   entry point as needed. Link tracker-owned fields; label local snapshots with
-   their source and verification time.
-4. **Save and hand off.** Follow the configured write and sync protocol, saving
-   only owned changes. Re-read conflicting updates before integrating them.
-   Leave accessible recovery material, including relevant code locations,
-   revisions, verification limits, and outstanding waits or resource holds.
-   Ending a session does not close the task or release its resources.
+1. **Discover.** Identify the actual agent entry points, context destination,
+   code locations, knowledge stores, and existing write rules. Separate working
+   choices from missing configuration and conflicts.
+2. **Configure.** Reuse the user's names and paths. Propose defaults only for
+   gaps; resolve choices that affect durable location, ownership, migration,
+   or sharing. Create the smallest useful recovery path.
+3. **Deploy.** Merge short routing rules into global instructions and daily
+   operating rules into the chosen context root's `AGENTS.md`. Connect existing
+   source and workspace instructions by their real paths. Preserve unrelated
+   rules and give each detailed policy one local owner.
+4. **Verify.** Start from the deployed instructions without loading this skill.
+   Recover a task, refresh changed sources, and save through the configured
+   protocol. Check the actual consumer and report unverified entry points.
 
-## Content
+Completion is a usable local environment with resolved paths and policies, not
+merely a proposed layout or a reference back to this skill. Daily task recovery
+and updates follow the deployed instructions; return here when setup changes.
 
-Keep code and versioned project documentation in their repositories. Task context
-holds concise conclusions, decisions, key excerpts, relevant versions, and
-reproduction steps. Put reusable knowledge in its configured store within the
-existing authorization. Views derive from authoritative records.
+## Optional Integrations
 
-Store generated or bulky artifacts according to the local storage policy.
-Record their location and version when cited; identify evidence that is no longer
-available. Before clearing a workspace, preserve unique material and verify the
-required saves and syncs.
+Installation and environment configuration are separate facts. If source and
+workspace setup is requested, use `git-task-workspace` when it is available in
+the current skill catalog; otherwise retain the existing code workflow.
 
-## Optional Workspace Guidance
-
-Use the existing code workspace. When task worktree management is needed,
-consult `git-task-workspace` if available in the current skill catalog; otherwise,
-follow the project's existing workspace workflow. The environment's configured
-paths and recovery records connect the two skills. Reuse guidance already read;
-neither skill requires installing or loading the other for routine work.
+A Wiki can live inside the context repository or separately. Reuse its configured
+access policy. New Wiki initialization needs the user's explicit request; if
+`llm-wiki-capture` is available, the user can invoke it for that work. Neither
+integration is required for a working context environment.

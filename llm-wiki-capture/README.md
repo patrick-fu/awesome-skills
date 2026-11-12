@@ -67,13 +67,16 @@ runs only when the user explicitly requests a whole-Wiki pass.
 
 ### Bootstrap
 
-If you do not have a Wiki, explicitly ask the skill to create one. The default
-starting point is a small local Git repository with purpose, schema, raw source
-evidence, source summaries, canonical concepts, index, log, and a
-zero-dependency `wiki-maintenance check`.
+Explicitly request a new Wiki, either in its own repository or in a subdirectory
+of an existing context or other repository. The default standalone setup is a
+small local Git repository with purpose, schema, raw source evidence, source
+summaries, canonical concepts, index, log, and a zero-dependency
+`wiki-maintenance check`.
 
-The skill recommends private hosting when cross-machine sync is useful, but it
-does not create a remote or publish anything without approval.
+An embedded Wiki inherits its parent's commit, shared-index coordination, and
+sync protocol; its validator covers its own content root. Private hosting can
+support cross-machine sync, with remote creation and push following the user's
+authorization.
 
 ```text
 $llm-wiki-capture
@@ -106,12 +109,14 @@ Minimal optional configuration:
 
 ```markdown
 ## LLM Wiki
-- Root: ~/path/to/my-wiki
-- Read first: AGENTS.md, purpose.md, schema.md, wiki/index.md
-- Validate with: scripts/wiki-maintenance check
-- Require a clean worktree before edits: yes
-- Commit policy: ask
-- Push policy: ask
+- Content root: ~/path/to/my-context/knowledge
+- Git root: ~/path/to/my-context (embedded)
+- Read first: parent AGENTS.md, then module AGENTS.md, purpose.md, schema.md, wiki/index.md
+- Validate with: scripts/wiki-maintenance check, from the content root
+- Save and sync protocol: parent AGENTS.md
+- Clean-worktree scope: follow parent policy
+- Commit policy: follow parent policy
+- Push policy: follow parent policy
 ```
 
 See

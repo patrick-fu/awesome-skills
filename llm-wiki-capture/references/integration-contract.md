@@ -4,73 +4,75 @@ Apply this contract to every write-capable branch.
 
 ## Before Editing
 
-1. Confirm the target repository when it came from discovery rather than the
-   current user request.
-2. Read the repository instructions, purpose, schema, navigation, maintenance
-   commands, and the likely canonical owner pages.
-3. Run any repository-required pre-write maintenance and synchronization steps
-   in their documented order. Never pull into a dirty or unconfirmed target.
-4. Inspect Git status. Preserve unrelated user changes. If local policy
-   requires a clean worktree and unrelated changes exist, stop at a proposed
-   diff or review report.
-5. Resolve the mutation boundary. Repository rules can define structure and
-   validation, but only the user can authorize materially broader scope,
-   repository creation, commit, push, destructive moves, or public exposure.
+1. Confirm a discovered target unless the user has already confirmed it in this
+   session. Resolve the content root and actual containing Git root separately.
+2. Read applicable parent instructions and the Wiki's purpose, schema, navigation,
+   maintenance commands, and likely canonical pages. Check path conventions:
+   content-relative evidence paths need not be repository-relative Git paths.
+3. Run required pre-write checks and the repository owner's synchronization
+   protocol. For an embedded Wiki, use the parent protocol rather than running
+   an independent pull. A direct pull needs a clean, confirmed target and local
+   authorization.
+4. Inspect the containing repository's status and index. Preserve unrelated
+   edits and staging. An explicit full-repository cleanliness requirement still
+   applies: if it is unmet, stop at a proposal or review report. Otherwise use
+   the configured ownership/shared-write protocol for the permitted scope.
+5. Resolve mutation scope and authorization. Local rules can govern structure,
+   validation, and saves; the user owns broader scope, repository creation,
+   destructive moves, and public exposure.
 
 ## Canonical Integration
 
-Integrate knowledge by ownership rather than by the session or source that
-revealed it:
+Integrate by knowledge ownership rather than session or source chronology:
 
-- update an existing canonical page when one owns the knowledge
-- merge equivalent claims while preserving their independent provenance
+- update an existing canonical page when it owns the knowledge
+- merge equivalent claims while preserving independent provenance
 - keep conflicting claims visible until evidence or the user resolves them
-- create a new page only when it has an independent claim and independent
-  retrieval value
-- update indexes, logs, overview pages, and backlinks required by the local
-  schema
+- create a page only for an independent claim with independent retrieval value
+- update navigation, logs, overviews, and backlinks required by the local schema
 
-Use review-only as a hard mutation boundary. In review-only mode, inspect and
-report candidate changes, but make no file edits, commits, pushes, remote
-repository changes, or external publications.
+Review-only is a hard mutation boundary: report candidate changes without edits,
+commits, pushes, repository creation, or external publication.
 
 ## Confirmation Gates
 
-Always ask before writing when the change depends on:
+Ask before writing when a change depends on inferred user intent or preference,
+promotion from project to user-global scope, a choice between conflicting
+canonical claims, or sensitive personal information.
 
-- inferred user intent or preference
-- promotion from project scope to user-global scope
-- choosing between conflicting canonical claims
-- sensitive personal information
+Ask before replacing, deleting, marking knowledge obsolete, changing schema, or
+moving files destructively unless the current request already authorizes that
+action. Existing authorization in this session remains valid.
 
-Also ask before replacing, deleting, marking knowledge obsolete, changing the
-schema, or moving files destructively when the current request did not already
-authorize that exact action.
+When a user-provided SOP conflicts with repository evidence, tools, or Wiki
+content, research read-only and ask which account should be canonical.
 
-When a user-provided SOP conflicts with repository evidence, tool results, or
-existing Wiki content, research the discrepancy read-only and then always ask
-the user which account should be canonical. Do not auto-resolve it even when
-one explanation appears likely.
-
-## Verification
+## Verification and Saves
 
 After editing:
 
-1. inspect the complete diff against the original request and local schema
-2. verify every changed page's provenance, owner, links, and navigation impact
-3. run the repository's maintenance command when one exists
-4. run `git diff --check`
-5. report skipped, disputed, superseded, and still-unverified candidates
+1. inspect the owned diff against the request, schema, and initial Git state
+2. verify changed pages' provenance, ownership, links, and navigation impact
+3. run content validation from its documented working directory, plus required
+   parent checks; sibling files remain outside Wiki schema validation
+4. run `git diff --check` for owned paths from the actual Git root
+5. verify unrelated edits and staging were preserved; report skipped, disputed,
+   superseded, and unverified candidates
 
-Commit only when the user or an applicable local policy explicitly authorizes
-it. Push only when separately authorized; fetch first and stop on a
-non-fast-forward conflict. Never force-push a user's Wiki as a capture shortcut.
-A user-owned repository policy that explicitly authorizes push satisfies this
-separate authorization boundary.
+Commit when the user or applicable local policy explicitly authorizes it. For an
+embedded Wiki, coordinate through the parent's saver, lock, or existing helper
+using explicit repository-relative owned paths. Preserve other writers' staging;
+a blanket add or commit of the shared index can include unrelated work. If the
+configured protocol cannot safely save the owned changes, report the blocked save
+without disturbing the other work.
 
-Completion means the requested knowledge is integrated and verified, or the
-review report makes every unresolved decision explicit. A commit or push is not
-part of completion unless authorized.
+Push only when separately authorized, through the containing repository's sync
+protocol. Fetch first and stop on a non-fast-forward conflict; never force-push
+as a capture shortcut. An applicable user-owned policy explicitly authorizing
+push satisfies that boundary. Embedded Wikis inherit the parent's repository,
+remote, and branch lifecycle, with no separate Git initialization or remote.
 
-If no candidate survives the selected branch's evidence and value gates, make
-no changes and report the empty result with the reason.
+Completion means the requested knowledge is integrated and verified, or a review
+report makes unresolved decisions explicit. Commit/push are completion criteria
+only when authorized. If no candidate passes the selected branch's evidence and
+value gates, leave content unchanged and explain the empty result.

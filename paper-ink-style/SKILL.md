@@ -1,21 +1,23 @@
 ---
 name: paper-ink-style
 description: >-
-  Paper-and-pencil engineering-whiteboard visual style: rough pencil-line
-  cards, marker-yellow highlights, sticky notes and tape, hand-annotated
-  diagrams. Use when applying this personal style to any UI surface
-  (工程白板, inkboard).
+  Paper-and-pencil engineering-whiteboard visual style, defaulting to a
+  standalone single-file HTML deliverable: rough pencil-line cards,
+  marker-yellow highlights, sticky notes and tape, hand-annotated diagrams.
+  Use when creating or restyling HTML, or applying this personal style to
+  another UI surface (工程白板, inkboard).
 ---
 
 # Paper Ink Style
 
-A style guide for any carrier: the same hand works in HTML, in slides, in
-native mobile or desktop UI — pencil-line cards, marker highlights, sticky
-notes and tape, diagrams that carry the argument. The platform-neutral
-vocabulary (values and roles) lives in `references/02-components.md`;
-`assets/base.css` is the worked Web instance of it. The skill is self-contained
-and advisory: compose from the vocabulary, keep the hand, and close with the
-self-check at the end of `references/03-composition.md`.
+A paper-and-pencil engineering-whiteboard style guide that defaults to a
+standalone single-file HTML deliverable — pencil-line cards, marker highlights,
+sticky notes and tape, and hand-annotated diagrams working together in one
+self-contained page. The same hand transfers to slides or native UI via the
+vocabulary in `references/02-components.md`; `assets/base.css` is its Web
+instance. The skill is self-contained and advisory: compose from the
+vocabulary, keep the hand, and close with the self-check at the end of
+`references/03-composition.md`.
 
 ## The hand
 
@@ -41,13 +43,14 @@ self-check at the end of `references/03-composition.md`.
    (canvas, card, note, tape, highlight, annotation, density, stage) with its
    options and the content signals that suit each; set the dials per element,
    and let the known-good combinations serve as examples rather than presets.
-2. Compose from the vocabulary: parameters and roles in
-   `references/02-components.md`, grammar in `references/01-grammar.md`, the
-   practice in `references/04-practice.md`. On the Web,
-   `assets/base.css` plus `assets/snippets/` are the worked instance and its
-   specimens (`references/05-web-instance.md`); on any other carrier reproduce
-   the parameters in that platform's idiom. On the Web, one HTML file is the
-   default deliverable.
+2. Build one self-contained HTML file by default (`references/05-web-instance.md`):
+   inline `assets/base.css` in a `<style>` block and compose with
+   `assets/snippets/`, `references/01-grammar.md`,
+   `references/02-components.md`, and `references/04-practice.md`. Multi-file
+   Web deliverables or other carriers (slides, native mobile or desktop UI) are
+   secondary paths when requested or required by an existing project —
+   reproduce the parameters in `references/02-components.md` in that platform's
+   idiom.
 3. Look at `assets/examples/` — one specimen at default dials, one with every
    dial turned — for the range of the hand; then compose your own page.
 4. Before delivering, run the self-check at the end of
@@ -55,8 +58,8 @@ self-check at the end of `references/03-composition.md`.
 
 ## Where things live
 
-- `references/` — 01 grammar, 02 vocabulary (platform-neutral), 03 composition
-  and self-check, 04 practice, 05 web instance.
+- `references/` — 01 grammar, 02 vocabulary (tokens and roles), 03
+  composition and self-check, 04 practice, 05 Web & single-file HTML guide.
 - `assets/base.css` — the Web instance of the vocabulary (v1.3.0).
 - `assets/fonts/` — LXGW WenKai Lite subsets (SIL OFL) for the handwritten voice.
 - `assets/snippets/`, `assets/examples/` — Web specimens; open them in a browser.

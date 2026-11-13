@@ -126,6 +126,16 @@ author's voice.
 Use it on existing text that sounds templated or over-produced—not as a generic
 trigger for every writing task.
 
+#### 🧼 [`clean-technical-writing`](./clean-technical-writing/SKILL.md)
+
+Keep research reports, postmortems, explanatory HTML pages, public technical
+articles, and prompt descriptions neutral, direct, and single-layered across any
+language.
+
+Enforces subject-first facts without targeted phrasing, plain preconditions
+without defensive hedging or jargon, and self-sufficient headings and labels
+without explanatory subtitles.
+
 ### 🤖 Agent orchestration
 
 #### 🧩 [`parallel-goal-workflows`](./parallel-goal-workflows/README.md)

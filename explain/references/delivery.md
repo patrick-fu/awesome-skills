@@ -28,9 +28,9 @@ For regression or improvement claims, show comparable before/after evidence
 from the described revisions and conditions. For visible changes, prefer
 matching screenshots when available; for logic changes, use actual test runs
 or execution output. Keep test names and observed results distinct from
-illustrative pseudocode. When the baseline is unavailable, say so: an after-only
-pass establishes that check's outcome, not a measured improvement. Confounded
-groups establish a difference, not its cause. When outcomes are unmeasured,
+illustrative pseudocode. When the baseline is unavailable, state that an after-only pass covers
+that check alone. When comparison groups are confounded, report the observed
+difference and leave its cause open. When outcomes are unmeasured,
 explain the supported mechanism and conditions, with the outcome still unknown.
 
 **Focus.** Keep history only when it explains a consequential choice. Include
@@ -55,9 +55,8 @@ missing or unexecuted checks easy to inspect.
 **Merge impact.** Describe **rollback difficulty**: whether reverting code restores behavior,
 or data, migrations, or external effects require compensation or cannot be
 undone. Describe **impact scope**: affected users, callers, states, and compatibility
-or layout consequences supported by the change. Give concrete bounds and
-unknowns rather than only a risk label. These effects do not by themselves
-establish readiness to merge.
+or layout consequences supported by the change. Give concrete bounds and unknowns rather than only a risk label, and
+report merge readiness from separate check and review evidence.
 
 **Finish.** Deliver the requested explanation, title, body, reply, or note.
 Its opening should stand alone, its evidence should support its conclusions,

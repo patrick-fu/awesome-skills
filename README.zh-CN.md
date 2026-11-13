@@ -107,6 +107,15 @@ PR/MR、issue 回复和 QA 交接。遵循用户要求的语言，保留关键�
 
 适合已经写出来、但读起来太像模板或过度加工的文本；不该成为所有写作任务的通用触发器。
 
+#### 🧼 [`clean-technical-writing`](./clean-technical-writing/SKILL.md)
+
+让研究报告、复盘总结、讲解用 HTML、公开技术文章和 prompt description 保持中性、
+直接且单层表达，适用于中文、英文及混排内容。
+
+只陈述以系统与机制为主语的客观事实，不出现具体人名或针对性指派；直接写出已知
+边界，去掉防御性兜底句式与黑话；主标题和标签能独立表达时，不附加解释性副标题
+或次级说明。
+
 ### 🤖 Agent 编排
 
 #### 🧩 [`parallel-goal-workflows`](./parallel-goal-workflows/README.zh-CN.md)

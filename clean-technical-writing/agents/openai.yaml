@@ -1,0 +1,6 @@
+---
+interface:
+  display_name: "Clean Technical Writing"
+  short_description: "Neutral, direct, single-layer writing for docs and HTML"
+  default_prompt: >-
+    Use $clean-technical-writing to write or tighten this document cleanly.

@@ -1,4 +1,5 @@
+---
 interface:
   display_name: "Paper Ink Style"
-  short_description: "Paper-and-pencil engineering-whiteboard style for HTML"
-  default_prompt: "Use $paper-ink-style to restyle this page in the paper-and-pencil whiteboard style."
+  short_description: "Paper-and-pencil whiteboard style for single-file HTML"
+  default_prompt: "Use $paper-ink-style to create a standalone HTML page."

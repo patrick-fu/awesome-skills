@@ -1,10 +1,10 @@
 # Vocabulary
 
-The platform-neutral vocabulary: values and roles first, Web class names
-second. Any carrier — HTML, slides, Swift, Kotlin, a desktop toolkit —
-reproduces these parameters in its own idiom; `05-web-instance.md` documents
-the worked Web instance (`assets/base.css`). If the instance and this table
-disagree, fix both and bump the base.css version.
+The style vocabulary: values and roles first, Web class names second.
+Single-file HTML (`05-web-instance.md`, `assets/base.css`) is the default
+carrier; slides, Swift, Kotlin, or desktop toolkits reproduce the same
+parameters in their own idiom. If the Web instance and this table disagree,
+fix both and bump the `base.css` version.
 
 ## Tokens
 

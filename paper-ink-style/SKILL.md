@@ -44,7 +44,8 @@ vocabulary, keep the hand, and close with the self-check at the end of
    options and the content signals that suit each; set the dials per element,
    and let the known-good combinations serve as examples rather than presets.
 2. Build one self-contained HTML file by default (`references/05-web-instance.md`):
-   inline `assets/base.css` in a `<style>` block and compose with
+   inline `assets/base.css` in a `<style>` block, downscale and compress
+   embedded media to fit its rendered viewport slot, and compose with
    `assets/snippets/`, `references/01-grammar.md`,
    `references/02-components.md`, and `references/04-practice.md`. Multi-file
    Web deliverables or other carriers (slides, native mobile or desktop UI) are

@@ -15,6 +15,10 @@ properties and classes.
   delivery context, or drop the relative `url("fonts/...")` `@font-face` rules
   so `--pvl-font-display` falls back cleanly to system Kai
   (`"Kaiti SC","STKaiti",cursive`) with no broken local requests.
+- **Embedded media**: downscale and compress images or other binary assets to
+  fit their rendered viewport slot (for example, sizing a card or partial-width
+  image around ~600–800 px rather than embedding raw 4K sources) before
+  inlining as `data:` URIs, keeping the single HTML file lean.
 - **Screenshots**: any headless browser works. Measure the real 390px layout
   (an iframe probe or devtools device mode): macOS headless Chrome clamps
   windows to >= 500px, so a direct 390px screenshot reports the clamped width.

@@ -11,7 +11,7 @@ Three layers, zero MCP daemon, no client config changes. Start at Layer 1; escal
 
 - Resolve targets with `realpath <target>`.
 - Work on a copy under `$TMPDIR/re/$(basename $T)`; use `cp -c` on APFS.
-- Cap verbose output: native tools pipe to `head`, REA commands carry `--token-limit 8000`.
+- Cap verbose output: native tools pipe to `head`; REA default/text output uses `--token-limit 8000`, while `--format json` (`--json`) uses `--filter-output` or slicing.
 - Cite findings as **seen / inferred / unknown**; absence is unknown. Static reading is not execution.
 
 ## Layer 1 — Native recon
@@ -42,12 +42,14 @@ Discovery protocol (version-agnostic):
 - Contract: `rea <cmd> --schema`
 - Health:   `rea doctor --json`
 
-Every potentially verbose REA command carries `--token-limit 8000`; page with `--token-offset`.
-For patched Electron apps, check `--integrityPolicy` in `rea <cmd> --schema` before running.
+Use `--token-limit 8000` and `--token-offset` for default TOON or text output. Structured formats (`--format json` / `--json`, `jsonl`, `yaml`, `csv`, `tsv`) reject token windows: reduce output with `--filter-output`, command pagination, or summary/slicing views.
+Analysis and capture commands may emit `{"rea_progress": ...}` lines on stderr. Keep streams separate when saving JSON (`> ev.json 2> progress.log`) instead of merging with `2>&1`.
+For patched Electron apps, check `--integrity-policy` in `rea <cmd> --schema` before running.
+Keep host configuration untouched—skip `rea setup`, which alters client MCP registrations and installs the upstream `reverse-engineer-anything` skill over this workflow. See [references/install-tools.md](references/install-tools.md) only when setup is explicitly requested.
 
 ## Layer 3 — Ghidra pseudocode
 
-Escalate when the question is a function's logic, not its surface. Confirm Ghidra with `rea doctor --json`; thin universal binaries first (`lipo -thin arm64 -o T1 T`).
+Escalate when the question is a function's logic, not its surface. Confirm Ghidra and JDK 21+ with `rea doctor --provider ghidra --json`; thin universal binaries first (`lipo -thin arm64 -o T1 T`).
 Workflow (find commands via `rea --llms | rg -i "ghidra|decompile|analyze|xrefs"`):
 1. Build analysis snapshot (cached per SHA-256).
 2. Decompile one function or symbol.
@@ -56,5 +58,5 @@ Workflow (find commands via `rea --llms | rg -i "ghidra|decompile|analyze|xrefs"
 ## Disclosed workflows
 
 - Massive Electron/ASAR evidence slicing: read [references/slicing.md](references/slicing.md).
-- Layer 3 deep Ghidra specifics (cache quirks, raw-binary edge cases): read [references/ghidra.md](references/ghidra.md).
+- Layer 3 deep Ghidra specifics (JDK 21+ selection, cache quirks, raw-binary edge cases): read [references/ghidra.md](references/ghidra.md).
 - Installing missing tools: read [references/install-tools.md](references/install-tools.md).

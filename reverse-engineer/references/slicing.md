@@ -8,12 +8,12 @@ Use this workflow when the target JavaScript/Electron application is large enoug
 npx -y @electron/asar extract app.asar X
 ```
 
-For patched or repackaged apps, check integrity before running the structured command; look for the `--integrityPolicy` flag in `rea <cmd> --schema`.
+For patched or repackaged apps, check integrity before running the structured command; look for the `--integrity-policy` flag in `rea <cmd> --schema`.
 
 ## Dump the full Evidence to disk (never read it raw)
 
 ```sh
-rea analyze-javascript-application /abs/path --json > /tmp/rea_ev.json
+rea analyze-javascript-application /abs/path --json > /tmp/rea_ev.json 2> /tmp/rea_progress.log
 ```
 
 ## Discover the Evidence shape

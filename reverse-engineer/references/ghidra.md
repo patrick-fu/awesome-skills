@@ -1,6 +1,10 @@
 # Deep Ghidra pseudocode workflow
 
-Use this workflow only after Layer 3 has been escalated and `rea doctor --json` confirms Ghidra is available.
+Use this workflow only after Layer 3 has been escalated and `rea doctor --provider ghidra --json` confirms Ghidra and JDK 21+ are available.
+
+## JDK 21+ and provider readiness
+
+Ghidra requires JDK 21+ and `GHIDRA_INSTALL_DIR`. On macOS, agent shells may default to JDK 17, and `/usr/libexec/java_home -v 21` without `-F` can silently fall back to 17. Check readiness with `rea doctor --provider ghidra --json` and select JDK 21+ with `/usr/libexec/java_home -F -v 21+` or an explicit JDK 21+ path; report a missing JDK 21+ explicitly instead of falling back to 17.
 
 ## Thin universal binaries
 

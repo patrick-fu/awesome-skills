@@ -40,3 +40,5 @@ rea doctor --json
 ```
 
 The doctor report lists what is installed, what is missing, and which REA commands are unavailable without them. Install only what your current task needs; skip the rest.
+
+Keep this repository's `reverse-engineer` skill independent of `rea setup` (which changes client MCP registrations and installs the upstream `reverse-engineer-anything` skill). If an explicit task requires temporary MCP registration, back up the client config first, register with `rea setup --client <client> --no-skill`, and restore the backup afterward.

@@ -194,14 +194,14 @@ agent comes back to finish the work. It can be invoked automatically by the mode
 and applies specifically to Codex App's scheduled wakeups. Local follow-ups require
 the computer and app to remain running.
 
-#### 🎛️ [`codex-session-controller`](./codex-session-controller/SKILL.md)
+#### 🎛️ [`thread-controller`](./thread-controller/SKILL.md)
 
-Turn a top-level Codex App task or session into a controller session: one user
-entry point backed by a thin control plane. It keeps goals, authorization,
-owners, dependencies, waits, and reporting cadence in the control plan, then
-handles routing, deduplication, acceptance, and handoff while workers own
-research, implementation, and testing. Users normally stay with the controller
-instead of switching among workers.
+Turn a top-level thread or session into a host-neutral controller across T3 Code,
+Codex App, and standalone CLI harnesses: one user entry point backed by a thin
+control plane. It keeps goals, authorization, owners, dependencies, waits, and
+reporting cadence in the control index (or an external task ledger), routes work
+across models and environments, and handles evidence verification, settling, and
+handoff while workers own execution.
 
 #### 🏷️ [`thread-naming`](./thread-naming/SKILL.md)
 

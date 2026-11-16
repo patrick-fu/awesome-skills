@@ -1,5 +1,5 @@
 {
-  "skill_name": "codex-session-controller",
+  "skill_name": "thread-controller",
   "evals": [
     {
       "id": 1,
@@ -11,11 +11,11 @@
     {
       "id": 2,
       "name": "global-poll",
-      "prompt": "You are the user-designated global controller. Create a controller for the saved Billing project.",
-      "expected_output": "The global controller should resolve the saved project, establish the project controller, report its linked title and host, then end this requested turn on Poll once the dispatch/report are complete and no independent work remains. It should not wait for tickets, receive ticket callbacks, or inspect ticket detail without an inventory request.",
+      "prompt": "You are the user-designated coordinator. Create a controller for the saved Billing project.",
+      "expected_output": "The coordinator should resolve the saved project, establish the coordinator, report its linked title and host, then end this requested turn on Poll once the dispatch/report are complete and no independent work remains. It should not wait for tickets, receive ticket scheduled wakeups, or inspect ticket detail without an inventory request.",
       "files": [],
       "expectations": [
-        "The project controller receives a formal identity.",
+        "The coordinator receives a formal identity.",
         "The global-to-project edge remains Poll.",
         "The global report links the controller title."
       ]
@@ -23,40 +23,39 @@
     {
       "id": 3,
       "name": "global-inventory",
-      "prompt": "You are the global controller. Your index lost two entries, and you manage ten direct children across project controllers and standalone tasks. The user asks for a status inventory.",
-      "expected_output": "The controller should rebuild the complete direct set from known identities and list_threads, take one snapshot pass in wait_threads batches of at most eight, report each non-current child as [<title>](codex://threads/<threadId>) with its hostId and one-line state, then end. It should not recurse into project tickets or begin a monitoring loop.",
+      "prompt": "You are the coordinator. Your index lost two entries, and you manage ten direct children across coordinators and standalone tasks. The user asks for a status inventory.",
+      "expected_output": "The controller should rebuild the complete direct set from known identities, external records if present, and the host adapter's thread-listing surface, take one non-blocking snapshot pass within schema batch limits, report each non-current child using the current host adapter's canonical link format (for example `[<title>](codex://threads/<threadId>)` with its `hostId` in Codex App, or the verbatim `link` with environment provenance in T3 Code) and one-line state, then end. It should not recurse into project tickets or begin a monitoring loop.",
       "files": []
     },
     {
       "id": 4,
       "name": "project-poll-default",
-      "prompt": "The user makes this session the Billing project controller and explicitly authorizes it to keep progressing through the active implementation frontier. They have not selected Callback or another per-edge mode. Establish the project's return behavior.",
-      "expected_output": "Use Poll for the project's children and its own parent. Dispatch authorized work, then continue any independent design, implementation, integration, testing, or coordination that is authorized in the current turn; end only when no independent work remains and progress is waiting on an external result. Continued-progress authorization does not request timed monitoring or callbacks; leave assignments active while awaiting the user's next request.",
+      "prompt": "The user makes this session the Billing coordinator and explicitly authorizes it to keep progressing through the active implementation frontier. They have not selected Scheduled or another per-edge mode. Establish the project's return behavior.",
+      "expected_output": "Use Poll for the project's children and its own parent. Dispatch authorized work, then continue any independent design, implementation, integration, testing, or coordination that is authorized in the current turn; end only when no independent work remains and progress is waiting on an external result. Continued-progress authorization does not request timed monitoring or scheduled wakeups; leave assignments active while awaiting the user's next request.",
       "files": [],
       "expectations": [
         "The project's child default is Poll despite continuing-project authorization.",
-        "No controller timer, self-wakeup, or child callback is arranged.",
-        "The project controller may continue independent authorized work before ending the turn.",
+        "No controller timer, self-wakeup, or child scheduled wakeup is arranged.",
+        "The coordinator may continue independent authorized work before ending the turn.",
         "The project-to-global edge stays Poll."
       ]
     },
     {
       "id": 5,
-      "name": "per-edge-return",
-      "prompt": "A project controller owns one Poll research edge and one user-confirmed Callback edge. Handle dispatch and an incoming callback.",
-      "expected_output": "The Poll worker should be dispatched without waiting; the project controller may continue other independent authorized work in the current turn and ends only when no such work remains and its next step waits for that worker. The Callback worker reports only to the project controller, which verifies evidence before releasing its dependency. Mode choice does not alter either worker's scope, owner, authority, or acceptance.",
+      "name": "unidirectional-no-child-callback",
+      "prompt": "A coordinator launches two child threads for independent tasks and wants results gathered later without the user asking for a timer.",
+      "expected_output": "Keep cross-thread follow-up strictly unidirectional under Poll. Do not instruct child threads to send upward callbacks or completion messages back to the coordinator; let each child finish in its own thread or external context repo and inspect them when the user asks.",
       "files": [],
       "expectations": [
-        "Poll establishes no automatic owner monitoring and leaves internal worker continuation unchanged.",
-        "Callback wakes only the direct owner.",
-        "Return mode does not change ownership or acceptance."
+        "Child threads are never instructed to send upward callbacks to the coordinator.",
+        "Follow-up stays on Poll until the user explicitly requests Scheduled checks."
       ]
     },
     {
       "id": 6,
       "name": "explicit-scheduled-cohort",
-      "prompt": "The user explicitly chooses Scheduled checks every 30 minutes for ten workers until the project is complete or all remaining work requires a user decision. No Callback was chosen.",
-      "expected_output": "Use one controller heartbeat for this cohort, preserving the 30-minute cadence and stopping conditions. Each run checks the full cohort once in tool-sized batches and handles authorized next actions. Ordinary results remain in workers until the check. Do not infer Callback or add a separate check per worker.",
+      "prompt": "The user explicitly chooses Scheduled checks every 30 minutes for ten workers until the project is complete or all remaining work requires a user decision. No Scheduled was chosen.",
+      "expected_output": "Use one controller heartbeat for this cohort, preserving the 30-minute cadence and stopping conditions. Each run checks the full cohort once in tool-sized batches and handles authorized next actions. Ordinary results remain in workers until the check. Do not infer Scheduled or add a separate check per worker.",
       "files": [],
       "expectations": [
         "Scheduled has explicit user authorization.",
@@ -67,10 +66,14 @@
     },
     {
       "id": 7,
-      "name": "wrong-level-report",
-      "prompt": "A ticket completion report arrives at the global controller, but the sender's brief named a project controller as its direct owner.",
-      "expected_output": "Verify the direct owner and forward the report unchanged with an address correction. Leave acceptance and ticket decisions to that owner. If routing is unresolved, preserve the report while resolving its destination; do not invent an owner or accept the result globally.",
-      "files": []
+      "name": "context-repo-peer-coordination",
+      "prompt": "Within one project, a user manually opens an urgent side thread to investigate a regression while the main feature thread is busy on another branch. How should they stay aligned?",
+      "expected_output": "Let the urgent side thread bootstrap from the project's external context repo and run independently without loading thread-controller or sending inter-thread callbacks. Record verified findings or code pointers back into the external context repo (or let the coordinator surface them on a Poll pass) while keeping a single writer per shared branch or resource.",
+      "files": [],
+      "expectations": [
+        "Ordinary peer threads coordinate via the external context repo rather than inter-thread callback messages.",
+        "Single-writer boundaries on branches and resources are preserved."
+      ]
     },
     {
       "id": 8,
@@ -89,8 +92,8 @@
     {
       "id": 10,
       "name": "rollout-fallback",
-      "prompt": "A worker's read_thread shows blank turns, but runtime status looks idle.",
-      "expected_output": "The controller should inspect the owning host's persisted rollout and decide only from recovered task evidence. If evidence remains unresolved, owner and lifecycle state stay unchanged.",
+      "prompt": "A worker's authoritative thread read shows blank turns, but runtime status looks idle.",
+      "expected_output": "The controller should inspect the owning host's persisted session log (such as Codex rollout, Antigravity transcript, or Claude JSONL per the active host adapter) and decide only from recovered task evidence. If evidence remains unresolved, owner and lifecycle state stay unchanged.",
       "files": []
     },
     {
@@ -122,12 +125,12 @@
     {
       "id": 14,
       "name": "mode-specific-handoff",
-      "prompt": "A predecessor project controller owns Callback workers, a Scheduled cohort, and Poll workers. The successor has just accepted ownership.",
-      "expected_output": "Rebind Callback destinations that named the predecessor and forward late reports unchanged for successor deduplication. Transfer Scheduled checks only if the tool supports changing the target; otherwise the successor creates its replacement and the predecessor retires the old check. Verify the successor recipient and preserve active/paused state, cadence, expiry and pending waits with one active check per purpose. Poll needs no rebind. A global handoff leaves project-internal routes with their project controller.",
+      "prompt": "A predecessor coordinator owns Scheduled workers, a Scheduled cohort, and Poll workers. The successor has just accepted ownership.",
+      "expected_output": "Rebind Scheduled destinations that named the predecessor and forward late reports unchanged for successor deduplication. Transfer Scheduled checks only if the tool supports changing the target; otherwise the successor creates its replacement and the predecessor retires the old check. Verify the successor recipient and preserve active/paused state, cadence, expiry and pending waits with one active check per purpose. Poll needs no rebind. A global handoff leaves project-internal routes with their coordinator.",
       "files": [],
       "expectations": [
-        "Only direct callback edges receive a destination delta.",
-        "Late callbacks are forwarded before successor deduplication.",
+        "Only direct scheduled wakeup edges receive a destination delta.",
+        "Late scheduled wakeups are forwarded before successor deduplication.",
         "Scheduled routing is verified against the actual saved recipient and preserves active/paused state, cadence, expiry and pending waits.",
         "Poll does not rebind, and retirement waits for required routing changes."
       ]
@@ -135,19 +138,19 @@
     {
       "id": 15,
       "name": "controller-report-reentry",
-      "prompt": "After context compaction, a callback wakes the session and the controller skill loads automatically. The visible transcript no longer contains the user designation or accepted-handoff record; the only role evidence is this session's own title 'MacBook Coordinator', established for its authorized machine scope before compaction.",
-      "expected_output": "Restore the previously established controller role while preserving the user's name and language. Recover its assigned scope from the task record, process the callback as the direct owner, and apply evidence-based acceptance. The title restores the established role, not authority over unrelated machines; skill loading and the callback alone create no authority.",
+      "prompt": "After context compaction, a scheduled wakeup wakes the session and the controller skill loads automatically. The visible transcript no longer contains the user designation or accepted-handoff record; the only role evidence is this session's own title 'MacBook Coordinator', established for its authorized machine scope before compaction.",
+      "expected_output": "Restore the previously established controller role while preserving the user's name and language. Recover its assigned scope from the task record, process the scheduled wakeup as the direct owner, and apply evidence-based acceptance. The title restores the established role, not authority over unrelated machines; skill loading and the scheduled wakeup alone create no authority.",
       "files": [],
       "expectations": [
         "The own pre-compaction title restores the established role.",
-        "Skill loading and the callback alone do not create authority.",
+        "Skill loading and the scheduled wakeup alone do not create authority.",
         "The restored owner applies evidence-based acceptance."
       ]
     },
     {
       "id": 16,
       "name": "closure-challenge-reopens",
-      "prompt": "A project controller previously reported final closure, but the user now supplies contrary evidence that a required acceptance case fails.",
+      "prompt": "A coordinator previously reported final closure, but the user now supplies contrary evidence that a required acceptance case fails.",
       "expected_output": "The controller should treat the contrary evidence as reopening the original outcome under its closure guidance rather than ending its role merely because a final title exists. It should preserve the evidence and advance only a control action supported by the reopened record.",
       "files": [],
       "expectations": [
@@ -192,7 +195,7 @@
     {
       "id": 21,
       "name": "direct-takeover-acceptance",
-      "prompt": "The user authorizes direct takeover of a project controller by a new session.",
+      "prompt": "The user authorizes direct takeover of a coordinator by a new session.",
       "expected_output": "The user designation lets the new session establish the takeover role, but ownership transfer still requires a concise summary of current artifacts and decisions plus any verified failure evidence that exists and is relevant to the next action; formal identity, usable project access, and responsibility facts that affect takeover; targeted history for material gaps; and an explicit natural-language acceptance. A key unresolved gap freezes the affected transfer while already authorized independent work continues, and the predecessor remains owner until acceptance.",
       "files": [],
       "expectations": [
@@ -223,7 +226,7 @@
     {
       "id": 24,
       "name": "worker-user-ambiguity-alignment",
-      "prompt": "An authorized project controller receives the open request: 'Make sync faster; I do not know whether batching or caching is right.' The assigned worker has repository context and may ask the user questions directly. No deadline, API change, architecture, or acceptance boundary has been chosen.",
+      "prompt": "An authorized coordinator receives the open request: 'Make sync faster; I do not know whether batching or caching is right.' The assigned worker has repository context and may ask the user questions directly. No deadline, API change, architecture, or acceptance boundary has been chosen.",
       "expected_output": "The controller should route the open outcome with its uncertainty intact. The worker may ask focused questions and profile alternatives with the user, while the controller avoids inventing a complete plan, choosing batching or caching, or adding an approval gate before that alignment. A resulting choice is recorded only after the user and worker resolve it.",
       "files": [],
       "expectations": [
@@ -247,7 +250,7 @@
     {
       "id": 26,
       "name": "manual-task-observation-and-authorized-continuation",
-      "prompt": "The user explicitly asks the global controller to include manually created Billing tasks in this inventory. It discovers two tasks: A is awaiting a schema decision with no owner edge or continuation authorization. B names the existing Billing project controller as owner, and the user has authorized the concrete next step run the approved compatibility check now. Report and handle both discoveries.",
+      "prompt": "The user explicitly asks the coordinator to include manually created Billing tasks in this inventory. It discovers two tasks: A is awaiting a schema decision with no owner edge or continuation authorization. B names the existing Billing coordinator as owner, and the user has authorized the concrete next step run the approved compatibility check now. Report and handle both discoveries.",
       "expected_output": "The inventory should include both tasks as observed identities and states with evidence. Task A stays observational and unchanged: the controller must not claim it, resume its unresolved discussion, or create a duplicate. After verifying Task B's project, owner, and authorization, the controller may hand only that concrete next step to the existing owner; discovery alone creates no authority or new worker.",
       "files": [],
       "expectations": [
@@ -260,7 +263,7 @@
     {
       "id": 27,
       "name": "acceptance-reuses-worker-evidence",
-      "prompt": "A worker reports a migration step complete with a commit, passing targeted tests, a completed technical review note, and the dependency artifact consumed by its successor. The report matches the agreed goal, and no reviewer or user message raises a material contradiction. The project controller is considering rerunning the technical tests and review before accepting.",
+      "prompt": "A worker reports a migration step complete with a commit, passing targeted tests, a completed technical review note, and the dependency artifact consumed by its successor. The report matches the agreed goal, and no reviewer or user message raises a material contradiction. The coordinator is considering rerunning the technical tests and review before accepting.",
       "expected_output": "The controller should check the report against the agreed goal, evidence, dependency release, and current baseline, then reuse valid worker-provided test and review evidence rather than repeating technical work merely because it owns acceptance. Within existing authorization it may directly perform mainline integration and delivery. Rerun or add validation only for a material contradiction, missing acceptance evidence, cross-task effect, or a code/baseline change that introduces new risk; any unresolved gap keeps the dependency blocked.",
       "files": [],
       "expectations": [
@@ -273,29 +276,33 @@
     {
       "id": 28,
       "name": "schedule-pause-preserves-dependent-waits",
-      "prompt": "An explicitly authorized project Scheduled is paused after its TTL expires. Worker A still holds a shared schema lock, worker B is waiting on A's result, and the global controller uses Poll. No replacement schedule, Callback, or release authorization has been given. Handle the pause.",
-      "expected_output": "The controller should pause the schedule without declaring A or B complete: keep B's dependency wait and A's resource hold visible, and surface the decision or next action. It must not release B, create an unapproved replacement schedule or callback, or leave workers waiting for a nonexistent heartbeat. Global Poll remains unchanged; resumption or handoff needs explicit authority and a concrete return path.",
+      "prompt": "An explicitly authorized project Scheduled is paused after its TTL expires. Worker A still holds a shared schema lock, worker B is waiting on A's result, and the coordinator uses Poll. No replacement schedule, or release authorization has been given. Handle the pause.",
+      "expected_output": "The controller should pause the schedule without declaring A or B complete: keep B's dependency wait and A's resource hold visible, and surface the decision or next action. It must not release B, create an unapproved replacement schedule or scheduled wakeup, or leave workers waiting for a nonexistent heartbeat. Global Poll remains unchanged; resumption or handoff needs explicit authority and a concrete return path.",
       "files": [],
       "expectations": [
         "Pausing the schedule preserves the dependent wait and makes it visible.",
         "The underlying resource hold is not silently released or reassigned.",
-        "No replacement schedule, Callback, or dependency release occurs without authorization.",
+        "No replacement schedule, or dependency release occurs without authorization.",
         "The global-to-project edge remains Poll."
       ]
     },
     {
       "id": 29,
       "name": "worker-internal-continuation",
-      "prompt": "A worker uses Poll toward its project controller. Inside the worker, an authorized test run has 12 minutes left and no independent work remains. The worker can schedule a one-time wakeup in its own task. The controller has no timer. State the worker and controller actions.",
-      "expected_output": "Because no independent work remains, the worker may arrange its own one-time continuation and end the turn. It neither sends an unselected Callback nor starts owner monitoring. Poll does not forbid internal asynchronous continuation.",
+      "prompt": "A worker uses Poll toward its coordinator. Inside the worker, an authorized test run has 12 minutes left and no independent work remains. The worker can schedule a one-time wakeup in its own task. The controller has no timer. State the worker and controller actions.",
+      "expected_output": "Because no independent work remains, the worker may arrange its own one-time continuation and end the turn. It neither sends an unselected Scheduled nor starts owner monitoring. Poll does not forbid internal asynchronous continuation.",
       "files": []
     },
     {
       "id": 30,
-      "name": "scheduled-with-selected-callback",
-      "prompt": "The user chose Scheduled checks every 30 minutes plus a Callback only for complete tickets or blockers. A ticket completion was already accepted and its dependent task dispatched from a Callback. The next scheduled snapshot contains the same evidence. Handle the snapshot.",
-      "expected_output": "Deduplicate the already-applied completion; do not dispatch the dependent task twice or request an acknowledgment. Preserve the existing Scheduled check for remaining work and the selected Callback events.",
-      "files": []
+      "name": "home-readonly-workspace-routing",
+      "prompt": "A coordinator running inside a read-only Home workspace needs to save a scratch log analysis script and record a project task update.",
+      "expected_output": "Keep the Home directory untouched and strictly read-only. Write temporary scratch scripts or outputs to $TMPDIR, and route durable project updates through the target project's context repo or owning thread rather than creating a second state ledger in Home.",
+      "files": [],
+      "expectations": [
+        "Temporary scratch artifacts go to $TMPDIR rather than the Home directory.",
+        "Project updates are routed to the target project's context repo or owning thread."
+      ]
     },
     {
       "id": 32,
@@ -307,7 +314,7 @@
     {
       "id": 33,
       "name": "partial-status-inventory",
-      "prompt": "The user asks a Poll global controller for an inventory of ten known direct children. Eight snapshot reads succeed; two fail and available history cannot resolve their current status.",
+      "prompt": "The user asks a Poll coordinator for an inventory of ten known direct children. Eight snapshot reads succeed; two fail and available history cannot resolve their current status.",
       "expected_output": "Report the eight verified states and the two unresolved reads as partial coverage. Do not report all tasks healthy or completed, create replacement owners, or start an ongoing timer solely to conceal the missing results.",
       "files": []
     },
@@ -321,8 +328,8 @@
     {
       "id": 35,
       "name": "different-wakeup-recipients",
-      "prompt": "A project controller checks its workers every 30 minutes. Worker W is waiting for an internal subagent expected to finish in 8 minutes; W has no independent work or its own wakeup. The project check only observes status and does not itself resume W.",
-      "expected_output": "The project timer does not cover W's internal continuation. W may use an existing suitable self-wakeup or arrange one through codex-async-followup. Avoid a duplicate wakeup to the same recipient and purpose; do not disable the project timer or infer Callback.",
+      "prompt": "A coordinator checks its workers every 30 minutes. Worker W is waiting for an internal subagent expected to finish in 8 minutes; W has no independent work or its own wakeup. The project check only observes status and does not itself resume W.",
+      "expected_output": "The project timer does not cover W's internal continuation. W may use an existing suitable self-wakeup or arrange one via the host's native continuation mechanism within its own task. Avoid a duplicate wakeup to the same recipient and purpose; do not disable the project timer or infer Scheduled.",
       "files": []
     },
     {
@@ -342,21 +349,21 @@
     {
       "id": 38,
       "name": "machine-scope-user-title",
-      "prompt": "The user designates this task as the global controller for Mac mini only and suggests the name 'Mac mini 主控'. A MacBook controller already exists. Establish the role and title.",
-      "expected_output": "Use the suggested wording in the global controller format, such as '🕹️ Mac mini 主控'. Record Mac mini as this global controller's scope and preserve the independent MacBook owner. No scope question is needed; a machine scope is not a third controller role.",
+      "prompt": "The user designates this task as the coordinator for Mac mini only and suggests the name 'Mac mini 主控'. A MacBook controller already exists. Establish the role and title.",
+      "expected_output": "Use the suggested wording in the coordinator format, such as '🕹️ Mac mini 主控'. Record Mac mini as this coordinator's scope and preserve the independent MacBook owner. No scope question is needed; a machine scope is not a third controller role.",
       "files": []
     },
     {
       "id": 39,
       "name": "controller-title-does-not-close-role",
-      "prompt": "The user refers to this ongoing global controller as 'MacBook Coordinator' and prefers English titles. All currently tracked workers finish, but the user has not ended the coordination role or designated a successor.",
-      "expected_output": "Accept supported worker outcomes and report the empty current workload while retaining the ongoing global controller's 🕹️ role marker and MacBook Coordinator main line. Do not substitute a worker progress title, mark the controller complete, or create a checkpoint merely because its workers finished.",
+      "prompt": "The user refers to this ongoing coordinator as 'MacBook Coordinator' and prefers English titles. All currently tracked workers finish, but the user has not ended the coordination role or designated a successor.",
+      "expected_output": "Accept supported worker outcomes and report the empty current workload while retaining the ongoing coordinator's 🕹️ role marker and MacBook Coordinator main line. Do not substitute a worker progress title, mark the controller complete, or create a checkpoint merely because its workers finished.",
       "files": []
     },
     {
       "id": 40,
       "name": "single-machine-global-default",
-      "prompt": "The user says 'Be my global controller'. Only one machine is known, there is no naming preference, and the conversation is in English.",
+      "prompt": "The user says 'Be my coordinator'. Only one machine is known, there is no naming preference, and the conversation is in English.",
       "expected_output": "Establish the global role for the available scope without asking a redundant scope question. Use the English default '🕹️ Global Controller'. The controller keeps its role identity through routine work; no fixed Chinese wording or worker focus is required.",
       "files": []
     },
@@ -369,44 +376,52 @@
     },
     {
       "id": 42,
-      "name": "project-controller-role-title",
-      "prompt": "This session is the established Mimo 去重 project controller. It started on 2026-09-14; today is 2026-09-15. Its current title is '🏃 [Android][三源] Mimo 去重项目主控 · 验收机内 mock Gate'. The user says: '按照项目主控规则改 session 名'. A worker is still running the mock acceptance checks. Choose the title.",
-      "expected_output": "Use the project controller role format, such as '🗂️ Mimo 去重项目主控'. Preserve the project identity without adding a date suffix or the worker's current milestone. The rename neither changes ownership nor claims completion.",
-      "files": []
+      "name": "user-invoked-no-implicit-role",
+      "prompt": "An ordinary coding thread receives a prompt mentioning a coordinator and a multi-repo integration status, without the user invoking $thread-controller or assigning coordinator responsibility.",
+      "expected_output": "Remain an ordinary execution thread in its existing role. Do not adopt coordinator authority, controller titles, or cross-project management merely because coordination language appeared in context.",
+      "files": [],
+      "expectations": [
+        "Ordinary threads do not drift into coordinator roles without explicit assignment.",
+        "Existing role and title remain aligned with the coding assignment."
+      ]
     },
     {
       "id": 43,
-      "name": "callback-without-schedule",
-      "prompt": "The user tells a project controller: 'Have workers tell you when they finish or need my decision.' No periodic checks have been requested. Set the follow-up mode for current and later project tickets.",
-      "expected_output": "Select Callback for the project's children, supplying only their direct owner's destination and selected events. Apply this child policy to later tickets. Do not create a Scheduled heartbeat or change the project-to-global mode from Poll.",
-      "files": []
+      "name": "explicit-scheduled-replaces-callback",
+      "prompt": "A user asks a coordinator to automatically notify them as soon as two background project threads finish, and asks whether to tell the child threads to callback.",
+      "expected_output": "Use a coordinator-owned Scheduled check (if supported by the host) rather than instructing child threads to send upward callbacks. State the cadence and stopping condition, verify the saved timer target, and fall back to Poll explicitly if the host lacks native scheduling.",
+      "files": [],
+      "expectations": [
+        "Parent-owned Scheduled checks are used instead of child-to-parent callbacks.",
+        "If the host lacks timers, Poll is kept and the limitation is stated."
+      ]
     },
     {
       "id": 44,
       "name": "controller-wait-with-async-skill",
-      "prompt": "A global controller has dispatched a project controller that needs 20 minutes to prepare its plan. A separate project controller has dispatched a worker that needs 20 minutes to run tests. Both owners have finished independent work and have codex-async-followup loaded. Neither user has asked for a timer or automatic reports. What should each owner do?",
-      "expected_output": "Because both owners have finished independent work and are waiting on external results, they keep Poll, report their dispatch and next evidence, and end their turns until the user next asks. Loading codex-async-followup does not authorize a controller wakeup, including for the child project controller. Dispatched assignments remain in place; neither owner requests a callback.",
+      "prompt": "A coordinator has dispatched a coordinator that needs 20 minutes to prepare its plan. A separate coordinator has dispatched a worker that needs 20 minutes to run tests. Both owners have finished independent work and have native continuation/scheduling tools available. Neither user has asked for a timer or automatic reports. What should each owner do?",
+      "expected_output": "Because both owners have finished independent work and are waiting on external results, they keep Poll, report their dispatch and next evidence, and end their turns until the user next asks. Having native scheduling tools or continuation capabilities available does not authorize a controller wakeup, including for the child coordinator. Dispatched assignments remain in place; neither owner requests a scheduled wakeup.",
       "files": []
     },
     {
       "id": 45,
       "name": "preserve-explicit-mode-scope",
-      "prompt": "The user previously asked the Billing project controller to check its workers every 30 minutes until project completion. The project receives another authorized ticket. Its global controller has no requested schedule. Establish follow-up for the new ticket and the global controller.",
-      "expected_output": "Include the ticket in the existing user-selected project schedule without a duplicate timer or new confirmation. Keep the global controller on Poll. The explicit project policy persists only within its scope; no Callback is inferred.",
+      "prompt": "The user previously asked the Billing coordinator to check its workers every 30 minutes until project completion. The project receives another authorized ticket. Its coordinator has no requested schedule. Establish follow-up for the new ticket and the coordinator.",
+      "expected_output": "Include the ticket in the existing user-selected project schedule without a duplicate timer or new confirmation. Keep the coordinator on Poll. The explicit project policy persists only within its scope; no Scheduled is inferred.",
       "files": []
     },
     {
       "id": 46,
       "name": "switch-scheduled-to-poll",
-      "prompt": "The user tells a project controller with an active worker-check heartbeat: '以后我来问你时再查，不要定时，也不要让他们主动回报。' One worker is still running and another depends on its result.",
-      "expected_output": "Switch these child relationships to Poll and pause or remove their controller-check heartbeat and any configured callbacks. Preserve worker assignments and the unresolved dependency; explain that checking the result and coordinating the dependent task will happen on the user's next request. Leave unrelated automations and worker-internal continuation alone.",
+      "prompt": "The user tells a coordinator with an active worker-check heartbeat: '以后我来问你时再查，不要定时，也不要让他们主动回报。' One worker is still running and another depends on its result.",
+      "expected_output": "Switch these child relationships to Poll and pause or remove their controller-check heartbeat and any configured scheduled wakeups. Preserve worker assignments and the unresolved dependency; explain that checking the result and coordinating the dependent task will happen on the user's next request. Leave unrelated automations and worker-internal continuation alone.",
       "files": []
     },
     {
       "id": 47,
       "name": "global-resolves-existing-owner",
-      "prompt": "The user asks the global controller to find the existing owner of a stalled Billing task and suggest the next cross-project priority. The task already belongs to the Billing project controller; its latest evidence says it is waiting for a user decision. No stop, archive, or reassignment was requested.",
-      "expected_output": "Search the control index and current task inventory, verify the Billing project controller as the existing owner, and report the task's evidence-backed waiting state and a bounded priority suggestion. Do not claim the task, create a duplicate, pause or archive it, reorder other work, or inspect ticket detail beyond the request. A suggestion does not change lifecycle, ownership, or the user's decision gate.",
+      "prompt": "The user asks the coordinator to find the existing owner of a stalled Billing task and suggest the next cross-project priority. The task already belongs to the Billing coordinator; its latest evidence says it is waiting for a user decision. No stop, archive, or reassignment was requested.",
+      "expected_output": "Search the control index and current task inventory, verify the Billing coordinator as the existing owner, and report the task's evidence-backed waiting state and a bounded priority suggestion. Do not claim the task, create a duplicate, pause or archive it, reorder other work, or inspect ticket detail beyond the request. A suggestion does not change lifecycle, ownership, or the user's decision gate.",
       "files": [],
       "expectations": [
         "The global search resolves and links the existing owner rather than creating a replacement.",
@@ -417,7 +432,7 @@
     {
       "id": 48,
       "name": "cross-project-resource-with-partial-coverage",
-      "prompt": "The global controller is asked for cross-project priority and shared-resource advice. Project A's worker holds the only test device; project B is waiting for that device, but one B task read fails and available history cannot resolve its current state.",
+      "prompt": "The coordinator is asked for cross-project priority and shared-resource advice. Project A's worker holds the only test device; project B is waiting for that device, but one B task read fails and available history cannot resolve its current state.",
       "expected_output": "Read project summaries and direct-task evidence, report A's verified device hold and B's verified wait separately from the unresolved B read, and give a bounded sequencing or priority recommendation. Preserve partial coverage and existing ownership; do not release or reassign the device, stop or reorder projects, or dispatch replacement work without authorization.",
       "files": [],
       "expectations": [
@@ -429,11 +444,11 @@
     {
       "id": 49,
       "name": "project-direct-integration-and-noncode",
-      "prompt": "A project controller has an authorized delivery plan. A worker supplied a reviewed patch and migration guide; the repository branch is ready for integration, and the controller has access to the release notes. No new user instruction is needed for the agreed delivery.",
-      "expected_output": "The project controller may verify the worker evidence, integrate and test the patch, and deliver the migration guide or release-note update itself within the existing authorization, including the non-code deliverable. It need not delegate or ask for another instruction merely because the work was dispatched. Reuse valid evidence and add validation only for a material gap, contradiction, or new baseline risk; distinguish integration and delivery from the worker's branch completion.",
+      "prompt": "A coordinator has an authorized delivery plan. A worker supplied a reviewed patch and migration guide; the repository branch is ready for integration, and the controller has access to the release notes. No new user instruction is needed for the agreed delivery.",
+      "expected_output": "The coordinator may verify the worker evidence, integrate and test the patch, and deliver the migration guide or release-note update itself within the existing authorization, including the non-code deliverable. It need not delegate or ask for another instruction merely because the work was dispatched. Reuse valid evidence and add validation only for a material gap, contradiction, or new baseline risk; distinguish integration and delivery from the worker's branch completion.",
       "files": [],
       "expectations": [
-        "The project controller can directly perform authorized design, implementation, testing, integration, and delivery.",
+        "The coordinator can directly perform authorized design, implementation, testing, integration, and delivery.",
         "Non-code delivery remains part of the project outcome.",
         "Existing worker evidence is reused unless a material new risk requires validation."
       ]
@@ -441,24 +456,24 @@
     {
       "id": 50,
       "name": "dispatch-then-independent-work",
-      "prompt": "A project controller is authorized to dispatch a worker for a log audit. After verifying the target, it still has an independent authorized task in the current turn: update the integration plan and run a local static check. The worker has not finished, and no Scheduled or Callback mode was selected.",
-      "expected_output": "Dispatch and verify the worker, then continue the independent plan update and static check in the same turn. Do not wait for the worker, create a timer, or infer Callback. After that work is complete, end only if no independent work remains and the next step waits for the worker; otherwise continue the authorized work. Keep the assignment and Poll routing active.",
+      "prompt": "A coordinator is authorized to dispatch a worker for a log audit. After verifying the target, it still has an independent authorized task in the current turn: update the integration plan and run a local static check. The worker has not finished, and no Scheduled mode was selected.",
+      "expected_output": "Dispatch and verify the worker, then continue the independent plan update and static check in the same turn. Do not wait for the worker, create a timer, or infer Scheduled. After that work is complete, end only if no independent work remains and the next step waits for the worker; otherwise continue the authorized work. Keep the assignment and Poll routing active.",
       "files": [],
       "expectations": [
         "Dispatch does not force an immediate end while independent authorized work remains.",
-        "Poll does not become Scheduled or Callback through ordinary continuation.",
+        "Poll does not become Scheduled through ordinary continuation.",
         "The worker assignment remains active while the controller progresses its own work."
       ]
     },
     {
       "id": 51,
       "name": "task-subagent-collaboration-is-not-controller-child",
-      "prompt": "A project controller dispatches a user-visible worker. During the same turn, that worker collaborates with an internal task subagent on an authorized local check; the subagent is not a separate user-visible task. The worker's edge to the project controller uses Poll, and no Callback or Scheduled mode was selected.",
-      "expected_output": "Let the worker and its task-internal subagent continue their authorized current-turn collaboration; do not treat the subagent as a user-visible controller child that must stop because the worker uses Poll. Do not create a controller index, Callback, or timer for the internal subagent. If the worker later has to wait with no independent work, its own authorized asynchronous continuation uses the worker task's async path.",
+      "prompt": "A coordinator dispatches a user-visible worker. During the same turn, that worker collaborates with an internal task subagent on an authorized local check; the subagent is not a separate user-visible task. The worker's edge to the coordinator uses Poll, and no Scheduled mode was selected.",
+      "expected_output": "Let the worker and its task-internal subagent continue their authorized current-turn collaboration; do not treat the subagent as a user-visible controller child that must stop because the worker uses Poll. Do not create a controller index, or timer for the internal subagent. If the worker later has to wait with no independent work, its own authorized asynchronous continuation uses the worker task's async path.",
       "files": [],
       "expectations": [
         "Current-turn task-internal collaboration can continue without creating a user-visible child edge.",
-        "Poll routing does not force an internal subagent to stop or become a Callback recipient.",
+        "Poll routing does not force an internal subagent to stop or become a Scheduled recipient.",
         "Independent worker continuation after the turn uses the worker task's async path, not controller monitoring."
       ]
     },
@@ -477,7 +492,7 @@
     {
       "id": 53,
       "name": "stale-evidence-branch-integration",
-      "prompt": "A worker reports its branch complete using a prior passing test. Since that report, the project baseline changed through another merge, and the branch has not been integrated or delivered. The project controller is deciding whether to declare the project complete.",
+      "prompt": "A worker reports its branch complete using a prior passing test. Since that report, the project baseline changed through another merge, and the branch has not been integrated or delivered. The coordinator is deciding whether to declare the project complete.",
       "expected_output": "Distinguish the worker's branch completion from project integration and delivery. Recheck the current baseline and run only the validation needed for risks introduced by the change; integrate and deliver when authorized, and do not declare the project complete or release dependents until current integration and delivery evidence resolves those gates.",
       "files": [],
       "expectations": [
@@ -489,13 +504,80 @@
     {
       "id": 54,
       "name": "controller-internal-wait-no-timer",
-      "prompt": "A project controller is personally waiting for its own authorized local build, expected to finish in 12 minutes. No independent work remains, and the user has not selected Scheduled or Callback. The controller skill and codex-async-followup are loaded.",
-      "expected_output": "Keep the controller's relationship on Poll, report the build as an external wait, and end the current turn when no independent work remains. Do not create a Scheduled heartbeat, Callback, or self-wakeup merely because the controller is waiting on its own build; loading the async skill and personally running a build do not authorize a timer or alter ownership.",
+      "prompt": "A coordinator is personally waiting for its own authorized local build, expected to finish in 12 minutes. No independent work remains, and the user has not selected Scheduled. The controller skill and host scheduling tools are available.",
+      "expected_output": "Keep the controller's relationship on Poll, report the build as an external wait, and end the current turn when no independent work remains. Do not create a Scheduled heartbeat, or self-wakeup merely because the controller is waiting on its own build; available scheduling tools and personally running a build do not authorize a timer or alter ownership.",
       "files": [],
       "expectations": [
         "A controller's own build wait does not implicitly authorize a timer.",
         "Poll remains the default until the user explicitly selects another mode.",
         "The controller does not claim completion before the build result is available."
+      ]
+    },
+    {
+      "id": 55,
+      "name": "t3-delegate-capability-and-no-poll",
+      "prompt": "Running inside T3 Code, a coordinator needs to assign a cross-provider security review on another model with max reasoning effort and an isolated worktree, then wait while it has no other independent work.",
+      "expected_output": "Probe available providers and options once with orchestrator_capabilities, start an async delegate_task with explicit target provider/model/options and isolated worktree (unless workspace conventions forbid worktrees on a context repo), follow the returned next guidance without polling task_status or sleeping, and use task_cancel rather than t3_thread_interrupt if the delegate must be stopped.",
+      "files": [],
+      "expectations": [
+        "Calls orchestrator_capabilities before cross-provider delegate_task.",
+        "Does not poll task_status or sleep while waiting on async delegate.",
+        "Uses task_cancel rather than t3_thread_interrupt for delegate cancellation."
+      ]
+    },
+    {
+      "id": 56,
+      "name": "t3-fresh-delegate-for-recheck",
+      "prompt": "In T3 Code, a delegated review child finished and reported two findings. After fixing them, the controller needs an independent re-check of the updated patch.",
+      "expected_output": "Start a new delegate_task carrying a self-contained brief and the findings to verify rather than sending follow-up messages to the finished child thread via t3_thread_send.",
+      "files": [],
+      "expectations": [
+        "Creates a fresh delegate_task for the re-check instead of reusing the child via t3_thread_send."
+      ]
+    },
+    {
+      "id": 57,
+      "name": "t3-remote-environment-routing",
+      "prompt": "The user asks the coordinator to check two running project threads on their MacBook Pro rather than the local Mac mini.",
+      "expected_output": "Discover linked environments with t3_environment_links (or link the named machine via t3_environment_link if unlinked), pass that remote environmentId to subsequent T3 thread-inspection calls, preserve environment provenance, and cite each thread using its verbatim link returned by T3 tools.",
+      "files": [],
+      "expectations": [
+        "Resolves the remote environmentId explicitly instead of querying only the local environment.",
+        "Passes environmentId on remote thread calls and cites verbatim T3 thread links."
+      ]
+    },
+    {
+      "id": 58,
+      "name": "t3-settle-and-external-context-relay",
+      "prompt": "The workspace has an external context repository task ledger. A long-running worker thread on a non-GPT harness starts drifting after multiple compactions, while another child thread has delivered and passed verification.",
+      "expected_output": "Persist current facts, owners, and next steps into the external context task ledger following its write protocol; hand the drifting worker's remaining scope to a clean fresh thread (on a suitable harness/model) using that external record; and settle the verified completed child thread via t3_thread_organize without prematurely archiving history.",
+      "files": [],
+      "expectations": [
+        "Uses external task records as durable state instead of relying solely on compacted chat memory.",
+        "Relays the drifting thread to a fresh thread rather than forcing more compaction.",
+        "Settles the verified completed child thread rather than archiving it prematurely."
+      ]
+    },
+    {
+      "id": 59,
+      "name": "t3-pending-request-and-activity-recovery",
+      "prompt": "In T3 Code, a child thread appears idle in summary messages after a dispatch, leaving the controller unsure whether it completed or stalled.",
+      "expected_output": "Inspect t3_thread_read(view='activity'), t3_pending_request, and t3_queue to check for pending approvals, unanswered prompts, or queued items; fall back to the owning harness's persisted session log if records remain blank or contradictory, keeping ownership unchanged until evidence settles the state.",
+      "files": [],
+      "expectations": [
+        "Checks activity timeline, pending requests, and queues before inferring state.",
+        "Falls back to persisted harness logs when authoritative reads are blank or contradictory."
+      ]
+    },
+    {
+      "id": 60,
+      "name": "standalone-harness-poll-degradation",
+      "prompt": "Running as a coordinator inside a standalone CLI harness with no cross-thread messaging API and no native scheduler, the user asks the controller to dispatch two isolated tasks and automatically check them every 15 minutes.",
+      "expected_output": "Coordinate the isolated tasks via external workspace/context files and headless CLI runs or isolated worktrees, explicitly report that the standalone host lacks a native scheduler and cross-thread messaging, keep Poll mode without simulating a background timer, and state what artifacts to check on the next user turn.",
+      "files": [],
+      "expectations": [
+        "Explicitly reports host scheduler unavailability instead of faking Scheduled mode.",
+        "Keeps Poll and relies on external workspace/task records for standalone coordination."
       ]
     }
   ]

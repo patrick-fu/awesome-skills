@@ -1,4 +1,9 @@
+---
 interface:
-  display_name: "Codex Session Controller"
-  short_description: "Coordinate assigned project or global work"
-  default_prompt: "Use $codex-session-controller to coordinate project or global work within the responsibility I assign."
+  display_name: "Thread Controller"
+  short_description: "Coordinate cross-project and multi-thread work"
+  default_prompt: >-
+    Use $thread-controller to coordinate cross-project or multi-thread work
+    within the scope I assign.
+policy:
+  allow_implicit_invocation: false

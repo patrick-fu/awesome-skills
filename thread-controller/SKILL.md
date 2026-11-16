@@ -1,164 +1,165 @@
 ---
-name: codex-session-controller
+name: thread-controller
 description: >-
-  Coordinate work as a global or project controller. Use when the user assigns
-  global coordination or project-wide responsibility, including project mainline
-  ownership; this session accepts a controller handoff; or its history
-  establishes that role. Loading alone grants no controller role.
+  Coordinate threads, schedules, and cross-project work from Home or an
+  explicitly invoked coordinator session.
+disable-model-invocation: true
 ---
 
-# Codex Session Controller
+# Thread Controller
 
-Own the assigned coordination scope and help the user turn independent work into
-useful outcomes. Match each request to discussion, retrieval, advice, or execution
-within the existing authorization.
+Coordinate work across projects, machines, and parallel top-level threads from
+an explicitly invoked coordinator session (such as `Home` or a dedicated duty
+thread). Match each request to inspection, routing, advice, or bounded
+execution within the user's authorization.
 
 ## Role and scope
 
-Establish the role from the user's assignment, an accepted handoff, or this
-session's history. Its own pre-compaction controller title can restore an
-established role. A worker brief mentioning a controller, ordinary coding work,
-or skill loading alone leaves the session in its existing role.
+This skill is user-invoked (`$thread-controller`) and does not replace ordinary
+project threads. Within a single project, normal threads work directly against
+the project's repository or shared context store (`work-context` /
+`life-context`) and use in-thread delegation without loading a controller
+skill.
 
-- **Global:** coordinate projects and standalone tasks within the user's scope.
-  Find relevant existing work, recommend priorities with reasons, and resolve
-  cross-project dependencies and resource conflicts. Read project summaries
-  first, deepening where the request or evidence needs it. Coordinate project
-  execution through its existing owner; a user's explicit reassignment can
-  change that responsibility. Handle assigned standalone and cross-project work.
-  A priority recommendation becomes a change to ongoing work only within the
-  user's authorization.
-- **Project:** own the project's direction, dependencies, integration, and agreed
-  delivery. The controller may be the mainline task: design, implement, review,
-  test, or delegate within its assignment. This also covers non-code outcomes.
-  Exploration can proceed in independent tasks and worktrees; bring results
-  together for integration, shared decisions, or actual dependencies and conflicts.
+Keep one active coordinator per scope and recover that scope from the user's
+assignment, the current session's pre-compaction coordinator title, or persisted
+records. Skill loading alone grants no coordination authority over unrelated
+projects or machines.
 
-Keep one active controller for each scope and recover that scope from the
-assignment or existing records. A global scope can cover one machine or several.
-One known machine is the natural default. With several machines and unclear
-intent, a brief scope question may help; use existing preferences and continue
-already scoped work while any broader choice remains open.
+- **Scope:** cover the environments and projects assigned (defaulting to the
+  current environment when local intent is clear; ask one brief question only
+  when multiple reachable environments create real ambiguity, while continuing
+  already scoped work).
+- **Responsibilities:** discover existing threads and context records before
+  dispatching duplicate work, recommend priorities with reasons, route follow-ups
+  to existing owners when appropriate, resolve cross-project dependencies and
+  shared-resource conflicts, and synthesize concise global status.
+- **One-shot vs. ongoing:** a one-shot check answers a bounded question without
+  claiming ongoing ownership. Include manually created user threads in status
+  inventories when the scope calls for them; observation alone does not
+  authorize taking them over or steering them.
 
-A **one-shot** handles a bounded inspection or operation without taking ongoing
-responsibility. Include manually created tasks when the requested scope calls
-for them; observation alone does not authorize taking them over or resuming work.
+## Host adapters and references
 
-## Current facts
+Read **only the single adapter matching the current host** when performing
+host-specific dispatch, inspection, scheduling, evidence recovery, or linking:
 
-Use identities returned by task tools: `(hostId, threadId)` for a task and
-`(hostId, projectId)` for a saved project. Locate related work before assigning it
-again. For material decisions, check current artifacts and relevant user
-decisions; a controller's earlier summary may be stale.
+- T3 Code: [references/adapters/t3-code.md](references/adapters/t3-code.md)
+- Codex App: [references/adapters/codex-app.md](references/adapters/codex-app.md)
+- Standalone CLI or single-thread harness (Claude Code, Codex CLI, Antigravity): [references/adapters/standalone-harness.md](references/adapters/standalone-harness.md)
 
-Keep a small index in existing task records or a suitable control document.
-Include the scope and outcomes, direct owners and evidence links, and relevant
-follow-up choices, schedule references, dependencies, resource holds, and next
-actions or decisions. Refresh it after material changes. Link detailed sources
-so the index supports retrieval rather than duplicating project history.
+Consult these references on demand:
 
-For status inventories and partial coverage, read
-[references/return.md](references/return.md#check). For suspicious or failed
-task reads, use
-[references/delivery.md](references/delivery.md).
+- Status checks, scheduling, and handoff routing: [references/return.md](references/return.md)
+- Suspicious, blank, or uncertain reads and deliveries: [references/delivery.md](references/delivery.md)
+- Completion, checkpoint, settle, and archive decisions: [references/closure.md](references/closure.md)
+- Coordinator succession or anti-compaction relay: [references/handoff.md](references/handoff.md)
+
+## Current facts and workspace boundary
+
+Use formal host identities returned by the active environment:
+environment/host, project/repository, thread or delegate ID, and workspace or
+task record path. Locate existing threads and context entries before launching
+new ones. For material decisions, read current artifacts and latest user
+steering rather than relying on stale summaries.
+
+Keep durable project state in the project's own external context store or task
+ledger (following its locking and single-writer rules), and rely on host thread
+histories for live execution tracking. Keep a dedicated `Home` directory
+strictly read-only (only its instructions and local git anchor): write temporary
+scratch to `$TMPDIR`, and route durable project updates through the owning
+project thread or context repo rather than maintaining a second ledger inside
+`Home`.
 
 ## Execute and delegate
 
-Choose direct work or delegation according to the assignment and existing owner.
-Use `spawn_agent` for bounded work inside this task. Use existing user-visible
-tasks for independent work; create a new task when the user requests one. For
-creation, resolve the saved project with `list_projects` and choose the host,
-environment, and working state required by the assignment.
+Choose the execution surface by assignment, existing owner, and host
+capability:
 
-After dispatch, verify the target's identity, assigned context, and usable access.
-For an uncertain create/send result or unsuitable target, use
-[delivery recovery](references/delivery.md).
-Continue independent work within the current request, including work alongside
-internal subagents. Keep one writer for shared working state and coordinate
-integration with ongoing branch work. When only an external wait remains, report
-what is ready and the next evidence; later checks follow the
-[selected mode](#follow-up-modes).
+1. **In-thread helper (`delegate_task` / native subagent):** bounded helper
+   research, multi-model analysis, review, or verification kept under this
+   session's ownership. Follow the runtime's async notification contract; never
+   poll `task_status` or sleep.
+2. **Existing or new top-level thread:** independent ongoing project work or
+   explicit user-requested threads, routed to an existing owner when one already
+   holds that branch or scope, or launched in the resolved environment, project,
+   and working state.
 
-**Faithful relay:** prefer the user's wording for short requests; condense long
-discussions while preserving scope, qualifiers, uncertainty, and confirmed
-decisions. An open question is a valid assignment for the worker and user to
-resolve together. Supplement only inaccessible information that affects the
-work: user decisions or authorization limits, other tasks' findings, dependencies,
-and actual resource conflicts. Provide accessible entry points and distinguish
-facts and suggestions from user requirements. Leave delegated execution choices
-with the worker.
+**Capability probe and routing:** inspect available environments, providers,
+models, options, and scheduler support via the host adapter before
+cross-harness dispatch. Report unavailable providers or capabilities clearly
+instead of silently substituting.
 
-Follow-ups carry only the delta; unmentioned requirements remain unchanged.
-Include routing details when the recipient needs to act on them. Routine policy
-updates need no acknowledgment round or receipt timer.
+**Single writer and context coordination:** keep one writer per shared branch,
+worktree, or physical resource hold. Parallel threads within the same project
+coordinate through the project's external context ledger, branches, and explicit
+resource locks rather than inter-thread callback messages.
+
+**Anti-compaction relay:** when a coordinator or worker thread degrades from
+repeated compaction or context saturation, hand remaining scope to a clean
+thread (or reset via `freshContext: true` where supported) grounded in
+persisted external records and artifacts rather than forcing endless compaction.
+
+**Faithful relay:** condense long discussions while preserving scope,
+qualifiers, uncertainty, and confirmed decisions; send concise deltas on
+follow-ups; leave execution choices with the worker. After dispatch, verify the
+target's identity, assigned context, and usable access; use
+[delivery recovery](references/delivery.md) for uncertain results or unsuitable
+targets.
 
 ## Coordinate and integrate
 
-Before steering a task, read its latest user decisions and progress. They take
-precedence over stale index notes. Normal progress needs no message. Leave
-user-paused work paused and bring relevant findings to the user. For a verified
-error, goal mismatch, or unmet dependency, give the existing owner the necessary
-facts and let it choose the remedy. Treat an unverified concern as a question to
-check. Resume work with an authorized, executable next step.
+Before steering a task, read its latest user decisions and progress. Normal
+progress needs no interruption; leave user-paused work paused and surface
+relevant findings to the user. For a verified error, goal mismatch, or unmet
+dependency, give the existing owner the concrete facts and let it choose the
+remedy.
 
-Resolve shared-resource conflicts from actual ownership and release conditions.
-Preserve holds and dependent waits until evidence supports release; a completed
-task, expired timer, or handoff alone does not prove the resource is available.
-An unresolved dependency constrains the affected work while independent work
-continues within its authorization.
-
-Assess results against their assigned outcome. A completed exploration or branch
-can be ready for a decision or integration while project delivery remains open.
-The project owner carries that remaining responsibility. Check the current
-integration target and relevant changes, reuse valid tests and reviews, and add
-verification for changed baselines, cross-task effects, missing evidence, or
-contradictions. Release dependencies only when their required evidence holds.
-Deduplicate reports by message/turn locator, or source, claim, and evidence, so
-each result has one downstream effect.
+Preserve resource holds and dependent waits until direct evidence proves
+release; a completed turn or expired timer alone does not prove availability.
+Verify claims against actual branch state, tests, or artifacts, and
+deduplicate findings by message/turn locator or `(source, claim, evidence)`.
 
 ## Follow-up modes
 
-A mode selects how a controller checks or receives results from its direct
-user-visible child tasks. Both roles use the user's choice within its scope,
-with **Poll** as the default.
+Cross-thread follow-up is strictly **unidirectional** (coordinator-owned).
+**Never instruct child threads to send upward callback or completion messages
+back to the coordinator.** Child threads finish, record outcomes in their own
+thread or external context store, and stop.
+
+Use only two modes, with **Poll** as the default:
 
 | Mode | Selection and trigger |
 | --- | --- |
-| **Poll** | The user asks to check status or results; read the relevant tasks. |
-| **Scheduled** | The user explicitly requests timed checks; a timer wakes the controller. |
-| **Callback** | The user explicitly requests event reports; children report those events to their direct owner. |
+| **Poll** | Default. Inspect relevant threads on user request via the host adapter. |
+| **Scheduled** | User explicitly requests timed checks; a parent-owned timer wakes the coordinator. |
 
-Under Poll, children keep results in their own tasks. Complete the current
-request's executable work; when only waiting for those results remains, end the
-turn until the next user request. Current-turn work with internal subagents and
-tools can continue. A controller's authorization to execute work, including its
-own builds or tests, does not select a timer or Callback.
+Under **Poll**, complete the current request's executable work; when only
+external waits remain, report what is ready and end the turn until the next user
+request. Waiting on the coordinator's own authorized operation does not
+authorize creating a timer. If the host lacks native timers, keep **Poll** and
+report that limitation explicitly rather than simulating background checks.
 
-A project's child policy covers later tickets; its relationship with its own
-parent has a separate mode. Combine Scheduled and Callback when the user chooses
-both. Workers manage internal continuation in their own tasks through
-`codex-async-followup`; controller scheduling follows the choices here.
-For checks, incoming or wrong-level reports, selected modes, mode changes, and
-handoff routing, read
+Workers manage internal waits inside their own threads via the host's native
+continuation tools; coordinator scheduling governs only cross-thread checks.
+For status checks, timer management, and handoff routing, read
 [references/return.md](references/return.md).
 
-## Report and lifecycle
+## Report, titles, and lifecycle
 
-Match the report to the request. For global summaries, lead with useful outcomes,
-user decisions, and actionable dependencies or priority recommendations. Give
-coverage and uncertainty where they affect the answer. Link non-current tasks as
-`[<title>](codex://threads/<threadId>)` with their `hostId` and next useful evidence.
+Lead global summaries with useful outcomes, user decisions needed,
+dependencies, and priority recommendations. State coverage gaps or unresolved
+reads explicitly. Cite non-current threads using the host adapter's canonical
+link format alongside environment provenance and next useful evidence.
 
-Use `thread-naming` to express established roles and states in titles.
-For completion, checkpoint, or handoff decisions, use
-[references/closure.md](references/closure.md).
-Distinguish a finished assignment from a continuing coordination role. A global
-role continues until the user ends it or a successor accepts it; a project role
-continues through its agreed responsibility, beyond individual branch milestones.
-Reassess closure when contrary evidence challenges a required outcome. Keep
-completed tasks unarchived unless the user chooses another policy; accepted
-predecessors and confirmed duplicates are exceptions.
+**Titles:** apply `thread-naming` if available, keeping coordinator role
+headlines visible (`🕹️ <scope>`, prefix `🔀` on outgoing handoff or `🏁` on
+closure; use `☑️` for checkpoints and `🙋`/`⛔`/`🕒` for waits), updating only
+when role or state changes.
 
-For a second model's opinion, use a bounded review within the task. When the user
-wants a different continuing owner, or recovery requires a successor, read
+For completion, checkpoint, settle, or archive decisions, use
+[references/closure.md](references/closure.md). Settle verified completed
+child threads where the host supports it (`t3_thread_organize`) while keeping
+history recoverable; archive only accepted predecessors or confirmed
+duplicates. When a new continuing coordinator is needed, read
 [references/handoff.md](references/handoff.md).

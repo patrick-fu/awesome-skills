@@ -28,7 +28,7 @@
       "skills": [
         "./parallel-goal-workflows",
         "./long-task-control",
-        "./codex-session-controller",
+        "./thread-controller",
         "./thread-naming",
         "./claude-code-coding-agent",
         "./codex-coding-agent",

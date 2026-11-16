@@ -16,7 +16,7 @@ skill's automatic heartbeat for the same wait.
 
 For other waits, choose the continuation path for the session's role:
 
-- Global and project controllers use `codex-session-controller` for follow-up
+- Coordinators use `thread-controller` for cross-thread follow-up
   mode selection, checks, and scheduling.
 - Workers and ordinary tasks use the loop below for their own internal waits.
 

@@ -162,12 +162,12 @@ Codex 有时会反复查询状态：任务还没跑完，也没有新信息，�
 支持 model invocation，由模型按场景自动调用；专用于 Codex App 的定时唤醒能力。
 本地续跑需要电脑和应用保持运行。
 
-#### 🎛️ [`codex-session-controller`](./codex-session-controller/SKILL.md)
+#### 🎛️ [`thread-controller`](./thread-controller/SKILL.md)
 
-把一个 Codex App 顶层 task/session 设为主控 Session，作为统一用户入口与薄控制面。
-主控在控制计划层维护目标、权限、owner、依赖、等待和回报节奏，并负责路由、去重、
-验收与 handoff；研究、实现和测试仍由 worker 承担。用户通常只需与主控对话，无需频繁
-切换 worker。
+把一个顶层 thread 或会话设为跨宿主主控（适配 T3 Code、Codex App 及独立 CLI
+harness），作为统一用户入口与薄控制面。主控在控制索引或外部任务账本中维护目标、
+权限、owner、依赖、等待和回报节奏，支持跨环境与跨模型路由、交付证据验收、
+`settle` 收口及接力 handoff；研究、实现和测试仍由 worker 承担。
 
 #### 🏷️ [`thread-naming`](./thread-naming/SKILL.md)
 

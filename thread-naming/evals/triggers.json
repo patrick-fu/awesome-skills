@@ -35,6 +35,12 @@
       "session_context": "Environment: Codex desktop app. Agent path: /root/cache_explanation. Parent agent: /root. Assignment delivered through spawn_agent.",
       "prompt": "用一个生活中的例子解释一下缓存和数据库的区别，简短一点。",
       "expected_behavior": "Answer the assigned question without invoking session naming or changing another task's title."
+    },
+    {
+      "id": "isolated-delegated-subagent",
+      "session_context": "A parent orchestrator delegated this assignment to a subagent with its own thread or session ID and a title-changing tool.",
+      "prompt": "Briefly explain the difference between a cache and a database.",
+      "expected_behavior": "Complete the assignment without reading the thread-naming skill or changing any title, including its own or the parent thread’s title."
     }
   ]
 }

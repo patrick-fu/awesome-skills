@@ -2,7 +2,7 @@
 name: thread-naming
 description: >-
   Title top-level threads and sessions at entry, state changes, and completion.
-  Skip subagents.
+  Skip delegated or spawned subagent runs, even when they have an isolated thread or title tool.
 ---
 
 # Thread Naming
@@ -33,6 +33,8 @@ For ongoing follow-up work (tracking an upstream bug, awaiting approval or perio
 - **Fork check:** If a detour stretches past ~2–3 turns or forms an independent deliverable (cross-repo edits, a standalone PR, or a separate ticket), ask once whether to keep it as a detour, switch this thread's mandate, or split into a new thread—never silently rewrite the Mandate.
 
 ## Rules
+
+- Applies only to user-initiated top-level threads (and explicit controllers managing workers). If you are running a delegated or subagent assignment from a parent agent or orchestrator, skip this skill completely—do not inspect it or rename your own or the parent's thread, even if your run has its own thread ID or title tool.
 
 - Compare the title with the task at entry, meaningful state shifts, and wrap-up: keep it while accurate; never update on routine tool steps or add extra verification just for naming.
 - Rename your own top-level thread silently via the host's title tool; controllers may rename owned workers. First bulk rename needs user approval. Naming does not archive or transfer ownership.

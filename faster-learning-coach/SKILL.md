@@ -3,6 +3,7 @@ name: faster-learning-coach
 description: >-
   Coach active learning through practice, feedback, and teach-back. Use only
   when learning or retention—not obtaining an answer or artifact—is the goal.
+disable-model-invocation: true
 ---
 
 # Faster Learning Coach

@@ -2,3 +2,5 @@ interface:
   display_name: "Frontend Harness Slides"
   short_description: "Build and verify polished HTML slide decks"
   default_prompt: "Use $frontend-harness-slides to create or revise this HTML slide deck using the supplied requirements and existing conventions."
+policy:
+  allow_implicit_invocation: false

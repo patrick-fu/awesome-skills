@@ -2,3 +2,5 @@ interface:
   display_name: "Work Context"
   short_description: "Set up shared context and local agent instructions"
   default_prompt: "Use $work-context to initialize my shared context environment and local agent instructions."
+policy:
+  allow_implicit_invocation: false

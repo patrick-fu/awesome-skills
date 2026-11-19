@@ -4,6 +4,7 @@ description: >-
   Build and revise iteration-safe HTML slide decks with polished visuals,
   motion, testing, and web/PDF/static delivery. Use only for HTML slide
   projects.
+disable-model-invocation: true
 ---
 
 # Frontend Harness Slides

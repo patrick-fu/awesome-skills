@@ -1,11 +1,9 @@
 ---
 name: paper-ink-style
 description: >-
-  Paper-and-pencil engineering-whiteboard visual style, defaulting to a
-  standalone single-file HTML deliverable: rough pencil-line cards,
-  marker-yellow highlights, sticky notes and tape, hand-annotated diagrams.
-  Use when creating or restyling HTML, or applying this personal style to
-  another UI surface (工程白板, inkboard).
+  Paper-and-pencil engineering-whiteboard visual style (pencil lines, marker
+  highlights, sticky notes). Use when creating or restyling HTML or UI
+  surfaces in this style (工程白板, inkboard).
 ---
 
 # Paper Ink Style

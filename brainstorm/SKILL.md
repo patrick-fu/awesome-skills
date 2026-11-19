@@ -1,8 +1,8 @@
 ---
 name: brainstorm
 description: >-
-  Brainstorm possibilities when the user has an idea or open problem and wants
-  to broaden the solution space before choosing a direction.
+  Explore diverse options before evaluating or choosing a direction. Use for
+  open ideas/problems or 头脑风暴 to broaden the solution space.
 ---
 
 Build a possibility map for the user's later choice. Generate before

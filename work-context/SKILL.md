@@ -2,6 +2,7 @@
 name: work-context
 description: >-
   Initialize or reconfigure a shared context environment and its agent instructions.
+disable-model-invocation: true
 ---
 
 # Work Context

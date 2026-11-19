@@ -1,13 +1,9 @@
 ---
 name: deslop
 description: >-
-  Review or rewrite existing Chinese, English, or mixed-language prose to remove
-  formulaic AI-slop patterns while preserving facts, intent, stance, register,
-  and author voice. Use when the user explicitly asks to deslop, humanize,
-  remove AI writing patterns or AI 味, 说人话, 别像模板/机器人, make text less
-  AI-generated, or audit a draft for those problems. Do not trigger for generic
-  polishing, proofreading, translation, summarization, fact-checking, or
-  drafting from scratch unless deslop is explicitly requested as a step.
+  Audit or rewrite existing prose to remove AI slop, keeping facts and voice.
+  Only on explicit request (deslop, humanize, AI 味/说人话/模板/机器人); not for
+  general edits, code, or new drafts.
 ---
 
 # Deslop / 说人话

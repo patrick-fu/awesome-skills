@@ -10,7 +10,7 @@ description: >-
 Format: `<emoji> [tags] <mandate> · <focus>`
 
 - **Tags:** 1–2 short scope labels (`[repo]`, `[area]`).
-- **Mandate:** the overall goal. Keep stable across follow-ups and detours; replace only after completion or when the user replaces or cancels the task.
+- **Mandate:** the thread's overall goal. Lock Mandate and Tags across follow-ups and detours; replace only when the user explicitly switches topics or cancels the prior task, or starts a clearly unrelated new task after genuine closure.
 - **Focus:** concise current result, blocker, decision, or next step.
 
 Match the user's language and preserve IDs and key terms. Explicit user format requests override defaults.
@@ -20,9 +20,17 @@ Match the user's language and preserve IDs and key terms. Explicit user format r
 Show **who acts next** and **current task state** from established facts (a finished turn is not a completed task):
 
 - **Attention / wait:** `🙋` user decision, approval, or input · `🕒` external job, CI, review, device, or timer · `⛔` blocked · `⏸️` user-paused · `⏳` queued, not started
-- **Closure:** `🏁` mandate completed · `☑️` parked at agreed checkpoint · `🔀` unfinished work handed off to an accepted successor (outgoing owner only)
+- **Closure:** `🏁` mandate genuinely closed · `☑️` parked at agreed checkpoint or interim reply · `🔀` unfinished work handed off to an accepted successor (outgoing owner only)
 - **Controllers:** `🕹️ <scope>` global controller · `🗂️ <project>` project controller (keep role headline stable; prefix `🏁` or `🔀` only when closed or handed off after acceptance)
 - **Active work:** `🏃` or any self-explanatory action/domain emoji (`🐛`, `🔧`, `🧭`, `🧪`, `🔍`, `🧹`, `✍️`, etc.).
+
+For ongoing follow-up work (tracking an upstream bug, awaiting approval or periodic checks), default to `☑️` or `🕒` after interim replies; reserve `🏁` for genuine closure, and never treat a finished turn or an earlier `🏁` as license to silently overwrite the Mandate.
+
+## Detours, Return to Stack, and Fork Check
+
+- **Mandate vs. Detour:** Questions, adjacent lookups, or opportunistic tasks branching off the main work are detours—even across multiple turns, delegated subagents, or committed changes. Keep the existing Mandate and Tags locked; at most reflect the detour briefly in `· <focus>` while active, then restore `focus` to the main-thread state when done.
+- **Return to stack:** When a turn completes a detour off the main thread, end the reply with one short line pointing back to the main mandate and its current state or next step. Omit this when staying on the main thread.
+- **Fork check:** If a detour stretches past ~2–3 turns or forms an independent deliverable (cross-repo edits, a standalone PR, or a separate ticket), ask once whether to keep it as a detour, switch this thread's mandate, or split into a new thread—never silently rewrite the Mandate.
 
 ## Rules
 

@@ -48,6 +48,24 @@
       "name": "clear-replacement-changes-mandate",
       "prompt": "The current title is 🏃 [同步] 修复重复上传 · 验证重试行为. The user says: '重复上传先不做了，这个会话改为调研离线缓存方案。' Maintain the title for the new task.",
       "expected_output": "Change the mandate to the offline-cache research task, using a suitable active state and concise focus. Preserve the user's cancellation of the prior work; do not retain the old repair mandate or label it completed."
+    },
+    {
+      "id": 9,
+      "name": "multi-turn-action-detour-preserves-mandate",
+      "prompt": "The current thread is titled 🕒 [checkout] 追踪上游支付超时缺陷 · 等供应商复现日志. While waiting, the user asks across two turns to update a local log-redaction helper script, run its tests, and commit the tweak. The script tweak is now committed, while the upstream bug is still waiting on vendor logs. Maintain the thread title and conclude the reply.",
+      "expected_output": "Keep the [checkout] tags and upstream payment-timeout mandate locked; at most show the log-redaction detour briefly in focus while active and restore focus to waiting on vendor logs with 🕒 once done. Do not mark the ongoing follow-up thread as 🏁, and end the reply with a brief one-line return-to-stack reminder pointing back to the main payment-timeout task and its waiting state."
+    },
+    {
+      "id": 10,
+      "name": "adjacent-lookup-detour-keeps-mandate",
+      "prompt": "The current thread is titled ☑️ [billing] 排查月结账单重复扣费 · 已给方案待确认. The user asks: '顺便查一下上个月退税工单 #4182 的状态，看看有没有关联。' The lookup finds ticket #4182 is unrelated and still open. Maintain the thread title and conclude the reply.",
+      "expected_output": "Treat the ticket lookup as an adjacent detour and keep the [billing] tags and duplicate-charge investigation mandate unchanged instead of replacing the mandate with ticket #4182 or treating the prior checkpoint as closure. End the reply with a short return-to-stack line reminding the user of the pending confirmation on the duplicate-charge fix."
+    },
+    {
+      "id": 11,
+      "name": "expanding-detour-triggers-fork-check",
+      "prompt": "The current thread is titled 🔧 [auth] 迁移 OAuth 回调校验 · 补全单元测试. Three turns ago, the user noticed an unrelated CI lint failure in another repository and asked to look into it; the detour has now grown across three turns into fixing lint rules across two repositories and preparing a standalone PR, while the OAuth migration remains unfinished. Decide how to handle the title and respond.",
+      "expected_output": "Do not silently overwrite the [auth] OAuth migration mandate with the CI lint work. Because the detour has expanded across multiple turns into an independent cross-repo deliverable/PR, keep the main mandate locked and ask the user once whether to keep it as a detour, switch this thread's mandate, or split it into a new thread."
     }
   ]
 }

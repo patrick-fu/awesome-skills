@@ -18,10 +18,12 @@ when they answer different parts of the question.
 | Changing a variable or stepping through work | Interactive view |
 
 **Relations.** Give every edge a supported meaning: message, dependency, or
-order. Preserve conditions and independent lifecycles; make concurrency
-explicit. A retry joins existing work where the implementation supports it;
-cancellation has its own scope and race. Keep distinct clocks and states
-separate. Mark inferred or unknown relationships accordingly.
+order. Use literal component names and real actions on nodes and edges rather
+than analogies or metaphorical labels. Preserve conditions and independent
+lifecycles; make concurrency explicit. A retry joins existing work where the
+implementation supports it; cancellation has its own scope and race. Keep
+distinct clocks and states separate. Mark inferred or unknown relationships
+accordingly.
 
 **Check.** Inspect relationships, ordering, endpoints, and qualifications.
 Rendering checks syntax, not behavior. Use a known available renderer; when

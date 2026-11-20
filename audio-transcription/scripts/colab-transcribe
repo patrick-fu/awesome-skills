@@ -1,0 +1,516 @@
+#!/usr/bin/env python3
+"""colab-transcribe — Batch ASR on a Google Colab GPU session via google-colab-cli.
+
+镜像本 skill 的 local-transcribe 协议：
+- plan <media>...        只读预检（不建会话、不上传、不装依赖）
+- transcribe <media>...  串行逐文件云端转写；上传需显式 --allow-upload 授权门
+- doctor                 本机依赖与认证自检；--probe-remote 才创建并回收一个探针会话
+- help <topic>
+
+engines（场景路由规则见 references/colab-transcription.md；非用户随选项）：
+- turbo  默认。large-v3-turbo，整文件，通用/英文/粤语/中英混杂最稳（bench-2c 实测）。
+- qwen17 中文为主长音频与会议远场专用档。整文件喂会丢内容（qwen-asr 包内部分块缺陷，
+  2026-11-20 实锤），runner 强制 30-60s 静音对齐分窗 + 批量转写；SRT 为窗粒度。
+
+协议约定：--json 时 stdout 只输出单个 JSON；进度与告警一律 stderr。
+跨文件严格串行（共享锁），一次只跑一个调用方。
+产物默认写入新的系统临时目录（易失），持久化必须显式 --output-dir。
+VM 是一次性机器：异常路径默认保留会话并在 manifest/next_actions 里声明，
+不静默烧 CU，也不静默销毁在途数据。
+
+事实源以 --help 与 --json 为准；参数与错误码不做隐式猜测。
+"""
+
+import argparse
+import fcntl
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import time
+
+DEFAULT_SESSION = "asr"
+DEFAULT_GPU = "T4"
+GPU_CU_PER_HR = {"T4": 1.07, "L4": 1.54, "A100": 5.30}  # AgenticColab 实测口径，费率随账号波动，仅供估算
+DEFAULT_UPLOAD_MBPS = 20.0  # 家宽走代理的保守假设；成功转写一次后自动回写实测值
+CONFIG_PATH = os.path.expanduser("~/.config/colab-transcribe.json")
+LOCK_PATH = os.path.expanduser("~/.config/colab-transcribe.lock")
+REMOTE_DIR_IN = "/content/asr_in"
+REMOTE_DIR_OUT = "/content/asr_out"
+RUNNER_REMOTE_PATH = "/content/colab_asr_runner.py"
+ENGINES = ("turbo", "qwen17")
+QWEN17_MODEL = "Qwen/Qwen3-ASR-1.7B"
+# 按 engine 的 VM 依赖清单（2026-11-20/21 实测钉版；av>=14 移除 metadata_errors kwarg；
+# ctranslate2/nvidia wheel 不带 CUDA 运行库）
+INSTALL_LISTS = {
+    "turbo": ["faster-whisper", "av>=12,<14", "huggingface_hub>=0.28",
+              "nvidia-cublas-cu12", "nvidia-cudnn-cu12"],
+    "qwen17": ["qwen-asr"],
+}
+
+
+class TranscribeError(Exception):
+    def __init__(self, code, detail, next_actions=None):
+        super().__init__(detail)
+        self.code = code
+        self.detail = detail
+        self.next_actions = next_actions or []
+
+
+def log(msg):
+    print(msg, file=sys.stderr, flush=True)
+
+
+def load_config():
+    try:
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def save_config(cfg):
+    os.makedirs(os.path.dirname(CONFIG_PATH), exist_ok=True)
+    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+        json.dump(cfg, f, ensure_ascii=False, indent=1)
+
+
+def run_cmd(argv, timeout, desc, check=True):
+    """Run a local CLI command; relay its stdout/stderr to our stderr, return stdout."""
+    log(f"[cmd] {desc} …")
+    try:
+        p = subprocess.run(argv, capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        raise TranscribeError("TIMEOUT", f"{desc} 超过 {timeout}s 未返回",
+                              ["重试一次；若反复超时，检查网络与代理链",
+                               "会话可能仍在运行，用 colab status -s <name> 核对"])
+    if p.returncode != 0 and check:
+        tail = (p.stderr or p.stdout or "").strip().splitlines()
+        detail = tail[-1] if tail else f"exit={p.returncode}"
+        raise TranscribeError("CLI_FAILED", f"{desc} 失败: {detail}",
+                              ["重跑该步骤；错误持续时 colab status / colab usage 核对后端状态"])
+    return p.stdout
+
+
+def run_cmd_retry(argv, timeout, desc, attempts=3, backoff_s=5):
+    """下载类调用对代理 SSL 抖动（SSLEOFError 等）做有限重试；仅瞬时类错误重试。"""
+    for i in range(attempts):
+        try:
+            return run_cmd(argv, timeout, desc)
+        except TranscribeError as e:
+            if e.code in ("CLI_FAILED", "TIMEOUT") and i < attempts - 1:
+                log(f"[retry] {desc} 失败（{(e.detail or '')[:90]}），{backoff_s}s 后重试 {i + 2}/{attempts}")
+                time.sleep(backoff_s)
+                continue
+            raise
+        tail = (p.stderr or p.stdout or "").strip().splitlines()
+        detail = tail[-1] if tail else f"exit={p.returncode}"
+        raise TranscribeError("CLI_FAILED", f"{desc} 失败: {detail}",
+                              ["重跑该步骤；错误持续时 colab status / colab usage 核对后端状态"])
+    return p.stdout
+
+
+def colab_out(argv, timeout, desc):
+    """Run a colab CLI and return combined output for pattern parsing."""
+    log(f"[cmd] {desc} …")
+    try:
+        p = subprocess.run(argv, capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        raise TranscribeError("TIMEOUT", f"{desc} 超过 {timeout}s 未返回", ["检查网络与代理链后重试"])
+    return p.stdout + "\n" + p.stderr
+
+
+def parse_usage(text):
+    bal = re.search(r"Current balance:\s*([\d.]+)\s*compute units", text)
+    rate = re.search(r"Usage rate:\s*([\d.]+)/hr", text)
+    asg = re.search(r"Active assignments:\s*(\d+)", text)
+    return {
+        "balance": float(bal.group(1)) if bal else None,
+        "rate_per_hr": float(rate.group(1)) if rate else None,
+        "assignments": int(asg.group(1)) if asg else None,
+    }
+
+
+def get_usage():
+    return parse_usage(colab_out(["colab", "usage"], 60, "colab usage"))
+
+
+def ffprobe_media(path):
+    argv = ["ffprobe", "-v", "error", "-print_format", "json", "-show_format", "-show_streams", path]
+    try:
+        p = subprocess.run(argv, capture_output=True, text=True, timeout=60)
+    except subprocess.TimeoutExpired:
+        raise TranscribeError("FFPROBE_TIMEOUT", f"ffprobe 超时: {path}")
+    if p.returncode != 0:
+        raise TranscribeError("FFPROBE_FAILED", f"ffprobe 无法读取: {path} :: {(p.stderr or '').strip().splitlines()[-1:]}")
+    data = json.loads(p.stdout or "{}")
+    audio = next((s for s in data.get("streams", []) if s.get("codec_type") == "audio"), None)
+    duration = float(data.get("format", {}).get("duration") or 0.0)
+    return {
+        "bytes": os.path.getsize(path),
+        "duration_s": round(duration, 3),
+        "has_audio": audio is not None,
+        "audio_codec": audio.get("codec_name") if audio else None,
+        "sample_rate": int(audio["sample_rate"]) if audio and audio.get("sample_rate") else None,
+    }
+
+
+def estimate_upload_s(total_bytes, measured_mbps=None):
+    mbps = measured_mbps or DEFAULT_UPLOAD_MBPS
+    return total_bytes * 8.0 / (mbps * 1e6)
+
+
+def resolve_model(engine, model_arg):
+    if engine == "qwen17":
+        return QWEN17_MODEL
+    return model_arg
+
+
+def est_infer_s(total_duration, engine, model):
+    """保守估算（T4 实测：turbo 17.7-34x、qwen17-30s窗 25-31x；留足余量）。"""
+    if engine == "qwen17":
+        speed = 8
+    else:
+        speed = {"tiny": 30, "base": 24, "small": 16, "medium": 12,
+                 "large-v3-turbo": 15, "large-v3": 5}.get(model, 15)
+    return total_duration / max(speed, 1)
+
+
+def acquire_lock():
+    os.makedirs(os.path.dirname(LOCK_PATH), exist_ok=True)
+    fh = open(LOCK_PATH, "w")
+    try:
+        fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        raise TranscribeError("LOCKED", "另一个 colab-transcribe 正在运行（跨调用串行）",
+                              ["等待当前运行结束；确认无残留进程后可删除锁文件 " + LOCK_PATH])
+    return fh
+
+
+# ---------------- commands ----------------
+
+def cmd_plan(args):
+    files = []
+    total_bytes = 0.0
+    total_dur = 0.0
+    cfg = load_config()
+    model = resolve_model(args.engine, args.model)
+    for path in args.media:
+        if not os.path.isfile(path):
+            raise TranscribeError("INPUT_MISSING", f"文件不存在: {path}")
+        meta = ffprobe_media(path)
+        meta["path"] = path
+        meta["est_upload_s"] = round(estimate_upload_s(meta["bytes"], cfg.get("measured_upload_mbps")), 1)
+        files.append(meta)
+        total_bytes += meta["bytes"]
+        total_dur += meta["duration_s"]
+    gpu = args.gpu
+    load_budget_s = 180 if args.engine == "qwen17" else 240
+    est_min = (estimate_upload_s(total_bytes, cfg.get("measured_upload_mbps"))
+               + 180 + load_budget_s + est_infer_s(total_dur, args.engine, model) + 120) / 60.0
+    return {
+        "status": "planned",
+        "read_only": True,
+        "network_upload": False,
+        "files": files,
+        "total_bytes": total_bytes,
+        "total_duration_s": round(total_dur, 1),
+        "plan": {
+            "gpu": gpu,
+            "engine": args.engine,
+            "model": model,
+            "language": args.language,
+            "est_session_minutes": round(est_min, 1),
+            "est_cu": round(est_min / 60.0 * GPU_CU_PER_HR.get(gpu, 1.07), 2),
+            "upload_mbps_assumed": cfg.get("measured_upload_mbps") or DEFAULT_UPLOAD_MBPS,
+            "note": "费率与速率均为估算；transcribe 成功一次后会回写实测上传速率",
+        },
+        "next_actions": ["确认素材可上传（脱敏红线）后执行 transcribe --allow-upload"],
+    }
+
+
+def ensure_session(session, gpu, timeout):
+    status = colab_out(["colab", "status", "-s", session], 60, f"colab status -s {session}")
+    if "No active session" not in status and "not found" not in status.lower():
+        m = re.search(r"[Mm]achine shape[:\s]*(\S+)", status)
+        log(f"[session] 复用现有会话 {session}" + (f"（{m.group(1)}）" if m else ""))
+        return False
+    out = colab_out(["colab", "new", "-s", session, "--gpu", gpu], timeout, f"colab new -s {session} --gpu {gpu}")
+    if re.search(r"(503|rejected|error)", out, re.I) and "success" not in out.lower():
+        raise TranscribeError("SESSION_FAILED", f"分配 {gpu} 会话失败（容量或权限）",
+                              ["稍后重试；或换 --gpu L4/T4", "Backend rejected accelerator = 当前账号档位不含该机型"])
+    return True
+
+
+def _remote_shell(session, shell_cmd, timeout_s=60):
+    """0.7.5 兼容：一次性远程命令走 colab exec + IPython `!` 行（bash），每行独立 shell。
+    命令内容仅由本脚本拼接（素材名已清洗为 [A-Za-z0-9._-]），不受 stdin 内容影响。"""
+    try:
+        p = subprocess.run(["colab", "exec", "-s", session, "--timeout", str(timeout_s)],
+                           input=f"!{shell_cmd}\n", capture_output=True, text=True, timeout=timeout_s + 120)
+    except subprocess.TimeoutExpired:
+        raise TranscribeError("TIMEOUT", f"远程命令超时（{timeout_s + 120}s）: {shell_cmd[:60]}",
+                              ["会话可能未就绪或不健康：colab status -s 核对", "重试；持续超时换新会话名"])
+    return p.returncode, p.stdout + "\n" + p.stderr
+
+
+def ensure_remote_dirs(session, retries=3):
+    last = ""
+    for attempt in range(1, retries + 1):
+        _remote_shell(session, "mkdir -p /content/asr_in /content/asr_out")
+        _, out2 = _remote_shell(session, "test -d /content/asr_in && test -d /content/asr_out && echo ASR_DIRS_OK")
+        if "ASR_DIRS_OK" in out2:
+            return
+        last = out2.strip().splitlines()[-1:] or ["<empty>"]
+        if attempt < retries:
+            log(f"[session] runtime 未就绪（第 {attempt}/{retries} 次），20s 后重试")
+            time.sleep(20)
+    raise TranscribeError("REMOTE_SHELL_FAILED", f"远端目录准备失败: {last}",
+                          ["colab status -s 核对会话健康", "换新会话名重试"])
+
+
+def remote_python(session, plan_remote_path, timeout_s):
+    # stdout 可能混入 CLI banner：result.json 下载后才是唯一可信结果源
+    rc, out = _remote_shell(session, f"python3 {RUNNER_REMOTE_PATH} --plan {plan_remote_path}", timeout_s)
+    if out.strip():
+        log("[remote] " + "\n[remote] ".join(out.strip().splitlines()[-5:]))
+    return rc
+
+
+def cmd_transcribe(args):
+    if not args.allow_upload:
+        raise TranscribeError("UPLOAD_DENIED",
+                              "上传到 Colab 需要显式授权：加 --allow-upload（确认素材已过脱敏红线）",
+                              ["仅本机预检可运行 plan --json", "确认素材为个人/可出境内容后加 --allow-upload"])
+    lock = acquire_lock()
+    try:
+        return _transcribe_locked(args)
+    finally:
+        lock.close()
+
+
+def _transcribe_locked(args):
+    # doctor 前置
+    doctor = cmd_doctor(argparse.Namespace(json=False, probe_remote=False), quiet=True)
+    if doctor.get("error_code"):
+        raise TranscribeError(doctor["error_code"], doctor.get("detail", "doctor 未通过"))
+
+    model = resolve_model(args.engine, args.model)
+    cu_before = get_usage()
+    if cu_before["assignments"] and cu_before["assignments"] > 0:
+        log(f"[warn] 检测到 {cu_before['assignments']} 个活跃 assignment（可能是孤儿），继续但会在收尾核对")
+
+    out_dir = args.output_dir or tempfile.mkdtemp(prefix="colab-transcribe-")
+    os.makedirs(out_dir, exist_ok=True)
+    created = False
+    t_start = time.time()
+
+    try:
+        created = ensure_session(args.session, args.gpu, timeout=120)
+        if created:
+            # 新分配的 runtime 需要数十秒引导 Jupyter kernel；立即 exec 会挂死
+            log("[session] 新分配会话，等待 runtime 引导 15s")
+            time.sleep(15)
+        ensure_remote_dirs(args.session)
+        # 版本红线见 INSTALL_LISTS 注释；依赖按 engine 最小安装
+        run_cmd(["colab", "install", "-s", args.session] + INSTALL_LISTS[args.engine],
+                600, f"colab install {args.engine} 依赖")
+
+        # 上传 runner 与素材
+        t_up = time.time()
+        runner_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "colab_asr_runner.py")
+        run_cmd(["colab", "upload", "-s", args.session, runner_src, RUNNER_REMOTE_PATH], 300, "上传 runner")
+        files, plan_items, up_bytes = [], [], 0
+        for i, path in enumerate(args.media):
+            apath = os.path.abspath(path)
+            base = re.sub(r"[^A-Za-z0-9._-]", "_", os.path.splitext(os.path.basename(path))[0]) + f"_{i}"
+            remote = f"{REMOTE_DIR_IN}/{base}{os.path.splitext(path)[1]}"
+            run_cmd(["colab", "upload", "-s", args.session, apath, remote],
+                    max(300, estimate_upload_s(os.path.getsize(apath)) * 6 + 180), f"上传 {os.path.basename(path)}")
+            up_bytes += os.path.getsize(apath)
+            meta = ffprobe_media(apath)
+            files.append({"path": apath, "base": base, "meta": meta})
+            plan_items.append({"id": i, "base": base, "source_name": os.path.basename(path), "remote_path": remote})
+
+        plan = {"out_dir": REMOTE_DIR_OUT, "engine": args.engine, "model": model,
+                "language": args.language, "files": plan_items}
+        plan_local = os.path.join(out_dir, "remote-plan.json")
+        with open(plan_local, "w", encoding="utf-8") as f:
+            json.dump(plan, f, ensure_ascii=False)
+        run_cmd(["colab", "upload", "-s", args.session, plan_local, "/content/asr_plan.json"], 120, "上传 plan")
+
+        total_dur = sum(f["meta"]["duration_s"] for f in files)
+        infer_timeout = 240 + 600 + est_infer_s(total_dur, args.engine, model) * 4
+        remote_python(args.session, "/content/asr_plan.json", infer_timeout)
+
+        # 下载产物（result.json 为唯一可信结果源）；下载走重试（代理 SSL 抖动实测频发）
+        result_local = os.path.join(out_dir, "result.json")
+        run_cmd_retry(["colab", "download", "-s", args.session, f"{REMOTE_DIR_OUT}/result.json", result_local], 180, "下载 result.json")
+        with open(result_local, "r", encoding="utf-8") as f:
+            remote_result = json.load(f)
+
+        file_results, ok_count = [], 0
+        for item in remote_result.get("files", []):
+            idx = item.get("id")
+            src_path = files[idx]["path"] if isinstance(idx, int) and 0 <= idx < len(files) else None
+            fr = {"path": src_path, "status": item.get("status"), "error_code": item.get("error_code"),
+                  "detail": item.get("detail"), "duration_s": item.get("duration_s"),
+                  "language": item.get("language"), "text_chars": item.get("text_chars"),
+                  "artifacts": {}}
+            if item.get("status") == "ok":
+                ok_count += 1
+                for kind, fname in item.get("artifacts", {}).items():
+                    local_p = os.path.join(out_dir, fname)
+                    run_cmd_retry(["colab", "download", "-s", args.session, f"{REMOTE_DIR_OUT}/{fname}", local_p], 180,
+                                  f"下载 {fname}")
+                    fr["artifacts"][kind] = local_p
+            file_results.append(fr)
+
+        if args.keep_session:
+            log(f"[session] --keep-session：保留会话 {args.session}（继续烧 CU，记得 colab stop -s {args.session}）")
+            session_note = "kept"
+        else:
+            try:
+                run_cmd(["colab", "stop", "-s", args.session], 120, f"colab stop -s {args.session}")
+                session_note = "stopped"
+            except TranscribeError as e:
+                # stop 失败不吞掉已成功的转写结果；显式声明残留会话
+                session_note = "stop-failed"
+                log(f"[warn] colab stop 失败（{e.detail[:90]}）：会话仍在烧 CU，需手动 colab stop -s {args.session}")
+
+        cu_after = get_usage()
+        actual_up_s = time.time() - t_up  # 近似：上传段墙钟
+        cfg = load_config()
+        if up_bytes > 1_000_000 and actual_up_s > 5:
+            cfg["measured_upload_mbps"] = round(up_bytes * 8.0 / (actual_up_s * 1e6), 2)
+            save_config(cfg)
+
+        status = "ok" if ok_count == len(files) and files else ("failed" if ok_count == 0 else "partial")
+        manifest = {
+            "status": status,
+            "output_dir": out_dir,
+            "session": {"name": args.session, "gpu": args.gpu, "lifecycle": session_note},
+            "engine": args.engine, "model": model, "language": args.language,
+            "cu": {"before": cu_before["balance"], "after": cu_after["balance"],
+                   "delta": round((cu_before["balance"] or 0) - (cu_after["balance"] or 0), 2)},
+            "upload": {"bytes": up_bytes, "measured_mbps": cfg.get("measured_upload_mbps")},
+            "files": file_results,
+            "usage_after": cu_after,
+            "elapsed_s": round(time.time() - t_start, 1),
+            "next_actions": [],
+        }
+        if session_note in ("kept", "stop-failed"):
+            manifest["next_actions"].append(f"colab stop -s {args.session}")
+        if cu_after["assignments"] and cu_after["assignments"] > 0:
+            manifest["next_actions"].append("存在活跃 assignment：colab usage 核对，孤儿会占并发额度并烧 CU")
+        with open(os.path.join(out_dir, "manifest.json"), "w", encoding="utf-8") as f:
+            json.dump(manifest, f, ensure_ascii=False, indent=1)
+        return manifest
+    except TranscribeError as e:
+        # 失败路径：不静默销毁在途数据；显式声明会话仍在
+        if not args.keep_session:
+            log(f"[warn] 失败于 {e.code}，会话 {args.session} 保留未停止（保护在途数据）；确认后 colab stop -s {args.session}")
+        return {"status": "error", "error_code": e.code, "detail": e.detail,
+                "session": {"name": args.session, "lifecycle": "left-running"},
+                "next_actions": (e.next_actions or []) + [f"colab stop -s {args.session}（不再需要时）"]}
+
+
+def cmd_doctor(args, quiet=False):
+    out = {}
+    missing = [t for t in ("ffmpeg", "ffprobe") if not shutil.which(t)]
+    out["ffmpeg"] = "ok" if not missing else f"missing:{','.join(missing)}"
+    usage = get_usage()
+    auth_ok = usage["balance"] is not None
+    out["colab_auth"] = "ok" if auth_ok else "AUTH_REQUIRED"
+    out["cu_balance"] = usage["balance"]
+    out["active_assignments"] = usage["assignments"]
+    ver = colab_out(["colab", "--version"], 30, "colab --version")
+    m = re.search(r"(\d+\.\d+\.\d+)", ver)
+    out["colab_cli_version"] = m.group(1) if m else "unknown"
+    if "0.8.0" in ver:
+        out["note_version"] = "上游有 0.8.0 可选升级（colab update --install），本链路未强依赖新版本"
+    if not auth_ok:
+        out["error_code"] = "AUTH_REQUIRED"
+        out["detail"] = "colab 未认证：请在真实交互终端完成首次 OAuth（agent/脚本内登录会 Malformed auth code）"
+        out["next_actions"] = ["在 Terminal/iTerm 中手动运行 colab sessions 完成 OAuth"]
+    if args.probe_remote:
+        if not auth_ok:
+            raise TranscribeError("AUTH_REQUIRED", "认证不可用，跳过远程探针")
+        s = "doctor-probe"
+        t0 = time.time()
+        ensure_session(s, "T4", 120)
+        run_cmd(["colab", "ssh", "-s", s, "--", "echo", "probe-ok"], 180, "远程探针 echo")
+        run_cmd(["colab", "stop", "-s", s], 120, f"colab stop -s {s}")
+        out["probe_remote"] = {"ok": True, "alloc_and_echo_s": round(time.time() - t0, 1)}
+        out["next_actions"] = ["探针会话已回收"]
+    return out
+
+
+HELP = {
+    "privacy": "上传内建于本链路：transcribe 必须显式 --allow-upload（确认素材过脱敏红线：公司会议音频、工作屏幕录音不上云）。plan/doctor 永不上传。首次 OAuth 必须在真实终端完成。",
+    "outputs": "--output-dir 缺省为新的系统临时目录（易失）。产物：manifest.json、result.json、每文件 .txt/.srt/.json。result.json 为唯一可信结果源（ssh stdout 可能被 CLI banner 污染）。qwen17 的 SRT 为窗粒度（30-60s），字级时间戳未接 ForcedAligner。",
+    "engines": "turbo=默认（large-v3-turbo，整文件，通用/英/粤/混语言最稳）。qwen17=中文长音频与会议远场专用（Qwen3-ASR-1.7B，强制 30-60s 静音对齐分窗+批量，SRT 为窗粒度；整文件会丢内容不可绕过）。路由规则见 references/colab-transcription.md。",
+    "errors": "错误码：AUTH_REQUIRED / UPLOAD_DENIED / LOCKED / FFPROBE_* / SESSION_FAILED / CLI_FAILED / TIMEOUT / INPUT_MISSING / NO_AUDIO_STREAM / UNKNOWN_ENGINE / WINDOW_FAILED / ENGINE_LOAD_FAILED。失败路径保留会话并声明，不静默烧 CU。",
+    "sessions": "会话名默认 asr。ensure 逻辑：status 已存在则复用，否则 colab new --gpu 分配。--keep-session 跳过收尾 stop（自行负责 colab stop）。收尾核对 colab usage 的 rate=0.00 且 assignments=0。",
+    "remote": "一次性远程命令走 colab exec + IPython `!` 行（google-colab-cli 0.7.5 的 ssh 不支持 -- CMD，0.8.0 才有）。每条 ! 行独立 bash；素材名经 [A-Za-z0-9._-] 清洗后才拼入。目录先建后传：/content/asr_in、/content/asr_out。结果以远端 result.json 下载件为唯一可信源。",
+}
+
+
+def main():
+    ap = argparse.ArgumentParser(prog="colab-transcribe", description="Batch ASR on Google Colab GPU (turbo / Qwen3-ASR-1.7B)")
+    sub = ap.add_subparsers(dest="cmd")
+
+    p_plan = sub.add_parser("plan", help="只读预检：元数据、上传/耗时/CU 估算")
+    p_plan.add_argument("media", nargs="+")
+    p_plan.add_argument("--gpu", default=DEFAULT_GPU, choices=list(GPU_CU_PER_HR))
+    p_plan.add_argument("--engine", default="turbo", choices=list(ENGINES))
+    p_plan.add_argument("--model", default="large-v3-turbo",
+                        choices=["tiny", "base", "small", "medium", "large-v3-turbo", "large-v3"])
+    p_plan.add_argument("--language", default=None)
+
+    p_tr = sub.add_parser("transcribe", help="云端串行转写（上传需 --allow-upload）")
+    p_tr.add_argument("media", nargs="+")
+    p_tr.add_argument("--allow-upload", action="store_true")
+    p_tr.add_argument("--session", default=DEFAULT_SESSION)
+    p_tr.add_argument("--gpu", default=DEFAULT_GPU, choices=list(GPU_CU_PER_HR))
+    p_tr.add_argument("--engine", default="turbo", choices=list(ENGINES))
+    p_tr.add_argument("--model", default="large-v3-turbo",
+                      choices=["tiny", "base", "small", "medium", "large-v3-turbo", "large-v3"])
+    p_tr.add_argument("--language", default=None)
+    p_tr.add_argument("--output-dir", default=None)
+    p_tr.add_argument("--keep-session", action="store_true")
+
+    p_doc = sub.add_parser("doctor", help="本机依赖与认证自检")
+    p_doc.add_argument("--probe-remote", action="store_true", help="额外创建并回收一个 T4 探针会话")
+
+    sub.add_parser("help", help="帮助主题").add_argument("topic", nargs="?", default="")
+
+    args = ap.parse_args()
+    try:
+        if args.cmd == "plan":
+            result = cmd_plan(args)
+        elif args.cmd == "transcribe":
+            result = cmd_transcribe(args)
+        elif args.cmd == "doctor":
+            result = cmd_doctor(args)
+        elif args.cmd == "help":
+            topic = getattr(args, "topic", "")
+            print(json.dumps({"topic": topic or "topics", "content": HELP.get(topic, list(HELP))}, ensure_ascii=False))
+            return
+        else:
+            print(json.dumps({"status": "error", "error_code": "NO_COMMAND",
+                              "next_actions": ["colab-transcribe plan|transcribe|doctor|help"]}, ensure_ascii=False))
+            sys.exit(2)
+        print(json.dumps(result, ensure_ascii=False))
+        sys.exit(0 if result.get("status") in ("planned", "ok") or result.get("colab_auth") == "ok" else 1)
+    except TranscribeError as e:
+        print(json.dumps({"status": "error", "error_code": e.code, "detail": e.detail,
+                          "next_actions": e.next_actions}, ensure_ascii=False))
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

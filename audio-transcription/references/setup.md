@@ -2,7 +2,7 @@
 
 Use this branch only after the user explicitly asks to set up or repair local transcription.
 
-Local setup is supported only on macOS Apple Silicon (arm64). Other hosts must not run setup. Setup downloads pinned third-party model weights; licenses are listed in [NOTICE.md](../NOTICE.md).
+Local setup is supported only on macOS Apple Silicon (arm64). Other hosts must not run setup. Setup downloads pinned third-party model weights; licenses are listed in [NOTICE.md](../NOTICE.md). Cloud routes (Doubao, Colab) have no local setup; see [online-transcription.md](online-transcription.md) and [colab-transcription.md](colab-transcription.md).
 
 1. Run `scripts/manage-runtime inspect --json`.
    When the user explicitly wants persistent or external storage, first run

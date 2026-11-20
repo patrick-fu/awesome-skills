@@ -4,7 +4,8 @@ description: >-
   Transcribe or extract transcripts from local audio/video files. Use only when
   the user explicitly requests transcription or transcript extraction. Local
   offline transcription requires macOS Apple Silicon (arm64). Online Doubao
-  transcription uploads audio and requires explicit cloud/upload intent.
+  transcription and Colab GPU transcription upload audio and require explicit
+  cloud/upload intent.
 ---
 
 # Audio Transcription
@@ -21,8 +22,10 @@ description: >-
    `storage configure`，再继续 setup。此配置只保存路径，不迁移既有数据，也不构成上传授权。
 4. 普通转写：运行 `scripts/local-transcribe "<media>" --json`，再读取 manifest 指向的产物。
 5. 用户明确要求豆包、在线、云端或允许上传：读取 [online-transcription.md](references/online-transcription.md)。仅“双模型、并行、交叉验证”不构成上传授权。
-6. 需要核对多份结果：读取 [transcript-review.md](references/transcript-review.md)。
-7. CLI 给出的 `next_actions` 无法解决失败时，读取 [troubleshooting.md](references/troubleshooting.md)。
+6. 用户明确要求 Colab 或云端 GPU 批量转写：读取 [colab-transcription.md](references/colab-transcription.md)。
+   上传需显式授权（`--allow-upload`）；引擎按该 reference 的场景路由规则选择，不暴露为用户选项。
+7. 需要核对多份结果：读取 [transcript-review.md](references/transcript-review.md)。
+8. CLI 给出的 `next_actions` 无法解决失败时，读取 [troubleshooting.md](references/troubleshooting.md)。
 
 ## 事实源
 

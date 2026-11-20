@@ -42,3 +42,14 @@ The Doubao / Volcengine speech API (`volc.seedasr.auc`, 豆包录音文件识别
 2.0) is a proprietary cloud service. This skill does not redistribute that
 model. When the online worker runs, it uploads a converted copy of the selected
 audio to Doubao/Volcengine. Use it only after explicit cloud/upload consent.
+
+## Colab service
+
+The Colab branch runs open models on a user-owned Google Colab session via
+`google-colab-cli`: `SYSTRAN/faster-whisper` ports of Whisper
+(`large-v3-turbo`/`large-v3`, MIT, model cards MIT) and `Qwen/Qwen3-ASR-1.7B`
+with the `qwen-asr` package (Apache-2.0). The VM installs these packages from
+PyPI at run time; they are not bundled here. Media uploaded to a Colab VM is
+processed by Google's infrastructure under the user's own Colab terms — same
+consent rule as the Doubao branch: explicit cloud/upload consent only. Colab
+compute units are paid quota.

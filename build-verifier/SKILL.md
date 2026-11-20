@@ -53,8 +53,18 @@ broader audits; a full audit also checks for unmapped features.
 Re-drive changed recipes against the real artifact. Stop when the correction is
 proved, no drift is established, or a concrete blocker remains.
 
+## Statechart coverage
+
+When verifying a stateful flow (lifecycle transitions, CLI modes, auth/checkout,
+sync pipelines, or multi-step UI workflows), define a minimal transition table
+(`initial -> action -> expected_state`) covering invalid/rejected transitions as
+well as happy paths. Execute and record each transition individually as `PASS`,
+`FAIL`, or `UNVERIFIED` with observed output rather than reporting an aggregate
+pass.
+
 ## Report
 
-Report changes, actual commands/results, retained evidence and coverage gaps.
-An unexecuted path remains unverified; blocked execution leaves an explicit
-draft or partial result. Preserve invocation policy when maintaining a verifier.
+Report changes, actual commands/results, per-transition status (`PASS`/`FAIL`/
+`UNVERIFIED`), retained evidence and coverage gaps. An unexecuted path remains
+unverified; blocked execution leaves an explicit draft or partial result.
+Preserve invocation policy when maintaining a verifier.

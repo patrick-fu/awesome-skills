@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "runtime_version": "2026-11-20-r1",
+  "python": "3.12",
+  "requirements_in": "requirements.in",
+  "minimum_memory_gib": 16,
+  "estimated_disk_gib": 4.64,
+  "estimated_peak_gpu_gib": 6.5,
+  "models": {
+    "tts": {
+      "repo": "mlx-community/Qwen3-TTS-12Hz-1.7B-CustomVoice-8bit",
+      "revision": "41d3337e8b7f2843a75841595fc14e4b9a7a4b96",
+      "license": "Apache-2.0",
+      "estimated_mib": 2950
+    },
+    "aligner": {
+      "repo": "mlx-community/Qwen3-ForcedAligner-0.6B-8bit",
+      "revision": "0e1a68e91d815300c7c9754b2a7639378b23db15",
+      "license": "Apache-2.0",
+      "estimated_mib": 1232
+    }
+  }
+}

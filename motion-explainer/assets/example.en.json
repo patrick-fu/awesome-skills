@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "title": "How a Cache Skips a Database Query",
+  "language": "en-US",
+  "scenes": [
+    {
+      "id": "intro",
+      "layout": "title",
+      "title": "Why the second\nrequest is faster",
+      "beats": [
+        {
+          "narration": "A cache turns repeated database lookups into an instant memory read.",
+          "pause_ms": 420
+        }
+      ]
+    },
+    {
+      "id": "cache-flow",
+      "layout": "flow",
+      "title": "First request: check, query, save",
+      "items": [
+        "📨 Request",
+        "📦 Cache",
+        "🗄️ Database"
+      ],
+      "beats": [
+        {
+          "narration": "On the first request, the cache is empty. The service queries the database, returns the answer, and saves a copy so the next request hits the cache immediately.",
+          "pause_ms": 480,
+          "focus": [0],
+          "show": 1,
+          "anchors": [
+            {"word": "cache", "occurrence": 1, "focus": [1], "show": 2},
+            {"word": "database", "focus": [2], "show": 3},
+            {"word": "saves", "focus": [1]},
+            {"word": "immediately", "focus": [1]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "closing",
+      "layout": "title",
+      "title": "Editable script,\nsynced motion.",
+      "beats": [
+        {
+          "narration": "Keep the storyboard and player files so both voice and visuals stay easy to revise.",
+          "pause_ms": 600
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,6 @@
   "version": 1,
   "title": "让解释真正动起来",
   "language": "zh-CN",
-  "voice": "zh_female_tianmeitaozi_uranus_bigtts",
   "scenes": [
     {
       "id": "idea",
@@ -22,39 +21,19 @@
       "items": [
         "📝 分镜",
         "🎨 画面",
-        "🍑 声音",
+        "🎙️ 声音",
         "🎬 成片"
       ],
       "beats": [
         {
           "narration": "先写好分镜，每一段只讲一件事。再让画面逐步展开，把关系连起来。自然旁白，衔接每一次画面变化。最后把画面和声音，合成一段视频。",
           "pause_ms": 480,
-          "focus": [
-            0
-          ],
+          "focus": [0],
           "show": 1,
           "anchors": [
-            {
-              "word": "画面",
-              "focus": [
-                1
-              ],
-              "show": 2
-            },
-            {
-              "word": "自然旁白",
-              "focus": [
-                2
-              ],
-              "show": 3
-            },
-            {
-              "word": "合成",
-              "focus": [
-                3
-              ],
-              "show": 4
-            }
+            {"word": "画面", "focus": [1], "show": 2},
+            {"word": "自然旁白", "focus": [2], "show": 3},
+            {"word": "合成", "focus": [3], "show": 4}
           ]
         }
       ]
@@ -68,22 +47,10 @@
         {
           "narration": "旁白写在这里，画面就有了节奏。焦点跟随旁白，在画面之间移动。下一步出现什么，也由分镜决定。",
           "pause_ms": 450,
-          "focus": [
-            1
-          ],
+          "focus": [1],
           "anchors": [
-            {
-              "word": "焦点",
-              "focus": [
-                2
-              ]
-            },
-            {
-              "word": "下一步",
-              "focus": [
-                3
-              ]
-            }
+            {"word": "焦点", "focus": [2]},
+            {"word": "下一步", "focus": [3]}
           ]
         }
       ]

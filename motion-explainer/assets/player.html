@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Animatic</title>
+  <title>Motion Explainer</title>
   <style>
-    /* animatic-fonts */
+    /* motion-explainer-fonts */
     :root { color-scheme: light; --ink: #202723; --muted: #687069; --accent: #ffe066; --path: #1769c2; --paper: #f8f7f2; }
     * { box-sizing: border-box; }
     html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: var(--paper); }
-    body { font-family: "Animatic Hand", "Kaiti SC", "STKaiti", "PingFang SC", serif; color: var(--ink); }
+    body { font-family: "Motion Hand", "Animatic Hand", "Kaiti SC", "STKaiti", "PingFang SC", Georgia, serif; color: var(--ink); }
     #stage { width: 1280px; height: 720px; transform-origin: top left; position: relative; overflow: hidden; background: radial-gradient(#20272312 1px, transparent 1px) 0 0 / 24px 24px, var(--paper); }
     .scene { position: absolute; inset: 68px 76px 112px; transform-origin: 50% 45%; }
     .accent { width: 72px; height: 7px; border-radius: 3px 8px 4px 6px; background: var(--accent); transform-origin: left; rotate: -1deg; margin-bottom: 24px; }
@@ -243,7 +243,7 @@
       }
     }
 
-    window.animatic = {
+    window.motionExplainer = {
       load(data) {
         storyboard = data.storyboard;
         timeline = data.timeline;
@@ -353,6 +353,7 @@
         return [...new Set(errors)];
       }
     };
+    window.animatic = window.motionExplainer;
     document.fonts.addEventListener('loadingdone', () => { captionBeat = -1; });
   </script>
 </body>

@@ -56,6 +56,20 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 任何页面、报告、讲解页、工作台或 deck 想用这套风格时加载它。
 
+#### 🎬 [`motion-explainer`](./motion-explainer/SKILL.md)
+
+把概念讲解、代码变更或参考材料编排为可编辑分镜，再导出带配音、逐词同步字幕和纸笔白板
+连续动画的讲解视频（`video.mp4`）。分镜、画面模板、音频与字词时间全部保留为可修改源文件。
+
+完全自闭环、不依赖其他 Skill：内置豆包 Seed-TTS 2.0 注册配置引导（默认首推最佳效果）、
+可选 Apple Silicon 本地离线 MLX 链路（`Qwen3-TTS 1.7B` + `Qwen3-ForcedAligner 0.6B`）、
+免 Key 跨平台在线 `edge-tts` 以及已有录音导入。成片语言以用户显式声明为准，否则跟随对话
+语言推断；正式合成与渲染前会统一与用户确认模型、版面、制作思路和最终语言。
+
+MIT 仅覆盖本 Skill 自身代码与模板。内置 LXGW WenKai Lite 字体（SIL OFL 1.1）、可选
+Qwen3 模型（Apache-2.0）与在线语音服务仍适用各自许可证与条款，详见
+[`NOTICE.md`](./motion-explainer/NOTICE.md)。
+
 ### 🧠 知识与记忆
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.zh-CN.md)

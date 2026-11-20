@@ -62,6 +62,23 @@ diagrams.
 Load it whenever a page, report, explainer, workbench, or deck should use this
 style.
 
+#### 🎬 [`motion-explainer`](./motion-explainer/SKILL.md)
+
+Turn concepts, code changes, or supplied material into narrated animated
+explainer videos (`video.mp4`) backed by editable storyboards, progressive
+reveals, word-synced captions, and built-in paper-whiteboard visuals.
+
+Self-contained with no dependency on other skills: guides setup for Doubao
+Seed-TTS 2.0 (recommended for best voice quality and cross-beat continuity),
+supports an optional offline Apple Silicon MLX runtime (`Qwen3-TTS 1.7B` +
+`Qwen3-ForcedAligner 0.6B`), zero-key online `edge-tts`, or supplied audio.
+Matches explicit or conversation language and aligns on model, layout, story,
+and language before spending synthesis or render time.
+
+MIT covers this skill's own code and templates. Bundled LXGW WenKai Lite fonts
+(SIL OFL 1.1), optional Qwen3 models (Apache-2.0), and online speech services
+keep their own licenses and terms; see [`NOTICE.md`](./motion-explainer/NOTICE.md).
+
 ### 🧠 Knowledge and memory
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.md)

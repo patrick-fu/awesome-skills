@@ -2,7 +2,6 @@
   "version": 1,
   "title": "缓存怎样省下一次查询",
   "language": "zh-CN",
-  "voice": "zh_female_tianmeitaozi_uranus_bigtts",
   "scenes": [
     {
       "id": "cache",
@@ -20,38 +19,11 @@
           "focus": [],
           "show": 1,
           "anchors": [
-            {
-              "word": "请求",
-              "focus": [
-                0
-              ]
-            },
-            {
-              "word": "缓存",
-              "focus": [
-                1
-              ],
-              "show": 2
-            },
-            {
-              "word": "数据库",
-              "focus": [
-                2
-              ],
-              "show": 3
-            },
-            {
-              "word": "取回来",
-              "focus": [
-                1
-              ]
-            },
-            {
-              "word": "存一份",
-              "focus": [
-                1
-              ]
-            }
+            {"word": "请求", "focus": [0]},
+            {"word": "缓存", "focus": [1], "show": 2},
+            {"word": "数据库", "focus": [2], "show": 3},
+            {"word": "取回来", "focus": [1]},
+            {"word": "存一份", "focus": [1]}
           ]
         }
       ]

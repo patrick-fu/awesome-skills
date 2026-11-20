@@ -1,6 +1,6 @@
 interface:
-  display_name: "Animatic"
-  short_description: "Create Chinese explainers with narration and paper animation"
-  default_prompt: "用 $animatic 制作甜美桃子配音、纸笔画面与连续动画的中文讲解视频。"
+  display_name: "Motion Explainer"
+  short_description: "Create narrated explainer videos with synced paper motion"
+  default_prompt: "Use $motion-explainer to make an animated explainer video."
 policy:
   allow_implicit_invocation: false

@@ -9,6 +9,7 @@ import base64
 import copy
 import json
 import math
+import os
 from pathlib import Path
 import re
 import shutil
@@ -18,17 +19,26 @@ import tempfile
 
 
 ASSETS = Path(__file__).resolve().parents[1] / "assets"
+VALID_PROVIDERS = {"auto", "doubao", "qwen3-mlx", "edge", "supplied"}
 
 
 def bundle_player(source, target):
     html = source.read_text(encoding="utf-8")
-    if "/* animatic-fonts */" in html:
+    placeholder = next((tag for tag in ["/* motion-explainer-fonts */", "/* animatic-fonts */"] if tag in html), None)
+    if placeholder:
         fonts = ASSETS / "fonts"
         css = ["/*\n" + (fonts / "OFL.txt").read_text(encoding="utf-8") + "\n*/"]
         for name in ["lxgw-wenkai-lite-latin.woff2", "lxgw-wenkai-lite-cjk-common.woff2"]:
             encoded = base64.b64encode((fonts / name).read_bytes()).decode("ascii")
-            css.append('@font-face{font-family:"Animatic Hand";src:url("data:font/woff2;base64,' + encoded + '") format("woff2");font-weight:400;font-style:normal;font-display:block}')
-        html = html.replace("/* animatic-fonts */", "\n".join(css))
+            css.append(
+                '@font-face{font-family:"Motion Hand";src:url("data:font/woff2;base64,' + encoded +
+                '") format("woff2");font-weight:400;font-style:normal;font-display:block}'
+            )
+            css.append(
+                '@font-face{font-family:"Animatic Hand";src:url("data:font/woff2;base64,' + encoded +
+                '") format("woff2");font-weight:400;font-style:normal;font-display:block}'
+            )
+        html = html.replace(placeholder, "\n".join(css))
     target.write_text(html, encoding="utf-8")
 
 
@@ -83,6 +93,10 @@ def read_storyboard(path):
     for key in ["language", "voice"]:
         if key in board and (not isinstance(board[key], str) or not board[key].strip()):
             raise ValueError(f"{key} must be a non-empty string")
+    if "speech_provider" in board:
+        provider = board["speech_provider"]
+        if not isinstance(provider, str) or provider not in VALID_PROVIDERS:
+            raise ValueError(f"speech_provider must be one of: {', '.join(sorted(VALID_PROVIDERS))}")
     tts_command = board.get("tts_command")
     if tts_command is not None:
         if not isinstance(tts_command, list) or not tts_command or any(not isinstance(arg, str) or not arg for arg in tts_command):
@@ -169,8 +183,9 @@ def read_storyboard(path):
 
 def doctor():
     from playwright.sync_api import sync_playwright
+    import manage_runtime
 
-    result = {"tools": {tool: shutil.which(tool) for tool in ["ffmpeg", "ffprobe", "say"]}}
+    result = {"tools": {tool: shutil.which(tool) for tool in ["uv", "ffmpeg", "ffprobe", "say"]}}
     with sync_playwright() as playwright:
         try:
             browser = playwright.chromium.launch()
@@ -178,8 +193,20 @@ def doctor():
             browser.close()
         except Exception as exc:
             result["renderer_error"] = str(exc).splitlines()[0]
+    doubao_ready = bool(os.environ.get("DOUBAO_APPID") and os.environ.get("DOUBAO_ACCESS_TOKEN"))
+    qwen_info = manage_runtime.inspect_host()
+    result["speech_providers"] = {
+        "doubao": {"ready": doubao_ready, "note": "Volcengine Seed-TTS 2.0 (recommended; requires DOUBAO_APPID and DOUBAO_ACCESS_TOKEN)"},
+        "qwen3-mlx": {
+            "ready": qwen_info["status"] == "READY",
+            "status": qwen_info["status"],
+            "apple_silicon": qwen_info["platform"]["apple_silicon"],
+            "unified_memory_gib": qwen_info["unified_memory_gib"],
+        },
+        "edge": {"ready": bool(result["tools"]["uv"]), "note": "Zero-key online Microsoft Edge TTS (unofficial; explicit opt-in)"},
+        "macos_say": {"ready": bool(result["tools"]["say"]), "note": "Local fallback without word timestamps"},
+    }
     result["ready"] = all(result["tools"][tool] for tool in ["ffmpeg", "ffprobe"]) and "renderer" in result
-    result["speech"] = "configured tts_command, supplied audio, or macOS say" if result["tools"]["say"] else "configured tts_command or supplied audio"
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result["ready"] else 1
 
@@ -196,7 +223,7 @@ def make_audio(board, source, root, fps):
     (root / "audio").mkdir()
     timeline = []
     bundled = copy.deepcopy(board)
-    voice = board.get("voice") or ("Tingting" if board.get("language", "zh-CN").startswith("zh") else "Samantha")
+    voice = board.get("voice") or ("Tingting" if board.get("language", "en-US").lower().startswith("zh") else "Samantha")
     cursor = 0
     for scene_index, scene in enumerate(board["scenes"]):
         for beat_index, beat in enumerate(scene["beats"]):
@@ -220,7 +247,7 @@ def make_audio(board, source, root, fps):
                         raise RuntimeError(f"TTS {name} ({voice}): {exc}") from None
                 else:
                     if not shutil.which("say"):
-                        raise RuntimeError("macOS say is unavailable; configure tts_command or supply audio")
+                        raise RuntimeError("macOS say is unavailable; run prepare_speech.py, configure tts_command, or supply audio")
                     original = root / f"{name}.aiff"
                     run(["say", "-v", voice, "-r", str(board.get("speech_rate", 180)), "-f", str(text), "-o", str(original)])
             info = media_info(original)
@@ -267,18 +294,18 @@ def render(board, timeline, root, player, width, fps):
             page.on("pageerror", lambda error: errors.append(str(error)))
             page.route("**/*", lambda route: route.abort())
             page.set_content(player.read_text(encoding="utf-8"))
-            page.evaluate("data => window.animatic.load(data)", {"storyboard": board, "timeline": timeline, "width": width})
+            page.evaluate("data => (window.motionExplainer || window.animatic).load(data)", {"storyboard": board, "timeline": timeline, "width": width})
             page.evaluate("() => document.fonts.ready")
             for beat in timeline:
                 midpoint = (beat["start"] + beat["end"]) / 2
-                page.evaluate("t => window.animatic.seek(t, true)", midpoint)
-                issues = page.evaluate("() => window.animatic.audit()")
+                page.evaluate("t => (window.motionExplainer || window.animatic).seek(t, true)", midpoint)
+                issues = page.evaluate("() => (window.motionExplainer || window.animatic).audit()")
                 if issues or errors:
                     raise RuntimeError(f"{beat['scene_id']}/{beat['beat']}: {issues + errors}")
                 page.screenshot(path=str(root / beat["frame"]))
                 for moment in [beat["start"] + min(0.35, (beat["end"] - beat["start"]) / 2), beat["end"] - 1 / fps]:
-                    page.evaluate("t => window.animatic.seek(t, false)", moment)
-                    issues = page.evaluate("() => window.animatic.audit()")
+                    page.evaluate("t => (window.motionExplainer || window.animatic).seek(t, false)", moment)
+                    issues = page.evaluate("() => (window.motionExplainer || window.animatic).audit()")
                     if issues or errors:
                         raise RuntimeError(f"{beat['scene_id']}/{beat['beat']} at {moment:.3f}s: {issues + errors}")
             with (root / "encode.log").open("w") as log:
@@ -294,7 +321,7 @@ def render(board, timeline, root, player, width, fps):
                     for beat in timeline:
                         print(f"render {beat['scene_id']}/{beat['beat']}: {beat['frames']} frames", flush=True)
                         for _ in range(beat["frames"]):
-                            page.evaluate("t => window.animatic.seek(t, false)", frame_index / fps)
+                            page.evaluate("t => (window.motionExplainer || window.animatic).seek(t, false)", frame_index / fps)
                             process.stdin.write(page.screenshot(type="png"))
                             frame_index += 1
                         if errors:
@@ -349,6 +376,14 @@ def verify(root):
     return {"ok": True, "duration": expected, "frames": manifest["frames"], "beats": len(timeline), "video": str(root / "video.mp4")}
 
 
+def owned_directory(root: Path) -> bool:
+    for name, expected in [(".motion-explainer", "motion-explainer-v1\n"), (".animatic", "animatic-v1\n")]:
+        marker = root / name
+        if marker.is_file() and marker.read_text(encoding="utf-8") == expected:
+            return True
+    return False
+
+
 def build(args):
     source = args.storyboard.resolve()
     board = read_storyboard(source)
@@ -357,11 +392,10 @@ def build(args):
             if (beat.get("delivery") and "audio" not in beat) or (beat.get("anchors") and not beat.get("cues")):
                 raise ValueError("delivery and anchors require prepared speech; run prepare_speech.py first")
     root = args.out.resolve()
-    marker = root / ".animatic"
-    if root.exists() and any(root.iterdir()) and not (marker.is_file() and marker.read_text() == "animatic-v1\n"):
-        raise ValueError("output directory must be empty or owned by animatic (.animatic marker)")
+    if root.exists() and any(root.iterdir()) and not owned_directory(root):
+        raise ValueError("output directory must be empty or owned by motion-explainer (.motion-explainer marker)")
     root.mkdir(parents=True, exist_ok=True)
-    marker.write_text("animatic-v1\n")
+    (root / ".motion-explainer").write_text("motion-explainer-v1\n", encoding="utf-8")
     player = (args.player or ASSETS / "player.html").resolve()
     with tempfile.TemporaryDirectory(prefix=".build-", dir=root) as temporary:
         staging = Path(temporary)
@@ -375,7 +409,9 @@ def build(args):
             "version": 1, "title": board["title"], "width": args.width, "height": args.width * 9 // 16,
             "fps": args.fps, "frames": sum(beat["frames"] for beat in timeline), "duration": timeline[-1]["end"],
             "speech": sorted({"supplied audio" if "audio" in beat else "configured TTS command" if board.get("tts_command") else "macOS say" for scene in board["scenes"] for beat in scene["beats"]}),
+            "speech_provider": board.get("speech_provider"),
             "voice": board.get("voice"),
+            "language": board.get("language"),
             "renderer": "playwright==1.65.1",
         })
         result = verify(staging)
@@ -417,7 +453,7 @@ def main():
             print(json.dumps(verify(args.out.resolve()), ensure_ascii=False, indent=2))
         return 0
     except (ValueError, KeyError, OSError, RuntimeError, subprocess.SubprocessError) as exc:
-        print(f"animatic: {exc}", file=sys.stderr)
+        print(f"motion-explainer: {exc}", file=sys.stderr)
         return 1
 
 

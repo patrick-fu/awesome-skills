@@ -18,7 +18,23 @@ import wave
 
 
 DEFAULT_VOICE = "zh_female_tianmeitaozi_uranus_bigtts"
+DEFAULT_EN_VOICE = "en_female_myra_cmb_uranus_bigtts"
 DEFAULT_INSTRUCTION = "自然口语，短句讲清因果，重点词稍加重，句尾落稳"
+DEFAULT_EN_INSTRUCTION = "Warm, natural conversational explainer tone, clear pacing with gentle emphasis on key words."
+
+
+def default_voice_for_language(language: str = "zh-CN") -> str:
+    lang = (language or "zh-CN").lower()
+    if lang.startswith("en"):
+        return DEFAULT_EN_VOICE
+    return DEFAULT_VOICE
+
+
+def default_instruction_for_language(language: str = "zh-CN") -> str:
+    lang = (language or "zh-CN").lower()
+    if lang.startswith("zh"):
+        return DEFAULT_INSTRUCTION
+    return DEFAULT_EN_INSTRUCTION
 
 
 def synthesize(text, voice, output, *, instruction=DEFAULT_INSTRUCTION, speed=1.0, timestamps=None,
@@ -43,7 +59,7 @@ def synthesize(text, voice, output, *, instruction=DEFAULT_INSTRUCTION, speed=1.
         "X-Api-Request-Id": str(uuid.uuid4()),
     }
     payload = {
-        "user": {"uid": "animatic"},
+        "user": {"uid": "motion-explainer"},
         "req_params": {
             "text": text,
             "speaker": voice,
@@ -118,11 +134,12 @@ def synthesize(text, voice, output, *, instruction=DEFAULT_INSTRUCTION, speed=1.
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Synthesize speech with the billable Volcengine TTS 2.0 API")
+    parser = argparse.ArgumentParser(description="Synthesize speech with the billable Volcengine Seed-TTS 2.0 API")
     parser.add_argument("--text-file", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--voice", default=DEFAULT_VOICE)
-    parser.add_argument("--instruction", default=DEFAULT_INSTRUCTION)
+    parser.add_argument("--language", default="zh-CN")
+    parser.add_argument("--voice")
+    parser.add_argument("--instruction")
     parser.add_argument("--section-id", help="Shared context ID for serial synthesis requests")
     parser.add_argument("--speed", type=float, default=1.0)
     parser.add_argument("--timestamps", type=Path)
@@ -130,7 +147,9 @@ def main():
     args = parser.parse_args()
     try:
         text = args.text_file.read_text(encoding="utf-8").strip()
-        result = synthesize(text, args.voice, args.output, instruction=args.instruction, speed=args.speed,
+        voice = args.voice or default_voice_for_language(args.language)
+        instruction = args.instruction if args.instruction is not None else default_instruction_for_language(args.language)
+        result = synthesize(text, voice, args.output, instruction=instruction, speed=args.speed,
                             timestamps=args.timestamps, audio_format=args.format, section_id=args.section_id)
         print(json.dumps(result, ensure_ascii=False))
         return 0

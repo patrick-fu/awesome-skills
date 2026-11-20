@@ -1,105 +1,85 @@
 ---
-name: animatic
+name: motion-explainer
 description: >-
-  Produce narrated explainer videos with editable storyboards, progressive
-  reveals, continuous animation and MP4 export. Trigger on animatics or
-  animated explanations of concepts, code changes or supplied material.
+  Produce narrated animated explainer videos from editable storyboards with
+  progressive reveals, word-synced captions, continuous paper-whiteboard
+  motion, and MP4 export. Self-contained with cloud Doubao 2.0, local offline
+  Qwen3-TTS MLX, zero-key Edge TTS, or supplied audio. Trigger when explicitly
+  requested for animated video explainers of concepts, code changes, or
+  supplied material.
 disable-model-invocation: true
 ---
 
-# Animatic
+# Motion Explainer
 
-把解释编排为可修改的分镜，再生成带旁白的视频。内容、画面和时序都保留为源文件。
+Turn an explanation into an editable storyboard, synced voiceover, and rendered MP4 video. Storyboards, visual templates, word timings, and audio stay editable for iteration. This skill is self-contained and does not depend on any other skill.
 
-默认用中文讲解：旁白、字幕、标题与图中标签使用简体中文，技术名称保留原名。
-材料和技能说明的语言不改变成片语言。默认配音为火山语音合成 2.0 的
-**甜美桃子 2.0**：`zh_female_tianmeitaozi_uranus_bigtts`，资源 `seed-tts-2.0`。
-用户明确指定其他语言、音色或已有录音时按其选择执行；服务失败时停止并报告。
+## Language Selection
 
-## 内容与分镜
+Determine the video language (narration, captions, titles, and diagram labels) in this exact order:
 
-沿用用户的受众和用途；信息不足时，从已有材料推断一个小范围样例。
-影响内容方向的未知项用普通对话询问。解释代码变更时先核实实际行为与证据，
-概念讲解则先确定读者需要理解的机制。视频的长度由讲清楚所需的内容决定。
+1. **Explicit user declaration wins**: if the user asks for a specific language (for example, "make an English explainer" or "做一个中文视频"), follow it. Keep technical identifiers and code symbols in their original form.
+2. **Infer from the conversation language**: when the user does not specify a video language, match the language the user is speaking in chat (Chinese conversation → Chinese; English, Japanese, Spanish, Korean, etc. → that inferred language). Do not let the language of source materials silently override the user's conversation language.
+3. **Confirm in the pre-build snapshot**: state the chosen language explicitly before generating audio or rendering video.
 
-每个场景围绕一个意思，每段旁白讲清一个完整意群，可包含多句话和多个画面动作。画面承担关系、
-顺序或代码定位，旁白解释原因；屏幕上只放理解所需的内容。
-根据真实材料编排，保留影响结论的条件与未知项。
+## Pre-Production Alignment & Mandatory Confirmation Gate
 
-已有成片参考时，核对配音来源、显现节奏、连续动作与构图，并将这些观看效果
-纳入验收。制作链路通过后，继续检查声音和画面的实际表现。
+Inspect discoverable facts first: supplied documents, code, git diffs, existing storyboards, and available speech backends (`scripts/motion_explainer.py doctor`). Ask only unresolved unknowns that materially change the story or visual approach, in plain chat text (do not call structured form/multiple-choice question tools).
 
-同一场景通过逐步显现、连线和焦点移动展开，主题改变时再切换场景。
-先确定完整构图，再用各段的 `show` 控制显现数量，保留已出现元素的位置。
-旁白按完整段落串行合成，通过共享上下文延续讲述状态。保持全片基准语速与语气一致，
-用自然重音和停顿形成抑扬顿挫；画面的显现、高亮和切镜跟随字词时间戳。
+**Hard gate before any speech synthesis or video rendering** (generation incurs cloud API cost or local compute time): present one compact confirmation snapshot and wait for user approval before running `prepare_speech.py` or `motion_explainer.py build`:
 
-默认画面采用纸笔工程白板：浅纸底、墨色手绘线条、黄色重点、少量语义 emoji。
-阅读 [画面与动作](references/visuals.md)，按内容选择构图和动作；
-保留视觉语言的一致性，流程、对照、时间线和代码讲解各用合适的布局。
+- **Voice & TTS engine**: selected provider (`doubao`, `qwen3-mlx`, `edge`, `supplied`, or `macos_say`), recommended voice ID, online vs offline status, and billing/character-count notice when using a cloud API. If no speech backend is configured yet, enter the [Setup Guide](references/setup.md) branch first.
+- **Visual layout & density**: default paper-whiteboard layouts (`title` / `flow` / `code`) or custom `player.html` scenes, low-density pacing plan, resolution/FPS, and output directory.
+- **Production approach & story outline**: target audience, core causal mechanism to make clear, estimated duration, and scene-by-scene breakdown.
+- **Final language**: explicitly declared or inferred language.
 
-按 [分镜契约](references/storyboard.md) 写 JSON。
-可从 [中文样例](assets/example.zh.json) 起步；样例已指定甜美桃子与中文旁白。
-默认渲染器包含标题错落入场、流程逐步显现与连线绘制、焦点滑动、代码行显现、
-镜头缓慢推进与场景转场；带字词时间戳时支持逐词字幕和关键词触发的焦点移动。
-内容需要其他构图时修改 `player.html`，
-保留其 `window.animatic` 契约。
+Small visual-only revisions that reuse existing cached audio do not require re-billing TTS; still confirm before re-synthesizing voiceover.
 
-## 本地制作
+## Speech Routing & Setup Branch
 
-以下路径相对于本技能目录，执行时换成已解析的绝对路径：
+Choose the speech backend in priority order based on what the host has ready and what the user approves. Voice recommendations in [Voice Guide](references/voices.md) are priority-ordered suggestions, never mandatory locks—any voice supported by the chosen engine or user-supplied recording is allowed.
+
+1. **Doubao / Volcengine Seed-TTS 2.0 (`doubao`, recommended for best quality)**:
+   - Best naturalness, serial cross-beat continuity (`section_id`), delivery instructions, and native word timestamps; near-zero local disk/RAM cost; billed per character via `DOUBAO_APPID` and `DOUBAO_ACCESS_TOKEN`.
+   - When credentials are not configured yet, guide the user through [references/setup.md](references/setup.md) so they can register and configure Doubao Seed-TTS 2.0 for the best result. If they prefer not to set up a cloud API, fall back cleanly to local or zero-key options below.
+2. **Local Offline MLX (`qwen3-mlx`, macOS Apple Silicon 16 GB+ recommended)**:
+   - Runs `Qwen3-TTS 1.7B (8-bit)` and `Qwen3-ForcedAligner 0.6B (8-bit)` sequentially in separate processes so GPU memory never stacks (~6.5 GB peak GPU RAM, ~4.64 GB total disk, Apache 2.0 weights), with automatic `ffmpeg loudnorm` loudness normalization and full word-level sync.
+   - Check readiness with `scripts/manage_runtime.py inspect --json`. On `SETUP_REQUIRED`, read [references/setup.md](references/setup.md), report disk size, memory requirements, and storage path (external disk supported via `storage configure`), and run `manage_runtime.py setup` **only after explicit user approval**.
+3. **Zero-Key Online Quick-Try (`edge`, cross-platform)**:
+   - Uses unofficial Microsoft Edge Read Aloud (`edge-tts==7.3.1`, ~7 MB uv cache) with `WordBoundary` timestamps. Requires explicit user opt-in because narration text is sent to Microsoft and latency/availability have no SLA.
+4. **Zero-Dependency Fallback (`supplied` / `macos_say`)**:
+   - Reuse user-supplied recordings (optionally aligned via `--align-supplied` when local Qwen3 MLX runtime is installed), or fall back to macOS `say` (no word timestamps).
+
+## Content, Storyboard & Visuals
+
+- One main idea per scene; write each `narration` beat as a complete semantic unit (may contain multiple sentences) and trigger visual focus/reveal shifts inside the beat with `anchors` / `cues`.
+- Keep on-screen density low: show only what the viewer needs to grasp the relationship, sequence, or code line while narration explains *why*. Reuse the same set of objects across beats to show before/after state changes rather than packing dense multi-paragraph cards.
+- Read [Visual Language & Motion](references/visuals.md) for the built-in paper-and-ink whiteboard style, embedded handwritten fonts, semantic emoji rules, and density checks.
+- Follow [Storyboard & Rendering Contract](references/storyboard.md) for JSON schema, multi-provider speech preparation, cache safety, and custom `player.html` (`window.motionExplainer`). Starter examples live in [assets/example.zh.json](assets/example.zh.json), [assets/example.en.json](assets/example.en.json), and [assets/example.rhythm.zh.json](assets/example.rhythm.zh.json).
+
+## Local Production Commands
+
+Resolve relative paths against this skill directory before executing:
 
 ```bash
-uv run --no-project scripts/animatic.py doctor
-uv run --no-project scripts/animatic.py validate /path/to/storyboard.json
-uv run --no-project scripts/prepare_speech.py /path/to/storyboard.json --out /path/to/artifacts/speech
-uv run --no-project scripts/animatic.py build /path/to/artifacts/speech/storyboard.json --out /path/to/artifacts/video --fps 30
-uv run --no-project scripts/animatic.py verify /path/to/artifacts/video
+uv run --no-project scripts/motion_explainer.py doctor
+uv run --no-project scripts/motion_explainer.py validate /path/to/storyboard.json
+uv run --no-project scripts/prepare_speech.py /path/to/storyboard.json --out /path/to/artifacts/speech --provider auto
+uv run --no-project scripts/motion_explainer.py build /path/to/artifacts/speech/storyboard.json --out /path/to/artifacts/video --fps 30
+uv run --no-project scripts/motion_explainer.py verify /path/to/artifacts/video
 ```
 
-依赖为 `uv`、`ffmpeg`、`ffprobe` 和 Playwright 的 headless Chromium；
-Python 依赖由脚本声明。缺少渲染浏览器时执行：
+Host requirements: `uv`, `ffmpeg`, `ffprobe`, and Playwright's headless Chromium shell. Install the headless renderer if `doctor` reports it missing:
 
 ```bash
 uv run --no-project --with playwright==1.65.1 python -m playwright install chromium --only-shell
 ```
 
-默认使用 `prepare_speech.py` 准备甜美桃子配音和字词时间戳，凭据使用环境变量
-`DOUBAO_APPID`、`DOUBAO_ACCESS_TOKEN`。这是官方计费接口；合成前说明本次文本量，
-沿用已有授权。已确认的音色与音频可直接复用，新选音色先用一句旁白试听。
-替代服务的 `tts_command`、已有录音与本机语音配置见
-[分镜契约](references/storyboard.md#配音工具)，仅在选择该方案时使用。
+Keep source artifacts (`storyboard.json`, `player.html`, `timeline.json`, per-beat audio, `captions.srt`) in a dedicated output directory owned by this tool (`.motion-explainer` marker). When editing only visuals or pauses, re-run `prepare_speech.py` on the same speech output directory to reuse cached audio offline with zero synthesis calls. Pass `--player /path/to/player.html` to build with custom scene layouts.
 
-需要抑扬顿挫或词与画面同步时，按完整意群写 `narration`，用 `anchors` 安排段内多个
-焦点或显现动作。默认沿用统一语气与语速；确需改变演绎时设置 `delivery.instruction`、
-`delivery.speed`，段间额外停顿用 `pause_ms`。
-参考 [节奏配音样例](assets/example.rhythm.zh.json) 与
-[逐段演绎契约](references/storyboard.md#逐段演绎与关键词同步)。
-先准备并核对声音，再按实际时间戳编排动作；变更画面复用音频。
-准备器在同一次制作中串行共享 `section_id`，完整缓存可离线复用。部分失败、缺段或
-旁白顺序变化时使用新目录重做连续旁白；本地音频缓存不会恢复服务端历史。
-缓存细节与已有录音的边界见[逐段演绎契约](references/storyboard.md#逐段演绎与关键词同步)。
-语气指令影响生成结果，不能保证词语在指定毫秒发声。段尾静音按毫秒配置，
-导出时间向上对齐到视频帧；30 fps 的一帧约为 33.3 毫秒。
+## Verification & Delivery
 
-联网 TTS 会发送段落文本，沿用已选服务和音色。个人声纹使用明确授权的样本或
-已有 voice ID；密钥通过环境变量传入。渲染器使用离屏引擎，画面制作在本机完成。
-导出的 `player.html` 包含字体和画面样式，离线重建无需其他风格技能。
-
-输出目录使用新目录，或复用由本工具标记的目录；源码与媒体留在任务产物位置。
-保留 `storyboard.json`、`player.html`、`timeline.json`、逐段音频与 `captions.srt`。
-使用 `--player /path/to/player.html` 重新生成自定义样式；旁白修改后重新制作配音。
-
-## 验收与交付
-
-`verify` 解码成品，检查音视频轨道、时长、分镜时间轴与字幕范围。
-再查看实际 MP4 的开头、场景切换和结尾，检查中文排版、裁切、声音与字幕。
-同一段内检查显现前后与焦点移动中途的画面，确认内容区域有预期的连续变化。
-使用词级同步时，从实际 MP4 核对关键词前后的帧、逐词字幕与音频，并检查往回跳转
-后能还原状态。记录时间戳误差与帧精度；声音的自然程度仍需听审。
-技术检查与观看检查分别记录；标明未听审或未验证的部分。
-再按画面指引自查：当前问题一眼可见，图形关系清楚，emoji 有明确所指，
-重点稳定可读，动作与关键词对应，贴纸和线条未挡住内容。
-
-交付可播放的 MP4、可编辑源文件位置和简短复现命令。说明使用的配音方式与
-实际验证结果。发布、上传或附加到 PR 需要对应的明确授权。
+1. **Technical verification**: run `motion_explainer.py verify` (full FFmpeg decode, H.264/AAC/mov_text tracks, frame count, duration, timeline continuity, and SRT range match).
+2. **Visual & timing inspection**: inspect real frames extracted from `video.mp4` at the opening, scene transitions, mid-motion/keyword anchors, and ending. Check font rendering (CJK/Latin), clipping, caption readability, low single-screen density, and reverse-seek determinism.
+3. **Audio listening check**: confirm non-silent balanced loudness and check pacing/pronunciation/continuity; clearly report whether narration was listened to directly or still awaits user audition.
+4. **Deliver**: playable `video.mp4`, editable source directory, short rebuild command, speech provider/voice used, and explicit technical + watching/listening verification status. Licensing and third-party notices live in [NOTICE.md](NOTICE.md). Never upload, publish, or attach outputs to a PR without explicit authorization.

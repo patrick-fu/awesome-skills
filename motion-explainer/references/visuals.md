@@ -1,49 +1,69 @@
-# 画面与动作
+# Visual Language & Motion
 
-画面像在纸上把一个机制讲明白：手写字、铅笔框、重点划线、少量对象贴纸。
-颜色、线条与字体保持一致，构图随内容改变。
+Design each frame like explaining a mechanism on clean paper: hand-drawn frames,
+ink lines, yellow highlighter focus, and sparse semantic stickers. Keep colors,
+stroke weights, and typography consistent while letting each scene's layout fit
+the question it answers.
 
-## 视觉语言
+## Visual Tokens
 
-- 底色用白色或浅纸色 `#f8f7f2`，全片选一种。墨色 `#202723`，线条分为
-  85% / 40% / 15% 三档；纸面轻点阵可用低对比度的 24px 网格。
-- 黄色 `#ffe066` 标记当前重点，蓝色 `#1769c2` 表示路径；风险出现时才引入红色。
-  同一时刻有一个主要关注点，已讲过的对象留在原位。
-- 标题、标签和简短批注用手写字体；代码、路径和数字用等宽字体。
-  默认模板包含可离线嵌入的中文字体。自定义模板沿用该字体，或嵌入可用的本地字体。
-- 线框约 1.5–2px，略不规则圆角，阴影用 3–5px 的浅色硬偏移。
-  从粗边卡片、手绘下划线、黄色笔带、胶带或便签中选合适的手迹，首场即能看出纸笔感。
-- emoji 贴在有含义的对象上：`📨 请求`、`📦 缓存`、`🗄️ 数据库`、`🔒 锁`。
-  同一对象沿用同一符号；标题和空白处不需要漂浮装饰。
+- **Paper & ink**: light paper canvas `#f8f7f2` (or crisp white) with a subtle
+  24 px dot grid (`#20272312`). Primary ink `#202723` at 85% / 40% / 15% opacity
+  tiers.
+- **Focus & path**: highlighter yellow `#ffe066` marks the active focus; path
+  blue `#1769c2` traces data/control flow; introduce red only for real risks or
+  failures. Keep **one primary focus at a time** and leave already-explained
+  objects in place.
+- **Typography**: handwritten face for headings, labels, and brief notes;
+  monospace for code, paths, and numbers. The default `player.html` embeds the
+  bundled `LXGW WenKai Lite` Latin + CJK subsets (`assets/fonts/`, SIL OFL 1.1)
+  so offline rendering needs no external network or other skills. For Japanese,
+  Korean, or other scripts, verify glyph coverage in rendered frames and add
+  local system fallbacks if needed.
+- **Tactile paper cues**: 1.5–2 px rough-radius frames, 3–5 px hard offset
+  shadows, masking tape strips, highlighter sweeps, and sticky notes—subtle
+  enough that they never obscure text.
+- **Semantic emoji**: attach an emoji to a concrete object (`📨 Request`,
+  `📦 Cache`, `🗄️ Database`, `🔒 Lock`) and keep the same symbol whenever that
+  object recurs. Avoid decorative floating icons.
 
-## 构图按问题选择
+## Match Composition to the Question
 
-| 要说明的内容 | 可用构图 |
+| What you are explaining | Best layout |
 | --- | --- |
-| 数据经过哪里 | 对象节点、路径、移动的请求 |
-| 前后有什么变化 | 同一组对象的状态变化，或两侧对照 |
-| 谁先谁后、等待多久 | 共用时间刻度的时间线 |
-| 谁负责哪一步 | 分层或泳道 |
-| 哪行改变了行为 | 裁剪后的代码与移动的铅笔高亮 |
-| 一个核心结论 | 粗边结论卡、重点词笔带、必要的批注 |
+| Where data or control moves | Object nodes, drawn arrows, moving packet |
+| Before vs after / why something changed | Same set of objects transitioning in place, or side-by-side contrast |
+| Sequence or wait time | Shared-axis timeline |
+| Ownership across layers | Horizontal bands or swimlanes |
+| Which lines changed behavior | Trimmed code (<= 12 lines) with sliding pencil highlight |
+| One core takeaway | Bold takeaway card, highlighter sweep, minimal annotation |
 
-默认模板提供 `title` / `flow` / `code`，其他构图直接修改任务的 `player.html`，
-保持 `window.animatic` 契约。标题写成问题或结论，旁白解释原因；
-屏幕只保留关系、动作和理解所需的词。收尾把结论落到一句可记住的话。
+The default template provides `title`, `flow`, and `code`. When the story calls
+for a comparison, timeline, or layered architecture, customize the task's
+`player.html` while keeping the `window.motionExplainer` contract.
 
-## 让动作服务讲解
+## Density & Pacing Discipline
 
-卡片轻落在纸面上，箭头像被画出，关键词出现时笔带扫过，emoji 轻轻盖章。
-一般入场约 300–650ms，重点过渡约 200–350ms；按语句节奏调整。
-元素出现后稳定停留，让观众有时间读。连续移动优先用于路径、焦点和状态变化。
+- **One idea per scene, low text density**: avoid turning scenes into dense
+  slide decks packed with multi-sentence cards. Put relationships and short
+  labels on screen; let the narration explain the *why*.
+- **Progressive change over static dumps**: pre-place the scene's complete
+  geometry, then reveal elements and move focus step by step via `show`,
+  `focus`, and keyword `anchors`. When showing a multi-step cause-and-effect,
+  mutate the same objects in place rather than stacking extra summary boxes.
+- **Purposeful motion**: cards settle lightly (300–650 ms), arrows draw along
+  the path, highlighter sweeps on keywords (200–350 ms), stickers stamp gently.
+  Hold elements steady after entry so viewers have time to read. Compute every
+  frame strictly from `seconds` passed to `seek()`.
 
-先确定对象的完整位置，再用 `show`、`focus` 与词级 `cues` 逐步展开。
-复用对象的位置来表现前后关系；主题变更时再换场。动画从传入时间计算，
-不用随机抖动、墙上时钟或自动播放的 CSS 动画驱动导出。
+## Watching & Listening Self-Check
 
-## 看一次成品
+Before delivery, inspect real frames from `video.mp4` at normal viewing size
+(not just `audit()`):
 
-当前问题和结论能否一眼看见？关系是否画清楚？emoji 是否指向实际对象？
-黄笔是否落在当前重点？字、代码与批注是否清楚可读？关键词前后的动作是否跟上旁白？
-检查早期、转折、停顿和结尾的真实视频帧，以及回跳后的状态。
-在播放器的正常显示尺寸再看一次，确认纸笔细节缩小后仍清楚，胶带和线框不遮挡内容。
+1. Is the current question or takeaway readable in one glance?
+2. Is on-screen text sparse enough to read while listening, with no dense walls of cards?
+3. Do visual transitions and highlights land cleanly on the spoken keywords?
+4. Do emoji map to real objects, and do tape/borders stay clear of text and captions?
+5. Does reverse seeking restore the exact earlier frame state?
+6. Is narration volume balanced, pacing natural, and free of clipped words or jarring cross-beat shifts?

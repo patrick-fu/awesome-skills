@@ -32,7 +32,6 @@ import sys
 import tempfile
 import time
 
-DEFAULT_SESSION = "asr"
 DEFAULT_GPU = "T4"
 GPU_CU_PER_HR = {"T4": 1.07, "L4": 1.54, "A100": 5.30}  # AgenticColab 实测口径，费率随账号波动，仅供估算
 DEFAULT_UPLOAD_MBPS = 20.0  # 家宽走代理的保守假设；成功转写一次后自动回写实测值
@@ -43,6 +42,17 @@ REMOTE_DIR_OUT = "/content/asr_out"
 RUNNER_REMOTE_PATH = "/content/colab_asr_runner.py"
 ENGINES = ("turbo", "qwen17")
 QWEN17_MODEL = "Qwen/Qwen3-ASR-1.7B"
+
+
+def default_session_name():
+    """机器名会话：双机共享一个 Google 账号（同一会话命名空间）而本地锁只管本机，
+    固定会话名会让两台机器并发时互相复用对方会话并在 asr_plan.json 上撞车。
+    默认按主机名区分；--session 仍可显式覆盖以刻意共用。"""
+    host = re.sub(r"[^a-z0-9]+", "-", os.uname().nodename.lower()).strip("-")[:10] or "local"
+    return f"asr-{host}"
+
+
+DEFAULT_SESSION = default_session_name()
 # 按 engine 的 VM 依赖清单（2026-11-20/21 实测钉版；av>=14 移除 metadata_errors kwarg；
 # ctranslate2/nvidia wheel 不带 CUDA 运行库）
 INSTALL_LISTS = {
@@ -454,7 +464,7 @@ HELP = {
     "outputs": "--output-dir 缺省为新的系统临时目录（易失）。产物：manifest.json、result.json、每文件 .txt/.srt/.json。result.json 为唯一可信结果源（ssh stdout 可能被 CLI banner 污染）。qwen17 的 SRT 为窗粒度（30-60s），字级时间戳未接 ForcedAligner。",
     "engines": "turbo=默认（large-v3-turbo，整文件，通用/英/粤/混语言最稳）。qwen17=中文长音频与会议远场专用（Qwen3-ASR-1.7B，强制 30-60s 静音对齐分窗+批量，SRT 为窗粒度；整文件会丢内容不可绕过）。路由规则见 references/colab-transcription.md。",
     "errors": "错误码：AUTH_REQUIRED / UPLOAD_DENIED / LOCKED / FFPROBE_* / SESSION_FAILED / CLI_FAILED / TIMEOUT / INPUT_MISSING / NO_AUDIO_STREAM / UNKNOWN_ENGINE / WINDOW_FAILED / ENGINE_LOAD_FAILED。失败路径保留会话并声明，不静默烧 CU。",
-    "sessions": "会话名默认 asr。ensure 逻辑：status 已存在则复用，否则 colab new --gpu 分配。--keep-session 跳过收尾 stop（自行负责 colab stop）。收尾核对 colab usage 的 rate=0.00 且 assignments=0。",
+    "sessions": "会话名默认 asr-<主机名>（双机共享同一 Google 账号的会话命名空间，机器名默认隔离并发撞车；--session 可显式覆盖）。ensure 逻辑：status 已存在则复用，否则 colab new --gpu 分配。--keep-session 跳过收尾 stop（自行负责 colab stop）。收尾核对 colab usage 的 rate=0.00 且 assignments=0。",
     "remote": "一次性远程命令走 colab exec + IPython `!` 行（google-colab-cli 0.7.5 的 ssh 不支持 -- CMD，0.8.0 才有）。每条 ! 行独立 bash；素材名经 [A-Za-z0-9._-] 清洗后才拼入。目录先建后传：/content/asr_in、/content/asr_out。结果以远端 result.json 下载件为唯一可信源。",
 }
 

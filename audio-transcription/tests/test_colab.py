@@ -106,6 +106,13 @@ class CliHelpersTests(unittest.TestCase):
         self.assertIn("av>=12,<14", cli.INSTALL_LISTS["turbo"])
         self.assertEqual(cli.INSTALL_LISTS["qwen17"], ["qwen-asr"])
 
+    def test_default_session_machine_scoped_and_sanitized(self):
+        name = cli.DEFAULT_SESSION
+        self.assertTrue(name.startswith("asr-"))
+        self.assertLessEqual(len(name), 14)
+        self.assertRegex(name, r"^asr-[a-z0-9-]+$")
+        self.assertEqual(cli.default_session_name(), name)  # 稳定，随机性为零
+
 
 if __name__ == "__main__":
     unittest.main()

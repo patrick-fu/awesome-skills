@@ -44,11 +44,14 @@ ENGINES = ("turbo", "qwen17")
 QWEN17_MODEL = "Qwen/Qwen3-ASR-1.7B"
 
 
-def default_session_name():
+def default_session_name(nodename=None):
     """机器名会话：双机共享一个 Google 账号（同一会话命名空间）而本地锁只管本机，
     固定会话名会让两台机器并发时互相复用对方会话并在 asr_plan.json 上撞车。
-    默认按主机名区分；--session 仍可显式覆盖以刻意共用。"""
-    host = re.sub(r"[^a-z0-9]+", "-", os.uname().nodename.lower()).strip("-")[:10] or "local"
+    默认按主机名区分；--session 仍可显式覆盖以刻意共用。
+    截断长度须足够区分常见双机主机名（[:10] 曾把 Patricks-Mac-mini 与
+    Patricks-MacBook-Pro 截成同一个 asr-patricks-m，隔离失效——e228a42 教训）。"""
+    name = (nodename or os.uname().nodename).lower()
+    host = re.sub(r"[^a-z0-9]+", "-", name).strip("-")[:16] or "local"
     return f"asr-{host}"
 
 

@@ -109,9 +109,19 @@ class CliHelpersTests(unittest.TestCase):
     def test_default_session_machine_scoped_and_sanitized(self):
         name = cli.DEFAULT_SESSION
         self.assertTrue(name.startswith("asr-"))
-        self.assertLessEqual(len(name), 14)
         self.assertRegex(name, r"^asr-[a-z0-9-]+$")
         self.assertEqual(cli.default_session_name(), name)  # 稳定，随机性为零
+
+    def test_default_session_distinguishes_real_hosts(self):
+        # 真实双机主机名（[:10] 截断曾使两者同为 asr-patricks-m——回归守卫）
+        mini = cli.default_session_name("Patricks-Mac-mini.local")
+        mbp = cli.default_session_name("Patricks-MacBook-Pro.local")
+        self.assertEqual(mini, "asr-patricks-mac-mini")
+        self.assertEqual(mbp, "asr-patricks-macbook")
+        self.assertNotEqual(mini, mbp)
+
+    def test_default_session_fallback_on_blank(self):
+        self.assertEqual(cli.default_session_name("   "), "asr-local")
 
 
 if __name__ == "__main__":

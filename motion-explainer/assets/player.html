@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Animatic</title>
+  <style>
+    /* animatic-fonts */
+    :root { color-scheme: light; --ink: #202723; --muted: #687069; --accent: #ffe066; --path: #1769c2; --paper: #f8f7f2; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: var(--paper); }
+    body { font-family: "Animatic Hand", "Kaiti SC", "STKaiti", "PingFang SC", serif; color: var(--ink); }
+    #stage { width: 1280px; height: 720px; transform-origin: top left; position: relative; overflow: hidden; background: radial-gradient(#20272312 1px, transparent 1px) 0 0 / 24px 24px, var(--paper); }
+    .scene { position: absolute; inset: 68px 76px 112px; transform-origin: 50% 45%; }
+    .accent { width: 72px; height: 7px; border-radius: 3px 8px 4px 6px; background: var(--accent); transform-origin: left; rotate: -1deg; margin-bottom: 24px; }
+    h1 { font-size: 46px; line-height: 1.3; letter-spacing: -1px; margin: 0 0 28px; font-weight: 650; white-space: pre-wrap; }
+    .intro h1 { position: relative; width: fit-content; max-width: 100%; padding: 28px 38px; font-size: 76px; line-height: 1.25; letter-spacing: -2px; margin-top: 33px; margin-bottom: 25px; border: 2px solid #202723d9; border-radius: 255px 15px 225px / 15px 225px 15px 255px; background: #fffdf8; box-shadow: 4px 5px 0 #20272312; }
+    .intro h1::before, .code-panel::before { content: ''; position: absolute; top: -13px; left: 42px; width: 80px; height: 24px; background: #eadab8b3; border: 1px solid #20272315; rotate: -3deg; }
+    .title-line { display: block; position: relative; width: fit-content; isolation: isolate; }
+    .title-line:first-child::after { content: ''; position: absolute; z-index: -1; left: -5px; right: -5px; bottom: 10%; height: 25%; border-radius: 3px 8px 4px 6px; background: var(--accent); transform: scaleX(var(--mark, 1)) rotate(-1deg); transform-origin: left; }
+    .support { display: inline-block; margin: 0; padding: 10px 18px; font-size: 27px; line-height: 1.5; color: var(--muted); white-space: pre-wrap; background: #fff4ca; border: 1px solid #20272366; border-radius: 2px 15px; box-shadow: 3px 4px 0 #2027230c; rotate: -.4deg; }
+    .flow { position: relative; display: flex; align-items: center; gap: 12px; margin-top: 85px; min-height: 148px; }
+    .node { --lit: 0%; flex: 1; min-width: 0; height: 148px; padding: 18px; display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; text-align: center; font-size: 32px; font-weight: 600; line-height: 1.4; border: 2px solid #202723b8; border-radius: 100px 12px 85px / 12px 85px 12px 100px; background: color-mix(in srgb, #fffdf8, #ffe88e var(--lit)); box-shadow: 4px 4px 0 #20272312; color: var(--ink); }
+    .node:nth-of-type(even) { border-radius: 14px 8px 18px 7px / 7px 18px 8px 14px; }
+    .flow.compact .node { font-size: 28px; }
+    .node-label { max-width: 100%; }
+    .sticker { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1.5px dashed #20272366; border-radius: 50%; background: #fffdf8; font: 30px/1 "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
+    .connector { flex: none; width: 52px; height: 70px; overflow: visible; }
+    .wire-base { stroke: #20272340; stroke-dasharray: 4 5; }
+    .wire-lit { stroke: var(--path); stroke-dasharray: 64; }
+    .wire-base, .wire-lit { fill: none; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+    .packet { fill: var(--path); }
+    .focus-ring { position: absolute; top: -3px; left: 0; height: 154px; border: 1.5px dashed #202723a6; border-radius: 100px 12px 85px / 12px 85px 12px 100px; pointer-events: none; }
+    .code-panel { position: relative; border: 2px solid #202723b8; border-radius: 14px 8px 18px 7px; padding: 18px 0; background: #fffdf8; box-shadow: 4px 5px 0 #20272312; margin-top: 18px; font: 27px/1.5 "SFMono-Regular", Consolas, monospace; }
+    .code-line { position: relative; padding: 0 26px; min-height: 1.5em; white-space: pre; z-index: 1; }
+    .line-number { display: inline-block; width: 40px; color: #7d837c; }
+    .code-text { display: inline-block; vertical-align: top; }
+    .token-string { color: var(--path); }
+    .token-number { color: #8a4a04; }
+    .code-focus { position: absolute; left: 0; right: 0; background: #ffe06699; border-left: 4px solid #d6ae23; pointer-events: none; }
+    #caption { position: absolute; left: 76px; right: 76px; bottom: 40px; margin: 0; max-height: 76px; font-size: 27px; line-height: 1.4; color: var(--ink); white-space: pre-wrap; }
+    .caption-word { color: #73766f; }
+    .caption-word.said { color: var(--ink); }
+    .caption-word.now { color: var(--ink); background: linear-gradient(transparent 48%, #ffe066b3 48% 92%, transparent 92%); }
+    #progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; transform-origin: left; background: var(--accent); }
+  </style>
+</head>
+<body>
+  <main id="stage">
+    <div id="back" class="scene" aria-hidden="true"></div>
+    <div id="front" class="scene"></div>
+    <p id="caption"></p>
+    <div id="progress"></div>
+  </main>
+  <script>
+    const stage = document.getElementById('stage');
+    const front = document.getElementById('front');
+    const back = document.getElementById('back');
+    const caption = document.getElementById('caption');
+    let storyboard, timeline, scenes, visualTracks, captionBeat = -1;
+    let captionNodes = [], captionPages = [], captionPage = -1;
+    const clamp = value => Math.max(0, Math.min(1, value));
+    const ease = value => 1 - (1 - clamp(value)) ** 3;
+    const mix = (a, b, t) => a + (b - a) * t;
+
+    function element(tag, className, text) {
+      const node = document.createElement(tag);
+      node.className = className;
+      if (text !== undefined) node.textContent = text;
+      return node;
+    }
+
+    function codeTokens(text) {
+      const fragment = document.createDocumentFragment();
+      const pattern = /"(?:[^"\\]|\\.)*"|-?\b\d+(?:\.\d+)?\b/g;
+      let offset = 0;
+      for (const match of text.matchAll(pattern)) {
+        fragment.append(document.createTextNode(text.slice(offset, match.index)));
+        fragment.append(element('span', match[0].startsWith('"') ? 'token-string' : 'token-number', match[0]));
+        offset = match.index + match[0].length;
+      }
+      fragment.append(document.createTextNode(text.slice(offset)));
+      return fragment;
+    }
+
+    function mount(layer, index) {
+      if (layer.dataset.scene === String(index)) return;
+      const scene = storyboard.scenes[index];
+      layer.dataset.scene = String(index);
+      layer.className = `scene${scene.layout === 'title' ? ' intro' : ''}`;
+      layer.replaceChildren(element('div', 'accent'));
+      const title = element('h1', '');
+      if (scene.layout === 'title') {
+        scene.title.split('\n').forEach(line => title.append(element('span', 'title-line', line)));
+      } else title.textContent = scene.title;
+      layer.append(title);
+      if (scene.text) layer.append(element('p', 'support', scene.text));
+      if (scene.layout === 'flow') {
+        const flow = element('div', 'flow');
+        flow.classList.toggle('compact', scene.items.length === 5);
+        scene.items.forEach((item, i) => {
+          if (i) {
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', '0 0 52 70');
+            svg.setAttribute('class', 'connector');
+            for (const className of ['wire-base', 'wire-lit']) {
+              const path = document.createElementNS(svg.namespaceURI, 'path');
+              path.setAttribute('d', 'M 1 35 C 16 31 33 39 50 35 M 43 29 L 50 35 L 43 41');
+              path.setAttribute('class', className);
+              svg.append(path);
+            }
+            const packet = document.createElementNS(svg.namespaceURI, 'circle');
+            packet.setAttribute('class', 'packet');
+            packet.setAttribute('r', '3');
+            packet.setAttribute('cy', '35');
+            svg.append(packet);
+            flow.append(svg);
+          }
+          const node = element('div', 'node');
+          const parts = item.match(/^(\S+)\s+(.+)$/u);
+          if (parts && /\p{Extended_Pictographic}/u.test(parts[1])) {
+            const sticker = element('span', 'sticker', parts[1]);
+            sticker.setAttribute('aria-hidden', 'true');
+            node.append(sticker, element('span', 'node-label', parts[2]));
+          } else node.append(element('span', 'node-label', item));
+          flow.append(node);
+        });
+        flow.append(element('div', 'focus-ring'));
+        layer.append(flow);
+      }
+      if (scene.layout === 'code') {
+        const panel = element('div', 'code-panel');
+        const lines = scene.code.split('\n');
+        panel.style.fontSize = `${Math.max(20, Math.min(28, 350 / lines.length / 1.5))}px`;
+        panel.append(element('div', 'code-focus'));
+        lines.forEach((line, i) => {
+          const row = element('div', 'code-line');
+          const text = element('span', 'code-text');
+          text.append(codeTokens(line));
+          row.append(element('span', 'line-number', String(i + 1)), text);
+          panel.append(row);
+        });
+        layer.append(panel);
+      }
+    }
+
+    function bounds(nodes, focus) {
+      const selected = focus.map(index => nodes[index]).filter(Boolean);
+      if (!selected.length) return null;
+      const left = Math.min(...selected.map(node => node.offsetLeft));
+      const top = Math.min(...selected.map(node => node.offsetTop));
+      return {left, top, width: Math.max(...selected.map(node => node.offsetLeft + node.offsetWidth)) - left,
+        height: Math.max(...selected.map(node => node.offsetTop + node.offsetHeight)) - top};
+    }
+
+    function paint(layer, index, beatIndex, seconds, settled) {
+      mount(layer, index);
+      const meta = scenes[index];
+      const beat = timeline[beatIndex];
+      const previous = timeline[beatIndex - 1];
+      const sameScene = previous?.scene === index;
+      const age = Math.max(0, seconds - meta.start);
+      const track = visualTracks[beatIndex];
+      const eventIndex = settled ? track.length - 1 : Math.max(0, track.findLastIndex(event => seconds >= event.start));
+      const state = track[eventIndex];
+      const old = eventIndex ? track[eventIndex - 1] : sameScene ? visualTracks[beatIndex - 1].at(-1) : {focus: state.focus, show: 0};
+      const eventAge = Math.max(0, seconds - state.start);
+      const transition = settled ? 1 : ease(eventAge / (eventIndex ? 0.28 : 0.72));
+      const oldFocus = old.focus;
+      const reveal = (i, count) => {
+        const shown = state.show ?? count;
+        const oldShown = old.show ?? count;
+        if (i >= shown) return 0;
+        if (settled || i < oldShown) return 1;
+        const stagger = Math.max(0, i - oldShown);
+        return ease((eventAge - stagger * 0.12) / (eventIndex ? 0.32 : 0.62));
+      };
+      layer.querySelector('.accent').style.transform = `scaleX(${settled ? 1 : ease(age / 0.9)})`;
+      layer.querySelectorAll('.title-line').forEach((line, i) => {
+        const p = settled ? 1 : ease((age - 0.15 - i * 0.18) / 0.82);
+        line.style.opacity = p;
+        line.style.transform = `translateY(${(1 - p) * 42}px)`;
+        line.style.setProperty('--mark', settled ? 1 : ease((age - .25) / .7));
+      });
+      const support = layer.querySelector('.support');
+      if (support) {
+        const p = settled ? 1 : ease((age - 0.55) / 0.7);
+        support.style.opacity = p;
+        support.style.transform = `translateY(${(1 - p) * 16}px)`;
+      }
+      const nodes = [...layer.querySelectorAll('.node')];
+      nodes.forEach((node, i) => {
+        const p = reveal(i, nodes.length);
+        const lit = mix(oldFocus.includes(i) ? 1 : 0, state.focus.includes(i) ? 1 : 0, transition);
+        node.style.opacity = p;
+        node.style.transform = `translateY(${(1 - p) * 28}px) rotate(${(i % 2 ? .8 : -.8) * (1 - p)}deg) scale(${0.96 + 0.04 * p})`;
+        node.style.setProperty('--lit', `${lit * 100}%`);
+        node.classList.toggle('active', state.focus.includes(i));
+        const sticker = node.querySelector('.sticker');
+        if (sticker) {
+          const stamp = settled ? 0 : Math.sin(clamp(eventAge / .42) * Math.PI) * .1;
+          sticker.style.transform = `rotate(${(i % 2 ? 1 : -1) * (1 - p) * 8}deg) scale(${.88 + .12 * p + (state.focus.includes(i) ? stamp : 0)})`;
+        }
+      });
+      if (nodes.length) {
+        const ring = layer.querySelector('.focus-ring');
+        const target = bounds(nodes, state.focus);
+        const origin = bounds(nodes, oldFocus) || target;
+        ring.style.opacity = target ? (settled ? 1 : ease(age / 0.65)) : 0;
+        if (target) {
+          ring.style.left = `${mix(origin.left, target.left, transition) - 3}px`;
+          ring.style.width = `${mix(origin.width, target.width, transition) + 6}px`;
+        }
+        const oldPosition = Math.max(0, ...oldFocus);
+        const position = mix(oldPosition, Math.max(0, ...state.focus), transition);
+        layer.querySelectorAll('.connector').forEach((svg, i) => {
+          const p = clamp(position - i);
+          const visible = i + 1 < (state.show ?? nodes.length);
+          svg.style.opacity = visible ? reveal(i + 1, nodes.length) : 0;
+          svg.querySelector('.wire-lit').style.strokeDashoffset = 64 * (1 - p);
+          const packet = svg.querySelector('.packet');
+          const travel = p > 0 && p < 1 ? p : ((seconds - meta.start) % 1.9) / 1.9;
+          packet.setAttribute('cx', String(1 + 49 * travel));
+          packet.style.opacity = visible && p > 0 ? (settled ? 0 : 0.85) : 0;
+        });
+      }
+      const rows = [...layer.querySelectorAll('.code-line')];
+      rows.forEach((row, i) => {
+        const p = reveal(i, rows.length);
+        row.style.opacity = p;
+        row.style.transform = `translateX(${(1 - p) * 18}px)`;
+        row.querySelector('.code-text').style.clipPath = `inset(0 ${(1 - p) * 100}% 0 0)`;
+      });
+      if (rows.length) {
+        const band = layer.querySelector('.code-focus');
+        const target = bounds(rows, state.focus);
+        const origin = bounds(rows, oldFocus) || target;
+        band.style.opacity = target ? (settled ? 1 : ease(age / 0.65)) : 0;
+        if (target) {
+          band.style.top = `${mix(origin.top, target.top, transition)}px`;
+          band.style.height = `${mix(origin.height, target.height, transition)}px`;
+        }
+      }
+    }
+
+    window.animatic = {
+      load(data) {
+        storyboard = data.storyboard;
+        timeline = data.timeline;
+        visualTracks = timeline.map(beat => {
+          const source = storyboard.scenes[beat.scene].beats[beat.beat];
+          const track = [{start: beat.start, focus: beat.focus, show: beat.show}];
+          for (const cue of source.cues || []) {
+            if (cue.focus !== undefined || cue.show !== undefined) {
+              track.push({...track.at(-1), ...cue, start: beat.start + cue.start});
+            }
+          }
+          return track;
+        });
+        captionBeat = -1;
+        scenes = storyboard.scenes.map((scene, i) => {
+          const beats = timeline.filter(beat => beat.scene === i);
+          return {start: beats[0].start, end: beats.at(-1).end};
+        });
+        front.dataset.scene = back.dataset.scene = '';
+        document.title = storyboard.title;
+        document.documentElement.lang = storyboard.language || 'zh-CN';
+        stage.style.transform = `scale(${data.width / 1280})`;
+        this.seek(0, true);
+        captionBeat = -1;
+      },
+      seek(seconds, settled = false) {
+        const time = Math.max(0, Math.min(seconds, timeline.at(-1).end));
+        const found = timeline.findIndex(beat => time < beat.end);
+        const index = found < 0 ? timeline.length - 1 : found;
+        const beat = timeline[index];
+        const meta = scenes[beat.scene];
+        const age = time - meta.start;
+        const entrance = settled ? 1 : ease(age / 0.65);
+        paint(front, beat.scene, index, time, settled);
+        const push = settled ? 0 : clamp(age / (meta.end - meta.start)) * 0.018;
+        front.style.opacity = entrance;
+        front.style.transform = `translateX(${(1 - entrance) * 48}px) scale(${1 + push})`;
+        back.style.opacity = 0;
+        if (!settled && beat.scene > 0 && age < 0.65) {
+          const lastIndex = timeline.findLastIndex(previous => previous.scene === beat.scene - 1);
+          paint(back, beat.scene - 1, lastIndex, meta.start - 0.001, true);
+          back.style.opacity = 1 - entrance;
+          back.style.transform = `translateX(${-24 * entrance}px) scale(${1 + entrance * 0.02})`;
+        }
+        const words = storyboard.scenes[beat.scene].beats[beat.beat].words;
+        if (captionBeat !== index) {
+          caption.replaceChildren();
+          captionPages = [];
+          captionPage = -1;
+          if (words?.length) {
+            captionNodes = words.map(word => element('span', 'caption-word', word.text));
+            const limit = parseFloat(getComputedStyle(caption).maxHeight);
+            let start = 0;
+            captionNodes.forEach((node, i) => {
+              caption.append(node);
+              while (i > start && caption.scrollHeight > limit + 1) {
+                const candidates = captionNodes.slice(start, i);
+                let boundary = candidates.findLastIndex(previous => /[。！？!?；;][”’」』）)\]]*\s*$|\.\s+$/.test(previous.textContent));
+                if (boundary < 0) boundary = candidates.findLastIndex(previous => /[，,、：:]\s*$/.test(previous.textContent));
+                const end = boundary < 0 ? i : start + boundary + 1;
+                captionPages.push([start, end]);
+                caption.replaceChildren(...captionNodes.slice(end, i + 1));
+                start = end;
+              }
+            });
+            captionPages.push([start, words.length]);
+          } else caption.textContent = beat.narration;
+          captionBeat = index;
+        }
+        if (words?.length) {
+          const local = time - beat.start;
+          const page = settled ? captionPages.length - 1 : Math.max(0,
+            captionPages.findLastIndex(([start]) => local >= words[start].start));
+          const [start, end] = captionPages[page];
+          if (captionPage !== page) {
+            caption.replaceChildren(...captionNodes.slice(start, end));
+            captionPage = page;
+          }
+          for (let i = start; i < end; i++) {
+            captionNodes[i].classList.toggle('said', settled || local >= words[i].end);
+            captionNodes[i].classList.toggle('now', !settled && local >= words[i].start && local < words[i].end);
+          }
+        }
+        document.getElementById('progress').style.transform = `scaleX(${time / timeline.at(-1).end})`;
+      },
+      audit() {
+        const errors = [];
+        const scale = stage.getBoundingClientRect().width / 1280;
+        const limits = stage.getBoundingClientRect();
+        const nodes = [...front.querySelectorAll('h1,.support,.node,.code-line'), caption];
+        const current = [...caption.childNodes];
+        const pages = captionPages.length ? captionPages.map(([start, end]) => captionNodes.slice(start, end)) : [current];
+        for (const contents of pages) {
+          caption.replaceChildren(...contents);
+          for (const node of nodes) {
+            const rect = node.getBoundingClientRect();
+            const style = getComputedStyle(node);
+            const bottom = rect.top + Math.max(rect.height, node.scrollHeight * scale);
+            if (rect.right > limits.right + 1 || bottom > limits.bottom + 1 || rect.left < limits.left - 1) errors.push(`${node.className || node.id}: stage overflow`);
+            const limited = node.classList.contains('node') || style.maxHeight !== 'none' || style.overflowY !== 'visible';
+            if (node.scrollWidth > node.clientWidth + 1 || (limited && node.scrollHeight > node.clientHeight + 1)) errors.push(`${node.className || node.id}: clipped text`);
+            if (node !== caption && rect.bottom > caption.getBoundingClientRect().top - 16 * scale) errors.push(`${node.className}: overlaps captions`);
+          }
+        }
+        caption.replaceChildren(...current);
+        if (!front.querySelector('h1')?.textContent.trim() || !caption.textContent.trim()) errors.push('missing title or narration');
+        return [...new Set(errors)];
+      }
+    };
+    document.fonts.addEventListener('loadingdone', () => { captionBeat = -1; });
+  </script>
+</body>
+</html>

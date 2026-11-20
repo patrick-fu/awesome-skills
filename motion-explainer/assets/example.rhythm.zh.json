@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "title": "缓存怎样省下一次查询",
+  "language": "zh-CN",
+  "voice": "zh_female_tianmeitaozi_uranus_bigtts",
+  "scenes": [
+    {
+      "id": "cache",
+      "layout": "flow",
+      "title": "第一次请求，先查再存",
+      "items": [
+        "📨 请求",
+        "📦 缓存",
+        "🗄️ 数据库"
+      ],
+      "beats": [
+        {
+          "narration": "第一次请求，缓存里还没有答案。去数据库，取回来，再存一份。",
+          "pause_ms": 480,
+          "focus": [],
+          "show": 1,
+          "anchors": [
+            {
+              "word": "请求",
+              "focus": [
+                0
+              ]
+            },
+            {
+              "word": "缓存",
+              "focus": [
+                1
+              ],
+              "show": 2
+            },
+            {
+              "word": "数据库",
+              "focus": [
+                2
+              ],
+              "show": 3
+            },
+            {
+              "word": "取回来",
+              "focus": [
+                1
+              ]
+            },
+            {
+              "word": "存一份",
+              "focus": [
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

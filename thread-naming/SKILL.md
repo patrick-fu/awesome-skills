@@ -1,8 +1,10 @@
 ---
 name: thread-naming
 description: >-
-  Title top-level threads and sessions at entry, state changes, and completion.
-  Skip delegated or spawned subagent runs, even when they have an isolated thread or title tool.
+  Title top-level threads and sessions at the first naming reminder, state changes,
+  and completion; the host may generate a plain turn-one title, upgrade it to the
+  format at the first reminder. Skip delegated or spawned subagent runs, even when
+  they have an isolated thread or title tool.
 ---
 
 # Thread Naming
@@ -36,6 +38,6 @@ For ongoing follow-up work (tracking an upstream bug, awaiting approval or perio
 
 - Applies only to user-initiated top-level threads (and explicit controllers managing workers). If you are running a delegated or subagent assignment from a parent agent or orchestrator, skip this skill completely—do not inspect it or rename your own or the parent's thread, even if your run has its own thread ID or title tool.
 
-- Compare the title with the task at entry, meaningful state shifts, and wrap-up: keep it while accurate; never update on routine tool steps or add extra verification just for naming.
+- Compare the title with the task at the first reminder, meaningful state shifts, and wrap-up: keep it while accurate; a host-generated plain turn-one title is upgraded at the first reminder, not before; never update on routine tool steps or add extra verification just for naming.
 - Rename your own top-level thread silently via the host's title tool; controllers may rename owned workers. First bulk rename needs user approval. Naming does not archive or transfer ownership.
 - If the host has no title tool, output a title only when explicitly asked.

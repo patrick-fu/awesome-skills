@@ -53,22 +53,10 @@
     <div id="progress"></div>
   </main>
   <script>
-    const stage = document.getElementById('stage');
+    /* motion-explainer-kit */
+    const { clamp, mix, easeOutCubic: ease, element, spring, impact, createPlayerShell } = window.MotionKit;
     const front = document.getElementById('front');
     const back = document.getElementById('back');
-    const caption = document.getElementById('caption');
-    let storyboard, timeline, scenes, visualTracks, captionBeat = -1;
-    let captionNodes = [], captionPages = [], captionPage = -1;
-    const clamp = value => Math.max(0, Math.min(1, value));
-    const ease = value => 1 - (1 - clamp(value)) ** 3;
-    const mix = (a, b, t) => a + (b - a) * t;
-
-    function element(tag, className, text) {
-      const node = document.createElement(tag);
-      node.className = className;
-      if (text !== undefined) node.textContent = text;
-      return node;
-    }
 
     function codeTokens(text) {
       const fragment = document.createDocumentFragment();
@@ -83,7 +71,7 @@
       return fragment;
     }
 
-    function mount(layer, index) {
+    function mount(layer, storyboard, index) {
       if (layer.dataset.scene === String(index)) return;
       const scene = storyboard.scenes[index];
       layer.dataset.scene = String(index);
@@ -149,23 +137,36 @@
       if (!selected.length) return null;
       const left = Math.min(...selected.map(node => node.offsetLeft));
       const top = Math.min(...selected.map(node => node.offsetTop));
-      return {left, top, width: Math.max(...selected.map(node => node.offsetLeft + node.offsetWidth)) - left,
-        height: Math.max(...selected.map(node => node.offsetTop + node.offsetHeight)) - top};
+      return {
+        left,
+        top,
+        width: Math.max(...selected.map(node => node.offsetLeft + node.offsetWidth)) - left,
+        height: Math.max(...selected.map(node => node.offsetTop + node.offsetHeight)) - top,
+      };
     }
 
-    function paint(layer, index, beatIndex, seconds, settled) {
-      mount(layer, index);
+    function paint(layer, frame, index, beatIndex, seconds, settled) {
+      const { storyboard, timeline, scenes, visualTracks } = frame;
+      mount(layer, storyboard, index);
       const meta = scenes[index];
-      const beat = timeline[beatIndex];
       const previous = timeline[beatIndex - 1];
       const sameScene = previous?.scene === index;
       const age = Math.max(0, seconds - meta.start);
       const track = visualTracks[beatIndex];
       const eventIndex = settled ? track.length - 1 : Math.max(0, track.findLastIndex(event => seconds >= event.start));
       const state = track[eventIndex];
-      const old = eventIndex ? track[eventIndex - 1] : sameScene ? visualTracks[beatIndex - 1].at(-1) : {focus: state.focus, show: 0};
+      const old = eventIndex
+        ? track[eventIndex - 1]
+        : sameScene
+          ? visualTracks[beatIndex - 1].at(-1)
+          : { focus: state.focus, show: 0 };
       const eventAge = Math.max(0, seconds - state.start);
-      const transition = settled ? 1 : ease(eventAge / (eventIndex ? 0.28 : 0.72));
+      const transition = spring(eventAge, {
+        stiffness: eventIndex ? 280 : 190,
+        damping: eventIndex ? 24 : 21,
+        settled,
+      });
+      const transitionClamped = clamp(transition);
       const oldFocus = old.focus;
       const reveal = (i, count) => {
         const shown = state.show ?? count;
@@ -173,50 +174,61 @@
         if (i >= shown) return 0;
         if (settled || i < oldShown) return 1;
         const stagger = Math.max(0, i - oldShown);
-        return ease((eventAge - stagger * 0.12) / (eventIndex ? 0.32 : 0.62));
+        return spring(eventAge - stagger * 0.11, {
+          stiffness: eventIndex ? 250 : 185,
+          damping: eventIndex ? 22 : 20,
+          settled: false,
+        });
       };
-      layer.querySelector('.accent').style.transform = `scaleX(${settled ? 1 : ease(age / 0.9)})`;
+
+      layer.querySelector('.accent').style.transform = `scaleX(${clamp(spring(age, { stiffness: 160, damping: 20, settled }))})`;
       layer.querySelectorAll('.title-line').forEach((line, i) => {
-        const p = settled ? 1 : ease((age - 0.15 - i * 0.18) / 0.82);
-        line.style.opacity = p;
-        line.style.transform = `translateY(${(1 - p) * 42}px)`;
-        line.style.setProperty('--mark', settled ? 1 : ease((age - .25) / .7));
+        const p = spring(age - 0.12 - i * 0.16, { stiffness: 180, damping: 20, settled });
+        line.style.opacity = clamp(p);
+        line.style.transform = `translateY(${(1 - p) * 38}px)`;
+        line.style.setProperty('--mark', settled ? 1 : ease((age - 0.25) / 0.7));
       });
       const support = layer.querySelector('.support');
       if (support) {
-        const p = settled ? 1 : ease((age - 0.55) / 0.7);
-        support.style.opacity = p;
+        const p = spring(age - 0.45, { stiffness: 190, damping: 21, settled });
+        support.style.opacity = clamp(p);
         support.style.transform = `translateY(${(1 - p) * 16}px)`;
       }
+
       const nodes = [...layer.querySelectorAll('.node')];
       nodes.forEach((node, i) => {
         const p = reveal(i, nodes.length);
-        const lit = mix(oldFocus.includes(i) ? 1 : 0, state.focus.includes(i) ? 1 : 0, transition);
-        node.style.opacity = p;
-        node.style.transform = `translateY(${(1 - p) * 28}px) rotate(${(i % 2 ? .8 : -.8) * (1 - p)}deg) scale(${0.96 + 0.04 * p})`;
+        const alpha = clamp(p);
+        const lit = mix(oldFocus.includes(i) ? 1 : 0, state.focus.includes(i) ? 1 : 0, transitionClamped);
+        node.style.opacity = alpha;
+        node.style.transform = `translateY(${(1 - p) * 26}px) rotate(${(i % 2 ? 0.8 : -0.8) * (1 - alpha)}deg) scale(${0.96 + 0.04 * p})`;
         node.style.setProperty('--lit', `${lit * 100}%`);
         node.classList.toggle('active', state.focus.includes(i));
         const sticker = node.querySelector('.sticker');
         if (sticker) {
-          const stamp = settled ? 0 : Math.sin(clamp(eventAge / .42) * Math.PI) * .1;
-          sticker.style.transform = `rotate(${(i % 2 ? 1 : -1) * (1 - p) * 8}deg) scale(${.88 + .12 * p + (state.focus.includes(i) ? stamp : 0)})`;
+          const stamp = state.focus.includes(i)
+            ? impact(eventAge, { intensity: 0.12, damping: 9, frequency: 18, offset: 3, settled })
+            : { scaleX: 1, scaleY: 1 };
+          const baseScale = 0.88 + 0.12 * alpha;
+          sticker.style.transform = `rotate(${(i % 2 ? 1 : -1) * (1 - alpha) * 8}deg) scale(${(baseScale * stamp.scaleX).toFixed(4)}, ${(baseScale * stamp.scaleY).toFixed(4)})`;
         }
       });
+
       if (nodes.length) {
         const ring = layer.querySelector('.focus-ring');
         const target = bounds(nodes, state.focus);
         const origin = bounds(nodes, oldFocus) || target;
-        ring.style.opacity = target ? (settled ? 1 : ease(age / 0.65)) : 0;
+        ring.style.opacity = target ? (settled ? 1 : ease(age / 0.55)) : 0;
         if (target) {
           ring.style.left = `${mix(origin.left, target.left, transition) - 3}px`;
-          ring.style.width = `${mix(origin.width, target.width, transition) + 6}px`;
+          ring.style.width = `${Math.max(0, mix(origin.width, target.width, transition) + 6)}px`;
         }
         const oldPosition = Math.max(0, ...oldFocus);
-        const position = mix(oldPosition, Math.max(0, ...state.focus), transition);
+        const position = mix(oldPosition, Math.max(0, ...state.focus), transitionClamped);
         layer.querySelectorAll('.connector').forEach((svg, i) => {
           const p = clamp(position - i);
           const visible = i + 1 < (state.show ?? nodes.length);
-          svg.style.opacity = visible ? reveal(i + 1, nodes.length) : 0;
+          svg.style.opacity = visible ? clamp(reveal(i + 1, nodes.length)) : 0;
           svg.querySelector('.wire-lit').style.strokeDashoffset = 64 * (1 - p);
           const packet = svg.querySelector('.packet');
           const travel = p > 0 && p < 1 ? p : ((seconds - meta.start) % 1.9) / 1.9;
@@ -224,137 +236,55 @@
           packet.style.opacity = visible && p > 0 ? (settled ? 0 : 0.85) : 0;
         });
       }
+
       const rows = [...layer.querySelectorAll('.code-line')];
       rows.forEach((row, i) => {
         const p = reveal(i, rows.length);
-        row.style.opacity = p;
+        const alpha = clamp(p);
+        row.style.opacity = alpha;
         row.style.transform = `translateX(${(1 - p) * 18}px)`;
-        row.querySelector('.code-text').style.clipPath = `inset(0 ${(1 - p) * 100}% 0 0)`;
+        row.querySelector('.code-text').style.clipPath = `inset(0 ${(1 - alpha) * 100}% 0 0)`;
       });
       if (rows.length) {
         const band = layer.querySelector('.code-focus');
         const target = bounds(rows, state.focus);
         const origin = bounds(rows, oldFocus) || target;
-        band.style.opacity = target ? (settled ? 1 : ease(age / 0.65)) : 0;
+        band.style.opacity = target ? (settled ? 1 : ease(age / 0.55)) : 0;
         if (target) {
           band.style.top = `${mix(origin.top, target.top, transition)}px`;
-          band.style.height = `${mix(origin.height, target.height, transition)}px`;
+          band.style.height = `${Math.max(0, mix(origin.height, target.height, transition))}px`;
         }
       }
     }
 
-    window.motionExplainer = {
-      load(data) {
-        storyboard = data.storyboard;
-        timeline = data.timeline;
-        visualTracks = timeline.map(beat => {
-          const source = storyboard.scenes[beat.scene].beats[beat.beat];
-          const track = [{start: beat.start, focus: beat.focus, show: beat.show}];
-          for (const cue of source.cues || []) {
-            if (cue.focus !== undefined || cue.show !== undefined) {
-              track.push({...track.at(-1), ...cue, start: beat.start + cue.start});
-            }
-          }
-          return track;
-        });
-        captionBeat = -1;
-        scenes = storyboard.scenes.map((scene, i) => {
-          const beats = timeline.filter(beat => beat.scene === i);
-          return {start: beats[0].start, end: beats.at(-1).end};
-        });
-        front.dataset.scene = back.dataset.scene = '';
-        document.title = storyboard.title;
-        document.documentElement.lang = storyboard.language || 'zh-CN';
-        stage.style.transform = `scale(${data.width / 1280})`;
-        this.seek(0, true);
-        captionBeat = -1;
+    createPlayerShell({
+      stage: '#stage',
+      caption: '#caption',
+      progress: '#progress',
+      auditRoot: '#front',
+      auditSelector: 'h1,.support,.node,.code-line',
+      titleSelector: 'h1',
+      onLoad() {
+        front.dataset.scene = '';
+        back.dataset.scene = '';
       },
-      seek(seconds, settled = false) {
-        const time = Math.max(0, Math.min(seconds, timeline.at(-1).end));
-        const found = timeline.findIndex(beat => time < beat.end);
-        const index = found < 0 ? timeline.length - 1 : found;
-        const beat = timeline[index];
-        const meta = scenes[beat.scene];
-        const age = time - meta.start;
-        const entrance = settled ? 1 : ease(age / 0.65);
-        paint(front, beat.scene, index, time, settled);
-        const push = settled ? 0 : clamp(age / (meta.end - meta.start)) * 0.018;
-        front.style.opacity = entrance;
-        front.style.transform = `translateX(${(1 - entrance) * 48}px) scale(${1 + push})`;
+      onSeek(frame) {
+        const { time, settled, beatIndex, sceneIndex, sceneMeta, sceneAge, timeline } = frame;
+        const entrancePos = spring(sceneAge, { stiffness: 175, damping: 21, settled });
+        const entranceAlpha = settled ? 1 : ease(sceneAge / 0.45);
+        paint(front, frame, sceneIndex, beatIndex, time, settled);
+        const push = settled ? 0 : clamp(sceneAge / Math.max(1e-3, sceneMeta.end - sceneMeta.start)) * 0.018;
+        front.style.opacity = entranceAlpha;
+        front.style.transform = `translateX(${(1 - entrancePos) * 44}px) scale(${1 + push})`;
         back.style.opacity = 0;
-        if (!settled && beat.scene > 0 && age < 0.65) {
-          const lastIndex = timeline.findLastIndex(previous => previous.scene === beat.scene - 1);
-          paint(back, beat.scene - 1, lastIndex, meta.start - 0.001, true);
-          back.style.opacity = 1 - entrance;
-          back.style.transform = `translateX(${-24 * entrance}px) scale(${1 + entrance * 0.02})`;
+        if (!settled && sceneIndex > 0 && sceneAge < 0.65) {
+          const lastIndex = timeline.findLastIndex(previous => previous.scene === sceneIndex - 1);
+          paint(back, frame, sceneIndex - 1, lastIndex, sceneMeta.start - 0.001, true);
+          back.style.opacity = 1 - entranceAlpha;
+          back.style.transform = `translateX(${-24 * entranceAlpha}px) scale(${1 + entranceAlpha * 0.02})`;
         }
-        const words = storyboard.scenes[beat.scene].beats[beat.beat].words;
-        if (captionBeat !== index) {
-          caption.replaceChildren();
-          captionPages = [];
-          captionPage = -1;
-          if (words?.length) {
-            captionNodes = words.map(word => element('span', 'caption-word', word.text));
-            const limit = parseFloat(getComputedStyle(caption).maxHeight);
-            let start = 0;
-            captionNodes.forEach((node, i) => {
-              caption.append(node);
-              while (i > start && caption.scrollHeight > limit + 1) {
-                const candidates = captionNodes.slice(start, i);
-                let boundary = candidates.findLastIndex(previous => /[。！？!?；;][”’」』）)\]]*\s*$|\.\s+$/.test(previous.textContent));
-                if (boundary < 0) boundary = candidates.findLastIndex(previous => /[，,、：:]\s*$/.test(previous.textContent));
-                const end = boundary < 0 ? i : start + boundary + 1;
-                captionPages.push([start, end]);
-                caption.replaceChildren(...captionNodes.slice(end, i + 1));
-                start = end;
-              }
-            });
-            captionPages.push([start, words.length]);
-          } else caption.textContent = beat.narration;
-          captionBeat = index;
-        }
-        if (words?.length) {
-          const local = time - beat.start;
-          const page = settled ? captionPages.length - 1 : Math.max(0,
-            captionPages.findLastIndex(([start]) => local >= words[start].start));
-          const [start, end] = captionPages[page];
-          if (captionPage !== page) {
-            caption.replaceChildren(...captionNodes.slice(start, end));
-            captionPage = page;
-          }
-          for (let i = start; i < end; i++) {
-            captionNodes[i].classList.toggle('said', settled || local >= words[i].end);
-            captionNodes[i].classList.toggle('now', !settled && local >= words[i].start && local < words[i].end);
-          }
-        }
-        document.getElementById('progress').style.transform = `scaleX(${time / timeline.at(-1).end})`;
       },
-      audit() {
-        const errors = [];
-        const scale = stage.getBoundingClientRect().width / 1280;
-        const limits = stage.getBoundingClientRect();
-        const nodes = [...front.querySelectorAll('h1,.support,.node,.code-line'), caption];
-        const current = [...caption.childNodes];
-        const pages = captionPages.length ? captionPages.map(([start, end]) => captionNodes.slice(start, end)) : [current];
-        for (const contents of pages) {
-          caption.replaceChildren(...contents);
-          for (const node of nodes) {
-            const rect = node.getBoundingClientRect();
-            const style = getComputedStyle(node);
-            const bottom = rect.top + Math.max(rect.height, node.scrollHeight * scale);
-            if (rect.right > limits.right + 1 || bottom > limits.bottom + 1 || rect.left < limits.left - 1) errors.push(`${node.className || node.id}: stage overflow`);
-            const limited = node.classList.contains('node') || style.maxHeight !== 'none' || style.overflowY !== 'visible';
-            if (node.scrollWidth > node.clientWidth + 1 || (limited && node.scrollHeight > node.clientHeight + 1)) errors.push(`${node.className || node.id}: clipped text`);
-            if (node !== caption && rect.bottom > caption.getBoundingClientRect().top - 16 * scale) errors.push(`${node.className}: overlaps captions`);
-          }
-        }
-        caption.replaceChildren(...current);
-        if (!front.querySelector('h1')?.textContent.trim() || !caption.textContent.trim()) errors.push('missing title or narration');
-        return [...new Set(errors)];
-      }
-    };
-    window.animatic = window.motionExplainer;
-    document.fonts.addEventListener('loadingdone', () => { captionBeat = -1; });
+    });
   </script>
 </body>
 </html>

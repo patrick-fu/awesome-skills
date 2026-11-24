@@ -1,6 +1,6 @@
 interface:
   display_name: "Motion Explainer"
-  short_description: "Create narrated explainer videos with synced paper motion"
+  short_description: "Create narrated explainer videos with synced custom motion"
   default_prompt: "Use $motion-explainer to make an animated explainer video."
 policy:
   allow_implicit_invocation: false

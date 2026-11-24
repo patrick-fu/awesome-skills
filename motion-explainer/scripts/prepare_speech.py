@@ -120,9 +120,18 @@ def anchor_ranges(text, anchors):
 
 
 def make_cues(mapping, ranges):
-    return [{"word": anchor["word"], "start": mapping[start]["start"], "end": mapping[end]["end"],
-             **{key: anchor[key] for key in ["focus", "show"] if key in anchor}}
-            for start, end, anchor in ranges]
+    cues = []
+    for start, end, anchor in ranges:
+        cue = {
+            "word": anchor["word"],
+            "start": mapping[start]["start"],
+            "end": mapping[end]["end"],
+        }
+        for key, value in anchor.items():
+            if key not in {"word", "occurrence", "start", "end"}:
+                cue[key] = copy.deepcopy(value)
+        cues.append(cue)
+    return cues
 
 
 def digest(path: Path) -> str:
@@ -251,7 +260,7 @@ def prepare(source: Path, output: Path, *, provider: str | None = None,
     jobs = []
     need_supplied_align = False
     for scene in board["scenes"]:
-        focus_count = len(scene["items"]) if scene["layout"] == "flow" else len(scene["code"].split("\n")) if scene["layout"] == "code" else 0
+        focus_count = len(scene["items"]) if scene["layout"] == "flow" else len(scene["code"].split("\n")) if scene["layout"] == "code" else None if scene["layout"] == "custom" else 0
         for index, beat in enumerate(scene["beats"]):
             name = f"{scene['id']}-{index}"
             ranges = anchor_ranges(beat["narration"], beat.get("anchors", []))

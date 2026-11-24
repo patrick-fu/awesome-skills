@@ -1,69 +1,125 @@
 # Visual Language & Motion
 
-Design each frame like explaining a mechanism on clean paper: hand-drawn frames,
-ink lines, yellow highlighter focus, and sparse semantic stickers. Keep colors,
-stroke weights, and typography consistent while letting each scene's layout fit
-the question it answers.
+Design each frame so the viewer *sees the mechanism move* rather than reading a
+wall of labeled boxes. Choose a visual system that fits the subject and the
+user's taste, keep color/type/stroke discipline consistent across the video, and
+state the selected visual direction in the pre-build confirmation snapshot.
 
-## Visual Tokens
+## Visual Direction (Paper Whiteboard Is Default Fallback, Not a Lock)
 
-- **Paper & ink**: light paper canvas `#f8f7f2` (or crisp white) with a subtle
-  24 px dot grid (`#20272312`). Primary ink `#202723` at 85% / 40% / 15% opacity
-  tiers.
-- **Focus & path**: highlighter yellow `#ffe066` marks the active focus; path
-  blue `#1769c2` traces data/control flow; introduce red only for real risks or
-  failures. Keep **one primary focus at a time** and leave already-explained
-  objects in place.
-- **Typography**: handwritten face for headings, labels, and brief notes;
-  monospace for code, paths, and numbers. The default `player.html` embeds the
-  bundled `LXGW WenKai Lite` Latin + CJK subsets (`assets/fonts/`, SIL OFL 1.1)
-  so offline rendering needs no external network or other skills. For Japanese,
-  Korean, or other scripts, verify glyph coverage in rendered frames and add
-  local system fallbacks if needed.
-- **Tactile paper cues**: 1.5–2 px rough-radius frames, 3–5 px hard offset
-  shadows, masking tape strips, highlighter sweeps, and sticky notes—subtle
-  enough that they never obscure text.
-- **Semantic emoji**: attach an emoji to a concrete object (`📨 Request`,
-  `📦 Cache`, `🗄️ Database`, `🔒 Lock`) and keep the same symbol whenever that
-  object recurs. Avoid decorative floating icons.
+The built-in `assets/player.html` ships a zero-config **paper-and-ink
+whiteboard** theme so quick explainers work immediately without authoring custom
+HTML. It is a **fallback default, not the only style**. Pick the visual system
+that best matches the topic and user preference:
+
+| Visual system | Best fit | Core palette & surface cues |
+| --- | --- | --- |
+| **Paper & ink physical whiteboard** (built-in default) | Quick concept sketches, analogies, teaching walkthroughs | Paper `#f8f7f2` + 24 px dot grid (`#20272312`), ink `#202723`, highlighter `#ffe066`, path blue `#1769c2`, rough borders, tape strips, sparse semantic stickers |
+| **Dark UI slice** | Developer tools, agent loops, APIs, terminal/code architecture | Deep charcoal/slate canvas (`#0d1117` / `#111418`), hairline borders (`1px`), crisp monospace + sans, selective glowing semantic accent (cyan/amber/emerald), cropped real UI/trace surfaces |
+| **Swiss editorial typography** | Principles, tradeoffs, mental models, essays, product positioning | High-contrast grid (crisp off-white or pure black), bold grotesque/editorial display type, one decisive accent color, generous negative space |
+| **Warm science / editorial illustration** | Physics, math, distributed systems, biology, spatial reasoning | Soft cream/sand canvas, muted cobalt/terracotta/sage tones, organic curves, tactile physical metaphors and measured diagrams |
+
+Offline rendering rules that apply to **every** visual system:
+
+- **One primary focus at a time**: keep accent colors purposeful; reserve red
+  for actual errors, drops, or risks.
+- **Offline fonts only**: the exporter blocks all network requests. Either
+  include `/* motion-explainer-fonts */` (embeds bundled `LXGW WenKai Lite`
+  Latin + CJK subsets, SIL OFL 1.1) or use verified local system fonts
+  (`PingFang SC`, `SF Pro`, `SF Mono`, `Helvetica Neue`, `Georgia`, etc.) and
+  verify CJK/Latin/symbol glyph coverage in rendered frames.
+- **Semantic symbols over decoration**: when using icons or emoji (`📨 Request`,
+  `📦 Cache`, `🗄️ Database`, `🔒 Lock`), bind each symbol to a concrete object
+  and keep it consistent whenever that object recurs.
+
+## Anti-Pattern: Wall-to-Wall 1-2-3 Equal-Width Boxes
+
+Avoid turning every scene into **three equal-width horizontal cards with
+arrows** ("通篇 1-2-3 等宽横排方框"). Repeating uniform boxed cards across scenes:
+
+- flattens different causal structures (pipelines, trade-offs, hierarchies,
+  state mutations, timelines, UI interactions) into identical slide templates;
+- pushes the viewer to read static paragraphs inside boxes instead of watching
+  an object transform;
+- wastes canvas space on decorative card borders and padding.
+
+Use the built-in `flow` layout only when a simple 2–5 step pipeline genuinely
+fits; otherwise switch the scene to `layout: "custom"` with a tailored
+`--player` powered by `/* motion-explainer-kit */`.
+
+## De-Carded Composition & Motion Vocabulary
+
+Pick compositions and `window.MotionKit` primitives that embody the causal
+mechanism directly:
+
+1. **Living sentence & inline elastic slot** (`MotionKit.inlineSlot`):
+   Place one sharp sentence or equation directly on open canvas; when the
+   narration hits a keyword cue, push neighboring words apart elastically to
+   insert a live badge, constraint, or counter-value right inside the sentence.
+2. **Physical container ingestion & stacking** (`MotionKit.spring` + `MotionKit.impact`):
+   Represent caches, queues, buffers, context windows, and stacks as physical
+   vessels that swallow, compress, bounce, or evict items on contact rather than
+   toggling highlight borders on static rectangles.
+3. **Conversation & tool-call stream morphing** (`MotionKit.pillMorph` + `MotionKit.wipeClip`):
+   Anchor a compact pill or chat bubble to one edge and stretch it open smoothly
+   as arguments or results arrive; swap status labels in place with a horizontal
+   clip wipe instead of popping whole new cards onto the screen.
+4. **Topology lift-and-reposition** (`MotionKit.spring` + `MotionKit.smear` + `MotionKit.impact`):
+   Show before/after architecture or refactoring on the *same* nodes: lift a
+   node out of its old slot, travel along a curved path with velocity-aligned
+   smear, and settle into the new topology with a subtle landing impact.
+5. **Cropped UI slices & virtual camera push** (`MotionKit.camera`):
+   Instead of shrinking an entire dashboard, terminal, or diagram into an
+   unreadable overview, crop to the decisive slice and smoothly pan/push the
+   virtual camera onto the exact line, metric, or control being spoken about.
+6. **Cross-container inverse-color absorption**:
+   When a token, request, or state crosses a real boundary (client → server,
+   draft → committed, dark sandbox → light host, user space → kernel), invert
+   its surface/ink palette as it passes the threshold so the boundary crossing
+   reads instantaneously.
+7. **2.5D physical vitality on any protagonist** (`MotionKit.sphereEyes` + `MotionKit.deterministicBlink` + `MotionKit.impact`):
+   Optionally give subtle gaze, deterministic blinking, or breathing bounce to
+   whatever domain object owns the scene—a request packet, token orb, lock,
+   cursor, or router node—rather than inventing an unrelated fixed mascot.
 
 ## Match Composition to the Question
 
-| What you are explaining | Best layout |
+| What you are explaining | Preferred composition |
 | --- | --- |
-| Where data or control moves | Object nodes, drawn arrows, moving packet |
-| Before vs after / why something changed | Same set of objects transitioning in place, or side-by-side contrast |
-| Sequence or wait time | Shared-axis timeline |
-| Ownership across layers | Horizontal bands or swimlanes |
-| Which lines changed behavior | Trimmed code (<= 12 lines) with sliding pencil highlight |
-| One core takeaway | Bold takeaway card, highlighter sweep, minimal annotation |
-
-The default template provides `title`, `flow`, and `code`. When the story calls
-for a comparison, timeline, or layered architecture, customize the task's
-`player.html` while keeping the `window.motionExplainer` contract.
+| A key definition or constraint modifying a claim | Living sentence with inline elastic slot (`inlineSlot`) |
+| Queuing, caching, eviction, or memory pressure | Physical vessel ingestion/stacking (`spring` + `impact`) |
+| Agent loops, tool calls, or request/response dialogue | Single-edge anchored pill morph + clip wipe (`pillMorph` + `wipeClip`) |
+| Before vs after / refactoring / routing change | Same objects lifting and re-seating in place (`spring` + `smear`), or inverse-color boundary crossing |
+| Deep UI, trace, or complex diagram inspection | Cropped UI slice with virtual camera pan/push (`camera`) |
+| Which lines of code changed behavior | Trimmed code (<= 12 lines) with sliding highlight |
+| Simple linear 2–5 step pipeline | Built-in `flow` layout (default fallback) |
 
 ## Density & Pacing Discipline
 
-- **One idea per scene, low text density**: avoid turning scenes into dense
-  slide decks packed with multi-sentence cards. Put relationships and short
-  labels on screen; let the narration explain the *why*.
-- **Progressive change over static dumps**: pre-place the scene's complete
-  geometry, then reveal elements and move focus step by step via `show`,
-  `focus`, and keyword `anchors`. When showing a multi-step cause-and-effect,
-  mutate the same objects in place rather than stacking extra summary boxes.
-- **Purposeful motion**: cards settle lightly (300–650 ms), arrows draw along
-  the path, highlighter sweeps on keywords (200–350 ms), stickers stamp gently.
-  Hold elements steady after entry so viewers have time to read. Compute every
-  frame strictly from `seconds` passed to `seek()`.
+- **One idea per scene, low text density**: never pack multi-sentence cards onto
+  the stage. Show objects, geometry, and short labels; let the narration explain
+  the *why*.
+- **Progressive mutation over static dumps**: establish spatial anchors once and
+  evolve them through `anchors` / `cues` (`focus`, `show`, or custom `state` /
+  `action` / `badge` / `data`). Mutate existing objects in place rather than
+  appending extra summary boxes.
+- **Deterministic physics from `seconds` only**: settle entrances cleanly with
+  closed-form springs (`300–650 ms`), land keyword accents within `200–350 ms`,
+  and hold resting poses long enough to read. Never use wall-clock time,
+  `Math.random()`, `requestAnimationFrame`, or CSS autoplay loops.
 
 ## Watching & Listening Self-Check
 
 Before delivery, inspect real frames from `video.mp4` at normal viewing size
 (not just `audit()`):
 
-1. Is the current question or takeaway readable in one glance?
-2. Is on-screen text sparse enough to read while listening, with no dense walls of cards?
-3. Do visual transitions and highlights land cleanly on the spoken keywords?
-4. Do emoji map to real objects, and do tape/borders stay clear of text and captions?
+1. Does the visual style fit the topic, and does the composition avoid repetitive
+   1-2-3 equal-width box layouts?
+2. Is the current question or takeaway readable in one glance with low text density?
+3. Do visual transitions, camera moves, and keyword highlights land cleanly on
+   the spoken words?
+4. Do all fonts render cleanly offline, and do visual elements stay well clear
+   of the caption safe zone?
 5. Does reverse seeking restore the exact earlier frame state?
-6. Is narration volume balanced, pacing natural, and free of clipped words or jarring cross-beat shifts?
+6. Is narration volume balanced, pacing natural, and free of clipped words or
+   jarring cross-beat shifts?

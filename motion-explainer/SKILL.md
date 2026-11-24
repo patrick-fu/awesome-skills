@@ -2,11 +2,11 @@
 name: motion-explainer
 description: >-
   Produce narrated animated explainer videos from editable storyboards with
-  progressive reveals, word-synced captions, continuous paper-whiteboard
-  motion, and MP4 export. Self-contained with cloud Doubao 2.0, local offline
-  Qwen3-TTS MLX, zero-key Edge TTS, or supplied audio. Trigger when explicitly
-  requested for animated video explainers of concepts, code changes, or
-  supplied material.
+  progressive reveals, word-synced captions, customizable visual styles and
+  deterministic motion, and MP4 export. Self-contained with cloud Doubao 2.0,
+  local offline Qwen3-TTS MLX, zero-key Edge TTS, or supplied audio. Trigger
+  when explicitly requested for animated video explainers of concepts, code
+  changes, or supplied material.
 disable-model-invocation: true
 ---
 
@@ -29,7 +29,7 @@ Inspect discoverable facts first: supplied documents, code, git diffs, existing 
 **Hard gate before any speech synthesis or video rendering** (generation incurs cloud API cost or local compute time): present one compact confirmation snapshot and wait for user approval before running `prepare_speech.py` or `motion_explainer.py build`:
 
 - **Voice & TTS engine**: selected provider (`doubao`, `qwen3-mlx`, `edge`, `supplied`, or `macos_say`), recommended voice ID, online vs offline status, and billing/character-count notice when using a cloud API. If no speech backend is configured yet, enter the [Setup Guide](references/setup.md) branch first.
-- **Visual layout & density**: default paper-whiteboard layouts (`title` / `flow` / `code`) or custom `player.html` scenes, low-density pacing plan, resolution/FPS, and output directory.
+- **Visual direction, layout & density**: the chosen visual system for this video (paper-and-ink whiteboard is the zero-config fallback, **not** a mandatory lock—pick paper-ink physical, dark UI slice, Swiss editorial typography, warm science explainer, or a user-requested palette to fit the subject), whether using built-in `title` / `flow` / `code` layouts or `custom` scenes with `--player` + `/* motion-explainer-kit */`, low-density pacing plan, resolution/FPS, and output directory.
 - **Production approach & story outline**: target audience, core causal mechanism to make clear, estimated duration, and scene-by-scene breakdown.
 - **Final language**: explicitly declared or inferred language.
 
@@ -46,16 +46,16 @@ Choose the speech backend in priority order based on what the host has ready and
    - Runs `Qwen3-TTS 1.7B (8-bit)` and `Qwen3-ForcedAligner 0.6B (8-bit)` sequentially in separate processes so GPU memory never stacks (~6.5 GB peak GPU RAM, ~4.64 GB total disk, Apache 2.0 weights), with automatic `ffmpeg loudnorm` loudness normalization and full word-level sync.
    - Check readiness with `scripts/manage_runtime.py inspect --json`. On `SETUP_REQUIRED`, read [references/setup.md](references/setup.md), report disk size, memory requirements, and storage path (external disk supported via `storage configure`), and run `manage_runtime.py setup` **only after explicit user approval**.
 3. **Zero-Key Online Quick-Try (`edge`, cross-platform)**:
-   - Uses unofficial Microsoft Edge Read Aloud (`edge-tts==7.3.1`, ~7 MB uv cache) with `WordBoundary` timestamps. Requires explicit user opt-in because narration text is sent to Microsoft and latency/availability have no SLA.
+   - Uses Microsoft Edge's unofficial online TTS (`edge-tts`) with zero API keys and word-level timing (`WordBoundary` / `SentenceBoundary` fallback). Only select when the user chooses a quick zero-key online option or neither Doubao nor local MLX is desired.
 4. **Zero-Dependency Fallback (`supplied` / `macos_say`)**:
    - Reuse user-supplied recordings (optionally aligned via `--align-supplied` when local Qwen3 MLX runtime is installed), or fall back to macOS `say` (no word timestamps).
 
 ## Content, Storyboard & Visuals
 
-- One main idea per scene; write each `narration` beat as a complete semantic unit (may contain multiple sentences) and trigger visual focus/reveal shifts inside the beat with `anchors` / `cues`.
-- Keep on-screen density low: show only what the viewer needs to grasp the relationship, sequence, or code line while narration explains *why*. Reuse the same set of objects across beats to show before/after state changes rather than packing dense multi-paragraph cards.
-- Read [Visual Language & Motion](references/visuals.md) for the built-in paper-and-ink whiteboard style, embedded handwritten fonts, semantic emoji rules, and density checks.
-- Follow [Storyboard & Rendering Contract](references/storyboard.md) for JSON schema, multi-provider speech preparation, cache safety, and custom `player.html` (`window.motionExplainer`). Starter examples live in [assets/example.zh.json](assets/example.zh.json), [assets/example.en.json](assets/example.en.json), and [assets/example.rhythm.zh.json](assets/example.rhythm.zh.json).
+- One main idea per scene; write each `narration` beat as a complete semantic unit (may contain multiple sentences) and trigger visual state, focus, or reveal shifts inside the beat with `anchors` / `cues`.
+- Match the visual system and composition to the mechanism instead of defaulting every scene to uniform 1-2-3 horizontal boxes. Keep on-screen density low and reuse the same objects across beats to show cause-and-effect in place.
+- Read [Visual Language & Motion](references/visuals.md) for visual-style options (paper-ink fallback, dark UI slice, Swiss typography, warm science), the de-carded composition & motion vocabulary, anti-patterns, and density checks.
+- Follow [Storyboard & Rendering Contract](references/storyboard.md) for JSON schema (`title` / `flow` / `code` / `custom`), custom cue fields, multi-provider speech preparation, cache safety, and custom `--player` + `/* motion-explainer-kit */` (`window.MotionKit` / `window.motionExplainer`). Starter examples live in [assets/example.zh.json](assets/example.zh.json), [assets/example.en.json](assets/example.en.json), and [assets/example.rhythm.zh.json](assets/example.rhythm.zh.json).
 
 ## Local Production Commands
 
@@ -75,11 +75,11 @@ Host requirements: `uv`, `ffmpeg`, `ffprobe`, and Playwright's headless Chromium
 uv run --no-project --with playwright==1.65.1 python -m playwright install chromium --only-shell
 ```
 
-Keep source artifacts (`storyboard.json`, `player.html`, `timeline.json`, per-beat audio, `captions.srt`) in a dedicated output directory owned by this tool (`.motion-explainer` marker). When editing only visuals or pauses, re-run `prepare_speech.py` on the same speech output directory to reuse cached audio offline with zero synthesis calls. Pass `--player /path/to/player.html` to build with custom scene layouts.
+Keep source artifacts (`storyboard.json`, `player.html`, `timeline.json`, per-beat audio, `captions.srt`) in a dedicated output directory owned by this tool (`.motion-explainer` marker). When editing only visuals, custom cue payloads, or pauses, re-run `prepare_speech.py` on the same speech output directory to reuse cached audio offline with zero synthesis calls. Pass `--player /path/to/player.html` to build with custom scene layouts and inline `/* motion-explainer-kit */` for offline deterministic motion primitives and player guardrails.
 
 ## Verification & Delivery
 
 1. **Technical verification**: run `motion_explainer.py verify` (full FFmpeg decode, H.264/AAC/mov_text tracks, frame count, duration, timeline continuity, and SRT range match).
 2. **Visual & timing inspection**: inspect real frames extracted from `video.mp4` at the opening, scene transitions, mid-motion/keyword anchors, and ending. Check font rendering (CJK/Latin), clipping, caption readability, low single-screen density, and reverse-seek determinism.
 3. **Audio listening check**: confirm non-silent balanced loudness and check pacing/pronunciation/continuity; clearly report whether narration was listened to directly or still awaits user audition.
-4. **Deliver**: playable `video.mp4`, editable source directory, short rebuild command, speech provider/voice used, and explicit technical + watching/listening verification status. Licensing and third-party notices live in [NOTICE.md](NOTICE.md). Never upload, publish, or attach outputs to a PR without explicit authorization.
+4. **Deliver**: playable `video.mp4`, editable source directory, short rebuild command, speech provider/voice used, visual direction chosen, and explicit technical + watching/listening verification status. Licensing and third-party notices live in [NOTICE.md](NOTICE.md). Never upload, publish, or attach outputs to a PR without explicit authorization.

@@ -39,6 +39,10 @@ def bundle_player(source, target):
                 '") format("woff2");font-weight:400;font-style:normal;font-display:block}'
             )
         html = html.replace(placeholder, "\n".join(css))
+    kit_placeholder = "/* motion-explainer-kit */"
+    if kit_placeholder in html:
+        kit_js = (ASSETS / "motion-kit.js").read_text(encoding="utf-8").replace("</script>", "<\\/script>")
+        html = html.replace(kit_placeholder, kit_js)
     target.write_text(html, encoding="utf-8")
 
 
@@ -61,6 +65,14 @@ def media_info(path):
 
 def validate_visual(data, focus_count, label):
     focus = data.get("focus", [])
+    if focus_count is None:
+        if not isinstance(focus, list) or any(type(i) is not int or i < 0 for i in focus):
+            raise ValueError(f"{label}: focus indexes out of range")
+        if "show" in data:
+            shown = data["show"]
+            if type(shown) is not int or shown < 1 or any(i >= shown for i in focus):
+                raise ValueError(f"{label}: show must include the focused elements")
+        return
     if not isinstance(focus, list) or any(type(i) is not int or not 0 <= i < focus_count for i in focus):
         raise ValueError(f"{label}: focus indexes out of range")
     if "show" in data:
@@ -133,6 +145,8 @@ def read_storyboard(path):
                 raise ValueError(f"{sid}: split code into at most 12 lines per scene")
         elif layout == "title":
             focus_count = 0
+        elif layout == "custom":
+            focus_count = None
         else:
             raise ValueError(f"{sid}: unknown layout {layout!r}")
         beats = scene.get("beats")
@@ -163,9 +177,9 @@ def read_storyboard(path):
             if "words" in beat:
                 validate_word_times(beat["words"], sid)
             if beat.get("cues"):
-                validate_word_times([{**cue, "text": cue.get("word", "")} for cue in beat["cues"] if isinstance(cue, dict)], sid)
                 if any(not isinstance(cue, dict) for cue in beat["cues"]):
                     raise ValueError(f"{sid}: cues must be objects")
+                validate_word_times([{**cue, "text": cue.get("word", "")} for cue in beat["cues"]], sid)
                 state = {key: beat[key] for key in ["focus", "show"] if key in beat}
                 for cue in beat["cues"]:
                     state.update({key: cue[key] for key in ["focus", "show"] if key in cue})

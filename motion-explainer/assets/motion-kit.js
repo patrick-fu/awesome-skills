@@ -647,6 +647,210 @@
     };
   }
 
+  function cleanZero(value) {
+    if (!Number.isFinite(value) || Math.abs(value) < 1e-9) return 0;
+    return value;
+  }
+
+  function formatCoord(value, precision = 2) {
+    const fixed = cleanZero(value).toFixed(precision);
+    return Number(fixed) === 0 ? (0).toFixed(precision) : fixed;
+  }
+
+  function normalizePoint(point) {
+    if (Array.isArray(point)) {
+      return [
+        Number.isFinite(point[0]) ? point[0] : 0,
+        Number.isFinite(point[1]) ? point[1] : 0,
+      ];
+    }
+    if (point && typeof point === 'object') {
+      return [
+        Number.isFinite(point.x) ? point.x : 0,
+        Number.isFinite(point.y) ? point.y : 0,
+      ];
+    }
+    return [0, 0];
+  }
+
+  function deterministicHash(seed, index, channel) {
+    let h = (
+      Math.imul(seed | 0, 374761393)
+      + Math.imul((index + 1) | 0, 668265263)
+      + Math.imul((channel + 1) | 0, 2147483647)
+    ) | 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    h = h ^ (h >>> 16);
+    return (h >>> 0) / 4294967296;
+  }
+
+  /**
+   * Isomorphic SVG path morph between two equal-length 2D point lists [[x, y], ...].
+   * Emits smooth midpoint quadratic Bezier curves by default (or linear polylines).
+   * Pure function of (pointsA, pointsB, progress); safe for forward/reverse seek() and settled=true.
+   */
+  function morphPath(pointsA, pointsB, progress, options = {}) {
+    const {
+      smooth = true,
+      closed = false,
+      precision = 2,
+      ease = null,
+      settled = false,
+    } = options;
+    const safePrecision = clamp(Math.floor(Number.isFinite(precision) ? precision : 2), 0, 6);
+    const rawP = settled ? 1 : clamp(progress, 0, 1);
+    const p = typeof ease === 'function' ? clamp(ease(rawP), 0, 1) : rawP;
+    const isSmooth = Boolean(smooth);
+    const isClosed = Boolean(closed);
+
+    if (!Array.isArray(pointsA) || !Array.isArray(pointsB) || pointsA.length === 0 || pointsB.length === 0) {
+      return { progress: p, d: '', points: [], count: 0, smooth: isSmooth, closed: isClosed };
+    }
+
+    const count = Math.min(pointsA.length, pointsB.length);
+    const points = [];
+    for (let i = 0; i < count; i++) {
+      const a = normalizePoint(pointsA[i]);
+      const b = normalizePoint(pointsB[i]);
+      points.push([
+        cleanZero(mix(a[0], b[0], p)),
+        cleanZero(mix(a[1], b[1], p)),
+      ]);
+    }
+
+    const ptStr = pt => `${formatCoord(pt[0], safePrecision)} ${formatCoord(pt[1], safePrecision)}`;
+    let d = '';
+    if (count === 1) {
+      d = `M ${ptStr(points[0])}${isClosed ? ' Z' : ''}`;
+    } else if (!isSmooth || count === 2) {
+      const segments = [`M ${ptStr(points[0])}`];
+      for (let i = 1; i < count; i++) {
+        segments.push(`L ${ptStr(points[i])}`);
+      }
+      if (isClosed) segments.push('Z');
+      d = segments.join(' ');
+    } else if (isClosed) {
+      const last = points[count - 1];
+      const first = points[0];
+      const startMid = [cleanZero((last[0] + first[0]) / 2), cleanZero((last[1] + first[1]) / 2)];
+      const segments = [`M ${ptStr(startMid)}`];
+      for (let i = 0; i < count; i++) {
+        const cur = points[i];
+        const next = points[(i + 1) % count];
+        const mid = [cleanZero((cur[0] + next[0]) / 2), cleanZero((cur[1] + next[1]) / 2)];
+        segments.push(`Q ${ptStr(cur)} ${ptStr(mid)}`);
+      }
+      segments.push('Z');
+      d = segments.join(' ');
+    } else {
+      const segments = [`M ${ptStr(points[0])}`];
+      for (let i = 1; i < count - 1; i++) {
+        const cur = points[i];
+        if (i < count - 2) {
+          const next = points[i + 1];
+          const mid = [cleanZero((cur[0] + next[0]) / 2), cleanZero((cur[1] + next[1]) / 2)];
+          segments.push(`Q ${ptStr(cur)} ${ptStr(mid)}`);
+        } else {
+          segments.push(`Q ${ptStr(cur)} ${ptStr(points[count - 1])}`);
+        }
+      }
+      d = segments.join(' ');
+    }
+
+    return { progress: p, d, points, count, smooth: isSmooth, closed: isClosed };
+  }
+
+  /**
+   * Restrained deterministic micro-particle burst (6-12 particles) for milestone completion.
+   * Uses a seeded integer hash (fully deterministic); zeroes all particles when age <= 0,
+   * age >= duration, or settled=true. Safe for forward and reverse seek().
+   */
+  function microBurst(age, options = {}) {
+    const {
+      count = 8,
+      duration = 0.35,
+      radius = 46,
+      spread = Math.PI * 2,
+      startAngle = -Math.PI / 2,
+      gravity = 16,
+      minScale = 0.55,
+      maxScale = 1.05,
+      maxRotation = 160,
+      seed = 1,
+      originX = 0,
+      originY = 0,
+      settled = false,
+    } = options;
+    const safeCount = clamp(Math.round(Number.isFinite(count) ? count : 8), 6, 12);
+    const safeDuration = Math.max(0.05, Number.isFinite(duration) ? duration : 0.35);
+    const safeRadius = Math.max(0, Number.isFinite(radius) ? radius : 46);
+    const safeSpread = Number.isFinite(spread) ? spread : Math.PI * 2;
+    const safeStart = Number.isFinite(startAngle) ? startAngle : -Math.PI / 2;
+    const safeGravity = Number.isFinite(gravity) ? gravity : 16;
+    const safeMinScale = Math.max(0.1, Number.isFinite(minScale) ? minScale : 0.55);
+    const safeMaxScale = Math.max(safeMinScale, Number.isFinite(maxScale) ? maxScale : 1.05);
+    const safeMaxRot = Math.max(0, Number.isFinite(maxRotation) ? maxRotation : 160);
+    const rawSeed = Number.isFinite(seed) ? seed : 1;
+    const safeSeed = Math.floor(rawSeed * 1000);
+    const ox = cleanZero(Number.isFinite(originX) ? originX : 0);
+    const oy = cleanZero(Number.isFinite(originY) ? originY : 0);
+    const validAge = Number.isFinite(age) ? age : 0;
+    const active = !settled && validAge > 0 && validAge < safeDuration;
+    const progress = settled ? 1 : clamp(validAge / safeDuration, 0, 1);
+
+    const particles = [];
+    const angleStep = safeSpread / safeCount;
+    for (let i = 0; i < safeCount; i++) {
+      if (!active) {
+        particles.push({
+          index: i,
+          x: ox,
+          y: oy,
+          scale: 0,
+          rotation: 0,
+          opacity: 0,
+          transform: `translate(${formatCoord(ox)}px, ${formatCoord(oy)}px) rotate(0.00deg) scale(0.0000)`,
+        });
+        continue;
+      }
+      const jitter = (deterministicHash(safeSeed, i, 0) - 0.5) * angleStep * 0.55;
+      const angle = safeStart + angleStep * i + jitter;
+      const distFactor = 0.62 + deterministicHash(safeSeed, i, 1) * 0.38;
+      const baseScale = mix(safeMinScale, safeMaxScale, deterministicHash(safeSeed, i, 2));
+      const spinSign = deterministicHash(safeSeed, i, 3) < 0.5 ? -1 : 1;
+      const spinMag = (0.45 + deterministicHash(safeSeed, i, 4) * 0.55) * safeMaxRot;
+      const lifeScale = 0.82 + deterministicHash(safeSeed, i, 5) * 0.18;
+      const localP = clamp(progress / lifeScale, 0, 1);
+      const travel = easeOutCubic(localP);
+      const dist = safeRadius * distFactor * travel;
+      const x = cleanZero(ox + Math.cos(angle) * dist);
+      const y = cleanZero(oy + Math.sin(angle) * dist + safeGravity * localP * localP);
+      const fadeIn = clamp(localP / 0.14, 0, 1);
+      const fadeOut = 1 - easeInOutCubic(clamp((localP - 0.35) / 0.65, 0, 1));
+      const opacity = cleanZero(localP >= 1 ? 0 : fadeIn * fadeOut);
+      const scale = cleanZero(localP >= 1 ? 0 : baseScale * (0.45 + 0.55 * fadeIn) * (1 - 0.65 * localP));
+      const rotation = cleanZero(spinSign * spinMag * travel);
+      particles.push({
+        index: i,
+        x,
+        y,
+        scale,
+        rotation,
+        opacity,
+        transform: `translate(${formatCoord(x)}px, ${formatCoord(y)}px) rotate(${formatCoord(rotation)}deg) scale(${formatCoord(scale, 4)})`,
+      });
+    }
+
+    return {
+      progress,
+      active,
+      count: safeCount,
+      duration: safeDuration,
+      seed: rawSeed,
+      particles,
+    };
+  }
+
   function createPlayerShell(config = {}) {
     const stage = resolveNode(config.stage, '#stage');
     const caption = resolveNode(config.caption, '#caption');
@@ -937,6 +1141,8 @@
     rollingDigits,
     beamPath,
     stackedDeck,
+    morphPath,
+    microBurst,
     createPlayerShell,
   };
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -100,6 +100,11 @@ mechanism directly:
    bidirectional) to show active dataflow, and layer prior events in a
    Sonner-style depth deck (`translateY / scale / opacity / zIndex`) that
    expands cleanly on cue without losing history context.
+10. **Isomorphic vector morphing & restrained completion bursts** (`MotionKit.morphPath` + `MotionKit.microBurst`):
+   Interpolate matched 2D point arrays along smooth quadratic Beziers when
+   transforming icons, curves, or state glyphs instead of fading static SVGs;
+   mark decisive completion or verification moments with 6–12 seeded
+   micro-particles that dissipate cleanly within `~350 ms`.
 
 ## Motion Craft Guardrails
 
@@ -119,6 +124,14 @@ mechanism directly:
   strictly for stylized product-showcase or liquid-metaphor demos; never apply
   it to technical diagrams, code views, or whiteboard scenes where crisp edges
   carry meaning.
+- **FLIP shared-element handoffs**: when expanding a badge, node, or slice into
+  a detail view across beats, derive both rects in stage coordinates and play
+  the inverted `translate` + `scale` transform from `spring(age)` so spatial
+  identity persists without hard cuts.
+- **Skeleton-to-content boundary**: pair equal-footprint skeleton placeholders
+  with `blurBridge` only when async fetch, streaming inference, or hydration
+  latency is part of the narrative—never add decorative shimmers to static
+  diagram reveals.
 
 ### New Deterministic Primitives Quick Index
 
@@ -128,6 +141,8 @@ mechanism directly:
 | `MotionKit.rollingDigits` | `(fromStr, toStr, progress, { stagger, direction, settled })` | `columns[]` (`changed`, `offset`, `stripTransform`), `text` |
 | `MotionKit.beamPath` | `(seconds, { pathLength, pulseLength, period, direction, settled })` | `progress`, `direction`, `strokeDasharray`, `strokeDashoffset`, `opacity` |
 | `MotionKit.stackedDeck` | `(index, count, expandedProgress, { collapsedGap, expandedGap, settled })` | `translateY`, `scale`, `opacity`, `zIndex`, `transform` |
+| `MotionKit.morphPath` | `(pointsA, pointsB, progress, { smooth=true, closed, ease, settled })` | `d`, `points[]`, `progress`, `count` |
+| `MotionKit.microBurst` | `(age, { count=8, duration=0.35, radius=46, seed=1, settled })` | `active`, `progress`, `particles[]` (`x`, `y`, `scale`, `rotation`, `opacity`, `transform`) |
 
 ## Match Composition to the Question
 
@@ -142,6 +157,8 @@ mechanism directly:
 | Numeric before/after metrics or counters | Tabular per-digit roll (`rollingDigits`) + blur handoff (`blurBridge`) |
 | Active dataflow, routing, or retry loop | Directed SVG path pulse (`beamPath`) |
 | Multi-step event history / notification stack | Depth-stacked deck expanding on demand (`stackedDeck`) |
+| Shape, icon, waveform, or state-glyph transformation | Isomorphic SVG curve interpolation (`morphPath`) |
+| Task completion, verification pass, or milestone lock-in | Restrained 6–12 particle dissipation burst (`microBurst`) |
 | Simple linear 2–5 step pipeline | Built-in `flow` layout (default fallback) |
 
 ## Density & Pacing Discipline

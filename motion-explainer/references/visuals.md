@@ -159,6 +159,9 @@ mechanism directly:
 | Multi-step event history / notification stack | Depth-stacked deck expanding on demand (`stackedDeck`) |
 | Shape, icon, waveform, or state-glyph transformation | Isomorphic SVG curve interpolation (`morphPath`) |
 | Task completion, verification pass, or milestone lock-in | Restrained 6–12 particle dissipation burst (`microBurst`) |
+| Surface UI vs underlying execution stack or internals | X-Ray scanning spotlight mask (dynamic `mask-image` aperture or sweep driven by `seconds`) |
+| State, version, or deployment switch | 3D Split-Flap flip or deterministic Text Scramble decode (fixed seed, no `Math.random()`) |
+| Hardware/architecture teardown callouts or AI listening state | Precision SVG Callout stroke-draw leaders, or Dot Matrix acoustic ripple field |
 | Simple linear 2–5 step pipeline | Built-in `flow` layout (default fallback) |
 
 ## Density & Pacing Discipline

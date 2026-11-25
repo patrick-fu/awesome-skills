@@ -133,6 +133,8 @@ local X session after approval; the Jina fallback is opt-in.
 
 #### 🧭 [`work-context`](./work-context/SKILL.md)
 
+![Work Context hub routing](./work-context/assets/showcase.webp)
+
 Set up one starting repository for work across projects, agents, and harnesses.
 Enter through the same project, or start from any repository and follow its local
 routing to shared context. A task spanning several repositories keeps one place
@@ -196,6 +198,8 @@ checks matter.
 
 #### 🎯 [`long-task-control`](./long-task-control/SKILL.md)
 
+![Long Task Control course correction](./long-task-control/assets/showcase.webp)
+
 Run an adversarial control loop over a long task: at each phase boundary a
 Design Challenger and Drift Watchdog test ROI, scope creep, and drift against
 the original intent. It preserves verified work, retires activity that no
@@ -204,6 +208,8 @@ longer serves the goal, and resumes only where new acceptance evidence appears.
 Use it when a task is genuinely drifting—not merely because it is long.
 
 #### 🧭 [`attention-frontier`](./attention-frontier/SKILL.md)
+
+![Attention Frontier workbench preview](./attention-frontier/assets/showcase.webp)
 
 Keep a personal follow-up workbench across parallel projects and agent
 conversations. Reconcile pending decisions, reviews, and coordination against
@@ -363,6 +369,8 @@ Invoke it after a complex task or when similar problems recur to turn experience
 into reusable tools and guidance for future work.
 
 #### 🔬 [`reverse-engineer`](./reverse-engineer/SKILL.md)
+
+![Reverse Engineer three-layer workflow](./reverse-engineer/assets/showcase.webp)
 
 Reverse-engineer shipped software in three escalating layers: native Unix
 tools for fast recon, the REA CLI for structured Evidence, and Ghidra

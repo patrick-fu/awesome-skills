@@ -115,6 +115,8 @@ fallback 只会显式启用。
 
 #### 🧭 [`work-context`](./work-context/SKILL.md)
 
+![Work Context 单入口跨仓路由](./work-context/assets/showcase.zh-CN.webp)
+
 把一个仓库设为所有任务的起点，让多个项目、Agent 和 Harness 共用同一个入口。
 所有会话可以从同一个 Project 进入，也可以在任意仓库通过本地规则找到共享 Context。
 跨多个仓库的任务仍在同一处维护目标、当前决定、来源与恢复点；Context 还可以包含
@@ -166,6 +168,8 @@ PR/MR、issue 回复和 QA 交接。遵循用户要求的语言，保留关键�
 
 #### 🎯 [`long-task-control`](./long-task-control/SKILL.md)
 
+![Long Task Control 对抗式纠偏回路](./long-task-control/assets/showcase.zh-CN.webp)
+
 对长任务跑一个对抗式控制回路：每到一个阶段边界，由 Design Challenger 和 Drift
 Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留已经验证的工作，剪掉不再
 服务于目标的动作，只在出现新的验收证据时才继续推进。
@@ -173,6 +177,8 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 适合任务真的开始跑偏时，而不是仅仅因为它很长。
 
 #### 🧭 [`attention-frontier`](./attention-frontier/SKILL.md)
+
+![Attention Frontier 个人跟进工作台预览](./attention-frontier/assets/showcase.zh-CN.webp)
 
 跨项目、跨 Agent 会话维护个人跟进工作台。核实真正待你决策、验收或协调的事项，
 按业务优先级排列，同时保留完整的未结队列。说明每项的主线、背景和未结支线，
@@ -299,6 +305,8 @@ Agent 能直接运行检查、保留结果，并随着项目变化更新验证�
 适合在复杂任务收尾或同类问题反复出现时显式调用，把一次任务的经验转化为后续可复用的工具和规则。
 
 #### 🔬 [`reverse-engineer`](./reverse-engineer/SKILL.md)
+
+![Reverse Engineer 三层递进逆向](./reverse-engineer/assets/showcase.zh-CN.webp)
 
 三层递进的逆向工作流：原生 Unix 工具做快速侦察，REA CLI 获取结构化
 Evidence，Ghidra 生成函数级伪代码。零 MCP，零硬编码子命令，零版本锁死。

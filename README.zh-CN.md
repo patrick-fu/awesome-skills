@@ -78,7 +78,7 @@ Qwen3 模型（Apache-2.0）与在线语音服务仍适用各自许可证与条�
 
 #### 🖍️ [`clumsy-doodle`](./clumsy-doodle/SKILL.md)
 
-![Clumsy Doodle 效果展示](./clumsy-doodle/assets/showcase.webp)
+![Clumsy Doodle 效果展示](./clumsy-doodle/assets/showcase.zh-CN.webp)
 
 不调用生图模型，把想法、UI/设备隐喻或参考照片画成微软画图手残风、两岁幼儿蜡笔涂鸦，
 或往回收一收的半拟真铅笔速写。由 Agent 提炼出声明式 JSON 规格，再通过两个正交旋钮——

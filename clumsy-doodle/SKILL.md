@@ -99,4 +99,4 @@ Note on text labels:
 - `references/photo-to-doodle.md` — multimodal anchor distillation and critique loop.
 - `assets/examples/` — runnable JSON specimens (`sam-helicopter.json`,
   `db-on-fire.json`, `toddler-cat.json`, `agent-loop-zh.json`,
-  `phone-alert-sketch.json`) and `assets/showcase.webp`.
+  `phone-alert-sketch.json`), `assets/showcase.webp`, and `assets/showcase.zh-CN.webp`.

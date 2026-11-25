@@ -61,6 +61,20 @@ well, not templates to apply.
   the page is presented rather than read. Stage pages stay true white at
   reading-large type.
 
+## Motion
+
+- **`still`** (default) — calm reading pages and reports; pure CSS, zero JS.
+- **`beat-css`** — pure-CSS unfolding and state cues via `--pvl-d` and `base.css`
+  v1.4.0 classes (`.pvl-reveal--tilt`, `.pvl-reveal--sweep`, `.pvl-blur-bridge`,
+  `.pvl-slot`, `.pvl-wipe`, `.pvl-pill-morph`, `.pvl-impact`, `.pvl-beam`,
+  `.pvl-camera`).
+- **`scrubbed-25d`** — interactive stateless `seek(t)` stage (play/pause,
+  `0.4×` slow-motion, scrub bar, rolling digits, stacked depth deck) copied on
+  demand from `assets/snippets/motion-stage.html` when explaining queues,
+  backpressure, or continuous state evolution.
+- Avoid repeating fixed 3-column `.pvl-flow` boxes across a whole page when an
+  in-place state stage shows the mechanism directly.
+
 ## Known-good combinations (examples, not presets)
 
 - **Report / mechanism explainer** — paper canvas, clean or alt-rough cards,
@@ -88,5 +102,8 @@ Look at the page once, as a reader would:
 - Does the body read in the handwritten voice, with sans only where real UI or
   scan density lives?
 - At 390px: everything fits — grids collapse, tables scroll inside their
-  card, notes stay inside?
+  card, notes stay inside, and `.pvl-camera` resets to identity with zero
+  horizontal overflow?
+- Under `prefers-reduced-motion: reduce`: animations/transitions disable
+  cleanly and the page remains legible as a settled frame?
 - Does it feel right? Open the specimens in `assets/examples/` and compare the hand.

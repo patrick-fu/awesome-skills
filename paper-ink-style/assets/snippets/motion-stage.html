@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="zh-CN" data-surface="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>纸墨物理演示台 · 无状态 seek(t) 模板</title>
+<!--
+  On-demand snippet · paper-ink-style · zero-dependency interactive motion stage.
+  Copy this block only when a page needs continuous physical scrubbing; ordinary
+  reading pages stay zero-JS. Pure stateless seek(t): forward/reverse scrubbing
+  restores exact state, honors prefers-reduced-motion, and resets camera at 390px.
+-->
+<link rel="stylesheet" href="../base.css">
+<style>
+  .pvl-stage-shell{max-width:700px;margin:0 auto}
+  .pvl-stage-viewport{position:relative;overflow:hidden;border:2px solid var(--pvl-pencil-line);border-radius:var(--pvl-radius-clean);background:var(--pvl-surface-card);box-shadow:var(--pvl-shadow-hard);padding:18px}
+  .pvl-stage-canvas{display:grid;gap:14px}
+  .pvl-stage-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;border-bottom:1.5px dashed var(--pvl-pencil-light);padding-bottom:10px}
+  .pvl-stage-metrics{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline}
+  .pvl-metric-box{display:inline-flex;align-items:baseline;gap:6px;padding:4px 10px;border:1.5px solid var(--pvl-pencil-light);border-radius:10px;background:var(--pvl-surface)}
+  .pvl-digits{display:inline-flex;font-family:var(--pvl-font-mono);font-size:18px;font-weight:700;line-height:1.25;font-variant-numeric:tabular-nums;color:var(--pvl-ink)}
+  .pvl-digit-col{position:relative;display:inline-block;width:.64em;height:1.25em;overflow:hidden;text-align:center}
+  .pvl-digit-strip{display:flex;flex-direction:column;will-change:transform}
+  .pvl-digit-cell{height:1.25em;line-height:1.25em}
+  .pvl-stage-lane{display:grid;grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr);align-items:center;gap:10px}
+  .pvl-vessel{position:relative;min-height:126px;padding:12px;border:2px solid var(--pvl-pencil-line);border-radius:var(--pvl-radius-rough-alt);background:var(--pvl-surface);display:flex;flex-direction:column;justify-content:flex-end;gap:6px}
+  .pvl-vessel__label{position:absolute;top:8px;left:10px;font-family:var(--pvl-font-mono);font-size:11px;font-weight:700;color:var(--pvl-muted)}
+  .pvl-token-row{display:flex;flex-wrap:wrap;gap:6px;padding-top:20px}
+  .pvl-token{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:1.6px solid var(--pvl-pencil-line);border-radius:9px;background:var(--pvl-surface-card);font-family:var(--pvl-font-mono);font-size:11px;font-weight:700;box-shadow:2px 2px 0 rgba(32,39,35,.1);transform-origin:50% 100%}
+  .pvl-beam-svg{width:100%;height:36px;overflow:visible}
+  .pvl-deck-wrap{position:relative;min-height:126px;padding-top:26px}
+  .pvl-deck-card{position:absolute;left:0;right:0;top:26px;padding:10px 12px;border:1.6px solid var(--pvl-pencil-line);border-radius:12px;background:var(--pvl-surface-card);box-shadow:var(--pvl-shadow-hard);font-size:13px;line-height:1.5;transform-origin:50% 0}
+  .pvl-deck-card .pvl-mono{font-size:11px}
+  .pvl-controls{display:grid;gap:10px;margin-top:14px;padding:12px 14px;border:2px dashed var(--pvl-pencil-light);border-radius:var(--pvl-radius-fold);background:rgba(255,255,255,.65)}
+  .pvl-ctrl-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .pvl-btn{font-family:var(--pvl-font-mono);font-size:12px;font-weight:700;color:var(--pvl-ink);background:var(--pvl-surface-card);border:1.6px solid var(--pvl-pencil-line);border-radius:var(--pvl-radius-pill);padding:5px 12px;cursor:pointer;box-shadow:2px 2px 0 rgba(32,39,35,.1)}
+  .pvl-btn[aria-pressed="true"],.pvl-btn.is-active{background:var(--pvl-path-bg);border-color:var(--pvl-path);color:var(--pvl-path)}
+  .pvl-scrubber{flex:1;min-width:140px;accent-color:var(--pvl-path);cursor:pointer}
+  .pvl-stage-caption{margin:6px 0 0;font-size:14px;line-height:1.6;color:var(--pvl-ink)}
+  @media (max-width:640px){
+    .pvl-stage-viewport{padding:12px}
+    .pvl-stage-lane{grid-template-columns:1fr;gap:8px}
+    .pvl-beam-svg{height:24px}
+    .pvl-deck-wrap{min-height:150px}
+  }
+</style>
+</head>
+<body>
+<main class="pvl-wrap">
+  <section class="pvl-stage-shell" aria-label="背压队列与历史叠栈交互演示">
+    <p class="pvl-kicker">Interactive Stage · Stateless seek(t)</p>
+    <h1 class="pvl-title" style="font-size:clamp(24px,4.5vw,34px);margin:4px 0 14px">
+      请求突增时：<span class="pvl-highlight pvl-highlight--band pvl-reveal--sweep">队列背压如何原地吸收与泄压</span>
+    </h1>
+
+    <div class="pvl-stage-viewport">
+      <div class="pvl-stage-canvas pvl-camera" id="stageCamera">
+        <div class="pvl-stage-head">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="pvl-badge" id="phaseBadge" style="background:var(--pvl-path)">IDLE</span>
+            <span class="pvl-mono" id="timeReadout">t = 0.00s / 5.40s</span>
+          </div>
+          <div class="pvl-stage-metrics">
+            <div class="pvl-metric-box">
+              <span class="pvl-mono">queue</span>
+              <span class="pvl-digits" id="queueDigits" aria-label="队列深度"></span>
+            </div>
+            <div class="pvl-metric-box">
+              <span class="pvl-mono">p95 ms</span>
+              <span class="pvl-digits" id="latencyDigits" aria-label="p95 延迟毫秒"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pvl-stage-lane">
+          <div class="pvl-vessel" id="queueVessel">
+            <span class="pvl-vessel__label">📥 INGRESS QUEUE (cap=4)</span>
+            <div class="pvl-token-row" id="tokenRow"></div>
+          </div>
+
+          <svg class="pvl-beam-svg" viewBox="0 0 72 36" aria-hidden="true">
+            <path d="M4 18 H64" fill="none" stroke="var(--pvl-pencil-light)" stroke-width="2" stroke-dasharray="5 5"/>
+            <path id="beamPulse" d="M4 18 H64" fill="none" stroke="var(--pvl-path)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M58 12 L66 18 L58 24" fill="none" stroke="var(--pvl-path)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+          <div class="pvl-deck-wrap" id="eventDeck" aria-label="历史状态叠栈">
+            <span class="pvl-vessel__label" style="top:0;left:0">📚 STATE HISTORY DECK</span>
+          </div>
+        </div>
+
+        <p class="pvl-stage-caption" id="stageCaption"></p>
+      </div>
+    </div>
+
+    <div class="pvl-controls">
+      <div class="pvl-ctrl-row">
+        <button type="button" class="pvl-btn pvl-press" id="playBtn" aria-pressed="false">▶ 播放</button>
+        <button type="button" class="pvl-btn pvl-press" id="slowBtn" aria-pressed="false">0.4× 慢放</button>
+        <button type="button" class="pvl-btn pvl-press" id="deckToggleBtn" aria-pressed="false">展开叠栈</button>
+        <input type="range" class="pvl-scrubber" id="scrubber" min="0" max="5.4" step="0.02" value="0" aria-label="时间轴搓帧">
+      </div>
+      <div class="pvl-ctrl-row" id="anchorBar"></div>
+    </div>
+
+    <details class="pvl-fold" style="margin-top:14px">
+      <summary>文本等价说明（含 prefers-reduced-motion 静帧摘要）</summary>
+      <ol style="margin:6px 0 4px;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>0.0s 空闲稳态</strong>：队列深度 01，p95 延迟 042 ms，下游直接消费。</li>
+        <li><strong>1.8s 突发堆积</strong>：4 个并发请求进入缓冲容器，队列升至 04，延迟抬升至 186 ms，局部推镜聚焦堆积容器。</li>
+        <li><strong>3.6s 背压限流</strong>：入口触发限流令牌并按批泄压，队列回落至 02，延迟降至 094 ms。</li>
+        <li><strong>5.4s 稳态恢复</strong>：积压清空至 00，p95 回归 038 ms，历史叠栈保留全过程便于重入核对。</li>
+      </ol>
+    </details>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  const DURATION = 5.4;
+  const ANCHORS = [
+    { t: 0.0, label: '0.0s 空闲', badge: 'IDLE', color: 'var(--pvl-path)' },
+    { t: 1.8, label: '1.8s 突发堆积', badge: 'BURST', color: 'var(--pvl-risk)' },
+    { t: 3.6, label: '3.6s 背压泄压', badge: 'DRAIN', color: 'var(--pvl-warn)' },
+    { t: 5.4, label: '5.4s 稳态完成', badge: 'STEADY', color: 'var(--pvl-ok)' },
+  ];
+  const TOKENS = ['req#101', 'req#102', 'req#103', 'req#104'];
+  const DECK_EVENTS = [
+    { t: 0.0, tag: '0.0s', title: '稳态接收 · 并发 1', tone: 'var(--pvl-path)' },
+    { t: 1.4, tag: '1.4s', title: '突发入队 · 触发背压阈值', tone: 'var(--pvl-risk)' },
+    { t: 3.2, tag: '3.2s', title: '限流泄压 · 批量消费中', tone: 'var(--pvl-warn)' },
+    { t: 4.8, tag: '4.8s', title: '队列清空 · p95 恢复基线', tone: 'var(--pvl-ok)' },
+  ];
+
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let currentTime = reducedMotion ? 1.8 : 0.0;
+  let playing = false;
+  let slowMode = false;
+  let deckExpanded = false;
+  let rafId = 0;
+  let lastFrameMs = 0;
+
+  const cameraEl = document.getElementById('stageCamera');
+  const phaseBadge = document.getElementById('phaseBadge');
+  const timeReadout = document.getElementById('timeReadout');
+  const queueDigits = document.getElementById('queueDigits');
+  const latencyDigits = document.getElementById('latencyDigits');
+  const tokenRow = document.getElementById('tokenRow');
+  const queueVessel = document.getElementById('queueVessel');
+  const beamPulse = document.getElementById('beamPulse');
+  const eventDeck = document.getElementById('eventDeck');
+  const stageCaption = document.getElementById('stageCaption');
+  const playBtn = document.getElementById('playBtn');
+  const slowBtn = document.getElementById('slowBtn');
+  const deckToggleBtn = document.getElementById('deckToggleBtn');
+  const scrubber = document.getElementById('scrubber');
+  const anchorBar = document.getElementById('anchorBar');
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function mix(a, b, p) { return a + (b - a) * p; }
+  function easeOutCubic(p) { const x = clamp(p, 0, 1); return 1 - Math.pow(1 - x, 3); }
+  function spring(age) {
+    if (age <= 0) return 0;
+    const decay = Math.exp(-9.5 * age);
+    if (decay < 1e-4) return 1;
+    return 1 - decay * (Math.cos(14.5 * age) + 0.65 * Math.sin(14.5 * age));
+  }
+
+  function renderRollingNumber(container, fromStr, toStr, progress) {
+    const len = Math.max(fromStr.length, toStr.length);
+    const a = fromStr.padStart(len, '0');
+    const b = toStr.padStart(len, '0');
+    const p = easeOutCubic(progress);
+    if (container.childElementCount !== len) {
+      container.innerHTML = '';
+      for (let i = 0; i < len; i++) {
+        const col = document.createElement('span');
+        col.className = 'pvl-digit-col';
+        col.innerHTML = '<span class="pvl-digit-strip"><span class="pvl-digit-cell"></span><span class="pvl-digit-cell"></span></span>';
+        container.appendChild(col);
+      }
+    }
+    for (let i = 0; i < len; i++) {
+      const strip = container.children[i].firstElementChild;
+      const cells = strip.children;
+      cells[0].textContent = a[i];
+      cells[1].textContent = b[i];
+      const offset = a[i] === b[i] ? 0 : -p * 1.25;
+      strip.style.transform = 'translateY(' + offset.toFixed(3) + 'em)';
+    }
+  }
+
+  function buildAnchors() {
+    ANCHORS.forEach(function (anchor, idx) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pvl-btn pvl-press';
+      btn.textContent = anchor.label;
+      btn.dataset.anchorIdx = String(idx);
+      btn.addEventListener('click', function () {
+        pause();
+        seek(anchor.t);
+      });
+      anchorBar.appendChild(btn);
+    });
+  }
+
+  function buildTokens() {
+    TOKENS.forEach(function (name) {
+      const el = document.createElement('span');
+      el.className = 'pvl-token';
+      el.textContent = name;
+      tokenRow.appendChild(el);
+    });
+  }
+
+  function buildDeck() {
+    DECK_EVENTS.forEach(function (evt) {
+      const card = document.createElement('div');
+      card.className = 'pvl-deck-card';
+      card.innerHTML = '<div class="pvl-mono" style="color:' + evt.tone + ';font-weight:700">' + evt.tag + '</div><div>' + evt.title + '</div>';
+      eventDeck.appendChild(card);
+    });
+  }
+
+  /**
+   * Stateless deterministic renderer: seek(t) always produces the exact visual
+   * state for timestamp t regardless of prior frames or scrubbing direction.
+   */
+  function seek(seconds) {
+    currentTime = clamp(Number(seconds) || 0, 0, DURATION);
+    scrubber.value = currentTime.toFixed(2);
+    timeReadout.textContent = 't = ' + currentTime.toFixed(2) + 's / ' + DURATION.toFixed(2) + 's';
+
+    // Determine active phase and segment progress
+    let activeIdx = 0;
+    for (let i = ANCHORS.length - 1; i >= 0; i--) {
+      if (currentTime >= ANCHORS[i].t - 0.01) { activeIdx = i; break; }
+    }
+    const anchor = ANCHORS[activeIdx];
+    phaseBadge.textContent = anchor.badge;
+    phaseBadge.style.background = anchor.color;
+    Array.from(anchorBar.children).forEach(function (btn, idx) {
+      btn.classList.toggle('is-active', idx === activeIdx);
+    });
+
+    // Rolling metrics (only changed digits roll)
+    if (currentTime < 1.8) {
+      const p = clamp(currentTime / 1.8, 0, 1);
+      renderRollingNumber(queueDigits, '01', '04', p);
+      renderRollingNumber(latencyDigits, '042', '186', p);
+    } else if (currentTime < 3.6) {
+      const p = clamp((currentTime - 1.8) / 1.8, 0, 1);
+      renderRollingNumber(queueDigits, '04', '02', p);
+      renderRollingNumber(latencyDigits, '186', '094', p);
+    } else {
+      const p = clamp((currentTime - 3.6) / 1.8, 0, 1);
+      renderRollingNumber(queueDigits, '02', '00', p);
+      renderRollingNumber(latencyDigits, '094', '038', p);
+    }
+
+    // Queue token ingestion & eviction (never scale(0); starts at 0.94)
+    const tokenSpecs = [
+      { inAt: 0.15, outAt: 3.10 },
+      { inAt: 0.45, outAt: 3.60 },
+      { inAt: 0.85, outAt: 4.15 },
+      { inAt: 1.25, outAt: 4.65 },
+    ];
+    let burstImpact = 0;
+    tokenSpecs.forEach(function (spec, i) {
+      const el = tokenRow.children[i];
+      const entered = currentTime >= spec.inAt;
+      const exited = currentTime >= spec.outAt;
+      if (!entered) {
+        el.style.opacity = '0.18';
+        el.style.transform = 'translateY(6px) scale(0.95)';
+        el.style.borderColor = 'var(--pvl-pencil-light)';
+      } else if (!exited) {
+        const age = currentTime - spec.inAt;
+        const s = spring(age);
+        const sc = mix(0.94, 1.0, clamp(s, 0, 1.08));
+        const ty = mix(-10, 0, clamp(s, 0, 1.08));
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(' + ty.toFixed(2) + 'px) scale(' + sc.toFixed(4) + ')';
+        el.style.borderColor = currentTime > 1.35 && currentTime < 3.2 ? 'var(--pvl-risk)' : 'var(--pvl-path)';
+        if (age < 0.35) burstImpact = Math.max(burstImpact, Math.exp(-7 * age) * Math.sin(16 * age));
+      } else {
+        const outP = easeOutCubic(clamp((currentTime - spec.outAt) / 0.28, 0, 1));
+        el.style.opacity = String((1 - outP * 0.82).toFixed(3));
+        el.style.transform = 'translateX(' + (outP * 14).toFixed(2) + 'px) scale(' + mix(1, 0.95, outP).toFixed(4) + ')';
+        el.style.borderColor = 'var(--pvl-ok)';
+      }
+    });
+    const vesselScaleY = 1 - burstImpact * 0.035;
+    queueVessel.style.transform = 'scale(' + (1 / vesselScaleY).toFixed(4) + ',' + vesselScaleY.toFixed(4) + ')';
+
+    // Animated blue-ink beam pulse along path (length 60)
+    const beamPhase = ((currentTime * 1.15) % 1 + 1) % 1;
+    beamPulse.setAttribute('stroke-dasharray', '16 76');
+    beamPulse.setAttribute('stroke-dashoffset', (16 - beamPhase * 76).toFixed(2));
+
+    // Stacked depth history deck (front = newest unlocked event)
+    const unlocked = DECK_EVENTS.filter(function (evt) { return currentTime >= evt.t - 0.01; });
+    const expandP = deckExpanded ? 1 : 0;
+    const deckCards = eventDeck.querySelectorAll('.pvl-deck-card');
+    const visibleCount = Math.max(1, unlocked.length);
+    deckCards.forEach(function (card, idx) {
+      const isUnlocked = idx < visibleCount;
+      if (!isUnlocked) {
+        card.style.opacity = '0';
+        card.style.pointerEvents = 'none';
+        card.style.transform = 'translateY(12px) scale(0.94)';
+        return;
+      }
+      const depth = visibleCount - 1 - idx; // 0 = newest front card
+      const gap = mix(12, 54, expandP);
+      const scale = mix(Math.max(0.84, 1 - depth * 0.05), 1, expandP);
+      const opacity = mix(Math.max(0.45, 1 - depth * 0.16), 1, expandP);
+      card.style.zIndex = String(10 + idx);
+      card.style.opacity = opacity.toFixed(3);
+      card.style.pointerEvents = 'auto';
+      card.style.transform = 'translateY(' + (depth * gap).toFixed(1) + 'px) scale(' + scale.toFixed(4) + ')';
+    });
+    eventDeck.style.minHeight = (deckExpanded ? 26 + visibleCount * 58 : 132) + 'px';
+
+    // Subtle local camera focus during peak burst (auto-zeroed by base.css at <=640px)
+    const camIn = easeOutCubic(clamp((currentTime - 1.1) / 0.55, 0, 1));
+    const camOut = easeOutCubic(clamp((currentTime - 2.9) / 0.65, 0, 1));
+    const camWeight = reducedMotion ? 0 : clamp(camIn - camOut, 0, 1);
+    cameraEl.style.setProperty('--pvl-cam-x', (camWeight * 16).toFixed(2) + 'px');
+    cameraEl.style.setProperty('--pvl-cam-y', (camWeight * -4).toFixed(2) + 'px');
+    cameraEl.style.setProperty('--pvl-cam-scale', (1 + camWeight * 0.06).toFixed(4));
+
+    const captions = [
+      '空闲稳态：入口队列平稳，延迟维持 42ms 基线。',
+      '突发堆积：4 条请求压入缓冲容器，局部推镜聚焦承重回弹，数字滚至 186ms。',
+      '背压泄压：入口限流生效，蓝墨脉冲持续排空队列，历史叠栈记录每一步状态。',
+      '稳态完成：队列清零且 p95 回落至 38ms；随时点击上方锚点或拖动进度条复核。',
+    ];
+    stageCaption.textContent = captions[activeIdx];
+  }
+
+  function tick(nowMs) {
+    if (!playing) return;
+    if (!lastFrameMs) lastFrameMs = nowMs;
+    const dt = Math.min(0.05, (nowMs - lastFrameMs) / 1000) * (slowMode ? 0.4 : 1.0);
+    lastFrameMs = nowMs;
+    const next = currentTime + dt;
+    if (next >= DURATION) {
+      seek(DURATION);
+      pause();
+      return;
+    }
+    seek(next);
+    rafId = window.requestAnimationFrame(tick);
+  }
+
+  function play() {
+    if (currentTime >= DURATION - 0.01) currentTime = 0;
+    playing = true;
+    lastFrameMs = 0;
+    playBtn.textContent = '⏸ 暂停';
+    playBtn.setAttribute('aria-pressed', 'true');
+    rafId = window.requestAnimationFrame(tick);
+  }
+
+  function pause() {
+    playing = false;
+    if (rafId) window.cancelAnimationFrame(rafId);
+    rafId = 0;
+    playBtn.textContent = '▶ 播放';
+    playBtn.setAttribute('aria-pressed', 'false');
+  }
+
+  playBtn.addEventListener('click', function () { playing ? pause() : play(); });
+  slowBtn.addEventListener('click', function () {
+    slowMode = !slowMode;
+    slowBtn.setAttribute('aria-pressed', String(slowMode));
+  });
+  deckToggleBtn.addEventListener('click', function () {
+    deckExpanded = !deckExpanded;
+    deckToggleBtn.setAttribute('aria-pressed', String(deckExpanded));
+    deckToggleBtn.textContent = deckExpanded ? '收起叠栈' : '展开叠栈';
+    seek(currentTime);
+  });
+  scrubber.addEventListener('input', function () {
+    pause();
+    seek(parseFloat(scrubber.value));
+  });
+
+  buildAnchors();
+  buildTokens();
+  buildDeck();
+  seek(currentTime);
+
+  // Expose stateless seek() for verification and external step hooks
+  window.pvlMotionStage = { seek: seek, duration: DURATION };
+})();
+</script>
+</body>
+</html>

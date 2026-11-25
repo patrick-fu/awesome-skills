@@ -1,4 +1,4 @@
-/* paper-ink-style · base.css v1.3.0
+/* paper-ink-style · base.css v1.4.0
    The vocabulary of Patrick Fu's personal visual language: paper-and-pencil
    engineering whiteboard (pencil-line rough cards, marker highlights, sticky
    notes and tape, hand-annotated diagrams). This is a style guide, not a
@@ -6,6 +6,11 @@
    Deliverables are single-file by default: inline this sheet in a <style>
    block; embed the font subsets when their size is acceptable, otherwise let
    the system Kai fallbacks speak.
+   v1.4.0: underdamped --pvl-ease-spring + interpolate-size:allow-keywords;
+   .pvl-reveal starts from scale(.95); tactile .pvl-press; paper-ink motion
+   classes (.pvl-reveal--tilt/--sweep, .pvl-blur-bridge, .pvl-slot, .pvl-wipe,
+   .pvl-pill-morph, .pvl-impact, .pvl-beam, .pvl-camera with mobile reset);
+   smooth native .pvl-fold via ::details-content + @starting-style.
    v1.3.0: body reading voice is the handwritten face (--pvl-font-body, sans
    only on dense scan surfaces and inside device frames); .pvl-callout removed
    (TL;DR became a stamp-card composition). */
@@ -15,6 +20,7 @@
 
 :root{
   color-scheme:light;
+  interpolate-size:allow-keywords;
   /* surface */
   --pvl-surface:#ffffff;
   --pvl-surface-card:#ffffff;
@@ -51,6 +57,13 @@
   --pvl-shadow-card:2px 2px rgba(42,42,42,.05);
   --pvl-shadow-note:3px 5px 12px rgba(0,0,0,.08);
   --pvl-shadow-soft:0 10px 24px -18px rgba(31,36,48,.30);
+  /* motion: cubic-bezier fallback upgraded to CSS linear() spring below */
+  --pvl-ease-spring:cubic-bezier(.22,1.25,.36,1);
+}
+@supports (animation-timing-function:linear(0,1)){
+  :root{
+    --pvl-ease-spring:linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017,1.077,1.121,1.149 24.3%,1.159,1.163,1.161,1.154 29.9%,1.129 32.8%,1.051 39.6%,1.017 43.1%,0.991,0.977 51%,0.974 53.8%,0.975 57.1%,0.997 69.8%,1.003 76.9%,1.004 83.8%,1);
+  }
 }
 /* second surface preset of the same style: warm paper (reports / workbench).
    Components and grammar are identical; only surface tokens change. */
@@ -101,13 +114,42 @@ html:not([data-density="tech"]) .pvl-tech-only{display:none}
 .pvl-expand[aria-expanded="true"] .pvl-expand__body{display:block}
 .pvl-expand{cursor:pointer}
 
-/* ---------- beat motion (explanation unfolding) ---------- */
-@keyframes pvl-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* ---------- beat motion (explanation unfolding, pure CSS) ---------- */
+@keyframes pvl-in{from{opacity:0;transform:translateY(10px) scale(.95)}to{opacity:1;transform:none}}
 @keyframes pvl-stamp{from{opacity:0;transform:scale(1.25)}to{opacity:1;transform:scale(1)}}
 @keyframes pvl-sweep{from{background-size:0% 100%}to{background-size:100% 100%}}
-.pvl-reveal{animation:pvl-in .45s ease-out both;animation-delay:var(--pvl-d,0s)}
-.pvl-reveal--stamp{animation:pvl-stamp .3s cubic-bezier(.2,1.4,.4,1) both;animation-delay:var(--pvl-d,0s)}
-@media (prefers-reduced-motion:reduce){.pvl-reveal,.pvl-reveal--stamp{animation:none}}
+@keyframes pvl-sweep-bar{from{opacity:0;transform:rotate(-1deg) scaleX(.04)}to{opacity:.6;transform:rotate(-1deg) scaleX(1)}}
+@keyframes pvl-tilt{from{opacity:0;transform:perspective(720px) rotateX(10deg) translateY(12px) scale(.95);box-shadow:0 16px 24px -14px rgba(32,39,35,.22)}to{opacity:1;transform:perspective(720px) rotateX(0deg) translateY(0) scale(1)}}
+@keyframes pvl-blur-bridge{from{opacity:0;filter:blur(3.5px);transform:translateY(4px) scale(.96)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes pvl-slot-open{from{opacity:0;max-width:0;padding-inline:0;margin-inline:0;transform:scale(.95)}to{opacity:1;max-width:var(--pvl-slot-w,240px);transform:none}}
+@keyframes pvl-wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes pvl-pill-morph{from{opacity:.85;max-width:var(--pvl-pill-from,3.2em);transform:scale(.96)}to{opacity:1;max-width:var(--pvl-pill-to,360px);transform:none}}
+@keyframes pvl-impact{0%{transform:translateY(0) scale(1,1)}28%{transform:translateY(3px) scale(1.035,.95)}62%{transform:translateY(-1.5px) scale(.985,1.02)}100%{transform:translateY(0) scale(1,1)}}
+@keyframes pvl-beam-flow{from{stroke-dashoffset:var(--pvl-beam-span,28)}to{stroke-dashoffset:0}}
+@keyframes pvl-beam-bg{from{background-position:0 0}to{background-position:36px 0}}
+
+.pvl-reveal{animation:pvl-in .45s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--pvl-d,0s)}
+.pvl-reveal--stamp{animation:pvl-stamp .34s var(--pvl-ease-spring) both;animation-delay:var(--pvl-d,0s)}
+.pvl-reveal--tilt{transform-origin:50% 100%;animation:pvl-tilt .52s var(--pvl-ease-spring) both;animation-delay:var(--pvl-d,0s)}
+.pvl-reveal--sweep{background-repeat:no-repeat;background-position:0 100%;animation:pvl-sweep .48s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--pvl-d,0s)}
+.pvl-highlight:not(.pvl-highlight--band).pvl-reveal--sweep{animation:none}
+.pvl-highlight:not(.pvl-highlight--band).pvl-reveal--sweep:before{transform-origin:left center;animation:pvl-sweep-bar .48s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--pvl-d,0s)}
+.pvl-blur-bridge{animation:pvl-blur-bridge .36s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--pvl-d,0s)}
+.pvl-slot{display:inline-flex;align-items:center;vertical-align:baseline;overflow:hidden;white-space:nowrap;transform-origin:left center;animation:pvl-slot-open .48s var(--pvl-ease-spring) both;animation-delay:var(--pvl-d,0s)}
+.pvl-slot[data-open]{animation:none;transition:max-width .45s var(--pvl-ease-spring),opacity .26s ease-out,transform .42s var(--pvl-ease-spring),padding .36s ease-out,margin .36s ease-out}
+.pvl-slot[data-open="false"]{opacity:0;max-width:0;padding-inline:0;margin-inline:0;transform:scale(.95)}
+.pvl-slot[data-open="true"]{opacity:1;max-width:var(--pvl-slot-w,240px);transform:none}
+.pvl-wipe{display:inline-block;animation:pvl-wipe .42s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--pvl-d,0s)}
+.pvl-pill-morph{display:inline-flex;align-items:center;gap:6px;overflow:hidden;white-space:nowrap;transform-origin:left center;transition:max-width .48s var(--pvl-ease-spring),width .48s var(--pvl-ease-spring),background-color .22s ease,border-color .22s ease;animation:pvl-pill-morph .5s var(--pvl-ease-spring) both;animation-delay:var(--pvl-d,0s)}
+.pvl-pill-morph[data-expanded]{animation:none}
+.pvl-pill-morph[data-expanded="false"]{max-width:var(--pvl-pill-from,3.2em)}
+.pvl-pill-morph[data-expanded="true"]{max-width:var(--pvl-pill-to,360px)}
+.pvl-impact{transform-origin:50% 100%;animation:pvl-impact .42s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--pvl-d,0s)}
+.pvl-beam{stroke:var(--pvl-path);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:8 10;animation:pvl-beam-flow var(--pvl-beam-dur,1.4s) linear infinite;animation-delay:var(--pvl-d,0s)}
+.pvl-connector.pvl-beam{border:0;height:3px;opacity:.85;background:repeating-linear-gradient(90deg,var(--pvl-path) 0 10px,transparent 10px 18px) 0 0/36px 3px;animation:pvl-beam-bg var(--pvl-beam-dur,1.2s) linear infinite;animation-delay:var(--pvl-d,0s)}
+.pvl-press{transition:transform .14s cubic-bezier(.22,1,.36,1);transform-origin:center}
+.pvl-press:active{transform:scale(.97)}
+.pvl-camera{transform:translate3d(var(--pvl-cam-x,0px),var(--pvl-cam-y,0px),0) scale(var(--pvl-cam-scale,1));transform-origin:var(--pvl-cam-origin,50% 50%);transition:transform .52s var(--pvl-ease-spring);will-change:transform}
 
 /* ---------- responsive diagram grammar ---------- */
 .pvl-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:14px;align-items:center;margin:26px 0}
@@ -116,9 +158,11 @@ html:not([data-density="tech"]) .pvl-tech-only{display:none}
 @media (max-width:640px){
   .pvl-flow{grid-template-columns:1fr;justify-items:center;gap:6px}
   .pvl-flow .pvl-connector{width:0;height:26px;border-top:0;border-left:3px dashed var(--pvl-path)}
+  .pvl-flow .pvl-connector.pvl-beam{width:3px;height:26px;border:0;background:repeating-linear-gradient(180deg,var(--pvl-path) 0 8px,transparent 8px 14px)}
   .pvl-cols{grid-template-columns:1fr}
   .pvl-note{max-width:100%}
   .pvl-wrap{padding:16px 14px 56px}
+  .pvl-camera{--pvl-cam-x:0px;--pvl-cam-y:0px;--pvl-cam-scale:1;transform:none !important;will-change:auto}
 }
 
 /* ---------- extended parameters: paper/dot surfaces, clean and board
@@ -185,9 +229,23 @@ html:not([data-density="tech"]) .pvl-tech-only{display:none}
 .pvl-fold>summary::-webkit-details-marker{display:none}
 .pvl-fold>summary:before{content:"\25B8";color:var(--pvl-path);font-size:10px}
 .pvl-fold[open]>summary:before{content:"\25BE"}
+@supports (interpolate-size:allow-keywords){
+  .pvl-fold::details-content{block-size:0;opacity:0;overflow:clip;transition:block-size .34s cubic-bezier(.22,1,.36,1),opacity .26s ease,content-visibility .34s allow-discrete}
+  .pvl-fold[open]::details-content{block-size:auto;opacity:1}
+  @starting-style{.pvl-fold[open]::details-content{block-size:0;opacity:0}}
+}
 .pvl-annot{border:2px solid var(--pvl-pencil-line);border-radius:var(--pvl-radius-rough);background:var(--pvl-surface-card);box-shadow:var(--pvl-shadow-pencil)}
 .pvl-device{width:300px;overflow:hidden;background:var(--pvl-ios-card);border:6px solid var(--pvl-device-border);outline:2px solid var(--pvl-device-frame);border-radius:var(--pvl-radius-device);box-shadow:var(--pvl-shadow-device);font-family:var(--pvl-font-sans);color:var(--pvl-ink)}
 .pvl-device__status{display:flex;justify-content:space-between;align-items:center;padding:10px 20px 6px;font-size:14px;font-weight:600}
 .pvl-device__island{width:70px;height:20px;border-radius:var(--pvl-radius-pill);background:var(--pvl-device-frame)}
 .pvl-device__sheet{background:var(--pvl-ios-gray-bg);border:1px solid var(--pvl-ios-gray-border);border-radius:var(--pvl-radius-clean)}
 @media (max-width:640px){.pvl-device{width:100%}}
+
+/* ---------- reduced-motion global guardrail ---------- */
+@media (prefers-reduced-motion:reduce){
+  .pvl-reveal,.pvl-reveal--stamp,.pvl-reveal--tilt,.pvl-reveal--sweep,
+  .pvl-highlight:not(.pvl-highlight--band).pvl-reveal--sweep:before,
+  .pvl-blur-bridge,.pvl-slot,.pvl-wipe,.pvl-pill-morph,.pvl-impact,.pvl-beam{animation:none !important}
+  .pvl-press,.pvl-slot[data-open],.pvl-pill-morph,.pvl-camera,.pvl-fold::details-content{transition:none !important}
+  .pvl-press:active{transform:none}
+}

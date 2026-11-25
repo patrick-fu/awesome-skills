@@ -59,6 +59,6 @@ vocabulary, keep the hand, and close with the self-check at the end of
 
 - `references/` — 01 grammar, 02 vocabulary (tokens and roles), 03
   composition and self-check, 04 practice, 05 Web & single-file HTML guide.
-- `assets/base.css` — the Web instance of the vocabulary (v1.3.0).
+- `assets/base.css` — the Web instance of the vocabulary (v1.4.0).
 - `assets/fonts/` — LXGW WenKai Lite subsets (SIL OFL) for the handwritten voice.
 - `assets/snippets/`, `assets/examples/` — Web specimens; open them in a browser.

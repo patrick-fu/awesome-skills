@@ -27,8 +27,12 @@ target behaviour directly.
 10. **Three voices, three jobs.** Handwritten face for titles, annotations and
     body; system sans inside device frames and on dense scan; mono for precise
     objects.
-11. **Motion reveals argument state.** Card in, arrow draw, stamp, marker
-    sweep — each tied to a beat.
+11. **Motion reveals argument state.** Prefer in-place state evolution (slot
+    open, clip wipe, blur bridge, landing impact, ink beam, or scrubbed
+    `seek(t)` stage) over walls of static 3-column boxes. Enter from
+    `scale(.95)` rather than `scale(0)`, keep ordinary reading pages zero-JS,
+    and stay strictly inside the paper-ink whiteboard hand — no dark neon,
+    glassmorphism, or SVG Gooey.
 12. **White first.** True white is the default canvas; paper and dot arrive
     with the content that asks for them.
 13. **Hand-made marks on the page.** Scribble, tape, sticky note, rough card,

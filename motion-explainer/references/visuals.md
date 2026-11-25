@@ -82,6 +82,44 @@ mechanism directly:
    whatever domain object owns the scene—a request packet, token orb, lock,
    cursor, or router node—rather than inventing an unrelated fixed mascot.
 
+8. **Blur-bridged transitions & rolling metrics** (`MotionKit.blurBridge` + `MotionKit.rollingDigits`):
+   Bridge adjacent states with a light `blur(3–4px) → 0` handoff starting from
+   `scale(0.95)` instead of hard cuts; animate numeric deltas with tabular
+   per-digit rolling columns so unchanged digits stay rock-steady.
+9. **Directed path beams & depth-stacked history** (`MotionKit.beamPath` + `MotionKit.stackedDeck`):
+   Send a deterministic pulse along an SVG `<path>` (single-direction or
+   bidirectional) to show active dataflow, and layer prior events in a
+   Sonner-style depth deck (`translateY / scale / opacity / zIndex`) that
+   expands cleanly on cue without losing history context.
+
+## Motion Craft Guardrails
+
+- **Never pop from `scale(0)`**: enter objects from `scale(0.94–0.96)` with
+  short travel so geometry feels grounded rather than explosive.
+- **Anchor `transform-origin`**: set `transform-origin` to the actual trigger
+  edge, parent attachment, or focal hinge before scaling or morphing.
+- **Asymmetric enter/exit timing**: let exiting elements clear slightly faster
+  (`~200–280 ms`) than entrances (`~320–550 ms`) so departing state never drags
+  across the next beat.
+- **Text continuity & thinking cues**: when mutating short phrases or status
+  lines, preserve shared characters across frames (TextMorph continuity) instead
+  of cross-fading whole blocks; reserve subtle horizontal Text Shimmer for
+  explicit in-progress/thinking states (driven deterministically from `seconds`,
+  never CSS autoplay loops).
+- **SVG Gooey boundary**: reserve SVG Gooey (`feGaussianBlur` + `feColorMatrix`)
+  strictly for stylized product-showcase or liquid-metaphor demos; never apply
+  it to technical diagrams, code views, or whiteboard scenes where crisp edges
+  carry meaning.
+
+### New Deterministic Primitives Quick Index
+
+| Primitive | Signature | Key outputs |
+| --- | --- | --- |
+| `MotionKit.blurBridge` | `(age, { duration, maxBlur, fromScale=0.95, settled })` | `opacity`, `scale`, `blur`, `filter`, `transform` |
+| `MotionKit.rollingDigits` | `(fromStr, toStr, progress, { stagger, direction, settled })` | `columns[]` (`changed`, `offset`, `stripTransform`), `text` |
+| `MotionKit.beamPath` | `(seconds, { pathLength, pulseLength, period, direction, settled })` | `progress`, `direction`, `strokeDasharray`, `strokeDashoffset`, `opacity` |
+| `MotionKit.stackedDeck` | `(index, count, expandedProgress, { collapsedGap, expandedGap, settled })` | `translateY`, `scale`, `opacity`, `zIndex`, `transform` |
+
 ## Match Composition to the Question
 
 | What you are explaining | Preferred composition |
@@ -92,6 +130,9 @@ mechanism directly:
 | Before vs after / refactoring / routing change | Same objects lifting and re-seating in place (`spring` + `smear`), or inverse-color boundary crossing |
 | Deep UI, trace, or complex diagram inspection | Cropped UI slice with virtual camera pan/push (`camera`) |
 | Which lines of code changed behavior | Trimmed code (<= 12 lines) with sliding highlight |
+| Numeric before/after metrics or counters | Tabular per-digit roll (`rollingDigits`) + blur handoff (`blurBridge`) |
+| Active dataflow, routing, or retry loop | Directed SVG path pulse (`beamPath`) |
+| Multi-step event history / notification stack | Depth-stacked deck expanding on demand (`stackedDeck`) |
 | Simple linear 2–5 step pipeline | Built-in `flow` layout (default fallback) |
 
 ## Density & Pacing Discipline

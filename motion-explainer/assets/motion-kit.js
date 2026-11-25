@@ -430,6 +430,223 @@
    * pagination (sentence/punctuation priority + font-load reflow), progress bar,
    * and multi-page audit() overflow/clipping/caption-overlap guardrails.
    */
+  /**
+   * Subtle blur-and-scale state bridge (defaults to scale 0.95 -> 1, avoiding scale(0)).
+   * Pure function of elapsed `age` in seconds; safe for forward and reverse seek().
+   */
+  function blurBridge(age, options = {}) {
+    const {
+      duration = 0.36,
+      maxBlur = 4,
+      fromScale = 0.95,
+      toScale = 1,
+      fromOpacity = 0,
+      toOpacity = 1,
+      offsetY = 6,
+      ease = easeOutCubic,
+      settled = false,
+    } = options;
+    const safeDur = Math.max(1e-3, duration);
+    const p = settled ? 1 : ease(clamp((Number.isFinite(age) ? age : 0) / safeDur));
+    const opacity = mix(fromOpacity, toOpacity, p);
+    const scale = mix(fromScale, toScale, p);
+    const blur = settled ? 0 : Math.max(0, mix(Math.max(0, maxBlur), 0, p));
+    const y = (settled ? 0 : mix(offsetY, 0, p)) || 0;
+    const filter = blur > 0.01 ? `blur(${blur.toFixed(2)}px)` : 'none';
+    const transform = `translateY(${y.toFixed(2)}px) scale(${scale.toFixed(4)})`;
+    return { progress: p, opacity, scale, blur, offsetY: y, filter, transform };
+  }
+
+  /**
+   * Per-digit rolling odometer state that moves only changed columns in tabular monospace.
+   * Pure function of (fromStr, toStr, progress); safe for forward and reverse seek().
+   */
+  function rollingDigits(fromStr, toStr, progress, options = {}) {
+    const {
+      settled = false,
+      stagger = 0.08,
+      direction = 'auto',
+      ease = easeOutCubic,
+      lineHeight = 1,
+      padChar = ' ',
+    } = options;
+    const rawFrom = String(fromStr ?? '');
+    const rawTo = String(toStr ?? '');
+    const len = Math.max(rawFrom.length, rawTo.length);
+    const fromPadded = rawFrom.padStart(len, padChar);
+    const toPadded = rawTo.padStart(len, padChar);
+    const p = settled ? 1 : clamp(progress);
+
+    let dirSign = -1;
+    if (direction === 'down') {
+      dirSign = 1;
+    } else if (direction === 'up') {
+      dirSign = -1;
+    } else {
+      const nFrom = Number(rawFrom.replace(/[^0-9.-]/g, ''));
+      const nTo = Number(rawTo.replace(/[^0-9.-]/g, ''));
+      if (Number.isFinite(nFrom) && Number.isFinite(nTo) && nFrom !== nTo) {
+        dirSign = nTo > nFrom ? -1 : 1;
+      } else {
+        dirSign = rawTo >= rawFrom ? -1 : 1;
+      }
+    }
+
+    const changedIndices = [];
+    for (let i = 0; i < len; i++) {
+      if (fromPadded[i] !== toPadded[i]) changedIndices.push(i);
+    }
+    const changedCount = changedIndices.length;
+    const totalStagger = Math.min(0.45, Math.max(0, stagger) * Math.max(0, changedCount - 1));
+    const windowDur = Math.max(1e-3, 1 - totalStagger);
+
+    const columns = [];
+    for (let i = 0; i < len; i++) {
+      const fromChar = fromPadded[i];
+      const toChar = toPadded[i];
+      const changed = fromChar !== toChar;
+      let colProgress = 1;
+      let offset = 0;
+      if (changed) {
+        const order = changedIndices.indexOf(i);
+        const delay = changedCount > 1 ? (order * totalStagger) / (changedCount - 1) : 0;
+        colProgress = settled ? 1 : ease(clamp((p - delay) / windowDur));
+        offset = (colProgress * lineHeight * dirSign) || 0;
+      }
+      const displayChar = !changed || colProgress >= 0.5 ? toChar : fromChar;
+      columns.push({
+        index: i,
+        fromChar,
+        toChar,
+        changed,
+        progress: colProgress,
+        offset,
+        stripTransform: `translateY(${offset.toFixed(4)}em)`,
+        fromOpacity: changed ? clamp(1 - colProgress * 1.15) : 1,
+        toOpacity: changed ? clamp(colProgress * 1.15) : 1,
+        displayChar,
+      });
+    }
+
+    return {
+      from: fromPadded,
+      to: toPadded,
+      progress: p,
+      direction: dirSign < 0 ? 'up' : 'down',
+      changedCount,
+      columns,
+      text: columns.map(c => c.displayChar).join(''),
+    };
+  }
+
+  /**
+   * Deterministic SVG <path> pulse state (single-direction or bidirectional animated beam).
+   */
+  function beamPath(seconds, options = {}) {
+    const {
+      pathLength = 240,
+      pulseLength = 44,
+      period = 1.6,
+      phase = 0,
+      direction = 'forward',
+      settled = false,
+      settledProgress = 1,
+    } = options;
+    const L = Math.max(1, Number.isFinite(pathLength) ? pathLength : 240);
+    const pulse = clamp(Number.isFinite(pulseLength) ? pulseLength : 44, 1, L);
+    const safePeriod = Math.max(0.05, Number.isFinite(period) ? period : 1.6);
+
+    let progress;
+    let activeDirection;
+    if (settled) {
+      progress = clamp(settledProgress, 0, 1);
+      activeDirection = direction === 'reverse' ? 'reverse' : 'forward';
+    } else {
+      const t = (Number.isFinite(seconds) ? seconds : 0) + (Number.isFinite(phase) ? phase : 0);
+      if (direction === 'bidirectional') {
+        const cycle = safePeriod * 2;
+        const local = ((t % cycle) + cycle) % cycle;
+        if (local <= safePeriod) {
+          progress = local / safePeriod;
+          activeDirection = 'forward';
+        } else {
+          progress = 1 - (local - safePeriod) / safePeriod;
+          activeDirection = 'reverse';
+        }
+      } else {
+        const local = ((t % safePeriod) + safePeriod) % safePeriod;
+        const u = local / safePeriod;
+        if (direction === 'reverse') {
+          progress = 1 - u;
+          activeDirection = 'reverse';
+        } else {
+          progress = u;
+          activeDirection = 'forward';
+        }
+      }
+    }
+
+    const totalTravel = L + pulse;
+    const strokeDashoffset = pulse - progress * totalTravel;
+    const strokeDasharray = `${pulse.toFixed(2)} ${totalTravel.toFixed(2)}`;
+    const edgeFade = settled ? 1 : clamp(Math.min(progress, 1 - progress) * 8, 0, 1);
+    return {
+      progress,
+      direction: activeDirection,
+      pathLength: L,
+      pulseLength: pulse,
+      headPosition: progress * L,
+      strokeDasharray,
+      strokeDashoffset,
+      opacity: edgeFade,
+    };
+  }
+
+  /**
+   * Sonner-style depth-stacked deck layout (index 0 = frontmost item).
+   * Pure function of (index, count, expandedProgress); safe for forward and reverse seek().
+   */
+  function stackedDeck(index, count, expandedProgress, options = {}) {
+    const {
+      collapsedGap = 14,
+      expandedGap = 86,
+      scaleStep = 0.05,
+      opacityStep = 0.14,
+      maxVisible = 4,
+      baseZIndex = 10,
+      direction = 'up',
+      settled = false,
+      settledExpanded = 1,
+    } = options;
+    const safeCount = Math.max(1, Math.floor(Number.isFinite(count) ? count : 1));
+    const idx = clamp(Math.floor(Number.isFinite(index) ? index : 0), 0, safeCount - 1);
+    const p = settled ? clamp(settledExpanded, 0, 1) : clamp(expandedProgress, 0, 1);
+    const dirSign = direction === 'down' ? 1 : -1;
+
+    const collapsedY = dirSign * idx * collapsedGap;
+    const expandedY = dirSign * idx * expandedGap;
+    const collapsedScale = Math.max(0.7, 1 - idx * scaleStep);
+    const collapsedOpacity = idx < maxVisible ? clamp(1 - idx * opacityStep, 0, 1) : 0;
+
+    const translateY = mix(collapsedY, expandedY, p) || 0;
+    const scale = mix(collapsedScale, 1, p);
+    const opacity = mix(collapsedOpacity, 1, p);
+    const zIndex = baseZIndex + (safeCount - idx);
+    const visible = opacity > 0.01;
+    const transform = `translateY(${translateY.toFixed(2)}px) scale(${scale.toFixed(4)})`;
+    return {
+      index: idx,
+      count: safeCount,
+      progress: p,
+      translateY,
+      scale,
+      opacity,
+      zIndex,
+      visible,
+      transform,
+    };
+  }
+
   function createPlayerShell(config = {}) {
     const stage = resolveNode(config.stage, '#stage');
     const caption = resolveNode(config.caption, '#caption');
@@ -716,6 +933,10 @@
     pillMorph,
     camera,
     deterministicBlink,
+    blurBridge,
+    rollingDigits,
+    beamPath,
+    stackedDeck,
     createPlayerShell,
   };
 })(typeof window !== 'undefined' ? window : globalThis);

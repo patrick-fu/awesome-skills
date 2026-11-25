@@ -27,6 +27,8 @@ fix both and bump the `base.css` version.
 | shadows | card `2px 2px` ink .05; note `3px 5px 12px` .08; hard `3px 4px 0` .12; lift `7px 8px 0` .12; pencil `2.5px 3px 0` .85; device layered | hard offsets or paper lifts |
 | type roles | handwritten face = titles, annotations, body; system sans = inside device frames and dense scan; mono = precise objects | the three voices |
 | type floors | body >= 14px; mono >= 10.5px; dense scan 10.5-13px sans | readability |
+| spring ease | CSS `linear(...)` underdamped curve with `cubic-bezier(.22,1.25,.36,1)` fallback (`--pvl-ease-spring`) | crisp paper-card settle |
+| keyword sizing | `interpolate-size: allow-keywords` on `:root` | native `0 → auto` fold/height morph |
 
 ## Components
 
@@ -46,7 +48,8 @@ Web, reproduce parameters elsewhere.
 | takeaway | core | bottom lane of a teaching beat | display face 19px centered + `.pvl-highlight` on key phrase | `.pvl-takeaway` |
 | reading layers | density | plain vs technical layer | `html:not([data-density="tech"]) .pvl-tech-only{display:none}` | `.pvl-tech-only`, `[data-density]` |
 | whole-card expand | core | deep layer on click | body shows on `aria-expanded="true"`; hover leaves layout untouched | `.pvl-expand` + `aria-expanded` |
-| beat reveal | stage | explanation unfolding | in/stamp keyframes; reduced-motion safe | `.pvl-reveal`, `.pvl-reveal--stamp`, `--pvl-d` |
+| beat reveal | motion / stage | explanation unfolding | starts at `scale(.95)` + 10px lift (never `scale(0)`); stamp, 2.5D card tilt, marker sweep; reduced-motion safe | `.pvl-reveal`, `.pvl-reveal--stamp`, `.pvl-reveal--tilt`, `.pvl-reveal--sweep`, `--pvl-d` |
+| press feedback | motion | tactile button/card press | `:active { transform: scale(.97) }` | `.pvl-press` |
 
 Type voices: the handwritten face `--pvl-font-display` (LXGW WenKai Lite,
 fallback Kaiti SC/STKaiti) is the reading voice — titles, annotations and body
@@ -66,7 +69,9 @@ Surfaces: default true white (`--pvl-surface:#fff`); warm paper via
 option of the canvas dial with its own token set (`03-composition.md`).
 
 Snippets in `assets/snippets/` show each component in context; copy structure,
-keep classes, replace content.
+keep classes, replace content. Copy `assets/snippets/motion-stage.html` only
+when a page needs a continuous scrubbed `seek(t)` stage (rolling digits and
+stacked depth deck); ordinary reading pages stay zero-JS.
 
 ## Additional components
 
@@ -79,9 +84,16 @@ keep classes, replace content.
 | lime marker | card / density / highlight | workbench marker variant, modifier on `.pvl-highlight` | `#dff56b`, same geometry as `.pvl-highlight`; on board tiles it is the focal accent in place of yellow | `.pvl-highlight--lime` |
 | opaque notes | card / note / tape / highlight | paper-surface notes | `#dff3e4 / #e3efff / #ffe1da` | `.pvl-note--mint/--sky/--rose` |
 | warm tape | card / note / tape / highlight | report tape | `#ffe8a3` | `.pvl-tape--warm` |
-| dashed fold | fold / density | deep evidence layer | 2px dashed pencil-light, radius 11px, bg `rgba(255,255,255,.55)`, pill summary, ▸/▾ | `.pvl-fold` + `summary` |
+| dashed fold | fold / density | deep evidence layer | 2px dashed pencil-light, radius 11px, bg `rgba(255,255,255,.55)`, pill summary, ▸/▾; smooth native `0 → auto` via `::details-content` + `@starting-style` (graceful fallback) | `.pvl-fold` + `summary` |
 | pencil annotation | annot | outer annotation cards on walkthroughs | rough radius + `2.5px 3px 0 rgba(42,42,42,.85)` | `.pvl-annot` |
 | device frame | annot | realistic phone | frame `#1c1c1e`, border `#2c2c2e`, radius 48px, device shadow, iOS tokens inside, system sans inside | `.pvl-device` + `__status/__island/__sheet` |
+| blur bridge | motion | continuous state handoff | `blur(3.5px) → 0` + `scale(.96) → 1` | `.pvl-blur-bridge` |
+| inline elastic slot | motion | push sibling words apart for a live badge | `max-width` spring open (`--pvl-slot-w`) or `data-open` toggle | `.pvl-slot` |
+| horizontal wipe | motion | swap labels/values in place | `clip-path: inset(0 100% 0 0) → inset(0)` | `.pvl-wipe` |
+| pill morph | motion | single-edge anchored expansion | `transform-origin: left center`, `--pvl-pill-from/--pvl-pill-to` or `data-expanded` | `.pvl-pill-morph` |
+| landing impact | motion | subtle weight compression and rebound | bottom-anchored squash/rebound | `.pvl-impact` |
+| ink beam | motion | directional blue-ink flow along dashed path | `stroke-dashoffset` or dashed connector pulse (`--pvl-beam-dur`) | `.pvl-beam` |
+| local camera | motion | focus crop/pan on a whiteboard region | `--pvl-cam-x/--pvl-cam-y/--pvl-cam-scale`; forced reset to identity at `<=640px` | `.pvl-camera` |
 
 Paper surface also swaps the semantic kit to the warm kit
 (`#1769c2 / #237a4b / #b52d25 / #b7790a / #8a4fbf` with pastel bgs).

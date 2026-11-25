@@ -1,0 +1,5 @@
+---
+interface:
+  display_name: "Clumsy Doodle"
+  short_description: "Procedural MS Paint and toddler-crayon doodle renderer"
+  default_prompt: "Use $clumsy-doodle to draw a clumsy MS Paint doodle PNG from this idea or photo."

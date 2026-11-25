@@ -1,4 +1,4 @@
-/* paper-ink-style · base.css v1.4.0
+/* paper-ink-style · base.css v1.5.0
    The vocabulary of Patrick Fu's personal visual language: paper-and-pencil
    engineering whiteboard (pencil-line rough cards, marker highlights, sticky
    notes and tape, hand-annotated diagrams). This is a style guide, not a
@@ -6,6 +6,8 @@
    Deliverables are single-file by default: inline this sheet in a <style>
    block; embed the font subsets when their size is acceptable, otherwise let
    the system Kai fallbacks speak.
+   v1.5.0: optional .pvl-doodle pixel-scribble illustration frame
+   (paired with on-demand assets/snippets/scribble-canvas.html).
    v1.4.0: underdamped --pvl-ease-spring + interpolate-size:allow-keywords;
    .pvl-reveal starts from scale(.95); tactile .pvl-press; paper-ink motion
    classes (.pvl-reveal--tilt/--sweep, .pvl-blur-bridge, .pvl-slot, .pvl-wipe,
@@ -240,6 +242,10 @@ html:not([data-density="tech"]) .pvl-tech-only{display:none}
 .pvl-device__island{width:70px;height:20px;border-radius:var(--pvl-radius-pill);background:var(--pvl-device-frame)}
 .pvl-device__sheet{background:var(--pvl-ios-gray-bg);border:1px solid var(--pvl-ios-gray-border);border-radius:var(--pvl-radius-clean)}
 @media (max-width:640px){.pvl-device{width:100%}}
+
+.pvl-doodle{margin:12px 0;border:2px solid var(--pvl-pencil-line);border-radius:var(--pvl-radius-rough-alt);background:#ffffff;box-shadow:var(--pvl-shadow-card);overflow:hidden}
+.pvl-doodle__canvas{display:block;width:100%;height:auto;background:#ffffff;image-rendering:pixelated;image-rendering:crisp-edges}
+.pvl-doodle__cap{margin:0;padding:8px 12px;border-top:1.5px dashed var(--pvl-pencil-light);background:var(--pvl-surface-card);font-family:var(--pvl-font-display);font-size:13px;line-height:1.5;color:var(--pvl-muted)}
 
 /* ---------- reduced-motion global guardrail ---------- */
 @media (prefers-reduced-motion:reduce){

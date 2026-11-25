@@ -79,6 +79,22 @@ MIT covers this skill's own code and templates. Bundled LXGW WenKai Lite fonts
 (SIL OFL 1.1), optional Qwen3 models (Apache-2.0), and online speech services
 keep their own licenses and terms; see [`NOTICE.md`](./motion-explainer/NOTICE.md).
 
+#### 🖍️ [`clumsy-doodle`](./clumsy-doodle/SKILL.md)
+
+![Clumsy Doodle showcase](./clumsy-doodle/assets/showcase.webp)
+
+Turn ideas, technical metaphors, or reference photos into deliberately clumsy
+MS Paint and toddler-crayon doodles without calling an image-generation model.
+The agent distills the subject into a small declarative JSON spec; a bundled
+renderer draws jagged pixels, shaky mouse strokes, overflowing scribble fills,
+or grainy wax-crayon textures (`clumsy`, `messy`, `crayon`, `cursed`,
+`neat-rough`) into crisp upscaled PNGs or standalone HTML.
+
+Use it for concept cartoons, reaction memes, avatars, or "Scribblification"-style
+photo redraws. Self-contained with zero third-party dependencies — requires only
+standard-library Python 3 (built-in pixel font for ASCII PNG labels; `--html`
+supports full Unicode/CJK text and interactive seed rerolls).
+
 ### 🧠 Knowledge and memory
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.md)

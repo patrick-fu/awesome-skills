@@ -70,6 +70,19 @@ MIT 仅覆盖本 Skill 自身代码与模板。内置 LXGW WenKai Lite 字体（
 Qwen3 模型（Apache-2.0）与在线语音服务仍适用各自许可证与条款，详见
 [`NOTICE.md`](./motion-explainer/NOTICE.md)。
 
+#### 🖍️ [`clumsy-doodle`](./clumsy-doodle/SKILL.md)
+
+![Clumsy Doodle 效果展示](./clumsy-doodle/assets/showcase.webp)
+
+不调用生图模型，把想法、技术隐喻或参考照片画成刻意粗糙的微软画图风与幼儿蜡笔涂鸦。
+由 Agent 把主体提炼成简短的声明式 JSON 规格，再交给内置渲染器生成带像素锯齿、鼠标抖动线、
+出界乱涂色块或干蜡笔纸纹（`clumsy`、`messy`、`crayon`、`cursed`、`neat-rough`）的
+高清放大 PNG 或独立 HTML。
+
+适合画概念配图、梗图、头像，或复刻 "Scribblification / 小孩丑画风" 的照片重绘。
+完全自闭环、零第三方依赖，仅需标准库 Python 3（PNG 模式内置英文/数字点阵字库，
+需要中文文字或交互换种子时用 `--html` 导出单文件 Canvas）。
+
 ### 🧠 知识与记忆
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.zh-CN.md)

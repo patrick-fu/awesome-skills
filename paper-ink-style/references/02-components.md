@@ -66,8 +66,9 @@ option of the canvas dial with its own token set (`03-composition.md`).
 
 Snippets in `assets/snippets/` show each component in context; copy structure,
 keep classes, replace content. Copy `assets/snippets/motion-stage.html` only
-when a page needs a continuous scrubbed `seek(t)` stage; ordinary reading pages
-stay zero-JS.
+when a page needs a continuous scrubbed `seek(t)` stage, and copy
+`assets/snippets/scribble-canvas.html` only when a page embeds clumsy MS Paint
+pixel-doodle illustrations (`.pvl-doodle`); ordinary reading pages stay zero-JS.
 
 ## Extended & motion components
 
@@ -86,6 +87,7 @@ stay zero-JS.
 | beat reveals & press | motion | CSS unfolding, tilt, marker sweep, tactile press | `.pvl-reveal`, `--stamp`, `--tilt`, `--sweep`, `--pvl-d`, `.pvl-press` | see [motion/css-beats.md](motion/css-beats.md) |
 | in-place state cues | motion | blur bridge, inline slot, wipe, pill morph, impact, ink beam, camera | `.pvl-blur-bridge`, `.pvl-slot`, `.pvl-wipe`, `.pvl-pill-morph`, `.pvl-impact`, `.pvl-beam`, `.pvl-camera` | see [motion/css-beats.md](motion/css-beats.md) |
 | scrubbed stage | motion | continuous stateless `seek(t)` physical lab | rolling digits, vessel impact, stacked depth deck (`assets/snippets/motion-stage.html`) | see [motion/interactive-stage.md](motion/interactive-stage.md) |
+| scribble canvas | illustration | clumsy MS Paint pixel-doodle inside a card (metaphors, characters, incident cartoons) | 2px pencil border, alt-rough radius, white pixelated `<canvas>` + JSON op spec (`assets/snippets/scribble-canvas.html`) | `.pvl-doodle` + `__canvas/__cap` |
 
 Paper surface swaps the semantic kit to the warm kit
 (`#1769c2 / #237a4b / #b52d25 / #b7790a / #8a4fbf` with pastel bgs).

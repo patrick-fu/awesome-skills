@@ -1,0 +1,70 @@
+{
+  "width": 240,
+  "height": 240,
+  "scale": 4,
+  "preset": "clumsy",
+  "seed": 42,
+  "ops": [
+    { "op": "ellipse", "cx": 42, "cy": 18, "rx": 22, "ry": 6, "size": 2, "jitter": 1.3 },
+    { "op": "ellipse", "cx": 106, "cy": 22, "rx": 19, "ry": 6, "size": 2, "jitter": 1.3 },
+    { "op": "line", "points": [[215, 3], [134, 34], [131, 56], [218, 20]], "size": 2, "jitter": 1.4 },
+    { "op": "line", "points": [[174, 20], [180, 38]], "size": 2, "jitter": 1.1 },
+    { "op": "line", "points": [[133, 56], [176, 90], [181, 118]], "size": 2, "jitter": 1.8 },
+
+    { "op": "fillEllipse", "cx": 214, "cy": 175, "rx": 18, "ry": 22, "color": "#2eb5ff", "angle": 0.12, "spacing": 5, "slop": 2.2, "size": 2 },
+    { "op": "ellipse", "cx": 222, "cy": 134, "rx": 6, "ry": 6, "color": "#ffd43b", "size": 2, "jitter": 0.8 },
+    { "op": "line", "points": [[222, 124], [222, 120]], "color": "#ffd43b", "size": 1 },
+    { "op": "line", "points": [[230, 129], [234, 126]], "color": "#ffd43b", "size": 1 },
+    { "op": "line", "points": [[214, 129], [210, 126]], "color": "#ffd43b", "size": 1 },
+    { "op": "ellipse", "cx": 214, "cy": 162, "rx": 21, "ry": 38, "size": 2, "jitter": 1.5, "wobble": 0.08 },
+
+    { "op": "fillEllipse", "cx": 157, "cy": 134, "rx": 21, "ry": 16, "color": "#8f9396", "angle": -0.35, "spacing": 4.8, "size": 4 },
+    { "op": "fillRect", "x": 130, "y": 144, "w": 52, "h": 80, "color": "#8f9396", "angle": -0.35, "spacing": 4.8, "size": 4 },
+    { "op": "line", "points": [[136, 144], [137, 128], [150, 118], [169, 121], [176, 138], [174, 149]], "size": 2 },
+    { "op": "line", "points": [[137, 146], [126, 178], [126, 218], [154, 229], [181, 221], [183, 172], [174, 149]], "size": 2 },
+    { "op": "line", "points": [[142, 178], [168, 174]], "size": 2 },
+    { "op": "line", "points": [[143, 198], [168, 195]], "size": 2 },
+
+    { "op": "fillEllipse", "cx": 71, "cy": 122, "rx": 39, "ry": 48, "color": "#fff1c1", "angle": 0.25, "spacing": 5.5, "size": 5 },
+    { "op": "fillRect", "x": 8, "y": 156, "w": 46, "h": 82, "color": "#101f4d", "angle": 1.25, "spacing": 3.8, "size": 3, "slop": 3.5 },
+    { "op": "fillRect", "x": 86, "y": 164, "w": 42, "h": 74, "color": "#101f4d", "angle": 1.35, "spacing": 3.8, "size": 3, "slop": 3.5 },
+    { "op": "fillRect", "x": 54, "y": 186, "w": 30, "h": 48, "color": "#121212", "angle": 0.4, "spacing": 3.6, "size": 3 },
+    { "op": "line", "points": [[8, 176], [28, 152], [44, 162], [58, 228]], "size": 2 },
+    { "op": "line", "points": [[96, 176], [108, 168], [122, 186], [128, 236]], "size": 2 },
+
+    { "op": "fillEllipse", "cx": 102, "cy": 210, "rx": 18, "ry": 18, "color": "#ffddb3", "angle": 0.1, "spacing": 4.5, "size": 4 },
+    { "op": "line", "points": [[88, 200], [116, 198]], "color": "#d9a574", "size": 2 },
+    { "op": "line", "points": [[88, 210], [118, 209]], "color": "#d9a574", "size": 2 },
+    { "op": "line", "points": [[89, 220], [116, 220]], "color": "#d9a574", "size": 2 },
+
+    { "op": "line", "points": [[30, 62], [40, 48], [52, 60], [64, 44], [78, 56], [90, 44], [104, 58], [116, 50], [122, 66]], "color": "#8b4513", "size": 2, "double": true },
+    { "op": "line", "points": [[24, 84], [36, 86]], "color": "#8b4513", "size": 2 },
+    { "op": "line", "points": [[24, 94], [35, 97]], "color": "#8b4513", "size": 2 },
+    { "op": "line", "points": [[112, 84], [123, 88]], "color": "#8b4513", "size": 2 },
+    { "op": "line", "points": [[111, 95], [122, 99]], "color": "#8b4513", "size": 2 },
+    { "op": "line", "points": [[36, 112], [35, 146], [52, 174], [84, 174], [106, 152], [112, 118]], "color": "#e8c87d", "size": 2 },
+
+    { "op": "fillPoly", "points": [[36, 82], [44, 62], [56, 59], [54, 92], [44, 93]], "color": "#1e90ff", "angle": 0.7, "spacing": 3.5, "size": 3, "slop": 2.0 },
+    { "op": "fillPoly", "points": [[54, 59], [68, 57], [66, 90], [54, 92]], "color": "#2ecc71", "angle": 0.7, "spacing": 3.5, "size": 3, "slop": 2.0 },
+    { "op": "fillPoly", "points": [[67, 57], [82, 57], [80, 84], [66, 89]], "color": "#ffe600", "angle": 0.7, "spacing": 3.5, "size": 3, "slop": 2.0 },
+    { "op": "fillPoly", "points": [[81, 57], [96, 60], [92, 91], [80, 84]], "color": "#ff7f00", "angle": 0.7, "spacing": 3.5, "size": 3, "slop": 2.0 },
+    { "op": "fillPoly", "points": [[95, 60], [109, 63], [104, 94], [92, 91]], "color": "#ff2a2a", "angle": 0.7, "spacing": 3.5, "size": 3, "slop": 2.0 },
+    { "op": "fillPoly", "points": [[107, 63], [119, 82], [106, 94], [102, 93]], "color": "#9b59b6", "angle": 0.7, "spacing": 3.5, "size": 3, "slop": 2.0 },
+    { "op": "line", "points": [[34, 82], [44, 62], [75, 56], [108, 62], [120, 82], [106, 95], [88, 92], [76, 84], [64, 92], [44, 94], [34, 82]], "color": "#111111", "size": 3, "double": true },
+
+    { "op": "fillEllipse", "cx": 55, "cy": 117, "rx": 9, "ry": 4.5, "color": "#ffffff", "spacing": 2.5, "slop": 0.4, "size": 3 },
+    { "op": "ellipse", "cx": 55, "cy": 117, "rx": 9, "ry": 4.5, "color": "#111111", "size": 2, "jitter": 0.9 },
+    { "op": "dot", "x": 55, "y": 117, "size": 6, "color": "#1a75ff" },
+    { "op": "dot", "x": 55, "y": 117, "size": 2, "color": "#111111" },
+    { "op": "line", "points": [[45, 107], [63, 104]], "color": "#6b3e19", "size": 2, "jitter": 1.0 },
+
+    { "op": "fillEllipse", "cx": 93, "cy": 118, "rx": 9, "ry": 4.2, "color": "#ffffff", "spacing": 2.5, "slop": 0.4, "size": 3 },
+    { "op": "ellipse", "cx": 93, "cy": 118, "rx": 9, "ry": 4.2, "color": "#111111", "size": 2, "jitter": 0.9 },
+    { "op": "dot", "x": 93, "y": 118, "size": 6, "color": "#1a75ff" },
+    { "op": "dot", "x": 93, "y": 118, "size": 2, "color": "#111111" },
+    { "op": "line", "points": [[84, 108], [103, 109]], "color": "#6b3e19", "size": 2, "jitter": 1.0 },
+
+    { "op": "line", "points": [[75, 118], [73, 132], [65, 138], [78, 141]], "color": "#111111", "size": 2, "jitter": 1.1 },
+    { "op": "line", "points": [[53, 152], [58, 160], [72, 158], [86, 156], [96, 150]], "color": "#111111", "size": 2, "jitter": 1.3 }
+  ]
+}

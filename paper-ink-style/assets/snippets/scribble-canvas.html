@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="zh-CN" data-surface="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>纸墨手残涂鸦画布 · 声明式 MS Paint 笔刷组件</title>
+<!--
+  On-demand snippet · paper-ink-style · zero-dependency procedural MS Paint scribble canvas.
+  Copy the <script id="pvl-doodle-runtime"> block only when a page uses .pvl-doodle figures;
+  ordinary reading pages stay zero-JS. Low-res pixelated canvas + shaky mouse polylines +
+  sloppy zigzag scribble fills, driven by a portable JSON op list.
+-->
+<link rel="stylesheet" href="../base.css">
+<style>
+  .pvl-doodle-demo{max-width:760px;margin:0 auto;display:grid;gap:18px}
+  .pvl-doodle-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .pvl-doodle-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+  .pvl-doodle-btn{font-family:var(--pvl-font-mono);font-size:12px;font-weight:700;color:var(--pvl-ink);background:var(--pvl-surface-card);border:1.6px solid var(--pvl-pencil-line);border-radius:var(--pvl-radius-pill);padding:5px 12px;cursor:pointer;box-shadow:2px 2px 0 rgba(32,39,35,.1)}
+  .pvl-doodle-pre{margin:8px 0 0;padding:10px 12px;border-radius:8px;background:rgba(32,39,35,.05);font-family:var(--pvl-font-mono);font-size:11.5px;line-height:1.5;overflow-x:auto}
+  @media (max-width:640px){.pvl-doodle-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="pvl-wrap">
+  <section class="pvl-doodle-demo" aria-label="手残涂鸦画布内嵌示例">
+    <div class="pvl-doodle-bar">
+      <div>
+        <span class="pvl-badge" style="background:var(--pvl-path)">ON-DEMAND · .pvl-doodle</span>
+        <h2 style="margin:8px 0 2px">正文保持清晰白板，配图用<span class="pvl-highlight">鼠标手残涂鸦</span>制造反差</h2>
+      </div>
+      <button type="button" class="pvl-doodle-btn pvl-press" id="pvl-reroll">🎲 换种子重画</button>
+    </div>
+
+    <div class="pvl-doodle-grid">
+      <article class="pvl-card">
+        <span class="pvl-tape pvl-tape--warm"></span>
+        <h3 style="margin:4px 0 6px">失控重试：Agent 卡在死循环</h3>
+        <p style="margin:0 0 10px;font-size:14px">没设上限的重试会把一次瞬时报错放大成无限打转。</p>
+        <figure class="pvl-doodle">
+          <canvas class="pvl-doodle__canvas" width="240" height="200" role="img" aria-label="手残涂鸦：卡在蓝色重试环里冒冷汗的方头机器人"></canvas>
+          <figcaption class="pvl-doodle__cap">preset: clumsy · 像素锯齿线 + 出界斜涂填色</figcaption>
+          <script type="application/json" class="pvl-doodle-spec">
+          {
+            "preset": "clumsy",
+            "seed": 42,
+            "ops": [
+              { "op": "fillRect", "x": 16, "y": 10, "w": 84, "h": 20, "color": "#ffe066", "angle": 0.06, "spacing": 4 },
+              { "op": "label", "x": 22, "y": 25, "text": "LOOP!!", "color": "#111111", "size": 15 },
+              { "op": "ellipse", "cx": 120, "cy": 108, "rx": 82, "ry": 60, "start": 0.28, "end": 2.75, "color": "#1769c2", "size": 3 },
+              { "op": "line", "points": [[47, 134], [40, 120], [56, 124]], "color": "#1769c2", "size": 3 },
+              { "op": "ellipse", "cx": 120, "cy": 108, "rx": 82, "ry": 60, "start": 3.42, "end": 5.9, "color": "#1769c2", "size": 3 },
+              { "op": "line", "points": [[194, 83], [202, 97], [186, 94]], "color": "#1769c2", "size": 3 },
+              { "op": "fillRect", "x": 86, "y": 74, "w": 68, "h": 58, "color": "#d0ebff", "angle": -0.45 },
+              { "op": "rect", "x": 86, "y": 74, "w": 68, "h": 58, "color": "#111111", "size": 3, "double": true },
+              { "op": "line", "points": [[120, 74], [116, 56], [126, 48]], "color": "#111111", "size": 2 },
+              { "op": "fillEllipse", "cx": 126, "cy": 46, "rx": 6, "ry": 6, "color": "#ff4d4f", "spacing": 2.8, "slop": 1.5 },
+              { "op": "ellipse", "cx": 126, "cy": 46, "rx": 6, "ry": 6, "color": "#111111", "size": 2 },
+              { "op": "fillEllipse", "cx": 105, "cy": 96, "rx": 10, "ry": 10, "color": "#ffffff", "spacing": 3, "slop": 0.5 },
+              { "op": "ellipse", "cx": 105, "cy": 96, "rx": 10, "ry": 10, "color": "#111111", "size": 2 },
+              { "op": "dot", "x": 107, "y": 96, "size": 4, "color": "#111111" },
+              { "op": "fillEllipse", "cx": 135, "cy": 98, "rx": 6, "ry": 6, "color": "#ffffff", "spacing": 3, "slop": 0.5 },
+              { "op": "ellipse", "cx": 135, "cy": 98, "rx": 6, "ry": 6, "color": "#111111", "size": 2 },
+              { "op": "dot", "x": 134, "y": 99, "size": 3, "color": "#111111" },
+              { "op": "line", "points": [[98, 118], [107, 113], [118, 121], [129, 114], [139, 120]], "color": "#111111", "size": 2 },
+              { "op": "fillPoly", "points": [[162, 76], [157, 88], [162, 94], [167, 88]], "color": "#4dabf7", "spacing": 2.5, "slop": 1 },
+              { "op": "line", "points": [[162, 76], [157, 88], [162, 94], [167, 88], [162, 76]], "color": "#1769c2", "size": 2 },
+              { "op": "line", "points": [[86, 106], [62, 98], [55, 86]], "color": "#111111", "size": 2 },
+              { "op": "line", "points": [[154, 108], [176, 99], [184, 112]], "color": "#111111", "size": 2 },
+              { "op": "line", "points": [[105, 132], [101, 160], [91, 162]], "color": "#111111", "size": 2 },
+              { "op": "line", "points": [[135, 132], [140, 160], [152, 159]], "color": "#111111", "size": 2 },
+              { "op": "fillRect", "x": 156, "y": 150, "w": 68, "h": 34, "color": "#ffc9c9", "angle": 0.2 },
+              { "op": "rect", "x": 156, "y": 150, "w": 68, "h": 34, "color": "#b52d25", "size": 2 },
+              { "op": "label", "x": 166, "y": 172, "text": "ERR 500", "color": "#b52d25", "size": 12 }
+            ]
+          }
+          </script>
+        </figure>
+      </article>
+
+      <article class="pvl-card pvl-card--alt">
+        <h3 style="margin:4px 0 6px">缓存击穿：值班同学淡定喝茶</h3>
+        <p style="margin:0 0 10px;font-size:14px">热点 Key 过期瞬间流量直打数据库，机柜冒烟但告警还没响。</p>
+        <figure class="pvl-doodle">
+          <canvas class="pvl-doodle__canvas" width="240" height="200" role="img" aria-label="手残涂鸦：着火的服务器机柜旁淡定喝茶的火柴人"></canvas>
+          <figcaption class="pvl-doodle__cap">preset: messy · 更夸张的手抖与涂出界幅度</figcaption>
+          <script type="application/json" class="pvl-doodle-spec">
+          {
+            "preset": "messy",
+            "seed": 19,
+            "ops": [
+              { "op": "line", "points": [[10, 168], [230, 170]], "color": "#111111", "size": 2 },
+              { "op": "fillPoly", "points": [[56, 78], [46, 52], [68, 60], [78, 28], [94, 56], [110, 44], [104, 78]], "color": "#ff922b", "angle": 0.6, "spacing": 4 },
+              { "op": "fillPoly", "points": [[66, 78], [64, 56], [78, 42], [90, 60], [96, 78]], "color": "#ffe066", "angle": -0.4, "spacing": 4 },
+              { "op": "line", "points": [[54, 78], [46, 52], [68, 60], [78, 28], [94, 56], [110, 44], [104, 78]], "color": "#e03131", "size": 2 },
+              { "op": "fillRect", "x": 46, "y": 78, "w": 66, "h": 90, "color": "#8f9396", "angle": -0.3 },
+              { "op": "rect", "x": 46, "y": 78, "w": 66, "h": 90, "color": "#111111", "size": 3, "double": true },
+              { "op": "line", "points": [[54, 98], [104, 98]], "color": "#111111", "size": 2 },
+              { "op": "line", "points": [[54, 122], [104, 122]], "color": "#111111", "size": 2 },
+              { "op": "dot", "x": 62, "y": 88, "size": 5, "color": "#ff2a2a" },
+              { "op": "dot", "x": 74, "y": 88, "size": 5, "color": "#ff2a2a" },
+              { "op": "dot", "x": 62, "y": 110, "size": 5, "color": "#ffe066" },
+              { "op": "label", "x": 58, "y": 148, "text": "DB", "color": "#111111", "size": 16 },
+              { "op": "fillEllipse", "cx": 176, "cy": 84, "rx": 18, "ry": 19, "color": "#fff1c1", "spacing": 4.5 },
+              { "op": "ellipse", "cx": 176, "cy": 84, "rx": 18, "ry": 19, "color": "#111111", "size": 2 },
+              { "op": "dot", "x": 169, "y": 81, "size": 4, "color": "#111111" },
+              { "op": "dot", "x": 183, "y": 82, "size": 4, "color": "#111111" },
+              { "op": "line", "points": [[168, 92], [176, 95], [185, 91]], "color": "#111111", "size": 2 },
+              { "op": "line", "points": [[176, 103], [175, 142]], "color": "#111111", "size": 3 },
+              { "op": "line", "points": [[175, 142], [160, 168]], "color": "#111111", "size": 2 },
+              { "op": "line", "points": [[175, 142], [192, 168]], "color": "#111111", "size": 2 },
+              { "op": "line", "points": [[175, 114], [150, 126], [142, 120]], "color": "#111111", "size": 2 },
+              { "op": "line", "points": [[175, 114], [196, 128]], "color": "#111111", "size": 2 },
+              { "op": "fillRect", "x": 130, "y": 112, "w": 16, "h": 16, "color": "#a5d8ff", "spacing": 3, "slop": 1.5 },
+              { "op": "rect", "x": 130, "y": 112, "w": 16, "h": 16, "color": "#111111", "size": 2 },
+              { "op": "fillRect", "x": 152, "y": 24, "w": 74, "h": 28, "color": "#e8f5e9", "angle": 0.08, "spacing": 4 },
+              { "op": "rect", "x": 152, "y": 24, "w": 74, "h": 28, "color": "#237a4b", "size": 2 },
+              { "op": "label", "x": 160, "y": 43, "text": "IT'S FINE", "color": "#237a4b", "size": 12 }
+            ]
+          }
+          </script>
+        </figure>
+      </article>
+    </div>
+
+    <details class="pvl-fold">
+      <summary>DSL 图元速查（支持 9 种声明式 op，复制 runtime 即可离线用）</summary>
+      <pre class="pvl-doodle-pre">preset: "clumsy" (默认) | "messy" (更狂野) | "neat-rough" (克制草图)
+ops:
+  fillRect    { x, y, w, h, color, angle?, spacing?, slop?, size? }
+  fillEllipse { cx, cy, rx, ry, color, angle?, spacing?, slop?, size? }
+  fillPoly    { points: [[x,y],...], color, angle?, spacing?, slop?, size? }
+  line        { points: [[x,y],...], color?, size?, jitter?, overshoot?, double? }
+  rect        { x, y, w, h, color?, size?, jitter?, double? }
+  ellipse     { cx, cy, rx, ry, start?, end?, color?, size?, jitter?, wobble?, double? }
+  arrow       { points: [[x,y],...], color?, size?, head? }
+  dot         { x, y, size?, color? }
+  label       { x, y, text, color?, size? }</pre>
+    </details>
+  </section>
+</main>
+
+<!-- Copy this single self-contained script block when embedding .pvl-doodle in a page. -->
+<script id="pvl-doodle-runtime">
+(() => {
+  const PRESETS = {
+    clumsy:       { jitter: 1.8, slop: 3.0, spacing: 4.6, wobble: 0.12, overshoot: 2.2 },
+    messy:        { jitter: 2.6, slop: 4.8, spacing: 5.2, wobble: 0.18, overshoot: 3.4 },
+    'neat-rough': { jitter: 1.1, slop: 1.8, spacing: 4.0, wobble: 0.07, overshoot: 1.2 },
+  };
+
+  function makeRng(seed) {
+    let s = (seed >>> 0) || 1;
+    return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
+  }
+
+  function pointInPoly(px, py, pts) {
+    let inside = false;
+    for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+      const [xi, yi] = pts[i], [xj, yj] = pts[j];
+      const hit = ((yi > py) !== (yj > py)) && (px < ((xj - xi) * (py - yi)) / (yj - yi + 1e-9) + xi);
+      if (hit) inside = !inside;
+    }
+    return inside;
+  }
+
+  function render(canvas, spec) {
+    if (!canvas || !spec) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    const preset = PRESETS[spec.preset] || PRESETS.clumsy;
+    const rng = makeRng(spec.seed ?? 42);
+    const rand = (a, b) => a + rng() * (b - a);
+
+    ctx.fillStyle = spec.bg || '#ffffff';
+    ctx.fillRect(0, 0, w, h);
+
+    function dot(x, y, size, color) {
+      const ix = Math.round(x), iy = Math.round(y), r = Math.floor(size / 2);
+      ctx.fillStyle = color;
+      if (size <= 1) { ctx.fillRect(ix, iy, 1, 1); return; }
+      if (size === 2) { ctx.fillRect(ix, iy, 2, 2); return; }
+      for (let dy = -r; dy <= r; dy++) {
+        for (let dx = -r; dx <= r; dx++) {
+          if (dx * dx + dy * dy <= r * r + 0.5) ctx.fillRect(ix + dx, iy + dy, 1, 1);
+        }
+      }
+    }
+
+    function rawLine(x0, y0, x1, y1, size, color) {
+      x0 = Math.round(x0); y0 = Math.round(y0);
+      x1 = Math.round(x1); y1 = Math.round(y1);
+      const dx = Math.abs(x1 - x0), dy = Math.abs(y1 - y0);
+      const sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1;
+      let err = dx - dy;
+      while (true) {
+        dot(x0, y0, size, color);
+        if (x0 === x1 && y0 === y1) break;
+        const e2 = 2 * err;
+        if (e2 > -dy) { err -= dy; x0 += sx; }
+        if (e2 < dx) { err += dx; y0 += sy; }
+      }
+    }
+
+    function shakyLine(pts, opts = {}) {
+      if (!pts || pts.length < 2) return;
+      const color = opts.color || '#111111';
+      const size = opts.size ?? 2;
+      const jitter = opts.jitter ?? preset.jitter;
+      const step = opts.step ?? 6;
+      const overshoot = opts.overshoot ?? preset.overshoot;
+      const out = [];
+      let driftX = 0, driftY = 0;
+      for (let i = 0; i < pts.length - 1; i++) {
+        let [x0, y0] = pts[i], [x1, y1] = pts[i + 1];
+        const len = Math.hypot(x1 - x0, y1 - y0) || 1;
+        if (i === 0 && overshoot) {
+          const ov = rand(-0.8, overshoot);
+          x0 -= ((x1 - x0) / len) * ov; y0 -= ((y1 - y0) / len) * ov;
+        }
+        if (i === pts.length - 2 && overshoot) {
+          const ov = rand(-0.8, overshoot);
+          x1 += ((x1 - x0) / len) * ov; y1 += ((y1 - y0) / len) * ov;
+        }
+        const n = Math.max(2, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / step));
+        for (let k = 0; k <= n; k++) {
+          if (i > 0 && k === 0) continue;
+          const t = k / n;
+          driftX = driftX * 0.65 + rand(-jitter, jitter) * 0.55;
+          driftY = driftY * 0.65 + rand(-jitter, jitter) * 0.55;
+          out.push([
+            x0 + (x1 - x0) * t + driftX + rand(-jitter * 0.5, jitter * 0.5),
+            y0 + (y1 - y0) * t + driftY + rand(-jitter * 0.5, jitter * 0.5),
+          ]);
+        }
+      }
+      for (let i = 0; i < out.length - 1; i++) {
+        rawLine(out[i][0], out[i][1], out[i + 1][0], out[i + 1][1], size, color);
+      }
+    }
+
+    function shakyEllipse(op) {
+      const steps = op.steps ?? 22;
+      const start = op.start ?? 0;
+      const end = op.end ?? (Math.PI * 2 + rand(-0.22, 0.34));
+      const wobble = op.wobble ?? preset.wobble;
+      const p1 = rand(0, 6.28), p2 = rand(0, 6.28);
+      const pts = [];
+      for (let i = 0; i <= steps; i++) {
+        const a = start + (end - start) * (i / steps);
+        const mod = 1 + wobble * Math.sin(a * 2 + p1) + wobble * 0.55 * Math.cos(a * 3 + p2);
+        pts.push([op.cx + Math.cos(a) * op.rx * mod, op.cy + Math.sin(a) * op.ry * mod]);
+      }
+      shakyLine(pts, op);
+    }
+
+    function scribbleFill(bounds, insideFn, op) {
+      const color = op.color || '#ffe066';
+      const size = op.size ?? 3;
+      const spacing = op.spacing ?? preset.spacing;
+      const angle = op.angle ?? -0.45;
+      const slop = op.slop ?? preset.slop;
+      const cos = Math.cos(angle), sin = Math.sin(angle);
+      const cx = bounds.x + bounds.w / 2, cy = bounds.y + bounds.h / 2;
+      const diag = Math.hypot(bounds.w, bounds.h);
+      let dir = 1, prev = null;
+      for (let u = -diag / 2; u <= diag / 2; u += Math.max(1.5, spacing + rand(-0.9, 1.1))) {
+        const hits = [];
+        for (let v = -diag / 2; v <= diag / 2; v += 2.2) {
+          const px = cx + u * cos - v * sin, py = cy + u * sin + v * cos;
+          if (insideFn(px, py)) hits.push([px, py]);
+        }
+        if (hits.length < 2) { prev = null; continue; }
+        const pA = dir > 0 ? hits[0] : hits[hits.length - 1];
+        const pB = dir > 0 ? hits[hits.length - 1] : hits[0];
+        const a = [pA[0] + rand(-slop, slop), pA[1] + rand(-slop, slop)];
+        const b = [pB[0] + rand(-slop, slop), pB[1] + rand(-slop, slop)];
+        if (prev && Math.hypot(prev[0] - a[0], prev[1] - a[1]) < 24 && rng() < 0.72) {
+          shakyLine([prev, a], { color, size, jitter: 0.9, step: 7, overshoot: 0 });
+        }
+        shakyLine([a, b], { color, size, jitter: 1.3, step: 8, overshoot: 1.4 });
+        prev = b; dir *= -1;
+      }
+    }
+
+    for (const op of spec.ops || []) {
+      const passes = op.double ? 2 : 1;
+      switch (op.op) {
+        case 'fillRect':
+          scribbleFill(
+            { x: op.x, y: op.y, w: op.w, h: op.h },
+            (px, py) => px >= op.x && px <= op.x + op.w && py >= op.y && py <= op.y + op.h,
+            op
+          );
+          break;
+        case 'fillEllipse':
+          scribbleFill(
+            { x: op.cx - op.rx, y: op.cy - op.ry, w: op.rx * 2, h: op.ry * 2 },
+            (px, py) => ((px - op.cx) / (op.rx || 1)) ** 2 + ((py - op.cy) / (op.ry || 1)) ** 2 <= 1,
+            op
+          );
+          break;
+        case 'fillPoly': {
+          const xs = op.points.map((p) => p[0]), ys = op.points.map((p) => p[1]);
+          const minX = Math.min(...xs), minY = Math.min(...ys);
+          scribbleFill(
+            { x: minX, y: minY, w: Math.max(...xs) - minX, h: Math.max(...ys) - minY },
+            (px, py) => pointInPoly(px, py, op.points),
+            op
+          );
+          break;
+        }
+        case 'line':
+          for (let k = 0; k < passes; k++) shakyLine(op.points, op);
+          break;
+        case 'rect': {
+          const pts = [
+            [op.x, op.y], [op.x + op.w, op.y],
+            [op.x + op.w, op.y + op.h], [op.x, op.y + op.h], [op.x, op.y]
+          ];
+          for (let k = 0; k < passes; k++) shakyLine(pts, op);
+          break;
+        }
+        case 'ellipse':
+          for (let k = 0; k < passes; k++) shakyEllipse(op);
+          break;
+        case 'arrow': {
+          shakyLine(op.points, op);
+          if (op.points && op.points.length >= 2) {
+            const [x0, y0] = op.points[op.points.length - 2];
+            const [x1, y1] = op.points[op.points.length - 1];
+            const ang = Math.atan2(y1 - y0, x1 - x0);
+            const hl = op.head ?? 10;
+            shakyLine([
+              [x1 - Math.cos(ang - 0.55) * hl, y1 - Math.sin(ang - 0.55) * hl],
+              [x1, y1],
+              [x1 - Math.cos(ang + 0.55) * hl, y1 - Math.sin(ang + 0.55) * hl]
+            ], { ...op, overshoot: 0.6 });
+          }
+          break;
+        }
+        case 'dot':
+          dot(op.x, op.y, op.size ?? 3, op.color || '#111111');
+          break;
+        case 'label':
+          ctx.save();
+          ctx.fillStyle = op.color || '#111111';
+          ctx.font = `700 ${op.size ?? 13}px "Comic Sans MS","Chalkboard SE",monospace`;
+          ctx.fillText(String(op.text || ''), Math.round(op.x), Math.round(op.y));
+          ctx.restore();
+          break;
+      }
+    }
+  }
+
+  function hydrate(root = document, seedOffset = 0) {
+    root.querySelectorAll('.pvl-doodle').forEach((fig) => {
+      const canvas = fig.querySelector('canvas.pvl-doodle__canvas');
+      const specEl = fig.querySelector('script.pvl-doodle-spec');
+      if (!canvas || !specEl) return;
+      try {
+        const spec = JSON.parse(specEl.textContent);
+        render(canvas, { ...spec, seed: (spec.seed ?? 42) + seedOffset });
+      } catch (e) {
+        console.error('pvlDoodle invalid spec:', e);
+      }
+    });
+  }
+
+  window.pvlDoodle = { render, hydrate, PRESETS };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => hydrate());
+  } else {
+    hydrate();
+  }
+})();
+</script>
+<script>
+let roll = 0;
+document.getElementById('pvl-reroll')?.addEventListener('click', () => {
+  roll += 17;
+  window.pvlDoodle.hydrate(document, roll);
+});
+</script>
+</body>
+</html>

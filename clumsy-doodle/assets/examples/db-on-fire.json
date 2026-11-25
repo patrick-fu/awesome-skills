@@ -1,0 +1,36 @@
+{
+  "width": 240,
+  "height": 200,
+  "scale": 4,
+  "preset": "messy",
+  "seed": 19,
+  "ops": [
+    { "op": "line", "points": [[10, 168], [230, 170]], "color": "#111111", "size": 2 },
+    { "op": "fillPoly", "points": [[56, 78], [46, 52], [68, 60], [78, 28], [94, 56], [110, 44], [104, 78]], "color": "#ff922b", "angle": 0.6, "spacing": 4 },
+    { "op": "fillPoly", "points": [[66, 78], [64, 56], [78, 42], [90, 60], [96, 78]], "color": "#ffe066", "angle": -0.4, "spacing": 4 },
+    { "op": "line", "points": [[54, 78], [46, 52], [68, 60], [78, 28], [94, 56], [110, 44], [104, 78]], "color": "#e03131", "size": 2 },
+    { "op": "fillRect", "x": 46, "y": 78, "w": 66, "h": 90, "color": "#8f9396", "angle": -0.3 },
+    { "op": "rect", "x": 46, "y": 78, "w": 66, "h": 90, "color": "#111111", "size": 3, "double": true },
+    { "op": "line", "points": [[54, 98], [104, 98]], "color": "#111111", "size": 2 },
+    { "op": "line", "points": [[54, 122], [104, 122]], "color": "#111111", "size": 2 },
+    { "op": "dot", "x": 62, "y": 88, "size": 5, "color": "#ff2a2a" },
+    { "op": "dot", "x": 74, "y": 88, "size": 5, "color": "#ff2a2a" },
+    { "op": "dot", "x": 62, "y": 110, "size": 5, "color": "#ffe066" },
+    { "op": "label", "x": 62, "y": 138, "text": "DB", "color": "#111111", "scale": 2 },
+
+    { "op": "fillEllipse", "cx": 176, "cy": 86, "rx": 18, "ry": 19, "color": "#fff1c1", "spacing": 4.5 },
+    { "op": "ellipse", "cx": 176, "cy": 86, "rx": 18, "ry": 19, "color": "#111111", "size": 2 },
+    { "op": "dot", "x": 169, "y": 83, "size": 4, "color": "#111111" },
+    { "op": "dot", "x": 183, "y": 84, "size": 4, "color": "#111111" },
+    { "op": "line", "points": [[168, 94], [176, 97], [185, 93]], "color": "#111111", "size": 2 },
+    { "op": "line", "points": [[176, 105], [175, 142]], "color": "#111111", "size": 3 },
+    { "op": "line", "points": [[175, 142], [160, 168]], "color": "#111111", "size": 2 },
+    { "op": "line", "points": [[175, 142], [192, 168]], "color": "#111111", "size": 2 },
+    { "op": "line", "points": [[175, 116], [150, 126], [142, 120]], "color": "#111111", "size": 2 },
+    { "op": "line", "points": [[175, 116], [196, 128]], "color": "#111111", "size": 2 },
+    { "op": "fillRect", "x": 130, "y": 112, "w": 16, "h": 16, "color": "#a5d8ff", "spacing": 3, "slop": 1.5 },
+    { "op": "rect", "x": 130, "y": 112, "w": 16, "h": 16, "color": "#111111", "size": 2 },
+
+    { "op": "bubble", "x": 146, "y": 18, "w": 84, "h": 30, "tail": [168, 64], "text": "IT'S FINE", "fill": "#e8f5e9", "color": "#237a4b", "textColor": "#237a4b", "scale": 1 }
+  ]
+}

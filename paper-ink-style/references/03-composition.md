@@ -50,6 +50,15 @@ well, not templates to apply.
   device frame (`.pvl-device`) is on the page: real UI inside in system sans,
   the hand outside explaining it.
 
+## Illustrations
+
+- Standard diagrams and emoji stickers by default (zero JS).
+- Optional clumsy MS Paint pixel doodles (`.pvl-doodle`, copied on demand from
+  `assets/snippets/scribble-canvas.html`) inside a card when a conceptual
+  metaphor, incident cartoon, or humorous character makes the point faster than
+  another box diagram. Keep page prose and card chrome clean so the rough
+  doodle reads as intentional contrast.
+
 ## Density and stage
 
 - Normal reading by default; the handwritten face carries the body.

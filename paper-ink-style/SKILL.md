@@ -67,6 +67,6 @@ self-check at the end of `references/03-composition.md`.
   composition and self-check, 04 practice, 05 Web & single-file HTML guide.
 - `references/motion/` — progressive motion guides (`css-beats.md` for pure-CSS
   paper-ink beats, `interactive-stage.md` for continuous `seek(t)` stages).
-- `assets/base.css` — the Web instance of the vocabulary (v1.4.0).
+- `assets/base.css` — the Web instance of the vocabulary (v1.5.0).
 - `assets/fonts/` — LXGW WenKai Lite subsets (SIL OFL) for the handwritten voice.
 - `assets/snippets/`, `assets/examples/` — Web specimens; open them in a browser.

@@ -247,6 +247,8 @@ the computer and app to remain running.
 
 #### 🎛️ [`thread-controller`](./thread-controller/SKILL.md)
 
+![Thread Controller control plane](./thread-controller/assets/showcase.webp)
+
 Turn a top-level thread or session into a host-neutral controller across T3 Code,
 Codex App, and standalone CLI harnesses: one user entry point backed by a thin
 control plane. It keeps goals, authorization, owners, dependencies, waits, and
@@ -405,6 +407,8 @@ workspace artifacts remain local, normally outside Git.
 
 #### 🔄 [`home-config-sync`](./home-config-sync/SKILL.md)
 
+![Home Config Sync bare-repo guardrails](./home-config-sync/assets/showcase.webp)
+
 Maintain a personal `~/.dotfiles` bare-repository workflow: first-time setup,
 new-machine deployment, safe pulls and merges, and pushes. Its work tree is the
 whole home directory, so the guardrails are part of the feature.
@@ -413,6 +417,8 @@ Use it when dotfiles should be versioned without letting a convenience script
 treat the home directory casually.
 
 #### 🗂️ [`local-file-organizer`](./local-file-organizer/SKILL.md)
+
+![Local File Organizer reversible ledger](./local-file-organizer/assets/showcase.webp)
 
 Inventory cluttered directories file by file, classify content by its real use,
 and build a reversible ledger before moving, renaming, or deduplicating anything.
@@ -423,6 +429,8 @@ blind cleanup.
 ### 🎧 Audio and media
 
 #### 🎙️ [`audio-transcription`](./audio-transcription/SKILL.md)
+
+![Audio Transcription offline dual-engine workflow](./audio-transcription/assets/showcase.webp)
 
 Transcribe local audio and video files with two independent local engines:
 Qwen3-ASR for speech recognition and MOSS for diarized transcription. The

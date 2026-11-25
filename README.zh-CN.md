@@ -207,6 +207,8 @@ Codex 有时会反复查询状态：任务还没跑完，也没有新信息，�
 
 #### 🎛️ [`thread-controller`](./thread-controller/SKILL.md)
 
+![Thread Controller 跨宿主主控薄控制面](./thread-controller/assets/showcase.zh-CN.webp)
+
 把一个顶层 thread 或会话设为跨宿主主控（适配 T3 Code、Codex App 及独立 CLI
 harness），作为统一用户入口与薄控制面。主控在控制索引或外部任务账本中维护目标、
 权限、owner、依赖、等待和回报节奏，支持跨环境与跨模型路由、交付证据验收、
@@ -336,12 +338,16 @@ source 与 workspace 层的 `AGENTS.md`。名称和路径沿用用户的选择�
 
 #### 🔄 [`home-config-sync`](./home-config-sync/SKILL.md)
 
+![Home Config Sync 裸仓安全护栏](./home-config-sync/assets/showcase.zh-CN.webp)
+
 维护个人 `~/.dotfiles` bare-repository 工作流：首次设置、新机器部署、安全 pull/merge 和
 push。它的 work tree 是整个 home 目录，所以安全边界本身就是功能的一部分。
 
 适合希望把 dotfiles 纳入版本管理，又不想让便利脚本随便对待整个家目录的场景。
 
 #### 🗂️ [`local-file-organizer`](./local-file-organizer/SKILL.md)
+
+![Local File Organizer 可回滚账本重组](./local-file-organizer/assets/showcase.zh-CN.webp)
 
 逐文件盘点混乱目录，按真实用途重分类，并在移动、重命名或去重前建立可回滚账本。
 
@@ -350,6 +356,8 @@ push。它的 work tree 是整个 home 目录，所以安全边界本身就是�
 ### 🎧 音频与媒体
 
 #### 🎙️ [`audio-transcription`](./audio-transcription/SKILL.md)
+
+![Audio Transcription 离线双模型转写](./audio-transcription/assets/showcase.zh-CN.webp)
 
 转写本地音频和视频文件，默认同时使用两个相互独立的本地模型：Qwen3-ASR 负责语音识别，
 MOSS 负责带说话人区分的转写。默认流程完全离线，两个模型的结果分开保留以便交叉核对，

@@ -27,13 +27,13 @@ fix both and bump the `base.css` version.
 | shadows | card `2px 2px` ink .05; note `3px 5px 12px` .08; hard `3px 4px 0` .12; lift `7px 8px 0` .12; pencil `2.5px 3px 0` .85; device layered | hard offsets or paper lifts |
 | type roles | handwritten face = titles, annotations, body; system sans = inside device frames and dense scan; mono = precise objects | the three voices |
 | type floors | body >= 14px; mono >= 10.5px; dense scan 10.5-13px sans | readability |
-| spring ease | CSS `linear(...)` underdamped curve with `cubic-bezier(.22,1.25,.36,1)` fallback (`--pvl-ease-spring`) | crisp paper-card settle |
-| keyword sizing | `interpolate-size: allow-keywords` on `:root` | native `0 → auto` fold/height morph |
+| spring ease | `--pvl-ease-spring` (`linear(...)` with `cubic-bezier(.22,1.25,.36,1)` fallback) | crisp paper-card settle |
+| keyword sizing | `interpolate-size: allow-keywords` on `:root` | native `0 → auto` fold transition |
 
-## Components
+## Core components
 
-Roles first; the Web column names the class in base.css. Copy structure on the
-Web, reproduce parameters elsewhere.
+Roles first; the Web column names the class in `assets/base.css`. Copy
+structure on the Web, reproduce parameters elsewhere.
 
 | Component | Dial | Use | Key parameters | Web |
 |---|---|---|---|---|
@@ -42,22 +42,18 @@ Web, reproduce parameters elsewhere.
 | scribble underline | core | sentence-level verdict | inline SVG double wave, stroke `#2a2a2a` 1.5px | `.pvl-scribble` |
 | sticky note | core | aside, wry comment, field note | tint at `f2` alpha, 1px pencil-light border, radius `2px 15px`, blur 2px, shadow `3px 5px 12px rgba(0,0,0,.08)` | `.pvl-note` + `--pink/--blue/--green` |
 | tape | core | attach a card to the canvas | 80x24, beige gradient at `b3/66` alpha, rotate -2deg, top -12px | `.pvl-tape` |
-| mono badge | core | stamps: CONFIRMED / REJECTED / panel headers | pill, mono 12px 700, white on semantic color | `.pvl-badge` |
+| mono badge | core | semantic status stamps (`CONFIRMED`, `REJECTED`, panel headers) | pill, mono 12px 700, white on semantic color | `.pvl-badge` |
 | sticker | core | emoji as semantic object on a node | dashed 2px ring in semantic color, 44px | `.pvl-sticker` |
 | connector | core | route between nodes | 3px dashed path-blue at .55 | `.pvl-connector` |
 | takeaway | core | bottom lane of a teaching beat | display face 19px centered + `.pvl-highlight` on key phrase | `.pvl-takeaway` |
 | reading layers | density | plain vs technical layer | `html:not([data-density="tech"]) .pvl-tech-only{display:none}` | `.pvl-tech-only`, `[data-density]` |
 | whole-card expand | core | deep layer on click | body shows on `aria-expanded="true"`; hover leaves layout untouched | `.pvl-expand` + `aria-expanded` |
-| beat reveal | motion / stage | explanation unfolding | starts at `scale(.95)` + 10px lift (never `scale(0)`); stamp, 2.5D card tilt, marker sweep; reduced-motion safe | `.pvl-reveal`, `.pvl-reveal--stamp`, `.pvl-reveal--tilt`, `.pvl-reveal--sweep`, `--pvl-d` |
-| press feedback | motion | tactile button/card press | `:active { transform: scale(.97) }` | `.pvl-press` |
 
-Type voices: the handwritten face `--pvl-font-display` (LXGW WenKai Lite,
-fallback Kaiti SC/STKaiti) is the reading voice — titles, annotations and body
-via `--pvl-font-body`; system sans (`--pvl-font-sans`) speaks only inside
-device frames and on dense scan surfaces (`data-dense` swaps
-`--pvl-font-body`); precise objects (versions, files, logs, diffs, badges) =
-`--pvl-font-mono`. Continuous reading body >= 14px; mono labels >= 10.5px;
-dense scan surfaces opt into 10.5-13px sans.
+Type voices: handwritten face (`LXGW WenKai Lite` + system Kai fallback) is
+the reading voice — titles, annotations and body all speak it. System sans
+appears only inside realistic device frames and on dense scan surfaces
+(`<html data-dense="true">`). Mono speaks for precise objects (versions, files,
+logs, IDs, `tabular-nums` metrics).
 
 TL;DR and framed asides are compositions: a rough card carrying a
 `.pvl-badge` stamp in the semantic colour plus the verdict bullets; pencil
@@ -70,32 +66,28 @@ option of the canvas dial with its own token set (`03-composition.md`).
 
 Snippets in `assets/snippets/` show each component in context; copy structure,
 keep classes, replace content. Copy `assets/snippets/motion-stage.html` only
-when a page needs a continuous scrubbed `seek(t)` stage (rolling digits and
-stacked depth deck); ordinary reading pages stay zero-JS.
+when a page needs a continuous scrubbed `seek(t)` stage; ordinary reading pages
+stay zero-JS.
 
-## Additional components
+## Extended & motion components
 
 | Component | Dial | Use | Key parameters | Web |
 |---|---|---|---|---|
-| clean card | card / note / tape / highlight | report blocks on paper | 1.6px ink border, radius 16px, shadow `3px 4px 0 rgba(32,39,35,.12)` | `.pvl-card--clean` |
-| board card | card / density / highlight | workbench tiles | 1.6px ink border, radius 20px, shadow `7px 8px 0 rgba(32,39,35,.12)` | `.pvl-card--board` |
-| alt rough radius | card / note / tape / highlight | neighbour variation: adjacent cards keep their own shape | `14px 6px 14px 6px/6px 14px 6px 14px` | `.pvl-card--alt` |
-| band highlight | card / note / tape / highlight | underline-band emphasis (report) | gradient band `#ffe28a` 58%-92%, no block | `.pvl-highlight--band` |
-| lime marker | card / density / highlight | workbench marker variant, modifier on `.pvl-highlight` | `#dff56b`, same geometry as `.pvl-highlight`; on board tiles it is the focal accent in place of yellow | `.pvl-highlight--lime` |
-| opaque notes | card / note / tape / highlight | paper-surface notes | `#dff3e4 / #e3efff / #ffe1da` | `.pvl-note--mint/--sky/--rose` |
-| warm tape | card / note / tape / highlight | report tape | `#ffe8a3` | `.pvl-tape--warm` |
-| dashed fold | fold / density | deep evidence layer | 2px dashed pencil-light, radius 11px, bg `rgba(255,255,255,.55)`, pill summary, ▸/▾; smooth native `0 → auto` via `::details-content` + `@starting-style` (graceful fallback) | `.pvl-fold` + `summary` |
+| clean card | card | report blocks on paper | 1.6px ink border, radius 16px, shadow `3px 4px 0 rgba(32,39,35,.12)` | `.pvl-card--clean` |
+| board card | card / density | workbench tiles | 1.6px ink border, radius 20px, shadow `7px 8px 0 rgba(32,39,35,.12)` | `.pvl-card--board` |
+| alt rough radius | card | neighbour shape variation | `14px 6px 14px 6px/6px 14px 6px 14px` | `.pvl-card--alt` |
+| band highlight | highlight | underline-band emphasis on paper | gradient band `#ffe28a` 58%-92%, no block | `.pvl-highlight--band` |
+| lime marker | highlight / density | workbench focal accent (replaces yellow on board tiles) | `#dff56b`, modifier on `.pvl-highlight` | `.pvl-highlight--lime` |
+| opaque notes | note | paper-surface notes | `#dff3e4 / #e3efff / #ffe1da` | `.pvl-note--mint/--sky/--rose` |
+| warm tape | tape | report tape | `#ffe8a3` | `.pvl-tape--warm` |
+| dashed fold | fold / density | deep evidence layer | 2px dashed pencil-light, radius 11px, native `0 → auto` expand | `.pvl-fold` + `summary` |
 | pencil annotation | annot | outer annotation cards on walkthroughs | rough radius + `2.5px 3px 0 rgba(42,42,42,.85)` | `.pvl-annot` |
-| device frame | annot | realistic phone | frame `#1c1c1e`, border `#2c2c2e`, radius 48px, device shadow, iOS tokens inside, system sans inside | `.pvl-device` + `__status/__island/__sheet` |
-| blur bridge | motion | continuous state handoff | `blur(3.5px) → 0` + `scale(.96) → 1` | `.pvl-blur-bridge` |
-| inline elastic slot | motion | push sibling words apart for a live badge | `max-width` spring open (`--pvl-slot-w`) or `data-open` toggle | `.pvl-slot` |
-| horizontal wipe | motion | swap labels/values in place | `clip-path: inset(0 100% 0 0) → inset(0)` | `.pvl-wipe` |
-| pill morph | motion | single-edge anchored expansion | `transform-origin: left center`, `--pvl-pill-from/--pvl-pill-to` or `data-expanded` | `.pvl-pill-morph` |
-| landing impact | motion | subtle weight compression and rebound | bottom-anchored squash/rebound | `.pvl-impact` |
-| ink beam | motion | directional blue-ink flow along dashed path | `stroke-dashoffset` or dashed connector pulse (`--pvl-beam-dur`) | `.pvl-beam` |
-| local camera | motion | focus crop/pan on a whiteboard region | `--pvl-cam-x/--pvl-cam-y/--pvl-cam-scale`; forced reset to identity at `<=640px` | `.pvl-camera` |
+| device frame | annot | realistic phone frame | frame `#1c1c1e`, radius 48px, iOS tokens & system sans inside | `.pvl-device` + `__status/__island/__sheet` |
+| beat reveals & press | motion | CSS unfolding, tilt, marker sweep, tactile press | `.pvl-reveal`, `--stamp`, `--tilt`, `--sweep`, `--pvl-d`, `.pvl-press` | see [motion/css-beats.md](motion/css-beats.md) |
+| in-place state cues | motion | blur bridge, inline slot, wipe, pill morph, impact, ink beam, camera | `.pvl-blur-bridge`, `.pvl-slot`, `.pvl-wipe`, `.pvl-pill-morph`, `.pvl-impact`, `.pvl-beam`, `.pvl-camera` | see [motion/css-beats.md](motion/css-beats.md) |
+| scrubbed stage | motion | continuous stateless `seek(t)` physical lab | rolling digits, vessel impact, stacked depth deck (`assets/snippets/motion-stage.html`) | see [motion/interactive-stage.md](motion/interactive-stage.md) |
 
-Paper surface also swaps the semantic kit to the warm kit
+Paper surface swaps the semantic kit to the warm kit
 (`#1769c2 / #237a4b / #b52d25 / #b7790a / #8a4fbf` with pastel bgs).
 Dot surface adds the 24px dot grid (`#e2ddd0`, 1.2px).
 

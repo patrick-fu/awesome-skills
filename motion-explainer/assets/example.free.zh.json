@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "title": "热缓存如何挡住数据库抖动",
+  "language": "zh-CN",
+  "scenes": [
+    {
+      "id": "cache-hit",
+      "title": "热缓存命中，把延迟压进三毫秒",
+      "stage": {
+        "theme": "dark-ui-slice",
+        "metrics": {
+          "cold_ms": "148",
+          "warm_ms": "003"
+        }
+      },
+      "beats": [
+        {
+          "narration": "请求一进网关，先查热缓存。命中后三毫秒直接返回，数据库保持零查询。",
+          "pause_ms": 420,
+          "anchors": [
+            {"word": "网关", "state": "ingress", "action": "beam-in"},
+            {"word": "热缓存", "state": "hit", "badge": "CACHE HIT", "action": "impact"},
+            {"word": "三毫秒", "state": "fast-return", "data": {"latency": "003"}},
+            {"word": "零查询", "state": "db-idle", "badge": "DB 0 QPS"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backpressure-guard",
+      "title": "突发流量下，靠队列背压稳住尾延迟",
+      "stage": {
+        "theme": "dark-ui-slice",
+        "capacity": 4
+      },
+      "beats": [
+        {
+          "narration": "流量突然放大时，入口先把请求接进有界队列，消费端按固定速率消化，不把下游压垮。",
+          "pause_ms": 500,
+          "anchors": [
+            {"word": "有界队列", "state": "buffer", "action": "ingest", "data": {"queued": 4}},
+            {"word": "固定速率", "state": "drain", "action": "beam-drain"},
+            {"word": "稳住", "state": "stable", "badge": "P99 OK"}
+          ]
+        }
+      ]
+    }
+  ]
+}

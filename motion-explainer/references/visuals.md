@@ -1,195 +1,72 @@
-# Visual Language & Motion
+# Visual Direction & Style Purity
 
-Design each frame so the viewer *sees the mechanism move* rather than reading a
-wall of labeled boxes. Choose a visual system that fits the subject and the
-user's taste, keep color/type/stroke discipline consistent across the video, and
-state the selected visual direction in the pre-build confirmation snapshot.
+Design every frame so the viewer *sees the causal mechanism move* instead of
+scanning boxed slides. Pick the visual system that fits the subject and user
+taste, enforce offline style purity, and load the detailed motion references
+below when choreographing scenes or coding `player.html`.
 
-## Visual Direction (Paper Whiteboard Is Default Fallback, Not a Lock)
+## Choose a Visual System for the Subject
 
-The built-in `assets/player.html` ships a zero-config **paper-and-ink
-whiteboard** theme so quick explainers work immediately without authoring custom
-HTML. It is a **fallback default, not the only style**. Pick the visual system
-that best matches the topic and user preference:
+Treat visual direction as a deliberate first decision—paper-and-ink whiteboard
+is only the built-in zero-config fallback, never a mandatory default. State the
+selected system in the pre-build confirmation snapshot:
 
 | Visual system | Best fit | Core palette & surface cues |
 | --- | --- | --- |
-| **Paper & ink physical whiteboard** (built-in default) | Quick concept sketches, analogies, teaching walkthroughs | Paper `#f8f7f2` + 24 px dot grid (`#20272312`), ink `#202723`, highlighter `#ffe066`, path blue `#1769c2`, rough borders, tape strips, sparse semantic stickers |
-| **Dark UI slice** | Developer tools, agent loops, APIs, terminal/code architecture | Deep charcoal/slate canvas (`#0d1117` / `#111418`), hairline borders (`1px`), crisp monospace + sans, selective glowing semantic accent (cyan/amber/emerald), cropped real UI/trace surfaces |
-| **Swiss editorial typography** | Principles, tradeoffs, mental models, essays, product positioning | High-contrast grid (crisp off-white or pure black), bold grotesque/editorial display type, one decisive accent color, generous negative space |
-| **Warm science / editorial illustration** | Physics, math, distributed systems, biology, spatial reasoning | Soft cream/sand canvas, muted cobalt/terracotta/sage tones, organic curves, tactile physical metaphors and measured diagrams |
+| **Dark UI slice** | Developer tools, agent loops, APIs, terminal/code architecture | Charcoal/slate canvas (`#0d1117` / `#111418`), `1px` hairlines, crisp monospace + sans, selective glowing semantic accent (cyan/amber/emerald), cropped UI/trace surfaces |
+| **Swiss editorial typography** | Principles, tradeoffs, mental models, essays, positioning | High-contrast grid (crisp off-white or black), bold grotesque/editorial display type, one decisive accent color, generous negative space |
+| **Warm science / editorial illustration** | Physics, math, distributed systems, biology, spatial reasoning | Soft cream/sand canvas, muted cobalt/terracotta/sage tones, organic curves, physical metaphors and measured diagrams |
+| **Paper & ink whiteboard** *(fallback)* | Quick concept sketches, analogies, teaching walkthroughs | Paper `#f8f7f2` + 24 px dot grid (`#20272312`), ink `#202723`, highlighter `#ffe066`, path blue `#1769c2`, rough borders, tape strips, sparse semantic stickers |
 
-Offline rendering rules that apply to **every** visual system:
+## Offline Rendering & Anti-Slop Purity
+
+These guardrails apply across every visual system:
 
 - **One primary focus at a time**: keep accent colors purposeful; reserve red
-  for actual errors, drops, or risks.
-- **Offline fonts only**: the exporter blocks all network requests. Either
-  include `/* motion-explainer-fonts */` (embeds bundled `LXGW WenKai Lite`
-  Latin + CJK subsets, SIL OFL 1.1) or use verified local system fonts
-  (`PingFang SC`, `SF Pro`, `SF Mono`, `Helvetica Neue`, `Georgia`, etc.) and
-  verify CJK/Latin/symbol glyph coverage in rendered frames.
-- **Semantic symbols over decoration**: when using icons or emoji (`📨 Request`,
-  `📦 Cache`, `🗄️ Database`, `🔒 Lock`), bind each symbol to a concrete object
-  and keep it consistent whenever that object recurs.
-- **Frame purity & numeric discipline**: Open directly on the core title or
-  mechanism—omit `ALL CAPS` eyebrow kickers, non-interactive decorative pills,
-  nested cards-inside-cards, decorative `01/02` step numbers when sequence is
-  not real, and fake `"LIVE"` badges. Render numeric metrics with
+  for real errors, drops, or risks.
+- **One idea per scene, low text density**: never pack multi-sentence cards
+  onto the stage. Show objects, geometry, and short labels; let narration carry
+  the explanation.
+- **Offline fonts only**: headless rendering blocks all network traffic. Either
+  inline `/* motion-explainer-fonts */` (bundled `LXGW WenKai Lite` Latin + CJK
+  subsets, SIL OFL 1.1) or use verified local system fonts (`PingFang SC`,
+  `SF Pro`, `SF Mono`, `Helvetica Neue`, `Georgia`, etc.) and verify glyph
+  coverage in rendered frames.
+- **Frame purity & numeric discipline**: open straight on the headline or
+  mechanism—omit reflexive `ALL CAPS` eyebrow kickers, non-interactive
+  decorative pills, nested cards-inside-cards, decorative `01/02` prefixes when
+  sequence is not real, and fake `"LIVE"` badges. Render numbers with
   `font-variant-numeric: tabular-nums` instead of adding a third font family.
-- **Intentional palette & image negative space**: Never fall back reflexively to
-  off-topic beige or generic AI purple; when placing text over full-bleed
-  visuals or illustrations, reserve clean negative space that meets contrast
-  directly rather than covering the frame in a muddy dark scrim.
+- **Intentional palette & image negative space**: never default reflexively to
+  off-topic beige or generic AI purple. Over full-bleed visuals or
+  illustrations, reserve clean negative space that meets contrast directly
+  instead of covering the frame in a muddy dark scrim.
+- **Semantic symbols over decoration**: when using icons or emoji
+  (`📨 Request`, `📦 Cache`, `🗄️ Database`, `🔒 Lock`), bind each symbol to a
+  concrete object and reuse it consistently whenever that object recurs.
 
-## Anti-Pattern: Wall-to-Wall 1-2-3 Equal-Width Boxes
+## Progressive Motion References (Load on Demand)
 
-Avoid turning every scene into **three equal-width horizontal cards with
-arrows** ("通篇 1-2-3 等宽横排方框"). Repeating uniform boxed cards across scenes:
+Load only what the current production step needs:
 
-- flattens different causal structures (pipelines, trade-offs, hierarchies,
-  state mutations, timelines, UI interactions) into identical slide templates;
-- pushes the viewer to read static paragraphs inside boxes instead of watching
-  an object transform;
-- wastes canvas space on decorative card borders and padding.
-
-Use the built-in `flow` layout only when a simple 2–5 step pipeline genuinely
-fits; otherwise switch the scene to `layout: "custom"` with a tailored
-`--player` powered by `/* motion-explainer-kit */`.
-
-## De-Carded Composition & Motion Vocabulary
-
-Pick compositions and `window.MotionKit` primitives that embody the causal
-mechanism directly:
-
-1. **Living sentence & inline elastic slot** (`MotionKit.inlineSlot`):
-   Place one sharp sentence or equation directly on open canvas; when the
-   narration hits a keyword cue, push neighboring words apart elastically to
-   insert a live badge, constraint, or counter-value right inside the sentence.
-2. **Physical container ingestion & stacking** (`MotionKit.spring` + `MotionKit.impact`):
-   Represent caches, queues, buffers, context windows, and stacks as physical
-   vessels that swallow, compress, bounce, or evict items on contact rather than
-   toggling highlight borders on static rectangles.
-3. **Conversation & tool-call stream morphing** (`MotionKit.pillMorph` + `MotionKit.wipeClip`):
-   Anchor a compact pill or chat bubble to one edge and stretch it open smoothly
-   as arguments or results arrive; swap status labels in place with a horizontal
-   clip wipe instead of popping whole new cards onto the screen.
-4. **Topology lift-and-reposition** (`MotionKit.spring` + `MotionKit.smear` + `MotionKit.impact`):
-   Show before/after architecture or refactoring on the *same* nodes: lift a
-   node out of its old slot, travel along a curved path with velocity-aligned
-   smear, and settle into the new topology with a subtle landing impact.
-5. **Cropped UI slices & virtual camera push** (`MotionKit.camera`):
-   Instead of shrinking an entire dashboard, terminal, or diagram into an
-   unreadable overview, crop to the decisive slice and smoothly pan/push the
-   virtual camera onto the exact line, metric, or control being spoken about.
-6. **Cross-container inverse-color absorption**:
-   When a token, request, or state crosses a real boundary (client → server,
-   draft → committed, dark sandbox → light host, user space → kernel), invert
-   its surface/ink palette as it passes the threshold so the boundary crossing
-   reads instantaneously.
-7. **2.5D physical vitality on any protagonist** (`MotionKit.sphereEyes` + `MotionKit.deterministicBlink` + `MotionKit.impact`):
-   Optionally give subtle gaze, deterministic blinking, or breathing bounce to
-   whatever domain object owns the scene—a request packet, token orb, lock,
-   cursor, or router node—rather than inventing an unrelated fixed mascot.
-
-8. **Blur-bridged transitions & rolling metrics** (`MotionKit.blurBridge` + `MotionKit.rollingDigits`):
-   Bridge adjacent states with a light `blur(3–4px) → 0` handoff starting from
-   `scale(0.95)` instead of hard cuts; animate numeric deltas with tabular
-   per-digit rolling columns so unchanged digits stay rock-steady.
-9. **Directed path beams & depth-stacked history** (`MotionKit.beamPath` + `MotionKit.stackedDeck`):
-   Send a deterministic pulse along an SVG `<path>` (single-direction or
-   bidirectional) to show active dataflow, and layer prior events in a
-   Sonner-style depth deck (`translateY / scale / opacity / zIndex`) that
-   expands cleanly on cue without losing history context.
-10. **Isomorphic vector morphing & restrained completion bursts** (`MotionKit.morphPath` + `MotionKit.microBurst`):
-   Interpolate matched 2D point arrays along smooth quadratic Beziers when
-   transforming icons, curves, or state glyphs instead of fading static SVGs;
-   mark decisive completion or verification moments with 6–12 seeded
-   micro-particles that dissipate cleanly within `~350 ms`.
-
-## Motion Craft Guardrails
-
-- **Never pop from `scale(0)`**: enter objects from `scale(0.94–0.96)` with
-  short travel so geometry feels grounded rather than explosive.
-- **Anchor `transform-origin`**: set `transform-origin` to the actual trigger
-  edge, parent attachment, or focal hinge before scaling or morphing.
-- **Asymmetric enter/exit timing**: let exiting elements clear slightly faster
-  (`~200–280 ms`) than entrances (`~320–550 ms`) so departing state never drags
-  across the next beat.
-- **Text continuity & thinking cues**: when mutating short phrases or status
-  lines, preserve shared characters across frames (TextMorph continuity) instead
-  of cross-fading whole blocks; reserve subtle horizontal Text Shimmer for
-  explicit in-progress/thinking states (driven deterministically from `seconds`,
-  never CSS autoplay loops).
-- **SVG Gooey boundary**: reserve SVG Gooey (`feGaussianBlur` + `feColorMatrix`)
-  strictly for stylized product-showcase or liquid-metaphor demos; never apply
-  it to technical diagrams, code views, or whiteboard scenes where crisp edges
-  carry meaning.
-- **FLIP shared-element handoffs**: when expanding a badge, node, or slice into
-  a detail view across beats, derive both rects in stage coordinates and play
-  the inverted `translate` + `scale` transform from `spring(age)` so spatial
-  identity persists without hard cuts.
-- **Skeleton-to-content boundary**: pair equal-footprint skeleton placeholders
-  with `blurBridge` only when async fetch, streaming inference, or hydration
-  latency is part of the narrative—never add decorative shimmers to static
-  diagram reveals.
-
-### New Deterministic Primitives Quick Index
-
-| Primitive | Signature | Key outputs |
-| --- | --- | --- |
-| `MotionKit.blurBridge` | `(age, { duration, maxBlur, fromScale=0.95, settled })` | `opacity`, `scale`, `blur`, `filter`, `transform` |
-| `MotionKit.rollingDigits` | `(fromStr, toStr, progress, { stagger, direction, settled })` | `columns[]` (`changed`, `offset`, `stripTransform`), `text` |
-| `MotionKit.beamPath` | `(seconds, { pathLength, pulseLength, period, direction, settled })` | `progress`, `direction`, `strokeDasharray`, `strokeDashoffset`, `opacity` |
-| `MotionKit.stackedDeck` | `(index, count, expandedProgress, { collapsedGap, expandedGap, settled })` | `translateY`, `scale`, `opacity`, `zIndex`, `transform` |
-| `MotionKit.morphPath` | `(pointsA, pointsB, progress, { smooth=true, closed, ease, settled })` | `d`, `points[]`, `progress`, `count` |
-| `MotionKit.microBurst` | `(age, { count=8, duration=0.35, radius=46, seed=1, settled })` | `active`, `progress`, `particles[]` (`x`, `y`, `scale`, `rotation`, `opacity`, `transform`) |
-
-## Match Composition to the Question
-
-| What you are explaining | Preferred composition |
+| Need | Load reference |
 | --- | --- |
-| A key definition or constraint modifying a claim | Living sentence with inline elastic slot (`inlineSlot`) |
-| Queuing, caching, eviction, or memory pressure | Physical vessel ingestion/stacking (`spring` + `impact`) |
-| Agent loops, tool calls, or request/response dialogue | Single-edge anchored pill morph + clip wipe (`pillMorph` + `wipeClip`) |
-| Before vs after / refactoring / routing change | Same objects lifting and re-seating in place (`spring` + `smear`), or inverse-color boundary crossing |
-| Deep UI, trace, or complex diagram inspection | Cropped UI slice with virtual camera pan/push (`camera`) |
-| Which lines of code changed behavior | Trimmed code (<= 12 lines) with sliding highlight |
-| Numeric before/after metrics or counters | Tabular per-digit roll (`rollingDigits`) + blur handoff (`blurBridge`) |
-| Active dataflow, routing, or retry loop | Directed SVG path pulse (`beamPath`) |
-| Multi-step event history / notification stack | Depth-stacked deck expanding on demand (`stackedDeck`) |
-| Shape, icon, waveform, or state-glyph transformation | Isomorphic SVG curve interpolation (`morphPath`) |
-| Task completion, verification pass, or milestone lock-in | Restrained 6–12 particle dissipation burst (`microBurst`) |
-| Surface UI vs underlying execution stack or internals | X-Ray scanning spotlight mask (dynamic `mask-image` aperture or sweep driven by `seconds`) |
-| State, version, or deployment switch | 3D Split-Flap flip or deterministic Text Scramble decode (fixed seed, no `Math.random()`) |
-| Hardware/architecture teardown callouts or AI listening state | Precision SVG Callout stroke-draw leaders, or Dot Matrix acoustic ripple field |
-| Simple linear 2–5 step pipeline | Built-in `flow` layout (default fallback) |
-
-## Density & Pacing Discipline
-
-- **One idea per scene, low text density**: never pack multi-sentence cards onto
-  the stage. Show objects, geometry, and short labels; let the narration explain
-  the *why*.
-- **Progressive mutation over static dumps**: establish spatial anchors once and
-  evolve them through `anchors` / `cues` (`focus`, `show`, or custom `state` /
-  `action` / `badge` / `data`). Mutate existing objects in place rather than
-  appending extra summary boxes.
-- **Deterministic physics from `seconds` only**: settle entrances cleanly with
-  closed-form springs (`300–650 ms`), land keyword accents within `200–350 ms`,
-  and hold resting poses long enough to read. Never use wall-clock time,
-  `Math.random()`, `requestAnimationFrame`, or CSS autoplay loops.
+| Choosing scene compositions, avoiding 1-2-3 equal-width box layouts, or applying motion craft guardrails (`scale(0.95)`, FLIP, TextMorph, X-Ray, Split-Flap, SVG Gooey boundaries) | [Choreography & Pattern Dictionary](motion/choreography.md) |
+| Calling `window.MotionKit`'s 15 stateless deterministic primitives or `createPlayerShell` inside a custom `player.html` | [MotionKit API Reference](motion/kit-api.md) |
 
 ## Watching & Listening Self-Check
 
-Before delivery, inspect real frames from `video.mp4` at normal viewing size
-(not just `audit()`):
+Before delivery, inspect real frames extracted from `video.mp4` at normal
+viewing size (not just `audit()`):
 
-1. Does the visual style fit the topic, and does the composition avoid repetitive
-   1-2-3 equal-width box layouts?
-2. Is the current question or takeaway readable in one glance with low text density?
-3. Do visual transitions, camera moves, and keyword highlights land cleanly on
-   the spoken words?
-4. Do all fonts render cleanly offline, and do visual elements stay well clear
-   of the caption safe zone?
+1. Does the visual system fit the subject, and does every scene match its
+   causal mechanism instead of repeating uniform equal-width boxes?
+2. Is the current question or takeaway readable in one glance with low text
+   density?
+3. Do visual transitions, camera moves, and keyword accents land cleanly on the
+   spoken words?
+4. Do all fonts render cleanly offline, and do visual elements stay clear of
+   the caption safe zone?
 5. Does reverse seeking restore the exact earlier frame state?
-6. Is narration volume balanced, pacing natural, and free of clipped words or
+6. Is narration loudness balanced, pacing natural, and free of clipped words or
    jarring cross-beat shifts?

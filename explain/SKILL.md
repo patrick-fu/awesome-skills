@@ -2,7 +2,7 @@
 name: explain
 description: >-
   Explain concepts, code/design, or PR/MR changes, or reframe confusing output
-  in plain language with diagrams and ADHD low-cognitive-load re-entry
+  in plain language with diagrams, interactive visuals, and ADHD low-cognitive-load re-entry
   (大白话, 讲解, 没看懂, 图示). Also draft PR/MR text, replies, and QA
   handoffs, or recover named tasks and decisions. Skip routine coding,
   debugging, review, and default wrap-ups.

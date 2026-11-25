@@ -132,7 +132,9 @@ def read_storyboard(path):
         if "text" in scene and not isinstance(scene["text"], str):
             raise ValueError(f"{sid}: text must be a string")
         layout = scene.get("layout")
-        if layout == "flow":
+        if layout is None or layout == "custom":
+            focus_count = None
+        elif layout == "flow":
             items = scene.get("items")
             if not isinstance(items, list) or not 2 <= len(items) <= 5 or any(not isinstance(s, str) or not s.strip() for s in items):
                 raise ValueError(f"{sid}: flow requires 2–5 text items")
@@ -145,8 +147,6 @@ def read_storyboard(path):
                 raise ValueError(f"{sid}: split code into at most 12 lines per scene")
         elif layout == "title":
             focus_count = 0
-        elif layout == "custom":
-            focus_count = None
         else:
             raise ValueError(f"{sid}: unknown layout {layout!r}")
         beats = scene.get("beats")

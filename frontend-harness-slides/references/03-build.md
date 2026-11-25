@@ -159,7 +159,10 @@ Tests need deterministic render mode. Frozen mode should stop or stabilize:
 - network-dependent regions when they are not the thing being tested
 
 Frozen mode should normally render the requested beat's settled end state, not
-the middle of an entrance transition.
+the middle of an entrance transition—including in-place beat mutations (inline
+elastic slots, horizontal `clip-path` wipes, local virtual camera pans, and
+per-digit Rolling Digits counters), each resolving cleanly to its deterministic
+final state.
 
 A common lightweight pattern is a direct frame address plus a frozen/snapshot
 flag that applies a test-mode state and waits for fonts or critical assets before
@@ -197,9 +200,15 @@ runner works, or cases unrelated to slide behavior do not count as verification.
 Recommend a keynote/product-launch motion style unless the user asks for dense
 reports or a very static handoff:
 
-- short directional scene transitions
-- beat-by-beat reveals where each beat changes the story state
-- important objects entering with opacity plus small position/scale movement
+- short directional scene transitions using crisp `140–240ms` `ease-out` curves
+  or lightly underdamped springs—declare transitioned properties explicitly and
+  never use `ease-in`, `transition: all`, or meaningless idle bobbing loops
+- beat-by-beat reveals that mutate existing anchors in place instead of dumping
+  new boxes (inline elastic slot push-open, horizontal `clip-path: inset()`
+  label wipes, local virtual camera push/pan, and per-digit Rolling Digits
+  counters)
+- important objects entering from `scale(0.94–0.96)` (never exploding from
+  `scale(0)`) with opacity plus small position movement
 - light spring emphasis for promoted cards, numbers, or decisions
 - old or superseded ideas fading, dimming, being crossed out, or moving aside
 - stagger only when it clarifies reading order
@@ -254,18 +263,6 @@ Pick motion based on story change:
 
 Avoid motion that is only decorative. Beats should be reviewable story states,
 not arbitrary fade timing.
-
-### Transition Hygiene & In-Place Beat Patterns
-
-- **Crisp transitions, explicit properties**: Use fast `140–240ms` `ease-out` or
-  lightly underdamped springs, entering from `scale(0.94–0.96)` rather than
-  exploding from `scale(0)`. Declare transitioned properties explicitly; never
-  use `ease-in`, `transition: all`, or meaningless idle bobbing loops.
-- **Frozen-mode-compatible in-place beat evolution**: Mutate existing anchors
-  instead of dumping new boxes—use inline elastic slot push-open, horizontal
-  `clip-path: inset()` label wipes, local virtual camera push/pan, and per-digit
-  Rolling Digits counters (each resolves cleanly to a deterministic final state
-  in frozen mode).
 
 ## Interactive Motion
 

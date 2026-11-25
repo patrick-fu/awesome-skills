@@ -97,6 +97,18 @@ wants a uniform template rhythm, vary layout families, composition direction,
 object scale, interaction moments, and motion beats while keeping typography,
 palette, navigation, and visual language coherent.
 
+Keep every frame visually honest and free of reflexive chrome:
+
+- Lead headlines with conclusions or outcomes rather than bare specs.
+- Do not force an `ALL CAPS` eyebrow/kicker above every slide headline; include
+  one only when the chosen style explicitly defines it.
+- Avoid filling slides with non-interactive decorative pills—reserve borders
+  and pills for interactive controls or real data-table status cells.
+- Do not nest cards inside cards; separate internal regions with whitespace,
+  `1px` hairlines, or subtle tonal bands.
+- Omit decorative `01/02` or Roman-numeral prefixes when sequence is not real,
+  and never invent fake `"LIVE"` or `"SCROLL"` telemetry.
+
 ## Theme Tokens
 
 Keep recurring visual decisions in a theme layer:
@@ -203,7 +215,10 @@ Useful directions to consider:
   webfont bundles.
 
 Avoid defaulting to Inter, Roboto, Arial, or system-ui when a stronger style
-choice is available.
+choice is available. Cap decks at two font families; render numeric metrics
+with the body font's `font-variant-numeric: tabular-nums` instead of adding a
+third monospace face (except on code or terminal slides), and keep body copy
+within 2–3 size stops (excluding hero display type and navigation markers).
 
 Do a light browser check for important fonts. Package names and CSS entry points
 do not guarantee that the loaded font covers every language in the deck. If CJK
@@ -237,6 +252,9 @@ Rules:
 - Do not put slide assets inside test artifact folders.
 - Avoid relying on remote assets for anything critical unless the delivery context
   explicitly allows network dependence.
+- Match full-bleed photos and illustrations to their container aspect ratio,
+  and reserve clean negative space or a solid ground blend for overlaid text
+  instead of covering the image in a muddy dark scrim.
 - If an asset is visually central, verify it in the browser.
 
 Native emoji are expressive and fast for live decks, but their pixels differ
@@ -262,25 +280,6 @@ When integrating charts or data visualizations, avoid generic, unstyled library 
 | Diagrams | SVG/DOM diagrams with stable labels. | One giant raster diagram. |
 | Icons | Existing icon set or a small tree-shakeable SVG library. | Whole icon fonts for a few symbols. |
 | 3D | Three.js when 3D is central and verifiable. | Decorative 3D that cannot be tested or understood. |
-
-## Anti-Slop Visual Guardrails
-
-- **No reflexive chrome or fake telemetry**: Do not force an `ALL CAPS`
-  eyebrow/kicker above every slide headline (use one only when the chosen style
-  explicitly defines it), fill slides with non-interactive decorative pills
-  (reserve borders and pills for interactive controls or real data-table status
-  cells), nest cards inside cards (separate regions with whitespace, `1px`
-  hairlines, or subtle tonal bands), add decorative `01/02` or Roman-numeral
-  prefixes when sequence is not real, or invent fake `"LIVE"` / `"SCROLL"`
-  telemetry. Lead headlines with conclusions or outcomes over bare specs.
-- **Type and numeric discipline**: Cap decks at two font families; render
-  numeric metrics with the body font's `font-variant-numeric: tabular-nums`
-  instead of adding a third monospace face (except on code/terminal slides), and
-  keep body copy within 2–3 size stops (excluding hero display type and nav
-  markers).
-- **Image composition contract**: Match full-bleed photos and illustrations to
-  their container aspect ratio and reserve clean negative space or a solid
-  ground blend for text, rather than covering the image in a muddy dark scrim.
 
 ## Copy Quality
 

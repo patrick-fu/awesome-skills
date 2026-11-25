@@ -61,32 +61,35 @@ well, not templates to apply.
   the page is presented rather than read. Stage pages stay true white at
   reading-large type.
 
-## Motion
+## Motion (Progressive Routing)
 
-- **`still`** (default) — calm reading pages and reports; pure CSS, zero JS.
-- **`beat-css`** — pure-CSS unfolding and state cues via `--pvl-d` and `base.css`
-  v1.4.0 classes (`.pvl-reveal--tilt`, `.pvl-reveal--sweep`, `.pvl-blur-bridge`,
-  `.pvl-slot`, `.pvl-wipe`, `.pvl-pill-morph`, `.pvl-impact`, `.pvl-beam`,
-  `.pvl-camera`).
-- **`scrubbed-25d`** — interactive stateless `seek(t)` stage (play/pause,
-  `0.4×` slow-motion, scrub bar, rolling digits, stacked depth deck) copied on
-  demand from `assets/snippets/motion-stage.html` when explaining queues,
-  backpressure, or continuous state evolution.
-- Avoid repeating fixed 3-column `.pvl-flow` boxes across a whole page when an
-  in-place state stage shows the mechanism directly.
+Whenever a page explains **state changes, causal flow, before/after comparison,
+or step-by-step evolution**, bring the whiteboard alive with the matching motion
+tier below instead of stopping at static walls of 3-column `.pvl-flow` boxes.
+Load only the reference file the chosen tier needs:
+
+| Content signal | Motion dial | Load on demand |
+| --- | --- | --- |
+| Static reference note, checklist, or calm prose with no state progression | `still` (zero JS, no beat animations) | None needed |
+| Step-by-step argument unfolding, verdict sweep, label/state swap, directional flow, or native expandable evidence folds | `beat-css` (pure CSS, zero JS via `base.css` v1.4.0) | [motion/css-beats.md](motion/css-beats.md) |
+| Queues, backpressure, cache eviction, before/after numeric deltas, layered event history, or scrubbed X-Ray annotation comparison | `scrubbed-25d` (stateless `seek(t)` lab via `assets/snippets/motion-stage.html`) | [motion/interactive-stage.md](motion/interactive-stage.md) |
+
+Stay strictly inside the hand-drawn paper-ink whiteboard aesthetic across every
+tier—never introduce dark neon, glassmorphism, or SVG Gooey.
 
 ## Known-good combinations (examples, not presets)
 
 - **Report / mechanism explainer** — paper canvas, clean or alt-rough cards,
   band highlight, warm tape, dashed fold (`.pvl-fold`) for deep evidence,
-  technical layer behind the density toggle.
+  `beat-css` or `scrubbed-25d` for the core mechanism, technical layer behind
+  the density toggle.
 - **Experience walkthrough** — dotted canvas, device frame with pencil
   annotation outside, one scene at a time.
 - **Workbench / ops dashboard** — paper canvas, board tiles, dense scan type,
   lime marker, pastel tags from the semantic kit, whole-card expand with
   remembered state.
-- **Talk deck** — true white, fixed stage, beat reveals, takeaway lane on key
-  beats, stickers on real nodes.
+- **Talk deck** — true white, fixed stage, `beat-css` reveals, takeaway lane on
+  key beats, stickers on real nodes.
 
 New combinations are welcome: set the dials the content asks for and check the
 hand below.
@@ -96,7 +99,7 @@ hand below.
 Look at the page once, as a reader would:
 
 - Can you name the current question and the verdict at a glance?
-- Are the main relations drawn rather than described?
+- Are the main relations drawn (or evolved in place) rather than buried in prose?
 - One focal accent on this screen? Two or more hand-made marks on the page,
   one of them early?
 - Does the body read in the handwritten voice, with sans only where real UI or

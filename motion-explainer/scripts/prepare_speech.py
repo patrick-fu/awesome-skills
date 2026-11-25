@@ -260,7 +260,15 @@ def prepare(source: Path, output: Path, *, provider: str | None = None,
     jobs = []
     need_supplied_align = False
     for scene in board["scenes"]:
-        focus_count = len(scene["items"]) if scene["layout"] == "flow" else len(scene["code"].split("\n")) if scene["layout"] == "code" else None if scene["layout"] == "custom" else 0
+        layout = scene.get("layout")
+        if layout == "flow":
+            focus_count = len(scene["items"])
+        elif layout == "code":
+            focus_count = len(scene["code"].split("\n"))
+        elif layout == "title":
+            focus_count = 0
+        else:
+            focus_count = None
         for index, beat in enumerate(scene["beats"]):
             name = f"{scene['id']}-{index}"
             ranges = anchor_ranges(beat["narration"], beat.get("anchors", []))

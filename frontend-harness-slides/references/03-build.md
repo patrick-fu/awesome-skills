@@ -255,6 +255,18 @@ Pick motion based on story change:
 Avoid motion that is only decorative. Beats should be reviewable story states,
 not arbitrary fade timing.
 
+### Transition Hygiene & In-Place Beat Patterns
+
+- **Crisp transitions, explicit properties**: Use fast `140–240ms` `ease-out` or
+  lightly underdamped springs, entering from `scale(0.94–0.96)` rather than
+  exploding from `scale(0)`. Declare transitioned properties explicitly; never
+  use `ease-in`, `transition: all`, or meaningless idle bobbing loops.
+- **Frozen-mode-compatible in-place beat evolution**: Mutate existing anchors
+  instead of dumping new boxes—use inline elastic slot push-open, horizontal
+  `clip-path: inset()` label wipes, local virtual camera push/pan, and per-digit
+  Rolling Digits counters (each resolves cleanly to a deterministic final state
+  in frozen mode).
+
 ## Interactive Motion
 
 Use interaction when it clarifies the story or makes the deck feel alive:

@@ -43,3 +43,13 @@ target behaviour directly.
     different dials still read as the same hand.
 15. **Pencil lines frame asides.** Rough cards, stamps, notes and folds carry
     the framing role.
+16. **No cards inside cards.** A `.pvl-card` already carries a hand-drawn
+    border; divide internal regions with whitespace, thin or dashed rules, or a
+    soft tinted band rather than nesting another bordered card.
+17. **No decorative kickers or fake telemetry.** Omit reflexive `ALL CAPS`
+    kickers above headings (keep `.pvl-kicker` strictly for real page metadata),
+    fake `"LIVE"` dots, and meaningless decorative pills; reserve `.pvl-badge`
+    for semantic status stamps.
+18. **Clean transitions, aligned numerals.** Declare transitioned properties
+    explicitly—never use `transition: all` or idle bobbing loops—and enable
+    `font-variant-numeric: tabular-nums` on numeric metrics.

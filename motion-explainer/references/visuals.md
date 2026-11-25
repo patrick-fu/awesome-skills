@@ -31,6 +31,15 @@ Offline rendering rules that apply to **every** visual system:
 - **Semantic symbols over decoration**: when using icons or emoji (`📨 Request`,
   `📦 Cache`, `🗄️ Database`, `🔒 Lock`), bind each symbol to a concrete object
   and keep it consistent whenever that object recurs.
+- **Frame purity & numeric discipline**: Open directly on the core title or
+  mechanism—omit `ALL CAPS` eyebrow kickers, non-interactive decorative pills,
+  nested cards-inside-cards, decorative `01/02` step numbers when sequence is
+  not real, and fake `"LIVE"` badges. Render numeric metrics with
+  `font-variant-numeric: tabular-nums` instead of adding a third font family.
+- **Intentional palette & image negative space**: Never fall back reflexively to
+  off-topic beige or generic AI purple; when placing text over full-bleed
+  visuals or illustrations, reserve clean negative space that meets contrast
+  directly rather than covering the frame in a muddy dark scrim.
 
 ## Anti-Pattern: Wall-to-Wall 1-2-3 Equal-Width Boxes
 

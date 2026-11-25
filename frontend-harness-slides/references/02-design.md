@@ -263,6 +263,25 @@ When integrating charts or data visualizations, avoid generic, unstyled library 
 | Icons | Existing icon set or a small tree-shakeable SVG library. | Whole icon fonts for a few symbols. |
 | 3D | Three.js when 3D is central and verifiable. | Decorative 3D that cannot be tested or understood. |
 
+## Anti-Slop Visual Guardrails
+
+- **No reflexive chrome or fake telemetry**: Do not force an `ALL CAPS`
+  eyebrow/kicker above every slide headline (use one only when the chosen style
+  explicitly defines it), fill slides with non-interactive decorative pills
+  (reserve borders and pills for interactive controls or real data-table status
+  cells), nest cards inside cards (separate regions with whitespace, `1px`
+  hairlines, or subtle tonal bands), add decorative `01/02` or Roman-numeral
+  prefixes when sequence is not real, or invent fake `"LIVE"` / `"SCROLL"`
+  telemetry. Lead headlines with conclusions or outcomes over bare specs.
+- **Type and numeric discipline**: Cap decks at two font families; render
+  numeric metrics with the body font's `font-variant-numeric: tabular-nums`
+  instead of adding a third monospace face (except on code/terminal slides), and
+  keep body copy within 2–3 size stops (excluding hero display type and nav
+  markers).
+- **Image composition contract**: Match full-bleed photos and illustrations to
+  their container aspect ratio and reserve clean negative space or a solid
+  ground blend for text, rather than covering the image in a muddy dark scrim.
+
 ## Copy Quality
 
 Render only text meant for the audience. Remove leaked planning metadata such as

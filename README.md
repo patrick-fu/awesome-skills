@@ -39,6 +39,8 @@ the matching Skill; it does not create a second copy.
 
 #### 🎞️ [`frontend-harness-slides`](./frontend-harness-slides/README.md)
 
+![Frontend Harness Slides showcase](./frontend-harness-slides/assets/showcase.webp)
+
 Build HTML slide decks with a frontend harness: stable scene URLs, a registry,
 a fixed stage, tests, visual checks, and verified delivery. Repeated edits stay
 manageable instead of quietly breaking earlier slides.
@@ -55,6 +57,8 @@ static export, or in all three forms.
 
 #### 🖌️ [`paper-ink-style`](./paper-ink-style/SKILL.md)
 
+![Paper Ink Style showcase](./paper-ink-style/assets/showcase.webp)
+
 My personal visual style for HTML: a paper-and-pencil canvas with rough
 pencil-line cards, marker highlights, sticky notes and tape, and hand-annotated
 diagrams.
@@ -63,6 +67,8 @@ Load it whenever a page, report, explainer, workbench, or deck should use this
 style.
 
 #### 🎬 [`motion-explainer`](./motion-explainer/SKILL.md)
+
+![Motion Explainer showcase](./motion-explainer/assets/showcase.webp)
 
 Turn concepts, code changes, or supplied material into narrated animated
 explainer videos (`video.mp4`) backed by editable storyboards, progressive
@@ -83,21 +89,25 @@ keep their own licenses and terms; see [`NOTICE.md`](./motion-explainer/NOTICE.m
 
 ![Clumsy Doodle showcase](./clumsy-doodle/assets/showcase.webp)
 
-Turn ideas, technical metaphors, or reference photos into deliberately clumsy
-MS Paint and toddler-crayon doodles without calling an image-generation model.
-The agent distills the subject into a small declarative JSON spec; a bundled
-renderer draws jagged pixels, shaky mouse strokes, overflowing scribble fills,
-or grainy wax-crayon textures (`clumsy`, `messy`, `crayon`, `cursed`,
-`neat-rough`) into crisp upscaled PNGs or standalone HTML.
+Turn ideas, UI/device metaphors, or reference photos into deliberately clumsy
+MS Paint doodles, toddler crayon drawings, or semi-realistic pencil sketches
+without calling an image-generation model. The agent distills the subject into
+a declarative JSON spec; a bundled renderer combines two orthogonal dials —
+`fidelity` (`toddler` / `clumsy` / `sketch`) × `medium` (`mspaint` / `pencil` /
+`crayon`) plus `color` (`full` / `accent` / `mono`) — to output crisp PNGs or
+standalone HTML.
 
-Use it for concept cartoons, reaction memes, avatars, or "Scribblification"-style
-photo redraws. Self-contained with zero third-party dependencies — requires only
+Use it for "Scribblification"-style photo redraws, reaction memes, concept
+cartoons, or readable hand-drawn phone/window sketches with comedic annotations.
+Self-contained with zero third-party dependencies — requires only
 standard-library Python 3 (built-in pixel font for ASCII PNG labels; `--html`
 supports full Unicode/CJK text and interactive seed rerolls).
 
 ### 🧠 Knowledge and memory
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.md)
+
+![LLM Wiki Capture workflow](./llm-wiki-capture/assets/showcase.webp)
 
 Turn reusable session lessons and external sources into a maintained LLM Wiki,
 with source evidence, canonical concepts, and linked navigation. Capture,
@@ -173,6 +183,8 @@ without explanatory subtitles.
 
 #### 🧩 [`parallel-goal-workflows`](./parallel-goal-workflows/README.md)
 
+![Parallel Goal Workflows overview](./parallel-goal-workflows/assets/showcase.webp)
+
 Give each top-level goal one Goal Owner and a clean, task-local brief. The Owner
 handles execution, focused helpers when useful, review, repair, verification,
 and the final report without flooding the main conversation.
@@ -237,6 +249,8 @@ across models and environments, and handles evidence verification, settling, and
 handoff while workers own execution.
 
 #### 🏷️ [`thread-naming`](./thread-naming/SKILL.md)
+
+![Thread Naming before and after](./thread-naming/assets/showcase.webp)
 
 Maintain concise lifecycle titles for user-visible top-level threads and
 sessions across agent hosts, keeping active work, next gate, waits, checkpoints,
@@ -365,6 +379,8 @@ conventional prefix, and optional bullets for the important changes.
 Use it when the change is ready but the copy-ready commit message is not.
 
 #### 🗂️ [`git-task-workspace`](./git-task-workspace/SKILL.md)
+
+![Git Task Workspace layout](./git-task-workspace/assets/showcase.webp)
 
 Set up a shared source pool and a workspace directory for each task. Start with
 the repositories needed now and add linked worktrees as dependencies emerge.

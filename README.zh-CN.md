@@ -38,6 +38,8 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 #### 🎞️ [`frontend-harness-slides`](./frontend-harness-slides/README.zh-CN.md)
 
+![Frontend Harness Slides 效果展示](./frontend-harness-slides/assets/showcase.zh-CN.webp)
+
 用前端 harness 制作 HTML slides：稳定 scene 地址、registry、固定 stage、测试、视觉检查
 和经过验证的交付链路都在流程里。反复改稿仍然可控，不会悄悄改坏前面的页面。
 
@@ -52,11 +54,15 @@ npx skills add patrick-fu/awesome-skills -g -s <skill-name>
 
 #### 🖌️ [`paper-ink-style`](./paper-ink-style/SKILL.md)
 
+![Paper Ink Style 效果展示](./paper-ink-style/assets/showcase.zh-CN.webp)
+
 我的个人视觉风格：纸面画布、铅笔线卡片、荧光笔高亮、便签与胶带、手写批注图示。
 
 任何页面、报告、讲解页、工作台或 deck 想用这套风格时加载它。
 
 #### 🎬 [`motion-explainer`](./motion-explainer/SKILL.md)
+
+![Motion Explainer 效果展示](./motion-explainer/assets/showcase.zh-CN.webp)
 
 把概念讲解、代码变更或参考材料编排为可编辑分镜，再导出带配音、逐词同步字幕和纸笔白板
 连续动画的讲解视频（`video.mp4`）。分镜、画面模板、音频与字词时间全部保留为可修改源文件。
@@ -74,18 +80,20 @@ Qwen3 模型（Apache-2.0）与在线语音服务仍适用各自许可证与条�
 
 ![Clumsy Doodle 效果展示](./clumsy-doodle/assets/showcase.webp)
 
-不调用生图模型，把想法、技术隐喻或参考照片画成刻意粗糙的微软画图风与幼儿蜡笔涂鸦。
-由 Agent 把主体提炼成简短的声明式 JSON 规格，再交给内置渲染器生成带像素锯齿、鼠标抖动线、
-出界乱涂色块或干蜡笔纸纹（`clumsy`、`messy`、`crayon`、`cursed`、`neat-rough`）的
-高清放大 PNG 或独立 HTML。
+不调用生图模型，把想法、UI/设备隐喻或参考照片画成微软画图手残风、两岁幼儿蜡笔涂鸦，
+或往回收一收的半拟真铅笔速写。由 Agent 提炼出声明式 JSON 规格，再通过两个正交旋钮——
+`fidelity`（`toddler` / `clumsy` / `sketch`）× `medium`（`mspaint` / `pencil` /
+`crayon`）加配色开关 `color`（`full` / `accent` / `mono`）——渲染为高清 PNG 或独立 HTML。
 
-适合画概念配图、梗图、头像，或复刻 "Scribblification / 小孩丑画风" 的照片重绘。
-完全自闭环、零第三方依赖，仅需标准库 Python 3（PNG 模式内置英文/数字点阵字库，
-需要中文文字或交互换种子时用 `--html` 导出单文件 Canvas）。
+适合复刻 "Scribblification / 小孩丑画风" 照片重绘、梗图配图，或画带清晰文字与搞笑手绘
+批注的手机/电脑窗口示意图。完全自闭环、零第三方依赖，仅需标准库 Python 3（PNG 模式内置
+英文/数字点阵字库，需要中文文字或交互换种子时用 `--html` 导出单文件 Canvas）。
 
 ### 🧠 知识与记忆
 
 #### 🗂️ [`llm-wiki-capture`](./llm-wiki-capture/README.zh-CN.md)
+
+![LLM Wiki Capture 知识路由示意](./llm-wiki-capture/assets/showcase.zh-CN.webp)
 
 把 Session 中可复用的经验和外部资料整理成持续维护的 LLM Wiki，保留原始依据、知识归属
 和相互链接。通过显式请求完成 capture、ingest、现有 Wiki 审计或从零初始化。
@@ -147,6 +155,8 @@ PR/MR、issue 回复和 QA 交接。遵循用户要求的语言，保留关键�
 
 #### 🧩 [`parallel-goal-workflows`](./parallel-goal-workflows/README.zh-CN.md)
 
+![Parallel Goal Workflows 协作结构](./parallel-goal-workflows/assets/showcase.zh-CN.webp)
+
 每个顶层目标交给一个 Goal Owner，再配一份干净的任务本地 brief。Owner 负责执行、按需
 派出聚焦 helper、review、repair、验证和最终报告，不让主会话被所有子任务淹没。
 
@@ -197,6 +207,8 @@ harness），作为统一用户入口与薄控制面。主控在控制索引或�
 `settle` 收口及接力 handoff；研究、实现和测试仍由 worker 承担。
 
 #### 🏷️ [`thread-naming`](./thread-naming/SKILL.md)
+
+![Thread Naming 侧边栏状态对照](./thread-naming/assets/showcase.zh-CN.webp)
 
 跨 Agent 宿主维护用户可见顶层线程与会话的生命周期标题，让当前动作、next gate、等待、
 checkpoint、handoff 和最终完成一眼可见。固定控制信号结合灵活的动作与领域 emoji，避免
@@ -301,6 +313,8 @@ Evidence，Ghidra 生成函数级伪代码。零 MCP，零硬编码子命令，�
 适合改动已经完成，但能直接复制使用的 commit message 还没写出来的时候。
 
 #### 🗂️ [`git-task-workspace`](./git-task-workspace/SKILL.md)
+
+![Git Task Workspace 目录拓扑](./git-task-workspace/assets/showcase.zh-CN.webp)
 
 配置一个共享源码池，以及每个任务自己的 Workspace。先为当前需要的仓库检出 worktree，
 任务推进后再动态加仓。任务目录同时存放下载包、截图、录屏、调研材料和端到端测试证据，

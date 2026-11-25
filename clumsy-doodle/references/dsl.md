@@ -1,75 +1,74 @@
 # Clumsy Doodle JSON DSL
 
-Every doodle is a plain JSON object rendered onto a low-resolution integer grid
-(default `240×240`) and upscaled cleanly via nearest-neighbor (`scale: 4` →
-`960×960` PNG) so every jagged pixel stays crisp.
+Every doodle is a plain JSON object rendered by `scripts/render_doodle.py` into
+a crisp PNG and/or standalone interactive HTML5 Canvas.
 
 ## Top-Level Fields
 
 ```json
 {
-  "width": 240,
-  "height": 240,
-  "scale": 4,
-  "preset": "clumsy",
+  "width": 440,
+  "height": 340,
+  "scale": 2,
+  "fidelity": "sketch",
+  "medium": "pencil",
+  "color": "accent",
   "seed": 42,
-  "bg": "#ffffff",
   "ops": []
 }
 ```
 
-- `width`, `height`: internal pixel grid (recommended `200–320`; lower = chunkier
-  MS Paint pixels, higher = finer scribbles). Default `240×240`.
-- `scale`: PNG integer upscale factor. Default `4`.
-- `preset`: `"clumsy"` (default) | `"messy"` | `"crayon"` | `"cursed"` | `"neat-rough"`.
-- `seed`: deterministic integer PRNG seed. Changing `seed` redraws the exact
-  same scene with fresh hand-shake variations.
-- `bg`: optional background hex color. Defaults to `#ffffff` (or `#fbf9f2` with
-  subtle paper grain under `crayon`).
+- `width`, `height`: internal canvas grid. Defaults to `240×240` for `toddler` /
+  `clumsy`, and `440×340` (or `440×440`) for `sketch`.
+- `scale`: PNG integer upscale factor. Defaults to `4` when `width < 400`, or
+  `2` when `width >= 400`.
+- `fidelity`: `"toddler"` | `"clumsy"` (default) | `"sketch"`.
+- `medium`: `"mspaint"` (default) | `"pencil"` | `"crayon"`.
+- `color`: `"full"` (default) | `"accent"` (grayscale except ops with `"accent": true`) | `"mono"` (pure grayscale).
+- `preset`: optional shortcut (`"clumsy"`, `"messy"`, `"crayon"`, `"cursed"`, `"neat-rough"`, `"pencil-sketch"`). Explicit `fidelity` / `medium` / `color` override preset values.
+- `seed`: deterministic integer PRNG seed.
+- `bg`: optional background hex override.
+
+## Per-Op Common Modifiers
+
+Any drawing op accepts:
+- `color`: hex (`#rrggbb`, `#rgb`) or basic color name.
+- `accent`: `true` keeps this op in vivid color when `color: "accent"` is active.
+- `alpha`: `0.0–1.0` opacity blending (especially nice for `pencil` shading and `solidRoundRect` card tints).
+- `jitterScale`: local jitter/overshoot multiplier (e.g., `0.6` on a phone frame for clean edges, `1.8` on a frantic stick figure next to it for comedic contrast).
+- `double`: `true` retraces an outline twice like an uncertain mouse/pencil fix.
 
 ## Drawing Operations (`ops`)
 
-Ops execute in strict array order (painter's algorithm: draw back-to-front).
+Ops execute in strict array order (back-to-front painter's algorithm).
 
-### 1. Sloppy Scribble Fills (Back-and-forth zigzag strokes with overflow)
+### 1. Fills & Pencil Hatching
+- **`fillRect`** / **`hatchRect`**: `{ "op": "hatchRect", "x": 56, "y": 28, "w": 196, "h": 292, "color": "#666666", "angle": -0.72, "spacing": 6.5, "cross": false, "alpha": 0.45 }`
+  - `fill*` uses continuous back-and-forth zigzag scribbles; `hatch*` lifts the pen between parallel strokes (set `"cross": true` for cross-hatching).
+- **`fillEllipse`** / **`hatchEllipse`**: `{ "op": "fillEllipse", "cx": 120, "cy": 100, "rx": 40, "ry": 35, "color": "#fff1c1" }`
+- **`fillPoly`** / **`hatchPoly`**: `{ "op": "hatchPoly", "points": [[40,80],[70,30],[100,80]], "color": "#555555", "cross": true }`
+- **`solidRoundRect`**: `{ "op": "solidRoundRect", "x": 46, "y": 18, "w": 196, "h": 292, "r": 26, "color": "#ffffff", "alpha": 1.0 }`
+  - Clean flat tinted surface under hand-drawn outlines (ideal for phone screens, macOS window bars, chat bubbles, buttons).
 
-- **`fillRect`**: `{ "op": "fillRect", "x": 40, "y": 50, "w": 80, "h": 60, "color": "#ffe066", "angle": -0.4, "spacing": 4.5, "slop": 3.0, "size": 3, "texture": "pixel" }`
-- **`fillEllipse`**: `{ "op": "fillEllipse", "cx": 120, "cy": 100, "rx": 40, "ry": 35, "color": "#fff1c1", "angle": 0.25, "spacing": 5.0, "slop": 2.5, "size": 4 }`
-- **`fillPoly`**: `{ "op": "fillPoly", "points": [[40,80],[70,30],[100,80]], "color": "#ff922b", "angle": 0.6, "spacing": 4.2, "slop": 3.0, "size": 3 }`
+### 2. Outlines, Curves & Connectors
+- **`line`**: `{ "op": "line", "points": [[20,20],[100,25],[140,80]], "color": "#111111", "size": 2 }`
+- **`curve`**: `{ "op": "curve", "points": [[126,96],[116,38],[164,76]], "steps": 18, "size": 2.4 }`
+  - Quadratic (3 points) or cubic (4 points) Bezier curve rendered through the shaky brush — great for cat ears, hair arcs, swooping arrows, coffee steam.
+- **`rect`**: `{ "op": "rect", "x": 40, "y": 50, "w": 80, "h": 60, "size": 2.5 }`
+- **`roundRect`**: `{ "op": "roundRect", "x": 46, "y": 18, "w": 196, "h": 292, "r": 26, "size": 2.4, "double": true, "jitterScale": 0.65 }`
+- **`ellipse`**: `{ "op": "ellipse", "cx": 120, "cy": 100, "rx": 40, "ry": 35, "start": 0, "end": 6.4, "wobble": 0.12 }`
+- **`arrow`**: `{ "op": "arrow", "points": [[40,120],[120,100],[190,125]], "head": 10, "size": 2.5 }`
+- **`dot`**: `{ "op": "dot", "x": 105, "y": 96, "size": 5, "color": "#111111" }`
 
-Optional fill tuning:
-- `angle`: stroke direction in radians (`0` = vertical scan / horizontal strokes, `-0.45` = diagonal). Vary angles between neighboring regions so it looks hand-colored.
-- `spacing`: distance between zigzag passes (larger = more white paper gaps showing through).
-- `slop`: max pixel overflow outside shape boundaries (higher = sloppier kid coloring).
-- `size`: pixel brush diameter (`2–5`).
-- `texture`: `"pixel"` (solid hard pixels) or `"crayon"` (dry speckled wax grain). Inherits from preset when omitted.
+### 3. Text Labels & Speech Bubbles
+- **`label`**: `{ "op": "label", "x": 70, "y": 61, "text": "9:41", "scale": 2, "fontSize": 12, "align": "left", "mono": true, "color": "#111111" }`
+  - PNG mode uses `scale` (1–4) with the built-in 5×7 ASCII bitmap font; HTML mode uses `fontSize` (or `scale * 7`) with full Unicode/CJK font support.
+- **`bubble`**: `{ "op": "bubble", "x": 140, "y": 16, "w": 84, "h": 34, "tail": [132, 62], "text": "IT'S FINE", "fill": "#e8f5e9", "color": "#237a4b" }`
 
-### 2. Shaky Outlines & Connectors
+## Mixed-Precision UI Recipe (`sketch + pencil + accent`)
 
-- **`line`**: `{ "op": "line", "points": [[20,20],[100,25],[140,80]], "color": "#111111", "size": 2, "jitter": 1.8, "overshoot": 2.2, "double": false }`
-- **`rect`**: `{ "op": "rect", "x": 40, "y": 50, "w": 80, "h": 60, "color": "#111111", "size": 3, "double": true }`
-- **`ellipse`**: `{ "op": "ellipse", "cx": 120, "cy": 100, "rx": 40, "ry": 35, "start": 0, "end": 6.4, "wobble": 0.14, "color": "#111111", "size": 2, "double": false }`
-  - Omit `start`/`end` for an automatically slightly-unclosed or slightly-overlapping full loop. Pass radians (`0` to `3.14`, etc.) for arcs and retry loops.
-- **`arrow`**: `{ "op": "arrow", "points": [[40,120],[120,100],[190,125]], "color": "#1769c2", "size": 3, "head": 11 }`
-- **`dot`**: `{ "op": "dot", "x": 105, "y": 96, "size": 5, "color": "#111111" }` (pupils, buttons, LEDs, nostrils).
-
-Tip: Setting `"double": true` on one or two hero outlines (like sunglasses, a monitor, or a robot head) mimics someone trying to "fix" a bad mouse line by tracing over it twice.
-
-### 3. Labels & Meme Speech Bubbles
-
-- **`label`**: `{ "op": "label", "x": 24, "y": 28, "text": "LOOP!!", "color": "#111111", "scale": 2, "jitter": 1 }`
-  - In PNG mode: renders crisp 5×7 pixel glyphs at integer `scale` (`1–4`) with slight per-letter vertical wobble (`jitter`). Supports ASCII letters, digits, and punctuation.
-  - In `--html` mode: renders via browser Canvas with full Unicode/CJK support.
-- **`bubble`**: `{ "op": "bubble", "x": 140, "y": 16, "w": 84, "h": 34, "tail": [132, 62], "text": "IT'S FINE", "fill": "#e8f5e9", "color": "#237a4b", "textColor": "#237a4b", "scale": 1 }`
-  - Draws a sloppy filled box + wobbly outline + optional crooked pointer triangle to `tail` + centered text.
-
-## Composition Recipes That Always Land
-
-1. **Keep the layer order strict**:
-   - Layer 1: Faint background hints (3–6 lines max: horizon, window, ceiling ovals).
-   - Layer 2: `fill*` scribble blocks (face, clothes, fur, props).
-   - Layer 3: Dark outlines (`rect`, `ellipse`, `line`) on top of fills so black ink cuts cleanly over the messy colors.
-   - Layer 4: Expressive anchors last — oversized mismatched eyes (`fillEllipse` white sclera → `ellipse` outline → `dot` colored iris → `dot` black pupil), crooked mouth, sweat drops, `bubble`/`label`.
-2. **Use classic primary MS Paint / crayon colors** instead of subtle muted gradients:
-   - Ink `#111111`, Cream skin `#fff1c1`, Crayon orange `#ff922b`, Bright red `#ff2a2a`, MS Paint blue `#1e90ff`, Grass green `#2ecc71`, Sun yellow `#ffe066`, Seat gray `#8f9396`, Deep navy `#101f4d`, Hair brown `#8b4513`.
-3. **Asymmetry creates comedy**: make left and right eyes slightly different sizes (`rx: 10` vs `rx: 7`) or 2–3px offset in `y`, tilt mouths slightly, and avoid perfect horizontal alignment.
+When illustrating a phone screen or desktop window alongside a funny character:
+1. Cast a light `hatchRect` drop shadow behind the device/window (`alpha: 0.4`, `angle: -0.7`).
+2. Draw clean paper/white interiors with `solidRoundRect`, then frame them with `roundRect` (`jitterScale: 0.55–0.75`).
+3. Keep screen text legible (`label` with `mono: true` for timestamps/commands) and reserve `"accent": true` for 1–2 focal elements (red `99+` badge, green chat reply, danger button).
+4. Give surrounding stick-figure reactions or callout arrows `jitterScale: 1.5–1.8` so the comedic contrast pops.

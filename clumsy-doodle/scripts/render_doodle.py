@@ -2,8 +2,9 @@
 """Zero-dependency procedural MS Paint, crayon & pencil-sketch doodle renderer.
 
 Uses only the Python 3 standard library (zlib, struct, json, math, html) to
-render a declarative JSON doodle spec into a crisp PNG and/or a self-contained
-interactive HTML5 Canvas page.
+render a declarative JSON doodle spec into a crisp PNG (RGB8 or RGBA8
+transparent sticker), a standalone interactive HTML5 Canvas page, a chromeless
+embeddable HTML snippet, or a reusable browser JS runtime.
 
 Orthogonal dials:
   - fidelity: toddler | clumsy | sketch
@@ -104,6 +105,8 @@ NAMED_COLORS: Dict[str, str] = {
     "cyan": "#2eb5ff",
 }
 
+TRANSPARENT_BG_VALUES = {"transparent", "none", "clear"}
+
 # Crisp 5x7 ASCII pixel font (rows of 5 bits, MSB on left)
 FONT_5X7: Dict[str, Tuple[int, ...]] = {
     "A": (0b01110, 0b10001, 0b10001, 0b11111, 0b10001, 0b10001, 0b10001),
@@ -132,13 +135,13 @@ FONT_5X7: Dict[str, Tuple[int, ...]] = {
     "X": (0b10001, 0b10001, 0b01010, 0b00100, 0b01010, 0b10001, 0b10001),
     "Y": (0b10001, 0b10001, 0b01010, 0b00100, 0b00100, 0b00100, 0b00100),
     "Z": (0b11111, 0b00001, 0b00010, 0b00100, 0b01000, 0b10000, 0b11111),
-    "0": (0b01110, 0b10001, 0b10011, 0b10101, 0b11001, 0b10001, 0b01110),
+    "0": (0b01110, 0b10011, 0b10101, 0b10101, 0b11001, 0b10001, 0b01110),
     "1": (0b00100, 0b01100, 0b00100, 0b00100, 0b00100, 0b00100, 0b01110),
     "2": (0b01110, 0b10001, 0b00001, 0b00110, 0b01000, 0b10000, 0b11111),
     "3": (0b11110, 0b00001, 0b00001, 0b01110, 0b00001, 0b00001, 0b11110),
     "4": (0b00010, 0b00110, 0b01010, 0b10010, 0b11111, 0b00010, 0b00010),
     "5": (0b11111, 0b10000, 0b11110, 0b00001, 0b00001, 0b10001, 0b01110),
-    "6": (0b01110, 0b10000, 0b11110, 0b10001, 0b10001, 0b10001, 0b01110),
+    "6": (0b00110, 0b01000, 0b10000, 0b11110, 0b10001, 0b10001, 0b01110),
     "7": (0b11111, 0b00001, 0b00010, 0b00100, 0b01000, 0b01000, 0b01000),
     "8": (0b01110, 0b10001, 0b10001, 0b01110, 0b10001, 0b10001, 0b01110),
     "9": (0b01110, 0b10001, 0b10001, 0b01111, 0b00001, 0b00010, 0b01100),
@@ -170,6 +173,10 @@ FONT_5X7: Dict[str, Tuple[int, ...]] = {
 }
 
 
+def clamp_byte(v: float) -> int:
+    return 0 if v < 0 else (255 if v > 255 else int(v))
+
+
 def parse_color(val: Optional[str], default: str = "#111111") -> RGB:
     s = (val or default).strip().lower()
     s = NAMED_COLORS.get(s, s)
@@ -187,8 +194,13 @@ def to_mono_rgb(col: RGB) -> RGB:
     return (y, y, y)
 
 
-def clamp_byte(v: float) -> int:
-    return 0 if v < 0 else (255 if v > 255 else int(v))
+def is_transparent_bg(spec: Dict[str, object]) -> bool:
+    if bool(spec.get("transparent", False)):
+        return True
+    bg = spec.get("bg")
+    if bg is None:
+        return False
+    return str(bg).strip().lower() in TRANSPARENT_BG_VALUES
 
 
 def resolve_style(spec: Dict[str, object]) -> Dict[str, object]:
@@ -204,23 +216,45 @@ def resolve_style(spec: Dict[str, object]) -> Dict[str, object]:
         "medium": medium_name,
         "color": color_mode,
         "bg": med["bg"],
+        "transparent": is_transparent_bg(spec),
         "paper_grain": med["paper_grain"],
         "ink": med["ink"],
         "texture": med["texture"],
-        "jitter": fid["jitter"],
-        "slop": fid["slop"],
-        "spacing": fid["spacing"],
-        "wobble": fid["wobble"],
-        "overshoot": fid["overshoot"],
-        "step": fid["step"],
-        "pixelated": fid["pixelated"],
+        "jitter": float(fid["jitter"]),
+        "slop": float(fid["slop"]),
+        "spacing": float(fid["spacing"]),
+        "wobble": float(fid["wobble"]),
+        "overshoot": float(fid["overshoot"]),
+        "step": float(fid["step"]),
+        "pixelated": bool(fid["pixelated"]),
         "auto_double": bool(p.get("auto_double", False)),
+        "small_canvas_scale": 1.0,
     }
     # Apply preset-specific fine tuning only when fidelity/medium weren't explicitly overridden
     if not spec.get("fidelity") and not spec.get("medium"):
         for k in ("jitter", "slop", "spacing", "wobble", "overshoot"):
             if k in p:
-                style[k] = p[k]
+                style[k] = float(p[k])
+
+    # Small-canvas guardrail: absolute pixel jitter/slop is tuned for >=200px grids.
+    # Auto-temper on tiny canvases (<160px) unless caller passes rawScale: true or explicit overrides.
+    default_dim = 440 if fidelity_name == "sketch" else 240
+    w = int(spec.get("width", default_dim))
+    h = int(spec.get("height", default_dim))
+    min_dim = min(w, h)
+    if fidelity_name in ("clumsy", "toddler") and min_dim < 160 and not spec.get("rawScale"):
+        factor = max(0.55, min_dim / 200.0)
+        style["small_canvas_scale"] = factor
+        style["jitter"] = round(float(style["jitter"]) * factor, 3)
+        style["slop"] = round(float(style["slop"]) * factor, 3)
+        style["overshoot"] = round(float(style["overshoot"]) * factor, 3)
+        style["wobble"] = round(float(style["wobble"]) * max(0.65, factor), 4)
+
+    # Allow explicit top-level numeric overrides
+    for k in ("jitter", "slop", "spacing", "wobble", "overshoot", "step"):
+        if spec.get(k) is not None:
+            style[k] = float(spec[k])
+
     return style
 
 
@@ -300,23 +334,28 @@ class DoodleRenderer:
         self.w = int(spec.get("width", default_dim))
         self.h = int(spec.get("height", default_dim))
         self.color_mode = str(self.style["color"])
+        self.transparent = bool(self.style["transparent"])
         self.rng = LcgRng(int(spec.get("seed", 42)))
 
-        bg = parse_color(str(spec.get("bg") or self.style["bg"]), "#ffffff")
-        self.buf = bytearray(self.w * self.h * 3)
-        grain = int(self.style["paper_grain"])
-        if grain > 0:
-            idx = 0
-            for _ in range(self.w * self.h):
-                g = int(self.rng.rand(-grain, grain + 0.99))
-                self.buf[idx] = clamp_byte(bg[0] + g)
-                self.buf[idx + 1] = clamp_byte(bg[1] + g)
-                self.buf[idx + 2] = clamp_byte(bg[2] + g)
-                idx += 3
-        else:
-            row = bytes(bg) * self.w
-            for y in range(self.h):
-                self.buf[y * self.w * 3 : (y + 1) * self.w * 3] = row
+        # Store RGBA (4 bytes/pixel) internally so transparent stickers and opaque canvases share one path.
+        self.buf = bytearray(self.w * self.h * 4)
+        if not self.transparent:
+            bg = parse_color(str(spec.get("bg") or self.style["bg"]), "#ffffff")
+            grain = int(self.style["paper_grain"])
+            if grain > 0:
+                idx = 0
+                for _ in range(self.w * self.h):
+                    g = int(self.rng.rand(-grain, grain + 0.99))
+                    self.buf[idx] = clamp_byte(bg[0] + g)
+                    self.buf[idx + 1] = clamp_byte(bg[1] + g)
+                    self.buf[idx + 2] = clamp_byte(bg[2] + g)
+                    self.buf[idx + 3] = 255
+                    idx += 4
+            else:
+                row = bytes((bg[0], bg[1], bg[2], 255)) * self.w
+                stride = self.w * 4
+                for y in range(self.h):
+                    self.buf[y * stride : (y + 1) * stride] = row
 
     def resolve_rgb(self, val: Optional[str], is_accent: bool = False) -> RGB:
         col = parse_color(val, str(self.style["ink"]))
@@ -328,18 +367,30 @@ class DoodleRenderer:
 
     def set_px(self, x: int, y: int, col: RGB, alpha: float = 1.0) -> None:
         if 0 <= x < self.w and 0 <= y < self.h:
-            i = (y * self.w + x) * 3
+            i = (y * self.w + x) * 4
             if alpha >= 0.999:
                 self.buf[i] = col[0]
                 self.buf[i + 1] = col[1]
                 self.buf[i + 2] = col[2]
+                self.buf[i + 3] = 255
             elif alpha > 0.0:
+                dst_a = self.buf[i + 3] / 255.0
                 inv = 1.0 - alpha
-                self.buf[i] = clamp_byte(col[0] * alpha + self.buf[i] * inv)
-                self.buf[i + 1] = clamp_byte(col[1] * alpha + self.buf[i + 1] * inv)
-                self.buf[i + 2] = clamp_byte(col[2] * alpha + self.buf[i + 2] * inv)
+                out_a = alpha + dst_a * inv
+                if out_a > 0.0:
+                    if dst_a >= 0.999:
+                        self.buf[i] = clamp_byte(col[0] * alpha + self.buf[i] * inv)
+                        self.buf[i + 1] = clamp_byte(col[1] * alpha + self.buf[i + 1] * inv)
+                        self.buf[i + 2] = clamp_byte(col[2] * alpha + self.buf[i + 2] * inv)
+                        self.buf[i + 3] = 255
+                    else:
+                        w_dst = dst_a * inv
+                        self.buf[i] = clamp_byte((col[0] * alpha + self.buf[i] * w_dst) / out_a)
+                        self.buf[i + 1] = clamp_byte((col[1] * alpha + self.buf[i + 1] * w_dst) / out_a)
+                        self.buf[i + 2] = clamp_byte((col[2] * alpha + self.buf[i + 2] * w_dst) / out_a)
+                        self.buf[i + 3] = clamp_byte(out_a * 255.0)
 
-    def dot(self, x: float, y: float, size: float, col: RGB, texture: str = "pixel", alpha: float = 1.0) -> None:
+    def dot(self, x: float, y: float, size: float, col: RGB, texture: str, alpha: float = 1.0) -> None:
         ix = int(round(x))
         iy = int(round(y))
         if texture == "pencil":
@@ -347,17 +398,18 @@ class DoodleRenderer:
             ir = int(math.ceil(r))
             for dy in range(-ir, ir + 1):
                 for dx in range(-ir, ir + 1):
-                    dist = math.hypot(dx, dy)
-                    if dist <= r + 0.35:
-                        if self.rng.next() < 0.78:
-                            a = (1.0 - dist / (r + 0.8)) * alpha * 0.85
-                            if a > 0.06:
-                                self.set_px(ix + dx, iy + dy, col, a)
+                    d = math.hypot(dx, dy)
+                    if d <= r + 0.4:
+                        falloff = max(0.0, 1.0 - d / (r + 0.55))
+                        grain = 0.65 + 0.35 * self.rng.next()
+                        a = alpha * falloff * grain
+                        if a > 0.05:
+                            self.set_px(ix + dx, iy + dy, col, min(1.0, a))
             return
 
         if texture == "crayon":
-            r = max(1, int((size + 1) // 2))
-            r2 = r * r + 0.6
+            r = max(1, int(round(size * 0.72)))
+            r2 = r * r + 0.5
             for dy in range(-r, r + 1):
                 for dx in range(-r, r + 1):
                     d2 = dx * dx + dy * dy
@@ -558,6 +610,42 @@ class DoodleRenderer:
                         continue
                 self.set_px(px, py, col, alpha)
 
+    def solid_ellipse(self, op: Dict[str, object]) -> None:
+        cx, cy = float(op["cx"]), float(op["cy"])
+        rx, ry = max(0.5, float(op["rx"])), max(0.5, float(op["ry"]))
+        col = self.resolve_rgb(op.get("color", "#ffffff"), bool(op.get("accent", False)))  # type: ignore[arg-type]
+        alpha = float(op.get("alpha", 1.0))
+        x0 = max(0, int(math.floor(cx - rx)))
+        x1 = min(self.w - 1, int(math.ceil(cx + rx)))
+        y0 = max(0, int(math.floor(cy - ry)))
+        y1 = min(self.h - 1, int(math.ceil(cy + ry)))
+        for py in range(y0, y1 + 1):
+            ny = (py - cy) / ry
+            ny2 = ny * ny
+            if ny2 > 1.0:
+                continue
+            for px in range(x0, x1 + 1):
+                nx = (px - cx) / rx
+                if nx * nx + ny2 <= 1.0:
+                    self.set_px(px, py, col, alpha)
+
+    def solid_poly(self, op: Dict[str, object]) -> None:
+        pts = op["points"]
+        if not pts or len(pts) < 3:
+            return
+        col = self.resolve_rgb(op.get("color", "#ffffff"), bool(op.get("accent", False)))  # type: ignore[arg-type]
+        alpha = float(op.get("alpha", 1.0))
+        xs = [float(p[0]) for p in pts]
+        ys = [float(p[1]) for p in pts]
+        x0 = max(0, int(math.floor(min(xs))))
+        x1 = min(self.w - 1, int(math.ceil(max(xs))))
+        y0 = max(0, int(math.floor(min(ys))))
+        y1 = min(self.h - 1, int(math.ceil(max(ys))))
+        for py in range(y0, y1 + 1):
+            for px in range(x0, x1 + 1):
+                if point_in_poly(px + 0.5, py + 0.5, pts):
+                    self.set_px(px, py, col, alpha)
+
     def draw_label(self, op: Dict[str, object]) -> None:
         text = str(op.get("text", "")).upper()
         x0 = int(round(float(op.get("x", 0))))
@@ -593,6 +681,10 @@ class DoodleRenderer:
             passes = 2 if (op.get("double") or (auto_double and kind in ("rect", "roundRect", "ellipse", "line", "curve"))) else 1
             if kind == "solidRoundRect":
                 self.solid_round_rect(op)
+            elif kind == "solidEllipse":
+                self.solid_ellipse(op)
+            elif kind == "solidPoly":
+                self.solid_poly(op)
             elif kind in ("fillRect", "hatchRect"):
                 x, y, w, h = float(op["x"]), float(op["y"]), float(op["w"]), float(op["h"])
                 self.scribble_fill(x, y, w, h, lambda px, py, x=x, y=y, w=w, h=h: x <= px <= x + w and y <= py <= y + h, op, separate=(kind == "hatchRect"))
@@ -659,12 +751,14 @@ class DoodleRenderer:
                 x, y, w, h = float(op["x"]), float(op["y"]), float(op["w"]), float(op["h"])
                 fill_col = str(op.get("fill", "#ffffff"))
                 stroke_col = str(op.get("color", self.style["ink"]))
+                r = float(op.get("r", 8.0 if self.style["fidelity"] == "sketch" else 0.0))
+                if self.transparent:
+                    self.solid_round_rect({"x": x, "y": y, "w": w, "h": h, "r": r, "color": fill_col, "accent": bool(op.get("accent", False))})
                 self.scribble_fill(
                     x, y, w, h,
                     lambda px, py, x=x, y=y, w=w, h=h: x <= px <= x + w and y <= py <= y + h,
                     {**op, "color": fill_col, "angle": 0.08, "spacing": float(op.get("spacing", 3.6)), "slop": 1.8},
                 )
-                r = float(op.get("r", 8.0 if self.style["fidelity"] == "sketch" else 0.0))
                 box_pts = round_rect_points(x, y, w, h, r)
                 self.shaky_line(box_pts, {**op, "color": stroke_col, "size": float(op.get("size", 2))})
                 tail = op.get("tail")
@@ -698,22 +792,35 @@ class DoodleRenderer:
         scale = max(1, int(scale))
         out_w = self.w * scale
         out_h = self.h * scale
+        bpp = 4 if self.transparent else 3
+        color_type = 6 if self.transparent else 2
         raw = bytearray()
         for y in range(self.h):
-            row_start = y * self.w * 3
-            if scale == 1:
-                scaled_row = bytes(self.buf[row_start : row_start + self.w * 3])
+            row_start = y * self.w * 4
+            if scale == 1 and self.transparent:
+                scaled_row = bytes(self.buf[row_start : row_start + self.w * 4])
             else:
-                line = bytearray(out_w * 3)
+                line = bytearray(out_w * bpp)
                 dst = 0
-                for x in range(self.w):
-                    src = row_start + x * 3
-                    r, g, b = self.buf[src], self.buf[src + 1], self.buf[src + 2]
-                    for _ in range(scale):
-                        line[dst] = r
-                        line[dst + 1] = g
-                        line[dst + 2] = b
-                        dst += 3
+                if self.transparent:
+                    for x in range(self.w):
+                        src = row_start + x * 4
+                        r, g, b, a = self.buf[src], self.buf[src + 1], self.buf[src + 2], self.buf[src + 3]
+                        for _ in range(scale):
+                            line[dst] = r
+                            line[dst + 1] = g
+                            line[dst + 2] = b
+                            line[dst + 3] = a
+                            dst += 4
+                else:
+                    for x in range(self.w):
+                        src = row_start + x * 4
+                        r, g, b = self.buf[src], self.buf[src + 1], self.buf[src + 2]
+                        for _ in range(scale):
+                            line[dst] = r
+                            line[dst + 1] = g
+                            line[dst + 2] = b
+                            dst += 3
                 scaled_row = bytes(line)
             for _ in range(scale):
                 raw.append(0)
@@ -727,9 +834,312 @@ class DoodleRenderer:
                 + struct.pack("!I", zlib.crc32(tag + data) & 0xFFFFFFFF)
             )
 
-        ihdr = struct.pack("!IIBBBBB", out_w, out_h, 8, 2, 0, 0, 0)
+        ihdr = struct.pack("!IIBBBBB", out_w, out_h, 8, color_type, 0, 0, 0)
         idat = zlib.compress(bytes(raw), level=6)
         return b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr) + chunk(b"IDAT", idat) + chunk(b"IEND", b"")
+
+
+JS_RUNTIME_SOURCE = r"""(() => {
+  if (window.ClumsyDoodle) return;
+  const FIDELITIES = {
+    toddler: { jitter:2.5, slop:4.5, spacing:5.2, wobble:0.19, overshoot:3.4, step:6, pixelated:true },
+    clumsy:  { jitter:1.8, slop:3.0, spacing:4.6, wobble:0.12, overshoot:2.2, step:6, pixelated:true },
+    sketch:  { jitter:0.65, slop:1.4, spacing:5.5, wobble:0.035, overshoot:1.3, step:8, pixelated:false },
+  };
+  const MEDIUMS = {
+    mspaint: { bg:'#ffffff', paper_grain:0, ink:'#111111', texture:'pixel' },
+    pencil:  { bg:'#f8f6ef', paper_grain:7, ink:'#2c2f33', texture:'pencil' },
+    crayon:  { bg:'#fbf9f2', paper_grain:6, ink:'#181818', texture:'crayon' },
+  };
+  const PRESETS = {
+    clumsy:          { fidelity:'clumsy',  medium:'mspaint', color:'full',   auto_double:false },
+    messy:           { fidelity:'toddler', medium:'mspaint', color:'full',   auto_double:false },
+    crayon:          { fidelity:'clumsy',  medium:'crayon',  color:'full',   jitter:2.3, slop:4.2, spacing:4.0, wobble:0.17, overshoot:3.0, auto_double:false },
+    cursed:          { fidelity:'toddler', medium:'mspaint', color:'full',   jitter:2.4, slop:4.2, spacing:4.8, wobble:0.24, overshoot:3.8, auto_double:true },
+    'neat-rough':    { fidelity:'clumsy',  medium:'mspaint', color:'full',   jitter:1.1, slop:1.8, spacing:4.0, wobble:0.07, overshoot:1.2, auto_double:false },
+    'pencil-sketch': { fidelity:'sketch',  medium:'pencil',  color:'accent', auto_double:false },
+  };
+  const NAMED = {
+    black:'#111111', white:'#ffffff', red:'#ff2a2a', blue:'#1e90ff', green:'#2ecc71',
+    yellow:'#ffe066', orange:'#ff922b', purple:'#9b59b6', pink:'#ff85c0',
+    gray:'#8f9396', grey:'#8f9396', brown:'#8b4513', cyan:'#2eb5ff',
+  };
+  const makeRng = (seed) => { let s = (seed >>> 0) || 1; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); };
+  const clamp = (v) => v < 0 ? 0 : (v > 255 ? 255 : Math.round(v));
+  function normalizeColor(c, fallback = '#111111') {
+    const raw = String(c || fallback).trim().toLowerCase();
+    return NAMED[raw] || raw;
+  }
+  function parseHex(h) {
+    h = normalizeColor(h).replace('#', '');
+    if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+  }
+  function toMono(hex) {
+    const [r, g, b] = parseHex(hex), y = clamp(0.299*r + 0.587*g + 0.114*b);
+    return '#' + y.toString(16).padStart(2,'0').repeat(3);
+  }
+  function isTransparentBg(spec) {
+    if (spec.transparent) return true;
+    const bg = String(spec.bg || '').trim().toLowerCase();
+    return bg === 'transparent' || bg === 'none' || bg === 'clear';
+  }
+  const inPoly = (px, py, pts) => {
+    let inside = false;
+    for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+      const [xi, yi] = pts[i], [xj, yj] = pts[j];
+      if (((yi > py) !== (yj > py)) && (px < ((xj - xi) * (py - yi)) / (yj - yi + 1e-9) + xi)) inside = !inside;
+    }
+    return inside;
+  };
+  function roundRectPts(x, y, w, h, r) {
+    r = Math.min(Math.max(0, r || 0), w / 2, h / 2);
+    if (r <= 1) return [[x,y],[x+w,y],[x+w,y+h],[x,y+h],[x,y]];
+    const pts = [], corners = [[x+w-r,y+r,-Math.PI/2,0],[x+w-r,y+h-r,0,Math.PI/2],[x+r,y+h-r,Math.PI/2,Math.PI],[x+r,y+r,Math.PI,Math.PI*1.5]];
+    for (const [cx, cy, a0, a1] of corners) for (let k = 0; k <= 4; k++) { const a = a0 + (a1-a0)*(k/4); pts.push([cx+Math.cos(a)*r, cy+Math.sin(a)*r]); }
+    pts.push(pts[0]); return pts;
+  }
+  function bezierPts(pts, steps = 18) {
+    const out = [];
+    if (pts.length === 3) {
+      const [[x0,y0],[x1,y1],[x2,y2]] = pts;
+      for (let i = 0; i <= steps; i++) { const t = i/steps, m = 1-t; out.push([m*m*x0+2*m*t*x1+t*t*x2, m*m*y0+2*m*t*y1+t*t*y2]); }
+    } else if (pts.length >= 4) {
+      const [[x0,y0],[x1,y1],[x2,y2],[x3,y3]] = pts;
+      for (let i = 0; i <= steps; i++) { const t = i/steps, m = 1-t; out.push([m**3*x0+3*m*m*t*x1+3*m*t*t*x2+t**3*x3, m**3*y0+3*m*m*t*y1+3*m*t*t*y2+t**3*y3]); }
+    }
+    return out.length ? out : pts;
+  }
+  function resolveStyle(spec) {
+    const p = PRESETS[spec.preset || 'clumsy'] || PRESETS.clumsy;
+    const fName = spec.fidelity || p.fidelity, mName = spec.medium || p.medium;
+    const fid = FIDELITIES[fName] || FIDELITIES.clumsy, med = MEDIUMS[mName] || MEDIUMS.mspaint;
+    const st = { ...fid, ...med, fidelity: fName, medium: mName, color: spec.color || p.color, auto_double: !!p.auto_double, transparent: isTransparentBg(spec) };
+    if (!spec.fidelity && !spec.medium) for (const k of ['jitter','slop','spacing','wobble','overshoot']) if (p[k] !== undefined) st[k] = p[k];
+    const defDim = fName === 'sketch' ? 440 : 240;
+    const minDim = Math.min(spec.width || defDim, spec.height || defDim);
+    if ((fName === 'clumsy' || fName === 'toddler') && minDim < 160 && !spec.rawScale) {
+      const f = Math.max(0.55, minDim / 200);
+      st.jitter = +(st.jitter * f).toFixed(3);
+      st.slop = +(st.slop * f).toFixed(3);
+      st.overshoot = +(st.overshoot * f).toFixed(3);
+      st.wobble = +(st.wobble * Math.max(0.65, f)).toFixed(4);
+    }
+    for (const k of ['jitter','slop','spacing','wobble','overshoot','step']) if (spec[k] !== undefined) st[k] = Number(spec[k]);
+    return st;
+  }
+  function render(canvas, spec) {
+    const st = resolveStyle(spec);
+    const defDim = st.fidelity === 'sketch' ? 440 : 240;
+    if (spec.width && canvas.width !== spec.width) canvas.width = spec.width;
+    if (spec.height && canvas.height !== spec.height) canvas.height = spec.height;
+    if (!canvas.width) canvas.width = defDim;
+    if (!canvas.height) canvas.height = defDim;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    canvas.classList.toggle('pixelated', !!st.pixelated);
+    if (st.pixelated) canvas.style.imageRendering = 'pixelated';
+    const rng = makeRng(spec.seed ?? 42), rand = (a, b) => a + rng() * (b - a);
+    const resolveColor = (c, isAcc) => { const b = normalizeColor(c, st.ink); return (st.color === 'mono' || (st.color === 'accent' && !isAcc)) ? toMono(b) : b; };
+    if (st.transparent) {
+      ctx.clearRect(0, 0, w, h);
+    } else if (st.paper_grain > 0) {
+      const img = ctx.createImageData(w, h), [r, g, b] = parseHex(spec.bg || st.bg), gr = st.paper_grain;
+      for (let i = 0; i < img.data.length; i += 4) { const n = rand(-gr, gr); img.data[i]=clamp(r+n); img.data[i+1]=clamp(g+n); img.data[i+2]=clamp(b+n); img.data[i+3]=255; }
+      ctx.putImageData(img, 0, 0);
+    } else {
+      ctx.fillStyle = normalizeColor(spec.bg || st.bg);
+      ctx.fillRect(0, 0, w, h);
+    }
+    function dot(x, y, size, color, texture, alpha = 1) {
+      const ix = Math.round(x), iy = Math.round(y);
+      if (texture === 'pencil') {
+        const [r0, g0, b0] = parseHex(color), r = Math.max(0.55, size * 0.55), ir = Math.ceil(r);
+        for (let dy = -ir; dy <= ir; dy++) for (let dx = -ir; dx <= ir; dx++) {
+          const d = Math.hypot(dx, dy);
+          if (d <= r + 0.4) {
+            const a = Math.min(1, alpha * Math.max(0, 1 - d / (r + 0.55)) * (0.65 + 0.35 * rng()));
+            if (a > 0.05) { ctx.fillStyle = `rgba(${r0},${g0},${b0},${a.toFixed(3)})`; ctx.fillRect(ix+dx, iy+dy, 1, 1); }
+          }
+        }
+        return;
+      }
+      if (texture === 'crayon') {
+        const [r0, g0, b0] = parseHex(color), r = Math.max(1, Math.round(size * 0.72)), r2 = r * r + 0.5;
+        for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
+          const d2 = dx*dx + dy*dy;
+          if (d2 <= r2 && rng() < (d2 <= r2 * 0.45 ? 0.82 : 0.56)) {
+            const v = Math.round(rand(-14, 15));
+            ctx.fillStyle = `rgba(${clamp(r0+v)},${clamp(g0+v)},${clamp(b0+v)},${alpha})`;
+            ctx.fillRect(ix+dx, iy+dy, 1, 1);
+          }
+        }
+        return;
+      }
+      ctx.save(); ctx.fillStyle = color; ctx.globalAlpha = alpha;
+      const isz = Math.max(1, Math.round(size));
+      if (isz <= 1) ctx.fillRect(ix, iy, 1, 1);
+      else if (isz === 2) ctx.fillRect(ix, iy, 2, 2);
+      else {
+        const r = Math.floor(isz / 2);
+        for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++)
+          if (dx*dx + dy*dy <= r*r + 0.5) ctx.fillRect(ix+dx, iy+dy, 1, 1);
+      }
+      ctx.restore();
+    }
+    function rawLine(x0, y0, x1, y1, size, color, texture, alpha = 1) {
+      x0 = Math.round(x0); y0 = Math.round(y0); x1 = Math.round(x1); y1 = Math.round(y1);
+      const dx = Math.abs(x1 - x0), dy = Math.abs(y1 - y0), sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1;
+      let err = dx - dy;
+      while (true) {
+        dot(x0, y0, size, color, texture, alpha);
+        if (x0 === x1 && y0 === y1) break;
+        const e2 = 2 * err;
+        if (e2 > -dy) { err -= dy; x0 += sx; }
+        if (e2 < dx) { err += dx; y0 += sy; }
+      }
+    }
+    function shakyLine(pts, op = {}) {
+      if (!pts || pts.length < 2) return;
+      const texture = op.texture || st.texture, color = resolveColor(op.color, op.accent);
+      const size = op.size ?? (texture === 'pencil' ? 1.8 : 2), js = op.jitterScale ?? 1;
+      const jitter = op.jitter ?? st.jitter * js, step = op.step ?? st.step, overshoot = op.overshoot ?? st.overshoot * js;
+      const alpha = op.alpha ?? 1;
+      const out = []; let dx = 0, dy = 0;
+      for (let i = 0; i < pts.length - 1; i++) {
+        let [x0, y0] = pts[i], [x1, y1] = pts[i + 1];
+        const segLen = Math.hypot(x1 - x0, y1 - y0) || 1;
+        if (i === 0 && overshoot) { const ov = rand(-0.5, overshoot); x0 -= ((x1-x0)/segLen)*ov; y0 -= ((y1-y0)/segLen)*ov; }
+        if (i === pts.length - 2 && overshoot) { const ov = rand(-0.5, overshoot); x1 += ((x1-x0)/segLen)*ov; y1 += ((y1-y0)/segLen)*ov; }
+        const n = Math.max(2, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / step));
+        for (let k = 0; k <= n; k++) {
+          if (i > 0 && k === 0) continue;
+          const t = k / n;
+          dx = dx * 0.62 + rand(-jitter, jitter) * 0.55;
+          dy = dy * 0.62 + rand(-jitter, jitter) * 0.55;
+          out.push([x0 + (x1 - x0)*t + dx + rand(-jitter*0.45, jitter*0.45), y0 + (y1 - y0)*t + dy + rand(-jitter*0.45, jitter*0.45)]);
+        }
+      }
+      const tot = Math.max(1, out.length - 1);
+      for (let i = 0; i < tot; i++) {
+        const taper = texture === 'pencil' ? (0.62 + 0.38 * Math.sin((i / tot) * Math.PI)) : 1;
+        rawLine(out[i][0], out[i][1], out[i+1][0], out[i+1][1], size, color, texture, alpha * taper);
+      }
+    }
+    function scribbleFill(box, inside, op = {}, separate = false) {
+      const texture = op.texture || st.texture, isPencil = texture === 'pencil';
+      const color = op.color || ((separate || isPencil) ? '#666666' : '#ffe066');
+      const size = op.size ?? ((separate || isPencil) ? 1.2 : 3);
+      const spacing = op.spacing ?? st.spacing;
+      const angle = op.angle ?? (separate ? -0.68 : -0.45);
+      const slop = op.slop ?? st.slop * ((separate || isPencil) ? 0.55 : 1);
+      const alpha = op.alpha ?? ((separate || isPencil) ? 0.52 : 1);
+      const passes = op.cross ? [angle, angle + 1.35] : [angle];
+      for (const ang of passes) {
+        const cosA = Math.cos(ang), sinA = Math.sin(ang);
+        const cx = box.x + box.w / 2, cy = box.y + box.h / 2, diag = Math.hypot(box.w, box.h);
+        let dir = 1, prev = null;
+        for (let u = -diag / 2; u <= diag / 2; u += Math.max(1.6, spacing + rand(-0.7, 0.9))) {
+          const hits = [];
+          for (let v = -diag / 2; v <= diag / 2; v += 2.2) {
+            const px = cx + u*cosA - v*sinA, py = cy + u*sinA + v*cosA;
+            if (inside(px, py)) hits.push([px, py]);
+          }
+          if (hits.length < 2) { prev = null; continue; }
+          const pa = dir > 0 ? hits[0] : hits[hits.length - 1], pb = dir > 0 ? hits[hits.length - 1] : hits[0];
+          const a = [pa[0] + rand(-slop, slop), pa[1] + rand(-slop, slop)], bb = [pb[0] + rand(-slop, slop), pb[1] + rand(-slop, slop)];
+          if (!separate && prev && Math.hypot(prev[0]-a[0], prev[1]-a[1]) < 24 && rng() < 0.72) shakyLine([prev, a], { color, accent:op.accent, size, jitter:0.7, step:7, overshoot:0, texture, alpha });
+          shakyLine([a, bb], { color, accent:op.accent, size, jitter:(separate||isPencil)?0.5:1.2, step:8, overshoot:separate?0.8:1.4, texture, alpha });
+          prev = bb; dir *= -1;
+        }
+      }
+    }
+    for (const op of spec.ops || []) {
+      const passes = (op.double || (st.auto_double && ['rect','roundRect','ellipse','line','curve'].includes(op.op))) ? 2 : 1;
+      if (op.op === 'solidRoundRect') {
+        ctx.save(); ctx.fillStyle = resolveColor(op.color || '#ffffff', op.accent); ctx.globalAlpha = op.alpha ?? 1;
+        const pts = roundRectPts(op.x, op.y, op.w, op.h, op.r ?? 8);
+        ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]); ctx.closePath(); ctx.fill(); ctx.restore();
+      }
+      else if (op.op === 'solidEllipse') {
+        ctx.save(); ctx.fillStyle = resolveColor(op.color || '#ffffff', op.accent); ctx.globalAlpha = op.alpha ?? 1;
+        ctx.beginPath(); ctx.ellipse(op.cx, op.cy, Math.max(0.5, op.rx), Math.max(0.5, op.ry), 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+      }
+      else if (op.op === 'solidPoly') {
+        if (op.points && op.points.length >= 3) {
+          ctx.save(); ctx.fillStyle = resolveColor(op.color || '#ffffff', op.accent); ctx.globalAlpha = op.alpha ?? 1;
+          ctx.beginPath(); ctx.moveTo(op.points[0][0], op.points[0][1]); for (let i = 1; i < op.points.length; i++) ctx.lineTo(op.points[i][0], op.points[i][1]); ctx.closePath(); ctx.fill(); ctx.restore();
+        }
+      }
+      else if (op.op === 'fillRect' || op.op === 'hatchRect') scribbleFill(op, (px, py) => px >= op.x && px <= op.x + op.w && py >= op.y && py <= op.y + op.h, op, op.op === 'hatchRect');
+      else if (op.op === 'fillEllipse' || op.op === 'hatchEllipse') scribbleFill({ x:op.cx-op.rx, y:op.cy-op.ry, w:op.rx*2, h:op.ry*2 }, (px, py) => ((px-op.cx)/(op.rx||1))**2 + ((py-op.cy)/(op.ry||1))**2 <= 1, op, op.op === 'hatchEllipse');
+      else if (op.op === 'fillPoly' || op.op === 'hatchPoly') {
+        const xs = op.points.map(p=>p[0]), ys = op.points.map(p=>p[1]), mx = Math.min(...xs), my = Math.min(...ys);
+        scribbleFill({ x:mx, y:my, w:Math.max(...xs)-mx, h:Math.max(...ys)-my }, (px, py) => inPoly(px, py, op.points), op, op.op === 'hatchPoly');
+      }
+      else if (op.op === 'line') { for (let k = 0; k < passes; k++) shakyLine(op.points, op); }
+      else if (op.op === 'curve') { const pts = bezierPts(op.points, op.steps ?? 18); for (let k = 0; k < passes; k++) shakyLine(pts, op); }
+      else if (op.op === 'rect') { const pts = [[op.x,op.y],[op.x+op.w,op.y],[op.x+op.w,op.y+op.h],[op.x,op.y+op.h],[op.x,op.y]]; for (let k = 0; k < passes; k++) shakyLine(pts, op); }
+      else if (op.op === 'roundRect') { const pts = roundRectPts(op.x, op.y, op.w, op.h, op.r ?? 10); for (let k = 0; k < passes; k++) shakyLine(pts, op); }
+      else if (op.op === 'ellipse') {
+        const steps = op.steps ?? 22, start = op.start ?? 0, end = op.end ?? (Math.PI*2 + rand(-0.18,0.28)), wb = op.wobble ?? st.wobble * (op.jitterScale ?? 1), p1 = rand(0,6.28), p2 = rand(0,6.28), pts = [];
+        for (let i = 0; i <= steps; i++) { const a = start + (end-start)*(i/steps), mod = 1 + wb*Math.sin(a*2+p1) + wb*0.55*Math.cos(a*3+p2); pts.push([op.cx+Math.cos(a)*op.rx*mod, op.cy+Math.sin(a)*op.ry*mod]); }
+        for (let k = 0; k < passes; k++) shakyLine(pts, op);
+      }
+      else if (op.op === 'arrow') {
+        shakyLine(op.points, op);
+        if (op.points.length >= 2) {
+          const [x0, y0] = op.points[op.points.length - 2], [x1, y1] = op.points[op.points.length - 1];
+          const a = Math.atan2(y1 - y0, x1 - x0), hl = op.head ?? 10;
+          shakyLine([[x1-Math.cos(a-0.55)*hl,y1-Math.sin(a-0.55)*hl],[x1,y1],[x1-Math.cos(a+0.55)*hl,y1-Math.sin(a+0.55)*hl]], { ...op, overshoot:0.6 });
+        }
+      }
+      else if (op.op === 'dot') dot(op.x, op.y, op.size ?? 3, resolveColor(op.color, op.accent), op.texture || st.texture, op.alpha ?? 1);
+      else if (op.op === 'label') {
+        ctx.save(); ctx.fillStyle = resolveColor(op.color, op.accent);
+        const fs = op.fontSize ?? ((op.scale ?? 2) * 7);
+        ctx.font = `700 ${fs}px ${op.mono ? 'ui-monospace,Menlo,monospace' : '"Kaiti SC","PingFang SC","Comic Sans MS",sans-serif'}`;
+        ctx.textAlign = op.align || 'left';
+        ctx.fillText(String(op.text || ''), Math.round(op.x), Math.round(op.y) + (op.fontSize ? 0 : (op.scale ?? 2) * 6));
+        ctx.restore();
+      }
+      else if (op.op === 'bubble') {
+        const fill = op.fill || '#ffffff', stroke = op.color || st.ink;
+        const r = op.r ?? (st.fidelity === 'sketch' ? 8 : 0);
+        if (st.transparent) {
+          ctx.save(); ctx.fillStyle = resolveColor(fill, op.accent);
+          const bpts = roundRectPts(op.x, op.y, op.w, op.h, r);
+          ctx.beginPath(); ctx.moveTo(bpts[0][0], bpts[0][1]); for (let i = 1; i < bpts.length; i++) ctx.lineTo(bpts[i][0], bpts[i][1]); ctx.closePath(); ctx.fill(); ctx.restore();
+        }
+        scribbleFill(op, (px, py) => px >= op.x && px <= op.x + op.w && py >= op.y && py <= op.y + op.h, { ...op, color:fill, angle:0.08, spacing:3.6, slop:1.8 });
+        const pts = roundRectPts(op.x, op.y, op.w, op.h, r);
+        shakyLine(pts, { ...op, color:stroke, size:op.size ?? 2 });
+        if (op.tail && op.tail.length === 2) {
+          const [tx, ty] = op.tail, ax = Math.max(op.x+8, Math.min(op.x+op.w-8, tx)), ay = ty >= op.y+op.h/2 ? op.y+op.h : op.y;
+          shakyLine([[ax-5, ay], [tx, ty], [ax+5, ay]], { ...op, color:stroke, size:op.size ?? 2, overshoot:0.6 });
+        }
+        if (op.text) {
+          ctx.save(); ctx.fillStyle = resolveColor(op.textColor || stroke, op.accent);
+          const fs = op.fontSize ?? Math.max(10, (op.scale ?? 1) * 11);
+          ctx.font = `700 ${fs}px "Kaiti SC","PingFang SC","Comic Sans MS",sans-serif`;
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(String(op.text), Math.round(op.x + op.w / 2), Math.round(op.y + op.h / 2));
+          ctx.restore();
+        }
+      }
+    }
+  }
+  function mountAll(root = document) {
+    for (const el of root.querySelectorAll('canvas[data-doodle-spec]')) {
+      try {
+        const raw = el.getAttribute('data-doodle-spec');
+        const spec = raw.startsWith('#') ? JSON.parse(document.querySelector(raw).textContent) : JSON.parse(raw);
+        render(el, spec);
+      } catch (e) { console.error('ClumsyDoodle mount error:', e); }
+    }
+  }
+  window.ClumsyDoodle = { render, mountAll, resolveStyle };
+})();"""
 
 
 def build_standalone_html(spec: Dict[str, object], title: str = "Clumsy Doodle") -> str:
@@ -738,6 +1148,7 @@ def build_standalone_html(spec: Dict[str, object], title: str = "Clumsy Doodle")
     w = int(spec.get("width", default_dim))
     h = int(spec.get("height", default_dim))
     pixel_cls = "pixelated" if style["pixelated"] else ""
+    frame_cls = "frame checker" if style["transparent"] else "frame"
     spec_json = json.dumps(spec, ensure_ascii=False, indent=2).replace("</", "<\\/")
     safe_title = html_mod.escape(title)
     return f"""<!doctype html>
@@ -757,6 +1168,9 @@ def build_standalone_html(spec: Dict[str, object], title: str = "Clumsy Doodle")
     width: min(100%, 520px); background: #fff; border: 2px solid #222;
     border-radius: 10px; overflow: hidden; box-shadow: 4px 5px 0 rgba(0,0,0,.14);
   }}
+  .frame.checker {{
+    background: repeating-conic-gradient(#e7e3d8 0% 25%, #ffffff 0% 50%) 0 0 / 16px 16px;
+  }}
   canvas {{ display: block; width: 100%; height: auto; }}
   canvas.pixelated {{ image-rendering: pixelated; image-rendering: crisp-edges; }}
   .bar {{ display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }}
@@ -769,7 +1183,7 @@ def build_standalone_html(spec: Dict[str, object], title: str = "Clumsy Doodle")
 </style>
 </head>
 <body>
-  <div class="frame"><canvas id="doodle" class="{pixel_cls}" width="{w}" height="{h}"></canvas></div>
+  <div class="{frame_cls}"><canvas id="doodle" class="{pixel_cls}" width="{w}" height="{h}"></canvas></div>
   <div class="bar">
     <button id="reroll">Reroll Seed</button>
     <button id="save">Download PNG</button>
@@ -778,233 +1192,12 @@ def build_standalone_html(spec: Dict[str, object], title: str = "Clumsy Doodle")
 {spec_json}
 </script>
 <script>
+{JS_RUNTIME_SOURCE}
 (() => {{
-  const FIDELITIES = {{
-    toddler: {{ jitter:2.5, slop:4.5, spacing:5.2, wobble:0.19, overshoot:3.4, step:6, pixelated:true }},
-    clumsy:  {{ jitter:1.8, slop:3.0, spacing:4.6, wobble:0.12, overshoot:2.2, step:6, pixelated:true }},
-    sketch:  {{ jitter:0.65, slop:1.4, spacing:5.5, wobble:0.035, overshoot:1.3, step:8, pixelated:false }},
-  }};
-  const MEDIUMS = {{
-    mspaint: {{ bg:'#ffffff', paper_grain:0, ink:'#111111', texture:'pixel' }},
-    pencil:  {{ bg:'#f8f6ef', paper_grain:7, ink:'#2c2f33', texture:'pencil' }},
-    crayon:  {{ bg:'#fbf9f2', paper_grain:6, ink:'#181818', texture:'crayon' }},
-  }};
-  const PRESETS = {{
-    clumsy:          {{ fidelity:'clumsy',  medium:'mspaint', color:'full',   auto_double:false }},
-    messy:           {{ fidelity:'toddler', medium:'mspaint', color:'full',   auto_double:false }},
-    crayon:          {{ fidelity:'clumsy',  medium:'crayon',  color:'full',   jitter:2.3, slop:4.2, spacing:4.0, wobble:0.17, overshoot:3.0, auto_double:false }},
-    cursed:          {{ fidelity:'toddler', medium:'mspaint', color:'full',   jitter:2.4, slop:4.2, spacing:4.8, wobble:0.24, overshoot:3.8, auto_double:true }},
-    'neat-rough':    {{ fidelity:'clumsy',  medium:'mspaint', color:'full',   jitter:1.1, slop:1.8, spacing:4.0, wobble:0.07, overshoot:1.2, auto_double:false }},
-    'pencil-sketch': {{ fidelity:'sketch',  medium:'pencil',  color:'accent', auto_double:false }},
-  }};
-  const makeRng = (seed) => {{ let s = (seed >>> 0) || 1; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }};
-  const clamp = (v) => v < 0 ? 0 : (v > 255 ? 255 : Math.round(v));
-  function parseHex(h) {{
-    h = (h || '#111111').replace('#', '');
-    if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
-    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
-  }}
-  function toMono(hex) {{
-    const [r, g, b] = parseHex(hex), y = clamp(0.299*r + 0.587*g + 0.114*b);
-    return '#' + y.toString(16).padStart(2,'0').repeat(3);
-  }}
-  const inPoly = (px, py, pts) => {{
-    let inside = false;
-    for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {{
-      const [xi, yi] = pts[i], [xj, yj] = pts[j];
-      if (((yi > py) !== (yj > py)) && (px < ((xj - xi) * (py - yi)) / (yj - yi + 1e-9) + xi)) inside = !inside;
-    }}
-    return inside;
-  }};
-  function roundRectPts(x, y, w, h, r) {{
-    r = Math.min(Math.max(0, r || 0), w / 2, h / 2);
-    if (r <= 1) return [[x,y],[x+w,y],[x+w,y+h],[x,y+h],[x,y]];
-    const pts = [], corners = [[x+w-r,y+r,-Math.PI/2,0],[x+w-r,y+h-r,0,Math.PI/2],[x+r,y+h-r,Math.PI/2,Math.PI],[x+r,y+r,Math.PI,Math.PI*1.5]];
-    for (const [cx, cy, a0, a1] of corners) for (let k = 0; k <= 4; k++) {{ const a = a0 + (a1-a0)*(k/4); pts.push([cx+Math.cos(a)*r, cy+Math.sin(a)*r]); }}
-    pts.push(pts[0]); return pts;
-  }}
-  function bezierPts(pts, steps = 18) {{
-    const out = [];
-    if (pts.length === 3) {{
-      const [[x0,y0],[x1,y1],[x2,y2]] = pts;
-      for (let i = 0; i <= steps; i++) {{ const t = i/steps, m = 1-t; out.push([m*m*x0+2*m*t*x1+t*t*x2, m*m*y0+2*m*t*y1+t*t*y2]); }}
-    }} else if (pts.length >= 4) {{
-      const [[x0,y0],[x1,y1],[x2,y2],[x3,y3]] = pts;
-      for (let i = 0; i <= steps; i++) {{ const t = i/steps, m = 1-t; out.push([m**3*x0+3*m*m*t*x1+3*m*t*t*x2+t**3*x3, m**3*y0+3*m*m*t*y1+3*m*t*t*y2+t**3*y3]); }}
-    }}
-    return out.length ? out : pts;
-  }}
-  function resolveStyle(spec) {{
-    const p = PRESETS[spec.preset || 'clumsy'] || PRESETS.clumsy;
-    const fName = spec.fidelity || p.fidelity, mName = spec.medium || p.medium;
-    const fid = FIDELITIES[fName] || FIDELITIES.clumsy, med = MEDIUMS[mName] || MEDIUMS.mspaint;
-    const st = {{ ...fid, ...med, fidelity: fName, medium: mName, color: spec.color || p.color, auto_double: !!p.auto_double }};
-    if (!spec.fidelity && !spec.medium) for (const k of ['jitter','slop','spacing','wobble','overshoot']) if (p[k] !== undefined) st[k] = p[k];
-    return st;
-  }}
-  function render(canvas, spec) {{
-    const ctx = canvas.getContext('2d');
-    const w = canvas.width, h = canvas.height;
-    const st = resolveStyle(spec);
-    canvas.classList.toggle('pixelated', !!st.pixelated);
-    const rng = makeRng(spec.seed ?? 42), rand = (a, b) => a + rng() * (b - a);
-    const resolveColor = (c, isAcc) => {{ const b = c || st.ink; return (st.color === 'mono' || (st.color === 'accent' && !isAcc)) ? toMono(b) : b; }};
-    if (st.paper_grain > 0) {{
-      const img = ctx.createImageData(w, h), [r, g, b] = parseHex(spec.bg || st.bg), gr = st.paper_grain;
-      for (let i = 0; i < img.data.length; i += 4) {{ const n = rand(-gr, gr); img.data[i]=clamp(r+n); img.data[i+1]=clamp(g+n); img.data[i+2]=clamp(b+n); img.data[i+3]=255; }}
-      ctx.putImageData(img, 0, 0);
-    }} else {{ ctx.fillStyle = spec.bg || st.bg; ctx.fillRect(0, 0, w, h); }}
-    function dot(x, y, size, color, texture, alpha = 1) {{
-      const ix = Math.round(x), iy = Math.round(y);
-      if (texture === 'pencil') {{
-        const [r0, g0, b0] = parseHex(color), r = Math.max(0.55, size * 0.55), ir = Math.ceil(r);
-        for (let dy = -ir; dy <= ir; dy++) for (let dx = -ir; dx <= ir; dx++) {{
-          const dist = Math.hypot(dx, dy);
-          if (dist <= r + 0.35 && rng() < 0.78) {{
-            const a = (1 - dist / (r + 0.8)) * alpha * 0.85;
-            if (a > 0.06) {{ ctx.fillStyle = `rgba(${{r0}},${{g0}},${{b0}},${{a.toFixed(2)}})`; ctx.fillRect(ix+dx, iy+dy, 1, 1); }}
-          }}
-        }}
-        return;
-      }}
-      if (texture === 'crayon') {{
-        const [r0, g0, b0] = parseHex(color), r = Math.max(1, Math.floor((size + 1) / 2)), r2 = r * r + 0.6;
-        for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {{
-          const d2 = dx*dx + dy*dy;
-          if (d2 <= r2 && rng() < (d2 <= r2 * 0.45 ? 0.82 : 0.56)) {{
-            const v = rand(-12, 13); ctx.fillStyle = `rgb(${{clamp(r0+v)}},${{clamp(g0+v)}},${{clamp(b0+v)}})`; ctx.fillRect(ix+dx, iy+dy, 1, 1);
-          }}
-        }}
-        return;
-      }}
-      ctx.fillStyle = color;
-      const isz = Math.max(1, Math.round(size));
-      if (isz <= 1) {{ ctx.fillRect(ix, iy, 1, 1); return; }}
-      if (isz === 2) {{ ctx.fillRect(ix, iy, 2, 2); return; }}
-      const r = Math.floor(isz / 2);
-      for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) if (dx*dx + dy*dy <= r*r + 0.5) ctx.fillRect(ix+dx, iy+dy, 1, 1);
-    }}
-    function rawLine(x0, y0, x1, y1, size, color, texture, alpha = 1) {{
-      x0 = Math.round(x0); y0 = Math.round(y0); x1 = Math.round(x1); y1 = Math.round(y1);
-      const dx = Math.abs(x1 - x0), dy = Math.abs(y1 - y0), sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1;
-      let err = dx - dy;
-      while (true) {{
-        dot(x0, y0, size, color, texture, alpha);
-        if (x0 === x1 && y0 === y1) break;
-        const e2 = 2 * err;
-        if (e2 > -dy) {{ err -= dy; x0 += sx; }}
-        if (e2 < dx) {{ err += dx; y0 += sy; }}
-      }}
-    }}
-    function shakyLine(pts, op = {{}}) {{
-      if (!pts || pts.length < 2) return;
-      const color = resolveColor(op.color, op.accent), texture = op.texture || st.texture;
-      const size = op.size ?? (texture === 'pencil' ? 1.8 : 2), js = op.jitterScale ?? 1;
-      const jitter = op.jitter ?? st.jitter * js, step = op.step ?? st.step, overshoot = op.overshoot ?? st.overshoot * js, alpha = op.alpha ?? 1;
-      const out = []; let dx = 0, dy = 0;
-      for (let i = 0; i < pts.length - 1; i++) {{
-        let [x0, y0] = pts[i], [x1, y1] = pts[i + 1];
-        const len = Math.hypot(x1 - x0, y1 - y0) || 1;
-        if (i === 0 && overshoot) {{ const ov = rand(-0.5, overshoot); x0 -= ((x1-x0)/len)*ov; y0 -= ((y1-y0)/len)*ov; }}
-        if (i === pts.length - 2 && overshoot) {{ const ov = rand(-0.5, overshoot); x1 += ((x1-x0)/len)*ov; y1 += ((y1-y0)/len)*ov; }}
-        const n = Math.max(2, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / step));
-        for (let k = 0; k <= n; k++) {{
-          if (i > 0 && k === 0) continue;
-          const t = k / n;
-          dx = dx * 0.62 + rand(-jitter, jitter) * 0.55; dy = dy * 0.62 + rand(-jitter, jitter) * 0.55;
-          out.push([x0 + (x1 - x0) * t + dx + rand(-jitter*0.45, jitter*0.45), y0 + (y1 - y0) * t + dy + rand(-jitter*0.45, jitter*0.45)]);
-        }}
-      }}
-      const total = Math.max(1, out.length - 1);
-      for (let i = 0; i < total; i++) {{
-        const taper = texture === 'pencil' ? (0.62 + 0.38 * Math.sin((i / total) * Math.PI)) : 1;
-        rawLine(out[i][0], out[i][1], out[i+1][0], out[i+1][1], size, color, texture, alpha * taper);
-      }}
-    }}
-    function scribbleFill(b, insideFn, op, separate = false) {{
-      const texture = op.texture || st.texture, isPencil = texture === 'pencil';
-      const color = op.color || ((separate || isPencil) ? '#666666' : '#ffe066');
-      const size = op.size ?? ((separate || isPencil) ? 1.2 : 3), spacing = op.spacing ?? st.spacing;
-      const angle = op.angle ?? (separate ? -0.68 : -0.45), slop = op.slop ?? st.slop * ((separate || isPencil) ? 0.55 : 1);
-      const alpha = op.alpha ?? ((separate || isPencil) ? 0.52 : 1);
-      for (const ang of (op.cross ? [angle, angle + 1.35] : [angle])) {{
-        const cos = Math.cos(ang), sin = Math.sin(ang), cx = b.x + b.w / 2, cy = b.y + b.h / 2, diag = Math.hypot(b.w, b.h);
-        let dir = 1, prev = null;
-        for (let u = -diag / 2; u <= diag / 2; u += Math.max(1.6, spacing + rand(-0.7, 0.9))) {{
-          const hits = [];
-          for (let v = -diag / 2; v <= diag / 2; v += 2.2) {{ const px = cx + u*cos - v*sin, py = cy + u*sin + v*cos; if (insideFn(px, py)) hits.push([px, py]); }}
-          if (hits.length < 2) {{ prev = null; continue; }}
-          const pA = dir > 0 ? hits[0] : hits[hits.length-1], pB = dir > 0 ? hits[hits.length-1] : hits[0];
-          const a = [pA[0]+rand(-slop,slop), pA[1]+rand(-slop,slop)], bb = [pB[0]+rand(-slop,slop), pB[1]+rand(-slop,slop)];
-          if (!separate && prev && Math.hypot(prev[0]-a[0], prev[1]-a[1]) < 24 && rng() < 0.72) shakyLine([prev, a], {{ color, accent:op.accent, size, jitter:0.7, step:7, overshoot:0, texture, alpha }});
-          shakyLine([a, bb], {{ color, accent:op.accent, size, jitter:(separate||isPencil)?0.5:1.2, step:8, overshoot:separate?0.8:1.4, texture, alpha }});
-          prev = bb; dir *= -1;
-        }}
-      }}
-    }}
-    for (const op of spec.ops || []) {{
-      const passes = (op.double || (st.auto_double && ['rect','roundRect','ellipse','line','curve'].includes(op.op))) ? 2 : 1;
-      if (op.op === 'solidRoundRect') {{
-        ctx.save(); ctx.fillStyle = resolveColor(op.color || '#ffffff', op.accent); ctx.globalAlpha = op.alpha ?? 1;
-        const pts = roundRectPts(op.x, op.y, op.w, op.h, op.r ?? 8);
-        ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]); ctx.closePath(); ctx.fill(); ctx.restore();
-      }}
-      else if (op.op === 'fillRect' || op.op === 'hatchRect') scribbleFill(op, (px, py) => px >= op.x && px <= op.x + op.w && py >= op.y && py <= op.y + op.h, op, op.op === 'hatchRect');
-      else if (op.op === 'fillEllipse' || op.op === 'hatchEllipse') scribbleFill({{ x:op.cx-op.rx, y:op.cy-op.ry, w:op.rx*2, h:op.ry*2 }}, (px, py) => ((px-op.cx)/(op.rx||1))**2 + ((py-op.cy)/(op.ry||1))**2 <= 1, op, op.op === 'hatchEllipse');
-      else if (op.op === 'fillPoly' || op.op === 'hatchPoly') {{
-        const xs = op.points.map(p=>p[0]), ys = op.points.map(p=>p[1]), mx = Math.min(...xs), my = Math.min(...ys);
-        scribbleFill({{ x:mx, y:my, w:Math.max(...xs)-mx, h:Math.max(...ys)-my }}, (px, py) => inPoly(px, py, op.points), op, op.op === 'hatchPoly');
-      }}
-      else if (op.op === 'line') {{ for (let k = 0; k < passes; k++) shakyLine(op.points, op); }}
-      else if (op.op === 'curve') {{ const pts = bezierPts(op.points, op.steps ?? 18); for (let k = 0; k < passes; k++) shakyLine(pts, op); }}
-      else if (op.op === 'rect') {{ const pts = [[op.x,op.y],[op.x+op.w,op.y],[op.x+op.w,op.y+op.h],[op.x,op.y+op.h],[op.x,op.y]]; for (let k = 0; k < passes; k++) shakyLine(pts, op); }}
-      else if (op.op === 'roundRect') {{ const pts = roundRectPts(op.x, op.y, op.w, op.h, op.r ?? 10); for (let k = 0; k < passes; k++) shakyLine(pts, op); }}
-      else if (op.op === 'ellipse') {{
-        const steps = op.steps ?? 22, start = op.start ?? 0, end = op.end ?? (Math.PI*2 + rand(-0.18,0.28)), wb = op.wobble ?? st.wobble * (op.jitterScale ?? 1), p1 = rand(0,6.28), p2 = rand(0,6.28), pts = [];
-        for (let i = 0; i <= steps; i++) {{ const a = start + (end-start)*(i/steps), mod = 1 + wb*Math.sin(a*2+p1) + wb*0.55*Math.cos(a*3+p2); pts.push([op.cx+Math.cos(a)*op.rx*mod, op.cy+Math.sin(a)*op.ry*mod]); }}
-        for (let k = 0; k < passes; k++) shakyLine(pts, op);
-      }}
-      else if (op.op === 'arrow') {{
-        shakyLine(op.points, op);
-        if (op.points.length >= 2) {{
-          const [x0, y0] = op.points[op.points.length - 2], [x1, y1] = op.points[op.points.length - 1];
-          const a = Math.atan2(y1 - y0, x1 - x0), hl = op.head ?? 10;
-          shakyLine([[x1-Math.cos(a-0.55)*hl,y1-Math.sin(a-0.55)*hl],[x1,y1],[x1-Math.cos(a+0.55)*hl,y1-Math.sin(a+0.55)*hl]], {{ ...op, overshoot:0.6 }});
-        }}
-      }}
-      else if (op.op === 'dot') dot(op.x, op.y, op.size ?? 3, resolveColor(op.color, op.accent), op.texture || st.texture, op.alpha ?? 1);
-      else if (op.op === 'label') {{
-        ctx.save(); ctx.fillStyle = resolveColor(op.color, op.accent);
-        const fs = op.fontSize ?? ((op.scale ?? 2) * 7);
-        ctx.font = `700 ${{fs}}px ${{op.mono ? 'ui-monospace,Menlo,monospace' : '"Kaiti SC","PingFang SC","Comic Sans MS",sans-serif'}}`;
-        ctx.textAlign = op.align || 'left';
-        ctx.fillText(String(op.text || ''), Math.round(op.x), Math.round(op.y) + (op.fontSize ? 0 : (op.scale ?? 2) * 6));
-        ctx.restore();
-      }}
-      else if (op.op === 'bubble') {{
-        const fill = op.fill || '#ffffff', stroke = op.color || st.ink;
-        scribbleFill(op, (px, py) => px >= op.x && px <= op.x + op.w && py >= op.y && py <= op.y + op.h, {{ ...op, color:fill, angle:0.08, spacing:3.6, slop:1.8 }});
-        const pts = roundRectPts(op.x, op.y, op.w, op.h, op.r ?? (st.fidelity === 'sketch' ? 8 : 0));
-        shakyLine(pts, {{ ...op, color:stroke, size:op.size ?? 2 }});
-        if (op.tail && op.tail.length === 2) {{
-          const [tx, ty] = op.tail, ax = Math.max(op.x+8, Math.min(op.x+op.w-8, tx)), ay = ty >= op.y+op.h/2 ? op.y+op.h : op.y;
-          shakyLine([[ax-5, ay], [tx, ty], [ax+5, ay]], {{ ...op, color:stroke, size:op.size ?? 2, overshoot:0.6 }});
-        }}
-        if (op.text) {{
-          ctx.save(); ctx.fillStyle = resolveColor(op.textColor || stroke, op.accent);
-          const fs = op.fontSize ?? Math.max(10, (op.scale ?? 1) * 11);
-          ctx.font = `700 ${{fs}}px "Kaiti SC","PingFang SC","Comic Sans MS",sans-serif`;
-          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-          ctx.fillText(String(op.text), Math.round(op.x + op.w / 2), Math.round(op.y + op.h / 2));
-          ctx.restore();
-        }}
-      }}
-    }}
-  }}
   const baseSpec = JSON.parse(document.getElementById('doodle-spec').textContent);
   const canvas = document.getElementById('doodle');
   let seed = baseSpec.seed ?? 42;
-  const draw = () => render(canvas, {{ ...baseSpec, seed }});
+  const draw = () => window.ClumsyDoodle.render(canvas, {{ ...baseSpec, seed }});
   draw();
   document.getElementById('reroll').onclick = () => {{ seed = (seed * 31 + 17) % 99991; draw(); }};
   document.getElementById('save').onclick = () => {{
@@ -1023,23 +1216,57 @@ def build_standalone_html(spec: Dict[str, object], title: str = "Clumsy Doodle")
 """
 
 
+def build_embed_snippet(spec: Dict[str, object], canvas_id: str = "clumsy-doodle", include_runtime: bool = True) -> str:
+    style = resolve_style(spec)
+    default_dim = 440 if style["fidelity"] == "sketch" else 240
+    w = int(spec.get("width", default_dim))
+    h = int(spec.get("height", default_dim))
+    pixel_style = "image-rendering:pixelated;image-rendering:crisp-edges;" if style["pixelated"] else ""
+    safe_id = html_mod.escape(canvas_id, quote=True)
+    spec_json = json.dumps(spec, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    runtime_tag = f"<script>\n{JS_RUNTIME_SOURCE}\n</script>\n" if include_runtime else ""
+    return (
+        f'<canvas id="{safe_id}" width="{w}" height="{h}" '
+        f'style="display:block;max-width:100%;height:auto;{pixel_style}"></canvas>\n'
+        f'{runtime_tag}'
+        f'<script>window.ClumsyDoodle.render(document.getElementById({json.dumps(canvas_id)}), {spec_json});</script>\n'
+    )
+
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Render a clumsy MS Paint, crayon, or pencil-sketch doodle JSON spec to PNG / HTML (zero dependencies)."
+        description="Render a clumsy MS Paint, crayon, or pencil-sketch doodle JSON spec to PNG / HTML / embeddable JS (zero dependencies)."
     )
-    parser.add_argument("spec", help="Path to JSON spec file, or '-' to read from stdin.")
+    parser.add_argument("spec", nargs="?", help="Path to JSON spec file, or '-' to read from stdin (optional when using --runtime-js alone).")
     parser.add_argument("-o", "--output", help="Output PNG file path.")
     parser.add_argument("--html", help="Optional standalone interactive HTML output path.")
+    parser.add_argument("--embed", help="Optional chromeless embeddable HTML snippet path (ideal for cards/articles).")
+    parser.add_argument("--runtime-js", help="Optional path to write the reusable browser JS runtime (window.ClumsyDoodle).")
+    parser.add_argument("--canvas-id", default="clumsy-doodle", help="Canvas DOM id used by --embed.")
+    parser.add_argument("--no-runtime", action="store_true", help="Omit inline runtime in --embed (use when sharing one --runtime-js across multiple canvases).")
     parser.add_argument("--preset", choices=sorted(PRESETS.keys()), help="Shortcut style preset.")
     parser.add_argument("--fidelity", choices=sorted(FIDELITIES.keys()), help="Override abstraction/detail dial.")
     parser.add_argument("--medium", choices=sorted(MEDIUMS.keys()), help="Override drawing medium & paper.")
     parser.add_argument("--color", choices=["full", "accent", "mono"], help="Override color mode.")
+    parser.add_argument("--transparent", action="store_true", help="Render with a transparent outer background (RGBA8 PNG / transparent Canvas, preserving interior white).")
     parser.add_argument("--seed", type=int, help="Override random seed.")
     parser.add_argument("--scale", type=int, help="Override integer PNG upscale factor.")
     args = parser.parse_args(argv)
 
-    if not args.output and not args.html:
-        parser.error("Provide at least one of -o/--output (PNG) or --html (HTML).")
+    if not args.output and not args.html and not args.embed and not args.runtime_js:
+        parser.error("Provide at least one of -o/--output, --html, --embed, or --runtime-js.")
+
+    if args.runtime_js:
+        rt_path = Path(args.runtime_js)
+        rt_path.parent.mkdir(parents=True, exist_ok=True)
+        rt_path.write_text(JS_RUNTIME_SOURCE + "\n", encoding="utf-8")
+        print(f"Wrote JS runtime: {rt_path} ({len(JS_RUNTIME_SOURCE.encode('utf-8'))} bytes)")
+
+    if not (args.output or args.html or args.embed):
+        return 0
+
+    if not args.spec:
+        parser.error("A spec path (or '-') is required for -o/--output, --html, or --embed.")
 
     raw_text = sys.stdin.read() if args.spec == "-" else Path(args.spec).read_text(encoding="utf-8")
     spec = json.loads(raw_text)
@@ -1051,10 +1278,24 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         spec["medium"] = args.medium
     if args.color is not None:
         spec["color"] = args.color
+    if args.transparent:
+        spec["bg"] = "transparent"
     if args.seed is not None:
         spec["seed"] = args.seed
     if args.scale is not None:
         spec["scale"] = args.scale
+
+    st = resolve_style(spec)
+    default_dim = 440 if st["fidelity"] == "sketch" else 240
+    w = int(spec.get("width", default_dim))
+    h = int(spec.get("height", default_dim))
+    if float(st["small_canvas_scale"]) < 1.0:
+        print(
+            f"Warning: canvas {w}x{h} is small for {st['fidelity']}; auto-scaled jitter/slop by "
+            f"{st['small_canvas_scale']:.2f}x. For recognizable character stickers, prefer >=180-260px "
+            f"internal grid and shrink via CSS.",
+            file=sys.stderr,
+        )
 
     if args.output:
         renderer = DoodleRenderer(spec)
@@ -1064,9 +1305,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         default_scale = 2 if renderer.w >= 400 else 4
         scale = int(spec.get("scale", default_scale))
         out_path.write_bytes(renderer.to_png_bytes(scale=scale))
-        st = renderer.style
+        mode_tag = "RGBA" if renderer.transparent else "RGB"
         print(
-            f"Wrote PNG: {out_path} ({renderer.w * scale}x{renderer.h * scale}, "
+            f"Wrote PNG: {out_path} ({renderer.w * scale}x{renderer.h * scale} {mode_tag}, "
             f"fidelity={st['fidelity']}, medium={st['medium']}, color={st['color']}, seed={spec.get('seed', 42)})"
         )
 
@@ -1075,6 +1316,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         html_path.parent.mkdir(parents=True, exist_ok=True)
         html_path.write_text(build_standalone_html(spec, title=html_path.stem), encoding="utf-8")
         print(f"Wrote HTML: {html_path}")
+
+    if args.embed:
+        embed_path = Path(args.embed)
+        embed_path.parent.mkdir(parents=True, exist_ok=True)
+        embed_path.write_text(
+            build_embed_snippet(spec, canvas_id=args.canvas_id, include_runtime=not args.no_runtime),
+            encoding="utf-8",
+        )
+        print(f"Wrote embed snippet: {embed_path}")
 
     return 0
 

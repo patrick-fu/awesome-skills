@@ -121,6 +121,8 @@ containing repository's protocol.
 
 #### 🗞️ [`x-twitter-reader`](./x-twitter-reader/SKILL.md)
 
+![X Twitter Reader extraction flow](./x-twitter-reader/assets/showcase.webp)
+
 Retrieve X/Twitter posts, reply threads, long-form Articles, metadata, links,
 and media before summarizing, translating, quoting, or archiving them. Source
 acquisition stays faithful; downstream transformation happens afterward.
@@ -164,6 +166,8 @@ request.
 
 #### 🧹 [`deslop`](./deslop/README.md)
 
+![Deslop editorial redline comparison](./deslop/assets/showcase.webp)
+
 Review or rewrite Chinese, English, and mixed-language prose to remove
 formulaic AI patterns while preserving facts, intent, stance, register, and the
 author's voice.
@@ -172,6 +176,8 @@ Use it on existing text that sounds templated or over-produced—not as a generi
 trigger for every writing task.
 
 #### 🧼 [`clean-technical-writing`](./clean-technical-writing/SKILL.md)
+
+![Clean Technical Writing three-rule comparison](./clean-technical-writing/assets/showcase.webp)
 
 Keep research reports, postmortems, explanatory HTML pages, public technical
 articles, and prompt descriptions neutral, direct, and single-layered across any
@@ -230,6 +236,8 @@ the workbench; scheduled continuation follows that chat's agreed task.
 
 #### ⏰ [`codex-async-followup`](./codex-async-followup/SKILL.md)
 
+![Codex Async Follow-up wakeup timeline](./codex-async-followup/assets/showcase.webp)
+
 Keep the main agent from spending tokens repeatedly checking work that is still
 running. After dispatching a subagent or starting a background build, test, or
 external job, Codex can fall into a loop of status checks with no new information.
@@ -268,7 +276,9 @@ completed task.
 
 ### 🧑‍💻 External coding agents
 
-These four coding-agent guides share one workflow: preserve the selected CLI
+![External coding agents shared protocol](./assets/coding-agents-showcase.webp)
+
+These five coding-agent guides share one workflow: preserve the selected CLI
 wrapper, discover current model and reasoning controls, monitor semantic output,
 respect permissions and sandboxes, and verify diffs and tests from the host.
 Each guide triggers only when its CLI is explicitly selected as the executor.
@@ -325,6 +335,8 @@ to rediscover the intent.
 
 #### 🎓 [`faster-learning-coach`](./faster-learning-coach/SKILL.md)
 
+![Faster Learning Coach active loop](./faster-learning-coach/assets/showcase.webp)
+
 Teach through short, active learning loops built around practice, teach-back,
 and review instead of defaulting to a long explanation. Each loop adapts to the
 learner's goal, current evidence, and available time.
@@ -354,6 +366,8 @@ evidence needs interpretation.
 
 #### 🛠️ [`build-verifier`](./build-verifier/SKILL.md)
 
+![Build Verifier reusable project skill](./build-verifier/assets/showcase.webp)
+
 Turn a project's build commands, feature paths, and acceptance checks into a
 reusable `verify-<app>` skill. A fresh agent can run the checks, retain results,
 and keep the verification workflow in step with the project.
@@ -362,6 +376,8 @@ Use it for products that need repeated acceptance checks, keeping practical
 verification knowledge beside the code for development, regressions, and handoffs.
 
 #### 🔄 [`review-and-improve`](./review-and-improve/SKILL.md)
+
+![Review and Improve three-lens retrospective](./review-and-improve/assets/showcase.webp)
 
 Review agent sessions, code changes, and execution results through three
 independent lenses: judgement, tooling, and counterexamples. Find concrete

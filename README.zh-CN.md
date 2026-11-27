@@ -105,6 +105,8 @@ Wiki 可以是独立 Git 仓库，也可以内嵌在共享 Context 仓库中。�
 
 #### 🗞️ [`x-twitter-reader`](./x-twitter-reader/SKILL.md)
 
+![X Twitter Reader 忠实抓取对比](./x-twitter-reader/assets/showcase.zh-CN.webp)
+
 在总结、翻译、引用或归档之前，先忠实抓取 X/Twitter 帖子、回复串、长文 Article、
 元数据、链接和媒体。抽取阶段不改写原文，下游加工等内容到手后再做。
 
@@ -139,12 +141,16 @@ PR/MR、issue 回复和 QA 交接。遵循用户要求的语言，保留关键�
 
 #### 🧹 [`deslop`](./deslop/README.zh-CN.md)
 
+![Deslop 编辑部红笔去油腻对照](./deslop/assets/showcase.zh-CN.webp)
+
 改写或审查中文、英文和中英混排文本，去掉模板化 AI 味，同时保留事实、意图、立场、
 语域和作者声音。
 
 适合已经写出来、但读起来太像模板或过度加工的文本；不该成为所有写作任务的通用触发器。
 
 #### 🧼 [`clean-technical-writing`](./clean-technical-writing/SKILL.md)
+
+![Clean Technical Writing 三条技术写作规范](./clean-technical-writing/assets/showcase.zh-CN.webp)
 
 让研究报告、复盘总结、讲解用 HTML、公开技术文章和 prompt description 保持中性、
 直接且单层表达，适用于中文、英文及混排内容。
@@ -193,6 +199,8 @@ Watchdog 检查 ROI、方案膨胀，以及与原始意图的漂移。它保留�
 
 #### ⏰ [`codex-async-followup`](./codex-async-followup/SKILL.md)
 
+![Codex Async Follow-up 定时唤醒对比](./codex-async-followup/assets/showcase.zh-CN.webp)
+
 减少主 agent 在等待异步任务时的空轮询。派出 subagent、启动后台编译、测试或外部任务后，
 Codex 有时会反复查询状态：任务还没跑完，也没有新信息，却持续消耗工具调用和推理 token。
 这个 skill 让主 agent 约好时间再回来，避免把等待变成一连串无效检查。
@@ -224,7 +232,9 @@ checkpoint、handoff 和最终完成一眼可见。固定控制信号结合灵�
 
 ### 🧑‍💻 外部编码代理
 
-这四个 coding-agent 指南共用一套流程：保留选定的 CLI wrapper、发现当前模型和推理
+![外部编码代理统一执行协议](./assets/coding-agents-showcase.zh-CN.webp)
+
+这五个 coding-agent 指南共用一套流程：保留选定的 CLI wrapper、发现当前模型和推理
 控制、监控语义输出、尊重 permission 与 sandbox，并由宿主验证 diff 和测试。每个 Skill
 只在对应 CLI 被明确选为执行器时触发。
 
@@ -271,6 +281,8 @@ API key 两种认证模式都支持。
 
 #### 🎓 [`faster-learning-coach`](./faster-learning-coach/SKILL.md)
 
+![Faster Learning Coach 主动学习闭环](./faster-learning-coach/assets/showcase.zh-CN.webp)
+
 用练习、teach-back 和复习组成短而主动的学习循环，而不是默认给一篇长解释。每轮会
 根据学习目标、当前证据和可用时间调整。
 
@@ -294,12 +306,16 @@ API key 两种认证模式都支持。
 
 #### 🛠️ [`build-verifier`](./build-verifier/SKILL.md)
 
+![Build Verifier 可复用验收技能封装](./build-verifier/assets/showcase.zh-CN.webp)
+
 把项目的构建入口、功能路径和验收方法整理成可复用的 `verify-<app>` skill，让新接手的
 Agent 能直接运行检查、保留结果，并随着项目变化更新验证流程。
 
 适合需要反复验收的产品项目，把每次摸索出的操作经验留在代码旁，方便后续开发、回归和交接。
 
 #### 🔄 [`review-and-improve`](./review-and-improve/SKILL.md)
+
+![Review and Improve 三棱镜复盘](./review-and-improve/assets/showcase.zh-CN.webp)
 
 从 Agent 会话、代码变更和实际执行结果中复盘工作方式，通过判断、工具和反例三个独立视角，
 找出值得改进的流程、检查和指令。

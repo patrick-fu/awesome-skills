@@ -22,6 +22,7 @@ instead of appending summary boxes.
 | Queuing, caching, eviction, or memory pressure | Physical vessel swallowing, stacking, compressing, and bouncing items | `spring` + `impact` |
 | Agent loop, tool call, or request/response dialogue | Single-edge anchored pill morph expanding with directional clip wipe | `pillMorph` + `wipeClip` |
 | Refactoring, routing switch, or before/after state | Same objects lifting, stretching along velocity, and re-seating—or crossing an inverse-color boundary | `spring` + `smear` |
+| Capacity, fill level, or liquid progress | Rising wave or clip boundary cleanly splitting base and inverted-color typography | Pure `seconds` `clip()` |
 | Deep UI, trace, or complex diagram inspection | Cropped UI slice with smooth virtual camera pan and push-in | `camera` |
 | Specific code lines changing behavior | Trimmed snippet (`<= 12` lines) with sliding focus band | `spring` + `wipeClip` |
 | Numeric before/after metrics or latency deltas | Tabular per-digit vertical counter roll paired with soft focus handoff | `rollingDigits` + `blurBridge` |
@@ -56,6 +57,21 @@ instead of appending summary boxes.
   into a detail view across cues, derive both rects in `1280×720` stage
   coordinates and animate the inverted `translate` + `scale` with `spring(age)`
   so spatial identity holds without hard cuts.
+- **Velocity-aligned sandwich squash**: during diagonal travel or bounces,
+  compute velocity angle `θ` and clamped stretch factor `s` purely from
+  `seconds` and apply `rotate(θ) scale(1 + s, 1 - 0.6s) rotate(-θ)` so objects
+  compress and stretch along their trajectory while keeping inner glyphs
+  upright.
+- **Dual-part overlapping action & anticipation**: split compound icons or
+  actors into primary and secondary sub-parts (clapper, arrow tail, shadow)
+  with a deterministic `30–50 ms` phase lag or counter-phase swing derived from
+  `seconds`, paired with a brief counter-direction anticipation beat and
+  piecewise ascent/descent gravity easing.
+- **Clip-path / canvas wave dual-tone inversion**: for capacity, liquid-level,
+  or fill progress, evaluate the wave or clip geometry purely from `seconds`,
+  draw base-color text first, then apply `clip()` / `clip-path` to redraw
+  inverted-color text cleanly across the boundary without `Math.random()` or
+  `requestAnimationFrame`.
 - **Text continuity & thinking cues**: when mutating short phrases or status
   labels, preserve shared characters across frames (TextMorph continuity)
   instead of cross-fading whole blocks. Reserve subtle horizontal Text Shimmer
